@@ -2,8 +2,6 @@
   "framework": "qunit",
   "test_page": "tests/index.html?coverage",
   "disable_watching": true,
-  "on_start": "ember build",
-  "cwd": "dist",
   "phantomjs_debug_port": 9000,
   "launch_in_ci": [
     "PhantomJS"
