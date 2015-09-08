@@ -1,0 +1,62 @@
+{
+  "name": "ember-cp-validations",
+  "version": "1.0.0",
+  "description": "Ember computed property based validations",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "ember server",
+    "build": "ember build",
+    "test": "ember try:testall"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/offirgolan/ember-cp-validations.git"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "author": "offirgolan@gmail.com",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.0.2",
+    "ember-cli": "1.13.8",
+    "ember-cli-app-version": "0.4.0",
+    "ember-cli-blanket": "0.5.3",
+    "ember-cli-content-security-policy": "0.4.0",
+    "ember-cli-dependency-checker": "^1.0.0",
+    "ember-cli-github-pages": "0.0.6",
+    "ember-cli-htmlbars": "0.7.9",
+    "ember-cli-ic-ajax": "0.2.1",
+    "ember-cli-inject-live-reload": "^1.3.0",
+    "ember-cli-moment-shim": "0.6.1",
+    "ember-cli-qunit": "0.3.15",
+    "ember-cli-uglify": "^1.0.1",
+    "ember-data": "1.13.8",
+    "ember-disable-prototype-extensions": "^1.0.0",
+    "ember-disable-proxy-controllers": "^1.0.0",
+    "ember-export-application-global": "^1.0.2",
+    "ember-lodash": "0.0.5",
+    "ember-moment": "3.2.1",
+    "ember-try": "0.0.6"
+  },
+  "keywords": [
+    "yahoo",
+    "ember-addon",
+    "ember-data",
+    "validator",
+    "validation",
+    "model"
+  ],
+  "dependencies": {
+    "ember-cli-babel": "^5.0.0",
+    "rsvp": "^3.0.20"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config",
+    "demoURL": "http://offirgolan.github.io/ember-cp-validations"
+  },
+  "homepage": "https://github.com/offirgolan/ember-cp-validations"
+}

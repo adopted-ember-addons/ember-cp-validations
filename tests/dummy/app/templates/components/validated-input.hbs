@@ -1,0 +1,14 @@
+<div class="form-group">
+  {{input type=type value=rawInputValue placeholder=placeholder class="form-control"}}
+  {{#if isValid}}
+    <span class="valid-input fa fa-check"></span>
+  {{/if}}
+
+  <div class="input-error">
+      {{#if showMessage}}
+          <div class="error">
+              {{errorMessage}}
+          </div>
+      {{/if}}
+  </div>
+</div>
