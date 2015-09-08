@@ -1,6 +1,6 @@
 {
   "name": "ember-cp-validations",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Ember computed property based validations",
   "directories": {
     "doc": "doc",
@@ -19,10 +19,12 @@
     "node": ">= 0.10.0"
   },
   "author": "Offir Golan <offirgolan@gmail.com>",
-  "contributors": [{
-    "name": "Stefan Penner",
-    "email": "stefan.penner@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Stefan Penner",
+      "email": "stefan.penner@gmail.com"
+    }
+  ],
   "license": "BSD-3-Clause",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
