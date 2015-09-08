@@ -4,8 +4,9 @@
  */
 
 import Ember from 'ember';
-import DS from 'ember-data';
 import ValidationResultCollection from './validation-result-collection';
+import { hasEmberData } from './utils';
+
 const {
   get,
   set,
@@ -24,6 +25,7 @@ const {
   not
 } = computed;
 
+
 var ValidationsObject = Ember.Object.extend({
   model: null,
   isValid: true,
@@ -37,6 +39,7 @@ var ValidationsObject = Ember.Object.extend({
   init() {
     this._super(...arguments);
     var attribute = get(this, 'attribute');
+    // TODO: Not good practice. Stef will make this go away.
     defineProperty(this, 'attrValue', computed.oneWay(`model.${attribute}`));
   },
 
@@ -54,7 +57,7 @@ var ValidationsObject = Ember.Object.extend({
     var attrValue = get(this, 'attrValue');
 
     // Check default model values
-    if (model instanceof DS.Model && canInvoke(model, 'eachAttribute')) {
+    if (hasEmberData() && model instanceof self.DS.Model && canInvoke(model, 'eachAttribute')) {
       let attrMeta = model.get('constructor.attributes').get(attribute);
       if (attrMeta) {
         let defaultValue = attrMeta.options.defaultValue;

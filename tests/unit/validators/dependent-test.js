@@ -30,7 +30,7 @@ var defaultOptions = {
 };
 
 moduleFor('validator:dependent', 'Unit | Validator | dependent', {
-  needs: ['validator:messages', 'validator:presence'],
+  integration: true,
   setup: function() {
     Validator = this.subject();
   }

@@ -13,7 +13,7 @@ var options, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:collection', 'Unit | Validator | collection', {
-  needs: ['validator:messages'],
+  integration: true,
   setup: function() {
     validator = this.subject();
   }
@@ -36,7 +36,6 @@ test('collection - value not collection', function(assert) {
   message = validator.validate('foo');
   assert.equal(message, "This field must be a collection");
 });
-
 
 test('singular - value is singular', function(assert) {
   assert.expect(1);

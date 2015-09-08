@@ -28,11 +28,30 @@
    }
  };
 
- var container;
+ var container, registry;
+
+function register(fullName, factory) {
+  (registry || container).register(fullName, factory);
+}
+
+function makeContainer() {
+  var registry, container;
+
+  if (Ember.Registry) {
+    // new ember post container/registry refrom
+    registry = new Ember.Registry();
+    container = registry.container();
+  } else {
+    // pre container/registry reform=
+    container = new Ember.Container();
+  }
+
+  return [container, registry];
+}
 
  module('Unit | Util | Validation Builder', {
    beforeEach() {
-     container = new Ember.Container();
+     [ container, registry ] = makeContainer();
    }
  });
 
@@ -194,7 +213,7 @@
  });
 
  test("belong to validation - no cycle", function(assert) {
-   container.register('validator:belongs-to', BelongsToValidator);
+   register('validator:belongs-to', BelongsToValidator);
 
    var BelongsToValidations = buildValidations({
      friend: validator('belongs-to')
@@ -227,7 +246,7 @@
  });
 
  test("belong to validation - with cycle", function(assert) {
-   container.register('validator:belongs-to', BelongsToValidator);
+   register('validator:belongs-to', BelongsToValidator);
 
    var BelongsToValidations = buildValidations({
      friend: validator('belongs-to')
@@ -255,7 +274,7 @@
  });
 
  test("has-many relationship is async", function(assert) {
-   container.register('validator:has-many', HasManyValidator);
+   register('validator:has-many', HasManyValidator);
 
    var HasManyValidations = buildValidations({
      friends: validator('has-many')
@@ -293,7 +312,7 @@
  });
 
  test("belongs-to relationship is async", function(assert) {
-   container.register('validator:belongs-to', BelongsToValidator);
+   register('validator:belongs-to', BelongsToValidator);
 
    var BelongsToValidations = buildValidations({
      friend: validator('belongs-to')
@@ -331,9 +350,9 @@
  });
 
  test("collection validator creates correct dependent keys", function(assert) {
-   container.register('validator:collection', CollectionValidator);
-   container.register('validator:length', LengthValidator);
-   container.register('validator:messages', DefaultMessages);
+   register('validator:collection', CollectionValidator);
+   register('validator:length', LengthValidator);
+   register('validator:messages', DefaultMessages);
 
    var CollectionValidations = buildValidations({
      array: [

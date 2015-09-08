@@ -15,7 +15,7 @@ var options, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:date', 'Unit | Validator | date', {
-  needs: ['validator:messages'],
+  integration: true,
   setup: function() {
     validator = this.subject();
   }

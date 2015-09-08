@@ -13,7 +13,7 @@ var model, options, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
-  needs: ['validator:messages'],
+  integration: true,
   setup: function() {
     validator = this.subject();
   }

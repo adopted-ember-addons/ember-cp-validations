@@ -1,19 +1,22 @@
 {
   "name": "ember-cp-validations",
   "dependencies": {
-    "ember": "1.13.5",
+    "blanket": "~1.1.5",
+    "ember": "1.13.8",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
     "ember-cli-test-loader": "ember-cli-test-loader#0.1.3",
-    "ember-data": "1.13.8",
+    "ember-data": "~2.0.0",
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.5",
-    "ember-qunit": "0.3.3",
+    "ember-qunit": "0.4.10",
     "ember-qunit-notifications": "0.0.7",
     "ember-resolver": "~0.1.18",
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
-    "qunit": "~1.17.1",
+    "moment": ">= 2.8.0",
     "moment-timezone": ">= 0.1.0",
-    "blanket": "~1.1.5",
-    "moment": ">= 2.8.0"
+    "qunit": "~1.17.1"
+  },
+  "resolutions": {
+    "ember": "1.13.8"
   }
 }

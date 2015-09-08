@@ -156,7 +156,7 @@ function createCPValidationFor(attribute, validations) {
     });
 
     // https://github.com/emberjs/data/issues/3707
-    // if (model instanceof DS.Model && !isNone(modelErrors) && canInvoke(modelErrors, 'add')) {
+    // if (hasEmberData() && model instanceof self.DS.Model && !isNone(modelErrors) && canInvoke(modelErrors, 'add')) {
     //   if(modelErrors.has(attribute)) {
     //     modelErrors.remove(attribute);
     //   }
