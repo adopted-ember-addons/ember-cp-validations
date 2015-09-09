@@ -13,7 +13,7 @@ var model, options, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
-  integration: true,
+  needs: ['validator:messages'],
   setup: function() {
     validator = this.subject();
   }
@@ -26,7 +26,7 @@ test('attribute', function(assert) {
     'email': 'foo@yahoo.com'
   });
 
-  set(validator, 'attribute', 'email');
+  set(validator, 'options.on', 'email');
   set(validator, 'model', model);
 
   message = validator.validate('bar@yahoo.com');

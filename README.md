@@ -295,17 +295,19 @@ validator('dependent', {
 ```
 
 ### Confirmation ###
-You should use this validator when you have two text fields that should receive exactly the same content. For example, you may want to confirm an email address or a password. This validation creates a virtual attribute whose name is the name of the field that has to be confirmed with “Confirmation” appended. So if we use this on out `email` attribute, then another attribute will be created with the name `emailConfirmation` which can be accessed via your model.
+You should use this validator when you have two text fields that should receive exactly the same content. For example, you may want to confirm an email address or a password. This validator doesnt have to be created on an attribute defined in your model. This means that when you save your model, in this case, `verfiedEmail` will not be part of the payload.
 
 ```javascript
-// Examples
-validator('confirmation', true)
-validator('confirmation', {
+// Example
+email: validator('format', {
+  type: 'email'
+})
+verifiedEmail: validator('confirmation', {
+    on: 'email'
     message: 'do not match'
     attributeDescription: 'Email addresses'
 })
 ```
-If this was under the `email` attribute, it will create another attribute on the model called `emailConfirmation` which will trigger validations on the `email` attribute. `email` will only be valid if both `emailConfirmation` and `email` match.
 
 ### Collection ###
 If `true` validates that the given value is a valid collection and will add `<ATTRIUTE>.[]` as a dependent key to the CP. If `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
@@ -493,11 +495,18 @@ model.validate({
 ## Inspecting Validations ##
 All validations can be accessed via the `validations` object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>`. If you want to use [Ember Data's Errors API](http://emberjs.com/api/data/classes/DS.Errors.html), check out their docs on how to access everything you might need.   
 
-####  isValid ####
+#### isValid ####
 ```javascript
 // Examples
 get(user, 'validations.isValid')
 get(user, 'validations.attrs.username.isValid')
+```
+
+#### isInvalid ####
+```javascript
+// Examples
+get(user, 'validations.isInvalid')
+get(user, 'validations.attrs.username.isInvalid')
 ```
 
 #### isValidating ####
@@ -553,4 +562,20 @@ An alias to the first message in the messages collection.
 // Example
 get(user, 'validations.message')
 get(user, 'validations.attrs.username.message')
+```
+
+## Templating Example ##
+Accessing validation information in your templates is really simple. Oh and don't worry, we know the path is pretty long! There are plans to condense that in the roadmap ahead.
+
+```handlebars
+<form>
+  {{input value=model.username placeholder="Username"}}
+  {{#if model.validations.attrs.username.isInvalid}}
+    <div class="error">
+      {{model.validations.attrs.username.message}}
+    </div>
+  {{/if}}
+  
+  <button type="submit" disabled={{model.validations.isInvalid}}>Submit</button>
+</form>
 ```

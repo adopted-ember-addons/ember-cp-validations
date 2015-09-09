@@ -13,7 +13,7 @@ var options, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:format', 'Unit | Validator | format', {
-  integration: true,
+  needs: ['validator:messages'],
   setup: function() {
     validator = this.subject();
   }

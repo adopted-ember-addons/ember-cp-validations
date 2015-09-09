@@ -48,17 +48,16 @@ export default function buildValidations(validations) {
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
 
-  var GlobalValidations = Ember.Object.extend(props, {
-    isValidations: true,
-    validate,
-    validateSync
-  });
-
   validatableAttrs.forEach((attribute) => {
     attrs[attribute] = createCPValidationFor(attribute, validations[attribute]);
   });
 
   var AttrValidations = Ember.Object.extend(attrs);
+  var GlobalValidations = Ember.Object.extend(props, {
+    isValidations: true,
+    validate,
+    validateSync
+  });
 
   return createMixin(GlobalValidations, AttrValidations);
 }
@@ -76,6 +75,7 @@ function createGlobalValidationProps(validatableAttrs) {
   props.isDirty = or(...validatableAttrs.map((attr) => `attrs.${attr}.isDirty`)).readOnly();
   props.isAsync = or(...validatableAttrs.map((attr) => `attrs.${attr}.isAsync`)).readOnly();
   props.isNotValidating = not('isValidating').readOnly();
+  props.isInvalid = not('isValid').readOnly();
   props.isTruelyValid = and('isValid', 'isNotValidating').readOnly();
 
   props._promise = computed(...validatableAttrs.map((attr) => `attrs.${attr}._promise`), function() {
@@ -187,8 +187,8 @@ function getCPDependentKeysFor(attribute, validations) {
       dependentKeys.push(`${attribute}.isTruelyValid`);
     } else if (type === 'has-many') {
       dependentKeys.push(`${attribute}.@each.isTruelyValid`);
-    } else if (type === 'confirmation') {
-      dependentKeys.push(`_model.${attribute}Confirmation`);
+    } else if (type === 'confirmation' && validation.options.on) {
+      dependentKeys.push(`_model.${validation.options.on}`);
     } else if (type === 'dependent') {
       var dependents = get(validation, 'options.on');
       if (!isEmpty(dependents)) {

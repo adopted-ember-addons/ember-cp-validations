@@ -9,15 +9,14 @@ import Base from 'ember-cp-validations/validators/base';
 const {
   get,
   set,
-  isEmpty,
-  typeOf
+  isEmpty
 } = Ember;
 
 export default Base.extend({
   init() {
     var options = get(this, 'options');
 
-    if(typeOf(options) === 'boolean') {
+    if(typeof options === 'boolean') {
       set(this, 'options', {
         presence: options
       });

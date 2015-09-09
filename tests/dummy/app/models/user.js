@@ -35,12 +35,13 @@ var Validations = buildValidations({
     validator('presence', true),
     validator('format', {
       type: 'email'
-    }),
-    validator('confirmation', {
-      message: 'do not match',
-      attributeDescription: 'Email addresses'
-    }),
+    })
   ],
+  emailConfirmation: validator('confirmation', {
+    on: 'email',
+    message: 'do not match',
+    attributeDescription: 'Email addresses'
+  }),
   details: validator('belongs-to')
 });
 
