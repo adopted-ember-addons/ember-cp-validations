@@ -34,7 +34,7 @@ export default Ember.Component.extend({
 
   isValid: computed.and('hasContent', 'attributeValidation.isValid'),
 
-  hasError: computed.not('isValid'),
+  isInvalid: computed.oneWay('attributeValidation.isInvalid'),
 
   errorMessage: computed.oneWay('attributeValidation.message'),
 
@@ -43,8 +43,8 @@ export default Ember.Component.extend({
     run.debounce(this, this.setValue, 500, false);
   }),
 
-  showMessage: computed('attributeValidation.isDirty', 'hasError', 'didValidate', function() {
-    return (this.get('attributeValidation.isDirty') || this.get('didValidate')) && this.get('hasError');
+  showMessage: computed('attributeValidation.isDirty', 'isInvalid', 'didValidate', function() {
+    return (this.get('attributeValidation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
   }),
 
   setValue() {

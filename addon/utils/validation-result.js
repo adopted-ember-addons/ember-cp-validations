@@ -44,6 +44,7 @@ var ValidationsObject = Ember.Object.extend({
   },
 
   isNotValidating: not('isValidating'),
+  isInvalid: not('isValid'),
   isTruelyValid: and('isNotValidating', 'isValid'),
 
   isAsync: computed('_promise', function() {
@@ -76,6 +77,7 @@ export default Ember.Object.extend({
   _promise: undefined,
 
   isValid: computed.oneWay('_validations.isValid'),
+  isInvalid: computed.oneWay('_validations.isInvalid'),
   isValidating: computed.oneWay('_validations.isValidating'),
   isTruelyValid: computed.oneWay('_validations.isTruelyValid'),
   isAsync: computed.oneWay('_validations.isAsync'),

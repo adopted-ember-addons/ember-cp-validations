@@ -8,17 +8,17 @@ import Base from 'ember-cp-validations/validators/base';
 
 const {
   get,
-  isEqual
+  isEqual,
+  isNone
 } = Ember;
 
 export default Base.extend({
   validate(value) {
     var options = get(this, 'options');
     var model = get(this, 'model');
-    var attribute = get(this, 'attribute');
 
-    if (!isEqual(value, get(model, `${attribute}Confirmation`))) {
-      return this.createErrorMessage('confirmation', options, value, attribute);
+    if (!isNone(options.on) && !isEqual(value, get(model, options.on))) {
+      return this.createErrorMessage('confirmation', options, value, options.on);
     }
 
     return true;

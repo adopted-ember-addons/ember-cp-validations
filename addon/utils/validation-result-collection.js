@@ -36,6 +36,8 @@ export default Ember.Object.extend({
     set(this, 'content', emberArray(get(this, 'content')));
   },
 
+  isInvalid: computed.not('isValid'),
+
   isValid: computed('content.@each.isValid', cycleBreaker(function() {
     return get(this, 'content').isEvery('isValid', true);
   }, true)),
