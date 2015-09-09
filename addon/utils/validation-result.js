@@ -111,6 +111,7 @@ export default Ember.Object.extend({
 
     if (isNone(result)) {
       this.update(false);
+      return;
     }
 
     if (get(result, 'isValidations')) {
