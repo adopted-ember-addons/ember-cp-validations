@@ -59,6 +59,11 @@ export default Ember.Object.extend({
   }, false)),
 
   messages: computed('content.@each.{message,messages}', cycleBreaker(function() {
+    /**
+     * A validation result collection can be a collection of ValidationResult objects which will only have a single message,
+     * a ValidationResultCollection which will have multiple messages,
+     * and a model validations object which again will have multiple messages.
+     */
     var messages = [
       get(this, 'content').getEach('message'),
       get(this, 'content').getEach('messages')

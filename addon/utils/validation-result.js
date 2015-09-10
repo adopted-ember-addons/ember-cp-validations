@@ -83,6 +83,7 @@ export default Ember.Object.extend({
   isAsync: computed.oneWay('_validations.isAsync'),
   isDirty: computed.oneWay('_validations.isDirty'),
   message: computed.oneWay('_validations.message'),
+  messages: computed.oneWay('_validations.messages'),
 
   // This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
   _validations: computed('model', 'attribute', '_promise', function() {
