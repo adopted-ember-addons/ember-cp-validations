@@ -1,7 +1,7 @@
 # Ember CP Validations #
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/offirgolan/ember-cp-validations?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg)](https://travis-ci.org/offirgolan/ember-cp-validations) 
+[![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg)](https://travis-ci.org/offirgolan/ember-cp-validations)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Code Climate](https://codeclimate.com/github/offirgolan/ember-cp-validations/badges/gpa.svg)](https://codeclimate.com/github/offirgolan/ember-cp-validations)
 [![Test Coverage](https://codeclimate.com/github/offirgolan/ember-cp-validations/badges/coverage.svg)](https://codeclimate.com/github/offirgolan/ember-cp-validations/coverage)
@@ -91,6 +91,27 @@ export default DS.Model.extend(Validations, {
   'username': attr('string'),
   'password': attr('string'),
   'email': attr('string')
+});
+```
+
+You can also use the generated `Validations` mixin on any `Ember.Object` or child
+of `Ember.Object`, like `Ember.Component`. For example:
+
+```javascript
+// components/x-foo.js
+
+import Ember from 'ember';
+import {
+  validator, buildValidations
+}
+from 'ember-cp-validations';
+
+var Validations = buildValidations({
+  bar: validator('presence', true)
+});
+
+export default Ember.Component.extend(Validations, {
+  bar: null
 });
 ```
 
@@ -493,7 +514,7 @@ model.validate({
   // all validations pass
   validations.get('isValid'); // true or false
   validations.get('isValidating'); // false
-  
+
   var usernameValidations = validations.get('content').findBy('attribute', 'username');
   // can also use m.get('validations.attrs.username');
   usernameValidations.get('isValid') // true or false
@@ -536,7 +557,7 @@ get(user, 'validations.attrs.username.isTruelyValid')
 ```
 
 #### isDirty ####
-Will be true is the attribute in question is not `null` or `undefined`. If the object being validated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison. 
+Will be true is the attribute in question is not `null` or `undefined`. If the object being validated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison.
 
 ```javascript
 // Examples
@@ -583,7 +604,7 @@ Accessing validation information in your templates is really simple. Oh and don'
       {{model.validations.attrs.username.message}}
     </div>
   {{/if}}
-  
+
   <button type="submit" disabled={{model.validations.isInvalid}}>Submit</button>
 </form>
 ```
