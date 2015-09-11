@@ -608,7 +608,7 @@ You can do this:
 
 What's awesome about this is that you can pass in bound properties!
 
-```hanlebars
+```handlebars
 {{v-get model attr prop}}
 {{v-get model prop}}
 ```

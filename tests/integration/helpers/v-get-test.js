@@ -1,19 +1,11 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { registerHelper } from 'ember-get-helper/utils/register-helper';
-import getHelper from 'ember-get-helper/helpers/get';
-import getHelperGlimmer from 'ember-get-helper/helpers/get-glimmer';
+import '../../helpers/ensure-get-registered';
 
 moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
   integration: true,
   beforeEach() {
-    if (Ember.Helper) {
-      registerHelper('get', getHelperGlimmer);
-    } else {
-      registerHelper('get', getHelper);
-    }
-
     var model = Ember.Object.create({
       validations: {
         isValid: false,
