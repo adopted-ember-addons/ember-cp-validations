@@ -16,43 +16,75 @@ VGet.prototype.transform = function(ast) {
   return ast;
 };
 
+VGet.prototype.validate = function(node) {
+  return ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(node.type) > -1;
+};
+
 VGet.prototype.processNode = function(node) {
-  var i;
   var type = node.type;
   node = unwrapNode(node);
 
-  // Process statement
   // {{v-get model 'username' 'isValid'}}
   if (type === 'MustacheStatement' && node.path.original === 'v-get') {
     this.transformToGet(node);
   }
 
-  // Process params
-  // {{#if (v-get model 'username' 'isValid')}} {{/if}}
-  for (i = 0; i < node.params.length; i++) {
-    var param = node.params[i];
-    if (param.type === 'SubExpression') {
-      if (param.path.original === 'v-get') {
-        this.transformToGet(param);
-      } else {
-        this.processNode(param);
-      }
-    }
-  }
+  this.processNodeParams(node);
+  this.processNodeHash(node);
+  this.processNodeAttributes(node);
+};
 
-  // Process Hash
-  // {{x-component prop=(v-get model 'isValid')}}
-  for (i = 0; i < node.hash.pairs.length; i++) {
-    var pair = node.hash.pairs[i];
-    if (pair.value.type === 'SubExpression') {
-      if (pair.value.path.original === 'v-get') {
-        this.transformToGet(pair.value);
-      } else {
-        this.processNode(pair.value);
+/**
+ * {{#if (v-get model 'username' 'isValid')}} {{/if}}
+ * @param  {AST.Node} node
+ */
+VGet.prototype.processNodeParams = function(node) {
+  if (node.params) {
+    for (var i = 0; i < node.params.length; i++) {
+      var param = node.params[i];
+      if (param.type === 'SubExpression') {
+        if (param.path.original === 'v-get') {
+          this.transformToGet(param);
+        } else {
+          this.processNode(param);
+        }
       }
     }
   }
 };
+
+/**
+ * {{x-component prop=(v-get model 'isValid')}}
+ * @param  {AST.Node} node
+ */
+VGet.prototype.processNodeHash = function(node) {
+  if (node.hash && node.hash.pairs) {
+    for (var i = 0; i < node.hash.pairs.length; i++) {
+      var pair = node.hash.pairs[i];
+      if (pair.value.type === 'SubExpression') {
+        if (pair.value.path.original === 'v-get') {
+          this.transformToGet(pair.value);
+        } else {
+          this.processNode(pair.value);
+        }
+      }
+    }
+  }
+};
+
+/**
+ * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button>
+ * @param  {AST.Node} node
+ */
+VGet.prototype.processNodeAttributes = function(node) {
+  if (node.attributes) {
+    for (var i = 0; i < node.attributes.length; i++) {
+      var attr = node.attributes[i];
+      this.processNode(attr.value);
+    }
+  }
+};
+
 
 /**
  * Transform (v-get model 'username' 'isValid') to (get (get model.validations.attrs 'username') 'isValid') OR
@@ -82,10 +114,6 @@ VGet.prototype.transformToGet = function(node) {
   node.path = this.syntax.builders.path('get');
   node.params = [root, params[i]];
 
-};
-
-VGet.prototype.validate = function(node) {
-  return node.type === 'BlockStatement' || node.type === 'MustacheStatement';
 };
 
 // For compatibility with pre- and post-glimmer
