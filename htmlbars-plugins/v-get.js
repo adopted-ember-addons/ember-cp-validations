@@ -18,9 +18,12 @@ VGet.prototype.transform = function(ast) {
 
 VGet.prototype.processNode = function(node) {
   var i;
+  var type = node.type;
+  node = unwrapNode(node);
+
   // Process statement
   // {{v-get model 'username' 'isValid'}}
-  if (node.type === 'MustacheStatement' && node.path.original === 'v-get') {
+  if (type === 'MustacheStatement' && node.path.original === 'v-get') {
     this.transformToGet(node);
   }
 
@@ -32,7 +35,6 @@ VGet.prototype.processNode = function(node) {
       if (param.path.original === 'v-get') {
         this.transformToGet(param);
       } else {
-        // {{#if (and (v-get model 'isValid') (v-get model 'username' 'isValid'))}} {{/if}}
         this.processNode(param);
       }
     }
@@ -46,7 +48,6 @@ VGet.prototype.processNode = function(node) {
       if (pair.value.path.original === 'v-get') {
         this.transformToGet(pair.value);
       } else {
-        // {{x-component isValid=(and (v-get model 'isValid') (v-get model 'username' 'isValid'))}}
         this.processNode(pair.value);
       }
     }
@@ -60,6 +61,7 @@ VGet.prototype.processNode = function(node) {
  * @return {AST.Node}
  */
 VGet.prototype.transformToGet = function(node) {
+  node = unwrapNode(node);
   var params = node.params;
   var i = 0;
 
@@ -85,5 +87,14 @@ VGet.prototype.transformToGet = function(node) {
 VGet.prototype.validate = function(node) {
   return node.type === 'BlockStatement' || node.type === 'MustacheStatement';
 };
+
+// For compatibility with pre- and post-glimmer
+function unwrapNode(node) {
+  if (node.sexpr) {
+    return node.sexpr;
+  } else {
+    return node;
+  }
+}
 
 module.exports = VGet;
