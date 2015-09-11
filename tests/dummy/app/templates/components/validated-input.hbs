@@ -7,7 +7,7 @@
   <div class="input-error">
       {{#if showMessage}}
           <div class="error">
-              {{errorMessage}}
+              {{v-get model valuePath 'message'}}
           </div>
       {{/if}}
   </div>
