@@ -30,7 +30,7 @@ VGet.prototype.processNode = function(node) {
     var param = node.params[i];
     if (param.type === 'SubExpression') {
       if (param.path.original === 'v-get') {
-        node.params[i] = this.transformToGet(param);
+        this.transformToGet(param);
       } else {
         // {{#if (and (v-get model 'isValid') (v-get model 'username' 'isValid'))}} {{/if}}
         this.processNode(param);
@@ -44,7 +44,7 @@ VGet.prototype.processNode = function(node) {
     var pair = node.hash.pairs[i];
     if (pair.value.type === 'SubExpression') {
       if (pair.value.path.original === 'v-get') {
-        pair.value = this.transformToGet(pair.value);
+        this.transformToGet(pair.value);
       } else {
         // {{x-component isValid=(and (v-get model 'isValid') (v-get model 'username' 'isValid'))}}
         this.processNode(pair.value);
@@ -62,21 +62,24 @@ VGet.prototype.processNode = function(node) {
 VGet.prototype.transformToGet = function(node) {
   var params = node.params;
   var i = 0;
+
+  if (params.length < 2) {
+    throw new Error('{{v-get}} requires at least two arguments');
+  }
+  if (params[0].type !== 'PathExpression') {
+    throw new Error('The first argument to {{v-get}} must be a stream');
+  }
+
   var root = this.syntax.builders.path(params[i++].original + '.validations');
 
   if (params.length === 3) {
     root = this.syntax.builders.path(root.original + '.attrs');
-    root = this.syntax.builders.sexpr('get', [root, params[i++]]); // (get model.validations.attrs 'username')
+    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [root, params[i++]]); // (get model.validations.attrs 'username')
   }
 
-  if (node.type === "MustacheStatement") {
-    node.path = this.syntax.builders.path('get');
-    node.params = [root, params[i]];
-  } else if (node.type === "SubExpression") {
-    return this.syntax.builders.sexpr('get', [root, params[i]]);
-  } else {
-    return node;
-  }
+  node.path = this.syntax.builders.path('get');
+  node.params = [root, params[i]];
+
 };
 
 VGet.prototype.validate = function(node) {

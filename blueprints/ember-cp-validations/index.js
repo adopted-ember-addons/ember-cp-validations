@@ -12,7 +12,7 @@ module.exports = {
       this.addAddonToProject('ember-moment', '3.2.1')
     ];
 
-    if (!emberDep.isAbove('2.0.0')) {
+    if (!emberDep.isAbove('2.0.0-beta.1')) {
       dependencies.push(this.addAddonToProject('ember-get-helper', '1.0.1'));
     }
 

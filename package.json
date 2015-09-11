@@ -46,6 +46,7 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
+    "ember-get-helper": "1.0.1",
     "ember-lodash": "0.0.5",
     "ember-moment": "3.2.1",
     "ember-try": "0.0.6"
