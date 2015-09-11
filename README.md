@@ -31,8 +31,8 @@ __No observers were used nor harmed while developing and testing this addon.__
 ember install ember-cp-validations
 ```
 
-## Compatibility ##
-This addon is compatible with Ember Data `~1.13.1`.
+## Changelog ##
+Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
 
 ## Live Demo ##
 A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations)

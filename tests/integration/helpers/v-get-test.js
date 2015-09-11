@@ -9,6 +9,7 @@ moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
     var model = Ember.Object.create({
       validations: {
         isValid: false,
+        isInvalid: true,
         attrs: {
           username: {
             isValid: false,
@@ -76,4 +77,12 @@ test('block statement param', function(assert) {
   `);
 
   assert.equal(this.$().text().trim(), 'This field is invalid');
+});
+
+test('element node attribute', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`<button type="button" disabled={{v-get model 'isInvalid'}}>Button</button>`);
+  assert.equal(this.$().text().trim(), 'Button');
+  assert.equal(this.$('button').prop('disabled'), true);
 });
