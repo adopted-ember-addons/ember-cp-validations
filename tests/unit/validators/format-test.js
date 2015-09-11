@@ -45,7 +45,7 @@ test('allow blank', function(assert) {
 });
 
 test('email', function(assert) {
-  assert.expect(3);
+  assert.expect(4);
 
   options = {
     type: 'email'
@@ -60,6 +60,9 @@ test('email', function(assert) {
   assert.equal(message, 'This field must be a valid email address');
 
   message = validator.validate('email@yahoo.com');
+  assert.equal(message, true);
+
+  message = validator.validate('email+example@yahoo.com');
   assert.equal(message, true);
 });
 

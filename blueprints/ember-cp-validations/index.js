@@ -9,7 +9,7 @@ module.exports = {
     var emberDep = checker.for('ember', 'bower');
     var dependencies = [
       this.addAddonToProject('ember-lodash', '0.0.5'),
-      this.addAddonToProject('ember-moment', '3.2.1')
+      this.addAddonToProject('ember-moment', '3.6.2')
     ];
 
     if (!emberDep.isAbove('2.0.0-beta.1')) {

@@ -349,6 +349,59 @@ function makeContainer() {
    return validations;
  });
 
+
+ test("belongs-to relationship returns undefined", function(assert) {
+   register('validator:belongs-to', BelongsToValidator);
+
+   var BelongsToValidations = buildValidations({
+     friend: validator('belongs-to')
+   });
+
+   var user = Ember.Object.extend(BelongsToValidations).create({
+     friend: new Ember.RSVP.Promise((resolve, reject) => {
+       resolve({});  // validations object will be undefined
+     }),
+     container
+   });
+
+   var validations = user.get('validations').validate();
+   assert.equal(user.get('validations.isAsync'), true);
+   assert.equal(user.get('validations.isValidating'), true);
+
+   validations.then(({
+     model, validations
+   }) => {
+     assert.equal(model, user, 'expected model to be the correct model');
+     assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friend'].sort());
+
+     let friend = validations.get('content').findBy('attribute', 'friend');
+
+     assert.equal(friend.get('isValid'), false);
+     assert.equal(friend.get('message'), undefined);
+   });
+
+   return validations;
+ });
+
+ test("basic sync validation returns null", function(assert) {
+  var Validations = buildValidations({
+   firstName: validator(() => null),
+  });
+   var object = Ember.Object.extend(Validations).create({
+     firstName: 'Offir',
+     container
+   });
+
+   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
+   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
+   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+
+   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+   assert.equal(object.get('validations.attrs.firstName.message'), undefined);
+
+ });
+
  test("collection validator creates correct dependent keys", function(assert) {
    register('validator:collection', CollectionValidator);
    register('validator:length', LengthValidator);
