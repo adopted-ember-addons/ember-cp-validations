@@ -380,18 +380,18 @@ validator(function(value, options /*, model, attribute*/) {
 ```
 
 ## Custom Validators ##
-Creating custom validators is very simple. To generate a validator named `username-exists` in Ember CLI
+Creating custom validators is very simple. To generate a validator named `unique-username` in Ember CLI
 
 ```bash
-ember generate validator username-exists
+ember generate validator unique-username
 ```
 
 This will create the following files
-* `app/validators/username-exists,js`
-* `tests/unit/validators/username-exists-test.js`
+* `app/validators/unique-username.js`
+* `tests/unit/validators/unique-username-test.js`
 
 ```javascript
-// app/validators/username-exists,js
+// app/validators/unique-username.js
 
 import Ember from 'ember';
 import BaseValidator from 'ember-cp-validations/validators/base';
@@ -399,11 +399,10 @@ import BaseValidator from 'ember-cp-validations/validators/base';
 export default BaseValidator.extend({
   validate(value, options /*, model, attribute*/) {
     return true;
+    })
   }
 });
 ```
-
-If you want to interact with the `store` within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username exists or not.
 
 The validate method is where all of your logic should go. It will get passed in the current value of the attribute this validator is attached to. Within the validator object, you will have access to the following properties:
 
@@ -423,11 +422,42 @@ The `validate` method should return one of three types
 * `String`: The error message
 * `Promise`: A promise that will either resolve or reject, and will finally return either `true` or the final error message string.
 
-To use our username-exists validator we just have to add it to the model definition
+If you want to interact with the `store` within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.
+
+```javascript
+// app/validators/unique-username.js
+
+import Ember from 'ember';
+import BaseValidator from 'ember-cp-validations/validators/base';
+
+export default BaseValidator.extend({
+  store: Ember.inject.service(),
+  
+  validate(value, options /*, model, attribute*/) {
+    return this.get('store').findRecord('user', value).then((user) => {
+      if(user && user.id === value) {
+        let message = `The username '${value}' already exists.`;
+        let meta = user.get('meta');
+
+        if(options.showSuggestions && meta && meta.suggestions) {
+          message += "What about one of the these: " + meta.suggestions.join(', ');
+        }
+        return message;
+      } else {
+        return true;
+      }
+    })
+  }
+});
+```
+
+To use our unique-username validator we just have to add it to the model definition
 
 ```javascript
 var Validations = buildValidations({
-  username: validator('username-exists'),
+  username: validator('unique-username', {
+    showSuggestions: true
+  }),
 });
 
 export default DS.Model.extend(Validations, {
@@ -439,12 +469,12 @@ export default DS.Model.extend(Validations, {
 As mentioned before, the generator created a unit test for your new custom validator.
 
 ```javascript
-// tests/unit/validators/username-exists-test.js
+// tests/unit/validators/unique-username-test.js
 
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('validator:username-exists', 'Unit | Validator | username-exists', {
+moduleFor('validator:unique-username', 'Unit | Validator | unique-username', {
     needs: ['validator:messages']
 });
 
@@ -457,15 +487,21 @@ test('it works', function(assert) {
 A simple test for our validation method can be as such
 
 ```javascript
-test('is required', function(assert) {
-    var validator =  this.subject();
-    message = validator.validate('johndoe42');
-    assert.equal(message, 'Username already exists');
+test('username is unique', function(assert) {
+    assert.expect(1);
+
+    let validator =  this.subject();
+    let done = assert.async();
+    
+    validator.validate('johndoe42').then((message) => {
+      assert.equal(message, true);
+      done();
+    });
 });
 ```
 
 ## Overwriting and Extending ##
-All predefined validators are imported into your application under `app/validators`. This means that if you want to overwrite the predefined length validator, all you have to do is create validator `app/validators/length.js` and put in your own logic. On the other hand, if you just want to extend a predefined validator, you can do something like this
+All predefined validators are imported into your application under `app/validators`. This means that if you want to __overwrite__ the predefined length validator, all you have to do is create validator `app/validators/length.js` and put in your own logic. On the other hand, if you just want to __extend__ a predefined validator, you can do something like this
 
 ```javascript
 // app/validators/better-format,js
@@ -515,8 +551,7 @@ model.validate({
   validations.get('isValid'); // true or false
   validations.get('isValidating'); // false
 
-  var usernameValidations = validations.get('content').findBy('attribute', 'username');
-  // can also use m.get('validations.attrs.username');
+  let usernameValidations = m.get('validations.attrs.username');
   usernameValidations.get('isValid') // true or false
 });
 ```

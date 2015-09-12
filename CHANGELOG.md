@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.0.
+- `v-get` helper
+
 ## 1.0.2
 - Fixed an issue where if a result was undefined or null, it would update the validation result to false but would continue to go down the chain on get
 
