@@ -31,8 +31,8 @@ __No observers were used nor harmed while developing and testing this addon.__
 ember install ember-cp-validations
 ```
 
-## Compatibility ##
-This addon is compatible with Ember Data `~1.13.1`.
+## Changelog ##
+Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
 
 ## Live Demo ##
 A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations)
@@ -594,17 +594,35 @@ get(user, 'validations.attrs.username.message')
 ```
 
 ## Templating Example ##
-Accessing validation information in your templates is really simple. Oh and don't worry, we know the path is pretty long! There are plans to condense that in the roadmap ahead.
+Accessing validation information in your templates is really simple. This addon provides a `v-get` helper to bypass the long validation pathing.
 
+Instead of doing this: 
+```handlebars
+{{model.validations.attrs.username.message}}
+```
+
+You can do this:
+```handlebars
+{{v-get model 'username' 'message'}}
+```
+
+What's awesome about this is that you can pass in bound properties!
+
+```handlebars
+{{v-get model attr prop}}
+{{v-get model prop}}
+```
+
+Here is a more extensive example:
 ```handlebars
 <form>
   {{input value=model.username placeholder="Username"}}
-  {{#if model.validations.attrs.username.isInvalid}}
+  {{#if (v-get model 'username' 'isInvalid')}}
     <div class="error">
-      {{model.validations.attrs.username.message}}
+      {{v-get model 'username' 'message'}}
     </div>
   {{/if}}
-
-  <button type="submit" disabled={{model.validations.isInvalid}}>Submit</button>
+  
+  <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button>
 </form>
 ```

@@ -36,8 +36,6 @@ export default Ember.Component.extend({
 
   isInvalid: computed.oneWay('attributeValidation.isInvalid'),
 
-  errorMessage: computed.oneWay('attributeValidation.message'),
-
   inputValueChange: observer('rawInputValue', function() {
     this.set('isTyping', true);
     run.debounce(this, this.setValue, 500, false);
