@@ -65,11 +65,7 @@ var Validations = buildValidations({
   ],
   email: [
     validator('presence', true),
-    validator('format', { type: 'email' }),
-    validator('confirmation', {
-      message: 'do not match',
-      attributeDescription: 'Email addresses'
-    })
+    validator('format', { type: 'email' })
   ],
   emailConfirmation: [
     validator('presence', true),
