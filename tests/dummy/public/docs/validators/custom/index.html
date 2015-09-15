@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Custom - Ember CP Validations</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../style.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Custom";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> Ember CP Validations</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../index.html">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../validating/index.html">Validating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../templating/index.html">Templating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Validators</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../common/index.html">Common Options</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../presence/index.html">Presence</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../exclusion/index.html">Exclusion</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../length/index.html">Length</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../date/index.html">Date</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../format/index.html">Format</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../dependent/index.html">Dependent</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../confirmation/index.html">Confirmation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../collection/index.html">Collection</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../belongs-to/index.html">Belongs To</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../has-many/index.html">Has Many</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../function/index.html">Function</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Custom</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#testing">Testing</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../messages/index.html">Error Messages</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Ember CP Validations</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Validators &raquo;</li>
+        
+      
+    
+    <li>Custom</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/offirgolan/ember-cp-validations" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p>Creating custom validators is very simple. To generate a validator named <code>unique-username</code> in Ember CLI</p>
+<pre><code class="bash">ember generate validator unique-username
+</code></pre>
+
+<p>This will create the following files
+<em> <code>app/validators/unique-username.js</code>
+</em> <code>tests/unit/validators/unique-username-test.js</code></p>
+<pre><code class="javascript">// app/validators/unique-username.js
+
+import Ember from 'ember';
+import BaseValidator from 'ember-cp-validations/validators/base';
+
+export default BaseValidator.extend({
+  validate(value, options /*, model, attribute*/) {
+    return true;
+    })
+  }
+});
+</code></pre>
+
+<p>The validate method is where all of your logic should go. It will get passed in the current value of the attribute this validator is attached to. Within the validator object, you will have access to the following properties:</p>
+<ul>
+<li><code>model</code> (<strong>Model</strong>): The current model being validated</li>
+<li><code>options</code> (<strong>Object</strong>): The options that were passed in to the validator definition in the model</li>
+<li><code>attribute</code> (<strong>String</strong>): The current attribute being validated</li>
+<li><code>defaultMessages</code>(<strong>Object</strong>): The default error messages</li>
+</ul>
+<p>The <code>validate</code> method has the following signature:</p>
+<pre><code class="javascript">function validate(value, options, model, attribute) { }
+</code></pre>
+
+<p>The <code>validate</code> method should return one of three types
+<em> <code>Boolean</code>:  <code>true</code> if the current value passed the validation
+</em> <code>String</code>: The error message
+* <code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</p>
+<p>If you want to interact with the <code>store</code> within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.</p>
+<pre><code class="javascript">// app/validators/unique-username.js
+
+import Ember from 'ember';
+import BaseValidator from 'ember-cp-validations/validators/base';
+
+export default BaseValidator.extend({
+  store: Ember.inject.service(),
+
+  validate(value, options /*, model, attribute*/) {
+    return this.get('store').findRecord('user', value).then((user) =&gt; {
+      if(user &amp;&amp; user.id === value) {
+        let message = `The username '${value}' already exists.`;
+        let meta = user.get('meta');
+
+        if(options.showSuggestions &amp;&amp; meta &amp;&amp; meta.suggestions) {
+          message += &quot;What about one of the these: &quot; + meta.suggestions.join(', ');
+        }
+        return message;
+      } else {
+        return true;
+      }
+    })
+  }
+});
+</code></pre>
+
+<p>To use our unique-username validator we just have to add it to the model definition</p>
+<pre><code class="javascript">var Validations = buildValidations({
+  username: validator('unique-username', {
+    showSuggestions: true
+  }),
+});
+
+export default DS.Model.extend(Validations, {
+  'username': DS.attr('string'),
+});
+</code></pre>
+
+<h2 id="testing">Testing</h2>
+<p>As mentioned before, the generator created a unit test for your new custom validator.</p>
+<pre><code class="javascript">// tests/unit/validators/unique-username-test.js
+
+import Ember from 'ember';
+import { moduleFor, test } from 'ember-qunit';
+
+moduleFor('validator:unique-username', 'Unit | Validator | unique-username', {
+    needs: ['validator:messages']
+});
+
+test('it works', function(assert) {
+    var validator =  this.subject();
+    assert.ok(validator);
+});
+</code></pre>
+
+<p>A simple test for our validation method can be as such</p>
+<pre><code class="javascript">test('username is unique', function(assert) {
+    assert.expect(1);
+
+    let validator =  this.subject();
+    let done = assert.async();
+
+    validator.validate('johndoe42').then((message) =&gt; {
+      assert.equal(message, true);
+      done();
+    });
+});
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../messages/index.html" class="btn btn-neutral float-right" title="Error Messages"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../function/index.html" class="btn btn-neutral" title="Function"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>Yahoo! Inc.</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../function/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../messages/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>

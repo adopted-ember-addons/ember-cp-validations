@@ -1,0 +1,159 @@
+{
+    "docs": [
+        {
+            "location": "/index.html", 
+            "text": "A Ruby on Rails inspired model validation framework that is completely and utterly computed property based.\n\n\nInstallation\n\n\nember install ember-cp-validations\n\n\n\n\nLive Demo\n\n\nA live demo can be found \nhere\n\n\nBasic Usage\n\n\nThe first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.\n\n\n// models/user.js\n\nimport Ember from 'ember';\nimport DS from 'ember-data';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nvar Validations = buildValidations({\n  username: validator('presence', true),\n  password: [\n    validator('presence', true),\n    validator('length', {\n      min: 4,\n      max: 8\n    })\n  ],\n  email: [\n    validator('presence', true),\n    validator('format', { type: 'email' })\n  ],\n  emailConfirmation: [\n    validator('presence', true),\n    validator('confirmation', {\n      on: 'email',\n      message: 'do not match',\n      attributeDescription: 'Email addresses'\n    })\n  ]\n});\n\n\n\n\nOnce our rules are created and our Mixin is generated, all we have to do is add it to our model.\n\n\n// models/user.js\n\nexport default DS.Model.extend(Validations, {\n  'username': attr('string'),\n  'password': attr('string'),\n  'email': attr('string')\n});\n\n\n\n\nYou can also use the generated \nValidations\n mixin on any \nEmber.Object\n or child\nof \nEmber.Object\n, like \nEmber.Component\n. For example:\n\n\n// components/x-foo.js\n\nimport Ember from 'ember';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nvar Validations = buildValidations({\n  bar: validator('presence', true)\n});\n\nexport default Ember.Component.extend(Validations, {\n  bar: null\n});", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/index.html#installation", 
+            "text": "ember install ember-cp-validations", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/index.html#live-demo", 
+            "text": "A live demo can be found  here", 
+            "title": "Live Demo"
+        }, 
+        {
+            "location": "/index.html#basic-usage", 
+            "text": "The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.  // models/user.js\n\nimport Ember from 'ember';\nimport DS from 'ember-data';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nvar Validations = buildValidations({\n  username: validator('presence', true),\n  password: [\n    validator('presence', true),\n    validator('length', {\n      min: 4,\n      max: 8\n    })\n  ],\n  email: [\n    validator('presence', true),\n    validator('format', { type: 'email' })\n  ],\n  emailConfirmation: [\n    validator('presence', true),\n    validator('confirmation', {\n      on: 'email',\n      message: 'do not match',\n      attributeDescription: 'Email addresses'\n    })\n  ]\n});  Once our rules are created and our Mixin is generated, all we have to do is add it to our model.  // models/user.js\n\nexport default DS.Model.extend(Validations, {\n  'username': attr('string'),\n  'password': attr('string'),\n  'email': attr('string')\n});  You can also use the generated  Validations  mixin on any  Ember.Object  or child\nof  Ember.Object , like  Ember.Component . For example:  // components/x-foo.js\n\nimport Ember from 'ember';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nvar Validations = buildValidations({\n  bar: validator('presence', true)\n});\n\nexport default Ember.Component.extend(Validations, {\n  bar: null\n});", 
+            "title": "Basic Usage"
+        }, 
+        {
+            "location": "/validating/index.html", 
+            "text": "Running Manual Validations\n\n\nAlthough validations are lazily computed, there are times where we might want to force all or specific validations to happen. For this reason we have exposed two methods:\n\n\n\n\nvalidateSync\n: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n\n\nvalidate\n: Will always return a promise and should be used if asynchronous validations are present\n\n\n\n\nBoth methods have the same signature:\n\n\nfunction validateSync(options) {}\nfunction validate(options) {}\n\n\n\n\nOptions\n\n\n\n\non\n (\nArray\n): Only validate the given attributes. If empty, will validate over all validatable attribute\n\n\nexcludes\n (\nArray\n): Exclude validation on the given attributes\n\n\n\n\n// Examples\nconst {\n  m,\n  validations\n} = model.validateSync();\nvalidations.get('isValid') // true or false\n\nmodel.validate({\n    on: ['username', 'email']\n}).then(({m, validations}) =\n {\n  // all validations pass\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n\n\n\n\nInspecting Validations\n\n\nAll validations can be accessed via the \nvalidations\n object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via \nvalidations.attrs.\nATTRIBUTE\n. If you want to use \nEmber Data's Errors API\n, check out their docs on how to access everything you might need.   \n\n\nisValid\n\n\n// Examples\nget(user, 'validations.isValid')\nget(user, 'validations.attrs.username.isValid')\n\n\n\n\nisInvalid\n\n\n// Examples\nget(user, 'validations.isInvalid')\nget(user, 'validations.attrs.username.isInvalid')\n\n\n\n\nisValidating\n\n\nThis property is toggled only if there is an async validation\n\n\n// Examples\nget(user, 'validations.isValidating')\nget(user, 'validations.attrs.username.isValidating')\n\n\n\n\nisTruelyValid\n\n\nWill be true only if isValid is \ntrue\n and isValidating is \nfalse\n\n\n// Examples\nget(user, 'validations.isTruelyValid')\nget(user, 'validations.attrs.username.isTruelyValid')\n\n\n\n\nisDirty\n\n\nWill be true is the attribute in question is not \nnull\n or \nundefined\n. If the object being validated is an Ember Data Model and you have a \ndefaultValue\n specified, then it will use that for comparison.\n\n\n// Examples\n// 'username' : DS.attr('string', { defaultValue: 'johndoe' })\nget(user, 'validations.isDirty')\nget(user, 'validations.attrs.username.isDirty')\n\n\n\n\nisAsync\n\n\nWill be \ntrue\n only if a validation returns a promise\n\n\n// Examples\nget(user, 'validations.isAsync')\nget(user, 'validations.attrs.username.isAsync')\n\n\n\n\nmessages\n\n\nA collection of all error messages on the object in question\n\n\n// Examples\nget(user, 'validations.messages')\nget(user, 'validations.attrs.username.messages')\n\n\n\n\nmessage\n\n\nAn alias to the first message in the messages collection.\n\n\n// Example\nget(user, 'validations.message')\nget(user, 'validations.attrs.username.message')", 
+            "title": "Validating"
+        }, 
+        {
+            "location": "/validating/index.html#running-manual-validations", 
+            "text": "Although validations are lazily computed, there are times where we might want to force all or specific validations to happen. For this reason we have exposed two methods:   validateSync : Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous  validate : Will always return a promise and should be used if asynchronous validations are present   Both methods have the same signature:  function validateSync(options) {}\nfunction validate(options) {}", 
+            "title": "Running Manual Validations"
+        }, 
+        {
+            "location": "/validating/index.html#options", 
+            "text": "on  ( Array ): Only validate the given attributes. If empty, will validate over all validatable attribute  excludes  ( Array ): Exclude validation on the given attributes   // Examples\nconst {\n  m,\n  validations\n} = model.validateSync();\nvalidations.get('isValid') // true or false\n\nmodel.validate({\n    on: ['username', 'email']\n}).then(({m, validations}) =  {\n  // all validations pass\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/validating/index.html#inspecting-validations", 
+            "text": "All validations can be accessed via the  validations  object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via  validations.attrs. ATTRIBUTE . If you want to use  Ember Data's Errors API , check out their docs on how to access everything you might need.     isValid  // Examples\nget(user, 'validations.isValid')\nget(user, 'validations.attrs.username.isValid')  isInvalid  // Examples\nget(user, 'validations.isInvalid')\nget(user, 'validations.attrs.username.isInvalid')  isValidating  This property is toggled only if there is an async validation  // Examples\nget(user, 'validations.isValidating')\nget(user, 'validations.attrs.username.isValidating')  isTruelyValid  Will be true only if isValid is  true  and isValidating is  false  // Examples\nget(user, 'validations.isTruelyValid')\nget(user, 'validations.attrs.username.isTruelyValid')  isDirty  Will be true is the attribute in question is not  null  or  undefined . If the object being validated is an Ember Data Model and you have a  defaultValue  specified, then it will use that for comparison.  // Examples\n// 'username' : DS.attr('string', { defaultValue: 'johndoe' })\nget(user, 'validations.isDirty')\nget(user, 'validations.attrs.username.isDirty')  isAsync  Will be  true  only if a validation returns a promise  // Examples\nget(user, 'validations.isAsync')\nget(user, 'validations.attrs.username.isAsync')  messages  A collection of all error messages on the object in question  // Examples\nget(user, 'validations.messages')\nget(user, 'validations.attrs.username.messages')  message  An alias to the first message in the messages collection.  // Example\nget(user, 'validations.message')\nget(user, 'validations.attrs.username.message')", 
+            "title": "Inspecting Validations"
+        }, 
+        {
+            "location": "/templating/index.html", 
+            "text": "Accessing validation information in your templates is really simple. This addon provides a \nv-get\n helper to bypass the long validation pathing.\n\n\nInstead of doing this: \n\n\n{{model.validations.attrs.username.message}}\n\n\n\n\nYou can do this:\n\n\n{{v-get model 'username' 'message'}}\n\n\n\n\nWhat's awesome about this is that you can pass in bound properties!\n\n\n{{v-get model attr prop}}\n{{v-get model prop}}\n\n\n\n\nHere is a more extensive example:\n\n\nform\n\n  {{input value=model.username placeholder=\nUsername\n}}\n  {{#if (v-get model 'username' 'isInvalid')}}\n    \ndiv class=\nerror\n\n      {{v-get model 'username' 'message'}}\n    \n/div\n\n  {{/if}}\n\n  \nbutton type=\nsubmit\n disabled={{v-get model 'isInvalid'}}\nSubmit\n/button\n\n\n/form", 
+            "title": "Templating"
+        }, 
+        {
+            "location": "/validators/common/index.html", 
+            "text": "attributeDescription\n\n\nA descriptor for your attribute used in generating the error messages. Defaults to \nThis field'\n\n\n// Examples\nvalidator('date', {\n    attributeDescription: 'Date of birth'\n})\n// If validation is run and the attribute is empty, the error returned will be:\n// 'Date of birth can't be blank'\n\n\n\n\nmessage\n\n\nThis option can take two forms. It can either be a \nstring\n or a \nfunction\n. If a string is used, then it will overwrite all error message types for the specified validator. Some messages are passed values such as the \nconfirmation\n validator and can be accessed via \n%@\n. To overwrite this, we can simply do\n\n\n// Example: String\nvalidator('confirmation', {\n  message: 'does not match %@. What are you even thinking?!'\n})\n\n\n\n\nWe can pass a \nfunction\n into our message option for even more customization capabilities.\n\n\n// Example: Function\nvalidator('date', {\n  message: function(type, options, value) {\n      if (type === 'before') {\n          return 'should really be before %@';\n      }\n      if (type === 'after') {\n          return 'should really be after %@';\n      }\n  }\n})\n\n\n\n\nThe message function is given the following arguments:\n\n\n\n\ntype\n (\nString\n): The error message type\n\n\noptions\n (\nObject\n): The validator options that were defined in the model\n\n\nvalue\n: The current value being evaluated\n\n\n\n\nThe return value must be a \nstring\n. If nothing is returned (\nundefined\n), defaults to the default error message of the specified type.\n\n\nWithin this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.", 
+            "title": "Common Options"
+        }, 
+        {
+            "location": "/validators/common/index.html#attributedescription", 
+            "text": "A descriptor for your attribute used in generating the error messages. Defaults to  This field'  // Examples\nvalidator('date', {\n    attributeDescription: 'Date of birth'\n})\n// If validation is run and the attribute is empty, the error returned will be:\n// 'Date of birth can't be blank'", 
+            "title": "attributeDescription"
+        }, 
+        {
+            "location": "/validators/common/index.html#message", 
+            "text": "This option can take two forms. It can either be a  string  or a  function . If a string is used, then it will overwrite all error message types for the specified validator. Some messages are passed values such as the  confirmation  validator and can be accessed via  %@ . To overwrite this, we can simply do  // Example: String\nvalidator('confirmation', {\n  message: 'does not match %@. What are you even thinking?!'\n})  We can pass a  function  into our message option for even more customization capabilities.  // Example: Function\nvalidator('date', {\n  message: function(type, options, value) {\n      if (type === 'before') {\n          return 'should really be before %@';\n      }\n      if (type === 'after') {\n          return 'should really be after %@';\n      }\n  }\n})  The message function is given the following arguments:   type  ( String ): The error message type  options  ( Object ): The validator options that were defined in the model  value : The current value being evaluated   The return value must be a  string . If nothing is returned ( undefined ), defaults to the default error message of the specified type.  Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.", 
+            "title": "message"
+        }, 
+        {
+            "location": "/validators/presence/index.html", 
+            "text": "If \ntrue\n validates that the given value is not empty, if \nfalse\n, validates that the given value is empty.\n\n\n// Examples\nvalidator('presence', true)\nvalidator('presence', false)\nvalidator('presence', {\n  presence: true,\n  message: 'should not be empty'\n})", 
+            "title": "Presence"
+        }, 
+        {
+            "location": "/validators/exclusion/index.html", 
+            "text": "Validates that the attributes\u2019 values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.\n\n\nOptions\n\n\n\n\nallowBlank\n (\nBoolean\n): If true, skips validation if the value is empty\n\n\nin\n (\nArray\n): The list of values this attribute should not be\n\n\nrange\n (\nArray\n): The range in which the attribute's value should not reside in\n\n\n\n\n// Examples\nvalidator('exclusion', {\n    in: ['Admin', 'Super Admin']\n})\nvalidator('exclusion', {\n    range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)\n})", 
+            "title": "Exclusion"
+        }, 
+        {
+            "location": "/validators/exclusion/index.html#options", 
+            "text": "allowBlank  ( Boolean ): If true, skips validation if the value is empty  in  ( Array ): The list of values this attribute should not be  range  ( Array ): The range in which the attribute's value should not reside in   // Examples\nvalidator('exclusion', {\n    in: ['Admin', 'Super Admin']\n})\nvalidator('exclusion', {\n    range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)\n})", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/validators/length/index.html", 
+            "text": "Validates the length of the attributes\u2019 values.\n\n\nOptions\n\n\n\n\nallowBlank\n (\nBoolean\n): If true, skips validation if the value is empty\n\n\nis\n (\nNumber\n): The exact length the value can be\n\n\nmin\n (\nNumber\n): The minimum length the value can be\n\n\nmax\n (\nNumber\n): The maximum length the value can be\n\n\n\n\n// Examples\nvalidator('length', {\n  is: 15\n})\nvalidator('length', {\n    min: 5,\n    max: 10\n})", 
+            "title": "Length"
+        }, 
+        {
+            "location": "/validators/length/index.html#options", 
+            "text": "allowBlank  ( Boolean ): If true, skips validation if the value is empty  is  ( Number ): The exact length the value can be  min  ( Number ): The minimum length the value can be  max  ( Number ): The maximum length the value can be   // Examples\nvalidator('length', {\n  is: 15\n})\nvalidator('length', {\n    min: 5,\n    max: 10\n})", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/validators/date/index.html", 
+            "text": "Validate over a date range. Uses \nMomentJS\n for date mathematics and calculations.\n\n\nOptions\n\n\n\n\nallowBlank\n (\nBoolean\n): If true, skips validation if the value is empty\n\n\nbefore\n (\nString\n): The specified date must be before this date\n\n\nafter\n (\nString\n): The specified date must be after this date\n\n\nformat\n (\nString\n): Input value date format\n\n\nerrorFormat\n (\nString\n): Error output date format. Defaults to \nMMM Do, YYYY\n\n\n\n\n// Example\nvalidator('date', {\n    after: 'now',\n    before: '1/1/2020',\n    format: 'M/D/YYY',\n    errorFormat: 'M/D/YYY'\n})\n// If before or after is set to 'now', the value given to the validator will be tested against the current date and time.", 
+            "title": "Date"
+        }, 
+        {
+            "location": "/validators/date/index.html#options", 
+            "text": "allowBlank  ( Boolean ): If true, skips validation if the value is empty  before  ( String ): The specified date must be before this date  after  ( String ): The specified date must be after this date  format  ( String ): Input value date format  errorFormat  ( String ): Error output date format. Defaults to  MMM Do, YYYY   // Example\nvalidator('date', {\n    after: 'now',\n    before: '1/1/2020',\n    format: 'M/D/YYY',\n    errorFormat: 'M/D/YYY'\n})\n// If before or after is set to 'now', the value given to the validator will be tested against the current date and time.", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/validators/format/index.html", 
+            "text": "Validate over a predefined or custom regular expression.\n\n\nOptions\n\n\n\n\nallowBlank\n (\nBoolean\n): If true, skips validation if the value is empty\n\n\ntype\n (\nString\n): Can be the one of the following options [\nemail\n, \nphone\n, \nurl\n]\n\n\nregex\n (\nRegExp\n): The regular expression to test against\n\n\n\n\n// Examples\nvalidator('format', {\n  type: 'email'\n})\nvalidator('format', {\n  allowBlank: true\n  type: 'phone'\n})\nvalidator('format', {\n  type: 'url'\n})\nvalidator('format', {\n    regex: /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,\n    message: 'Password must include at least one upper case letter, one lower case letter, and a number'\n})\n\n\n\n\nIf you do not want to use the predefined regex for a specific type, you can do something like this\n\n\n// Example\nvalidator('format', {\n  type: 'email',\n  regex: /My Better Email Regexp/\n})\n\n\n\n\nThis allows you to still keep the email error message but with your own custom regex.", 
+            "title": "Format"
+        }, 
+        {
+            "location": "/validators/format/index.html#options", 
+            "text": "allowBlank  ( Boolean ): If true, skips validation if the value is empty  type  ( String ): Can be the one of the following options [ email ,  phone ,  url ]  regex  ( RegExp ): The regular expression to test against   // Examples\nvalidator('format', {\n  type: 'email'\n})\nvalidator('format', {\n  allowBlank: true\n  type: 'phone'\n})\nvalidator('format', {\n  type: 'url'\n})\nvalidator('format', {\n    regex: /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,\n    message: 'Password must include at least one upper case letter, one lower case letter, and a number'\n})  If you do not want to use the predefined regex for a specific type, you can do something like this  // Example\nvalidator('format', {\n  type: 'email',\n  regex: /My Better Email Regexp/\n})  This allows you to still keep the email error message but with your own custom regex.", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/validators/dependent/index.html", 
+            "text": "Defines an attribute as valid only if its dependents are valid.\n\n\nOptions\n\n\n\n\non\n (\nArray\n): Attributes this field is dependent on\n\n\n\n\n// Example\n// Full name will only be valid if firstName and lastName are filled in\nvalidator('dependent', {\n    on: ['firstName', 'lastName'],\n})", 
+            "title": "Dependent"
+        }, 
+        {
+            "location": "/validators/dependent/index.html#options", 
+            "text": "on  ( Array ): Attributes this field is dependent on   // Example\n// Full name will only be valid if firstName and lastName are filled in\nvalidator('dependent', {\n    on: ['firstName', 'lastName'],\n})", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/validators/confirmation/index.html", 
+            "text": "You should use this validator when you have two text fields that should receive exactly the same content. For example, you may want to confirm an email address or a password. This validator doesnt have to be created on an attribute defined in your model. This means that when you save your model, in this case, \nverfiedEmail\n will not be part of the payload.\n\n\n// Example\nemail: validator('format', {\n  type: 'email'\n})\nverifiedEmail: validator('confirmation', {\n    on: 'email'\n    message: 'do not match'\n    attributeDescription: 'Email addresses'\n})", 
+            "title": "Confirmation"
+        }, 
+        {
+            "location": "/validators/collection/index.html", 
+            "text": "If \ntrue\n validates that the given value is a valid collection and will add \nATTRIUTE\n.[]\n as a dependent key to the CP. If \nfalse\n, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.\n\n\n// Examples\nvalidator('collection', true)\nvalidator('collection', false)\nvalidator('collection', {\n  collection: true,\n  message: 'must be a collection'\n})", 
+            "title": "Collection"
+        }, 
+        {
+            "location": "/validators/belongs-to/index.html", 
+            "text": "Identifies a \nbelongs-to\n relationship in an Ember Data Model. This is used to create a deeper validation across all of your nested models.\n\n\n// Example\nvalidator('belongs-to')", 
+            "title": "Belongs To"
+        }, 
+        {
+            "location": "/validators/has-many/index.html", 
+            "text": "Identifies a \nhas-many\n relationship in an Ember Data Model. This is used to create a deeper validation across all of your nested models.\n\n\n// Example\nvalidator('has-many')", 
+            "title": "Has Many"
+        }, 
+        {
+            "location": "/validators/function/index.html", 
+            "text": "A validator can also be declared with a function. The function will be then wrapped in the \nBase Validator\n class and used just like any other pre-defined validator.\n\n\n// Example\nvalidator(function(value, options /*, model, attribute*/) {\n  return value === options.username ? true : `must be ${options.username}`;\n} , {\n    username: 'John' // Any options can be passed here\n})", 
+            "title": "Function"
+        }, 
+        {
+            "location": "/validators/custom/index.html", 
+            "text": "Creating custom validators is very simple. To generate a validator named \nunique-username\n in Ember CLI\n\n\nember generate validator unique-username\n\n\n\n\nThis will create the following files\n\n \napp/validators/unique-username.js\n\n\n \ntests/unit/validators/unique-username-test.js\n\n\n// app/validators/unique-username.js\n\nimport Ember from 'ember';\nimport BaseValidator from 'ember-cp-validations/validators/base';\n\nexport default BaseValidator.extend({\n  validate(value, options /*, model, attribute*/) {\n    return true;\n    })\n  }\n});\n\n\n\n\nThe validate method is where all of your logic should go. It will get passed in the current value of the attribute this validator is attached to. Within the validator object, you will have access to the following properties:\n\n\n\n\nmodel\n (\nModel\n): The current model being validated\n\n\noptions\n (\nObject\n): The options that were passed in to the validator definition in the model\n\n\nattribute\n (\nString\n): The current attribute being validated\n\n\ndefaultMessages\n(\nObject\n): The default error messages\n\n\n\n\nThe \nvalidate\n method has the following signature:\n\n\nfunction validate(value, options, model, attribute) { }\n\n\n\n\nThe \nvalidate\n method should return one of three types\n\n \nBoolean\n:  \ntrue\n if the current value passed the validation\n\n \nString\n: The error message\n* \nPromise\n: A promise that will either resolve or reject, and will finally return either \ntrue\n or the final error message string.\n\n\nIf you want to interact with the \nstore\n within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.\n\n\n// app/validators/unique-username.js\n\nimport Ember from 'ember';\nimport BaseValidator from 'ember-cp-validations/validators/base';\n\nexport default BaseValidator.extend({\n  store: Ember.inject.service(),\n\n  validate(value, options /*, model, attribute*/) {\n    return this.get('store').findRecord('user', value).then((user) =\n {\n      if(user \n user.id === value) {\n        let message = `The username '${value}' already exists.`;\n        let meta = user.get('meta');\n\n        if(options.showSuggestions \n meta \n meta.suggestions) {\n          message += \nWhat about one of the these: \n + meta.suggestions.join(', ');\n        }\n        return message;\n      } else {\n        return true;\n      }\n    })\n  }\n});\n\n\n\n\nTo use our unique-username validator we just have to add it to the model definition\n\n\nvar Validations = buildValidations({\n  username: validator('unique-username', {\n    showSuggestions: true\n  }),\n});\n\nexport default DS.Model.extend(Validations, {\n  'username': DS.attr('string'),\n});\n\n\n\n\nTesting\n\n\nAs mentioned before, the generator created a unit test for your new custom validator.\n\n\n// tests/unit/validators/unique-username-test.js\n\nimport Ember from 'ember';\nimport { moduleFor, test } from 'ember-qunit';\n\nmoduleFor('validator:unique-username', 'Unit | Validator | unique-username', {\n    needs: ['validator:messages']\n});\n\ntest('it works', function(assert) {\n    var validator =  this.subject();\n    assert.ok(validator);\n});\n\n\n\n\nA simple test for our validation method can be as such\n\n\ntest('username is unique', function(assert) {\n    assert.expect(1);\n\n    let validator =  this.subject();\n    let done = assert.async();\n\n    validator.validate('johndoe42').then((message) =\n {\n      assert.equal(message, true);\n      done();\n    });\n});", 
+            "title": "Custom"
+        }, 
+        {
+            "location": "/validators/custom/index.html#testing", 
+            "text": "As mentioned before, the generator created a unit test for your new custom validator.  // tests/unit/validators/unique-username-test.js\n\nimport Ember from 'ember';\nimport { moduleFor, test } from 'ember-qunit';\n\nmoduleFor('validator:unique-username', 'Unit | Validator | unique-username', {\n    needs: ['validator:messages']\n});\n\ntest('it works', function(assert) {\n    var validator =  this.subject();\n    assert.ok(validator);\n});  A simple test for our validation method can be as such  test('username is unique', function(assert) {\n    assert.expect(1);\n\n    let validator =  this.subject();\n    let done = assert.async();\n\n    validator.validate('johndoe42').then((message) =  {\n      assert.equal(message, true);\n      done();\n    });\n});", 
+            "title": "Testing"
+        }, 
+        {
+            "location": "/validators/messages/index.html", 
+            "text": "The default validation error messages are imported in your app's \nvalidators\n folder. If you want to overwrite them, all you need to do is create a \nmessages.js\n file under \napp/validators\n. All default error messages can be found \nhere\n.", 
+            "title": "Error Messages"
+        }
+    ]
+}

@@ -2,8 +2,10 @@ bower_components/
 tests/
 tmp/
 dist/
+docs/
 
 .bowerrc
+.codeclimate.yml
 .editorconfig
 .ember-cli
 .travis.yml

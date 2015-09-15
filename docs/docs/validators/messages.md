@@ -1,0 +1,1 @@
+The default validation error messages are imported in your app's `validators` folder. If you want to overwrite them, all you need to do is create a `messages.js` file under `app/validators`. All default error messages can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/messages.js).

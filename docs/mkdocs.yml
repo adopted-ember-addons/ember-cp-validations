@@ -1,0 +1,28 @@
+site_name: 'Ember CP Validations'
+repo_url: 'https://github.com/offirgolan/ember-cp-validations'
+repo_name: 'GitHub'
+site_dir: '../tests/dummy/public/docs'
+copyright: 'Yahoo! Inc.'
+theme: readthedocs
+use_directory_urls: false
+strict: true
+extra_css: ['style.css']
+pages:
+- Home: 'index.md'
+- Validating: 'validating.md'
+- Templating: 'templating.md'
+- Validators:
+  - 'Common Options': 'validators/common.md'
+  - 'Presence': 'validators/presence.md'
+  - 'Exclusion': 'validators/exclusion.md'
+  - 'Length': 'validators/length.md'
+  - 'Date': 'validators/date.md'
+  - 'Format': 'validators/format.md'
+  - 'Dependent': 'validators/dependent.md'
+  - 'Confirmation': 'validators/confirmation.md'
+  - 'Collection': 'validators/collection.md'
+  - 'Belongs To': 'validators/belongs-to.md'
+  - 'Has Many': 'validators/has-many.md'
+  - 'Function': 'validators/function.md'
+  - 'Custom': 'validators/custom.md'
+  - 'Error Messages': 'validators/messages.md'
