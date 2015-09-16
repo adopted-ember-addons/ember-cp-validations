@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import _array from 'lodash/array';
+import flatten from './flatten';
 import ValidationResult from './validation-result';
 import ValidationResultCollection from './validation-result-collection';
 import BaseValidator from '../validators/base';
@@ -86,7 +86,7 @@ function createGlobalValidationProps(validatableAttrs) {
         promises.push(get(validation, '_promise'));
       }
     });
-    return RSVP.all(_array.flatten(promises, true));
+    return RSVP.all(flatten(promises));
   });
 
   props.messages = computed(...validatableAttrs.map((attr) => `attrs.${attr}.messages`), function() {
@@ -98,7 +98,7 @@ function createGlobalValidationProps(validatableAttrs) {
       }
     });
 
-    return emberArray(_array.flatten(messages, true)).compact();
+    return emberArray(flatten(messages)).compact();
   });
 
   props.message = computed('messages.[]', cycleBreaker(function() {
@@ -150,7 +150,7 @@ function createCPValidationFor(attribute, validations) {
       return validationReturnValueHandler(attribute, validationReturnValue, model);
     });
 
-    validationResults = _array.flatten(validationResults, true);
+    validationResults = flatten(validationResults);
     var validationResultsCollection = ValidationResultCollection.create({
       attribute, content: validationResults
     });

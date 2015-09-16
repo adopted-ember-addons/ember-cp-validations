@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import _array from 'lodash/array';
+import flatten from './flatten';
 import cycleBreaker from './cycle-breaker';
 
 const {
@@ -68,14 +68,14 @@ export default Ember.Object.extend({
       get(this, 'content').getEach('message'),
       get(this, 'content').getEach('messages')
     ];
-    var messageArray = _array.flatten(messages, true);
+    var messageArray = flatten(messages);
     return uniq(compact(messageArray));
   })),
 
   _promise: computed('content.@each._promise', cycleBreaker(function() {
     var promises = get(this, 'content').getEach('_promise');
     if (!isEmpty(promises)) {
-      return RSVP.all(compact(_array.flatten(promises, true)));
+      return RSVP.all(compact(flatten(promises)));
     }
   })),
 

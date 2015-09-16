@@ -8,7 +8,6 @@ module.exports = {
     var checker = new VersionChecker(this);
     var emberDep = checker.for('ember', 'bower');
     var dependencies = [
-      this.addAddonToProject('ember-lodash', '0.0.5'),
       this.addAddonToProject('ember-moment', '3.6.2')
     ];
 
