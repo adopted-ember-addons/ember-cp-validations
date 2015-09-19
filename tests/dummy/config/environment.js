@@ -24,7 +24,7 @@ module.exports = function(environment) {
     },
     contentSecurityPolicyHeader: 'Content-Security-Policy-Report-Only',
     contentSecurityPolicy: {
-      'img-src': "'self' https://camo.githubusercontent.com",
+      'img-src': "'self' https://camo.githubusercontent.com data:",
       'font-src': "'self' https://fonts.gstatic.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com https://google-code-prettify.googlecode.com",
       'script-src': "'self' 'unsafe-inline' 'unsafe-eval' localhost:35729 0.0.0.0:35729 https://maxcdn.bootstrapcdn.com https://google-code-prettify.googlecode.com"
