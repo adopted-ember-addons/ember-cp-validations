@@ -17,6 +17,7 @@ const {
   isNone,
   guidFor,
   isEmpty,
+  isArray,
   computed,
   makeArray,
   canInvoke,
@@ -196,6 +197,12 @@ function getCPDependentKeysFor(attribute, validations) {
       }
     } else if (type === 'collection' && (options === true || options.collection === true)) {
       dependentKeys.push(`_model.${attribute}.[]`);
+    }
+
+    if(isArray(options.dependentKeys)) {
+      options.dependentKeys.forEach(k => {
+        dependentKeys.push(`_model.${k}`);
+      });
     }
   });
 
