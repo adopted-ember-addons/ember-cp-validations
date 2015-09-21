@@ -85,6 +85,9 @@
                 <li class="toctree-l3"><a href="#attributedescription">attributeDescription</a></li>
                 
             
+                <li class="toctree-l3"><a href="#dependentkeys">dependentKeys</a></li>
+                
+            
                 <li class="toctree-l3"><a href="#message">message</a></li>
                 
             
@@ -235,6 +238,20 @@ validator('date', {
 })
 // If validation is run and the attribute is empty, the error returned will be:
 // 'Date of birth can't be blank'
+</code></pre>
+
+<h2 id="dependentkeys">dependentKeys</h2>
+<p>A list of other model specific dependents for you validator.</p>
+<pre><code class="javascript">// Examples
+validator('has-friends', {
+    dependentKeys: ['friends.[]']
+})
+validator('has-valid-friends', {
+    dependentKeys: ['friends.@each.username']
+})
+validator('x-validator', {
+    dependentKeys: ['username', 'email', 'meta.foo.bar']
+})
 </code></pre>
 
 <h2 id="message">message</h2>

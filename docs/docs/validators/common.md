@@ -10,6 +10,22 @@ validator('date', {
 // 'Date of birth can't be blank'
 ```
 
+## dependentKeys
+A list of other model specific dependents for you validator.
+
+```javascript
+// Examples
+validator('has-friends', {
+    dependentKeys: ['friends.[]']
+})
+validator('has-valid-friends', {
+    dependentKeys: ['friends.@each.username']
+})
+validator('x-validator', {
+    dependentKeys: ['username', 'email', 'meta.foo.bar']
+})
+```
+
 ## message 
 
 This option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator. Some messages are passed values such as the `confirmation` validator and can be accessed via `%@`. To overwrite this, we can simply do
