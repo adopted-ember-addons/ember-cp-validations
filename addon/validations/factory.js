@@ -4,11 +4,11 @@
  */
 
 import Ember from 'ember';
-import flatten from './flatten';
-import ValidationResult from './validation-result';
-import ValidationResultCollection from './validation-result-collection';
+import flatten from '../utils/flatten';
+import ValidationResult from './result';
+import ValidationResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
-import cycleBreaker from './cycle-breaker';
+import cycleBreaker from '../utils/cycle-breaker';
 
 const {
   get,

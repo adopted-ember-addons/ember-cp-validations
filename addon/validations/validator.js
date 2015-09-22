@@ -20,7 +20,7 @@ export default function(arg1, options) {
   } else if (typeof arg1 === 'string') {
     props._type = arg1;
   } else {
-    throw 'Unexpected type for first validator argument. It should either be a string or a function';
+    throw new TypeError('Unexpected type for first validator argument. It should either be a string or a function');
   }
 
   return props;

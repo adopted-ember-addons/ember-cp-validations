@@ -4,10 +4,10 @@
  */
 
 // import Mixin from './mixin';
-import ValidationsFactory from './utils/validations-factory';
-import Validator from './utils/validator';
+import Factory from './validations/factory';
+import Validator from './validations/validator';
 
-export var buildValidations = ValidationsFactory;
+export var buildValidations = Factory;
 export var validator = Validator;
 
 export default {

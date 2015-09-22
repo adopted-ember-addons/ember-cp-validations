@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import flatten from 'ember-cp-validations/utils/flatten';
 
-module('addon/utils/flatten');
+module('Unit | Utils | flatten');
 
 test('flattens an array of arrays', function(assert) {
   let result = flatten([[1], [2, 3], [4, 5]]);

@@ -11,6 +11,7 @@ pages:
 - Home: 'index.md'
 - Validating: 'validating.md'
 - Templating: 'templating.md'
+- Testing: 'testing.md'
 - Validators:
   - 'Common Options': 'validators/common.md'
   - 'Presence': 'validators/presence.md'

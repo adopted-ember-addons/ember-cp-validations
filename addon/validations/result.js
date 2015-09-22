@@ -4,8 +4,8 @@
  */
 
 import Ember from 'ember';
-import ValidationResultCollection from './validation-result-collection';
-import { hasEmberData } from './utils';
+import ValidationResultCollection from './result-collection';
+import { hasEmberData } from '../utils/utils';
 
 const {
   get,
