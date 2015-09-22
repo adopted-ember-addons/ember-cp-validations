@@ -4,8 +4,8 @@
  */
 
 import Ember from 'ember';
-import flatten from './flatten';
-import cycleBreaker from './cycle-breaker';
+import flatten from '../utils/flatten';
+import cycleBreaker from '../utils/cycle-breaker';
 
 const {
   get,

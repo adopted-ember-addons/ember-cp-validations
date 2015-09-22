@@ -27,7 +27,6 @@ validator('x-validator', {
 ```
 
 ## message 
-
 This option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator. Some messages are passed values such as the `confirmation` validator and can be accessed via `%@`. To overwrite this, we can simply do
 
 ```javascript
@@ -61,3 +60,36 @@ The message function is given the following arguments:
 The return value must be a `string`. If nothing is returned (`undefined`), defaults to the default error message of the specified type.
 
 Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
+
+## createErrorMessage
+This function is used by all pre-defined validators to build an error message that is present in `validators/message`.
+
+The method signature is as follows:
+`createErrorMessage(type, options, value, ...formats) {}`
+
+* `type` (**String**): The error message type
+* `options` (**Object**): The validator options that were defined in the model
+* `value`: The current value being evaluated
+* `formats` (**...Array**): String formatters (%@)
+
+If we extended our default messages to include `uniqueUsername: '"%@" already exists'`, we can use this method to generate our error message.
+
+```javascript
+validate(value, options) {
+  var exists = false;
+  options.attributeDescription = 'Username';
+  
+  // check with server if username exists...
+  
+  if(exists) {
+    return this.createErrorMessage('uniqueUsername', options, value, value);
+  }
+  return true;
+  
+}
+```
+
+If we input `johndoe` and that username already exists, the returned message would be `'Username "johndoe" already exists'`. 
+
+
+For more examples, feel free to check the validators source code.

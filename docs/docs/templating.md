@@ -1,11 +1,20 @@
-Accessing validation information in your templates is really simple. This addon provides a `v-get` helper to bypass the long validation pathing.
+Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error `message` for the `username` attribute, it would look something like this:
 
-Instead of doing this: 
 ```handlebars
 {{model.validations.attrs.username.message}}
 ```
 
-You can do this:
+# The V-Get Helper
+To bypass such long pathing, you can use the `v-get` helper.
+
+_**Notice**: Ember v1.13.0 is not supported due to a bug. Please use Ember v1.13.1 and higher or Ember v1.12.* and lower_
+
+**Access global model properties**
+```handlebars
+{{v-get model 'isValid'}}
+```
+
+**Access attribute specific properties**
 ```handlebars
 {{v-get model 'username' 'message'}}
 ```
