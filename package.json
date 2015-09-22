@@ -66,6 +66,7 @@
     "ember-cli-babel": "^5.0.0",
     "ember-cli-version-checker": "^1.1.4",
     "exists-sync": "0.0.3",
+    "rsvp": "3.1.0",
     "walk-sync": "^0.2.0"
   },
   "ember-addon": {

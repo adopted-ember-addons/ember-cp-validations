@@ -18,7 +18,9 @@ export default Base.extend({
     var model = get(this, 'model');
 
     if (!isNone(options.on) && !isEqual(value, get(model, options.on))) {
-      return this.createErrorMessage('confirmation', options, value, options.on);
+      return this.createErrorMessage('confirmation', options, value, {
+        attribute: options.on
+      });
     }
 
     return true;

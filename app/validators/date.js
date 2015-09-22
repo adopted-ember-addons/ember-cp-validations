@@ -28,7 +28,9 @@ export default Base.extend({
     }
 
     if (options.format && !moment(value, options.format, true).isValid()) {
-      return this.createErrorMessage('wrongDateFormat', options, value, options.format);
+      return this.createErrorMessage('wrongDateFormat', options, value, {
+        date: options.format
+      });
     }
 
     if (options.before === 'now') {
@@ -40,11 +42,15 @@ export default Base.extend({
     }
 
     if (options.before && (moment(options.before) < date)) {
-      return this.createErrorMessage('before', options, value, moment(options.before).format(errorFormat));
+      return this.createErrorMessage('before', options, value, {
+        date: moment(options.before).format(errorFormat)
+      });
     }
 
     if (options.after && (moment(options.after) > date)) {
-      return this.createErrorMessage('after', options, value, moment(options.after).format(errorFormat));
+      return this.createErrorMessage('after', options, value, {
+        date: moment(options.after).format(errorFormat)
+      });
     }
 
     return true;
