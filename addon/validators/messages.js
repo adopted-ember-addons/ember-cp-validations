@@ -17,33 +17,12 @@ export default Ember.Object.extend({
   _regex: /\{(\w+)\}/g,
 
   /**
-   * Get a message with a given type. Before using the default strings, checks
-   * Ember.Intl and Ember.I18n
+   * Get a message with a given type
    * @param  {String} type
    * @param  {Object} context
    * @return {String}
    */
   getMessageFor(type, context = {}) {
-    var container = get(this, 'container');
-    var key = `errors.${type}`;
-    var intl, i18n;
-
-    if (container) {
-      intl = container.lookup('service:intl');
-      i18n = container.lookup('service:i18n');
-    }
-
-    if (i18n && i18n.exists(key)) {
-      return i18n.t(key, context);
-    }
-
-    if (intl) {
-      let m = intl.exists(key);
-      if(!isNone(m)) {
-        return intl.formatMessage(m, context);
-      }
-    }
-
     return this.formatMessage(get(this, type), context);
   },
 
