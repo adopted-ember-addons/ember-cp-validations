@@ -4,12 +4,12 @@
  */
 
 import Ember from 'ember';
+import Messages from './messages';
 
 const {
   get,
   setProperties,
   isNone,
-  typeOf
 } = Ember;
 
 export default Ember.Object.extend({
@@ -35,7 +35,7 @@ export default Ember.Object.extend({
    * Default error messages. Populated by validators/messages
    * @type {Object}
    */
-  defaultMessages: null,
+  errorMessages: null,
 
   // Private
   /**
@@ -48,16 +48,18 @@ export default Ember.Object.extend({
     this._super(...arguments);
     var container = get(this, 'container');
     var options = get(this, 'options');
-    var defaultMessages = {};
+    var errorMessages = Messages;
 
     if(container) {
       // Since default error messages are stored in app/validators/messages, we have to look it up via the container
-      defaultMessages = container.lookupFactory('validator:messages');
+      errorMessages = container.lookupFactory('validator:messages');
     }
+
+    errorMessages = errorMessages.create();
 
     setProperties(this, {
       options: isNone(options) ? {} : options,
-      defaultMessages
+      errorMessages
     });
   },
 
@@ -79,30 +81,28 @@ export default Ember.Object.extend({
    * Error message generator based on type and options
    * @param  {String} type        : The type of message template to use
    * @param  {Object} options     : Validator options
-   * @param  {?} value            : Current value being evaluated
-   * @param  {...Array} Formats   : String formatters (%@)
+   * @param  value                : Current value being evaluated
+   * @param  {Object} context     : Context for string replacement
    * @return {String}             : The generated message
    */
-  createErrorMessage(type, options, value, ...formats) {
+  createErrorMessage(type, options, value, context) {
     options = options || {};
     var attribute = options.attributeDescription || 'This field';
-    var defaultMessages = this.get('defaultMessages');
+    var messages = this.get('errorMessages');
     var message;
+
     attribute = `${attribute.trim()} `;
 
     if (options.message) {
-      if (typeOf(options.message) === 'string') {
-        message = options.message;
-      } else if (typeOf(options.message) === 'function') {
-        message = options.message.call(this, type, options, value);
-        message = message || defaultMessages[type]; // fail-safe to default message of type
+      if (typeof options.message === 'string') {
+        message = messages.formatMessage(options.message, context);
+      } else if (typeof options.message === 'function') {
+        message = options.message.call(this, ...arguments);
+        message = isNone(message) ? messages.getMessageFor(type, context) : messages.formatMessage(message, context); // fail-safe to default message of type
       }
     } else {
-      message = defaultMessages[type];
+      message = messages.getMessageFor(type, context);
     }
-
-    message = message || defaultMessages.invalid;
-    message = Ember.String.fmt(message, ...formats);
 
     return (attribute + message).trim();
   }

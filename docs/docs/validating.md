@@ -25,7 +25,6 @@ validations.get('isValid') // true or false
 model.validate({
     on: ['username', 'email']
 }).then(({m, validations}) => {
-  // all validations pass
   validations.get('isValid'); // true or false
   validations.get('isValidating'); // false
 

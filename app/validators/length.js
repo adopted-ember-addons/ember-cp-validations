@@ -29,15 +29,21 @@ export default Base.extend({
     }
 
     if (!isNone(options.is) && options.is !== value.length) {
-      return this.createErrorMessage('wrongLength', options, value, options.is);
+      return this.createErrorMessage('wrongLength', options, value, {
+        count: options.is
+      });
     }
 
     if (!isNone(options.min) && options.min > value.length) {
-      return this.createErrorMessage('tooShort', options, value, options.min);
+      return this.createErrorMessage('tooShort', options, value, {
+        count: options.min
+      });
     }
 
     if (!isNone(options.max) && options.max < value.length) {
-      return this.createErrorMessage('tooLong', options, value, options.max);
+      return this.createErrorMessage('tooLong', options, value, {
+        count: options.max
+      });
     }
 
     return true;

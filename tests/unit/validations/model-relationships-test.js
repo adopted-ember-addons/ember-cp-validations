@@ -35,6 +35,7 @@ module('Unit | Validations | Model Relationships', {
   beforeEach() {
     registry = new Registry();
     container = registry.get('container');
+    registry.register('validator:messages', DefaultMessages);
   }
 });
 

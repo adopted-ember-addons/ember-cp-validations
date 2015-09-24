@@ -19,20 +19,20 @@ module('Unit | Validations | Factory - Dependent Keys', {
   beforeEach() {
     registry = new Registry();
     container = registry.get('container');
+    registry.register('validator:messages', DefaultMessages);
   }
 });
 
 test("collection validator creates correct dependent keys", function(assert) {
   registry.register('validator:collection', CollectionValidator);
   registry.register('validator:length', LengthValidator);
-  registry.register('validator:messages', DefaultMessages);
 
   var CollectionValidations = buildValidations({
     array: [
       validator('collection', true),
       validator('length', {
         is: 2,
-        message: "must have %@ items"
+        message: "must have {count} items"
       })
     ]
   });

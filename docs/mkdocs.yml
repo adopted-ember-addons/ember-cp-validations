@@ -10,6 +10,7 @@ extra_css: ['style.css']
 pages:
 - Home: 'index.md'
 - Validating: 'validating.md'
+- 'Error Messages': 'messages.md'
 - Templating: 'templating.md'
 - Testing: 'testing.md'
 - Validators:
@@ -26,4 +27,3 @@ pages:
   - 'Has Many': 'validators/has-many.md'
   - 'Function': 'validators/function.md'
   - 'Custom': 'validators/custom.md'
-  - 'Error Messages': 'validators/messages.md'
