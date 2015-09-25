@@ -93,7 +93,7 @@ test('message function', function(assert) {
   options = {
     max: 5,
     message: function(type, options, value) {
-      return "is too long brosef. It like cant be more than like {count} characters";
+      return "{attributeDescription} is too long brosef. It like cant be more than like {count} characters";
     }
   };
 

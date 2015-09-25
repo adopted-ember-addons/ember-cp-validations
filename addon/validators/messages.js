@@ -17,6 +17,12 @@ export default Ember.Object.extend({
   _regex: /\{(\w+)\}/g,
 
   /**
+   * Default attribute description if one isnt passed into a validator's options
+   * @type {String}
+   */
+  defaultAttributeDescription: 'This field',
+
+  /**
    * Get a message with a given type
    * @param  {String} type
    * @param  {Object} context
@@ -36,38 +42,45 @@ export default Ember.Object.extend({
     if (isNone(message) || typeof message !== 'string') {
       message = get(this, 'invalid');
     }
-    return message.replace(get(this, '_regex'), (s, attr) => context[attr]);
+    return message.replace(get(this, '_regex'), (s, attr) => {
+      let value = context[attr];
+      if(attr === 'attributeDescription' && isNone(value)) {
+        return this.get('defaultAttributeDescription');
+      }
+
+      return value;
+    });
   },
 
-  inclusion: "is not included in the list",
-  exclusion: "is reserved",
-  invalid: "is invalid",
-  confirmation: "doesn't match {attribute}",
-  accepted: "must be accepted",
-  empty: "can't be empty",
-  blank: "can't be blank",
-  present: "must be blank",
-  collection: "must be a collection",
-  singular: "can't be a collection",
-  tooLong: "is too long (maximum is {count} characters)",
-  tooShort: "is too short (minimum is {count} characters)",
-  before: "must be before {date}",
-  after: "must be after {date}",
-  wrongDateFormat: "must be in the format of {date}",
-  wrongLength: "is the wrong length (should be {count} characters)",
-  notANumber: "is not a number",
-  notAnInteger: "must be an integer",
-  greaterThan: "must be greater than {count}",
-  greaterThanOrEqualTo: "must be greater than or equal to {count}",
-  equalTo: "must be equal to {count}",
-  lessThan: "must be less than {count}",
-  lessThanOrEqualTo: "must be less than or equal to {count}",
-  otherThan: "must be other than {count}",
-  odd: "must be odd",
-  even: "must be even",
-  positive: "must be positive",
-  date: "must be a valid date",
-  email: "must be a valid email address",
-  phone: "must be a valid phone number",
-  url: "must be a valid url"
+  inclusion: "{attributeDescription} is not included in the list",
+  exclusion: "{attributeDescription} is reserved",
+  invalid: "{attributeDescription} is invalid",
+  confirmation: "{attributeDescription} doesn't match {attribute}",
+  accepted: "{attributeDescription} must be accepted",
+  empty: "{attributeDescription} can't be empty",
+  blank: "{attributeDescription} can't be blank",
+  present: "{attributeDescription} must be blank",
+  collection: "{attributeDescription} must be a collection",
+  singular: "{attributeDescription} can't be a collection",
+  tooLong: "{attributeDescription} is too long (maximum is {count} characters)",
+  tooShort: "{attributeDescription} is too short (minimum is {count} characters)",
+  before: "{attributeDescription} must be before {date}",
+  after: "{attributeDescription} must be after {date}",
+  wrongDateFormat: "{attributeDescription} must be in the format of {date}",
+  wrongLength: "{attributeDescription} is the wrong length (should be {count} characters)",
+  notANumber: "{attributeDescription} is not a number",
+  notAnInteger: "{attributeDescription} must be an integer",
+  greaterThan: "{attributeDescription} must be greater than {count}",
+  greaterThanOrEqualTo: "{attributeDescription} must be greater than or equal to {count}",
+  equalTo: "{attributeDescription} must be equal to {count}",
+  lessThan: "{attributeDescription} must be less than {count}",
+  lessThanOrEqualTo: "{attributeDescription} must be less than or equal to {count}",
+  otherThan: "{attributeDescription} must be other than {count}",
+  odd: "{attributeDescription} must be odd",
+  even: "{attributeDescription} must be even",
+  positive: "{attributeDescription} must be positive",
+  date: "{attributeDescription} must be a valid date",
+  email: "{attributeDescription} must be a valid email address",
+  phone: "{attributeDescription} must be a valid phone number",
+  url: "{attributeDescription} must be a valid url"
 });

@@ -6,7 +6,7 @@ The default validation error messages are imported in your app's `validators` fo
 import Messages from 'ember-cp-validations/validators/messages';
 
 export default Messages.extend({
-  uniqueUsername: '{username} already exists'
+  uniqueUsername: '{attributeDescription} {username} already exists'
 });
 ```
 
@@ -14,30 +14,21 @@ Within this object, you can overwrite the [default messages](https://github.com/
 
 # I18n Solutions
 
-This addon supports both [Ember-I18n](https://github.com/jamesarosen/ember-i18n) and [Ember-Intl](https://github.com/yahoo/ember-intl). All error messages should be under an `errors` object for both implementations. If an error message **doesn't exist**, then it will fallback to the default message of the given type.
-
-## Ember-I18n
-
-```javascript
-// app/locales/[locale]/translations.js
-
-export default {
-  errors: {
-    uniqueUsername: '{{username}} already exists'
-    invalid: "is not valid",
-  }
-}
-```
-
-## Ember-Intl
+* __Ember-Intl__
 
 _**Notice**: Supports Ember-Intl v2.x and above_
 
-```yaml
-# translations/[locale].yaml
-
-errors:
-  uniqueUsername: '{username} already exists'
-  invalid: "is not valid"
+```bash
+ember install ember-intl-cp-validations
 ```
+
+Setup instructions can be found on the [github page](https://github.com/jasonmit/ember-intl-cp-validations).
+
+* __Ember-I18n__
+
+```bash
+ember install ember-i18n-cp-validations
+```
+
+Setup instructions can be found on the [github page](https://github.com/jasonmit/ember-i18n-cp-validations).
 

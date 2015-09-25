@@ -32,7 +32,7 @@ test("collection validator creates correct dependent keys", function(assert) {
       validator('collection', true),
       validator('length', {
         is: 2,
-        message: "must have {count} items"
+        message: "Array must have {count} items"
       })
     ]
   });
@@ -47,7 +47,7 @@ test("collection validator creates correct dependent keys", function(assert) {
   obj.get('array').removeObject('bar');
 
   assert.equal(obj.get('validations.attrs.array.isValid'), false);
-  assert.equal(obj.get('validations.attrs.array.message'), "This field must have 2 items");
+  assert.equal(obj.get('validations.attrs.array.message'), "Array must have 2 items");
 });
 
 test("custom dependent keys - simple", function(assert) {
