@@ -19,19 +19,16 @@ export default Base.extend({
     url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-{}]*[\w@?^=%&amp;\/~+#-{}])??/,
   },
 
-  init() {
-    this._super(...arguments);
-    var options = get(this, 'options');
+  buildOptions(options = {}, defaultOptions = {}) {
     var regularExpressions = get(this, 'regularExpressions');
 
     if (options.type && !isNone(regularExpressions[options.type]) && isNone(options.regex)) {
       options.regex = regularExpressions[options.type];
     }
+    return this._super(options, defaultOptions);
   },
 
-  validate(value) {
-    var options = get(this, 'options');
-
+  validate(value, options) {
     if (isEmpty(Object.keys(options))) {
       return true;
     }

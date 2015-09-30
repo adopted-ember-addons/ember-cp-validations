@@ -51,7 +51,7 @@
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
     "ember-get-helper": "1.0.1",
-    "ember-moment": "3.6.2",
+    "ember-moment": "4.0.1",
     "ember-try": "0.0.6"
   },
   "keywords": [
@@ -66,7 +66,6 @@
     "ember-cli-babel": "^5.0.0",
     "ember-cli-version-checker": "^1.1.4",
     "exists-sync": "0.0.3",
-    "rsvp": "3.1.0",
     "walk-sync": "^0.2.0"
   },
   "ember-addon": {

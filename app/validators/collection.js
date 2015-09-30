@@ -7,28 +7,20 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
-  get,
-  set,
   isArray,
-  typeOf
 } = Ember;
 
 export default Base.extend({
-  init() {
-    var options = get(this, 'options');
-
-    if(typeOf(options) === 'boolean') {
-      set(this, 'options', {
+  buildOptions(options, defaultOptions) {
+    if(typeof options === 'boolean') {
+      options = {
         collection: options
-      });
+      };
     }
-
-    this._super(...arguments);
+    return this._super(options, defaultOptions);
   },
 
-  validate(value) {
-    var options = get(this, 'options');
-
+  validate(value, options) {
     if (options.collection === true && !isArray(value)) {
       return this.createErrorMessage('collection', options, value);
     }

@@ -7,15 +7,12 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
-  get,
   isNone,
   isEmpty
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
-
+  validate(value, options) {
     if (isEmpty(Object.keys(options))) {
       return true;
     }
