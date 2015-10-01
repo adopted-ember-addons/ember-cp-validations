@@ -24,20 +24,26 @@ moduleFor('validator:messages', 'Unit | Validator | messages', {
 
 test('message strings present', function(assert) {
   assert.expect(2);
-  assert.equal(messages.get('invalid'), '{attributeDescription} is invalid');
-  assert.equal(messages.get('tooShort'), '{attributeDescription} is too short (minimum is {count} characters)');
+  assert.equal(messages.get('invalid'), '{description} is invalid');
+  assert.equal(messages.get('tooShort'), '{description} is too short (minimum is {min} characters)');
 });
 
 test('formatMessage', function(assert) {
   assert.expect(3);
-  assert.equal(messages.formatMessage(), 'This field is invalid');
+  let context = {
+    description: 'This field'
+  };
+  assert.equal(messages.formatMessage(undefined, context), 'This field is invalid');
   assert.equal(messages.formatMessage('{foo} is undefined'), 'undefined is undefined');
   assert.equal(messages.formatMessage('{foo} {foo} {bar} {baz}', {foo: 'a', bar: 1, baz: 'abc'}), 'a a 1 abc');
 });
 
 test('getMessageFor', function(assert) {
-  assert.expect(3);
-  assert.equal(messages.getMessageFor('foo'), 'This field is invalid');
-  assert.equal(messages.getMessageFor('tooShort'), 'This field is too short (minimum is undefined characters)');
-  assert.equal(messages.getMessageFor('tooShort', {count: 4}), 'This field is too short (minimum is 4 characters)');
+  assert.expect(2);
+  let context = {
+    description: 'This field',
+    min: 4
+  };
+  assert.equal(messages.getMessageFor('foo', context), 'This field is invalid');
+  assert.equal(messages.getMessageFor('tooShort', context), 'This field is too short (minimum is 4 characters)');
 });

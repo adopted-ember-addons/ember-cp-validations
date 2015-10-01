@@ -22,23 +22,24 @@ var Validations = buildValidations({
     })
   ],
 
-  dob: [
-    validator('presence', true),
-    validator('date', {
-      before: 'now',
-      after: '1/1/1900',
-      format: 'M/D/YYYY',
-      attributeDescription: 'Date of birth',
-      message: function(type, options, value) {
-        if (type === 'before') {
-          return 'should really be before %@';
+  dob: {
+    description: 'Date of  birth',
+    validators: [
+      validator('presence', true),
+      validator('date', {
+        before: 'now',
+        after: '1/1/1900',
+        format() {return 'M/D/YYYY'; },
+        message: function(type, value, context) {
+          if (type === 'before') {
+            return '{description} should really be before {before}';
+          }
+          if (type === 'after') {
+            return '{description} should really be after {after}';
+          }
         }
-        if (type === 'after') {
-          return 'should really be after %@';
-        }
-      }
-    })
-  ],
+      })
+  ]},
 
   phone: [
     validator('format', {

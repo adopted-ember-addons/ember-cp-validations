@@ -5,16 +5,18 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-import moment from 'moment';
+const moment = self.requirejs.entries['moment'] && self.require('moment')['default'];
+
+if (moment === undefined) {
+  throw new Error('MomentJS is required to use the Date validator. The easiest way to install moment.js is to install ember-moment.\nInstallation instructions and documentation can be found at https://github.com/stefanpenner/ember-moment');
+}
 
 const {
-  get,
   isEmpty
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
+  validate(value, options) {
     var errorFormat = options.errorFormat || 'MMM Do, YYYY';
     var now = moment();
     var date = moment(value);
@@ -24,13 +26,11 @@ export default Base.extend({
     }
 
     if (!date.isValid()) {
-      return this.createErrorMessage('date', options, value);
+      return this.createErrorMessage('date', value, options);
     }
 
     if (options.format && !moment(value, options.format, true).isValid()) {
-      return this.createErrorMessage('wrongDateFormat', options, value, {
-        date: options.format
-      });
+      return this.createErrorMessage('wrongDateFormat', value, options);
     }
 
     if (options.before === 'now') {
@@ -42,15 +42,13 @@ export default Base.extend({
     }
 
     if (options.before && (moment(options.before) < date)) {
-      return this.createErrorMessage('before', options, value, {
-        date: moment(options.before).format(errorFormat)
-      });
+      options.before = moment(options.before).format(errorFormat);
+      return this.createErrorMessage('before', value, options);
     }
 
     if (options.after && (moment(options.after) > date)) {
-      return this.createErrorMessage('after', options, value, {
-        date: moment(options.after).format(errorFormat)
-      });
+      options.after = moment(options.after).format(errorFormat);
+      return this.createErrorMessage('after', value, options);
     }
 
     return true;

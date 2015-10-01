@@ -19,10 +19,19 @@ moduleFor('validator:format', 'Unit | Validator | format', {
   }
 });
 
+test('buildOptions', function(assert) {
+  assert.expect(2);
+
+  options = { type: 'email' };
+  let builtOptions = validator.buildOptions(options, {});
+  assert.equal(builtOptions.type, 'email');
+  assert.ok(builtOptions.regex);
+});
+
 test('no options', function(assert) {
   assert.expect(1);
 
-  message = validator.validate();
+  message = validator.validate(undefined, {});
   assert.equal(message, true);
 });
 
@@ -33,92 +42,78 @@ test('allow blank', function(assert) {
     allowBlank: true,
     type: 'email'
   };
+  options = validator.buildOptions(options, {});
 
-  set(validator, 'options', options);
-  validator.init();
-
-  message = validator.validate();
+  message = validator.validate(undefined, options);
   assert.equal(message, true);
 
-  message = validator.validate('email');
+  message = validator.validate('email', options);
   assert.equal(message, 'This field must be a valid email address');
 });
 
 test('email', function(assert) {
-  assert.expect(4);
+  assert.expect(3);
 
   options = {
     type: 'email'
   };
 
-  set(validator, 'options', options);
-  validator.init();
+  options = validator.buildOptions(options, {});
 
-  assert.equal(validator.get('options').type, 'email');
-
-  message = validator.validate('email');
+  message = validator.validate('email', options);
   assert.equal(message, 'This field must be a valid email address');
 
-  message = validator.validate('email@yahoo.com');
+  message = validator.validate('email@yahoo.com', options);
   assert.equal(message, true);
 
-  message = validator.validate('email+example@yahoo.com');
+  message = validator.validate('email+example@yahoo.com', options);
   assert.equal(message, true);
 });
 
 test('phone', function(assert) {
-  assert.expect(3);
+  assert.expect(2);
 
   options = {
     type: 'phone'
   };
 
-  set(validator, 'options', options);
-  validator.init();
+  options = validator.buildOptions(options, {});
 
-  assert.equal(validator.get('options').type, 'phone');
-
-  message = validator.validate('123');
+  message = validator.validate('123', options);
   assert.equal(message, 'This field must be a valid phone number');
 
-  message = validator.validate('(408) 555-1234');
+  message = validator.validate('(408) 555-1234', options);
   assert.equal(message, true);
 });
 
 test('url', function(assert) {
-  assert.expect(3);
+  assert.expect(2);
 
   options = {
     type: 'url'
   };
 
-  set(validator, 'options', options);
-  validator.init();
+  options = validator.buildOptions(options, {});
 
-  assert.equal(validator.get('options').type, 'url');
-
-  message = validator.validate('yahoo');
+  message = validator.validate('yahoo', options);
   assert.equal(message, 'This field must be a valid url');
 
-  message = validator.validate('http://www.yahoo.com');
+  message = validator.validate('http://www.yahoo.com', options);
   assert.equal(message, true);
 });
 
 test('custom', function(assert) {
-  assert.expect(3);
+  assert.expect(2);
 
   options = {
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
   };
 
-  set(validator, 'options', options);
-  validator.init();
+  options = validator.buildOptions(options, {});
 
-  assert.equal(validator.get('options').regex, options.regex);
-
-  message = validator.validate('password');
+  message = validator.validate('password', options);
   assert.equal(message, 'This field is invalid');
 
-  message = validator.validate('Pass123');
+  message = validator.validate('Pass123', options);
   assert.equal(message, true);
 });

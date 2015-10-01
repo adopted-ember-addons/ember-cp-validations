@@ -39,8 +39,8 @@ const {
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
  */
-export default function buildValidations(validations) {
-  var validatableAttrs = Object.keys(validations || {});
+export default function buildValidations(validations = {}) {
+  var validatableAttrs = Object.keys(validations);
   var props = createGlobalValidationProps(validatableAttrs);
   var attrs = {};
 
@@ -48,6 +48,8 @@ export default function buildValidations(validations) {
   props._validators = {};
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
+
+  processValidations(validations);
 
   validatableAttrs.forEach((attribute) => {
     attrs[attribute] = createCPValidationFor(attribute, validations[attribute]);
@@ -61,6 +63,25 @@ export default function buildValidations(validations) {
   });
 
   return createMixin(GlobalValidations, AttrValidations);
+}
+
+function processValidations(validations = {}) {
+  var validatableAttrs = Object.keys(validations);
+
+  validatableAttrs.forEach(attribute => {
+    let rules = validations[attribute];
+    if(rules && typeof rules === 'object' && isArray(rules.validators)) {
+      let options = Object.keys(rules).reduce((o, k) => {
+        if(k !== 'validators') {
+          o[k] = rules[k];
+        }
+        return o;
+      }, {});
+      let validators = rules.validators;
+      validators.forEach(v => v.defaultOptions = options);
+      validations[attribute] = validators;
+    }
+  });
 }
 
 /**
@@ -147,7 +168,7 @@ function createCPValidationFor(attribute, validations) {
     var validators = getValidatorsFor(attribute, model);
 
     var validationResults = validators.map((validator) => {
-      var validationReturnValue = validator.validate(get(model, attribute), get(validator, 'options'), model, attribute);
+      var validationReturnValue = validator.validate(get(model, attribute), validator.processOptions(), model, attribute);
       return validationReturnValueHandler(attribute, validationReturnValue, model);
     });
 

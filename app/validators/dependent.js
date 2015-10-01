@@ -13,10 +13,7 @@ const {
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
-    var model = get(this, 'model');
-
+  validate(value, options, model) {
     if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
       return true;
     }
@@ -31,7 +28,7 @@ export default Base.extend({
 
     var dependentValidations = options.on.map((dependent) => get(model, `validations.attrs.${dependent}`));
     if(!isEmpty(dependentValidations.filter((v) => !get(v, 'isTruelyValid')))) {
-      return this.createErrorMessage('invalid', options, value);
+      return this.createErrorMessage('invalid', value, options);
     }
 
     return true;

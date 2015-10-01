@@ -32,7 +32,7 @@ test("collection validator creates correct dependent keys", function(assert) {
       validator('collection', true),
       validator('length', {
         is: 2,
-        message: "Array must have {count} items"
+        message: "Array must have {is} items"
       })
     ]
   });

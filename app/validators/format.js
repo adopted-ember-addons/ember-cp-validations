@@ -19,19 +19,16 @@ export default Base.extend({
     url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-{}]*[\w@?^=%&amp;\/~+#-{}])??/,
   },
 
-  init() {
-    this._super(...arguments);
-    var options = get(this, 'options');
+  buildOptions(options = {}, defaultOptions = {}) {
     var regularExpressions = get(this, 'regularExpressions');
 
     if (options.type && !isNone(regularExpressions[options.type]) && isNone(options.regex)) {
       options.regex = regularExpressions[options.type];
     }
+    return this._super(options, defaultOptions);
   },
 
-  validate(value) {
-    var options = get(this, 'options');
-
+  validate(value, options) {
     if (isEmpty(Object.keys(options))) {
       return true;
     }
@@ -42,9 +39,9 @@ export default Base.extend({
 
     if (options.regex && !options.regex.test(value)) {
       if (options.type) {
-        return this.createErrorMessage(options.type, options, value);
+        return this.createErrorMessage(options.type, value, options);
       }
-      return this.createErrorMessage('invalid', options, value);
+      return this.createErrorMessage('invalid', value, options);
     }
 
     return true;

@@ -22,7 +22,7 @@ moduleFor('validator:length', 'Unit | Validator | length', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  message = validator.validate();
+  message = validator.validate(undefined, {});
   assert.equal(message, true);
 });
 
@@ -34,11 +34,10 @@ test('allow blank', function(assert) {
     min: 5
   };
 
-  set(validator, 'options', options);
-  message = validator.validate();
+  message = validator.validate('', options);
   assert.equal(message, true);
 
-  message = validator.validate('test');
+  message = validator.validate('test', options);
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 });
 
@@ -49,11 +48,10 @@ test('is', function(assert) {
     is: 4
   };
 
-  set(validator, 'options', options);
-  message = validator.validate('testing');
+  message = validator.validate('testing', options);
   assert.equal(message, 'This field is the wrong length (should be 4 characters)');
 
-  message = validator.validate('test');
+  message = validator.validate('test', options);
   assert.equal(message, true);
 });
 
@@ -64,11 +62,10 @@ test('min', function(assert) {
     min: 5
   };
 
-  set(validator, 'options', options);
-  message = validator.validate('test');
+  message = validator.validate('test', options);
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 
-  message = validator.validate('testing');
+  message = validator.validate('testing', options);
   assert.equal(message, true);
 });
 
@@ -79,26 +76,9 @@ test('max', function(assert) {
     max: 5
   };
 
-  set(validator, 'options', options);
-  message = validator.validate('testing');
+  message = validator.validate('testing', options);
   assert.equal(message, 'This field is too long (maximum is 5 characters)');
 
-  message = validator.validate('test');
+  message = validator.validate('test', options);
   assert.equal(message, true);
-});
-
-test('message function', function(assert) {
-  assert.expect(1);
-
-  options = {
-    max: 5,
-    message: function(type, options, value) {
-      return "{attributeDescription} is too long brosef. It like cant be more than like {count} characters";
-    }
-  };
-
-  set(validator, 'options', options);
-  message = validator.validate('testing');
-  assert.equal(message, 'This field is too long brosef. It like cant be more than like 5 characters');
-
 });

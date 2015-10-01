@@ -13,14 +13,9 @@ const {
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
-    var model = get(this, 'model');
-
+  validate(value, options, model) {
     if (!isNone(options.on) && !isEqual(value, get(model, options.on))) {
-      return this.createErrorMessage('confirmation', options, value, {
-        attribute: options.on
-      });
+      return this.createErrorMessage('confirmation', value, options);
     }
 
     return true;

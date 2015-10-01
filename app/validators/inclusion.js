@@ -7,14 +7,12 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
-  get,
   typeOf,
   isEmpty
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
+  validate(value, options) {
     var array = options['in'];
     var range = options.range;
 
@@ -27,7 +25,7 @@ export default Base.extend({
     }
 
     if (array && array.indexOf(value) === -1) {
-      return this.createErrorMessage('inclusion', options);
+      return this.createErrorMessage('inclusion', value, options);
     }
 
     if (range && range.length === 2) {
@@ -35,7 +33,7 @@ export default Base.extend({
       var max = range[1];
       var equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
       if (!equalType || min > value || value > max) {
-        return this.createErrorMessage('inclusion', options);
+        return this.createErrorMessage('inclusion', value, options);
       }
     }
 
