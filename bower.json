@@ -12,9 +12,9 @@
     "ember-resolver": "~0.1.18",
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
+    "qunit": "~1.17.1",
     "moment": ">= 2.8.0",
-    "moment-timezone": ">= 0.1.0",
-    "qunit": "~1.17.1"
+    "moment-timezone": ">= 0.1.0"
   },
   "resolutions": {
     "ember": "1.13.8"

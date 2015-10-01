@@ -13,10 +13,7 @@ const {
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
-    var model = get(this, 'model');
-
+  validate(value, options, model) {
     if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
       return true;
     }

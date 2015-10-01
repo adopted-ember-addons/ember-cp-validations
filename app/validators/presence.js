@@ -7,27 +7,20 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
-  get,
-  set,
   isEmpty
 } = Ember;
 
 export default Base.extend({
-  init() {
-    var options = get(this, 'options');
-
+  buildOptions(options, defaultOptions) {
     if(typeof options === 'boolean') {
-      set(this, 'options', {
+      options = {
         presence: options
-      });
+      };
     }
-
-    this._super(...arguments);
+    return this._super(options, defaultOptions);
   },
 
-  validate(value) {
-    var options = get(this, 'options');
-
+  validate(value, options) {
     if (options.presence === true && isEmpty(value)) {
       return this.createErrorMessage('blank', options, value);
     }

@@ -8,7 +8,8 @@ import Messages from './messages';
 
 const {
   get,
-  setProperties,
+  set,
+  merge,
   isNone,
 } = Ember;
 
@@ -17,7 +18,13 @@ export default Ember.Object.extend({
    * Options passed in to the validator when defined in the model
    * @type {Object}
    */
-  options: null,
+  options: undefined,
+
+  /**
+   * Default validations options for this specific attribute
+   * @type {Object}
+   */
+  defaultOptions: undefined,
 
   /**
    * Model instance
@@ -48,26 +55,57 @@ export default Ember.Object.extend({
     this._super(...arguments);
     var container = get(this, 'container');
     var options = get(this, 'options');
+    var defaultOptions = get(this, 'defaultOptions');
     var errorMessages = Messages;
 
-    if(container) {
+    if (container) {
       // Since default error messages are stored in app/validators/messages, we have to look it up via the container
       errorMessages = container.lookupFactory('validator:messages');
     }
 
-    errorMessages = errorMessages.create();
+    set(this, 'options', this.buildOptions(options, defaultOptions));
 
-    setProperties(this, {
-      options: isNone(options) ? {} : options,
-      errorMessages
+    set(this, 'errorMessages', errorMessages.create());
+  },
+
+  /**
+   * Build options hook. Merges default options into options object
+   * @param  {Object} options
+   * @param  {Object} defaultOptions
+   * @return
+   */
+  buildOptions(options = {}, defaultOptions = {}) {
+    Object.keys(defaultOptions).forEach(key => {
+      if (isNone(options[key])) {
+        options[key] = defaultOptions[key];
+      }
     });
+
+    return options;
+  },
+
+  /**
+   * Creates a new object and calls any option property that is a function with
+   * the validator context. This object will be passed into the validate method
+   * @return {Object}
+   */
+  processOptions() {
+    let options = merge({}, get(this, 'options') || {});
+    Object.keys(options).forEach(key => {
+      let opt = options[key];
+      if (typeof opt === 'function' && key !== 'message') {
+        options[key] = opt.call(this);
+      }
+    });
+
+    return options;
   },
 
   /**
    * Override this method with your own custom logic.
    * All arguments passed in are also properties of this object
    * @param  {Unknown} value        : The current value of the attribute
-   * @param  {Object} options       : The options passed in to the validator
+   * @param  {Object} options       : The built and processed options
    * @param  {Object} model         : The current model being evaluated
    * @param  {String} attribute     : The current attribute being evaluated
    * @return {[String or Boolean]}  : Returns a string with a message if an error is found or false

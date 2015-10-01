@@ -22,18 +22,16 @@ moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
 test('attribute', function(assert) {
   assert.expect(2);
 
+  options = { on: 'email' };
   model = Ember.Object.create({
     'email': 'foo@yahoo.com'
   });
 
-  set(validator, 'options.on', 'email');
-  set(validator, 'model', model);
-
-  message = validator.validate('bar@yahoo.com');
+  message = validator.validate('bar@yahoo.com', options, model);
   assert.equal(message, "This field doesn't match email");
 
-  validator.set('model.emailConfirmation', 'foo@yahoo.com');
+  model.set('emailConfirmation', 'foo@yahoo.com');
 
-  message = validator.validate('foo@yahoo.com');
+  message = validator.validate('foo@yahoo.com', options, model);
   assert.equal(message, true);
 });

@@ -22,7 +22,7 @@ moduleFor('validator:inclusion', 'Unit | Validator | inclusion', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  message = validator.validate();
+  message = validator.validate(undefined, {});
   assert.equal(message, true);
 });
 
@@ -33,11 +33,11 @@ test('allow blank', function(assert) {
     allowBlank: true,
     "in": ["foo", "bar", "baz"]
   };
-  set(validator, 'options', options);
-  message = validator.validate();
+
+  message = validator.validate('', options);
   assert.equal(message, true);
 
-  message = validator.validate('test');
+  message = validator.validate('test', options);
   assert.equal(message, 'This field is not included in the list');
 });
 
@@ -48,18 +48,16 @@ test('in array', function(assert) {
     "in": ["foo", "bar", "baz"]
   };
 
-  set(validator, 'options', options);
-
-  message = validator.validate('test');
+  message = validator.validate('test', options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('foo');
+  message = validator.validate('foo', options);
   assert.equal(message, true);
 
-  message = validator.validate('bar');
+  message = validator.validate('bar', options);
   assert.equal(message, true);
 
-  message = validator.validate('baz');
+  message = validator.validate('baz', options);
   assert.equal(message, true);
 });
 
@@ -70,21 +68,19 @@ test('in range', function(assert) {
     range: [1, 10]
   };
 
-  set(validator, 'options', options);
-
-  message = validator.validate(0);
+  message = validator.validate(0, options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(100);
+  message = validator.validate(100, options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(1);
+  message = validator.validate(1, options);
   assert.equal(message, true);
 
-  message = validator.validate(5);
+  message = validator.validate(5, options);
   assert.equal(message, true);
 
-  message = validator.validate(10);
+  message = validator.validate(10, options);
   assert.equal(message, true);
 });
 
@@ -95,27 +91,25 @@ test('range type check - number', function(assert) {
     range: [1, 10]
   };
 
-  set(validator, 'options', options);
-
-  message = validator.validate('0');
+  message = validator.validate('0', options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(0);
+  message = validator.validate(0, options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('1');
+  message = validator.validate('1', options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('5');
+  message = validator.validate('5', options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(1);
+  message = validator.validate(1, options);
   assert.equal(message, true);
 
-  message = validator.validate(5);
+  message = validator.validate(5, options);
   assert.equal(message, true);
 
-  message = validator.validate(10);
+  message = validator.validate(10, options);
   assert.equal(message, true);
 });
 
@@ -126,20 +120,18 @@ test('range type check - string', function(assert) {
     range: ['a', 'z']
   };
 
-  set(validator, 'options', options);
-
-  message = validator.validate(97);
+  message = validator.validate(97, options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('zzz');
+  message = validator.validate('zzz', options);
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('a');
+  message = validator.validate('a', options);
   assert.equal(message, true);
 
-  message = validator.validate('o');
+  message = validator.validate('o', options);
   assert.equal(message, true);
 
-  message = validator.validate('z');
+  message = validator.validate('z', options);
   assert.equal(message, true);
 });

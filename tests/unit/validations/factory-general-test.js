@@ -1,9 +1,4 @@
 import Ember from 'ember';
-import DefaultMessages from 'dummy/validators/messages';
-import CollectionValidator from 'dummy/validators/collection';
-import LengthValidator from 'dummy/validators/length';
-import BelongsToValidator from 'dummy/validators/belongs-to';
-import HasManyValidator from 'dummy/validators/has-many';
 import Registry from '../../helpers/registry';
 import {
   validator, buildValidations
@@ -230,4 +225,23 @@ test("shallow isAsync test", function(assert) {
   }) => {
     assert.equal(model.get('validations.isValid'), true);
   });
+});
+
+test("default options", function(assert) {
+  var Validations = buildValidations({
+    firstName: {
+      description: 'Test field',
+      validators: [
+        validator(Validators.presence),
+        validator(() => false)
+      ]
+    }
+  });
+  var object = Ember.Object.extend(Validations).create({
+    firstName: '',
+    container
+  });
+  var rules = Ember.A(object.get('validations._validationRules.firstName'));
+  assert.equal(rules.isAny('defaultOptions', undefined), false);
+  assert.equal(rules[0].defaultOptions.description, 'Test field');
 });

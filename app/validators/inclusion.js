@@ -7,14 +7,12 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
-  get,
   typeOf,
   isEmpty
 } = Ember;
 
 export default Base.extend({
-  validate(value) {
-    var options = get(this, 'options');
+  validate(value, options) {
     var array = options['in'];
     var range = options.range;
 
