@@ -23,24 +23,7 @@ export default BaseValidator.extend({
 });
 ```
 
-The validate method is where all of your logic should go. It will get passed in the current value of the attribute this validator is attached to. Within the validator object, you will have access to the following properties:
-
-* `model` (**Model**): The current model being validated
-* `options` (**Object**): The options that were passed in to the validator definition in the model
-* `attribute` (**String**): The current attribute being validated
-* `defaultMessages`(**Object**): The default error messages
-
-The `validate` method has the following signature:
-
-```javascript
-function validate(value, options, model, attribute) { }
-```
-
-The `validate` method should return one of three types
-
-* `Boolean`:  `true` if the current value passed the validation
-* `String`: The error message
-* `Promise`: A promise that will either resolve or reject, and will finally return either `true` or the final error message string.
+**Side Node**: Before we continue, I would suggest checking out the documentation for the [BaseValidator](./base.md).
 
 If you want to interact with the `store` within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.
 

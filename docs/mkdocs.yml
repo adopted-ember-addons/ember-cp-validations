@@ -15,6 +15,7 @@ pages:
 - Testing: 'testing.md'
 - Validators:
   - 'Common Options': 'validators/common.md'
+  - 'Base': 'validators/base.md'
   - 'Presence': 'validators/presence.md'
   - 'Exclusion': 'validators/exclusion.md'
   - 'Length': 'validators/length.md'

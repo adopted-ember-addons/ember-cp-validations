@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.0.0
+- Renamed `attributeDescription` to `description`
+- I18n support (currently Ember-Intl & Ember-I18n)
+- Added hooks in both Message base and validator base
+- Validation options can also be function that are called before validate
+- [#27](https://github.com/offirgolan/ember-cp-validations/issues/38) Declare custom dependent keys in validators (both custom and predefined)
+- [#30](https://github.com/offirgolan/ember-cp-validations/issues/30) MomentJS is now only required if you want to use the date validator and is no longer a forced dependency
+- [#33](https://github.com/offirgolan/ember-cp-validations/issues/33) Removed Ember.String.fmt dependency
+- [#38](https://github.com/offirgolan/ember-cp-validations/issues/38) Default options in validation declarations
+
+#### Upgrade Notes
+Please checkout the [upgrading documentation](UPGRADING.md) for more details.
+
 ## 1.1.0
 - `v-get` helper
 

@@ -1,5 +1,7 @@
 Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
 
+**Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)
+
 ## Options
 * `allowBlank` (**Boolean**): If true, skips validation if the value is empty
 * `before` (**String**): The specified date must be before this date
