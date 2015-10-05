@@ -39,9 +39,9 @@ export default Base.extend({
 
     if (options.regex && !options.regex.test(value)) {
       if (options.type) {
-        return this.createErrorMessage(options.type, options, value);
+        return this.createErrorMessage(options.type, value, options);
       }
-      return this.createErrorMessage('invalid', options, value);
+      return this.createErrorMessage('invalid', value, options);
     }
 
     return true;

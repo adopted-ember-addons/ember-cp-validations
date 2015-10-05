@@ -22,11 +22,11 @@ export default Base.extend({
 
   validate(value, options) {
     if (options.presence === true && isEmpty(value)) {
-      return this.createErrorMessage('blank', options, value);
+      return this.createErrorMessage('blank', value, options);
     }
 
     if(options.presence === false && !isEmpty(value)) {
-      return this.createErrorMessage('present', options, value);
+      return this.createErrorMessage('present', value, options);
     }
 
     return true;

@@ -26,21 +26,15 @@ export default Base.extend({
     }
 
     if (!isNone(options.is) && options.is !== value.length) {
-      return this.createErrorMessage('wrongLength', options, value, {
-        count: options.is
-      });
+      return this.createErrorMessage('wrongLength', value, options);
     }
 
     if (!isNone(options.min) && options.min > value.length) {
-      return this.createErrorMessage('tooShort', options, value, {
-        count: options.min
-      });
+      return this.createErrorMessage('tooShort', value, options);
     }
 
     if (!isNone(options.max) && options.max < value.length) {
-      return this.createErrorMessage('tooLong', options, value, {
-        count: options.max
-      });
+      return this.createErrorMessage('tooLong', value, options);
     }
 
     return true;

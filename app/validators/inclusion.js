@@ -25,7 +25,7 @@ export default Base.extend({
     }
 
     if (array && array.indexOf(value) === -1) {
-      return this.createErrorMessage('inclusion', options);
+      return this.createErrorMessage('inclusion', value, options);
     }
 
     if (range && range.length === 2) {
@@ -33,7 +33,7 @@ export default Base.extend({
       var max = range[1];
       var equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
       if (!equalType || min > value || value > max) {
-        return this.createErrorMessage('inclusion', options);
+        return this.createErrorMessage('inclusion', value, options);
       }
     }
 

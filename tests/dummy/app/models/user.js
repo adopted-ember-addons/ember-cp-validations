@@ -19,18 +19,20 @@ var Validations = buildValidations({
       max: 15
     })
   ],
-  password: [
-    validator('presence', true),
-    validator('length', {
-      min: 4,
-      max: 8
-    }),
-    validator('format', {
-      regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
-      attributeDescription: 'Password',
-      message: 'must include at least one upper case letter, one lower case letter, and a number'
-    })
-  ],
+  password: {
+    description: 'Password',
+    validators: [
+      validator('presence', true),
+      validator('length', {
+        min: 4,
+        max: 8
+      }),
+      validator('format', {
+        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
+        message: 'must include at least one upper case letter, one lower case letter, and a number'
+      })
+    ]
+  },
   email: [
     validator('presence', true),
     validator('format', {
@@ -40,7 +42,7 @@ var Validations = buildValidations({
   emailConfirmation: validator('confirmation', {
     on: 'email',
     message: 'do not match',
-    attributeDescription: 'Email addresses'
+    description: 'Email addresses'
   }),
   details: validator('belongs-to')
 });

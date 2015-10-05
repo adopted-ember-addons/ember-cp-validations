@@ -72,10 +72,10 @@ test('createErrorMessage - message function', function(assert) {
 
   options = {
     message() {
-      return "has some sort of error";
+      return "{description} has some sort of error";
     }
   };
 
-  message = validator.createErrorMessage(undefined, options);
+  message = validator.createErrorMessage(undefined, undefined, options);
   assert.equal(message, 'This field has some sort of error');
 });
