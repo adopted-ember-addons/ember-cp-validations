@@ -17,6 +17,23 @@ export default Ember.Object.extend({
   _regex: /\{(\w+)\}/g,
 
   /**
+   * Default attribute description if one isnt passed into a validator's options
+   * @type {String}
+   */
+  defaultDescription: 'This field',
+
+  /**
+   * Get a description for a specific attribute. This is a hook
+   * for i18n solutions to retrieve attribute descriptions from a translation
+   * @param  {String} attribute
+   * @param  {Object} options
+   * @return {String}
+   */
+  getDescriptionFor(attribute, options = {}) {
+    return options.description || get(this, 'defaultDescription');
+  },
+
+  /**
    * Get a message with a given type
    * @param  {String} type
    * @param  {Object} context
@@ -39,35 +56,38 @@ export default Ember.Object.extend({
     return message.replace(get(this, '_regex'), (s, attr) => context[attr]);
   },
 
-  inclusion: "is not included in the list",
-  exclusion: "is reserved",
-  invalid: "is invalid",
-  confirmation: "doesn't match {attribute}",
-  accepted: "must be accepted",
-  empty: "can't be empty",
-  blank: "can't be blank",
-  present: "must be blank",
-  collection: "must be a collection",
-  singular: "can't be a collection",
-  tooLong: "is too long (maximum is {count} characters)",
-  tooShort: "is too short (minimum is {count} characters)",
-  before: "must be before {date}",
-  after: "must be after {date}",
-  wrongDateFormat: "must be in the format of {date}",
-  wrongLength: "is the wrong length (should be {count} characters)",
-  notANumber: "is not a number",
-  notAnInteger: "must be an integer",
-  greaterThan: "must be greater than {count}",
-  greaterThanOrEqualTo: "must be greater than or equal to {count}",
-  equalTo: "must be equal to {count}",
-  lessThan: "must be less than {count}",
-  lessThanOrEqualTo: "must be less than or equal to {count}",
-  otherThan: "must be other than {count}",
-  odd: "must be odd",
-  even: "must be even",
-  positive: "must be positive",
-  date: "must be a valid date",
-  email: "must be a valid email address",
-  phone: "must be a valid phone number",
-  url: "must be a valid url"
+  /**
+   * Default validation error message strings
+   */
+  inclusion: "{description} is not included in the list",
+  exclusion: "{description} is reserved",
+  invalid: "{description} is invalid",
+  confirmation: "{description} doesn't match {on}",
+  accepted: "{description} must be accepted",
+  empty: "{description} can't be empty",
+  blank: "{description} can't be blank",
+  present: "{description} must be blank",
+  collection: "{description} must be a collection",
+  singular: "{description} can't be a collection",
+  tooLong: "{description} is too long (maximum is {max} characters)",
+  tooShort: "{description} is too short (minimum is {min} characters)",
+  before: "{description} must be before {before}",
+  after: "{description} must be after {after}",
+  wrongDateFormat: "{description} must be in the format of {format}",
+  wrongLength: "{description} is the wrong length (should be {is} characters)",
+  notANumber: "{description} is not a number",
+  notAnInteger: "{description} must be an integer",
+  greaterThan: "{description} must be greater than {min}",
+  greaterThanOrEqualTo: "{description} must be greater than or equal to {min}",
+  equalTo: "{description} must be equal to {value}",
+  lessThan: "{description} must be less than {max}",
+  lessThanOrEqualTo: "{description} must be less than or equal to {max}",
+  otherThan: "{description} must be other than {value}",
+  odd: "{description} must be odd",
+  even: "{description} must be even",
+  positive: "{description} must be positive",
+  date: "{description} must be a valid date",
+  email: "{description} must be a valid email address",
+  phone: "{description} must be a valid phone number",
+  url: "{description} must be a valid url",
 });

@@ -5,6 +5,7 @@ ember generate validator unique-username
 ```
 
 This will create the following files
+
 * `app/validators/unique-username.js`
 * `tests/unit/validators/unique-username-test.js`
 
@@ -36,6 +37,7 @@ function validate(value, options, model, attribute) { }
 ```
 
 The `validate` method should return one of three types
+
 * `Boolean`:  `true` if the current value passed the validation
 * `String`: The error message
 * `Promise`: A promise that will either resolve or reject, and will finally return either `true` or the final error message string.

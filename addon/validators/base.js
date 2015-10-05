@@ -118,30 +118,27 @@ export default Ember.Object.extend({
   /**
    * Error message generator based on type and options
    * @param  {String} type        : The type of message template to use
-   * @param  {Object} options     : Validator options
    * @param  value                : Current value being evaluated
-   * @param  {Object} context     : Context for string replacement
+   * @param  {Object} options     : Validator built and processed options
    * @return {String}             : The generated message
    */
-  createErrorMessage(type, options, value, context) {
-    options = options || {};
-    var attribute = options.attributeDescription || 'This field';
+  createErrorMessage(type, value, options = {}) {
     var messages = this.get('errorMessages');
     var message;
 
-    attribute = `${attribute.trim()} `;
+    options.description = messages.getDescriptionFor(get(this, 'attribute'), options);
 
     if (options.message) {
       if (typeof options.message === 'string') {
-        message = messages.formatMessage(options.message, context);
+        message = messages.formatMessage(options.message, options);
       } else if (typeof options.message === 'function') {
-        message = options.message.call(this, ...arguments);
-        message = isNone(message) ? messages.getMessageFor(type, context) : messages.formatMessage(message, context); // fail-safe to default message of type
+        message = options.message.apply(this, arguments);
+        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options); // fail-safe to default message of type
       }
     } else {
-      message = messages.getMessageFor(type, context);
+      message = messages.getMessageFor(type, options);
     }
 
-    return (attribute + message).trim();
+    return message.trim();
   }
 });

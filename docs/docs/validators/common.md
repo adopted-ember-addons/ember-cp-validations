@@ -1,5 +1,5 @@
 ## attributeDescription
-A descriptor for your attribute used in generating the error messages. Defaults to `This field'`
+A descriptor for your attribute used in the error message strings. Defaults to `This field'`. You can overwrite this value in your `validators/messages.js` file by changing the `defaultAttributeDescription` property.
 
 ```javascript
 // Examples
@@ -32,7 +32,7 @@ This option can take two forms. It can either be a `string` or a `function`. If 
 ```javascript
 // Example: String
 validator('confirmation', {
-  message: 'does not match {attribute}. What are you even thinking?!'
+  message: 'Email does not match {attribute}. What are you even thinking?!'
 })
 ```
 
@@ -43,10 +43,10 @@ We can pass a `function` into our message option for even more customization cap
 validator('date', {
   message: function(type, options, value, context) {
       if (type === 'before') {
-          return 'should really be before {date}';
+          return '{attributeDescription} should really be before {date}';
       }
       if (type === 'after') {
-          return 'should really be after {date}';
+          return '{attributeDescription} should really be after {date}';
       }
   }
 })

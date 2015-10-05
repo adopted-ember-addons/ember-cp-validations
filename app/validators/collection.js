@@ -22,11 +22,11 @@ export default Base.extend({
 
   validate(value, options) {
     if (options.collection === true && !isArray(value)) {
-      return this.createErrorMessage('collection', options, value);
+      return this.createErrorMessage('collection', value, options);
     }
 
     if (options.collection === false && isArray(value)) {
-      return this.createErrorMessage('singular', options, value);
+      return this.createErrorMessage('singular', value, options);
     }
 
     return true;

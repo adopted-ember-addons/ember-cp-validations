@@ -28,7 +28,7 @@ export default Base.extend({
 
     var dependentValidations = options.on.map((dependent) => get(model, `validations.attrs.${dependent}`));
     if(!isEmpty(dependentValidations.filter((v) => !get(v, 'isTruelyValid')))) {
-      return this.createErrorMessage('invalid', options, value);
+      return this.createErrorMessage('invalid', value, options);
     }
 
     return true;
