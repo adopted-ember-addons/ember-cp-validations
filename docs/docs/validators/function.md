@@ -1,4 +1,4 @@
-A validator can also be declared with a function. The function will be then wrapped in the `Base Validator` class and used just like any other pre-defined validator.
+A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
 
 ```javascript
 // Example

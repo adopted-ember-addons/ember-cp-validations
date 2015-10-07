@@ -65,12 +65,29 @@
 <li>
           
             <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../messages/index.html">Error Messages</a>
+        
+    </li>
+<li>
+          
+            <li>
     <li class="toctree-l1 current">
         <a class="current" href="index.html">Templating</a>
         
             <ul>
             
+                <li class="toctree-l3"><a href="#the-v-get-helper">The V-Get Helper</a></li>
+                
+            
             </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../testing/index.html">Testing</a>
         
     </li>
 <li>
@@ -83,6 +100,13 @@
             
     <li class="toctree-l1 ">
         <a class="" href="../validators/common/index.html">Common Options</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/base/index.html">Base</a>
         
     </li>
 
@@ -171,13 +195,6 @@
     </li>
 
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../validators/messages/index.html">Error Messages</a>
-        
-    </li>
-
-        
     </ul>
 <li>
           
@@ -217,12 +234,18 @@
           <div role="main">
             <div class="section">
               
-                <p>Accessing validation information in your templates is really simple. This addon provides a <code>v-get</code> helper to bypass the long validation pathing.</p>
-<p>Instead of doing this: </p>
+                <p>Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error <code>message</code> for the <code>username</code> attribute, it would look something like this:</p>
 <pre><code class="handlebars">{{model.validations.attrs.username.message}}
 </code></pre>
 
-<p>You can do this:</p>
+<h1 id="the-v-get-helper">The V-Get Helper</h1>
+<p>To bypass such long pathing, you can use the <code>v-get</code> helper.</p>
+<p><em><strong>Notice</strong>: Ember v1.13.0 is not supported due to a bug. Please use Ember v1.13.1 and higher or Ember v1.12.* and lower</em></p>
+<p><strong>Access global model properties</strong></p>
+<pre><code class="handlebars">{{v-get model 'isValid'}}
+</code></pre>
+
+<p><strong>Access attribute specific properties</strong></p>
 <pre><code class="handlebars">{{v-get model 'username' 'message'}}
 </code></pre>
 
@@ -250,10 +273,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../validators/common/index.html" class="btn btn-neutral float-right" title="Common Options"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../testing/index.html" class="btn btn-neutral float-right" title="Testing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../validating/index.html" class="btn btn-neutral" title="Validating"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../messages/index.html" class="btn btn-neutral" title="Error Messages"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -283,10 +306,10 @@
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../validating/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../messages/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../validators/common/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../testing/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

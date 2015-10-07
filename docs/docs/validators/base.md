@@ -30,7 +30,7 @@ The validate method is where all of your logic should go. It will get passed in 
 `validate(value, options, model, attribute)`
 
 * `model` (**Model**): The current model being validated
-* `options` (**Object**): The options that were passed in to the validator definition in the model
+* `options` (**Object**): Validator built and processed options
 * `attribute` (**String**): The current attribute being validated
 * `defaultMessages`(**Object**): The default error messages
 
@@ -61,9 +61,11 @@ validate(value, options) {
   
   if(exists) {
     return this.createErrorMessage('uniqueUsername', options, value)
+  }
+
   return true;
 }
 ```
 
-If we input `johndoe` and that username already exists, the returned message would be `'Username johndoe already exists'`. 
+If we input `johndoe` and that username already exists, the returned message would be `'johndoe already exists'`. 
 

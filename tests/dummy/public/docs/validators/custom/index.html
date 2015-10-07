@@ -66,7 +66,21 @@
           
             <li>
     <li class="toctree-l1 ">
+        <a class="" href="../../messages/index.html">Error Messages</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
         <a class="" href="../../templating/index.html">Templating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../testing/index.html">Testing</a>
         
     </li>
 <li>
@@ -79,6 +93,13 @@
             
     <li class="toctree-l1 ">
         <a class="" href="../common/index.html">Common Options</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../base/index.html">Base</a>
         
     </li>
 
@@ -174,13 +195,6 @@
     </li>
 
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../messages/index.html">Error Messages</a>
-        
-    </li>
-
-        
     </ul>
 <li>
           
@@ -228,9 +242,11 @@
 <pre><code class="bash">ember generate validator unique-username
 </code></pre>
 
-<p>This will create the following files
-<em> <code>app/validators/unique-username.js</code>
-</em> <code>tests/unit/validators/unique-username-test.js</code></p>
+<p>This will create the following files</p>
+<ul>
+<li><code>app/validators/unique-username.js</code></li>
+<li><code>tests/unit/validators/unique-username-test.js</code></li>
+</ul>
 <pre><code class="javascript">// app/validators/unique-username.js
 
 import Ember from 'ember';
@@ -244,21 +260,7 @@ export default BaseValidator.extend({
 });
 </code></pre>
 
-<p>The validate method is where all of your logic should go. It will get passed in the current value of the attribute this validator is attached to. Within the validator object, you will have access to the following properties:</p>
-<ul>
-<li><code>model</code> (<strong>Model</strong>): The current model being validated</li>
-<li><code>options</code> (<strong>Object</strong>): The options that were passed in to the validator definition in the model</li>
-<li><code>attribute</code> (<strong>String</strong>): The current attribute being validated</li>
-<li><code>defaultMessages</code>(<strong>Object</strong>): The default error messages</li>
-</ul>
-<p>The <code>validate</code> method has the following signature:</p>
-<pre><code class="javascript">function validate(value, options, model, attribute) { }
-</code></pre>
-
-<p>The <code>validate</code> method should return one of three types
-<em> <code>Boolean</code>:  <code>true</code> if the current value passed the validation
-</em> <code>String</code>: The error message
-* <code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</p>
+<p><strong>Side Node</strong>: Before we continue, I would suggest checking out the documentation for the <a href="../base/index.html">BaseValidator</a>.</p>
 <p>If you want to interact with the <code>store</code> within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.</p>
 <pre><code class="javascript">// app/validators/unique-username.js
 
@@ -335,8 +337,6 @@ test('it works', function(assert) {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../messages/index.html" class="btn btn-neutral float-right" title="Error Messages"/>Next <span class="icon icon-circle-arrow-right"></span></a>
-      
       
         <a href="../function/index.html" class="btn btn-neutral" title="Function"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
@@ -370,8 +370,6 @@ test('it works', function(assert) {
       
         <span><a href="../function/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-      
-        <span style="margin-left: 15px"><a href="../messages/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

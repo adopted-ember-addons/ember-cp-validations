@@ -13,7 +13,7 @@ body {
 }
 
 a.icon.icon-home:after {
-  content: 'v1.1.0';
+  content: 'v2.0.0';
   font-weight: 200;
   font-size: 75%;
   margin-left: 5px;

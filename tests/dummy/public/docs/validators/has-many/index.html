@@ -66,7 +66,21 @@
           
             <li>
     <li class="toctree-l1 ">
+        <a class="" href="../../messages/index.html">Error Messages</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
         <a class="" href="../../templating/index.html">Templating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../testing/index.html">Testing</a>
         
     </li>
 <li>
@@ -79,6 +93,13 @@
             
     <li class="toctree-l1 ">
         <a class="" href="../common/index.html">Common Options</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../base/index.html">Base</a>
         
     </li>
 
@@ -171,13 +192,6 @@
     </li>
 
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../messages/index.html">Error Messages</a>
-        
-    </li>
-
-        
     </ul>
 <li>
           
@@ -221,9 +235,22 @@
           <div role="main">
             <div class="section">
               
-                <p>Identifies a <code>has-many</code> relationship in an Ember Data Model. This is used to create a deeper validation across all of your nested models.</p>
-<pre><code class="javascript">// Example
-validator('has-many')
+                <p>Identifies a <code>has-many</code> relationship in an Ember Data Model. This is used to create a validation collection of the <code>has-many</code> validations.</p>
+<p><em><strong>Note:</strong> Validations must exist on <strong>all</strong> models</em> </p>
+<pre><code class="javascript">// model/users.js
+
+var Validations = buildValidations({
+  friends: validator('has-many')
+});
+
+export default DS.Model.extend(Validations, {
+  'friends': DS.hasMany('user')
+});
+</code></pre>
+
+<p>From our <code>user</code> model, we can now check validation properties on the <code>friends</code> attribute.</p>
+<pre><code class="javascript">get(model, 'validations.attrs.friends.isValid')
+get(model, 'validations.attrs.friends.messages')
 </code></pre>
               
             </div>
