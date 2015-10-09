@@ -29,7 +29,7 @@ var Validations = buildValidations({
       }),
       validator('format', {
         regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
-        message: 'must include at least one upper case letter, one lower case letter, and a number'
+        message: '{description} must include at least one upper case letter, one lower case letter, and a number'
       })
     ]
   },
@@ -41,8 +41,7 @@ var Validations = buildValidations({
   ],
   emailConfirmation: validator('confirmation', {
     on: 'email',
-    message: 'do not match',
-    description: 'Email addresses'
+    message: 'Email addresses do not match'
   }),
   details: validator('belongs-to')
 });
