@@ -34,7 +34,10 @@ ember install ember-cp-validations
 ```
 
 ## Changelog ##
-Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
+Changelog can be found [here](CHANGELOG.md)
+
+## Upgrading from 1.x to 2.x ##
+There are some breaking changes so to make the process of upgrading as smooth as possible, we wrote up some [upgrade documentation](UPGRADING.md). If you face any issue, please feel don't hesitate to open an issue.
 
 ## Documentation ##
 Detailed documentation can be found [here](http://offirgolan.github.io/ember-cp-validations/docs)
@@ -45,8 +48,7 @@ A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations
 ## Looking for help? ##
 If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
 
-## Basic Usage ##
-
+## Basic Usage - Models
 The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
 
 ```javascript
@@ -77,7 +79,7 @@ var Validations = buildValidations({
     validator('confirmation', {
       on: 'email',
       message: 'do not match',
-      attributeDescription: 'Email addresses'
+      description: 'Email addresses'
     })
   ]
 });
@@ -95,6 +97,7 @@ export default DS.Model.extend(Validations, {
 });
 ```
 
+## Basic Usage - Objects
 You can also use the generated `Validations` mixin on any `Ember.Object` or child
 of `Ember.Object`, like `Ember.Component`. For example:
 
@@ -113,5 +116,94 @@ var Validations = buildValidations({
 
 export default Ember.Component.extend(Validations, {
   bar: null
+});
+```
+
+To lookup validators, container access is required which can cause an issue with `Ember.Object` creation if the object is statically imported. The current fix for this is as follows. 
+
+```javascript
+// models/user.js
+
+export default Ember.Object.extend(Validations, {
+  username: null
+});
+```
+
+```javascript
+// routes/index.js
+
+import User from '../models/user';
+
+export default Ember.Route.extend({
+  model() {
+    var container = this.get('container');
+    return User.create({ container })
+  }
+});
+```
+
+## Advanced Usage
+
+**Default Options**
+
+Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
+
+Instread of doing the following:
+
+```javascript
+var Validations = buildValidations({
+  username: [
+    validator('presence', {
+      presence: true,
+      description: 'Username'
+    }),
+    validator('length', {
+      min: 1,
+      description: 'Username'
+    }),
+    validator('no-whitespace-around', {
+      description: 'Username'
+    })
+  ]
+});
+```
+
+We can declare default options: 
+
+```javascript
+var Validations = buildValidations({
+  username: {
+    description: 'Username'
+    validators: [
+      validator('presence', true),
+      validator('length', {
+        min: 1
+      }),
+      validator('no-whitespace-around', {
+        description: 'A username'
+      })
+    ]
+  },
+});
+```
+
+In the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.
+
+**Options as Functions**
+
+All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as options, model, attribute, etc. 
+
+Please note that the `message` option of a validator has its [own signature](validators/common/index.html#message).
+
+```javascript
+var Validations = buildValidations({
+  password: validator('format', {
+    description() {
+      return this.get('model.meta.password.description');
+    },
+    regex() {
+      return this.get('model.meta.password.regex');
+    }
+  })
 });
 ```

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Validating - Ember CP Validations</title>
+  <title>Error Messages - Ember CP Validations</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Validating";
+    var mkdocs_page_name = "Error Messages";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -58,27 +58,34 @@
 <li>
           
             <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="index.html">Validating</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#running-manual-validations">Running Manual Validations</a></li>
-                
-                    <li><a class="toctree-l4" href="#options">Options</a></li>
-                
-            
-                <li class="toctree-l3"><a href="#inspecting-validations">Inspecting Validations</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../validating/index.html">Validating</a>
         
     </li>
 <li>
           
             <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../messages/index.html">Error Messages</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Error Messages</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#common-options">Common Options</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#methods">Methods</a></li>
+                
+                    <li><a class="toctree-l4" href="#getdescriptionfor-string">getDescriptionFor (String)</a></li>
+                
+                    <li><a class="toctree-l4" href="#getmessagefor-string">getMessageFor (String)</a></li>
+                
+                    <li><a class="toctree-l4" href="#formatmessage-string">formatMessage (String)</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#i18n-solutions">I18n Solutions</a></li>
+                
+            
+            </ul>
         
     </li>
 <li>
@@ -225,7 +232,7 @@
     
       
     
-    <li>Validating</li>
+    <li>Error Messages</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -239,96 +246,60 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="running-manual-validations">Running Manual Validations</h1>
-<p>Although validations are lazily computed, there are times where we might want to force all or specific validations to happen. For this reason we have exposed two methods:</p>
-<ul>
-<li><code>validateSync</code>: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous</li>
-<li><code>validate</code>: Will always return a promise and should be used if asynchronous validations are present</li>
-</ul>
-<p>Both methods have the same signature:</p>
-<pre><code class="javascript">function validateSync(options) {}
-function validate(options) {}
-</code></pre>
+                <p>The default validation error messages are imported in your app's <code>validators</code> folder. If you want to change or extend them, all you need to do is create a <code>messages.js</code> file under <code>app/validators</code>.</p>
+<pre><code class="javascript">// app/validators/messages.js
 
-<h2 id="options">Options</h2>
-<ul>
-<li><code>on</code> (<strong>Array</strong>): Only validate the given attributes. If empty, will validate over all validatable attribute</li>
-<li><code>excludes</code> (<strong>Array</strong>): Exclude validation on the given attributes</li>
-</ul>
-<pre><code class="javascript">// Examples
-const {
-  m,
-  validations
-} = model.validateSync();
-validations.get('isValid') // true or false
+import Messages from 'ember-cp-validations/validators/messages';
 
-model.validate({
-    on: ['username', 'email']
-}).then(({m, validations}) =&gt; {
-  validations.get('isValid'); // true or false
-  validations.get('isValidating'); // false
-
-  let usernameValidations = m.get('validations.attrs.username');
-  usernameValidations.get('isValid') // true or false
+export default Messages.extend({
+  uniqueUsername: '{description} {username} already exists'
 });
 </code></pre>
 
-<h1 id="inspecting-validations">Inspecting Validations</h1>
-<p>All validations can be accessed via the <code>validations</code> object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code>. If you want to use <a href="http://emberjs.com/api/data/classes/DS.Errors.html">Ember Data's Errors API</a>, check out their docs on how to access everything you might need.   </p>
-<p><strong>isValid</strong></p>
-<pre><code class="javascript">// Examples
-get(user, 'validations.isValid')
-get(user, 'validations.attrs.username.isValid')
+<p>Within this object, you can overwrite the <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/messages.js">default messages</a> or create new messages just like in the example above. If a message of a given type is not found, it will default to the <code>invalid</code> message. Usage examples can be found <a href="../validators/base/#createerrormessage">here</a></p>
+<h1 id="common-options">Common Options</h1>
+<ul>
+<li><code>_regex</code> (<strong>RegExp</strong>): Regex for matching error message placeholders</li>
+<li><code>defaultDescription</code> (<strong>String</strong>): Default attribute description if one isn't passed into a validator's options</li>
+</ul>
+<h1 id="methods">Methods</h1>
+<h3 id="getdescriptionfor-string">getDescriptionFor (<strong>String</strong>)</h3>
+<p>Get a description for a specific attribute. This is a hook for i18n solutions to retrieve attribute descriptions from a translation</p>
+<p><code>getDescriptionFor(attribute, options = {})</code></p>
+<ul>
+<li><code>attribute</code> (<strong>String</strong>): Current attribute being evaluated</li>
+<li><code>options</code> (<strong>Object</strong>): Validator built and processed options </li>
+</ul>
+<h3 id="getmessagefor-string">getMessageFor (<strong>String</strong>)</h3>
+<p>Get a message with a given type</p>
+<p><code>getMessageFor(type, context = {})</code></p>
+<ul>
+<li><code>type</code> (<strong>String</strong>): The message type to evaluate (i.e. tooShort, tooLong, etc.)</li>
+<li><code>context</code> (<strong>Object</strong>): The context which is used to replace placeholders with their correct values</li>
+</ul>
+<h3 id="formatmessage-string">formatMessage (<strong>String</strong>)</h3>
+<p>Regex replace all placeholders with their given context</p>
+<p><code>formatMessage(message, context = {})</code></p>
+<ul>
+<li><code>message</code> (<strong>String</strong>): The message string</li>
+<li><code>context</code> (<strong>Object</strong>): The context which is used to replace placeholders with their correct values</li>
+</ul>
+<h1 id="i18n-solutions">I18n Solutions</h1>
+<ul>
+<li><strong>Ember-Intl</strong></li>
+</ul>
+<p><em><strong>Notice</strong>: Supports Ember-Intl v2.x and above</em></p>
+<pre><code class="bash">ember install ember-intl-cp-validations
 </code></pre>
 
-<p><strong>isInvalid</strong></p>
-<pre><code class="javascript">// Examples
-get(user, 'validations.isInvalid')
-get(user, 'validations.attrs.username.isInvalid')
+<p>Setup instructions can be found on the <a href="https://github.com/jasonmit/ember-intl-cp-validations">github page</a>.</p>
+<ul>
+<li><strong>Ember-I18n</strong></li>
+</ul>
+<pre><code class="bash">ember install ember-i18n-cp-validations
 </code></pre>
 
-<p><strong>isValidating</strong></p>
-<p>This property is toggled only if there is an async validation</p>
-<pre><code class="javascript">// Examples
-get(user, 'validations.isValidating')
-get(user, 'validations.attrs.username.isValidating')
-</code></pre>
-
-<p><strong>isTruelyValid</strong></p>
-<p>Will be true only if isValid is <code>true</code> and isValidating is <code>false</code></p>
-<pre><code class="javascript">// Examples
-get(user, 'validations.isTruelyValid')
-get(user, 'validations.attrs.username.isTruelyValid')
-</code></pre>
-
-<p><strong>isDirty</strong></p>
-<p>Will be true is the attribute in question is not <code>null</code> or <code>undefined</code>. If the object being validated is an Ember Data Model and you have a <code>defaultValue</code> specified, then it will use that for comparison.</p>
-<pre><code class="javascript">// Examples
-// 'username' : DS.attr('string', { defaultValue: 'johndoe' })
-get(user, 'validations.isDirty')
-get(user, 'validations.attrs.username.isDirty')
-</code></pre>
-
-<p><strong>isAsync</strong></p>
-<p>Will be <code>true</code> only if a validation returns a promise</p>
-<pre><code class="javascript">// Examples
-get(user, 'validations.isAsync')
-get(user, 'validations.attrs.username.isAsync')
-</code></pre>
-
-<p><strong>messages</strong></p>
-<p>A collection of all error messages on the object in question</p>
-<pre><code class="javascript">// Examples
-get(user, 'validations.messages')
-get(user, 'validations.attrs.username.messages')
-</code></pre>
-
-<p><strong>message</strong></p>
-<p>An alias to the first message in the messages collection.</p>
-<pre><code class="javascript">// Example
-get(user, 'validations.message')
-get(user, 'validations.attrs.username.message')
-</code></pre>
+<p>Setup instructions can be found on the <a href="https://github.com/jasonmit/ember-i18n-cp-validations">github page</a>.</p>
               
             </div>
           </div>
@@ -336,10 +307,10 @@ get(user, 'validations.attrs.username.message')
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../messages/index.html" class="btn btn-neutral float-right" title="Error Messages"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../templating/index.html" class="btn btn-neutral float-right" title="Templating"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../validating/index.html" class="btn btn-neutral" title="Validating"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -369,10 +340,10 @@ get(user, 'validations.attrs.username.message')
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../validating/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../messages/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../templating/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

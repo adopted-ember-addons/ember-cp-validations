@@ -72,7 +72,7 @@ export default Ember.Object.extend({
    * Build options hook. Merges default options into options object
    * @param  {Object} options
    * @param  {Object} defaultOptions
-   * @return
+   * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}) {
     Object.keys(defaultOptions).forEach(key => {

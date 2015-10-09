@@ -62,7 +62,13 @@
                 <li class="toctree-l3"><a href="#live-demo">Live Demo</a></li>
                 
             
-                <li class="toctree-l3"><a href="#basic-usage">Basic Usage</a></li>
+                <li class="toctree-l3"><a href="#basic-usage-models">Basic Usage - Models</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#basic-usage-objects">Basic Usage - Objects</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#advanced-usage">Advanced Usage</a></li>
                 
             
             </ul>
@@ -79,7 +85,21 @@
           
             <li>
     <li class="toctree-l1 ">
+        <a class="" href="messages/index.html">Error Messages</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
         <a class="" href="templating/index.html">Templating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="testing/index.html">Testing</a>
         
     </li>
 <li>
@@ -92,6 +112,13 @@
             
     <li class="toctree-l1 ">
         <a class="" href="validators/common/index.html">Common Options</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="validators/base/index.html">Base</a>
         
     </li>
 
@@ -180,13 +207,6 @@
     </li>
 
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="validators/messages/index.html">Error Messages</a>
-        
-    </li>
-
-        
     </ul>
 <li>
           
@@ -233,7 +253,7 @@
 
 <h2 id="live-demo">Live Demo</h2>
 <p>A live demo can be found <a href="http://offirgolan.github.io/ember-cp-validations">here</a></p>
-<h2 id="basic-usage">Basic Usage</h2>
+<h2 id="basic-usage-models">Basic Usage - Models</h2>
 <p>The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.</p>
 <pre><code class="javascript">// models/user.js
 
@@ -262,7 +282,7 @@ var Validations = buildValidations({
     validator('confirmation', {
       on: 'email',
       message: 'do not match',
-      attributeDescription: 'Email addresses'
+      description: 'Email addresses'
     })
   ]
 });
@@ -278,6 +298,7 @@ export default DS.Model.extend(Validations, {
 });
 </code></pre>
 
+<h2 id="basic-usage-objects">Basic Usage - Objects</h2>
 <p>You can also use the generated <code>Validations</code> mixin on any <code>Ember.Object</code> or child
 of <code>Ember.Object</code>, like <code>Ember.Component</code>. For example:</p>
 <pre><code class="javascript">// components/x-foo.js
@@ -294,6 +315,80 @@ var Validations = buildValidations({
 
 export default Ember.Component.extend(Validations, {
   bar: null
+});
+</code></pre>
+
+<p>To lookup validators, container access is required which can cause an issue with <code>Ember.Object</code> creation if the object is statically imported. The current fix for this is as follows. </p>
+<pre><code class="javascript">// models/user.js
+
+export default Ember.Object.extend(Validations, {
+  username: null
+});
+</code></pre>
+
+<pre><code class="javascript">// routes/index.js
+
+import User from '../models/user';
+
+export default Ember.Route.extend({
+  model() {
+    var container = this.get('container');
+    return User.create({ container })
+  }
+});
+</code></pre>
+
+<h2 id="advanced-usage">Advanced Usage</h2>
+<p><strong>Default Options</strong></p>
+<p>Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.</p>
+<p>Instread of doing the following:</p>
+<pre><code class="javascript">var Validations = buildValidations({
+  username: [
+    validator('presence', {
+      presence: true,
+      description: 'Username'
+    }),
+    validator('length', {
+      min: 1,
+      description: 'Username'
+    }),
+    validator('no-whitespace-around', {
+      description: 'Username'
+    })
+  ]
+});
+</code></pre>
+
+<p>We can declare default options: </p>
+<pre><code class="javascript">var Validations = buildValidations({
+  username: {
+    description: 'Username'
+    validators: [
+      validator('presence', true),
+      validator('length', {
+        min: 1
+      }),
+      validator('no-whitespace-around', {
+        description: 'A username'
+      })
+    ]
+  },
+});
+</code></pre>
+
+<p>In the above example, all the validators for username will have a description of <code>Username</code> except that of the <code>no-whitespace-around</code> validator which will be <code>A username</code>.</p>
+<p><strong>Options as Functions</strong></p>
+<p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as options, model, attribute, etc. </p>
+<p>Please note that the <code>message</code> option of a validator has its <a href="./validators/common/index.html#message">own signature</a>.</p>
+<pre><code class="javascript">var Validations = buildValidations({
+  password: validator('format', {
+    description() {
+      return this.get('model.meta.password.description');
+    },
+    regex() {
+      return this.get('model.meta.password.regex');
+    }
+  })
 });
 </code></pre>
               
@@ -345,5 +440,5 @@ export default Ember.Component.extend(Validations, {
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2015-09-19 22:32:58.325787
+Build Date UTC : 2015-10-07 04:46:58.062066
 -->
