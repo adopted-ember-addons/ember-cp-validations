@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Templating - Ember CP Validations</title>
+  <title>Error Messages - Ember CP Validations</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Templating";
+    var mkdocs_page_name = "Error Messages";
   </script>
   
   <script src="../js/jquery-2.1.1.min-afdc897116262ca97136ad757775d0ef.js"></script>
@@ -65,22 +65,34 @@
 <li>
           
             <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../messages/index.html">Error Messages</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Error Messages</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#common-options">Common Options</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#methods">Methods</a></li>
+                
+                    <li><a class="toctree-l4" href="#getdescriptionfor-string">getDescriptionFor (String)</a></li>
+                
+                    <li><a class="toctree-l4" href="#getmessagefor-string">getMessageFor (String)</a></li>
+                
+                    <li><a class="toctree-l4" href="#formatmessage-string">formatMessage (String)</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#i18n-solutions">I18n Solutions</a></li>
+                
+            
+            </ul>
         
     </li>
 <li>
           
             <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="index.html">Templating</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#the-v-get-helper">The V-Get Helper</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../templating/index.html">Templating</a>
         
     </li>
 <li>
@@ -220,7 +232,7 @@
     
       
     
-    <li>Templating</li>
+    <li>Error Messages</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -234,38 +246,60 @@
           <div role="main">
             <div class="section">
               
-                <p>Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error <code>message</code> for the <code>username</code> attribute, it would look something like this:</p>
-<pre><code class="handlebars">{{model.validations.attrs.username.message}}
+                <p>The default validation error messages are imported in your app's <code>validators</code> folder. If you want to change or extend them, all you need to do is create a <code>messages.js</code> file under <code>app/validators</code>.</p>
+<pre><code class="javascript">// app/validators/messages.js
+
+import Messages from 'ember-cp-validations/validators/messages';
+
+export default Messages.extend({
+  uniqueUsername: '{description} {username} already exists'
+});
 </code></pre>
 
-<h1 id="the-v-get-helper">The V-Get Helper</h1>
-<p>To bypass such long pathing, you can use the <code>v-get</code> helper.</p>
-<p><em><strong>Notice</strong>: Ember v1.13.0 is not supported due to a bug. Please use Ember v1.13.1 and higher or Ember v1.12.* and lower</em></p>
-<p><strong>Access global model properties</strong></p>
-<pre><code class="handlebars">{{v-get model 'isValid'}}
+<p>Within this object, you can overwrite the <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/messages.js">default messages</a> or create new messages just like in the example above. If a message of a given type is not found, it will default to the <code>invalid</code> message. Usage examples can be found <a href="../validators/base/#createerrormessage">here</a></p>
+<h1 id="common-options">Common Options</h1>
+<ul>
+<li><code>_regex</code> (<strong>RegExp</strong>): Regex for matching error message placeholders</li>
+<li><code>defaultDescription</code> (<strong>String</strong>): Default attribute description if one isn't passed into a validator's options</li>
+</ul>
+<h1 id="methods">Methods</h1>
+<h3 id="getdescriptionfor-string">getDescriptionFor (<strong>String</strong>)</h3>
+<p>Get a description for a specific attribute. This is a hook for i18n solutions to retrieve attribute descriptions from a translation</p>
+<p><code>getDescriptionFor(attribute, options = {})</code></p>
+<ul>
+<li><code>attribute</code> (<strong>String</strong>): Current attribute being evaluated</li>
+<li><code>options</code> (<strong>Object</strong>): Validator built and processed options </li>
+</ul>
+<h3 id="getmessagefor-string">getMessageFor (<strong>String</strong>)</h3>
+<p>Get a message with a given type</p>
+<p><code>getMessageFor(type, context = {})</code></p>
+<ul>
+<li><code>type</code> (<strong>String</strong>): The message type to evaluate (i.e. tooShort, tooLong, etc.)</li>
+<li><code>context</code> (<strong>Object</strong>): The context which is used to replace placeholders with their correct values</li>
+</ul>
+<h3 id="formatmessage-string">formatMessage (<strong>String</strong>)</h3>
+<p>Regex replace all placeholders with their given context</p>
+<p><code>formatMessage(message, context = {})</code></p>
+<ul>
+<li><code>message</code> (<strong>String</strong>): The message string</li>
+<li><code>context</code> (<strong>Object</strong>): The context which is used to replace placeholders with their correct values</li>
+</ul>
+<h1 id="i18n-solutions">I18n Solutions</h1>
+<ul>
+<li><strong>Ember-Intl</strong></li>
+</ul>
+<p><em><strong>Notice</strong>: Supports Ember-Intl v2.x and above</em></p>
+<pre><code class="bash">ember install ember-intl-cp-validations
 </code></pre>
 
-<p><strong>Access attribute specific properties</strong></p>
-<pre><code class="handlebars">{{v-get model 'username' 'message'}}
+<p>Setup instructions can be found on the <a href="https://github.com/jasonmit/ember-intl-cp-validations">github page</a>.</p>
+<ul>
+<li><strong>Ember-I18n</strong></li>
+</ul>
+<pre><code class="bash">ember install ember-i18n-cp-validations
 </code></pre>
 
-<p>What's awesome about this is that you can pass in bound properties!</p>
-<pre><code class="handlebars">{{v-get model attr prop}}
-{{v-get model prop}}
-</code></pre>
-
-<p>Here is a more extensive example:</p>
-<pre><code class="handlebars">&lt;form&gt;
-  {{input value=model.username placeholder=&quot;Username&quot;}}
-  {{#if (v-get model 'username' 'isInvalid')}}
-    &lt;div class=&quot;error&quot;&gt;
-      {{v-get model 'username' 'message'}}
-    &lt;/div&gt;
-  {{/if}}
-
-  &lt;button type=&quot;submit&quot; disabled={{v-get model 'isInvalid'}}&gt;Submit&lt;/button&gt;
-&lt;/form&gt;
-</code></pre>
+<p>Setup instructions can be found on the <a href="https://github.com/jasonmit/ember-i18n-cp-validations">github page</a>.</p>
               
             </div>
           </div>
@@ -273,10 +307,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../testing/index.html" class="btn btn-neutral float-right" title="Testing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../templating/index.html" class="btn btn-neutral float-right" title="Templating"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../messages/index.html" class="btn btn-neutral" title="Error Messages"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../validating/index.html" class="btn btn-neutral" title="Validating"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -306,10 +340,10 @@
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../messages/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../validating/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../testing/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../templating/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
