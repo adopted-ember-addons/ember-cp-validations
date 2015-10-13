@@ -137,7 +137,7 @@ import User from '../models/user';
 export default Ember.Route.extend({
   model() {
     var container = this.get('container');
-    return User.create({ container })
+    return User.create({ username: 'John', container })
   }
 });
 ```
