@@ -73,14 +73,22 @@ VGet.prototype.processNodeHash = function(node) {
 };
 
 /**
- * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button>
+ * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)
+ * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
  * @param  {AST.Node} node
  */
 VGet.prototype.processNodeAttributes = function(node) {
+  var i;
   if (node.attributes) {
-    for (var i = 0; i < node.attributes.length; i++) {
+    for (i = 0; i < node.attributes.length; i++) {
       var attr = node.attributes[i];
       this.processNode(attr.value);
+    }
+  }
+
+  if (node.parts) {
+    for (i = 0; i < node.parts.length; i++) {
+      this.processNode(node.parts[i]);
     }
   }
 };

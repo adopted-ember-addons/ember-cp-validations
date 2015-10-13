@@ -86,3 +86,12 @@ test('element node attribute', function(assert) {
   assert.equal(this.$().text().trim(), 'Button');
   assert.equal(this.$('button').prop('disabled'), true);
 });
+
+test('element node attribute in class string', function(assert) {
+  assert.expect(3);
+
+  this.render(hbs`<span class="base {{if (v-get model 'isInvalid') 'has-error'}}">Text</span>`);
+  assert.equal(this.$().text().trim(), 'Text');
+  assert.equal(this.$('span').hasClass('base'), true, 'base class present');
+  assert.equal(this.$('span').hasClass('has-error'), true, 'error class present');
+});
