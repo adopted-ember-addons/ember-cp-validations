@@ -17,6 +17,7 @@ pages:
   - 'Common Options': 'validators/common.md'
   - 'Base': 'validators/base.md'
   - 'Presence': 'validators/presence.md'
+  - 'Inclusion': 'validators/inclusion.md'
   - 'Exclusion': 'validators/exclusion.md'
   - 'Length': 'validators/length.md'
   - 'Date': 'validators/date.md'

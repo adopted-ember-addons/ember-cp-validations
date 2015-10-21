@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Presence - Ember CP Validations</title>
+  <title>Inclusion - Ember CP Validations</title>
   
 
   <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Presence";
+    var mkdocs_page_name = "Inclusion";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -105,19 +105,22 @@
 
         
             
-    <li class="toctree-l1 current">
-        <a class="current" href="index.html">Presence</a>
-        
-            <ul>
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../presence/index.html">Presence</a>
         
     </li>
 
         
             
-    <li class="toctree-l1 ">
-        <a class="" href="../inclusion/index.html">Inclusion</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Inclusion</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#options">Options</a></li>
+                
+            
+            </ul>
         
     </li>
 
@@ -228,7 +231,7 @@
         
       
     
-    <li>Presence</li>
+    <li>Inclusion</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -242,13 +245,32 @@
           <div role="main">
             <div class="section">
               
-                <p>If <code>true</code> validates that the given value is not empty, if <code>false</code>, validates that the given value is empty.</p>
+                <p>Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.</p>
+<h2 id="options">Options</h2>
+<ul>
+<li><code>allowBlank</code> (<strong>Boolean</strong>): If true, skips validation if the value is empty</li>
+<li><code>in</code> (<strong>Array</strong>): The list of values this attribute could be</li>
+<li><code>range</code> (<strong>Array</strong>): The range in which the attribute's value should reside in</li>
+</ul>
 <pre><code class="javascript">// Examples
-validator('presence', true)
-validator('presence', false)
-validator('presence', {
-  presence: true,
-  message: 'should not be empty'
+validator('inclusion', {
+    in: ['User', 'Admin']
+})
+validator('inclusion', {
+    range: [0, 5] // Must be between 0 (inclusive) to 5 (inclusive)
+})
+</code></pre>
+
+<p>Because of the strict equality comparisons, you can use this validator in many different ways.</p>
+<pre><code class="javascript">// Examples
+validator('inclusion', {
+    in: ['Admin'] // Input must be equal to 'Admin'
+})
+validator('inclusion', {
+    range: [0, Infinity] // Input must be positive number
+})
+validator('inclusion', {
+    range: [-Infinity, Infinity] // Input must be a number
 })
 </code></pre>
               
@@ -258,10 +280,10 @@ validator('presence', {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../inclusion/index.html" class="btn btn-neutral float-right" title="Inclusion"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../exclusion/index.html" class="btn btn-neutral float-right" title="Exclusion"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../base/index.html" class="btn btn-neutral" title="Base"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../presence/index.html" class="btn btn-neutral" title="Presence"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -291,10 +313,10 @@ validator('presence', {
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../base/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../presence/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../inclusion/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../exclusion/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
