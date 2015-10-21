@@ -132,6 +132,13 @@
         
             
     <li class="toctree-l1 ">
+        <a class="" href="validators/inclusion/index.html">Inclusion</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
         <a class="" href="validators/exclusion/index.html">Exclusion</a>
         
     </li>
@@ -333,7 +340,7 @@ import User from '../models/user';
 export default Ember.Route.extend({
   model() {
     var container = this.get('container');
-    return User.create({ container })
+    return User.create({ username: 'John', container })
   }
 });
 </code></pre>
@@ -440,5 +447,5 @@ export default Ember.Route.extend({
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2015-10-07 04:46:58.062066
+Build Date UTC : 2015-10-21 18:54:10.430735
 -->

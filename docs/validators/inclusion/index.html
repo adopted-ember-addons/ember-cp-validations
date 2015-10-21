@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Custom - Ember CP Validations</title>
+  <title>Inclusion - Ember CP Validations</title>
   
 
   <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Custom";
+    var mkdocs_page_name = "Inclusion";
   </script>
   
   <script src="../../js/jquery-2.1.1.min-afdc897116262ca97136ad757775d0ef.js"></script>
@@ -112,8 +112,15 @@
 
         
             
-    <li class="toctree-l1 ">
-        <a class="" href="../inclusion/index.html">Inclusion</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Inclusion</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#options">Options</a></li>
+                
+            
+            </ul>
         
     </li>
 
@@ -189,15 +196,8 @@
 
         
             
-    <li class="toctree-l1 current">
-        <a class="current" href="index.html">Custom</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#testing">Testing</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../custom/index.html">Custom</a>
         
     </li>
 
@@ -231,7 +231,7 @@
         
       
     
-    <li>Custom</li>
+    <li>Inclusion</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -245,97 +245,33 @@
           <div role="main">
             <div class="section">
               
-                <p>Creating custom validators is very simple. To generate a validator named <code>unique-username</code> in Ember CLI</p>
-<pre><code class="bash">ember generate validator unique-username
-</code></pre>
-
-<p>This will create the following files</p>
+                <p>Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.</p>
+<h2 id="options">Options</h2>
 <ul>
-<li><code>app/validators/unique-username.js</code></li>
-<li><code>tests/unit/validators/unique-username-test.js</code></li>
+<li><code>allowBlank</code> (<strong>Boolean</strong>): If true, skips validation if the value is empty</li>
+<li><code>in</code> (<strong>Array</strong>): The list of values this attribute could be</li>
+<li><code>range</code> (<strong>Array</strong>): The range in which the attribute's value should reside in</li>
 </ul>
-<pre><code class="javascript">// app/validators/unique-username.js
-
-import Ember from 'ember';
-import BaseValidator from 'ember-cp-validations/validators/base';
-
-export default BaseValidator.extend({
-  validate(value, options /*, model, attribute*/) {
-    return true;
-    })
-  }
-});
+<pre><code class="javascript">// Examples
+validator('inclusion', {
+    in: ['User', 'Admin']
+})
+validator('inclusion', {
+    range: [0, 5] // Must be between 0 (inclusive) to 5 (inclusive)
+})
 </code></pre>
 
-<p><strong>Side Node</strong>: Before we continue, I would suggest checking out the documentation for the <a href="../base/index.html">BaseValidator</a>.</p>
-<p>If you want to interact with the <code>store</code> within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.</p>
-<pre><code class="javascript">// app/validators/unique-username.js
-
-import Ember from 'ember';
-import BaseValidator from 'ember-cp-validations/validators/base';
-
-export default BaseValidator.extend({
-  store: Ember.inject.service(),
-
-  validate(value, options /*, model, attribute*/) {
-    return this.get('store').findRecord('user', value).then((user) =&gt; {
-      if(user &amp;&amp; user.id === value) {
-        let message = `The username '${value}' already exists.`;
-        let meta = user.get('meta');
-
-        if(options.showSuggestions &amp;&amp; meta &amp;&amp; meta.suggestions) {
-          message += &quot;What about one of the these: &quot; + meta.suggestions.join(', ');
-        }
-        return message;
-      } else {
-        return true;
-      }
-    })
-  }
-});
-</code></pre>
-
-<p>To use our unique-username validator we just have to add it to the model definition</p>
-<pre><code class="javascript">var Validations = buildValidations({
-  username: validator('unique-username', {
-    showSuggestions: true
-  }),
-});
-
-export default DS.Model.extend(Validations, {
-  'username': DS.attr('string'),
-});
-</code></pre>
-
-<h2 id="testing">Testing</h2>
-<p>As mentioned before, the generator created a unit test for your new custom validator.</p>
-<pre><code class="javascript">// tests/unit/validators/unique-username-test.js
-
-import Ember from 'ember';
-import { moduleFor, test } from 'ember-qunit';
-
-moduleFor('validator:unique-username', 'Unit | Validator | unique-username', {
-    needs: ['validator:messages']
-});
-
-test('it works', function(assert) {
-    var validator =  this.subject();
-    assert.ok(validator);
-});
-</code></pre>
-
-<p>A simple test for our validation method can be as such</p>
-<pre><code class="javascript">test('username is unique', function(assert) {
-    assert.expect(1);
-
-    let validator =  this.subject();
-    let done = assert.async();
-
-    validator.validate('johndoe42').then((message) =&gt; {
-      assert.equal(message, true);
-      done();
-    });
-});
+<p>Because of the strict equality comparisons, you can use this validator in many different ways.</p>
+<pre><code class="javascript">// Examples
+validator('inclusion', {
+    in: ['Admin'] // Input must be equal to 'Admin'
+})
+validator('inclusion', {
+    range: [0, Infinity] // Input must be positive number
+})
+validator('inclusion', {
+    range: [-Infinity, Infinity] // Input must be a number
+})
 </code></pre>
               
             </div>
@@ -344,8 +280,10 @@ test('it works', function(assert) {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../exclusion/index.html" class="btn btn-neutral float-right" title="Exclusion"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../function/index.html" class="btn btn-neutral" title="Function"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../presence/index.html" class="btn btn-neutral" title="Presence"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -375,8 +313,10 @@ test('it works', function(assert) {
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../function/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../presence/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../exclusion/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
