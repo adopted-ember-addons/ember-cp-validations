@@ -72,15 +72,28 @@ export default Ember.Object.extend({
     return uniq(compact(messageArray));
   })),
 
+  message: computed('messages.[]', cycleBreaker(function() {
+    return get(this, 'messages.0');
+  })),
+
+  errors: computed('content.@each.{error,errors}', cycleBreaker(function() {
+    let errors = [
+      get(this, 'content').getEach('error'),
+      get(this, 'content').getEach('errors')
+    ];
+    let errorArray = flatten(errors);
+    return uniq(compact(errorArray));
+  })),
+
+  error: computed('errors.[]', cycleBreaker(function() {
+    return get(this, 'errors.0');
+  })),
+
   _promise: computed('content.@each._promise', cycleBreaker(function() {
     var promises = get(this, 'content').getEach('_promise');
     if (!isEmpty(promises)) {
       return RSVP.all(compact(flatten(promises)));
     }
-  })),
-
-  message: computed('messages.[]', cycleBreaker(function() {
-    return get(this, 'messages.0');
   })),
 
   value: computed('isAsync', cycleBreaker(function() {

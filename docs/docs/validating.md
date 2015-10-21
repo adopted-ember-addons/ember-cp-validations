@@ -34,7 +34,7 @@ model.validate({
 ```
 
 # Inspecting Validations
-All validations can be accessed via the `validations` object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>`. If you want to use [Ember Data's Errors API](http://emberjs.com/api/data/classes/DS.Errors.html), check out their docs on how to access everything you might need.   
+All validations can be accessed via the `validations` object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>`. If you want to use [Ember Data's Errors API](http://emberjs.com/api/data/classes/DS.Errors.html), check out their docs on how to access everything you might need.
 
 **isValid**
 ```javascript
@@ -109,4 +109,31 @@ An alias to the first message in the messages collection.
 // Example
 get(user, 'validations.message')
 get(user, 'validations.attrs.username.message')
+```
+
+**errors**
+
+A collection of all errors on the object in question. Each error object includes the error message and it's associated attribute name.
+
+```javascript
+// Example
+get(user, 'validations.errors')
+/* [
+ *   {
+ *     attribute: 'email'
+ *     messages: "Can't be blank"
+ *   },
+ *   {
+ *     ...
+ *   }
+ * ]
+ */
+```
+
+**error**
+An alias to the first error in the errors collection.
+
+```javascript
+// Example
+get(user, 'validations.error')
 ```
