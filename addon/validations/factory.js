@@ -127,6 +127,23 @@ function createGlobalValidationProps(validatableAttrs) {
     return get(this, 'messages.0');
   }));
 
+
+  props.errors = computed(...validatableAttrs.map((attr) => `attrs.${attr}.@each.errors`), function() {
+    var errors = [];
+    validatableAttrs.forEach((attr) => {
+      var validation = get(this, `attrs.${attr}`);
+      if (validation) {
+        errors.push(get(validation, 'errors'));
+      }
+    });
+
+    return emberArray(flatten(errors)).compact();
+  });
+
+  props.error = computed('errors.[]', cycleBreaker(function() {
+    return get(this, 'errors.0');
+  }));
+
   return props;
 }
 
@@ -138,10 +155,10 @@ function createGlobalValidationProps(validatableAttrs) {
 function createMixin(GlobalValidations, AttrValidations) {
   return Ember.Mixin.create({
     validate() {
-        return this.get('validations').validate(...arguments);
+        return get(this, 'validations').validate(...arguments);
       },
       validateSync() {
-        return this.get('validations').validateSync(...arguments);
+        return get(this, 'validations').validateSync(...arguments);
       },
       validations: computed(function() {
         return GlobalValidations.create({

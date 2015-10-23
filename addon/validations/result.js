@@ -5,6 +5,7 @@
 
 import Ember from 'ember';
 import ValidationResultCollection from './result-collection';
+import ValidationError from './error';
 import { hasEmberData } from '../utils/utils';
 
 const {
@@ -68,6 +69,17 @@ var ValidationsObject = Ember.Object.extend({
       }
     }
     return !isNone(attrValue);
+  }),
+
+  error: computed('message', 'isInvalid', 'attribute', function() {
+    if (get(this, 'isInvalid')) {
+      return ValidationError.create({
+        message: get(this, 'message'),
+        attribute: get(this, 'attribute')
+      });
+    } else {
+      return null;
+    }
   })
 });
 
@@ -84,6 +96,8 @@ export default Ember.Object.extend({
   isDirty: computed.oneWay('_validations.isDirty'),
   message: computed.oneWay('_validations.message'),
   messages: computed.oneWay('_validations.messages'),
+  error: computed.oneWay('_validations.error'),
+  errors: computed.oneWay('_validations.errors'),
 
   // This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
   _validations: computed('model', 'attribute', '_promise', function() {

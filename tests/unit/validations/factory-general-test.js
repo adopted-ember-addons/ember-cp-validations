@@ -55,6 +55,12 @@ test("basic sync validation – invalid", function(assert) {
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
   assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
 
+  assert.equal(object.get('validations.errors.length'), 2, 'errors length was expected to be 2');
+  assert.ok(object.get('validations.errors').indexOf(object.get('validations.attrs.firstName.errors.0')) > -1, 'errors was expected to contain firstName error');
+  assert.ok(object.get('validations.errors').indexOf(object.get('validations.attrs.lastName.errors.0')) > -1, 'errors was expected to contain lastName error');
+  assert.equal(object.get('validations.errors.0.attribute'), 'firstName', 'error object was expected to have attribute "firstName"');
+  assert.equal(object.get('validations.errors.1.attribute'), 'lastName', 'error object was expected to have attribute "lastName"');
+
   object.set('firstName', 'stef');
   object.set('lastName', 'penner');
 
@@ -69,6 +75,8 @@ test("basic sync validation – invalid", function(assert) {
   assert.equal(object.get('validations.attrs.lastName.isValid'), true);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
   assert.equal(object.get('validations.attrs.lastName.message'), null);
+
+  assert.equal(object.get('validations.errors.length'), 0, 'errors length was expected to be 0');
 });
 
 test("basic sync validation - valid", function(assert) {
