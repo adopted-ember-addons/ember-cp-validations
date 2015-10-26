@@ -15,6 +15,7 @@ const {
   isArray,
   computed,
   canInvoke,
+  makeArray,
   setProperties,
   getProperties,
   defineProperty,
@@ -71,15 +72,23 @@ var ValidationsObject = Ember.Object.extend({
     return !isNone(attrValue);
   }),
 
+  messages: computed('message', function() {
+    return makeArray(get(this, 'message'));
+  }),
+
   error: computed('message', 'isInvalid', 'attribute', function() {
     if (get(this, 'isInvalid')) {
       return ValidationError.create({
         message: get(this, 'message'),
         attribute: get(this, 'attribute')
       });
-    } else {
-      return null;
     }
+
+    return null;
+  }),
+
+  errors: computed('error', function() {
+    return makeArray(get(this, 'error'));
   })
 });
 

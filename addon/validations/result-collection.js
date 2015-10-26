@@ -58,31 +58,18 @@ export default Ember.Object.extend({
     return !get(this, 'content').isEvery('isAsync', false);
   }, false)),
 
-  messages: computed('content.@each.{message,messages}', cycleBreaker(function() {
-    /**
-     * A validation result collection can be a collection of ValidationResult objects which will only have a single message,
-     * a ValidationResultCollection which will have multiple messages,
-     * and a model validations object which again will have multiple messages.
-     */
-    var messages = [
-      get(this, 'content').getEach('message'),
-      get(this, 'content').getEach('messages')
-    ];
-    var messageArray = flatten(messages);
-    return uniq(compact(messageArray));
+  messages: computed('content.@each.messages.[]', cycleBreaker(function() {
+    let messages = flatten(get(this, 'content').getEach('messages'));
+    return uniq(compact(messages));
   })),
 
   message: computed('messages.[]', cycleBreaker(function() {
     return get(this, 'messages.0');
   })),
 
-  errors: computed('content.@each.{error,errors}', cycleBreaker(function() {
-    let errors = [
-      get(this, 'content').getEach('error'),
-      get(this, 'content').getEach('errors')
-    ];
-    let errorArray = flatten(errors);
-    return uniq(compact(errorArray));
+  errors: computed('content.@each.errors.[]', cycleBreaker(function() {
+    let errors = flatten(get(this, 'content').getEach('errors'));
+    return uniq(compact(errors));
   })),
 
   error: computed('errors.[]', cycleBreaker(function() {
