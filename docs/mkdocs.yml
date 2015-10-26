@@ -20,6 +20,7 @@ pages:
   - 'Inclusion': 'validators/inclusion.md'
   - 'Exclusion': 'validators/exclusion.md'
   - 'Length': 'validators/length.md'
+  - 'Number': 'validators/number.md'
   - 'Date': 'validators/date.md'
   - 'Format': 'validators/format.md'
   - 'Dependent': 'validators/dependent.md'
