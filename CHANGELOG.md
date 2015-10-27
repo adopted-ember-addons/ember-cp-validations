@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.1.0
+- [#59](https://github.com/offirgolan/ember-cp-validations/pull/59) Add enumerable list of all error objects
+- [#62](https://github.com/offirgolan/ember-cp-validations/pull/62) Number validator
+
+## 2.0.1
+- [#53](https://github.com/offirgolan/ember-cp-validations/issues/53) Support v-get inside element note attribute strings
+
 ## 2.0.0
 - Renamed `attributeDescription` to `description`
 - I18n support (currently Ember-Intl & Ember-I18n)

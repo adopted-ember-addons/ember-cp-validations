@@ -5,6 +5,7 @@
 
 import Ember from 'ember';
 import DS from 'ember-data';
+import moment from 'moment';
 import {
   validator, buildValidations
 }
@@ -14,44 +15,35 @@ var attr = DS.attr;
 
 var Validations = buildValidations({
   firstName: validator('presence', true),
-
-  lastName: [
-    validator('presence', true),
-    validator('dependent', {
-      on: ['firstName']
-    })
-  ],
-
+  lastName: validator('presence', true),
   dob: {
     description: 'Date of  birth',
     validators: [
       validator('presence', true),
       validator('date', {
         before: 'now',
-        after: '1/1/1900',
-        format() {return 'M/D/YYYY'; },
+        after() { return moment().subtract(120, 'years').format('M/D/YYYY'); },
+        format: 'M/D/YYYY',
         message: function(type, value, context) {
           if (type === 'before') {
-            return '{description} should really be before {before}';
+            return 'Are you from the future?';
           }
           if (type === 'after') {
-            return '{description} should really be after {after}';
+            return `There is no way you are ${moment().diff(value, 'years')} years old`;
           }
         }
       })
   ]},
-
   phone: [
     validator('format', {
-      type: 'phone',
-      allowBlank: true
+      allowBlank: true,
+      type: 'phone'
     })
   ],
-
   url: [
     validator('format', {
-      type: 'url',
-      allowBlank: true
+      allowBlank: true,
+      type: 'url'
     })
   ]
 

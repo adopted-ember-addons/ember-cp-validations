@@ -146,6 +146,13 @@
         
             
     <li class="toctree-l1 ">
+        <a class="" href="../validators/number/index.html">Number</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
         <a class="" href="../validators/date/index.html">Date</a>
         
     </li>
@@ -281,7 +288,7 @@ model.validate({
 </code></pre>
 
 <h1 id="inspecting-validations">Inspecting Validations</h1>
-<p>All validations can be accessed via the <code>validations</code> object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code>. If you want to use <a href="http://emberjs.com/api/data/classes/DS.Errors.html">Ember Data's Errors API</a>, check out their docs on how to access everything you might need.   </p>
+<p>All validations can be accessed via the <code>validations</code> object created on your model/object. Each attribute also has its own validation which has the same properties. An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code>. If you want to use <a href="http://emberjs.com/api/data/classes/DS.Errors.html">Ember Data's Errors API</a>, check out their docs on how to access everything you might need.</p>
 <p><strong>isValid</strong></p>
 <pre><code class="javascript">// Examples
 get(user, 'validations.isValid')
@@ -335,6 +342,28 @@ get(user, 'validations.attrs.username.messages')
 <pre><code class="javascript">// Example
 get(user, 'validations.message')
 get(user, 'validations.attrs.username.message')
+</code></pre>
+
+<p><strong>errors</strong></p>
+<p>A collection of all errors on the object in question. Each error object includes the error message and it's associated attribute name.</p>
+<pre><code class="javascript">// Example
+get(user, 'validations.errors')
+/* [
+ *   {
+ *     attribute: 'email'
+ *     messages: &quot;Can't be blank&quot;
+ *   },
+ *   {
+ *     ...
+ *   }
+ * ]
+ */
+</code></pre>
+
+<p><strong>error</strong>
+An alias to the first error in the errors collection.</p>
+<pre><code class="javascript">// Example
+get(user, 'validations.error')
 </code></pre>
               
             </div>

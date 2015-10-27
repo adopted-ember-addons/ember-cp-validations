@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Base - Ember CP Validations</title>
+  <title>Number - Ember CP Validations</title>
   
 
   <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Base";
+    var mkdocs_page_name = "Number";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -98,26 +98,8 @@
 
         
             
-    <li class="toctree-l1 current">
-        <a class="current" href="index.html">Base</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#properties">Properties</a></li>
-                
-            
-                <li class="toctree-l3"><a href="#methods">Methods</a></li>
-                
-                    <li><a class="toctree-l4" href="#buildoptions-object">buildOptions (Object)</a></li>
-                
-                    <li><a class="toctree-l4" href="#processoptions-object">processOptions (Object)</a></li>
-                
-                    <li><a class="toctree-l4" href="#validate">validate</a></li>
-                
-                    <li><a class="toctree-l4" href="#createerrormessage-string">createErrorMessage (String)</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../base/index.html">Base</a>
         
     </li>
 
@@ -151,8 +133,15 @@
 
         
             
-    <li class="toctree-l1 ">
-        <a class="" href="../number/index.html">Number</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Number</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#options">Options</a></li>
+                
+            
+            </ul>
         
     </li>
 
@@ -249,7 +238,7 @@
         
       
     
-    <li>Base</li>
+    <li>Number</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -263,67 +252,29 @@
           <div role="main">
             <div class="section">
               
-                <p>All validators extend this base class which have a few important properties and methods that might come of use when creating custom validators.</p>
-<h1 id="properties">Properties</h1>
+                <p>Validates that your attributes have only numeric values.</p>
+<h2 id="options">Options</h2>
 <ul>
-<li><code>options</code> (<strong>Object</strong>): Options passed in to the validator when defined in the model</li>
-<li><code>defaultOptions</code> (<strong>Object</strong>): Default validations options for a specific attribute</li>
-<li><code>model</code> (<strong>Object</strong>): The model instance</li>
-<li><code>attribute</code> (<strong>String</strong>): Attributed name of the model this validator is attached to</li>
-<li><code>errorMessages</code> (<strong>Object</strong>): Default error messages. Populated by <code>validators/messages</code></li>
-<li><code>_type</code> (<strong>String</strong>): Validator type</li>
+<li><code>allowString</code> (<strong>Boolean</strong>): If true, validator will accept string representation of a number</li>
+<li><code>integer</code> (<strong>Boolean</strong>): Number must be an integer</li>
+<li><code>positive</code> (<strong>Boolean</strong>): Number must be greater than 0</li>
+<li><code>odd</code> (<strong>Boolean</strong>): Number must be odd</li>
+<li><code>even</code> (<strong>Boolean</strong>): Number must be even</li>
+<li><code>is</code> (<strong>Number</strong>): Number must be equal to this value</li>
+<li><code>lt</code> (<strong>Number</strong>): Number must be less than this value</li>
+<li><code>lte</code> (<strong>Number</strong>): Number must be less than or equal to this value</li>
+<li><code>gt</code> (<strong>Number</strong>): Number must be greater than this value</li>
+<li><code>gte</code> (<strong>Number</strong>): Number must be greater than or equal to this value</li>
 </ul>
-<h1 id="methods">Methods</h1>
-<h3 id="buildoptions-object">buildOptions (<strong>Object</strong>)</h3>
-<p>Build options hook. Merges default options into options object. This method gets called on init and is the ideal place to normalize your options. The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js">presence validator</a> is a good example to checkout</p>
-<p><code>buildOptions(options = {}, defaultOptions = {})</code></p>
-<ul>
-<li><code>options</code> (<strong>Object</strong>): Options passed in to the validator when defined in the model</li>
-<li><code>defaultOptions</code> (<strong>Object</strong>): Default validations options for a specific attribute</li>
-</ul>
-<h3 id="processoptions-object">processOptions (<strong>Object</strong>)</h3>
-<p>Creates a new object and calls any option property that is a function with the validator context. This method is called right before <code>validate</code> and the returned object gets passed into the validate method as its options</p>
-<p><code>processOptions()</code></p>
-<h3 id="validate">validate</h3>
-<p>The validate method is where all of your logic should go. It will get passed in the current value of the attribute this validator is attached to. Within the validator object, you will have access to the following properties:</p>
-<p><code>validate(value, options, model, attribute)</code></p>
-<ul>
-<li><code>model</code> (<strong>Model</strong>): The current model being validated</li>
-<li><code>options</code> (<strong>Object</strong>): Validator built and processed options</li>
-<li><code>attribute</code> (<strong>String</strong>): The current attribute being validated</li>
-<li><code>defaultMessages</code>(<strong>Object</strong>): The default error messages</li>
-</ul>
-<p>The <code>validate</code> method should return one of three types</p>
-<ul>
-<li><code>Boolean</code>:  <code>true</code> if the current value passed the validation</li>
-<li><code>String</code>: The error message</li>
-<li><code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</li>
-</ul>
-<h3 id="createerrormessage-string">createErrorMessage (<strong>String</strong>)</h3>
-<p>This function is used by all pre-defined validators to build an error message that is present in <code>validators/message</code> or decalred in your i18n solution.</p>
-<p><code>createErrorMessage(type, value, options)</code></p>
-<ul>
-<li><code>type</code> (<strong>String</strong>): The error message type</li>
-<li><code>value</code>: The current value being evaluated</li>
-<li><code>options</code> (<strong>Object</strong>): Validator built and processed options (used as the message string context)</li>
-</ul>
-<p>If we extended our default messages to include <code>uniqueUsername: '{username} already exists'</code>, we can use this method to generate our error message.</p>
-<pre><code class="javascript">validate(value, options) {
-  var exists = false;
-  options.description = 'Username';
-  options.username = value;
-
-  // check with server if username exists...
-
-  if(exists) {
-    return this.createErrorMessage('uniqueUsername', options, value)
-  }
-
-  return true;
-}
+<pre><code class="javascript">// Examples
+validator('number') // Simple check if the value is a number
+validator('number', {
+    allowString: true,
+    integer: true,
+    gt: 5,
+    lte: 100
+})
 </code></pre>
-
-<p>If we input <code>johndoe</code> and that username already exists, the returned message would be <code>'johndoe already exists'</code>. </p>
               
             </div>
           </div>
@@ -331,10 +282,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../presence/index.html" class="btn btn-neutral float-right" title="Presence"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../date/index.html" class="btn btn-neutral float-right" title="Date"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../common/index.html" class="btn btn-neutral" title="Common Options"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../length/index.html" class="btn btn-neutral" title="Length"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -364,10 +315,10 @@
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../common/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../length/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../presence/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../date/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
