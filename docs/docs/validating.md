@@ -137,4 +137,5 @@ An alias to the first error in the errors collection.
 ```javascript
 // Example
 get(user, 'validations.error')
+get(user, 'validations.attrs.username.error')
 ```
