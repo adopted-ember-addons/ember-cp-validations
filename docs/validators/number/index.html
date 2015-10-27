@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Presence - Ember CP Validations</title>
+  <title>Number - Ember CP Validations</title>
   
 
   <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Presence";
+    var mkdocs_page_name = "Number";
   </script>
   
   <script src="../../js/jquery-2.1.1.min-afdc897116262ca97136ad757775d0ef.js"></script>
@@ -105,12 +105,8 @@
 
         
             
-    <li class="toctree-l1 current">
-        <a class="current" href="index.html">Presence</a>
-        
-            <ul>
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../presence/index.html">Presence</a>
         
     </li>
 
@@ -137,8 +133,15 @@
 
         
             
-    <li class="toctree-l1 ">
-        <a class="" href="../number/index.html">Number</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Number</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#options">Options</a></li>
+                
+            
+            </ul>
         
     </li>
 
@@ -235,7 +238,7 @@
         
       
     
-    <li>Presence</li>
+    <li>Number</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -249,13 +252,27 @@
           <div role="main">
             <div class="section">
               
-                <p>If <code>true</code> validates that the given value is not empty, if <code>false</code>, validates that the given value is empty.</p>
+                <p>Validates that your attributes have only numeric values.</p>
+<h2 id="options">Options</h2>
+<ul>
+<li><code>allowString</code> (<strong>Boolean</strong>): If true, validator will accept string representation of a number</li>
+<li><code>integer</code> (<strong>Boolean</strong>): Number must be an integer</li>
+<li><code>positive</code> (<strong>Boolean</strong>): Number must be greater than 0</li>
+<li><code>odd</code> (<strong>Boolean</strong>): Number must be odd</li>
+<li><code>even</code> (<strong>Boolean</strong>): Number must be even</li>
+<li><code>is</code> (<strong>Number</strong>): Number must be equal to this value</li>
+<li><code>lt</code> (<strong>Number</strong>): Number must be less than this value</li>
+<li><code>lte</code> (<strong>Number</strong>): Number must be less than or equal to this value</li>
+<li><code>gt</code> (<strong>Number</strong>): Number must be greater than this value</li>
+<li><code>gte</code> (<strong>Number</strong>): Number must be greater than or equal to this value</li>
+</ul>
 <pre><code class="javascript">// Examples
-validator('presence', true)
-validator('presence', false)
-validator('presence', {
-  presence: true,
-  message: 'should not be empty'
+validator('number') // Simple check if the value is a number
+validator('number', {
+    allowString: true,
+    integer: true,
+    gt: 5,
+    lte: 100
 })
 </code></pre>
               
@@ -265,10 +282,10 @@ validator('presence', {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../inclusion/index.html" class="btn btn-neutral float-right" title="Inclusion"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../date/index.html" class="btn btn-neutral float-right" title="Date"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../base/index.html" class="btn btn-neutral" title="Base"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../length/index.html" class="btn btn-neutral" title="Length"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -298,10 +315,10 @@ validator('presence', {
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../base/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../length/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../inclusion/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../date/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
