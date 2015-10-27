@@ -118,6 +118,7 @@ A collection of all errors on the object in question. Each error object includes
 ```javascript
 // Example
 get(user, 'validations.errors')
+get(user, 'validations.attrs.username.errors')
 /* [
  *   {
  *     attribute: 'email'
