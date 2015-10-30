@@ -29,6 +29,46 @@ test('presence - values not present', function(assert) {
   assert.equal(message, `At least one of these attributes must be present: ${validator.get('attribute')}, ${key}`);
 });
 
+test('presence - values not present - belongsTo', function(assert) {
+  assert.expect(1);
+  const promiseObject = {
+    get() {
+      return null;
+    },
+
+    constructor: {
+      toString() {
+        return 'DS.PromiseObject';
+      }
+    }
+  };
+
+  model.set(key, promiseObject);
+  const options = { presence: true, dependentKeys: [key] };
+  const message = validator.validate(undefined, options, model);
+  assert.equal(message, `At least one of these attributes must be present: ${validator.get('attribute')}, ${key}`);
+});
+
+test('presence - values not present - hasMany', function(assert) {
+  assert.expect(1);
+  const promiseArray = {
+    get() {
+      return [];
+    },
+
+    constructor: {
+      toString() {
+        return 'DS.PromiseArray';
+      }
+    }
+  };
+
+  model.set(key, promiseArray);
+  const options = { presence: true, dependentKeys: [key] };
+  const message = validator.validate(undefined, options, model);
+  assert.equal(message, `At least one of these attributes must be present: ${validator.get('attribute')}, ${key}`);
+});
+
 test('presence undefined - values present', function(assert) {
   assert.expect(1);
 
