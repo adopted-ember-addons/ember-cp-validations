@@ -1,6 +1,7 @@
 Validates that your attributes have only numeric values.
 
 ## Options
+* `allowBlank` (**Boolean**): If true, skips validation if the value is empty
 * `allowString` (**Boolean**): If true, validator will accept string representation of a number
 * `integer` (**Boolean**): Number must be an integer
 * `positive` (**Boolean**): Number must be greater than 0

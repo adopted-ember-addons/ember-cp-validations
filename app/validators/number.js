@@ -15,6 +15,10 @@ export default Base.extend({
     let numValue = Number(value);
     let optionKeys = Object.keys(options);
 
+    if (options.allowBlank && isEmpty(value)) {
+      return true;
+    }
+
     if (typeof value === 'string' && (isEmpty(value) || !options.allowString)) {
       return this.createErrorMessage('notANumber', value, options);
     }
