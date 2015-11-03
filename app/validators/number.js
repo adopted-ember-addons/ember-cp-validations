@@ -12,12 +12,12 @@ const {
 
 export default Base.extend({
   validate(value, options) {
+    let numValue = Number(value);
+    let optionKeys = Object.keys(options);
+
     if (options.allowBlank && isEmpty(value)) {
       return true;
     }
-
-    let numValue = Number(value);
-    let optionKeys = Object.keys(options);
 
     if (typeof value === 'string' && (isEmpty(value) || !options.allowString)) {
       return this.createErrorMessage('notANumber', value, options);
