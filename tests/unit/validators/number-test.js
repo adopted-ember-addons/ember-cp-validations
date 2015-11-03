@@ -220,3 +220,20 @@ test('even', function(assert) {
   message = validator.validate(-33, options);
   assert.equal(message, 'This field must be even');
 });
+
+test('allowBlank', function(assert) {
+  assert.expect(3);
+
+  options = {
+    allowBlank: true
+  };
+
+  message = validator.validate(null, options);
+  assert.equal(message, true);
+
+  message = validator.validate(undefined, options);
+  assert.equal(message, true);
+
+  message = validator.validate('', options);
+  assert.equal(message, true);
+});

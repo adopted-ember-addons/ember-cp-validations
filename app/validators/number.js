@@ -12,6 +12,10 @@ const {
 
 export default Base.extend({
   validate(value, options) {
+    if (options.allowBlank && isEmpty(value)) {
+      return true;
+    }
+
     let numValue = Number(value);
     let optionKeys = Object.keys(options);
 
