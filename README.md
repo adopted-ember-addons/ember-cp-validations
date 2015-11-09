@@ -162,7 +162,7 @@ var Validations = buildValidations({
       description: 'Username'
     }),
     validator('no-whitespace-around', {
-      description: 'Username'
+      description: 'A username'
     })
   ]
 });
