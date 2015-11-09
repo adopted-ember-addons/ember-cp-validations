@@ -148,7 +148,7 @@ export default Ember.Route.extend({
 
 Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
 
-Instread of doing the following:
+Instead of doing the following:
 
 ```javascript
 var Validations = buildValidations({
