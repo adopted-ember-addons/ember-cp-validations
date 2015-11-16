@@ -355,7 +355,7 @@ export default Ember.Route.extend({
 <h2 id="advanced-usage">Advanced Usage</h2>
 <p><strong>Default Options</strong></p>
 <p>Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.</p>
-<p>Instread of doing the following:</p>
+<p>Instead of doing the following:</p>
 <pre><code class="javascript">var Validations = buildValidations({
   username: [
     validator('presence', {
@@ -367,7 +367,7 @@ export default Ember.Route.extend({
       description: 'Username'
     }),
     validator('no-whitespace-around', {
-      description: 'Username'
+      description: 'A username'
     })
   ]
 });
@@ -392,15 +392,19 @@ export default Ember.Route.extend({
 
 <p>In the above example, all the validators for username will have a description of <code>Username</code> except that of the <code>no-whitespace-around</code> validator which will be <code>A username</code>.</p>
 <p><strong>Options as Functions</strong></p>
-<p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as options, model, attribute, etc. </p>
+<p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as <code>options</code>, <code>model</code>, <code>attribute</code>, etc. </p>
 <p>Please note that the <code>message</code> option of a validator has its <a href="./validators/common/index.html#message">own signature</a>.</p>
 <pre><code class="javascript">var Validations = buildValidations({
-  password: validator('format', {
-    description() {
-      return this.get('model.meta.password.description');
+  dob: validator('date', {
+    description: 'Date of Birth',
+    format() {
+      return this.get('model.meta.date.format');
     },
-    regex() {
-      return this.get('model.meta.password.regex');
+    before() {
+      return moment();
+    },
+    after() {
+      return moment().subtract(120, 'years');
     }
   })
 });
@@ -454,5 +458,5 @@ export default Ember.Route.extend({
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2015-10-27 20:09:39.737894
+Build Date UTC : 2015-11-16 22:31:30.510173
 -->

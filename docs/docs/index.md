@@ -108,7 +108,7 @@ export default Ember.Route.extend({
 
 Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
 
-Instread of doing the following:
+Instead of doing the following:
 
 ```javascript
 var Validations = buildValidations({
@@ -122,7 +122,7 @@ var Validations = buildValidations({
       description: 'Username'
     }),
     validator('no-whitespace-around', {
-      description: 'Username'
+      description: 'A username'
     })
   ]
 });
@@ -151,18 +151,22 @@ In the above example, all the validators for username will have a description of
 
 **Options as Functions**
 
-All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as options, model, attribute, etc. 
+All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc. 
 
 Please note that the `message` option of a validator has its [own signature](validators/common/index.html#message).
 
 ```javascript
 var Validations = buildValidations({
-  password: validator('format', {
-    description() {
-      return this.get('model.meta.password.description');
+  dob: validator('date', {
+    description: 'Date of Birth',
+    format() {
+      return this.get('model.meta.date.format');
     },
-    regex() {
-      return this.get('model.meta.password.regex');
+    before() {
+      return moment();
+    },
+    after() {
+      return moment().subtract(120, 'years');
     }
   })
 });

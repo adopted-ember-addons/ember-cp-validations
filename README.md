@@ -22,7 +22,6 @@ __No observers were used nor harmed while developing and testing this addon.__
 * Dirty tracking
 * Support for nested models via `belongs-to` and `hasMany` relationships
 * No observers. Seriously... there are none. Like absolutely zero....
-* ~~Integrated with Ember Data's DS.Errors API~~ waiting on [#3707](https://github.com/emberjs/data/issues/3707) to be resolved
 * Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
 * Custom validators
 * Ember CLI generator to create custom validators with a unit test
@@ -191,18 +190,22 @@ In the above example, all the validators for username will have a description of
 
 **Options as Functions**
 
-All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as options, model, attribute, etc. 
+All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc. 
 
 Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
 
 ```javascript
 var Validations = buildValidations({
-  password: validator('format', {
-    description() {
-      return this.get('model.meta.password.description');
+  dob: validator('date', {
+    description: 'Date of Birth',
+    format() {
+      return this.get('model.meta.date.format');
     },
-    regex() {
-      return this.get('model.meta.password.regex');
+    before() {
+      return moment();
+    },
+    after() {
+      return moment().subtract(120, 'years');
     }
   })
 });

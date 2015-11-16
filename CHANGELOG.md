@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.1.1
+- [#64](https://github.com/offirgolan/ember-cp-validations/pull/64) Allow blank in number validator
+- [#65](https://github.com/offirgolan/ember-cp-validations/pull/65) Handle ember-data promise proxy based instances in presence 
+
 ## 2.1.0
 - [#59](https://github.com/offirgolan/ember-cp-validations/pull/59) Add enumerable list of all error objects
 - [#62](https://github.com/offirgolan/ember-cp-validations/pull/62) Number validator

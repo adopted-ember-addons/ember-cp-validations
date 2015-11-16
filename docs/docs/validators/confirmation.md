@@ -6,8 +6,8 @@ email: validator('format', {
   type: 'email'
 })
 verifiedEmail: validator('confirmation', {
-    on: 'email'
-    message: 'do not match'
+    on: 'email',
+    message: 'do not match',
     description: 'Email addresses'
 })
 ```

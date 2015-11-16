@@ -48,8 +48,6 @@ Regex replace all placeholders with their given context
 
 * __Ember-Intl__
 
-_**Notice**: Supports Ember-Intl v2.x and above_
-
 ```bash
 ember install ember-intl-cp-validations
 ```

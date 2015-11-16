@@ -263,6 +263,12 @@
 <pre><code class="handlebars">{{v-get model 'username' 'message'}}
 </code></pre>
 
+<p><strong>Access model relationship validations</strong></p>
+<p>Say we have a <code>user</code> model with a <code>details</code> attribute that is a belongsTo relationship, to access validations on the <code>details</code> attribute/model we can access it as such.</p>
+<pre><code class="handlebars">{{v-get model.details 'isValid'}}
+{{v-get model.details 'firstName' 'message'}}
+</code></pre>
+
 <p>What's awesome about this is that you can pass in bound properties!</p>
 <pre><code class="handlebars">{{v-get model attr prop}}
 {{v-get model prop}}
