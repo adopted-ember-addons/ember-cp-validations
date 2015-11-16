@@ -3,6 +3,7 @@ import DS from 'ember-data';
 import DefaultMessages from 'dummy/validators/messages';
 import BelongsToValidator from 'dummy/validators/belongs-to';
 import HasManyValidator from 'dummy/validators/has-many';
+import PresenceValidator from 'dummy/validators/presence';
 import Registry from '../../helpers/registry';
 import {
   validator, buildValidations
@@ -208,4 +209,58 @@ test("belongs-to relationship returns undefined", function(assert) {
   });
 
   return validations;
+});
+
+test("presence on empty DS.PromiseObject", function(assert) {
+  registry.register('validator:presence', PresenceValidator);
+
+  var Validations = buildValidations({
+    friend: validator('presence', true)
+  });
+
+  var user = Ember.Object.extend(Validations).create({
+    friend: DS.PromiseObject.create(),
+    container
+  });
+
+  const {
+    validations,
+    model
+  } = user.get('validations').validateSync();
+
+  assert.equal(model, user, 'expected model to be the correct model');
+  assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friend'].sort());
+
+  let friend = validations.get('content').findBy('attribute', 'friend');
+
+  assert.equal(friend.get('isValid'), false);
+  assert.equal(friend.get('message'), "This field can't be blank");
+
+});
+
+test("presence on empty DS.PromiseArray", function(assert) {
+  registry.register('validator:presence', PresenceValidator);
+
+  var Validations = buildValidations({
+    friends: validator('presence', true)
+  });
+
+  var user = Ember.Object.extend(Validations).create({
+    friends: DS.PromiseArray.create(),
+    container
+  });
+
+  const {
+    validations,
+    model
+  } = user.get('validations').validateSync();
+
+  assert.equal(model, user, 'expected model to be the correct model');
+  assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friends'].sort());
+
+  let friends = validations.get('content').findBy('attribute', 'friends');
+
+  assert.equal(friends.get('isValid'), false);
+  assert.equal(friends.get('message'), "This field can't be blank");
+
 });
