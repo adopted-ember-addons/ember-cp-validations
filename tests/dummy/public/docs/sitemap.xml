@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,7 @@
     
     <url>
      <loc>None/validating/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +20,7 @@
     
     <url>
      <loc>None/messages/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -28,7 +28,7 @@
     
     <url>
      <loc>None/templating/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -36,7 +36,7 @@
     
     <url>
      <loc>None/testing/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -45,97 +45,97 @@
         
     <url>
      <loc>None/validators/common/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/base/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/presence/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/inclusion/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/exclusion/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/length/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/number/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/date/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/format/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/dependent/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/confirmation/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/collection/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/belongs-to/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/has-many/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/function/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/validators/custom/index.html</loc>
-     <lastmod>2015-11-16</lastmod>
+     <lastmod>2015-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         

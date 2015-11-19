@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.2
+- [#78](https://github.com/offirgolan/ember-cp-validations/pull/78) Migrate to owners over container for Ember >= 2.3.0-beta.1 support
+
 ## 2.1.1
 - [#64](https://github.com/offirgolan/ember-cp-validations/pull/64) Allow blank in number validator
 - [#65](https://github.com/offirgolan/ember-cp-validations/pull/65) Handle ember-data promise proxy based instances in presence 
