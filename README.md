@@ -128,6 +128,8 @@ export default Ember.Object.extend(Validations, {
 });
 ```
 
+**Ember < 2.3.0-beta.1**
+
 ```javascript
 // routes/index.js
 
@@ -137,6 +139,22 @@ export default Ember.Route.extend({
   model() {
     var container = this.get('container');
     return User.create({ username: 'John', container })
+  }
+});
+```
+
+**Ember >= 2.3.0-beta.1**
+
+```javascript
+// routes/index.js
+
+import User from '../models/user';
+
+export default Ember.Route.extend({
+  model() {
+    var options = { username: 'John' };
+    Ember.setOwner(options, Ember.getOwner(this));
+    return User.create(options)
   }
 });
 ```

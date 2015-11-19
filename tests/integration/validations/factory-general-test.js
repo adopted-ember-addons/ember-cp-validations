@@ -1,14 +1,7 @@
 import Ember from 'ember';
-import Registry from '../../helpers/registry';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
-import {
-  module,
-  test
-}
-from 'qunit';
+import setupObject from '../../helpers/setup-object';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { moduleFor, test } from 'ember-qunit';
 
 var Validators = {
   presence(value, options, model, attr) {
@@ -25,23 +18,16 @@ var Validations = buildValidations({
   lastName: validator(Validators.presence)
 });
 
-var container, registry;
-
-module('Unit | Validations | Factory - General', {
-  beforeEach() {
-    registry = new Registry();
-    container = registry.get('container');
-  }
+moduleFor('foo', 'Integration | Validations | Factory - General', {
+  integration: true,
 });
 
-test("thing", function(assert) {
+test("it works", function(assert) {
   assert.ok(buildValidations());
 });
 
 test("basic sync validation – invalid", function(assert) {
-  var object = Ember.Object.extend(Validations).create({
-    container
-  });
+  var object = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
@@ -80,10 +66,9 @@ test("basic sync validation – invalid", function(assert) {
 });
 
 test("basic sync validation - valid", function(assert) {
-  var object = Ember.Object.extend(Validations).create({
+  var object = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Stef',
-    lastName: 'Penner',
-    container
+    lastName: 'Penner'
   });
 
   assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be TRUE');
@@ -100,9 +85,8 @@ test("basic sync validation - valid", function(assert) {
 });
 
 test("basic sync validation - 50% invalid", function(assert) {
-  var object = Ember.Object.extend(Validations).create({
-    firstName: 'Stef',
-    container
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Stef'
   });
 
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
@@ -119,9 +103,8 @@ test("basic sync validation - 50% invalid", function(assert) {
 });
 
 test("basic sync validation - API - #validation", function(assert) {
-  var object = Ember.Object.extend(Validations).create({
-    firstName: 'Stef',
-    container
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Stef'
   });
 
   return object.get('validations').validate().then(({
@@ -156,9 +139,8 @@ test("basic sync validation - API - #validation", function(assert) {
 });
 
 test("basic sync validation - API - #validationSync", function(assert) {
-  var object = Ember.Object.extend(Validations).create({
-    firstName: 'Stef',
-    container
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Stef'
   });
 
   const {
@@ -197,9 +179,8 @@ test("basic sync validation returns null", function(assert) {
   var Validations = buildValidations({
     firstName: validator(() => null),
   });
-  var object = Ember.Object.extend(Validations).create({
-    firstName: 'Offir',
-    container
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Offir'
   });
 
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
@@ -221,9 +202,7 @@ test("shallow isAsync test", function(assert) {
     })
   });
 
-  var obj = Ember.Object.extend(Validations).create({
-    container
-  });
+  var obj = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(obj.get('validations.attrs.firstName.isAsync'), true);
   assert.equal(Ember.canInvoke(obj.get('validations.attrs.firstName.value'), 'then'), true);
@@ -245,9 +224,8 @@ test("default options", function(assert) {
       ]
     }
   });
-  var object = Ember.Object.extend(Validations).create({
-    firstName: '',
-    container
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: ''
   });
   var rules = Ember.A(object.get('validations._validationRules.firstName'));
   assert.equal(rules.isAny('defaultOptions', undefined), false);

@@ -4,21 +4,13 @@
  */
 
 import Ember from 'ember';
-import Registry from '../../helpers/registry';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
-var messages, container, registry;
+var messages;
 
 moduleFor('validator:messages', 'Unit | Validator | messages', {
   setup: function() {
-    registry = new Registry();
-    container = registry.get('container');
-    messages = this.subject({
-      container
-    });
+    messages = this.subject();
   }
 });
 
