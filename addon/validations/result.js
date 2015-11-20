@@ -64,7 +64,7 @@ var ValidationsObject = Ember.Object.extend({
       let attrMeta = model.get('constructor.attributes').get(attribute);
       if (attrMeta) {
         let defaultValue = attrMeta.options.defaultValue;
-        if (defaultValue) {
+        if (!isNone(defaultValue)) {
           return defaultValue !== attrValue;
         }
       }
