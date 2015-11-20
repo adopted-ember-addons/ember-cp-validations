@@ -1,31 +1,21 @@
 import Ember from 'ember';
+import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
 import CollectionValidator from 'dummy/validators/collection';
 import LengthValidator from 'dummy/validators/length';
-import Registry from '../../helpers/registry';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
-import {
-  module,
-  test
-}
-from 'qunit';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { moduleFor, test } from 'ember-qunit';
 
-var container, registry;
-
-module('Unit | Validations | Factory - Dependent Keys', {
+moduleFor('foo', 'Integration | Validations | Factory - Dependent Keys', {
+  integration: true,
   beforeEach() {
-    registry = new Registry();
-    container = registry.get('container');
-    registry.register('validator:messages', DefaultMessages);
+    this.register('validator:messages', DefaultMessages);
   }
 });
 
 test("collection validator creates correct dependent keys", function(assert) {
-  registry.register('validator:collection', CollectionValidator);
-  registry.register('validator:length', LengthValidator);
+  this.register('validator:collection', CollectionValidator);
+  this.register('validator:length', LengthValidator);
 
   var CollectionValidations = buildValidations({
     array: [
@@ -36,10 +26,8 @@ test("collection validator creates correct dependent keys", function(assert) {
       })
     ]
   });
-
-  var obj = Ember.Object.extend(CollectionValidations).create({
-    array: Ember.A(['foo', 'bar']),
-    container
+  var obj = setupObject(this, Ember.Object.extend(CollectionValidations), {
+    array: Ember.A(['foo', 'bar'])
   });
 
   assert.equal(obj.get('validations.attrs.array.isValid'), true);
@@ -64,9 +52,7 @@ test("custom dependent keys - simple", function(assert) {
     })
   });
 
-  var obj = Ember.Object.extend(Validations).create({
-    container
-  });
+  var obj = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(obj.get('validations.isValid'), false);
   assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
@@ -93,14 +79,13 @@ test("custom dependent keys - nested object", function(assert) {
     })
   });
 
-  var obj = Ember.Object.extend(Validations).create({
+  var obj = setupObject(this, Ember.Object.extend(Validations),{
     meta: {
       pages: {
         last: 5
       }
     },
-    currPage: 4,
-    container
+    currPage: 4
   });
 
   assert.equal(obj.get('validations.isValid'), true);
@@ -132,9 +117,8 @@ test("custom dependent keys - array", function(assert) {
     })
   });
 
-  var obj = Ember.Object.extend(Validations).create({
-    friends: Ember.A(),
-    container
+  var obj = setupObject(this, Ember.Object.extend(Validations),{
+    friends: Ember.A()
   });
 
   assert.equal(obj.get('validations.isValid'), false);
@@ -172,9 +156,8 @@ test("custom dependent keys - array of objects", function(assert) {
     })
   });
 
-  var obj = Ember.Object.extend(Validations).create({
-    friends: Ember.A(),
-    container
+  var obj = setupObject(this, Ember.Object.extend(Validations),{
+    friends: Ember.A()
   });
 
   assert.equal(obj.get('validations.isValid'), false);

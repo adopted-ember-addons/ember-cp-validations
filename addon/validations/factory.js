@@ -4,6 +4,7 @@
  */
 
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 import flatten from '../utils/flatten';
 import ValidationResult from './result';
 import ValidationResultCollection from './result-collection';
@@ -49,7 +50,7 @@ export default function buildValidations(validations = {}) {
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
 
-  processValidations(validations);
+  processDefaultOptions(validations);
 
   validatableAttrs.forEach((attribute) => {
     attrs[attribute] = createCPValidationFor(attribute, validations[attribute]);
@@ -65,7 +66,17 @@ export default function buildValidations(validations = {}) {
   return createMixin(GlobalValidations, AttrValidations);
 }
 
-function processValidations(validations = {}) {
+/**
+ * Validation rules can be created with default options
+ * {
+ *   description: 'Username',
+ *   validators: [...]
+ * }
+ * This method generate the default options pojo, applies it to each validation rule, and flattens the object
+ * @param  {Object} validations
+ * @return
+ */
+function processDefaultOptions(validations = {}) {
   var validatableAttrs = Object.keys(validations);
 
   validatableAttrs.forEach(attribute => {
@@ -308,13 +319,13 @@ function createValidatorsFor(attribute, model) {
   var key = getKey(model);
   var validations = get(model, 'validations');
   var validationRules = makeArray(get(validations, `_validationRules.${attribute}`));
-  var container = get(model, 'container');
+  var owner = getOwner(model);
   var validators = [];
   var validator;
 
-  // We must have a container to be able to lookup our validators
-  if (isNone(container)) {
-    throw new TypeError(`${model.toString()} is missing a container.`);
+  // We must have an owner to be able to lookup our validators
+  if (isNone(owner)) {
+    throw new TypeError(`[ember-cp-validations] ${model.toString()} is missing a container or owner.`);
   }
 
   validationRules.forEach((v) => {
@@ -325,7 +336,7 @@ function createValidatorsFor(attribute, model) {
     if (canInvoke(v, 'validate')) {
       validator = BaseValidator;
     } else {
-      validator = lookupValidator(container, v._type);
+      validator = lookupValidator(owner, v._type);
     }
     if (!isNone(validator)) {
       validators.push(validator.create(v));
@@ -344,15 +355,15 @@ function createValidatorsFor(attribute, model) {
 }
 
 /**
- * Lookup a validators of a specific type in the container
- * @param  {Ember.Container} container
+ * Lookup a validators of a specific type on the owner
+ * @param  {Ember.Owner} owner
  * @param  {String} type
  * @return {Class} Validator class or undefined if not found
  */
-function lookupValidator(container, type) {
-  var validatorClass = container.lookupFactory(`validator:${type}`);
+function lookupValidator(owner, type) {
+  var validatorClass = owner._lookupFactory(`validator:${type}`);
   if (isNone(validatorClass)) {
-    Ember.Logger.warn(`Validator not found of type: ${type}.`);
+    Ember.Logger.warn(`[ember-cp-validations] Validator not found of type: ${type}.`);
     return;
   }
   return validatorClass;
@@ -384,7 +395,7 @@ function validate(options = {}, async = true) {
 
     // If an async validation is found, throw an error
     if (!async && get(validationResult, 'isAsync')) {
-      throw new Error(`Synchronous validation failed due to ${name} being an async validation.`);
+      throw new Error(`[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`);
     }
 
     if (isEmpty(whiteList) || whiteList.indexOf(name) > 0) {

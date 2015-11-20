@@ -340,6 +340,7 @@ export default Ember.Object.extend(Validations, {
 });
 </code></pre>
 
+<p><strong>Ember &lt; 2.3.0-beta.1</strong></p>
 <pre><code class="javascript">// routes/index.js
 
 import User from '../models/user';
@@ -348,6 +349,20 @@ export default Ember.Route.extend({
   model() {
     var container = this.get('container');
     return User.create({ username: 'John', container })
+  }
+});
+</code></pre>
+
+<p><strong>Ember &gt;= 2.3.0-beta.1</strong></p>
+<pre><code class="javascript">// routes/index.js
+
+import User from '../models/user';
+
+export default Ember.Route.extend({
+  model() {
+    var options = { username: 'John' };
+    Ember.setOwner(options, Ember.getOwner(this));
+    return User.create(options)
   }
 });
 </code></pre>
@@ -458,5 +473,5 @@ export default Ember.Route.extend({
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2015-11-16 22:31:30.510173
+Build Date UTC : 2015-11-19 22:39:58.399055
 -->
