@@ -27,6 +27,10 @@
     {
       "name": "Ben Limmer",
       "email": "hello@benlimmer.com"
+    },
+    {
+      "name": "Robert Jackson",
+      "email": "me@rwjblue.com"
     }
   ],
   "license": "BSD-3-Clause",

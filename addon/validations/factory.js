@@ -60,7 +60,8 @@ export default function buildValidations(validations = {}) {
   var GlobalValidations = Ember.Object.extend(props, {
     isValidations: true,
     validate,
-    validateSync
+    validateSync,
+    clearErrors
   });
 
   return createMixin(GlobalValidations, AttrValidations);
@@ -166,19 +167,22 @@ function createGlobalValidationProps(validatableAttrs) {
 function createMixin(GlobalValidations, AttrValidations) {
   return Ember.Mixin.create({
     validate() {
-        return get(this, 'validations').validate(...arguments);
-      },
-      validateSync() {
-        return get(this, 'validations').validateSync(...arguments);
-      },
-      validations: computed(function() {
-        return GlobalValidations.create({
-          model: this,
-          attrs: AttrValidations.create({
-            _model: this
-          })
-        });
-      }).readOnly()
+      return get(this, 'validations').validate(...arguments);
+    },
+    validateSync() {
+      return get(this, 'validations').validateSync(...arguments);
+    },
+    clearErrors() {
+      return get(this, 'validations').clearErrors(...arguments);
+    },
+    validations: computed(function() {
+      return GlobalValidations.create({
+        model: this,
+        attrs: AttrValidations.create({
+          _model: this
+        })
+      });
+    }).readOnly()
   });
 }
 
@@ -197,7 +201,7 @@ function createCPValidationFor(attribute, validations) {
 
     var validationResults = validators.map((validator) => {
       var validationReturnValue = validator.validate(get(model, attribute), validator.processOptions(), model, attribute);
-      return validationReturnValueHandler(attribute, validationReturnValue, model);
+      return createValidationResult(attribute, get(validator, '_type'), model, validationReturnValue);
     });
 
     validationResults = flatten(validationResults);
@@ -261,26 +265,29 @@ function getCPDependentKeysFor(attribute, validations) {
 /**
  * A handler used to create ValidationResult object from values returned from a validator
  * @param  {String} attribute
- * @param  {Unknown} validationReturnValue
+ * @param  {String} type
  * @param  {Object} model
+ * @param  {Unknown} result
  * @return {ValidationResult}
  */
-function validationReturnValueHandler(attribute, validationReturnValue, model) {
-  var result, _promise;
+function createValidationResult(attribute, type, model, result) {
+  var vResult, _promise;
 
-  if (canInvoke(validationReturnValue, 'then')) {
-    _promise = Promise.resolve(validationReturnValue);
-    result = ValidationResult.create({
-      attribute, _promise, model
+  if (canInvoke(result, 'then')) {
+    _promise = Promise.resolve(result);
+    vResult = ValidationResult.create({
+      attribute, _promise, model,
+      _type: type
     });
   } else {
-    result = ValidationResult.create({
-      attribute, model
+    vResult = ValidationResult.create({
+      attribute, model,
+      _type: type
     });
-    result.update(validationReturnValue);
+    vResult.update(result);
   }
 
-  return result;
+  return vResult;
 }
 
 /**
@@ -430,4 +437,16 @@ function validate(options = {}, async = true) {
  */
 function validateSync(options) {
   return this.validate(options, false);
+}
+
+/**
+ * Clear all errors
+ * A single type or multiple validator types can be specified. (i.e. clearErrors('presence') or clearErrors(['presence', 'length']))
+ * @param  {String/Array} types
+ * @return
+ */
+function clearErrors(/*types*/) {
+  get(this, '_validatableAttributes').forEach(name => {
+    get(this, `attrs.${name}`).clearErrors(...arguments);
+  });
 }
