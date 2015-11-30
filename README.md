@@ -27,6 +27,8 @@ __No observers were used nor harmed while developing and testing this addon.__
 * Ember CLI generator to create custom validators with a unit test
 * I18n support
 
+[![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
+
 ## Installation ##
 ```shell
 ember install ember-cp-validations
