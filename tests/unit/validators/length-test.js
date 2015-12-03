@@ -82,3 +82,17 @@ test('max', function(assert) {
   message = validator.validate('test', options);
   assert.equal(message, true);
 });
+
+test('array', function(assert) {
+  assert.expect(2);
+
+  options = {
+    min: 1
+  };
+
+  message = validator.validate([], options);
+  assert.equal(message, 'This field is too short (minimum is 1 characters)');
+
+  message = validator.validate([1], options);
+  assert.equal(message, true);
+});
