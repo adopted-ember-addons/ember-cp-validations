@@ -26,6 +26,18 @@ module.exports = {
       'ember-data': '~1.13.0'
     }
   }, {
+    name: 'ember-2.0',
+    dependencies: {
+      ember: '~2.0.0',
+      'ember-data': '~2.0.0'
+    }
+  }, {
+    name: 'ember-2.1',
+    dependencies: {
+      ember: '~2.1.0',
+      'ember-data': '~2.1.0'
+    }
+  }, {
     name: 'ember-1.13',
     dependencies: {
       ember: '~1.13.0',
