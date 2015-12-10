@@ -104,7 +104,7 @@ export default Ember.Route.extend({
 });
 ```
 
-**Ember >= 2.3.0-beta.1**
+**Ember >= 2.3.0-beta.2**
 
 ```javascript
 // routes/index.js
@@ -113,9 +113,10 @@ import User from '../models/user';
 
 export default Ember.Route.extend({
   model() {
-    var options = { username: 'John' };
-    Ember.setOwner(options, Ember.getOwner(this));
-    return User.create(options)
+    User.create(
+     getOwner(this).ownerInjection(),
+     { username: 'John' }
+    );
   }
 });
 ```

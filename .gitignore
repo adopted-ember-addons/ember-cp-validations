@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/tests/dummy/public/docs
 
 # dependencies
 /node_modules
