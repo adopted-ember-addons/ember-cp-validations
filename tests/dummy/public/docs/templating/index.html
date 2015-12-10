@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Templating - Ember CP Validations</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  <link href="../style.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Templating";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../index.html" class="icon icon-home"> Ember CP Validations</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../index.html">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../validating/index.html">Validating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../messages/index.html">Error Messages</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Templating</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#the-v-get-helper">The V-Get Helper</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../testing/index.html">Testing</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Validators</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/common/index.html">Common Options</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/base/index.html">Base</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/presence/index.html">Presence</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/inclusion/index.html">Inclusion</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/exclusion/index.html">Exclusion</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/length/index.html">Length</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/number/index.html">Number</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/date/index.html">Date</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/format/index.html">Format</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/dependent/index.html">Dependent</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/confirmation/index.html">Confirmation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/collection/index.html">Collection</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/belongs-to/index.html">Belongs To</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/has-many/index.html">Has Many</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/function/index.html">Function</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../validators/custom/index.html">Custom</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Ember CP Validations</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Templating</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/offirgolan/ember-cp-validations" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p>Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error <code>message</code> for the <code>username</code> attribute, it would look something like this:</p>
+<pre><code class="handlebars">{{model.validations.attrs.username.message}}
+</code></pre>
+
+<h1 id="the-v-get-helper">The V-Get Helper</h1>
+<p>To bypass such long pathing, you can use the <code>v-get</code> helper.</p>
+<p><em><strong>Notice</strong>: Ember v1.13.0 is not supported due to a bug. Please use Ember v1.13.1 and higher or Ember v1.12.* and lower</em></p>
+<p><strong>Access global model properties</strong></p>
+<pre><code class="handlebars">{{v-get model 'isValid'}}
+</code></pre>
+
+<p><strong>Access attribute specific properties</strong></p>
+<pre><code class="handlebars">{{v-get model 'username' 'message'}}
+</code></pre>
+
+<p><strong>Access model relationship validations</strong></p>
+<p>Say we have a <code>user</code> model with a <code>details</code> attribute that is a belongsTo relationship, to access validations on the <code>details</code> attribute/model we can access it as such.</p>
+<pre><code class="handlebars">{{v-get model.details 'isValid'}}
+{{v-get model.details 'firstName' 'message'}}
+</code></pre>
+
+<p>What's awesome about this is that you can pass in bound properties!</p>
+<pre><code class="handlebars">{{v-get model attr prop}}
+{{v-get model prop}}
+</code></pre>
+
+<p>Here is a more extensive example:</p>
+<pre><code class="handlebars">&lt;form&gt;
+  {{input value=model.username placeholder=&quot;Username&quot;}}
+  {{#if (v-get model 'username' 'isInvalid')}}
+    &lt;div class=&quot;error&quot;&gt;
+      {{v-get model 'username' 'message'}}
+    &lt;/div&gt;
+  {{/if}}
+
+  &lt;button type=&quot;submit&quot; disabled={{v-get model 'isInvalid'}}&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../testing/index.html" class="btn btn-neutral float-right" title="Testing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../messages/index.html" class="btn btn-neutral" title="Error Messages"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>Yahoo! Inc.</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../messages/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../testing/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>

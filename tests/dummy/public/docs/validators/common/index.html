@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Common Options - Ember CP Validations</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../style.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Common Options";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> Ember CP Validations</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../index.html">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../validating/index.html">Validating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../messages/index.html">Error Messages</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../templating/index.html">Templating</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../testing/index.html">Testing</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Validators</span></li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">Common Options</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#description">description</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#dependentkeys">dependentKeys</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#message">message</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../base/index.html">Base</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../presence/index.html">Presence</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../inclusion/index.html">Inclusion</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../exclusion/index.html">Exclusion</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../length/index.html">Length</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../number/index.html">Number</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../date/index.html">Date</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../format/index.html">Format</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../dependent/index.html">Dependent</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../confirmation/index.html">Confirmation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../collection/index.html">Collection</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../belongs-to/index.html">Belongs To</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../has-many/index.html">Has Many</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../function/index.html">Function</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../custom/index.html">Custom</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Ember CP Validations</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Validators &raquo;</li>
+        
+      
+    
+    <li>Common Options</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/offirgolan/ember-cp-validations" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="description">description</h2>
+<p>A descriptor for your attribute used in the error message strings. Defaults to <code>This field'</code>. You can overwrite this value in your <code>validators/messages.js</code> file by changing the <code>defaultdescription</code> property.</p>
+<pre><code class="javascript">// Examples
+validator('date', {
+    description: 'Date of birth'
+})
+// If validation is run and the attribute is empty, the error returned will be:
+// 'Date of birth can't be blank'
+</code></pre>
+
+<h2 id="dependentkeys">dependentKeys</h2>
+<p>A list of other model specific dependents for you validator.</p>
+<pre><code class="javascript">// Examples
+validator('has-friends', {
+    dependentKeys: ['friends.[]']
+})
+validator('has-valid-friends', {
+    dependentKeys: ['friends.@each.username']
+})
+validator('x-validator', {
+    dependentKeys: ['username', 'email', 'meta.foo.bar']
+})
+</code></pre>
+
+<h2 id="message">message</h2>
+<p>This option can take two forms. It can either be a <code>string</code> or a <code>function</code>. If a string is used, then it will overwrite all error message types for the specified validator.</p>
+<pre><code class="javascript">// Example: String
+validator('confirmation', {
+  message: 'Email does not match {attribute}. What are you even thinking?!'
+})
+</code></pre>
+
+<p>We can pass a <code>function</code> into our message option for even more customization capabilities.</p>
+<pre><code class="javascript">// Example: Function
+validator('date', {
+  message: function(type, options, value, context) {
+      if (type === 'before') {
+          return '{description} should really be before {date}';
+      }
+      if (type === 'after') {
+          return '{description} should really be after {date}';
+      }
+  }
+})
+</code></pre>
+
+<p>The message function is given the following arguments:</p>
+<ul>
+<li><code>type</code> (<strong>String</strong>): The error message type</li>
+<li><code>options</code> (<strong>Object</strong>): The validator options that were defined in the model</li>
+<li><code>value</code>: The current value being evaluated</li>
+<li><code>context</code> (<strong>Object</strong>): Context for string replacement</li>
+</ul>
+<p>The return value must be a <code>string</code>. If nothing is returned (<code>undefined</code>), defaults to the default error message of the specified type.</p>
+<p>Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../base/index.html" class="btn btn-neutral float-right" title="Base"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../testing/index.html" class="btn btn-neutral" title="Testing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>Yahoo! Inc.</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../../testing/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../base/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
