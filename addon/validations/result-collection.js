@@ -13,6 +13,7 @@ const {
   RSVP,
   computed,
   isEmpty,
+  makeArray,
   A: emberArray
 } = Ember;
 
@@ -87,5 +88,27 @@ export default Ember.Object.extend({
     var isAsync = get(this, 'isAsync');
     var promise = get(this, '_promise');
     return isAsync ? promise : this;
-  }))
+  })),
+
+  /**
+   * Clear all errors in this result collection
+   * A single type or multiple validator types can be specified. (i.e. clearErrors('presence') or clearErrors(['presence', 'length']))
+   * @param  {String/Array} types
+   * @return
+   */
+  clearErrors(types) {
+    let content = get(this, 'content');
+    types = makeArray(types);
+
+    if (!isEmpty(types)) {
+      content = content.filter(result => types.indexOf(get(result, '_type')) !== -1);
+    }
+
+    content.forEach(result => {
+      result.update({
+        message: null,
+        isValid: true
+      });
+    });
+  }
 });

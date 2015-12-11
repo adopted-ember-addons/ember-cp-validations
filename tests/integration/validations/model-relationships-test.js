@@ -8,25 +8,16 @@ import PresenceValidator from 'dummy/validators/presence';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
-var Validators = {
-  presence(value, options, model, attr) {
-    var isValid = !Ember.isNone(value);
-    if (Ember.isNone(value)) {
-      return `${attr} should be present`;
-    }
-    return true;
-  }
-};
-
 var Validations = buildValidations({
-  firstName: validator(Validators.presence),
-  lastName: validator(Validators.presence)
+  firstName: validator('presence', true),
+  lastName: validator('presence', true)
 });
 
 moduleFor('foo', 'Integration | Validations | Model Relationships', {
   integration: true,
   beforeEach() {
     this.register('validator:messages', DefaultMessages);
+    this.register('validator:presence', PresenceValidator);
   }
 });
 
@@ -57,7 +48,7 @@ test("belong to validation - no cycle", function(assert) {
 
   assert.equal(friend.get('isValid'), false);
   assert.equal(friend.get('isValidating'), false);
-  assert.equal(friend.get('message'), 'lastName should be present');
+  assert.equal(friend.get('message'), "This field can't be blank");
 
 });
 
@@ -117,7 +108,7 @@ test("has-many relationship is async", function(assert) {
     let friends = validations.get('content').findBy('attribute', 'friends');
 
     assert.equal(friends.get('isValid'), false);
-    assert.equal(friends.get('message'), 'lastName should be present');
+    assert.equal(friends.get('message'), "This field can't be blank");
   });
 
   return validations;
@@ -153,7 +144,7 @@ test("belongs-to relationship is async", function(assert) {
     let friend = validations.get('content').findBy('attribute', 'friend');
 
     assert.equal(friend.get('isValid'), false);
-    assert.equal(friend.get('message'), "lastName should be present");
+    assert.equal(friend.get('message'), "This field can't be blank");
   });
 
   return validations;

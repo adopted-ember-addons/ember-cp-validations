@@ -33,7 +33,8 @@ var ValidationsObject = Ember.Object.extend({
   isValid: true,
   isValidating: false,
   message: null,
-  attribute: '',
+  attribute: null,
+  _type: null,
 
   attrValue: undefined,
   _promise: undefined,
@@ -94,7 +95,8 @@ var ValidationsObject = Ember.Object.extend({
 
 export default Ember.Object.extend({
   model: null,
-  attribute: '',
+  attribute: null,
+  _type: null,
   _promise: undefined,
 
   isValid: computed.oneWay('_validations.isValid'),
@@ -110,7 +112,7 @@ export default Ember.Object.extend({
 
   // This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
   _validations: computed('model', 'attribute', '_promise', function() {
-    return ValidationsObject.create(getProperties(this, ['model', 'attribute', '_promise']));
+    return ValidationsObject.create(getProperties(this, ['model', 'attribute', '_promise', '_type']));
   }),
 
   init() {
