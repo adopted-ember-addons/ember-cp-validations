@@ -5,6 +5,7 @@
 
 import Ember from 'ember';
 import Messages from './messages';
+import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
@@ -53,18 +54,20 @@ export default Ember.Object.extend({
 
   init() {
     this._super(...arguments);
-    var container = get(this, 'container');
+    var owner = getOwner(this);
     var options = get(this, 'options');
     var defaultOptions = get(this, 'defaultOptions');
-    var errorMessages = Messages;
+    var errorMessages;
 
-    if (container) {
-      // Since default error messages are stored in app/validators/messages, we have to look it up via the container
-      errorMessages = container.lookupFactory('validator:messages');
+    if (!isNone(owner)) {
+      // Since default error messages are stored in app/validators/messages, we have to look it up via the owner
+      errorMessages = owner._lookupFactory('validator:messages');
     }
 
-    set(this, 'options', this.buildOptions(options, defaultOptions));
+    // If for some reason, we can't find the messages object (i.e. unit tests), use default
+    errorMessages = errorMessages || Messages;
 
+    set(this, 'options', this.buildOptions(options, defaultOptions));
     set(this, 'errorMessages', errorMessages.create());
   },
 

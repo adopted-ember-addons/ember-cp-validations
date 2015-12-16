@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default function(context, obj, options = {}) {
-  if(Ember.setOwner && Ember.getOwner) {
+  if(Ember.setOwner) {
     Ember.setOwner(options, Ember.getOwner(context));
   } else {
     options.container = context.container;

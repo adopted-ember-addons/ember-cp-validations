@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import setupObject from '../../helpers/setup-object';
+import DefaultMessages from 'dummy/validators/messages';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
@@ -230,4 +231,19 @@ test("default options", function(assert) {
   var rules = Ember.A(object.get('validations._validationRules.firstName'));
   assert.equal(rules.isAny('defaultOptions', undefined), false);
   assert.equal(rules[0].defaultOptions.description, 'Test field');
+});
+
+test("custom messages object", function(assert) {
+  this.register('validator:messages', DefaultMessages);
+  var Validations = buildValidations({
+    firstName: validator(function(value) {
+      return this.createErrorMessage('test', value);
+    })
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+  assert.equal(object.get('validations.attrs.firstName.message'), 'Test error message');
 });

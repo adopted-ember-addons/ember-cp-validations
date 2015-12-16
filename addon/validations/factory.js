@@ -36,6 +36,19 @@ const {
 } = computed;
 
 /**
+ * Temporary fix until setOwner polyfill is created
+ * https://github.com/rwjblue/ember-getowner-polyfill/issues/1
+ */
+function setOwner(obj, model) {
+  obj = obj || {};
+  if(Ember.setOwner) {
+    Ember.setOwner(obj, getOwner(model));
+  } else {
+    obj.container = get(model, 'container');
+  }
+}
+
+/**
  * Top level method that will ultimately return a mixin with all CP validations
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
@@ -333,8 +346,9 @@ function createValidatorsFor(attribute, model) {
     v.model = model;
 
     // If validate function exists, that means validator was created with a function so use the base class
-    if (canInvoke(v, 'validate')) {
+    if (v._type === 'function') {
       validator = BaseValidator;
+      setOwner(v, model);
     } else {
       validator = lookupValidator(owner, v._type);
     }
@@ -389,7 +403,7 @@ function validate(options = {}, async = true) {
   var validationResults = get(this, '_validatableAttributes').reduce((v, name) => {
     validationResult = get(this, `attrs.${name}`);
 
-    if (!isEmpty(blackList) && blackList.indexOf(name) > 0) {
+    if (!isEmpty(blackList) && blackList.indexOf(name) !== -1) {
       return v;
     }
 
@@ -398,7 +412,7 @@ function validate(options = {}, async = true) {
       throw new Error(`[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`);
     }
 
-    if (isEmpty(whiteList) || whiteList.indexOf(name) > 0) {
+    if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
       value = get(validationResult, 'value');
       v.push(validationResult);
     }
