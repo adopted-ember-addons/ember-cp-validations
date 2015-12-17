@@ -17,6 +17,7 @@ export default function(arg1, options) {
 
   if (typeof arg1 === 'function') {
     props.validate = arg1;
+    props._type = 'function';
   } else if (typeof arg1 === 'string') {
     props._type = arg1;
   } else {

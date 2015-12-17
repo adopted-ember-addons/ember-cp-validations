@@ -5,7 +5,7 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-const moment = self.requirejs.entries['moment'] && self.require('moment')['default'];
+const moment = (self.requirejs.entries['moment'] || self.requirejs.entries['moment/index']) && self.require('moment')['default'];
 
 if (moment === undefined) {
   throw new Error('MomentJS is required to use the Date validator. The easiest way to install moment.js is to install ember-moment.\nInstallation instructions and documentation can be found at https://github.com/stefanpenner/ember-moment');
