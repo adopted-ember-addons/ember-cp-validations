@@ -56,7 +56,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-get-helper": "1.0.1",
-    "ember-moment": "~4.1.0",
+    "ember-moment": "4.2.1",
     "ember-try": "~0.0.8"
   },
   "keywords": [
