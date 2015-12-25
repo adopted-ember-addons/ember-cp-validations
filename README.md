@@ -25,6 +25,7 @@ __No observers were used nor harmed while developing and testing this addon.__
 * Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
 * Custom validators
 * Ember CLI generator to create custom validators with a unit test
+* Debounced validations
 * I18n support
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)

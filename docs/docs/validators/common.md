@@ -26,6 +26,19 @@ validator('x-validator', {
 })
 ```
 
+## debounce
+Debounces the validation with the given time in `milliseconds`. All debounced validations will be handled asynchronously (wrapped in a promise).
+
+```javascript
+// Examples
+validator('length', {
+    debounce: 500
+})
+validator('x-validator', {
+    debounce: 250
+})
+```
+
 ## message 
 This option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator.
 

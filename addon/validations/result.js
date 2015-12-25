@@ -162,7 +162,9 @@ export default Ember.Object.extend({
     var validations = get(this, '_validations');
     set(validations, 'isValidating', true);
     get(this, '_promise').then(
-      (result) => this.update(result), (result) => this.update(result)).catch(reason => {
+      result => this.update(result),
+      result => this.update(result)
+    ).catch(reason => {
       // TODO: send into error state
       throw reason;
     }).finally(() => {

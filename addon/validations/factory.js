@@ -14,6 +14,7 @@ import cycleBreaker from '../utils/cycle-breaker';
 const {
   get,
   set,
+  run,
   RSVP,
   isNone,
   guidFor,
@@ -179,19 +180,19 @@ function createGlobalValidationProps(validatableAttrs) {
 function createMixin(GlobalValidations, AttrValidations) {
   return Ember.Mixin.create({
     validate() {
-        return get(this, 'validations').validate(...arguments);
-      },
-      validateSync() {
-        return get(this, 'validations').validateSync(...arguments);
-      },
-      validations: computed(function() {
-        return GlobalValidations.create({
-          model: this,
-          attrs: AttrValidations.create({
-            _model: this
-          })
-        });
-      }).readOnly()
+      return get(this, 'validations').validate(...arguments);
+    },
+    validateSync() {
+      return get(this, 'validations').validateSync(...arguments);
+    },
+    validations: computed(function() {
+      return GlobalValidations.create({
+        model: this,
+        attrs: AttrValidations.create({
+          _model: this
+        })
+      });
+    }).readOnly()
   });
 }
 
@@ -205,28 +206,28 @@ function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
   return computed(...dependentKeys, cycleBreaker(function() {
     var model = get(this, '_model');
-    // var modelErrors = get(model, 'errors');
     var validators = getValidatorsFor(attribute, model);
 
-    var validationResults = validators.map((validator) => {
-      var validationReturnValue = validator.validate(get(model, attribute), validator.processOptions(), model, attribute);
+    var validationResults = validators.map(validator => {
+      let options = validator.processOptions();
+      let debounce = get(options, 'debounce') || 0;
+      let validationReturnValue;
+
+      if(debounce > 0) {
+        // Return a promise and pass the resolve method to the debounce handler
+        validationReturnValue = new Promise(function(resolve) {
+          run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
+        });
+      } else {
+        validationReturnValue = getValidationResult(validator, options, model, attribute);
+      }
+
       return validationReturnValueHandler(attribute, validationReturnValue, model);
     });
 
-    validationResults = flatten(validationResults);
-    var validationResultsCollection = ValidationResultCollection.create({
-      attribute, content: validationResults
+    return ValidationResultCollection.create({
+      attribute, content: flatten(validationResults)
     });
-
-    // https://github.com/emberjs/data/issues/3707
-    // if (hasEmberData() && model instanceof self.DS.Model && !isNone(modelErrors) && canInvoke(modelErrors, 'add')) {
-    //   if(modelErrors.has(attribute)) {
-    //     modelErrors.remove(attribute);
-    //   }
-    //   get(validationResultsCollection, 'messages').forEach((m) => modelErrors.add(attribute, m));
-    // }
-
-    return validationResultsCollection;
   }));
 }
 
@@ -269,6 +270,25 @@ function getCPDependentKeysFor(attribute, validations) {
   });
 
   return dependentKeys.uniq();
+}
+
+/**
+ * Used to retrieve the validation result by calling the validate method on the validator.
+ * If resolve is passed, that means that this validation has been debounced to we pass the
+ * result to the resolve method.
+ * @param  {Validator} validator
+ * @param  {Object} options
+ * @param  {Object} model
+ * @param  {String} attribute
+ * @param  {Function} resolve
+ */
+function getValidationResult(validator, options, model, attribute, resolve) {
+  let result = validator.validate(get(model, attribute), options, model, attribute);
+  if(resolve && typeof resolve === 'function') {
+    resolve(result);
+  } else {
+    return result;
+  }
 }
 
 /**
