@@ -13,13 +13,15 @@ from 'ember-cp-validations';
 var attr = DS.attr;
 
 var Validations = buildValidations({
-  username: [
-    validator('presence', true),
-    validator('length', {
-      debounce: 500,
-      max: 15
-    })
-  ],
+  username: {
+    debounce: 500,
+    validators: [
+      validator('presence', true),
+      validator('length', {
+        max: 15
+      })
+    ]
+  },
   password: {
     description: 'Password',
     debounce: 500,
@@ -31,19 +33,23 @@ var Validations = buildValidations({
       }),
       validator('format', {
         regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
-        message: ' '
+        message: '{description} must include at least one upper case letter, one lower case letter, and a number'
       })
     ]
   },
-  email: [
-    validator('presence', true),
-    validator('format', {
-      type: 'email'
-    })
-  ],
+  email: {
+    debounce: 500,
+    validators: [
+      validator('presence', true),
+      validator('format', {
+        type: 'email'
+      })
+    ]
+  },
   emailConfirmation: validator('confirmation', {
     on: 'email',
-    message: 'Email addresses do not match'
+    message: 'Email addresses do not match',
+    debounce: 500
   }),
   details: validator('belongs-to')
 });

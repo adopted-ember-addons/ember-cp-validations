@@ -14,15 +14,24 @@ from 'ember-cp-validations';
 var attr = DS.attr;
 
 var Validations = buildValidations({
-  firstName: validator('presence', true),
-  lastName: validator('presence', true),
+  firstName: validator('presence', {
+    presence: true,
+    debounce: 500
+  }),
+  lastName: validator('presence', {
+    presence: true,
+    debounce: 500
+  }),
   dob: {
     description: 'Date of  birth',
+    debounce: 500,
     validators: [
       validator('presence', true),
       validator('date', {
         before: 'now',
-        after() { return moment().subtract(120, 'years').format('M/D/YYYY'); },
+        after() {
+          return moment().subtract(120, 'years').format('M/D/YYYY');
+        },
         format: 'M/D/YYYY',
         message: function(type, value, context) {
           if (type === 'before') {
@@ -33,16 +42,19 @@ var Validations = buildValidations({
           }
         }
       })
-  ]},
+    ]
+  },
   phone: [
     validator('format', {
       allowBlank: true,
+      debounce: 500,
       type: 'phone'
     })
   ],
   url: [
     validator('format', {
       allowBlank: true,
+      debounce: 500,
       type: 'url'
     })
   ]
