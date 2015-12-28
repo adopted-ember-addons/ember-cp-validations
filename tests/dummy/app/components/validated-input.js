@@ -18,27 +18,23 @@ export default Ember.Component.extend({
   type: 'text',
   valuePath: '',
   placeholder: '',
-  attributeValidation: null,
+  validation: null,
   isTyping: false,
 
   init() {
     this._super(...arguments);
     var valuePath = this.get('valuePath');
-    defineProperty(this, 'attributeValidation', computed.oneWay(`model.validations.attrs.${valuePath}`));
+    defineProperty(this, 'validation', computed.oneWay(`model.validations.attrs.${valuePath}`));
     defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
   },
 
-  notValidating: computed.not('attributeValidation.isValidating'),
+  notValidating: computed.not('validation.isValidating'),
   didValidate: computed.oneWay('targetObject.didValidate'),
   hasContent: computed.notEmpty('value'),
-  isValid: computed.and('hasContent', 'attributeValidation.isValid', 'notValidating'),
-  isInvalid: computed.oneWay('attributeValidation.isInvalid'),
-
-  showErrorClass: computed('notValidating', 'showMessage', 'hasContent', 'attributeValidation', function() {
-    return this.get('attributeValidation') && this.get('notValidating') && this.get('showMessage') && this.get('hasContent');
-  }),
-
-  showMessage: computed('attributeValidation.isDirty', 'isInvalid', 'didValidate', function() {
-    return (this.get('attributeValidation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
+  isValid: computed.and('hasContent', 'validation.isValid', 'notValidating'),
+  isInvalid: computed.oneWay('validation.isInvalid'),
+  showErrorClass: computed.and('notValidating', 'showMessage', 'hasContent', 'validation'),
+  showMessage: computed('validation.isDirty', 'isInvalid', 'didValidate', function() {
+    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
   })
 });

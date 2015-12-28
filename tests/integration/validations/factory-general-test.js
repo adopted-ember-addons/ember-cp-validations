@@ -250,32 +250,33 @@ test("custom messages object", function(assert) {
 
 test("debounced validations", function(assert) {
   var done = assert.async();
+  var initSetup = true;
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
-    lastName: validator(Validators.presence, { debounce: 500 }),
+    lastName: validator(Validators.presence, {
+      debounce() {
+        return initSetup ? 0 : 500; // Do not debounce on initial object creation
+      }
+    }),
   });
   var object = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  // TODO: I feel like initially a debounced validation should not be debounced.
-  assert.equal(object.get('validations.isValidating'), true, 'isValidating was expected to be TRUE');
+  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
 
+  assert.equal(object.get('validations.attrs.lastName.isValid'), false);
+  assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+  assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
+
+  initSetup = false;
+  object.set('lastName', 'Golan');
+  assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
+
   Ember.run.later(() => {
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-    assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
-
-    object.set('lastName', 'Golan');
-    // TODO: This is true because a new Validation result object is created which initially defaults to TRUE
     assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
-
-    Ember.run.later(() => {
-      assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-      assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-      assert.equal(object.get('validations.attrs.lastName.message'), null);
-      done();
-    }, 600);
-  }, 600);
+    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.equal(object.get('validations.attrs.lastName.message'), null);
+    done();
+  }, 500);
 });

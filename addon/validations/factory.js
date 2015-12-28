@@ -211,18 +211,18 @@ function createCPValidationFor(attribute, validations) {
     var validationResults = validators.map(validator => {
       let options = validator.processOptions();
       let debounce = get(options, 'debounce') || 0;
-      let validationReturnValue;
+      let value;
 
       if(debounce > 0) {
         // Return a promise and pass the resolve method to the debounce handler
-        validationReturnValue = new Promise(function(resolve) {
+        value = new Promise(resolve => {
           run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
         });
       } else {
-        validationReturnValue = getValidationResult(validator, options, model, attribute);
+        value = getValidationResult(validator, options, model, attribute);
       }
 
-      return validationReturnValueHandler(attribute, validationReturnValue, model);
+      return validationReturnValueHandler(attribute, value, model);
     });
 
     return ValidationResultCollection.create({
@@ -274,7 +274,7 @@ function getCPDependentKeysFor(attribute, validations) {
 
 /**
  * Used to retrieve the validation result by calling the validate method on the validator.
- * If resolve is passed, that means that this validation has been debounced to we pass the
+ * If resolve is passed, that means that this validation has been debounced so we pass the
  * result to the resolve method.
  * @param  {Validator} validator
  * @param  {Object} options
@@ -294,15 +294,15 @@ function getValidationResult(validator, options, model, attribute, resolve) {
 /**
  * A handler used to create ValidationResult object from values returned from a validator
  * @param  {String} attribute
- * @param  {Unknown} validationReturnValue
+ * @param  {Unknown} value
  * @param  {Object} model
  * @return {ValidationResult}
  */
-function validationReturnValueHandler(attribute, validationReturnValue, model) {
+function validationReturnValueHandler(attribute, value, model) {
   var result, _promise;
 
-  if (canInvoke(validationReturnValue, 'then')) {
-    _promise = Promise.resolve(validationReturnValue);
+  if (canInvoke(value, 'then')) {
+    _promise = Promise.resolve(value);
     result = ValidationResult.create({
       attribute, _promise, model
     });
@@ -310,7 +310,7 @@ function validationReturnValueHandler(attribute, validationReturnValue, model) {
     result = ValidationResult.create({
       attribute, model
     });
-    result.update(validationReturnValue);
+    result.update(value);
   }
 
   return result;
