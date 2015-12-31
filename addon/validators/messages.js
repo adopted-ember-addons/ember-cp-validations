@@ -9,15 +9,56 @@ const {
   isNone,
 } = Ember;
 
+/**
+ *  The default validation error messages are imported in your app's `validators` folder.
+ *  If you want to change or extend them, all you need to do is create a `messages.js` file under `app/validators`.
+ *
+ *  ```javascript
+ *  // app/validators/messages.js
+ *
+ *  import Messages from 'ember-cp-validations/validators/messages';
+ *
+ *  export default Messages.extend({
+ *    uniqueUsername: '{description} {username} already exists'
+ *  });
+ *  ```
+ *
+ *  Within this object, you can overwrite the [default messages](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/messages.js) or create new messages just like in the example above.
+ *  If a message of a given type is not found, it will default to the `invalid` message.
+ *  Usage examples can be found [here](validators/base/#createerrormessage)
+ *
+ *  # I18n Solutions
+ *
+ *  ## __Ember-Intl__
+ *
+ *  ```bash
+ *  ember install ember-intl-cp-validations
+ *  ```
+ *
+ *  Setup instructions can be found on the [github page](https://github.com/jasonmit/ember-intl-cp-validations).
+ *
+ *  ## __Ember-I18n__
+ *
+ *  ```bash
+ *  ember install ember-i18n-cp-validations
+ *  ```
+ *
+ *  Setup instructions can be found on the [github page](https://github.com/jasonmit/ember-i18n-cp-validations).
+ *  @class Messages
+ *  @module Validators
+ */
 export default Ember.Object.extend({
   /**
    * Regex for matching error message placeholders
+   * @private
+   * @property _regex
    * @type {RegExp}
    */
   _regex: /\{(\w+)\}/g,
 
   /**
    * Default attribute description if one isnt passed into a validator's options
+   * @property defaultDescription
    * @type {String}
    */
   defaultDescription: 'This field',
@@ -25,6 +66,7 @@ export default Ember.Object.extend({
   /**
    * Get a description for a specific attribute. This is a hook
    * for i18n solutions to retrieve attribute descriptions from a translation
+   * @method getDescriptionFor
    * @param  {String} attribute
    * @param  {Object} options
    * @return {String}
@@ -35,6 +77,7 @@ export default Ember.Object.extend({
 
   /**
    * Get a message with a given type
+   * @method getMessageFor
    * @param  {String} type
    * @param  {Object} context
    * @return {String}
@@ -45,6 +88,7 @@ export default Ember.Object.extend({
 
   /**
    * Regex replace all placeholders with their given context
+   * @method formatMessage
    * @param  {String} message
    * @param  {Object} context
    * @return {String}

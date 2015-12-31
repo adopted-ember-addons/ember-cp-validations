@@ -51,6 +51,7 @@
     "ember-cli-qunit": "^1.1.0",
     "ember-cli-sri": "^1.2.0",
     "ember-cli-uglify": "^1.0.1",
+    "ember-cli-yuidoc": "offirgolan/ember-cli-yuidoc",
     "ember-data": "~2.0.0",
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.1",

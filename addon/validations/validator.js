@@ -8,6 +8,13 @@ const {
   isNone
 } = Ember;
 
+/**
+ * ```javascript
+ *   validator(type, options)
+ * ```
+ * @module Validators
+ * @main Validators
+ */
 export default function(arg1, options) {
   options = isNone(options) ? {} : options;
 
