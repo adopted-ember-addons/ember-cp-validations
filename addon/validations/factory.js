@@ -36,6 +36,19 @@ const {
 } = computed;
 
 /**
+ * ## Running Manual Validations
+ *
+ * Although validations are lazily computed, there are times where we might want to force all or
+ * specific validations to happen. For this reason we have exposed two methods:
+ * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
+ * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
+ *
+ * ## Inspecting Validations
+ *
+ * All validations can be accessed via the `validations` object created on your model/object.
+ * Each attribute also has its own validation which has the same properties.
+ * An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink "ResultCollection"}}{{/crossLink}}.
+ *
  * @module Validations
  * @main Validations
  * @class Factory
@@ -214,7 +227,7 @@ function createMixin(GlobalValidations, AttrValidations) {
  * @private
  * @param  {String} attribute
  * @param  {Array / Object} validations
- * @return {Computed Property} A computed property which is a ValidationResultCollection
+ * @return {Ember.computed} A computed property which is a ValidationResultCollection
  */
 function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
@@ -416,11 +429,7 @@ function lookupValidator(owner, type) {
  * - `excludes` (**Array**): Exclude validation on the given attributes
  *
  * ```javascript
- * model.validate({
- *   on: ['username', 'email']
- * }).then(({
- *   m, validations
- * }) => {
+ * model.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {
  *   validations.get('isValid'); // true or false
  *   validations.get('isValidating'); // false
  *
@@ -428,6 +437,7 @@ function lookupValidator(owner, type) {
  *   usernameValidations.get('isValid') // true or false
  * });
  * ```
+ *
  * @method validate
  * @param  {Object}  options
  *  - on: {Array} Will only run validations on the attributes in this list
@@ -487,10 +497,7 @@ function validate(options = {}, async = true) {
  * - `excludes` (**Array**): Exclude validation on the given attributes
  *
  * ```javascript
- * const {
- *   m,
- *   validations
- * } = model.validateSync();
+ * const { m, validations } = model.validateSync();
  * validations.get('isValid') // true or false
  * ```
  * @method validateSync

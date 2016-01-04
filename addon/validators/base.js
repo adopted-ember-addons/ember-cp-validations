@@ -138,22 +138,23 @@ export default Ember.Object.extend({
   },
 
   /**
-   *  Used by all pre-defined validators to build an error message that is present
-   *  in `validators/message` or decalred in your i18n solution.
+   * Used by all pre-defined validators to build an error message that is present
+   * in `validators/message` or decalred in your i18n solution.
    *
-   *  If we extended our default messages to include `uniqueUsername: '{username} already exists'`,
-   *  we can use this method to generate our error message.
+   * If we extended our default messages to include `uniqueUsername: '{username} already exists'`,
+   * we can use this method to generate our error message.
    *
-   *  ```javascript
+   * ```javascript
    * validate(value, options) {
    *   var exists = false;
+   *
    *   options.description = 'Username';
    *   options.username = value;
    *
    *   // check with server if username exists...
    *
    *   if(exists) {
-   *     return this.createErrorMessage('uniqueUsername', options, value)
+   *     return this.createErrorMessage('uniqueUsername', options, value);
    *   }
    *
    *   return true;

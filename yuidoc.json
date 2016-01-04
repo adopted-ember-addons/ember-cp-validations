@@ -3,6 +3,7 @@
   "description": "Ember computed property based validations",
   "url": "https://github.com/offirgolan/ember-cp-validations",
   "options": {
+    "enabledEnvironments": ["production"],
     "paths": [
       "app",
       "addon",
@@ -14,15 +15,14 @@
         "json": "http://builds.emberjs.com/tags/v2.0.0/ember-docs.json"
       }]
     },
-    "themedir": "node_modules/yuidoc-lucid-theme",
-    "helpers": ["node_modules/yuidoc-lucid-theme/helpers/helpers.js"],
+    "themedir": "node_modules/yuidoc-ember-cp-validations-theme",
+    "helpers": ["node_modules/yuidoc-ember-cp-validations-theme/helpers/helpers.js"],
     "exclude": "vendor",
     "outdir": "docs",
     "linkNatives": true,
     "quiet": true,
     "parseOnly": false,
     "lint": false,
-    "nocode": false,
-    "buildInProduction": true
+    "nocode": false
   }
 }

@@ -121,70 +121,70 @@ export default Ember.Object.extend({
   /**
    * @property isValid
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   isValid: computed.oneWay('_validations.isValid'),
 
   /**
    * @property isInvalid
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   isInvalid: computed.oneWay('_validations.isInvalid'),
 
   /**
    * @property isValidating
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   isValidating: computed.oneWay('_validations.isValidating'),
 
   /**
    * @property isTruelyValid
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   isTruelyValid: computed.oneWay('_validations.isTruelyValid'),
 
   /**
    * @property isAsync
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   isAsync: computed.oneWay('_validations.isAsync'),
 
   /**
    * @property isDirty
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   isDirty: computed.oneWay('_validations.isDirty'),
 
   /**
    * @property message
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   message: computed.oneWay('_validations.message'),
 
   /**
    * @property messages
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   messages: computed.oneWay('_validations.messages'),
 
   /**
    * @property error
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   error: computed.oneWay('_validations.error'),
 
   /**
    * @property errors
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   errors: computed.oneWay('_validations.errors'),
 
@@ -192,7 +192,7 @@ export default Ember.Object.extend({
    * This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
    * @property _validations
    * @private
-   * @type {ValidationsObject}
+   * @type {Result}
    */
   _validations: computed('model', 'attribute', '_promise', function() {
     return ValidationsObject.create(getProperties(this, ['model', 'attribute', '_promise']));
@@ -208,12 +208,13 @@ export default Ember.Object.extend({
 
   /**
    * Update the current validation result object with the given result
-   * If result is undefined or null, set isValid to false
-   * If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)
-   * If result is a collection of validation result objects, create a Validation Result Collection and set that to the _validations object (has-many)
-   * If result is a string, set the message to the given string and set isValid to false
-   * If result is a boolean, set isValid to result
-   * If result is a pojo, update _validations object with the information given
+   * - If result is undefined or null, set isValid to false
+   * - If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)
+   * - If result is a collection of validation result objects, create a Validation Result Collection and set that to the _validations object (has-many)
+   * - If result is a string, set the message to the given string and set isValid to false
+   * - If result is a boolean, set isValid to result
+   * - If result is a pojo, update _validations object with the information given
+   *
    * @method update
    * @private
    * @param result
@@ -249,7 +250,6 @@ export default Ember.Object.extend({
   /**
    * Promise handler
    * @method  _handlePromise
-   * @return
    * @private
    */
   _handlePromise() {

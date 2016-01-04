@@ -25,25 +25,8 @@ const {
  *
  *  Within this object, you can overwrite the [default messages](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/messages.js) or create new messages just like in the example above.
  *  If a message of a given type is not found, it will default to the `invalid` message.
- *  Usage examples can be found [here](validators/base/#createerrormessage)
+ *  Usage examples can be found {{#crossLink "Base/createErrorMessage:method"}}here{{/crossLink}}
  *
- *  # I18n Solutions
- *
- *  ## __Ember-Intl__
- *
- *  ```bash
- *  ember install ember-intl-cp-validations
- *  ```
- *
- *  Setup instructions can be found on the [github page](https://github.com/jasonmit/ember-intl-cp-validations).
- *
- *  ## __Ember-I18n__
- *
- *  ```bash
- *  ember install ember-i18n-cp-validations
- *  ```
- *
- *  Setup instructions can be found on the [github page](https://github.com/jasonmit/ember-i18n-cp-validations).
  *  @class Messages
  *  @module Validators
  */

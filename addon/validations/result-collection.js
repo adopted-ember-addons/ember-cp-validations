@@ -61,7 +61,7 @@ export default Ember.Object.extend({
    *
    * @property isInvalid
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Boolean}
    */
   isInvalid: computed.not('isValid'),
 
@@ -75,7 +75,7 @@ export default Ember.Object.extend({
    * @property isValid
    * @default true
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Boolean}
    */
   isValid: computed('content.@each.isValid', cycleBreaker(function() {
     return get(this, 'content').isEvery('isValid', true);
@@ -93,7 +93,7 @@ export default Ember.Object.extend({
    * @property isValidating
    * @default false
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Boolean}
    */
   isValidating: computed('content.@each.isValidating', cycleBreaker(function() {
     return !get(this, 'content').isEvery('isValidating', false);
@@ -111,7 +111,7 @@ export default Ember.Object.extend({
    * @property isTruelyValid
    * @default true
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Boolean}
    */
   isTruelyValid: computed('content.@each.isTruelyValid', cycleBreaker(function() {
     return get(this, 'content').isEvery('isTruelyValid', true);
@@ -130,7 +130,7 @@ export default Ember.Object.extend({
    * @property isDirty
    * @default false
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Boolean}
    */
   isDirty: computed('content.@each.isDirty', cycleBreaker(function() {
     return !get(this, 'content').isEvery('isDirty', false);
@@ -148,7 +148,7 @@ export default Ember.Object.extend({
    * @property isAsync
    * @default false
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Boolean}
    */
   isAsync: computed('content.@each.isAsync', cycleBreaker(function() {
     return !get(this, 'content').isEvery('isAsync', false);
@@ -165,7 +165,7 @@ export default Ember.Object.extend({
    *
    * @property messages
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Array}
    */
   messages: computed('content.@each.messages.[]', cycleBreaker(function() {
     let messages = flatten(get(this, 'content').getEach('messages'));
@@ -183,7 +183,7 @@ export default Ember.Object.extend({
    *
    * @property message
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | String}
    */
   message: computed('messages.[]', cycleBreaker(function() {
     return get(this, 'messages.0');
@@ -200,7 +200,7 @@ export default Ember.Object.extend({
    *
    * @property errors
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Array}
    */
   errors: computed('content.@each.errors.[]', cycleBreaker(function() {
     let errors = flatten(get(this, 'content').getEach('errors'));
@@ -218,7 +218,7 @@ export default Ember.Object.extend({
    *
    * @property error
    * @readOnly
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Error}
    */
   error: computed('errors.[]', cycleBreaker(function() {
     return get(this, 'errors.0');
@@ -228,7 +228,7 @@ export default Ember.Object.extend({
    * @property _promise
    * @async
    * @private
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty | Promise}
    */
   _promise: computed('content.@each._promise', cycleBreaker(function() {
     var promises = get(this, 'content').getEach('_promise');
@@ -240,7 +240,7 @@ export default Ember.Object.extend({
   /**
    * @property value
    * @private
-   * @type {Ember.computed}
+   * @type {Ember.ComputedProperty}
    */
   value: computed('isAsync', cycleBreaker(function() {
     var isAsync = get(this, 'isAsync');

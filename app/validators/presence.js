@@ -29,6 +29,20 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+  /**
+   * Normalized options passed in.
+   * ```js
+   * validator('presence', true)
+   * // Becomes
+   * validator('presence', {
+   *   presence: true
+   * })
+   * ```
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @return {Object}
+   */
   buildOptions(options, defaultOptions) {
     if(typeof options === 'boolean') {
       options = {

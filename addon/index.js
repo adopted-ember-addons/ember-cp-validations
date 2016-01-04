@@ -11,24 +11,18 @@ export var buildValidations = Factory;
 export var validator = Validator;
 
 /**
- * ## Installation ##
+ * ## Installation
  * ```shell
  * ember install ember-cp-validations
  * ```
  *
- * ## Changelog ##
- * Changelog can be found [here](CHANGELOG.md)
+ * ## Changelog
+ * Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
  *
- * ## Upgrading from 1.x to 2.x ##
- * There are some breaking changes so to make the process of upgrading as smooth as possible, we wrote up some [upgrade documentation](UPGRADING.md). If you face any issue, please feel don't hesitate to open an issue.
+ * ## Live Demo
+ * A live demo can be found [here](../../../)
  *
- * ## Documentation ##
- * Detailed documentation can be found [here](http://offirgolan.github.io/ember-cp-validations/docs)
- *
- * ## Live Demo ##
- * A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations)
- *
- * ## Looking for help? ##
+ * ## Looking for help?
  * If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
  *
  * @module Home
@@ -148,7 +142,8 @@ export var validator = Validator;
  * });
  * ```
  *
- * @module Basic Usage
+ * @module Home
+ * @submodule Basic Usage
  */
 
 /**
@@ -219,7 +214,25 @@ export var validator = Validator;
  *   })
  * });
  * ```
- * @module Advanced Usage
+ * @module Home
+ * @submodule Advanced Usage
+ */
+
+/**
+ * ## [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
+ *
+ *  ```bash
+ *  ember install ember-intl-cp-validations
+ *  ```
+ *
+ * ## [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
+ *
+ * ```bash
+ *  ember install ember-i18n-cp-validations
+ * ```
+ *
+ * @module Home
+ * @submodule I18n Solutions
  */
 export default {
   buildValidations,
