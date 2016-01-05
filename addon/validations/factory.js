@@ -216,10 +216,10 @@ function createCPValidationFor(attribute, validations) {
       let value;
 
       if(debounce > 0) {
-        var debouncedValidations = getDebouncedValidationsFor(model);
+        let cache = getDebouncedValidationsCacheFor(model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          debouncedValidations[attribute] = run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
+          cache[attribute] = run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
         });
       } else {
         value = getValidationResult(validator, options, model, attribute);
@@ -350,7 +350,7 @@ function getValidatorsFor(attribute, model) {
  * @param  {Object} model
  * @return {Object}
  */
-function getDebouncedValidationsFor(model) {
+function getDebouncedValidationsCacheFor(model) {
   var key = getKey(model);
   var debouncedValidations = get(model, `validations._debouncedValidations.${key}`);
 
@@ -487,6 +487,18 @@ function validateSync(options) {
 
 function willDestroy() {
   this._super(...arguments);
-  let debouncedValidations = getDebouncedValidationsFor(this) || {};
-  Object.keys(debouncedValidations).forEach(attr => run.cancel(debouncedValidations[attr]));
+  const caches = ['_validators', '_debouncedValidations'];
+  const key = getKey(this);
+
+  // Cancel all debounced timers
+  let debounceCache = get(this, `validations._debouncedValidations.${key}`) || {};
+  Object.keys(debounceCache).forEach(attr => run.cancel(debounceCache[attr]));
+
+  // Remove all cached information stored for this model instance
+  caches.forEach(c => {
+    let cache = get(this, `validations.${c}`);
+    if(cache && typeof cache === 'object') {
+      delete cache[key];
+    }
+  });
 }
