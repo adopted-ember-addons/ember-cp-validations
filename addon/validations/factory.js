@@ -63,6 +63,7 @@ export default function buildValidations(validations = {}) {
   props._validators = {};
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
+  props._debouncedValidations = {};
 
   processDefaultOptions(validations);
 
@@ -192,7 +193,8 @@ function createMixin(GlobalValidations, AttrValidations) {
           _model: this
         })
       });
-    }).readOnly()
+    }).readOnly(),
+    willDestroy
   });
 }
 
@@ -214,9 +216,10 @@ function createCPValidationFor(attribute, validations) {
       let value;
 
       if(debounce > 0) {
+        var debouncedValidations = getDebouncedValidationsFor(model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
+          debouncedValidations[attribute] = run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
         });
       } else {
         value = getValidationResult(validator, options, model, attribute);
@@ -326,7 +329,7 @@ function getKey(model) {
 }
 
 /**
- * Get validatiors for the give attribute. If they are not in the cache, then create them.
+ * Get validators for the give attribute. If they are not in the cache, then create them.
  * @param  {String} attribute
  * @param  {Object} model
  * @return {Array}
@@ -335,11 +338,27 @@ function getValidatorsFor(attribute, model) {
   var key = getKey(model);
   var currentValidators = get(model, `validations._validators.${key}.${attribute}`);
 
-  if (!Ember.isNone(currentValidators)) {
+  if (!isNone(currentValidators)) {
     return currentValidators;
   }
 
   return createValidatorsFor(attribute, model);
+}
+
+/**
+ * Get debounced validation timers for the give model. If they are not in the cache, then create them.
+ * @param  {Object} model
+ * @return {Object}
+ */
+function getDebouncedValidationsFor(model) {
+  var key = getKey(model);
+  var debouncedValidations = get(model, `validations._debouncedValidations.${key}`);
+
+  if (isNone(debouncedValidations)) {
+    set(model, `validations._debouncedValidations.${key}`, {});
+  }
+
+  return get(model, `validations._debouncedValidations.${key}`);
 }
 
 /**
@@ -464,4 +483,10 @@ function validate(options = {}, async = true) {
  */
 function validateSync(options) {
   return this.validate(options, false);
+}
+
+function willDestroy() {
+  this._super(...arguments);
+  let debouncedValidations = getDebouncedValidationsFor(this) || {};
+  Object.keys(debouncedValidations).forEach(attr => run.cancel(debouncedValidations[attr]));
 }
