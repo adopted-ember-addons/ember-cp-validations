@@ -10,7 +10,7 @@ module.exports = function(environment) {
     modulePrefix: 'dummy',
     environment: environment,
     baseURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -24,10 +24,10 @@ module.exports = function(environment) {
     },
     contentSecurityPolicyHeader: 'Content-Security-Policy-Report-Only',
     contentSecurityPolicy: {
-      'img-src': "'self' https://camo.githubusercontent.com data:",
+      'img-src': "'self' http://yui.yahooapis.com https://camo.githubusercontent.com data:",
       'font-src': "'self' https://fonts.gstatic.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com",
-      'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com https://google-code-prettify.googlecode.com",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' localhost:35729 0.0.0.0:35729 https://maxcdn.bootstrapcdn.com https://google-code-prettify.googlecode.com"
+      'style-src': "'self' 'unsafe-inline' http://yui.yahooapis.com https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com https://google-code-prettify.googlecode.com",
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' localhost:35729 0.0.0.0:35729 http://yui.yahooapis.com https://maxcdn.bootstrapcdn.com https://google-code-prettify.googlecode.com"
     }
   };
 
