@@ -13,7 +13,6 @@ import cycleBreaker from '../utils/cycle-breaker';
 
 const {
   get,
-  set,
   run,
   RSVP,
   isNone,
@@ -60,10 +59,10 @@ export default function buildValidations(validations = {}) {
   var attrs = {};
 
   // Private
-  props._validators = {};
+  props._validators = new Map();
+  props._debouncedValidations = new Map();
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
-  props._debouncedValidations = {};
 
   processDefaultOptions(validations);
 
@@ -208,21 +207,23 @@ function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
   return computed(...dependentKeys, cycleBreaker(function() {
     var model = get(this, '_model');
-    var validators = getValidatorsFor(attribute, model);
+    var validators = getValidatorCacheFor(attribute, model);
 
     var validationResults = validators.map(validator => {
       let options = validator.processOptions();
       let debounce = get(options, 'debounce') || 0;
+      let attrValue = get(model, attribute);
       let value;
 
       if(debounce > 0) {
-        let cache = getDebouncedValidationsCacheFor(model);
+        let cache = getDebouncedValidationsCacheFor(attribute, model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          cache[attribute] = run.debounce(validator, getValidationResult, validator, options, model, attribute, resolve, debounce, false);
+          let timer = run.debounce(validator, () => resolve(validator.validate(attrValue, options, model, attribute)), debounce, false);
+          cache.set(getKey(validator), timer);
         });
       } else {
-        value = getValidationResult(validator, options, model, attribute);
+        value = validator.validate(attrValue, options, model, attribute);
       }
 
       return validationReturnValueHandler(attribute, value, model);
@@ -276,25 +277,6 @@ function getCPDependentKeysFor(attribute, validations) {
 }
 
 /**
- * Used to retrieve the validation result by calling the validate method on the validator.
- * If resolve is passed, that means that this validation has been debounced so we pass the
- * result to the resolve method.
- * @param  {Validator} validator
- * @param  {Object} options
- * @param  {Object} model
- * @param  {String} attribute
- * @param  {Function} resolve
- */
-function getValidationResult(validator, options, model, attribute, resolve) {
-  let result = validator.validate(get(model, attribute), options, model, attribute);
-  if(resolve && typeof resolve === 'function') {
-    resolve(result);
-  } else {
-    return result;
-  }
-}
-
-/**
  * A handler used to create ValidationResult object from values returned from a validator
  * @param  {String} attribute
  * @param  {Unknown} value
@@ -334,12 +316,12 @@ function getKey(model) {
  * @param  {Object} model
  * @return {Array}
  */
-function getValidatorsFor(attribute, model) {
+function getValidatorCacheFor(attribute, model) {
   var key = getKey(model);
-  var currentValidators = get(model, `validations._validators.${key}.${attribute}`);
+  var modelValidators = get(model, 'validations._validators').get(key);
 
-  if (!isNone(currentValidators)) {
-    return currentValidators;
+  if (!isNone(modelValidators) && modelValidators.has(attribute)) {
+    return modelValidators.get(attribute);
   }
 
   return createValidatorsFor(attribute, model);
@@ -350,15 +332,19 @@ function getValidatorsFor(attribute, model) {
  * @param  {Object} model
  * @return {Object}
  */
-function getDebouncedValidationsCacheFor(model) {
+function getDebouncedValidationsCacheFor(attribute, model) {
   var key = getKey(model);
-  var debouncedValidations = get(model, `validations._debouncedValidations.${key}`);
+  var debounceCache = get(model, `validations._debouncedValidations`);
 
-  if (isNone(debouncedValidations)) {
-    set(model, `validations._debouncedValidations.${key}`, {});
+  if (!debounceCache.has(key)) {
+    debounceCache.set(key, new Map());
   }
 
-  return get(model, `validations._debouncedValidations.${key}`);
+  if(!debounceCache.get(key).has(attribute)) {
+    debounceCache.get(key).set(attribute, new Map());
+  }
+
+  return debounceCache.get(key).get(attribute);
 }
 
 /**
@@ -371,6 +357,7 @@ function createValidatorsFor(attribute, model) {
   var key = getKey(model);
   var validations = get(model, 'validations');
   var validationRules = makeArray(get(validations, `_validationRules.${attribute}`));
+  var validatorCache = get(model, 'validations._validators');
   var owner = getOwner(model);
   var validators = [];
   var validator;
@@ -397,12 +384,12 @@ function createValidatorsFor(attribute, model) {
   });
 
   // Check to see if there is already a cache started for this model instanse, if not create a new pojo
-  if (isNone(get(validations, `_validators.${key}`))) {
-    set(validations, `_validators.${key}`, {});
+  if (!validatorCache.has(key)) {
+    validatorCache.set(key, new Map());
   }
 
   // Add validators to model instance cache
-  set(validations, `_validators.${key}.${attribute}`, validators);
+  validatorCache.get(key).set(attribute, validators);
 
   return validators;
 }
@@ -487,18 +474,16 @@ function validateSync(options) {
 
 function willDestroy() {
   this._super(...arguments);
-  const caches = ['_validators', '_debouncedValidations'];
-  const key = getKey(this);
+  let key = getKey(this);
+  let debounceCache = get(this, `validations._debouncedValidations`);
+  let validatorCache = get(this, `validations._validators`);
 
   // Cancel all debounced timers
-  let debounceCache = get(this, `validations._debouncedValidations.${key}`) || {};
-  Object.keys(debounceCache).forEach(attr => run.cancel(debounceCache[attr]));
+  if(debounceCache.has(key)) {
+    debounceCache.get(key).forEach(attrCache => attrCache.forEach(timer => run.cancel(timer)));
+  }
 
   // Remove all cached information stored for this model instance
-  caches.forEach(c => {
-    let cache = get(this, `validations.${c}`);
-    if(cache && typeof cache === 'object') {
-      delete cache[key];
-    }
-  });
+  debounceCache.delete(key);
+  validatorCache.delete(key);
 }

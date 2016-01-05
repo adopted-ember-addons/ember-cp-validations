@@ -321,24 +321,32 @@ test("debounced validations should cleanup on object destroy", function(assert) 
 });
 
 test("destroy object clears caches", function(assert) {
+  var debouncedValidation = validator((value, options, model, attr) => {
+    model.set('foo', 'bar');
+    return Validators.presence(value, options, model, attr);
+  }, { debounce: 500 });
+
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
-    lastName: validator((value, options, model, attr) => {
-      model.set('foo', 'bar');
-      return Validators.presence(value, options, model, attr);
-    }, { debounce: 500 }),
+    lastName: [debouncedValidation, debouncedValidation, debouncedValidation]
   });
+
   var object = setupObject(this, Ember.Object.extend(Validations));
   let key = Ember.guidFor(object);
+
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.ok(object.get('validations._validators')[key]);
-  assert.ok(object.get('validations._debouncedValidations')[key]);
+  assert.ok(object.get('validations._validators').has(key));
+  assert.equal(object.get('validations._validators').get(key).size, 2);
+
+  assert.ok(object.get('validations._debouncedValidations').has(key));
+  assert.equal(object.get('validations._debouncedValidations').get(key).size, 1);
+  assert.equal(object.get('validations._debouncedValidations').get(key).get('lastName').size, 3);
 
   Ember.run(() => object.destroy());
 
   Ember.run(() => {
-    assert.ok(!object.get('validations._validators')[key]);
-    assert.ok(!object.get('validations._debouncedValidations')[key]);
+    assert.ok(!object.get('validations._validators').has(key));
+    assert.ok(!object.get('validations._debouncedValidations').has(key));
   });
 });
 
@@ -346,14 +354,14 @@ test("destroy object clears caches - no debounce", function(assert) {
   var object = setupObject(this, Ember.Object.extend(Validations));
   let key = Ember.guidFor(object);
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.ok(object.get('validations._validators')[key]);
-  assert.ok(!object.get('validations._debouncedValidations')[key]);
+  assert.ok(object.get('validations._validators').has(key));
+  assert.ok(!object.get('validations._debouncedValidations').has(key));
 
   Ember.run(() => object.destroy());
 
   Ember.run(() => {
-    assert.ok(!object.get('validations._validators')[key]);
-    assert.ok(!object.get('validations._debouncedValidations')[key]);
+    assert.ok(!object.get('validations._validators').has(key));
+    assert.ok(!object.get('validations._debouncedValidations').has(key));
   });
 });
 
@@ -375,15 +383,15 @@ test("destroy object clears caches - multiple object instances", function(assert
   // fire up validations
   objects.forEach(o => o.get('validations.isValid'));
 
-  assert.equal(Object.keys(objects[0].get('validations._validators')).length, 100);
-  assert.equal(Object.keys(objects[0].get('validations._debouncedValidations')).length, 100);
+  assert.equal(objects[0].get('validations._validators').size, 100);
+  assert.equal(objects[0].get('validations._debouncedValidations').size, 100);
 
   Ember.run(() => {
     objects.forEach(o => o.destroy());
   });
 
   Ember.run(() => {
-    assert.equal(Object.keys(objects[0].get('validations._validators')).length, 0);
-    assert.equal(Object.keys(objects[0].get('validations._debouncedValidations')).length, 0);
+    assert.equal(objects[0].get('validations._validators').size, 0);
+    assert.equal(objects[0].get('validations._debouncedValidations').size, 0);
   });
 });
