@@ -11,7 +11,38 @@ const {
   isEmpty
 } = Ember;
 
+/**
+ *  If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.
+ *
+ *  ```javascript
+ *  // Examples
+ *  validator('presence', true)
+ *  validator('presence', false)
+ *  validator('presence', {
+ *    presence: true,
+ *    message: 'should not be empty'
+ *  })
+ *  ```
+ *
+ *  @class Presence
+ *  @module Validators
+ *  @extends Base
+ */
 export default Base.extend({
+  /**
+   * Normalized options passed in.
+   * ```js
+   * validator('presence', true)
+   * // Becomes
+   * validator('presence', {
+   *   presence: true
+   * })
+   * ```
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @return {Object}
+   */
   buildOptions(options, defaultOptions) {
     if(typeof options === 'boolean') {
       options = {

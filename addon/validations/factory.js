@@ -36,6 +36,25 @@ const {
 } = computed;
 
 /**
+ * ## Running Manual Validations
+ *
+ * Although validations are lazily computed, there are times where we might want to force all or
+ * specific validations to happen. For this reason we have exposed two methods:
+ * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
+ * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
+ *
+ * ## Inspecting Validations
+ *
+ * All validations can be accessed via the `validations` object created on your model/object.
+ * Each attribute also has its own validation which has the same properties.
+ * An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink "ResultCollection"}}{{/crossLink}}.
+ *
+ * @module Validations
+ * @main Validations
+ * @class Factory
+ */
+
+/**
  * Temporary fix until setOwner polyfill is created
  * https://github.com/rwjblue/ember-getowner-polyfill/issues/1
  */
@@ -50,6 +69,7 @@ function setOwner(obj, model) {
 
 /**
  * Top level method that will ultimately return a mixin with all CP validations
+ * @method  buildValidations
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
  */
@@ -87,6 +107,8 @@ export default function buildValidations(validations = {}) {
  *   validators: [...]
  * }
  * This method generate the default options pojo, applies it to each validation rule, and flattens the object
+ * @method processDefaultOptions
+ * @private
  * @param  {Object} validations
  * @return
  */
@@ -112,6 +134,8 @@ function processDefaultOptions(validations = {}) {
 /**
  * Create the global properties under the validations object.
  * These are computed collections on different properties of each attribute validations CP
+ * @method createGlobalValidationProps
+ * @private
  * @param  {Array} validatableAttrs
  * @return {Object}
  */
@@ -174,6 +198,8 @@ function createGlobalValidationProps(validatableAttrs) {
 
 /**
  * Create the mixin that will be used to incorporate into the model
+ * @method createMixin
+ * @private
  * @param  {Object} validations
  * @return {Ember.Mixin}
  */
@@ -199,9 +225,11 @@ function createMixin(GlobalValidations, AttrValidations) {
 
 /**
  * CP generator for the given attribute
+ * @method createCPValidationFor
+ * @private
  * @param  {String} attribute
  * @param  {Array / Object} validations
- * @return {Computed Property} A computed property which is a ValidationResultCollection
+ * @return {Ember.computed} A computed property which is a ValidationResultCollection
  */
 function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
@@ -237,6 +265,8 @@ function createCPValidationFor(attribute, validations) {
 
 /**
  * CP dependency generator for a give attribute depending on its relationships
+ * @method getCPDependentKeysFor
+ * @private
  * @param  {String} attribute
  * @param  {Array / Object} validations
  * @return {Array} Unique list of dependencies
@@ -278,6 +308,8 @@ function getCPDependentKeysFor(attribute, validations) {
 
 /**
  * A handler used to create ValidationResult object from values returned from a validator
+ * @method validationReturnValueHandler
+ * @private
  * @param  {String} attribute
  * @param  {Unknown} value
  * @param  {Object} model
@@ -303,6 +335,8 @@ function validationReturnValueHandler(attribute, value, model) {
 
 /**
  * Unique id getter for validator cache
+ * @method getKey
+ * @private
  * @param  {Object} model
  * @return {String} guid string of the given object
  */
@@ -312,6 +346,8 @@ function getKey(model) {
 
 /**
  * Get validators for the give attribute. If they are not in the cache, then create them.
+ * @method getValidatorCacheFor
+ * @private
  * @param  {String} attribute
  * @param  {Object} model
  * @return {Array}
@@ -328,9 +364,12 @@ function getValidatorCacheFor(attribute, model) {
 }
 
 /**
- * Get debounced validation timers for the give model. If they are not in the cache, then create them.
+ * Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.
+ * @method getValidatorCacheFor
+ * @private
+ * @param  {String} attribute
  * @param  {Object} model
- * @return {Object}
+ * @return {Map}
  */
 function getDebouncedValidationsCacheFor(attribute, model) {
   var key = getKey(model);
@@ -349,6 +388,8 @@ function getDebouncedValidationsCacheFor(attribute, model) {
 
 /**
  * Create validators for the give attribute and store them in a cache
+ * @method createValidatorsFor
+ * @private
  * @param  {String} attribute
  * @param  {Object} model
  * @return {Array}
@@ -396,6 +437,8 @@ function createValidatorsFor(attribute, model) {
 
 /**
  * Lookup a validators of a specific type on the owner
+ * @method lookupValidator
+ * @private
  * @param  {Ember.Owner} owner
  * @param  {String} type
  * @return {Class} Validator class or undefined if not found
@@ -410,15 +453,27 @@ function lookupValidator(owner, type) {
 }
 
 /**
- * Run manual validation on the model
+ * ### Options
+ * - `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute
+ * - `excludes` (**Array**): Exclude validation on the given attributes
+ *
+ * ```javascript
+ * model.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {
+ *   validations.get('isValid'); // true or false
+ *   validations.get('isValidating'); // false
+ *
+ *   let usernameValidations = m.get('validations.attrs.username');
+ *   usernameValidations.get('isValid') // true or false
+ * });
+ * ```
+ *
+ * @method validate
  * @param  {Object}  options
- *         {
- *           on: {Array} Will only run validations on the attributes in this list
- *           excludes: {Array} Will skip validations on the attributes in this list
- *         }
- * @param  {Boolean} async      : If false, will get all validations and will error if an async validations is found.
- *                              : If true, will get all validations and wrap them in a promise hash
- * @return {[Promse, Object]}   : Promise if async is true, object if async is false
+ *  - on: {Array} Will only run validations on the attributes in this list
+ *  - excludes: {Array} Will skip validations on the attributes in this list
+ * @param  {Boolean} async      If false, will get all validations and will error if an async validations is found.
+ *                              If true, will get all validations and wrap them in a promise hash
+ * @return {Promise or Object}  Promise if async is true, object if async is false
  */
 function validate(options = {}, async = true) {
   var model = get(this, 'model');
@@ -464,14 +519,32 @@ function validate(options = {}, async = true) {
   return resultObject;
 }
 
-
 /**
- * Calls validate with async = false
+ * ### Options
+ * - `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute
+ * - `excludes` (**Array**): Exclude validation on the given attributes
+ *
+ * ```javascript
+ * const { m, validations } = model.validateSync();
+ * validations.get('isValid') // true or false
+ * ```
+ * @method validateSync
+ * @param  {Object}  options
+ *  - on: {Array} Will only run validations on the attributes in this list
+ *  - excludes: {Array} Will skip validations on the attributes in this list
+ * @return {Object}
  */
 function validateSync(options) {
   return this.validate(options, false);
 }
 
+/**
+ * willDestroy override for the final created mixin. Cancels all ongoing debounce timers
+ * and removes all cached data for the current object being destroyed
+ *
+ * @method willDestroy
+ * @private
+ */
 function willDestroy() {
   this._super(...arguments);
   let key = getKey(this);
