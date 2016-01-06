@@ -79,8 +79,8 @@ export default function buildValidations(validations = {}) {
   var attrs = {};
 
   // Private
-  props._validators = new Map();
-  props._debouncedValidations = new Map();
+  props._validators = {};
+  props._debouncedValidations = {};
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
 
@@ -247,8 +247,7 @@ function createCPValidationFor(attribute, validations) {
         let cache = getDebouncedValidationsCacheFor(attribute, model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          let timer = run.debounce(validator, () => resolve(validator.validate(attrValue, options, model, attribute)), debounce, false);
-          cache.set(getKey(validator), timer);
+          cache[getKey(validator)] = run.debounce(validator, () => resolve(validator.validate(attrValue, options, model, attribute)), debounce, false);
         });
       } else {
         value = validator.validate(attrValue, options, model, attribute);
@@ -354,10 +353,10 @@ function getKey(model) {
  */
 function getValidatorCacheFor(attribute, model) {
   var key = getKey(model);
-  var modelValidators = get(model, 'validations._validators').get(key);
+  var validators = get(model, `validations._validators.${key}.${attribute}`);
 
-  if (!isNone(modelValidators) && modelValidators.has(attribute)) {
-    return modelValidators.get(attribute);
+  if (!isNone(validators)) {
+    return validators;
   }
 
   return createValidatorsFor(attribute, model);
@@ -373,17 +372,17 @@ function getValidatorCacheFor(attribute, model) {
  */
 function getDebouncedValidationsCacheFor(attribute, model) {
   var key = getKey(model);
-  var debounceCache = get(model, `validations._debouncedValidations`);
+  var debouncedValidations = get(model, `validations._debouncedValidations`);
 
-  if (!debounceCache.has(key)) {
-    debounceCache.set(key, new Map());
+  if (isNone(debouncedValidations[key])) {
+    debouncedValidations[key] = {};
   }
 
-  if(!debounceCache.get(key).has(attribute)) {
-    debounceCache.get(key).set(attribute, new Map());
+  if (isNone(debouncedValidations[key][attribute])) {
+    debouncedValidations[key][attribute] = {};
   }
 
-  return debounceCache.get(key).get(attribute);
+  return debouncedValidations[key][attribute];
 }
 
 /**
@@ -398,7 +397,7 @@ function createValidatorsFor(attribute, model) {
   var key = getKey(model);
   var validations = get(model, 'validations');
   var validationRules = makeArray(get(validations, `_validationRules.${attribute}`));
-  var validatorCache = get(model, 'validations._validators');
+  var validatorCache = get(validations, '_validators');
   var owner = getOwner(model);
   var validators = [];
   var validator;
@@ -425,12 +424,12 @@ function createValidatorsFor(attribute, model) {
   });
 
   // Check to see if there is already a cache started for this model instanse, if not create a new pojo
-  if (!validatorCache.has(key)) {
-    validatorCache.set(key, new Map());
+  if (isNone(validatorCache[key])) {
+    validatorCache[key] = {};
   }
 
   // Add validators to model instance cache
-  validatorCache.get(key).set(attribute, validators);
+  validatorCache[key][attribute] = validators;
 
   return validators;
 }
@@ -552,11 +551,16 @@ function willDestroy() {
   let validatorCache = get(this, `validations._validators`);
 
   // Cancel all debounced timers
-  if(debounceCache.has(key)) {
-    debounceCache.get(key).forEach(attrCache => attrCache.forEach(timer => run.cancel(timer)));
+  if(!isNone(debounceCache[key])) {
+    let modelCache = debounceCache[key];
+    // Itterate over each attribute and cancel all of its debounced validations
+    Object.keys(modelCache).forEach(attr => {
+      let attrCache = modelCache[attr];
+      Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
+    });
   }
 
   // Remove all cached information stored for this model instance
-  debounceCache.delete(key);
-  validatorCache.delete(key);
+  delete debounceCache[key];
+  delete validatorCache[key];
 }
