@@ -13,7 +13,7 @@ import cycleBreaker from '../utils/cycle-breaker';
 
 const {
   get,
-  set,
+  run,
   RSVP,
   isNone,
   guidFor,
@@ -80,6 +80,7 @@ export default function buildValidations(validations = {}) {
 
   // Private
   props._validators = {};
+  props._debouncedValidations = {};
   props._validatableAttributes = validatableAttrs;
   props._validationRules = validations;
 
@@ -205,19 +206,20 @@ function createGlobalValidationProps(validatableAttrs) {
 function createMixin(GlobalValidations, AttrValidations) {
   return Ember.Mixin.create({
     validate() {
-        return get(this, 'validations').validate(...arguments);
-      },
-      validateSync() {
-        return get(this, 'validations').validateSync(...arguments);
-      },
-      validations: computed(function() {
-        return GlobalValidations.create({
-          model: this,
-          attrs: AttrValidations.create({
-            _model: this
-          })
-        });
-      }).readOnly()
+      return get(this, 'validations').validate(...arguments);
+    },
+    validateSync() {
+      return get(this, 'validations').validateSync(...arguments);
+    },
+    validations: computed(function() {
+      return GlobalValidations.create({
+        model: this,
+        attrs: AttrValidations.create({
+          _model: this
+        })
+      });
+    }).readOnly(),
+    willDestroy
   });
 }
 
@@ -233,28 +235,30 @@ function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
   return computed(...dependentKeys, cycleBreaker(function() {
     var model = get(this, '_model');
-    // var modelErrors = get(model, 'errors');
     var validators = getValidatorsFor(attribute, model);
 
-    var validationResults = validators.map((validator) => {
-      var validationReturnValue = validator.validate(get(model, attribute), validator.processOptions(), model, attribute);
-      return validationReturnValueHandler(attribute, validationReturnValue, model);
+    var validationResults = validators.map(validator => {
+      let options = validator.processOptions();
+      let debounce = get(options, 'debounce') || 0;
+      let attrValue = get(model, attribute);
+      let value;
+
+      if(debounce > 0) {
+        let cache = getDebouncedValidationsCacheFor(attribute, model);
+        // Return a promise and pass the resolve method to the debounce handler
+        value = new Promise(resolve => {
+          cache[getKey(validator)] = run.debounce(validator, () => resolve(validator.validate(attrValue, options, model, attribute)), debounce, false);
+        });
+      } else {
+        value = validator.validate(attrValue, options, model, attribute);
+      }
+
+      return validationReturnValueHandler(attribute, value, model);
     });
 
-    validationResults = flatten(validationResults);
-    var validationResultsCollection = ValidationResultCollection.create({
-      attribute, content: validationResults
+    return ValidationResultCollection.create({
+      attribute, content: flatten(validationResults)
     });
-
-    // https://github.com/emberjs/data/issues/3707
-    // if (hasEmberData() && model instanceof self.DS.Model && !isNone(modelErrors) && canInvoke(modelErrors, 'add')) {
-    //   if(modelErrors.has(attribute)) {
-    //     modelErrors.remove(attribute);
-    //   }
-    //   get(validationResultsCollection, 'messages').forEach((m) => modelErrors.add(attribute, m));
-    // }
-
-    return validationResultsCollection;
   }));
 }
 
@@ -306,15 +310,15 @@ function getCPDependentKeysFor(attribute, validations) {
  * @method validationReturnValueHandler
  * @private
  * @param  {String} attribute
- * @param  {Unknown} validationReturnValue
+ * @param  {Unknown} value
  * @param  {Object} model
  * @return {ValidationResult}
  */
-function validationReturnValueHandler(attribute, validationReturnValue, model) {
+function validationReturnValueHandler(attribute, value, model) {
   var result, _promise;
 
-  if (canInvoke(validationReturnValue, 'then')) {
-    _promise = Promise.resolve(validationReturnValue);
+  if (canInvoke(value, 'then')) {
+    _promise = Promise.resolve(value);
     result = ValidationResult.create({
       attribute, _promise, model
     });
@@ -322,7 +326,7 @@ function validationReturnValueHandler(attribute, validationReturnValue, model) {
     result = ValidationResult.create({
       attribute, model
     });
-    result.update(validationReturnValue);
+    result.update(value);
   }
 
   return result;
@@ -340,7 +344,7 @@ function getKey(model) {
 }
 
 /**
- * Get validatiors for the give attribute. If they are not in the cache, then create them.
+ * Get validators for the give attribute. If they are not in the cache, then create them.
  * @method getValidatorsFor
  * @private
  * @param  {String} attribute
@@ -349,13 +353,36 @@ function getKey(model) {
  */
 function getValidatorsFor(attribute, model) {
   var key = getKey(model);
-  var currentValidators = get(model, `validations._validators.${key}.${attribute}`);
+  var validators = get(model, `validations._validators.${key}.${attribute}`);
 
-  if (!Ember.isNone(currentValidators)) {
-    return currentValidators;
+  if (!isNone(validators)) {
+    return validators;
   }
 
   return createValidatorsFor(attribute, model);
+}
+
+/**
+ * Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.
+ * @method getValidatorCacheFor
+ * @private
+ * @param  {String} attribute
+ * @param  {Object} model
+ * @return {Map}
+ */
+function getDebouncedValidationsCacheFor(attribute, model) {
+  var key = getKey(model);
+  var debouncedValidations = get(model, `validations._debouncedValidations`);
+
+  if (isNone(debouncedValidations[key])) {
+    debouncedValidations[key] = {};
+  }
+
+  if (isNone(debouncedValidations[key][attribute])) {
+    debouncedValidations[key][attribute] = {};
+  }
+
+  return debouncedValidations[key][attribute];
 }
 
 /**
@@ -370,6 +397,7 @@ function createValidatorsFor(attribute, model) {
   var key = getKey(model);
   var validations = get(model, 'validations');
   var validationRules = makeArray(get(validations, `_validationRules.${attribute}`));
+  var validatorCache = get(validations, '_validators');
   var owner = getOwner(model);
   var validators = [];
   var validator;
@@ -396,12 +424,12 @@ function createValidatorsFor(attribute, model) {
   });
 
   // Check to see if there is already a cache started for this model instanse, if not create a new pojo
-  if (isNone(get(validations, `_validators.${key}`))) {
-    set(validations, `_validators.${key}`, {});
+  if (isNone(validatorCache[key])) {
+    validatorCache[key] = {};
   }
 
   // Add validators to model instance cache
-  set(validations, `_validators.${key}.${attribute}`, validators);
+  validatorCache[key][attribute] = validators;
 
   return validators;
 }
@@ -490,7 +518,6 @@ function validate(options = {}, async = true) {
   return resultObject;
 }
 
-
 /**
  * ### Options
  * - `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute
@@ -508,4 +535,32 @@ function validate(options = {}, async = true) {
  */
 function validateSync(options) {
   return this.validate(options, false);
+}
+
+/**
+ * willDestroy override for the final created mixin. Cancels all ongoing debounce timers
+ * and removes all cached data for the current object being destroyed
+ *
+ * @method willDestroy
+ * @private
+ */
+function willDestroy() {
+  this._super(...arguments);
+  let key = getKey(this);
+  let debounceCache = get(this, `validations._debouncedValidations`);
+  let validatorCache = get(this, `validations._validators`);
+
+  // Cancel all debounced timers
+  if(!isNone(debounceCache[key])) {
+    let modelCache = debounceCache[key];
+    // Itterate over each attribute and cancel all of its debounced validations
+    Object.keys(modelCache).forEach(attr => {
+      let attrCache = modelCache[attr];
+      Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
+    });
+  }
+
+  // Remove all cached information stored for this model instance
+  delete debounceCache[key];
+  delete validatorCache[key];
 }

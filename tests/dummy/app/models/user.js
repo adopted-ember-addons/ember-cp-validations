@@ -5,22 +5,23 @@
 
 import Ember from 'ember';
 import DS from 'ember-data';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 var attr = DS.attr;
 
 var Validations = buildValidations({
-  username: [
-    validator('presence', true),
-    validator('length', {
-      max: 15
-    })
-  ],
+  username: {
+    debounce: 500,
+    validators: [
+      validator('presence', true),
+      validator('length', {
+        max: 15
+      })
+    ]
+  },
   password: {
     description: 'Password',
+    debounce: 500,
     validators: [
       validator('presence', true),
       validator('length', {
@@ -33,15 +34,19 @@ var Validations = buildValidations({
       })
     ]
   },
-  email: [
-    validator('presence', true),
-    validator('format', {
-      type: 'email'
-    })
-  ],
+  email: {
+    debounce: 500,
+    validators: [
+      validator('presence', true),
+      validator('format', {
+        type: 'email'
+      })
+    ]
+  },
   emailConfirmation: validator('confirmation', {
     on: 'email',
-    message: 'Email addresses do not match'
+    message: 'Email addresses do not match',
+    debounce: 500
   }),
   details: validator('belongs-to')
 });
