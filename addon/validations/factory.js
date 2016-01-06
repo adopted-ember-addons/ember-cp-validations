@@ -235,7 +235,7 @@ function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
   return computed(...dependentKeys, cycleBreaker(function() {
     var model = get(this, '_model');
-    var validators = getValidatorCacheFor(attribute, model);
+    var validators = getValidatorsFor(attribute, model);
 
     var validationResults = validators.map(validator => {
       let options = validator.processOptions();
@@ -345,13 +345,13 @@ function getKey(model) {
 
 /**
  * Get validators for the give attribute. If they are not in the cache, then create them.
- * @method getValidatorCacheFor
+ * @method getValidatorsFor
  * @private
  * @param  {String} attribute
  * @param  {Object} model
  * @return {Array}
  */
-function getValidatorCacheFor(attribute, model) {
+function getValidatorsFor(attribute, model) {
   var key = getKey(model);
   var validators = get(model, `validations._validators.${key}.${attribute}`);
 
