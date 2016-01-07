@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.2.0
+- [#92](https://github.com/offirgolan/ember-cp-validations/pull/92) Debounced Validation
+- [#96](https://github.com/offirgolan/ember-cp-validations/pull/96) Expose `options` property for attribute validations which contains a hash of built options grouped by validator type
+
 ## 2.1.2
 - [#78](https://github.com/offirgolan/ember-cp-validations/pull/78) Migrate to owners over container for Ember >= 2.3.0-beta.1 support
 
