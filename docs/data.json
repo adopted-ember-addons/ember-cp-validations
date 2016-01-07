@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v2.2.0"
+        "version": "2.2.0.fc46bb12"
     },
     "files": {
         "addon/utils/cycle-breaker.js": {
