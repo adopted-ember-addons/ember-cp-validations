@@ -250,7 +250,7 @@ export default Ember.Object.extend({
    * {
    *   'presence': { presence: true},
    *   'length': { max: 15 },
-   *   'function': [{ regex: /foo/ }, { regex: /bar/ }]
+   *   'regex': [{ regex: /foo/ }, { regex: /bar/ }]
    * }
    * ```
    *
