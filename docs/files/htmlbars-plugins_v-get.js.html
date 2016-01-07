@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>htmlbars-plugins/v-get.js - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>htmlbars-plugins/v-get.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error &#x60;message&#x60; for the &#x60;username&#x60; attribute, it would look something like this:
+ *
+ * &#x60;&#x60;&#x60;handlebars
+ * {{model.validations.attrs.username.message}}
+ * &#x60;&#x60;&#x60;
+ *
+ * ## The V-Get Helper
+ * To bypass such long pathing, you can use the &#x60;v-get&#x60; helper.
+ *
+ * _**Notice**: Ember v1.13.0 is not supported due to a bug. Please use Ember v1.13.1 and higher or Ember v1.12.* and lower_
+ *
+ * **Access global model properties**
+ *
+ * &#x60;&#x60;&#x60;handlebars
+ * {{v-get model &#x27;isValid&#x27;}}
+ * &#x60;&#x60;&#x60;
+ *
+ * **Access attribute specific properties**
+ *
+ * &#x60;&#x60;&#x60;handlebars
+ * {{v-get model &#x27;username&#x27; &#x27;message&#x27;}}
+ * &#x60;&#x60;&#x60;
+ *
+ * **Access model relationship validations**
+ *
+ * Say we have a &#x60;user&#x60; model with a &#x60;details&#x60; attribute that is a belongsTo relationship, to access validations on the &#x60;details&#x60; attribute/model we can access it as such.
+ *
+ * &#x60;&#x60;&#x60;handlebars
+ * {{v-get model.details &#x27;isValid&#x27;}}
+ * {{v-get model.details &#x27;firstName&#x27; &#x27;message&#x27;}}
+ * &#x60;&#x60;&#x60;
+ *
+ * What&#x27;s awesome about this is that you can pass in bound properties!
+ *
+ * &#x60;&#x60;&#x60;handlebars
+ * {{v-get model attr prop}}
+ * {{v-get model prop}}
+ * &#x60;&#x60;&#x60;
+ *
+ * Here is a more extensive example:
+ * &#x60;&#x60;&#x60;handlebars
+ * &lt;form&gt;
+ *   {{input value=model.username placeholder=&quot;Username&quot;}}
+ *   {{#if (v-get model &#x27;username&#x27; &#x27;isInvalid&#x27;)}}
+ *     &lt;div class=&quot;error&quot;&gt;
+ *       {{v-get model &#x27;username&#x27; &#x27;message&#x27;}}
+ *     &lt;/div&gt;
+ *   {{/if}}
+    *
+ *   &lt;button type=&quot;submit&quot; disabled={{v-get model &#x27;isInvalid&#x27;}}&gt;Submit&lt;/button&gt;
+ * &lt;/form&gt;
+ * &#x60;&#x60;&#x60;
+ *
+ * @module Templating
+ * @main Templating
+ */
+function VGet(options) {
+  this.options = options;
+  this.syntax = null; // set by HTMLBars
+}
+
+VGet.prototype.transform = function(ast) {
+  var context = this;
+  var walker = new this.syntax.Walker();
+
+  walker.visit(ast, function(node) {
+    if (context.validate(node)) {
+      context.processNode(node);
+    }
+  });
+
+  return ast;
+};
+
+VGet.prototype.validate = function(node) {
+  return [&#x27;BlockStatement&#x27;, &#x27;MustacheStatement&#x27;, &#x27;ElementNode&#x27;].indexOf(node.type) &gt; -1;
+};
+
+VGet.prototype.processNode = function(node) {
+  var type = node.type;
+  node = unwrapNode(node);
+
+  // {{v-get model &#x27;username&#x27; &#x27;isValid&#x27;}}
+  if (type === &#x27;MustacheStatement&#x27; &amp;&amp; node.path.original === &#x27;v-get&#x27;) {
+    this.transformToGet(node);
+  }
+
+  this.processNodeParams(node);
+  this.processNodeHash(node);
+  this.processNodeAttributes(node);
+};
+
+/**
+ * {{#if (v-get model &#x27;username&#x27; &#x27;isValid&#x27;)}} {{/if}}
+ * @param  {AST.Node} node
+ */
+VGet.prototype.processNodeParams = function(node) {
+  if (node.params) {
+    for (var i = 0; i &lt; node.params.length; i++) {
+      var param = node.params[i];
+      if (param.type === &#x27;SubExpression&#x27;) {
+        if (param.path.original === &#x27;v-get&#x27;) {
+          this.transformToGet(param);
+        } else {
+          this.processNode(param);
+        }
+      }
+    }
+  }
+};
+
+/**
+ * {{x-component prop=(v-get model &#x27;isValid&#x27;)}}
+ * @param  {AST.Node} node
+ */
+VGet.prototype.processNodeHash = function(node) {
+  if (node.hash &amp;&amp; node.hash.pairs) {
+    for (var i = 0; i &lt; node.hash.pairs.length; i++) {
+      var pair = node.hash.pairs[i];
+      if (pair.value.type === &#x27;SubExpression&#x27;) {
+        if (pair.value.path.original === &#x27;v-get&#x27;) {
+          this.transformToGet(pair.value);
+        } else {
+          this.processNode(pair.value);
+        }
+      }
+    }
+  }
+};
+
+/**
+ * &lt;button type=&quot;submit&quot; disabled={{v-get model &#x27;isInvalid&#x27;}}&gt;Submit&lt;/button&gt; (node.attributes)
+ * &lt;div class=&quot;form-group {{if (v-get model &#x27;isInvalid&#x27;) &#x27;has-error&#x27;}}&quot;&gt;
+ * @param  {AST.Node} node
+ */
+VGet.prototype.processNodeAttributes = function(node) {
+  var i;
+  if (node.attributes) {
+    for (i = 0; i &lt; node.attributes.length; i++) {
+      var attr = node.attributes[i];
+      this.processNode(attr.value);
+    }
+  }
+
+  if (node.parts) {
+    for (i = 0; i &lt; node.parts.length; i++) {
+      this.processNode(node.parts[i]);
+    }
+  }
+};
+
+
+/**
+ * Transform (v-get model &#x27;username&#x27; &#x27;isValid&#x27;) to (get (get model.validations.attrs &#x27;username&#x27;) &#x27;isValid&#x27;) OR
+ * (v-get model &#x27;isValid&#x27;) to (get model.validations &#x27;isValid&#x27;)
+ * @param  {AST.Node} node
+ * @return {AST.Node}
+ */
+VGet.prototype.transformToGet = function(node) {
+  node = unwrapNode(node);
+  var params = node.params;
+  var i = 0;
+
+  if (params.length &lt; 2) {
+    throw new Error(&#x27;{{v-get}} requires at least two arguments&#x27;);
+  }
+  if (params[0].type !== &#x27;PathExpression&#x27;) {
+    throw new Error(&#x27;The first argument to {{v-get}} must be a stream&#x27;);
+  }
+
+  var root = this.syntax.builders.path(params[i++].original + &#x27;.validations&#x27;);
+
+  if (params.length === 3) {
+    root = this.syntax.builders.path(root.original + &#x27;.attrs&#x27;);
+    root = this.syntax.builders.sexpr(this.syntax.builders.path(&#x27;get&#x27;), [root, params[i++]]); // (get model.validations.attrs &#x27;username&#x27;)
+  }
+
+  node.path = this.syntax.builders.path(&#x27;get&#x27;);
+  node.params = [root, params[i]];
+
+};
+
+// For compatibility with pre- and post-glimmer
+function unwrapNode(node) {
+  if (node.sexpr) {
+    return node.sexpr;
+  } else {
+    return node;
+  }
+}
+
+module.exports = VGet;
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

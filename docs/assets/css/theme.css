@@ -1,0 +1,327 @@
+html, body {
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  margin: 0;
+  background: #fcfcfc;
+}
+
+.yuidoc-class-description {
+  background: none;
+  border: 0 none;
+  box-shadow: none;
+  padding: 0;
+  font-size: 12px;
+  line-height: 26px;
+  margin: 20px 0;
+}
+h1 {
+  font-weight: 300;
+}
+h2 {
+  font-size: 20px;
+  font-weight: normal;
+  color: #6C6C6C;
+}
+h3 {
+  font-size: 14px;
+  color: #4A4A4A;
+}
+body a {
+  color: #f23818;
+  text-decoration: none;
+}
+
+body a:hover {
+  text-decoration: none;
+  color: #CE3A21;
+}
+
+.brand a {
+  color: #0F0F0F;
+}
+
+#options-form {
+  margin-top: 5px;
+  padding-right: 0;
+}
+
+#options-form label {
+  margin: 0 2px;
+}
+
+input.search-query:focus {
+  border-color: #ccc;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#sidebar .tab-pane li a:hover, #sidebar .tab-pane li a:focus {
+  background: #A2C7DA;
+}
+
+.navbar-fixed-top .navbar-inner, .navbar-static-top .navbar-inner {
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04);
+}
+
+code {
+  color: #636363;
+}
+
+ul.inline > li, ol.inline > li {
+  padding: 0 !important;
+}
+
+.method-signature, .method-signature code {
+  font-family: inherit;
+  line-height: 20px;
+  font-size: 15px;
+  background: 0 none;
+  padding: 0;
+  border: 0 none;
+}
+.method-signature .name code {
+  font-weight: bold;
+  color: #CE3A21;
+}
+.method-signature {
+  margin-bottom: 2px;
+}
+
+body .apidocs .item-list {
+  border: 0 solid #efefef;
+  border-width: 1px 1px 0 1px;
+  margin: 0;
+}
+
+body .apidocs .item-list > .item {
+  border: 0 solid #efefef;
+  border-width: 0 0 1px 0;
+  padding: 15px 20px;
+  margin: 0;
+
+}
+
+body .apidocs .item:last-child, body .apidocs .constructor .item:last-child {
+  border-radius: 0 0 3px 3px;
+}
+body .apidocs .item:first-child, body .apidocs .constructor .item:first-child {
+  border-radius: 3px 3px 0 0;
+}
+body .apidocs .item:first-child:last-child, body .apidocs .constructor .item:first-child:last-child {
+  border-radius: 3px;
+}
+
+pre {
+  tab-size: 4;
+}
+
+.well-small {
+  min-height: 0;
+  border: 1px solid #efefef;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  margin-bottom: 15px;
+}
+
+.sidebar-container {
+  position: fixed;
+  width: 300px;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #fcfcfc;
+}
+
+.content-container {
+  margin-left: 350px;
+}
+
+.content-container .docs-main {
+  margin-top: 50px;
+}
+
+#sidebar .header {
+    z-index: 200;
+    text-align: center;
+    padding: 0.809em;
+    display: block;
+    color: #fcfcfc;
+    margin-bottom: 0.809em;
+
+}
+
+#sidebar .header .brand {
+  font-size: 16px;
+}
+
+#sidebar ul {
+    list-style: none;
+    margin: 0;
+    margin-bottom: 5em;
+}
+
+#sidebar ul li {
+    font-size: 13px;
+    border: none;
+}
+
+#sidebar ul li.section {
+  font-weight: bold;
+  margin: 20px;
+}
+
+#sidebar ul li.section:hover {
+  background: inherit;
+}
+
+#sidebar ul li.sub a {
+  padding-left: 40px;
+}
+
+#sidebar ul li a {
+    color: #717171;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 20px;
+    padding: 5px 20px;
+    display: block;
+}
+
+#sidebar ul li a:hover, #sidebar ul li.active a {
+  background: grey;
+  color: white;
+  font-weight: 600;
+}
+
+#sidebar .footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+  color: #585858;
+  background: #E6E6E6;
+  border-top: 1px solid #ccc;
+  z-index: 400;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+#sidebar .footer a.github {
+  color: #585858;
+}
+
+#api-tabview-filter {
+  margin: 0 0 10px 0;
+}
+
+#docs-main {
+  margin-top: 25px;
+}
+
+#api-classes, #api-modules, #api-tabview-filter {
+  padding: 0;
+  border: 0 none;
+}
+
+.page-section h2 {
+  margin: 20px 0;
+}
+
+.nav-list > li > a, .nav-list .nav-header {
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+.method-signature .optional {
+  color: ##787878;
+}
+
+.paren {
+  // font-family: monospace;
+}
+.apidocs .args {
+  margin: 0;
+}
+
+.apidocs .flag {
+  background: transparent !important;
+  border: 1px solid #bababa;
+  color: #bababa;
+  padding: 2px 4px 2px;
+}
+
+.apidocs .flag.chainable { border-color: #46ca3b; color: #46ca3b; }
+.apidocs .flag.protected { border-color: #9b86fc; color: #9b86fc; }
+.apidocs .flag.private { border-color: #fd6b1b; color: #fd6b1b; }
+.apidocs .flag.async { border-color: #356de4; color: #356de4; }
+.apidocs .flag.required { border-color: #e60923; color: #e60923; }
+.apidocs .flag.deprecated { border-color: #333; color: #333; }
+.apidocs .flag.optional { border-color: #DADADA; color: #DADADA; }
+.apidocs .flag.final { border-color: #B6B6B6; color: #B6B6B6; }
+
+.page-header {
+  border-bottom: 0 none;
+}
+
+.yuidoc-class-description pre {
+  margin-top: 15px;
+}
+
+.ia + .ia:before {
+  content: ', ';
+}
+
+#class-toc ul li {
+  line-height: 18px;
+}
+
+.apidocs .param .param-description {
+  padding-top: 5px;
+}
+
+.apidocs .item h4, .apidocs .item h5, .apidocs .item h6 {
+  color: #626262;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.params-list li:last-child {
+  margin-bottom: 0;
+}
+
+.apidocs .content .footer {
+  margin-top: 25px;
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+.typeahead.dropdown-menu {
+  width: 210px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top-width: 0;
+  margin-left: 12px !important;
+  margin-top: 5px !important;
+}
+
+.typeahead.dropdown-menu li a, .typeahead.dropdown-menu li a:hover {
+  background-image: none;
+  background-color: initial;
+  text-align: left;
+}

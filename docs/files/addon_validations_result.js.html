@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/validations/result.js - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>addon/validations/result.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+
+import Ember from &#x27;ember&#x27;;
+import ValidationResultCollection from &#x27;./result-collection&#x27;;
+import ValidationError from &#x27;./error&#x27;;
+import { hasEmberData } from &#x27;../utils/utils&#x27;;
+
+const {
+  get,
+  set,
+  isNone,
+  isArray,
+  computed,
+  canInvoke,
+  makeArray,
+  setProperties,
+  getProperties,
+  defineProperty,
+  A: emberArray
+} = Ember;
+
+const {
+  and,
+  not
+} = computed;
+
+/**
+ * This class is &#x60;private&#x60; and is only used by {{#crossLink &#x27;ResultCollection&#x27;}}{{/crossLink}}
+ * @module Validations
+ * @class Result
+ * @private
+ */
+
+var ValidationsObject = Ember.Object.extend({
+  model: null,
+  isValid: true,
+  isValidating: false,
+  message: null,
+  attribute: &#x27;&#x27;,
+
+  attrValue: undefined,
+  _promise: undefined,
+
+  init() {
+    this._super(...arguments);
+    var attribute = get(this, &#x27;attribute&#x27;);
+    // TODO: Not good practice. Stef will make this go away.
+    defineProperty(this, &#x27;attrValue&#x27;, computed.oneWay(&#x60;model.${attribute}&#x60;));
+  },
+
+  isNotValidating: not(&#x27;isValidating&#x27;),
+  isInvalid: not(&#x27;isValid&#x27;),
+  isTruelyValid: and(&#x27;isNotValidating&#x27;, &#x27;isValid&#x27;),
+
+  isAsync: computed(&#x27;_promise&#x27;, function() {
+    var promise = get(this, &#x27;_promise&#x27;);
+    return !isNone(promise) &amp;&amp; canInvoke(promise, &#x27;then&#x27;);
+  }),
+
+  isDirty: computed(&#x27;attrValue&#x27;, function() {
+    var model = get(this, &#x27;model&#x27;);
+    var attribute = get(this, &#x27;attribute&#x27;);
+    var attrValue = get(this, &#x27;attrValue&#x27;);
+
+    // Check default model values
+    if (hasEmberData() &amp;&amp; model instanceof self.DS.Model &amp;&amp; canInvoke(model, &#x27;eachAttribute&#x27;)) {
+      let attrMeta = model.get(&#x27;constructor.attributes&#x27;).get(attribute);
+      if (attrMeta) {
+        let defaultValue = attrMeta.options.defaultValue;
+        if (!isNone(defaultValue)) {
+          return defaultValue !== attrValue;
+        }
+      }
+    }
+    return !isNone(attrValue);
+  }),
+
+  messages: computed(&#x27;message&#x27;, function() {
+    return makeArray(get(this, &#x27;message&#x27;));
+  }),
+
+  error: computed(&#x27;message&#x27;, &#x27;isInvalid&#x27;, &#x27;attribute&#x27;, function() {
+    if (get(this, &#x27;isInvalid&#x27;)) {
+      return ValidationError.create({
+        message: get(this, &#x27;message&#x27;),
+        attribute: get(this, &#x27;attribute&#x27;)
+      });
+    }
+
+    return null;
+  }),
+
+  errors: computed(&#x27;error&#x27;, function() {
+    return makeArray(get(this, &#x27;error&#x27;));
+  })
+});
+
+export default Ember.Object.extend({
+  /**
+   * @property model
+   * @type {Object}
+   */
+  model: null,
+
+  /**
+   * @property attribute
+   * @type {String}
+   */
+  attribute: &#x27;&#x27;,
+
+  /**
+   * @property _promise
+   * @async
+   * @private
+   * @type {Promise}
+   */
+  _promise: undefined,
+
+  /**
+   * The validator that returned this result
+   * @property _validator
+   * @private
+   * @type {Validator}
+   */
+  _validator: null,
+
+  /**
+   * @property isValid
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isValid: computed.oneWay(&#x27;_validations.isValid&#x27;),
+
+  /**
+   * @property isInvalid
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isInvalid: computed.oneWay(&#x27;_validations.isInvalid&#x27;),
+
+  /**
+   * @property isValidating
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isValidating: computed.oneWay(&#x27;_validations.isValidating&#x27;),
+
+  /**
+   * @property isTruelyValid
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isTruelyValid: computed.oneWay(&#x27;_validations.isTruelyValid&#x27;),
+
+  /**
+   * @property isAsync
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isAsync: computed.oneWay(&#x27;_validations.isAsync&#x27;),
+
+  /**
+   * @property isDirty
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isDirty: computed.oneWay(&#x27;_validations.isDirty&#x27;),
+
+  /**
+   * @property message
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  message: computed.oneWay(&#x27;_validations.message&#x27;),
+
+  /**
+   * @property messages
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  messages: computed.oneWay(&#x27;_validations.messages&#x27;),
+
+  /**
+   * @property error
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  error: computed.oneWay(&#x27;_validations.error&#x27;),
+
+  /**
+   * @property errors
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  errors: computed.oneWay(&#x27;_validations.errors&#x27;),
+
+  /**
+   * This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
+   * @property _validations
+   * @private
+   * @type {Result}
+   */
+  _validations: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, function() {
+    return ValidationsObject.create(getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;]));
+  }),
+
+  init() {
+    this._super(...arguments);
+
+    if (get(this, &#x27;isAsync&#x27;)) {
+      this._handlePromise();
+    }
+  },
+
+  /**
+   * Update the current validation result object with the given result
+   * - If result is undefined or null, set isValid to false
+   * - If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)
+   * - If result is a collection of validation result objects, create a Validation Result Collection and set that to the _validations object (has-many)
+   * - If result is a string, set the message to the given string and set isValid to false
+   * - If result is a boolean, set isValid to result
+   * - If result is a pojo, update _validations object with the information given
+   *
+   * @method update
+   * @private
+   * @param result
+   */
+  update(result) {
+    var validations = get(this, &#x27;_validations&#x27;);
+
+    if (isNone(result)) {
+      this.update(false);
+      return;
+    }
+
+    if (get(result, &#x27;isValidations&#x27;)) {
+      set(this, &#x27;_validations&#x27;, result);
+    } else if (isArray(result) &amp;&amp; emberArray(result).isEvery(&#x27;isValidations&#x27;, true)) {
+      var validationResultsCollection = ValidationResultCollection.create({
+        attribute: get(this, &#x27;attribute&#x27;),
+        content: result
+      });
+      set(this, &#x27;_validations&#x27;, validationResultsCollection);
+    } else if (typeof result === &#x27;string&#x27;) {
+      setProperties(validations, {
+        message: result,
+        isValid: false
+      });
+    } else if (typeof result === &#x27;boolean&#x27;) {
+      set(validations, &#x27;isValid&#x27;, result);
+    } else if (typeof result === &#x27;object&#x27;) {
+      setProperties(validations, result);
+    }
+  },
+
+  /**
+   * Promise handler
+   * @method  _handlePromise
+   * @private
+   */
+  _handlePromise() {
+    var validations = get(this, &#x27;_validations&#x27;);
+    set(validations, &#x27;isValidating&#x27;, true);
+    get(this, &#x27;_promise&#x27;).then(
+      result =&gt; this.update(result),
+      result =&gt; this.update(result)
+    ).catch(reason =&gt; {
+      // TODO: send into error state
+      throw reason;
+    }).finally(() =&gt; {
+      set(validations, &#x27;isValidating&#x27;, false);
+    });
+  }
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

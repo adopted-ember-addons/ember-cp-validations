@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/index.js - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>addon/index.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+
+// import Mixin from &#x27;./mixin&#x27;;
+import Factory from &#x27;./validations/factory&#x27;;
+import Validator from &#x27;./validations/validator&#x27;;
+
+export var buildValidations = Factory;
+export var validator = Validator;
+
+/**
+ * ## Installation
+ * &#x60;&#x60;&#x60;shell
+ * ember install ember-cp-validations
+ * &#x60;&#x60;&#x60;
+ *
+ * ## Changelog
+ * Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
+ *
+ * ## Live Demo
+ * A live demo can be found [here](../../../)
+ *
+ * ## Looking for help?
+ * If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
+ *
+ * @module Home
+ */
+
+/**
+ * ## Models
+ * The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // models/user.js
+ *
+ * import Ember from &#x27;ember&#x27;;
+ * import DS from &#x27;ember-data&#x27;;
+ * import {
+ *   validator, buildValidations
+ * }
+ * from &#x27;ember-cp-validations&#x27;;
+ *
+ * var Validations = buildValidations({
+ *   username: validator(&#x27;presence&#x27;, true),
+ *   password: [
+ *     validator(&#x27;presence&#x27;, true),
+ *     validator(&#x27;length&#x27;, {
+ *       min: 4,
+ *       max: 8
+ *     })
+ *   ],
+ *   email: [
+ *     validator(&#x27;presence&#x27;, true),
+ *     validator(&#x27;format&#x27;, { type: &#x27;email&#x27; })
+ *   ],
+ *   emailConfirmation: [
+ *     validator(&#x27;presence&#x27;, true),
+ *     validator(&#x27;confirmation&#x27;, {
+ *       on: &#x27;email&#x27;,
+ *       message: &#x27;do not match&#x27;,
+ *       description: &#x27;Email addresses&#x27;
+ *     })
+ *   ]
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * Once our rules are created and our Mixin is generated, all we have to do is add it to our model.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // models/user.js
+ *
+ * export default DS.Model.extend(Validations, {
+ *   &#x27;username&#x27;: attr(&#x27;string&#x27;),
+ *   &#x27;password&#x27;: attr(&#x27;string&#x27;),
+ *   &#x27;email&#x27;: attr(&#x27;string&#x27;)
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * ## Objects
+ * You can also use the generated &#x60;Validations&#x60; mixin on any &#x60;Ember.Object&#x60; or child
+ * of &#x60;Ember.Object&#x60;, like &#x60;Ember.Component&#x60;. For example:
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // components/x-foo.js
+ *
+ * import Ember from &#x27;ember&#x27;;
+ * import {
+ *   validator, buildValidations
+ * }
+ * from &#x27;ember-cp-validations&#x27;;
+ *
+ * var Validations = buildValidations({
+ *   bar: validator(&#x27;presence&#x27;, true)
+ * });
+ *
+ * export default Ember.Component.extend(Validations, {
+ *   bar: null
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * To lookup validators, container access is required which can cause an issue with &#x60;Ember.Object&#x60; creation if the object is statically imported. The current fix for this is as follows.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // models/user.js
+ *
+ * export default Ember.Object.extend(Validations, {
+ *   username: null
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * **Ember &lt; 2.3.0-beta.1**
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // routes/index.js
+ *
+ * import User from &#x27;../models/user&#x27;;
+ *
+ * export default Ember.Route.extend({
+ *   model() {
+ *     var container = this.get(&#x27;container&#x27;);
+ *     return User.create({ username: &#x27;John&#x27;, container })
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * **Ember &gt;= 2.3.0-beta.2**
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // routes/index.js
+ *
+ * import User from &#x27;../models/user&#x27;;
+ *
+ * export default Ember.Route.extend({
+ *   model() {
+ *     User.create(
+ *      getOwner(this).ownerInjection(),
+ *      { username: &#x27;John&#x27; }
+ *     );
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * @module Home
+ * @submodule Basic Usage
+ */
+
+/**
+ * ### Default Options
+ *
+ * Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
+ *
+ * Instead of doing the following:
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * var Validations = buildValidations({
+ *   username: [
+ *     validator(&#x27;presence&#x27;, {
+ *       presence: true,
+ *       description: &#x27;Username&#x27;
+ *     }),
+ *     validator(&#x27;length&#x27;, {
+ *       min: 1,
+ *       description: &#x27;Username&#x27;
+ *     }),
+ *     validator(&#x27;no-whitespace-around&#x27;, {
+ *       description: &#x27;A username&#x27;
+ *     })
+ *   ]
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * We can declare default options:
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * var Validations = buildValidations({
+ *   username: {
+ *     description: &#x27;Username&#x27;
+ *     validators: [
+ *       validator(&#x27;presence&#x27;, true),
+ *       validator(&#x27;length&#x27;, {
+ *         min: 1
+ *       }),
+ *       validator(&#x27;no-whitespace-around&#x27;, {
+ *         description: &#x27;A username&#x27;
+ *       })
+ *     ]
+ *   },
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * In the above example, all the validators for username will have a description of &#x60;Username&#x60; except that of the &#x60;no-whitespace-around&#x60; validator which will be &#x60;A username&#x60;.
+ *
+ * ### Options as Functions
+ *
+ * All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as &#x60;options&#x60;, &#x60;model&#x60;, &#x60;attribute&#x60;, etc.
+ *
+ * Please note that the &#x60;message&#x60; option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * var Validations = buildValidations({
+ *   dob: validator(&#x27;date&#x27;, {
+ *     description: &#x27;Date of Birth&#x27;,
+ *     format() {
+ *       return this.get(&#x27;model.meta.date.format&#x27;);
+ *     },
+ *     before() {
+ *       return moment();
+ *     },
+ *     after() {
+ *       return moment().subtract(120, &#x27;years&#x27;);
+ *     }
+ *   })
+ * });
+ * &#x60;&#x60;&#x60;
+ * @module Home
+ * @submodule Advanced Usage
+ */
+
+/**
+ * ## [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
+ *
+ *  &#x60;&#x60;&#x60;bash
+ *  ember install ember-intl-cp-validations
+ *  &#x60;&#x60;&#x60;
+ *
+ * ## [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
+ *
+ * &#x60;&#x60;&#x60;bash
+ *  ember install ember-i18n-cp-validations
+ * &#x60;&#x60;&#x60;
+ *
+ * @module Home
+ * @submodule I18n Solutions
+ */
+export default {
+  buildValidations,
+  validator
+};
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

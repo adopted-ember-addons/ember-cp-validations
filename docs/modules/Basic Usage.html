@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Basic Usage - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub active"><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>Basic Usage</h1>
+</div>
+
+<div class="clearfix well well-small">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/addon_index.js.html#l31"><code>addon&#x2F;index.js:31</code></a>
+        </div>
+
+</div>
+
+
+<div class="moduledesc page-section">
+    <h2>Models</h2>
+<p>The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.</p>
+<pre class="code prettyprint"><code class="language-javascript">// models/user.js
+
+import Ember from 'ember';
+import DS from 'ember-data';
+import {
+  validator, buildValidations
+}
+from 'ember-cp-validations';
+
+var Validations = buildValidations({
+  username: validator('presence', true),
+  password: [
+    validator('presence', true),
+    validator('length', {
+      min: 4,
+      max: 8
+    })
+  ],
+  email: [
+    validator('presence', true),
+    validator('format', { type: 'email' })
+  ],
+  emailConfirmation: [
+    validator('presence', true),
+    validator('confirmation', {
+      on: 'email',
+      message: 'do not match',
+      description: 'Email addresses'
+    })
+  ]
+});
+</code></pre>
+<p>Once our rules are created and our Mixin is generated, all we have to do is add it to our model.</p>
+<pre class="code prettyprint"><code class="language-javascript">// models/user.js
+
+export default DS.Model.extend(Validations, {
+  'username': attr('string'),
+  'password': attr('string'),
+  'email': attr('string')
+});
+</code></pre>
+<h2>Objects</h2>
+<p>You can also use the generated <code>Validations</code> mixin on any <code>Ember.Object</code> or child
+of <code>Ember.Object</code>, like <code>Ember.Component</code>. For example:</p>
+<pre class="code prettyprint"><code class="language-javascript">// components/x-foo.js
+
+import Ember from 'ember';
+import {
+  validator, buildValidations
+}
+from 'ember-cp-validations';
+
+var Validations = buildValidations({
+  bar: validator('presence', true)
+});
+
+export default Ember.Component.extend(Validations, {
+  bar: null
+});
+</code></pre>
+<p>To lookup validators, container access is required which can cause an issue with <code>Ember.Object</code> creation if the object is statically imported. The current fix for this is as follows.</p>
+<pre class="code prettyprint"><code class="language-javascript">// models/user.js
+
+export default Ember.Object.extend(Validations, {
+  username: null
+});
+</code></pre>
+<p><strong>Ember &lt; 2.3.0-beta.1</strong></p>
+<pre class="code prettyprint"><code class="language-javascript">// routes/index.js
+
+import User from '../models/user';
+
+export default Ember.Route.extend({
+  model() {
+    var container = this.get('container');
+    return User.create({ username: 'John', container })
+  }
+});
+</code></pre>
+<p><strong>Ember &gt;= 2.3.0-beta.2</strong></p>
+<pre class="code prettyprint"><code class="language-javascript">// routes/index.js
+
+import User from '../models/user';
+
+export default Ember.Route.extend({
+  model() {
+    User.create(
+     getOwner(this).ownerInjection(),
+     { username: 'John' }
+    );
+  }
+});
+</code></pre>
+
+</div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

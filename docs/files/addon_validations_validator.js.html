@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/validations/validator.js - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>addon/validations/validator.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+import Ember from &#x27;ember&#x27;;
+
+const {
+  isNone
+} = Ember;
+
+/**
+ * ## Common Options
+ *
+ * ### description
+ * A descriptor for your attribute used in the error message strings. Defaults to &#x60;This field&#x27;&#x60;.
+ * You can overwrite this value in your &#x60;validators/messages.js&#x60; file by changing the &#x60;defaultDescription&#x60; property.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * validator(&#x27;date&#x27;, {
+ *     description: &#x27;Date of birth&#x27;
+ * })
+ * // If validation is run and the attribute is empty, the error returned will be:
+ * // &#x27;Date of birth can&#x27;t be blank&#x27;
+ * &#x60;&#x60;&#x60;
+ *
+ * ### dependentKeys
+ * A list of other model specific dependents for you validator.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * validator(&#x27;has-friends&#x27;, {
+ *     dependentKeys: [&#x27;friends.[]&#x27;]
+ * })
+ * validator(&#x27;has-valid-friends&#x27;, {
+ *     dependentKeys: [&#x27;friends.@each.username&#x27;]
+ * })
+ * validator(&#x27;x-validator&#x27;, {
+ *     dependentKeys: [&#x27;username&#x27;, &#x27;email&#x27;, &#x27;meta.foo.bar&#x27;]
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * ### debounce
+ * Debounces the validation with the given time in &#x60;milliseconds&#x60;. All debounced validations will be handled asynchronously (wrapped in a promise).
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * validator(&#x27;length&#x27;, {
+ *     debounce: 500
+ * })
+ * validator(&#x27;x-validator&#x27;, {
+ *     debounce: 250
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * ### message
+ * This option can take two forms. It can either be a &#x60;string&#x60; or a &#x60;function&#x60;. If a string is used, then it will overwrite all error message types for the specified validator.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Example: String
+ * validator(&#x27;confirmation&#x27;, {
+ *   message: &#x27;Email does not match {attribute}. What are you even thinking?!&#x27;
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * We can pass a &#x60;function&#x60; into our message option for even more customization capabilities.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Example: Function
+ * validator(&#x27;date&#x27;, {
+ *   message: function(type, options, value, context) {
+ *       if (type === &#x27;before&#x27;) {
+ *           return &#x27;{description} should really be before {date}&#x27;;
+ *       }
+ *       if (type === &#x27;after&#x27;) {
+ *           return &#x27;{description} should really be after {date}&#x27;;
+ *       }
+ *   }
+ * })
+ * &#x60;&#x60;&#x60;
+ * The message function is given the following arguments:
+ *
+ * - &#x60;type&#x60; (**String**): The error message type
+ * - &#x60;options&#x60; (**Object**): The validator options that were defined in the model
+ * - &#x60;value&#x60;: The current value being evaluated
+ * - &#x60;context&#x60; (**Object**): Context for string replacement
+ *
+ * The return value must be a &#x60;string&#x60;. If nothing is returned (&#x60;undefined&#x60;), defaults to the default error message of the specified type.
+ *
+ * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
+ *
+ *
+ * ## Function Based Validators
+ *
+ * A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Example
+ * validator(function(value, options, model, attribute) {
+ *   return value === options.username ? true : &#x60;must be ${options.username}&#x60;;
+ * } , {
+ *     username: &#x27;John&#x27; // Any options can be passed here
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * @module Validators
+ * @main Validators
+ */
+
+export default function(arg1, options) {
+  options = isNone(options) ? {} : options;
+
+  var props = {
+    options
+  };
+
+  if (typeof arg1 === &#x27;function&#x27;) {
+    props.validate = arg1;
+    props._type = &#x27;function&#x27;;
+  } else if (typeof arg1 === &#x27;string&#x27;) {
+    props._type = arg1;
+  } else {
+    throw new TypeError(&#x27;[ember-cp-validations] Unexpected type for first validator argument. It should either be a string or a function&#x27;);
+  }
+
+  return props;
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Result - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li  class="active"><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>Result</h1>
+</div>
+<div class="well well-small">
+
+
+            Module: <a href="../modules/Validations.html">Validations</a>
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/addon_validations_result.js.html#l30"><code>addon&#x2F;validations&#x2F;result.js:30</code></a>
+        </div>
+</div>
+
+
+  <div class="yuidoc-class-description">
+  <p>This class is <code>private</code> and is only used by <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a></p>
+
+  </div>
+
+<div>
+    <div class="page-section">
+        <div id="index">
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method private">
+                                <a href="#method__handlePromise">_handlePromise</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_update">update</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__promise">_promise</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__validations">_validations</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__validator">_validator</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_attribute">attribute</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_error">error</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_errors">errors</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isAsync">isAsync</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isDirty">isDirty</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isInvalid">isInvalid</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isTruelyValid">isTruelyValid</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isValid">isValid</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isValidating">isValidating</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_message">message</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_messages">messages</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_model">model</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="page-section">
+                <h2 class="off-left">Methods</h2>
+                <div class="item-list">
+<div id="method__handlePromise" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>_handlePromise</code></span>
+
+		<span class="paren">()</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_result.js.html#l259"><code>addon&#x2F;validations&#x2F;result.js:259</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Promise handler</p>
+</div>
+
+
+
+</div>
+<div id="method_update" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>update</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>result</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_result.js.html#l218"><code>addon&#x2F;validations&#x2F;result.js:218</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Update the current validation result object with the given result</p>
+<ul>
+<li>If result is undefined or null, set isValid to false</li>
+<li>If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)</li>
+<li>If result is a collection of validation result objects, create a Validation Result Collection and set that to the _validations object (has-many)</li>
+<li>If result is a string, set the message to the given string and set isValid to false</li>
+<li>If result is a boolean, set isValid to result</li>
+<li>If result is a pojo, update _validations object with the information given</li>
+</ul>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">result</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+
+</div>
+                </div>
+            </div>
+
+            <div id="properties" class="page-section">
+                <h2 class="off-left">Properties</h2>
+                <div class="item-list">
+<div id="property__promise" class="property item private">
+    <h3 class="name"><code>_promise</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l114"><code>addon&#x2F;validations&#x2F;result.js:114</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__validations" class="property item private">
+    <h3 class="name"><code>_validations</code></h3>
+    <span class="type"><a href="../classes/Result.html" class="crosslink">Result</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l200"><code>addon&#x2F;validations&#x2F;result.js:200</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__validator" class="property item private">
+    <h3 class="name"><code>_validator</code></h3>
+    <span class="type">Validator</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l122"><code>addon&#x2F;validations&#x2F;result.js:122</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The validator that returned this result</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_attribute" class="property item">
+    <h3 class="name"><code>attribute</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l108"><code>addon&#x2F;validations&#x2F;result.js:108</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_error" class="property item">
+    <h3 class="name"><code>error</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l186"><code>addon&#x2F;validations&#x2F;result.js:186</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_errors" class="property item">
+    <h3 class="name"><code>errors</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l193"><code>addon&#x2F;validations&#x2F;result.js:193</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_isAsync" class="property item">
+    <h3 class="name"><code>isAsync</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l158"><code>addon&#x2F;validations&#x2F;result.js:158</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_isDirty" class="property item">
+    <h3 class="name"><code>isDirty</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l165"><code>addon&#x2F;validations&#x2F;result.js:165</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_isInvalid" class="property item">
+    <h3 class="name"><code>isInvalid</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l137"><code>addon&#x2F;validations&#x2F;result.js:137</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_isTruelyValid" class="property item">
+    <h3 class="name"><code>isTruelyValid</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l151"><code>addon&#x2F;validations&#x2F;result.js:151</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_isValid" class="property item">
+    <h3 class="name"><code>isValid</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l130"><code>addon&#x2F;validations&#x2F;result.js:130</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_isValidating" class="property item">
+    <h3 class="name"><code>isValidating</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l144"><code>addon&#x2F;validations&#x2F;result.js:144</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_message" class="property item">
+    <h3 class="name"><code>message</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l172"><code>addon&#x2F;validations&#x2F;result.js:172</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_messages" class="property item">
+    <h3 class="name"><code>messages</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l179"><code>addon&#x2F;validations&#x2F;result.js:179</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_model" class="property item">
+    <h3 class="name"><code>model</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result.js.html#l102"><code>addon&#x2F;validations&#x2F;result.js:102</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+                </div>
+            </div>
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

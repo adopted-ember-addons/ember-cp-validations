@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Factory - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li  class="active"><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>Factory</h1>
+</div>
+<div class="well well-small">
+
+
+            Module: <a href="../modules/Validations.html">Validations</a>
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/addon_validations_factory.js.html#l38"><code>addon&#x2F;validations&#x2F;factory.js:38</code></a>
+        </div>
+</div>
+
+
+  <div class="yuidoc-class-description">
+  <h2>Running Manual Validations</h2>
+<p>Although validations are lazily computed, there are times where we might want to force all or
+specific validations to happen. For this reason we have exposed two methods:</p>
+<ul>
+<li><a href="../classes/Factory.html#method_validateSync" class="crosslink">validateSync</a>: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous</li>
+<li><a href="../classes/Factory.html#method_validate" class="crosslink">validate</a>: Will always return a promise and should be used if asynchronous validations are present</li>
+</ul>
+<h2>Inspecting Validations</h2>
+<p>All validations can be accessed via the <code>validations</code> object created on your model/object.
+Each attribute also has its own validation which has the same properties.
+An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+
+  </div>
+
+<div>
+    <div class="page-section">
+        <div id="index">
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_buildValidations">buildValidations</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_createCPValidationFor">createCPValidationFor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_createGlobalValidationProps">createGlobalValidationProps</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_createMixin">createMixin</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_createValidatorsFor">createValidatorsFor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_getCPDependentKeysFor">getCPDependentKeysFor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_getKey">getKey</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_getValidatorCacheFor">getValidatorCacheFor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_getValidatorsFor">getValidatorsFor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_lookupValidator">lookupValidator</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_processDefaultOptions">processDefaultOptions</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_validate">validate</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_validateSync">validateSync</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_validationReturnValueHandler">validationReturnValueHandler</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_willDestroy">willDestroy</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="page-section">
+                <h2 class="off-left">Methods</h2>
+                <div class="item-list">
+<div id="method_buildValidations" class="method item">
+	<span class="method-signature">
+	<span class="name"><code>buildValidations</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>validations</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="http://emberjs.com/api/classes/Ember.Mixin.html" class="crosslink external" target="_blank">Ember.Mixin</a></span>
+		</span>
+	</span>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l70"><code>addon&#x2F;validations&#x2F;factory.js:70</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Top level method that will ultimately return a mixin with all CP validations</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">validations</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>Validation rules</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="http://emberjs.com/api/classes/Ember.Mixin.html" class="crosslink external" target="_blank">Ember.Mixin</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_createCPValidationFor" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>createCPValidationFor</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>validations</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="http://emberjs.com/api/classes/Ember.computed.html" class="crosslink external" target="_blank">Ember.computed</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l226"><code>addon&#x2F;validations&#x2F;factory.js:226</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>CP generator for the given attribute</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">validations</code>
+						<span class="type">Array / Object</span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="http://emberjs.com/api/classes/Ember.computed.html" class="crosslink external" target="_blank">Ember.computed</a></span>:
+					<p>A computed property which is a ValidationResultCollection</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method_createGlobalValidationProps" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>createGlobalValidationProps</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>validatableAttrs</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l134"><code>addon&#x2F;validations&#x2F;factory.js:134</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Create the global properties under the validations object.
+These are computed collections on different properties of each attribute validations CP</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">validatableAttrs</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_createMixin" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>createMixin</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>validations</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="http://emberjs.com/api/classes/Ember.Mixin.html" class="crosslink external" target="_blank">Ember.Mixin</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l199"><code>addon&#x2F;validations&#x2F;factory.js:199</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Create the mixin that will be used to incorporate into the model</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">validations</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="http://emberjs.com/api/classes/Ember.Mixin.html" class="crosslink external" target="_blank">Ember.Mixin</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_createValidatorsFor" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>createValidatorsFor</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>model</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l390"><code>addon&#x2F;validations&#x2F;factory.js:390</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Create validators for the give attribute and store them in a cache</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_getCPDependentKeysFor" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>getCPDependentKeysFor</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>validations</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l265"><code>addon&#x2F;validations&#x2F;factory.js:265</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>CP dependency generator for a give attribute depending on its relationships</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">validations</code>
+						<span class="type">Array / Object</span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>:
+					<p>Unique list of dependencies</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method_getKey" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>getKey</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>model</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l337"><code>addon&#x2F;validations&#x2F;factory.js:337</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Unique id getter for validator cache</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>:
+					<p>guid string of the given object</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method_getValidatorCacheFor" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>getValidatorCacheFor</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>model</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" class="crosslink external" target="_blank">Map</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l367"><code>addon&#x2F;validations&#x2F;factory.js:367</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" class="crosslink external" target="_blank">Map</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_getValidatorsFor" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>getValidatorsFor</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>model</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l348"><code>addon&#x2F;validations&#x2F;factory.js:348</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Get validators for the give attribute. If they are not in the cache, then create them.</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_lookupValidator" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>lookupValidator</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>owner</code>
+				</li>
+				<li class="arg">
+						<code>type</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type">Class</span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l439"><code>addon&#x2F;validations&#x2F;factory.js:439</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Lookup a validators of a specific type on the owner</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">owner</code>
+						<span class="type">Ember.Owner</span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">type</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type">Class</span>:
+					<p>Validator class or undefined if not found</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method_processDefaultOptions" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>processDefaultOptions</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>validations</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l103"><code>addon&#x2F;validations&#x2F;factory.js:103</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Validation rules can be created with default options
+{
+description: 'Username',
+validators: [...]
+}
+This method generate the default options pojo, applies it to each validation rule, and flattens the object</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">validations</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+			</div>
+		</div>
+
+</div>
+<div id="method_validate" class="method item">
+	<span class="method-signature">
+	<span class="name"><code>validate</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>options</code>
+				</li>
+				<li class="arg">
+						<code>async</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type">Promise or Object</span>
+		</span>
+	</span>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l456"><code>addon&#x2F;validations&#x2F;factory.js:456</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><h3>Options</h3>
+<ul>
+<li><code>on</code> (<strong>Array</strong>): Only validate the given attributes. If empty, will validate over all validatable attribute</li>
+<li><code>excludes</code> (<strong>Array</strong>): Exclude validation on the given attributes</li>
+</ul>
+<pre class="code prettyprint"><code class="language-javascript">model.validate({ on: ['username', 'email'] }).then(({ m, validations }) =&gt; {
+  validations.get('isValid'); // true or false
+  validations.get('isValidating'); // false
+
+  let usernameValidations = m.get('validations.attrs.username');
+  usernameValidations.get('isValid') // true or false
+});
+</code></pre>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">options</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><ul>
+<li>on: {Array} Will only run validations on the attributes in this list</li>
+<li>excludes: {Array} Will skip validations on the attributes in this list</li>
+</ul>
+</div>
+
+				</li>
+				<li class="param">
+						<code class="param-name">async</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+					<div class="param-description"><p>If false, will get all validations and will error if an async validations is found.
+If true, will get all validations and wrap them in a promise hash</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type">Promise or Object</span>:
+					<p>Promise if async is true, object if async is false</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method_validateSync" class="method item">
+	<span class="method-signature">
+	<span class="name"><code>validateSync</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>options</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+		</span>
+	</span>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l523"><code>addon&#x2F;validations&#x2F;factory.js:523</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><h3>Options</h3>
+<ul>
+<li><code>on</code> (<strong>Array</strong>): Only validate the given attributes. If empty, will validate over all validatable attribute</li>
+<li><code>excludes</code> (<strong>Array</strong>): Exclude validation on the given attributes</li>
+</ul>
+<pre class="code prettyprint"><code class="language-javascript">const { m, validations } = model.validateSync();
+validations.get('isValid') // true or false
+</code></pre>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">options</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><ul>
+<li>on: {Array} Will only run validations on the attributes in this list</li>
+<li>excludes: {Array} Will skip validations on the attributes in this list</li>
+</ul>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method_validationReturnValueHandler" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>validationReturnValueHandler</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>value</code>
+				</li>
+				<li class="arg">
+						<code>model</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type">ValidationResult</span>
+		</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l308"><code>addon&#x2F;validations&#x2F;factory.js:308</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>A handler used to create ValidationResult object from values returned from a validator</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">value</code>
+						<span class="type">Unknown</span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type">ValidationResult</span>
+			</div>
+		</div>
+
+</div>
+<div id="method_willDestroy" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>willDestroy</code></span>
+
+		<span class="paren">()</span>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l542"><code>addon&#x2F;validations&#x2F;factory.js:542</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>willDestroy override for the final created mixin. Cancels all ongoing debounce timers
+and removes all cached data for the current object being destroyed</p>
+</div>
+
+
+
+</div>
+                </div>
+            </div>
+
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

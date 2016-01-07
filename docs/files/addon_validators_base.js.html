@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/validators/base.js - Ember CP Validations</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="row">
+        <div class="sidebar-container">
+            <div id="sidebar">
+              <div class="header">
+                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+                  <a href="../">Ember CP Validations</a>
+                </h1>
+                <form class="navbar-form">
+                    <input type="search" class="search-query" placeholder="Search classes/modules...">
+                </form>
+              </div>
+              <ul class="main-nav">
+                <li class="section">Modules</li>
+                   <li  >
+                     <a href="../modules/Home.html">Home</a>
+                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                   </li>
+                   <li  >
+                     <a href="../modules/Templating.html">Templating</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validations.html">Validations</a>
+                   </li>
+                   <li  >
+                     <a href="../modules/Validators.html">Validators</a>
+                   </li>
+            
+                <li class="section">Classes</li>
+                    <li ><a  href="../classes/Base.html">Base</a></li>
+                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
+                    <li ><a  href="../classes/Collection.html">Collection</a></li>
+                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
+                    <li ><a  href="../classes/Custom.html">Custom</a></li>
+                    <li ><a  href="../classes/Date.html">Date</a></li>
+                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/Error.html">Error</a></li>
+                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
+                    <li ><a  href="../classes/Factory.html">Factory</a></li>
+                    <li ><a  href="../classes/Format.html">Format</a></li>
+                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Length.html">Length</a></li>
+                    <li ><a  href="../classes/Messages.html">Messages</a></li>
+                    <li ><a  href="../classes/Number.html">Number</a></li>
+                    <li ><a  href="../classes/Presence.html">Presence</a></li>
+                    <li ><a  href="../classes/Result.html">Result</a></li>
+                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
+              </ul>
+            
+              <div class="footer">
+                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
+                <p class="version pull-right">vv2.2.0</p>
+              </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <form id="options-form" class="form-inline pull-right">
+                            Show:
+                            <label for="api-show-inherited" class="checkbox">
+                                <input type="checkbox" id="api-show-inherited" checked>
+                                Inherited
+                            </label>
+                    
+                            <label for="api-show-protected" class="checkbox">
+                                <input type="checkbox" id="api-show-protected">
+                                Protected
+                            </label>
+                    
+                            <label for="api-show-private" class="checkbox">
+                                <input type="checkbox" id="api-show-private">
+                                Private
+                            </label>
+                            <label for="api-show-deprecated" class="checkbox">
+                                <input type="checkbox" id="api-show-deprecated">
+                                Deprecated
+                            </label>
+                    
+                        </form>
+                    
+<div class="page-header">
+    <h1>addon/validators/base.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+
+import Ember from &#x27;ember&#x27;;
+import Messages from &#x27;./messages&#x27;;
+import getOwner from &#x27;ember-getowner-polyfill&#x27;;
+
+const {
+  get,
+  set,
+  merge,
+  isNone,
+} = Ember;
+
+/**
+ * @class Base
+ * @module Validators
+ */
+export default Ember.Object.extend({
+  /**
+   * Options passed in to the validator when defined in the model
+   * @property options
+   * @type {Object}
+   */
+  options: undefined,
+
+  /**
+   * Default validations options for this specific attribute
+   * @property defaultOptions
+   * @type {Object}
+   */
+  defaultOptions: undefined,
+
+  /**
+   * Model instance
+   * @property model
+   * @type {Model}
+   */
+  model: null,
+
+  /**
+   * Attributed name of the model this validator is attached to
+   * @property attribute
+   * @type {String}
+   */
+  attribute: null,
+
+  /**
+   * Error message object. Populated by validators/messages
+   * @property errorMessages
+   * @type {Object}
+   */
+  errorMessages: null,
+
+  /**
+   * Validator type
+   * @property _type
+   * @private
+   * @type {String}
+   */
+  _type: null,
+
+  init() {
+    this._super(...arguments);
+    var owner = getOwner(this);
+    var options = get(this, &#x27;options&#x27;);
+    var defaultOptions = get(this, &#x27;defaultOptions&#x27;);
+    var errorMessages;
+
+    if (!isNone(owner)) {
+      // Since default error messages are stored in app/validators/messages, we have to look it up via the owner
+      errorMessages = owner._lookupFactory(&#x27;validator:messages&#x27;);
+    }
+
+    // If for some reason, we can&#x27;t find the messages object (i.e. unit tests), use default
+    errorMessages = errorMessages || Messages;
+
+    set(this, &#x27;options&#x27;, this.buildOptions(options, defaultOptions));
+    set(this, &#x27;errorMessages&#x27;, errorMessages.create());
+  },
+
+  /**
+   * Build options hook. Merges default options into options object.
+   * This method gets called on init and is the ideal place to normalize your options.
+   * The [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js) is a good example to checkout
+   * @method buildOptions
+   * @param  {Object} options
+   * @param  {Object} defaultOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}) {
+    Object.keys(defaultOptions).forEach(key =&gt; {
+      if (isNone(options[key])) {
+        options[key] = defaultOptions[key];
+      }
+    });
+
+    return options;
+  },
+
+  /**
+   * Creates a new object and calls any option property that is a function with the validator context.
+   * This method is called right before &#x60;validate&#x60; and the returned object gets passed into the validate method as its options
+   * @method processOptions
+   * @return {Object}
+   */
+  processOptions() {
+    let options = merge({}, get(this, &#x27;options&#x27;) || {});
+    Object.keys(options).forEach(key =&gt; {
+      let opt = options[key];
+      if (typeof opt === &#x27;function&#x27; &amp;&amp; key !== &#x27;message&#x27;) {
+        options[key] = opt.call(this);
+      }
+    });
+
+    return options;
+  },
+
+  /**
+   * The validate method is where all of your logic should go.
+   * It will get passed in the current value of the attribute this validator is attached to.
+   * Within the validator object, you will have access to the following properties:
+   * @method validate
+   * @param  {Unknown} value        The current value of the attribute
+   * @param  {Object} options       The built and processed options
+   * @param  {Object} model         The current model being evaluated
+   * @param  {String} attribute     The current attribute being evaluated
+   * @return
+   * One of the following types:
+   * - &#x60;Boolean&#x60;:  &#x60;true&#x60; if the current value passed the validation
+   * - &#x60;String&#x60;: The error message
+   * - &#x60;Promise&#x60;: A promise that will either resolve or reject, and will finally return either &#x60;true&#x60; or the final error message string.
+   */
+  validate( /*value, options, model, attribute*/ ) {
+    return true;
+  },
+
+  /**
+   * Used by all pre-defined validators to build an error message that is present
+   * in &#x60;validators/message&#x60; or decalred in your i18n solution.
+   *
+   * If we extended our default messages to include &#x60;uniqueUsername: &#x27;{username} already exists&#x27;&#x60;,
+   * we can use this method to generate our error message.
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * validate(value, options) {
+   *   var exists = false;
+   *
+   *   options.description = &#x27;Username&#x27;;
+   *   options.username = value;
+   *
+   *   // check with server if username exists...
+   *
+   *   if(exists) {
+   *     return this.createErrorMessage(&#x27;uniqueUsername&#x27;, options, value);
+   *   }
+   *
+   *   return true;
+   * }
+   * &#x60;&#x60;&#x60;
+   *
+   * If we input &#x60;johndoe&#x60; and that username already exists, the returned message would be &#x60;&#x27;johndoe already exists&#x27;&#x60;.
+   *
+   * @method createErrorMessage
+   * @param  {String} type        The type of message template to use
+   * @param  value                Current value being evaluated
+   * @param  {Object} options     Validator built and processed options (used as the message string context)
+   * @return {String}             The generated message
+   */
+  createErrorMessage(type, value, options = {}) {
+    var messages = this.get(&#x27;errorMessages&#x27;);
+    var message;
+
+    options.description = messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options);
+
+    if (options.message) {
+      if (typeof options.message === &#x27;string&#x27;) {
+        message = messages.formatMessage(options.message, options);
+      } else if (typeof options.message === &#x27;function&#x27;) {
+        message = options.message.apply(this, arguments);
+        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options); // fail-safe to default message of type
+      }
+    } else {
+      message = messages.getMessageFor(type, options);
+    }
+
+    return message.trim();
+  }
+});
+
+/**
+ * Creating custom validators is very simple. To generate a validator named &#x60;unique-username&#x60; in Ember CLI
+ *
+ * &#x60;&#x60;&#x60;bash
+ * ember generate validator unique-username
+ * &#x60;&#x60;&#x60;
+ *
+ * This will create the following files
+ *
+ * * &#x60;app/validators/unique-username.js&#x60;
+ * * &#x60;tests/unit/validators/unique-username-test.js&#x60;
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // app/validators/unique-username.js
+ *
+ * import Ember from &#x27;ember&#x27;;
+ * import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
+ *
+ * export default BaseValidator.extend({
+ *   validate(value, options, model, attribute) {
+ *     return true;
+ *     })
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * **Side Node**: Before we continue, I would suggest checking out the documentation for the {{#crossLink &#x27;Base&#x27;}}Base Validator{{/crossLink}}.
+ *
+ * If you want to interact with the &#x60;store&#x60; within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // app/validators/unique-username.js
+ *
+ * import Ember from &#x27;ember&#x27;;
+ * import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
+ *
+ * export default BaseValidator.extend({
+ *   store: Ember.inject.service(),
+   *
+ *   validate(value, options, model, attribute) {
+ *     return this.get(&#x27;store&#x27;).findRecord(&#x27;user&#x27;, value).then((user) =&gt; {
+ *       if(user &amp;&amp; user.id === value) {
+ *         let message = &#x60;The username &#x27;${value}&#x27; already exists.&#x60;;
+ *         let meta = user.get(&#x27;meta&#x27;);
+ *
+ *         if(options.showSuggestions &amp;&amp; meta &amp;&amp; meta.suggestions) {
+ *           message += &quot;What about one of the these: &quot; + meta.suggestions.join(&#x27;, &#x27;);
+ *         }
+ *         return message;
+ *       } else {
+ *         return true;
+ *       }
+ *     })
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * To use our unique-username validator we just have to add it to the model definition
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * var Validations = buildValidations({
+ *   username: validator(&#x27;unique-username&#x27;, {
+ *     showSuggestions: true
+ *   }),
+ * });
+ *
+ * export default DS.Model.extend(Validations, {
+ *   &#x27;username&#x27;: DS.attr(&#x27;string&#x27;),
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * ## Testing
+ * As mentioned before, the generator created a unit test for your new custom validator.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // tests/unit/validators/unique-username-test.js
+ *
+ * import Ember from &#x27;ember&#x27;;
+ * import { moduleFor, test } from &#x27;ember-qunit&#x27;;
+ *
+ * moduleFor(&#x27;validator:unique-username&#x27;, &#x27;Unit | Validator | unique-username&#x27;, {
+ *     needs: [&#x27;validator:messages&#x27;]
+ * });
+ *
+ * test(&#x27;it works&#x27;, function(assert) {
+ *     var validator =  this.subject();
+ *     assert.ok(validator);
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * A simple test for our validation method can be as such
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * test(&#x27;username is unique&#x27;, function(assert) {
+ *     assert.expect(1);
+ *
+ *     let validator =  this.subject();
+ *     let done = assert.async();
+     *
+ *     validator.validate(&#x27;johndoe42&#x27;).then((message) =&gt; {
+ *       assert.equal(message, true);
+ *       done();
+ *     });
+ * });
+ * &#x60;&#x60;&#x60;
+ *  @class Custom
+ *  @module Validators
+ *  @extends Base
+ */
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>
