@@ -120,6 +120,14 @@ export default Ember.Object.extend({
   _promise: undefined,
 
   /**
+   * The validator that returned this result
+   * @property _validator
+   * @private
+   * @type {Validator}
+   */
+  _validator: null,
+
+  /**
    * @property isValid
    * @readOnly
    * @type {Ember.ComputedProperty}

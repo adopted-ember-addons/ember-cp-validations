@@ -13,6 +13,8 @@ const {
   RSVP,
   computed,
   isEmpty,
+  isArray,
+  isNone,
   A: emberArray
 } = Ember;
 
@@ -225,13 +227,49 @@ export default Ember.Object.extend({
   })),
 
   /**
+   * All built options of the validators associated with the results in this collection grouped by validator type
+   *
+   * ```javascript
+   * // Given the following validators
+   * {
+   *   username: [
+   *     validator('presence', true),
+   *     validator('length', { max: 15 }),
+   *     validator('format', { regex: /foo/ }),
+   *     validator('format', { regex: /bar/ }),
+   *   ]
+   * }
+   * ```
+   *
+   * ```js
+   * get(user, 'validations.attrs.username.options')
+   * ```
+   *
+   * The above will return the following
+   * ```js
+   * {
+   *   'presence': { presence: true},
+   *   'length': { max: 15 },
+   *   'regex': [{ regex: /foo/ }, { regex: /bar/ }]
+   * }
+   * ```
+   *
+   * @property options
+   * @readOnly
+   * @type {Ember.ComputedProperty | Object}
+   */
+  options: computed('content.[]', function() {
+    return this._groupValidatorOptions();
+  }),
+
+  /**
    * @property _promise
    * @async
    * @private
    * @type {Ember.ComputedProperty | Promise}
    */
   _promise: computed('content.@each._promise', cycleBreaker(function() {
-    var promises = get(this, 'content').getEach('_promise');
+    let promises = get(this, 'content').getEach('_promise');
     if (!isEmpty(promises)) {
       return RSVP.all(compact(flatten(promises)));
     }
@@ -239,12 +277,41 @@ export default Ember.Object.extend({
 
   /**
    * @property value
-   * @private
    * @type {Ember.ComputedProperty}
+   * @private
    */
   value: computed('isAsync', cycleBreaker(function() {
-    var isAsync = get(this, 'isAsync');
-    var promise = get(this, '_promise');
-    return isAsync ? promise : this;
-  }))
+    return get(this, 'isAsync') ? get(this, '_promise') : this;
+  })),
+
+  /**
+   * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
+   * If there is more than 1 of a type, it groups it into an array of option objects.
+   *
+   * @method  _groupValidatorOptions
+   * @return  {Object}
+   * @private
+   */
+  _groupValidatorOptions() {
+    let validators = get(this, 'content').getEach('_validator');
+    return validators.reduce((options, v) => {
+      if(isNone(v) || isNone(get(v, '_type'))) {
+        return options;
+      }
+
+      let type = get(v, '_type');
+      let vOpts = get(v, 'options');
+
+      if(options[type]) {
+        if(isArray(options[type])) {
+          options[type].push(vOpts);
+        } else {
+          options[type] = [options[type], vOpts];
+        }
+      } else {
+        options[type] = vOpts;
+      }
+      return options;
+    }, {});
+  }
 });

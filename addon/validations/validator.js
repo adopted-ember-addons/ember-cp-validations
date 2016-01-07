@@ -88,10 +88,25 @@ const {
  * The return value must be a `string`. If nothing is returned (`undefined`), defaults to the default error message of the specified type.
  *
  * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
-
+ *
+ *
+ * ## Function Based Validators
+ *
+ * A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
+ *
+ * ```javascript
+ * // Example
+ * validator(function(value, options, model, attribute) {
+ *   return value === options.username ? true : `must be ${options.username}`;
+ * } , {
+ *     username: 'John' // Any options can be passed here
+ * })
+ * ```
+ *
  * @module Validators
  * @main Validators
  */
+
 export default function(arg1, options) {
   options = isNone(options) ? {} : options;
 
