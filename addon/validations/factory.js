@@ -253,7 +253,7 @@ function createCPValidationFor(attribute, validations) {
         value = validator.validate(attrValue, options, model, attribute);
       }
 
-      return validationReturnValueHandler(attribute, value, model);
+      return validationReturnValueHandler(attribute, value, model, validator);
     });
 
     return ValidationResultCollection.create({
@@ -314,17 +314,19 @@ function getCPDependentKeysFor(attribute, validations) {
  * @param  {Object} model
  * @return {ValidationResult}
  */
-function validationReturnValueHandler(attribute, value, model) {
+function validationReturnValueHandler(attribute, value, model, validator) {
   var result, _promise;
 
   if (canInvoke(value, 'then')) {
     _promise = Promise.resolve(value);
     result = ValidationResult.create({
-      attribute, _promise, model
+      attribute, _promise, model,
+      _validator: validator
     });
   } else {
     result = ValidationResult.create({
-      attribute, model
+      attribute, model,
+      _validator: validator
     });
     result.update(value);
   }

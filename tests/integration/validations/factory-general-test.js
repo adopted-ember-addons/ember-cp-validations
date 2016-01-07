@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
+import PresenceValidator from 'dummy/validators/presence';
+import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
@@ -387,3 +389,36 @@ test("destroy object clears caches - multiple object instances", function(assert
     assert.equal(Object.keys(objects[0].get('validations._debouncedValidations')).length, 0);
   });
 });
+
+test("validation result options hash", function(assert) {
+  this.register('validator:length', LengthValidator);
+  this.register('validator:presence', PresenceValidator);
+
+  var Validations = buildValidations({
+    firstName: {
+      description: 'First Name',
+      validators: [
+        validator(Validators.presence, {}),
+        validator(Validators.presence, { presence: true} ),
+        validator('presence', true),
+        validator('length', {min: 1, max: 5})
+      ]
+    }
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations));
+  var options = object.get('validations.attrs.firstName.options');
+
+  assert.ok(options);
+  assert.deepEqual(Object.keys(options).sort(), ['presence', 'length', 'function'].sort());
+  assert.ok(Ember.isArray(options['function']) && options['function'].length === 2);
+  assert.ok(options.presence.presence);
+  assert.equal(options.length.min, 1);
+  assert.ok(options['function'][1].presence);
+
+  // Default options built into option objects
+  assert.equal(options.length.description, 'First Name');
+  assert.equal(options.presence.description, 'First Name');
+  assert.equal(options['function'][0].description, 'First Name');
+
+});
+
