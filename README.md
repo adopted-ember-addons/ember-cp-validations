@@ -63,7 +63,7 @@ import {
 }
 from 'ember-cp-validations';
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   username: validator('presence', true),
   password: [
     validator('presence', true),
@@ -112,7 +112,7 @@ import {
 }
 from 'ember-cp-validations';
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   bar: validator('presence', true)
 });
 
@@ -172,7 +172,7 @@ Default options can be specified over a set of validations for a given attribute
 Instead of doing the following:
 
 ```javascript
-var Validations = buildValidations({
+const Validations = buildValidations({
   username: [
     validator('presence', {
       presence: true,
@@ -192,7 +192,7 @@ var Validations = buildValidations({
 We can declare default options: 
 
 ```javascript
-var Validations = buildValidations({
+const Validations = buildValidations({
   username: {
     description: 'Username'
     validators: [
@@ -217,7 +217,7 @@ All options can be functions which are processed lazily before validate is calle
 Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
 
 ```javascript
-var Validations = buildValidations({
+const Validations = buildValidations({
   dob: validator('date', {
     description: 'Date of Birth',
     format() {
