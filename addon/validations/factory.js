@@ -247,7 +247,7 @@ function createCPValidationFor(attribute, validations) {
         let cache = getDebouncedValidationsCacheFor(attribute, model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          cache[getKey(validator)] = run.debounce(validator, () => resolve(validator.validate(attrValue, options, model, attribute)), debounce, false);
+          cache[getKey(validator)] = run.debounce(validator, () => resolve(validator.validate(attrValue, validator.processOptions(), model, attribute)), debounce, false);
         });
       } else {
         value = validator.validate(attrValue, options, model, attribute);
