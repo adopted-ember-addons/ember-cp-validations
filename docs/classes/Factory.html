@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.2.0.fc46bb12</p>
+                <p class="version pull-right">v2.2.1</p>
               </div>
             </div>
         </div>
@@ -151,6 +151,10 @@ An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUT
                             </li>
                             <li class="index-item method private">
                                 <a href="#method_createValidatorsFor">createValidatorsFor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_debouncedValidate">debouncedValidate</a>
 
                             </li>
                             <li class="index-item method private">
@@ -477,7 +481,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l390"><code>addon&#x2F;validations&#x2F;factory.js:390</code></a>
+		<a href="../files/addon_validations_factory.js.html#l405"><code>addon&#x2F;validations&#x2F;factory.js:405</code></a>
 		</p>
 
 
@@ -515,6 +519,104 @@ These are computed collections on different properties of each attribute validat
 						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
 			</div>
 		</div>
+
+</div>
+<div id="method_debouncedValidate" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>debouncedValidate</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>validator</code>
+				</li>
+				<li class="arg">
+						<code>value</code>
+				</li>
+				<li class="arg">
+						<code>options</code>
+				</li>
+				<li class="arg">
+						<code>model</code>
+				</li>
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+				<li class="arg">
+						<code>resolve</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+	</span>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_factory.js.html#l308"><code>addon&#x2F;validations&#x2F;factory.js:308</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Debounce handler for running a validation for the specified options</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">validator</code>
+						<span class="type">Validator</span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">value</code>
+						<span class="type">Unknown</span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">options</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">resolve</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/Function.html" class="crosslink external" target="_blank">Function</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
 
 </div>
 <div id="method_getCPDependentKeysFor" class="method item private">
@@ -612,7 +714,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l337"><code>addon&#x2F;validations&#x2F;factory.js:337</code></a>
+		<a href="../files/addon_validations_factory.js.html#l352"><code>addon&#x2F;validations&#x2F;factory.js:352</code></a>
 		</p>
 
 
@@ -675,7 +777,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l367"><code>addon&#x2F;validations&#x2F;factory.js:367</code></a>
+		<a href="../files/addon_validations_factory.js.html#l382"><code>addon&#x2F;validations&#x2F;factory.js:382</code></a>
 		</p>
 
 
@@ -743,7 +845,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l348"><code>addon&#x2F;validations&#x2F;factory.js:348</code></a>
+		<a href="../files/addon_validations_factory.js.html#l363"><code>addon&#x2F;validations&#x2F;factory.js:363</code></a>
 		</p>
 
 
@@ -811,7 +913,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l439"><code>addon&#x2F;validations&#x2F;factory.js:439</code></a>
+		<a href="../files/addon_validations_factory.js.html#l454"><code>addon&#x2F;validations&#x2F;factory.js:454</code></a>
 		</p>
 
 
@@ -942,7 +1044,7 @@ This method generate the default options pojo, applies it to each validation rul
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l456"><code>addon&#x2F;validations&#x2F;factory.js:456</code></a>
+		<a href="../files/addon_validations_factory.js.html#l471"><code>addon&#x2F;validations&#x2F;factory.js:471</code></a>
 		</p>
 
 
@@ -973,11 +1075,6 @@ This method generate the default options pojo, applies it to each validation rul
 						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
-					<div class="param-description"><ul>
-<li>on: {Array} Will only run validations on the attributes in this list</li>
-<li>excludes: {Array} Will skip validations on the attributes in this list</li>
-</ul>
-</div>
 
 				</li>
 				<li class="param">
@@ -985,8 +1082,8 @@ This method generate the default options pojo, applies it to each validation rul
 						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
-					<div class="param-description"><p>If false, will get all validations and will error if an async validations is found.
-If true, will get all validations and wrap them in a promise hash</p>
+					<div class="param-description"><p>If <code>false</code>, will get all validations and will error if an async validations is found.
+If <code>true</code>, will get all validations and wrap them in a promise hash</p>
 </div>
 
 				</li>
@@ -1028,7 +1125,7 @@ If true, will get all validations and wrap them in a promise hash</p>
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l523"><code>addon&#x2F;validations&#x2F;factory.js:523</code></a>
+		<a href="../files/addon_validations_factory.js.html#l536"><code>addon&#x2F;validations&#x2F;factory.js:536</code></a>
 		</p>
 
 
@@ -1054,11 +1151,6 @@ validations.get('isValid') // true or false
 						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
-					<div class="param-description"><ul>
-<li>on: {Array} Will only run validations on the attributes in this list</li>
-<li>excludes: {Array} Will skip validations on the attributes in this list</li>
-</ul>
-</div>
 
 				</li>
 			</ul>
@@ -1104,7 +1196,7 @@ validations.get('isValid') // true or false
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l308"><code>addon&#x2F;validations&#x2F;factory.js:308</code></a>
+		<a href="../files/addon_validations_factory.js.html#l323"><code>addon&#x2F;validations&#x2F;factory.js:323</code></a>
 		</p>
 
 
@@ -1167,7 +1259,7 @@ validations.get('isValid') // true or false
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l542"><code>addon&#x2F;validations&#x2F;factory.js:542</code></a>
+		<a href="../files/addon_validations_factory.js.html#l553"><code>addon&#x2F;validations&#x2F;factory.js:553</code></a>
 		</p>
 
 

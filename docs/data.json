@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "2.2.0.fc46bb12"
+        "version": "v2.2.1"
     },
     "files": {
         "addon/utils/cycle-breaker.js": {
@@ -825,6 +825,49 @@
         {
             "file": "addon/validations/factory.js",
             "line": 308,
+            "description": "Debounce handler for running a validation for the specified options",
+            "itemtype": "method",
+            "name": "debouncedValidate",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "validator",
+                    "description": "",
+                    "type": "Validator"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Unknown"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "resolve",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "Factory",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/validations/factory.js",
+            "line": 323,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -856,7 +899,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 337,
+            "line": 352,
             "description": "Unique id getter for validator cache",
             "itemtype": "method",
             "name": "getKey",
@@ -878,7 +921,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 348,
+            "line": 363,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -905,7 +948,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 367,
+            "line": 382,
             "description": "Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -932,7 +975,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 390,
+            "line": 405,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -959,7 +1002,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 439,
+            "line": 454,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -986,19 +1029,19 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 456,
+            "line": 471,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
             "params": [
                 {
                     "name": "options",
-                    "description": "- on: {Array} Will only run validations on the attributes in this list\n - excludes: {Array} Will skip validations on the attributes in this list",
+                    "description": "",
                     "type": "Object"
                 },
                 {
                     "name": "async",
-                    "description": "If false, will get all validations and will error if an async validations is found.\n                             If true, will get all validations and wrap them in a promise hash",
+                    "description": "If `false`, will get all validations and will error if an async validations is found.\n                             If `true`, will get all validations and wrap them in a promise hash",
                     "type": "Boolean"
                 }
             ],
@@ -1011,14 +1054,14 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 523,
+            "line": 536,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nconst { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
             "params": [
                 {
                     "name": "options",
-                    "description": "- on: {Array} Will only run validations on the attributes in this list\n - excludes: {Array} Will skip validations on the attributes in this list",
+                    "description": "",
                     "type": "Object"
                 }
             ],
@@ -1031,7 +1074,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 542,
+            "line": 553,
             "description": "willDestroy override for the final created mixin. Cancels all ongoing debounce timers\nand removes all cached data for the current object being destroyed",
             "itemtype": "method",
             "name": "willDestroy",
