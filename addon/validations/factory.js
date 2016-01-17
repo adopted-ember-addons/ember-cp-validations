@@ -247,7 +247,7 @@ function createCPValidationFor(attribute, validations) {
         let cache = getDebouncedValidationsCacheFor(attribute, model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          cache[getKey(validator)] = run.debounce(validator, () => resolve(validator.validate(attrValue, options, model, attribute)), debounce, false);
+          cache[getKey(validator)] = run.debounce(validator, debouncedValidate, validator, attrValue, options, model, attribute, resolve, debounce, false);
         });
       } else {
         value = validator.validate(attrValue, options, model, attribute);
@@ -303,6 +303,21 @@ function getCPDependentKeysFor(attribute, validations) {
   });
 
   return dependentKeys.uniq();
+}
+
+/**
+ * Debounce handler for running a validation for the specified options
+ * @method debouncedValidate
+ * @private
+ * @param  {Validator} validator
+ * @param  {Unknown} value
+ * @param  {Object} options
+ * @param  {Object} model
+ * @param  {String} attribute
+ * @param  {Function} resolve
+ */
+function debouncedValidate(validator, value, options, model, attribute, resolve) {
+  resolve(validator.validate(value, options, model, attribute));
 }
 
 /**
@@ -470,10 +485,8 @@ function lookupValidator(owner, type) {
  *
  * @method validate
  * @param  {Object}  options
- *  - on: {Array} Will only run validations on the attributes in this list
- *  - excludes: {Array} Will skip validations on the attributes in this list
- * @param  {Boolean} async      If false, will get all validations and will error if an async validations is found.
- *                              If true, will get all validations and wrap them in a promise hash
+ * @param  {Boolean} async      If `false`, will get all validations and will error if an async validations is found.
+ *                              If `true`, will get all validations and wrap them in a promise hash
  * @return {Promise or Object}  Promise if async is true, object if async is false
  */
 function validate(options = {}, async = true) {
@@ -531,8 +544,6 @@ function validate(options = {}, async = true) {
  * ```
  * @method validateSync
  * @param  {Object}  options
- *  - on: {Array} Will only run validations on the attributes in this list
- *  - excludes: {Array} Will skip validations on the attributes in this list
  * @return {Object}
  */
 function validateSync(options) {
