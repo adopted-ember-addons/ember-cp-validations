@@ -322,6 +322,55 @@ test("debounced validations should cleanup on object destroy", function(assert) 
   }, 200);
 });
 
+test("disabled validations - simple", function(assert) {
+  var Validations = buildValidations({
+    firstName: validator(Validators.presence),
+    lastName: validator(Validators.presence, {
+      disabled: true
+    })
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
+  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
+  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+
+  assert.equal(object.get('validations.attrs.lastName.isValid'), true);
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+
+  object.set('firstName', 'Offir');
+
+  assert.equal(object.get('validations.isValid'), true);
+});
+
+test("disabled validations - function with dependent key", function(assert) {
+  var Validations = buildValidations({
+    firstName: validator(Validators.presence),
+    lastName: validator(Validators.presence, {
+      dependentKeys: ['validateLastName'],
+      disabled() {
+        return !this.get('model.validateLastName');
+      }
+    })
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations, {
+    firstName: 'Offir',
+    validateLastName: true
+  }));
+
+  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
+  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
+  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+
+  assert.equal(object.get('validations.attrs.lastName.isValid'), false);
+  assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+
+  object.set('validateLastName', false);
+
+  assert.equal(object.get('validations.attrs.lastName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), true);
+});
+
 test("destroy object clears caches", function(assert) {
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
@@ -390,7 +439,7 @@ test("destroy object clears caches - multiple object instances", function(assert
   });
 });
 
-test("validation result options hash", function(assert) {
+test("attribute validation result options hash", function(assert) {
   this.register('validator:length', LengthValidator);
   this.register('validator:presence', PresenceValidator);
 

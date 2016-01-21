@@ -18,7 +18,7 @@ const {
  * ```javascript
  * // Examples
  * validator('date', {
- *     description: 'Date of birth'
+ *   description: 'Date of birth'
  * })
  * // If validation is run and the attribute is empty, the error returned will be:
  * // 'Date of birth can't be blank'
@@ -30,13 +30,32 @@ const {
  * ```javascript
  * // Examples
  * validator('has-friends', {
- *     dependentKeys: ['friends.[]']
+ *   dependentKeys: ['friends.[]']
  * })
  * validator('has-valid-friends', {
- *     dependentKeys: ['friends.@each.username']
+ *   dependentKeys: ['friends.@each.username']
  * })
  * validator('x-validator', {
- *     dependentKeys: ['username', 'email', 'meta.foo.bar']
+ *   dependentKeys: ['username', 'email', 'meta.foo.bar']
+ * })
+ * ```
+ *
+ * ### disabled
+ * If set to `true`, disables the given validator. This option would usually go hand-in-hand
+ * with {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`. Defaults to `false`.
+ *
+ * ```js
+ * // Examples
+ * validator('presence', {
+ *   presence: true,
+ *   disabled: true
+ * })
+ * validator('presence', {
+ *   presence: true,
+ *   dependentKeys: ['shouldValidate'],
+ *   disabled() {
+ *     return !this.get('model.shouldValidate');
+ *   }
  * })
  * ```
  *
@@ -46,10 +65,10 @@ const {
  * ```javascript
  * // Examples
  * validator('length', {
- *     debounce: 500
+ *   debounce: 500
  * })
  * validator('x-validator', {
- *     debounce: 250
+ *   debounce: 250
  * })
  * ```
  *
@@ -69,12 +88,12 @@ const {
  * // Example: Function
  * validator('date', {
  *   message: function(type, options, value, context) {
- *       if (type === 'before') {
- *           return '{description} should really be before {date}';
- *       }
- *       if (type === 'after') {
- *           return '{description} should really be after {date}';
- *       }
+ *     if (type === 'before') {
+ *       return '{description} should really be before {date}';
+ *     }
+ *     if (type === 'after') {
+ *       return '{description} should really be after {date}';
+ *     }
  *   }
  * })
  * ```
@@ -99,7 +118,7 @@ const {
  * validator(function(value, options, model, attribute) {
  *   return value === options.username ? true : `must be ${options.username}`;
  * } , {
- *     username: 'John' // Any options can be passed here
+ *   username: 'John' // Any options can be passed here
  * })
  * ```
  *
