@@ -1,16 +1,12 @@
 import Ember from 'ember';
 import setupObject from '../../helpers/setup-object';
-import DefaultMessages from 'dummy/validators/messages';
 import CollectionValidator from 'dummy/validators/collection';
 import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('foo', 'Integration | Validations | Factory - Dependent Keys', {
-  integration: true,
-  beforeEach() {
-    this.register('validator:messages', DefaultMessages);
-  }
+  integration: true
 });
 
 test("collection validator creates correct dependent keys", function(assert) {
@@ -65,6 +61,38 @@ test("custom dependent keys - simple", function(assert) {
   assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
 });
 
+test("custom dependent keys - default options", function(assert) {
+  var Validations = buildValidations({
+    fullName: {
+      dependentKeys: ['firstName'],
+      validators: [
+        validator(function(value, options, model) {
+          let firstName = model.get('firstName');
+          let lastName = model.get('lastName');
+          if (!firstName || !lastName) {
+            return 'Full name requires first and last name';
+          }
+          return true;
+        }, {
+          dependentKeys: ['lastName']
+        })
+      ]
+    }
+  });
+
+  var obj = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(obj.get('validations.isValid'), false);
+  assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+  assert.equal(obj.get('validations.attrs.fullName.message'), 'Full name requires first and last name');
+
+  obj.set('firstName', 'Offir');
+  obj.set('lastName', 'Golan');
+
+  assert.equal(obj.get('validations.isValid'), true);
+  assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
+});
+
 test("custom dependent keys - nested object", function(assert) {
   var Validations = buildValidations({
     page: validator(function(value, options, model) {
@@ -79,7 +107,7 @@ test("custom dependent keys - nested object", function(assert) {
     })
   });
 
-  var obj = setupObject(this, Ember.Object.extend(Validations),{
+  var obj = setupObject(this, Ember.Object.extend(Validations), {
     meta: {
       pages: {
         last: 5
@@ -117,7 +145,7 @@ test("custom dependent keys - array", function(assert) {
     })
   });
 
-  var obj = setupObject(this, Ember.Object.extend(Validations),{
+  var obj = setupObject(this, Ember.Object.extend(Validations), {
     friends: Ember.A()
   });
 
@@ -156,7 +184,7 @@ test("custom dependent keys - array of objects", function(assert) {
     })
   });
 
-  var obj = setupObject(this, Ember.Object.extend(Validations),{
+  var obj = setupObject(this, Ember.Object.extend(Validations), {
     friends: Ember.A()
   });
 

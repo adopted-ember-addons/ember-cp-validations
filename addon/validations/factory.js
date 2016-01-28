@@ -22,6 +22,7 @@ const {
   computed,
   makeArray,
   canInvoke,
+  getWithDefault,
   A: emberArray
 } = Ember;
 
@@ -239,18 +240,20 @@ function createCPValidationFor(attribute, validations) {
 
     var validationResults = validators.map(validator => {
       let options = validator.processOptions();
-      let debounce = get(options, 'debounce') || 0;
-      let attrValue = get(model, attribute);
+      let debounce = getWithDefault(options, 'debounce', 0);
+      let disabled = getWithDefault(options, 'disabled', false);
       let value;
 
-      if(debounce > 0) {
+      if(disabled) {
+        value = true;
+      } else if(debounce > 0) {
         let cache = getDebouncedValidationsCacheFor(attribute, model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
-          cache[getKey(validator)] = run.debounce(validator, debouncedValidate, validator, attrValue, options, model, attribute, resolve, debounce, false);
+          cache[getKey(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
         });
       } else {
-        value = validator.validate(attrValue, options, model, attribute);
+        value = validator.validate(get(model, attribute), options, model, attribute);
       }
 
       return validationReturnValueHandler(attribute, value, model, validator);
@@ -295,11 +298,10 @@ function getCPDependentKeysFor(attribute, validations) {
       dependentKeys.push(`_model.${attribute}.[]`);
     }
 
-    if(isArray(options.dependentKeys)) {
-      options.dependentKeys.forEach(k => {
-        dependentKeys.push(`_model.${k}`);
-      });
-    }
+    let specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []), getWithDefault(validation, 'defaultOptions.dependentKeys', []));
+    specifiedDependents.forEach(d => {
+      dependentKeys.push(`_model.${d}`);
+    });
   });
 
   return dependentKeys.uniq();
@@ -316,8 +318,8 @@ function getCPDependentKeysFor(attribute, validations) {
  * @param  {String} attribute
  * @param  {Function} resolve
  */
-function debouncedValidate(validator, value, options, model, attribute, resolve) {
-  resolve(validator.validate(value, options, model, attribute));
+function debouncedValidate(validator, model, attribute, resolve) {
+  resolve(validator.validate(get(model, attribute), validator.processOptions(), model, attribute));
 }
 
 /**

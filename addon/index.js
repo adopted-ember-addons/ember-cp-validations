@@ -42,7 +42,7 @@ export var validator = Validator;
  * }
  * from 'ember-cp-validations';
  *
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: validator('presence', true),
  *   password: [
  *     validator('presence', true),
@@ -91,7 +91,7 @@ export var validator = Validator;
  * }
  * from 'ember-cp-validations';
  *
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   bar: validator('presence', true)
  * });
  *
@@ -154,7 +154,7 @@ export var validator = Validator;
  * Instead of doing the following:
  *
  * ```javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: [
  *     validator('presence', {
  *       presence: true,
@@ -174,7 +174,7 @@ export var validator = Validator;
  * We can declare default options:
  *
  * ```javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: {
  *     description: 'Username'
  *     validators: [
@@ -199,7 +199,7 @@ export var validator = Validator;
  * Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
  *
  * ```javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   dob: validator('date', {
  *     description: 'Date of Birth',
  *     format() {
