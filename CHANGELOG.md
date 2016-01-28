@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.0
+- [#106](https://github.com/offirgolan/ember-cp-validations/pull/106) Ability to enable/disable validations. See documentation [here](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html)
+
+## 2.2.1
+- [#103](https://github.com/offirgolan/ember-cp-validations/pull/103) Fixed debounced validation issue
+
 ## 2.2.0
 - [#92](https://github.com/offirgolan/ember-cp-validations/pull/92) Debounced Validation
 - [#96](https://github.com/offirgolan/ember-cp-validations/pull/96) Expose `options` property for attribute validations which contains a hash of built options grouped by validator type
