@@ -437,9 +437,7 @@ function createValidatorsFor(attribute, model) {
     } else {
       validator = lookupValidator(owner, v._type);
     }
-    if (!isNone(validator)) {
-      validators.push(validator.create(v));
-    }
+    validators.push(validator.create(v));
   });
 
   // Check to see if there is already a cache started for this model instanse, if not create a new pojo
@@ -456,6 +454,7 @@ function createValidatorsFor(attribute, model) {
 /**
  * Lookup a validators of a specific type on the owner
  * @method lookupValidator
+ * @throws {Error} Validator not found
  * @private
  * @param  {Ember.Owner} owner
  * @param  {String} type
@@ -463,9 +462,8 @@ function createValidatorsFor(attribute, model) {
  */
 function lookupValidator(owner, type) {
   var validatorClass = owner._lookupFactory(`validator:${type}`);
-  if (isNone(validatorClass)) {
-    Ember.Logger.warn(`[ember-cp-validations] Validator not found of type: ${type}.`);
-    return;
+  if(isNone(validatorClass)) {
+    throw new Error(`[ember-cp-validations] Validator not found of type: ${type}.`);
   }
   return validatorClass;
 }
