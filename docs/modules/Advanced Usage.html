@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.2.1</p>
+                <p class="version pull-right">v2.3.0</p>
               </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
     <h3>Default Options</h3>
 <p>Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.</p>
 <p>Instead of doing the following:</p>
-<pre class="code prettyprint"><code class="language-javascript">var Validations = buildValidations({
+<pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
   username: [
     validator('presence', {
       presence: true,
@@ -131,7 +131,7 @@
 });
 </code></pre>
 <p>We can declare default options:</p>
-<pre class="code prettyprint"><code class="language-javascript">var Validations = buildValidations({
+<pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
   username: {
     description: 'Username'
     validators: [
@@ -150,7 +150,7 @@
 <h3>Options as Functions</h3>
 <p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as <code>options</code>, <code>model</code>, <code>attribute</code>, etc.</p>
 <p>Please note that the <code>message</code> option of a validator has its <a href="http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message">own signature</a>.</p>
-<pre class="code prettyprint"><code class="language-javascript">var Validations = buildValidations({
+<pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
   dob: validator('date', {
     description: 'Date of Birth',
     format() {

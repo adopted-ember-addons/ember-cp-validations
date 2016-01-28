@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.2.1</p>
+                <p class="version pull-right">v2.3.0</p>
               </div>
             </div>
         </div>
@@ -126,6 +126,7 @@ const {
   computed,
   makeArray,
   canInvoke,
+  getWithDefault,
   A: emberArray
 } = Ember;
 
@@ -343,18 +344,20 @@ function createCPValidationFor(attribute, validations) {
 
     var validationResults = validators.map(validator =&gt; {
       let options = validator.processOptions();
-      let debounce = get(options, &#x27;debounce&#x27;) || 0;
-      let attrValue = get(model, attribute);
+      let debounce = getWithDefault(options, &#x27;debounce&#x27;, 0);
+      let disabled = getWithDefault(options, &#x27;disabled&#x27;, false);
       let value;
 
-      if(debounce &gt; 0) {
+      if(disabled) {
+        value = true;
+      } else if(debounce &gt; 0) {
         let cache = getDebouncedValidationsCacheFor(attribute, model);
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve =&gt; {
-          cache[getKey(validator)] = run.debounce(validator, debouncedValidate, validator, attrValue, options, model, attribute, resolve, debounce, false);
+          cache[getKey(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
         });
       } else {
-        value = validator.validate(attrValue, options, model, attribute);
+        value = validator.validate(get(model, attribute), options, model, attribute);
       }
 
       return validationReturnValueHandler(attribute, value, model, validator);
@@ -399,11 +402,10 @@ function getCPDependentKeysFor(attribute, validations) {
       dependentKeys.push(&#x60;_model.${attribute}.[]&#x60;);
     }
 
-    if(isArray(options.dependentKeys)) {
-      options.dependentKeys.forEach(k =&gt; {
-        dependentKeys.push(&#x60;_model.${k}&#x60;);
-      });
-    }
+    let specifiedDependents = [].concat(getWithDefault(options, &#x27;dependentKeys&#x27;, []), getWithDefault(validation, &#x27;defaultOptions.dependentKeys&#x27;, []));
+    specifiedDependents.forEach(d =&gt; {
+      dependentKeys.push(&#x60;_model.${d}&#x60;);
+    });
   });
 
   return dependentKeys.uniq();
@@ -420,8 +422,8 @@ function getCPDependentKeysFor(attribute, validations) {
  * @param  {String} attribute
  * @param  {Function} resolve
  */
-function debouncedValidate(validator, value, options, model, attribute, resolve) {
-  resolve(validator.validate(value, options, model, attribute));
+function debouncedValidate(validator, model, attribute, resolve) {
+  resolve(validator.validate(get(model, attribute), validator.processOptions(), model, attribute));
 }
 
 /**

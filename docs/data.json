@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v2.2.1"
+        "version": "v2.3.0"
     },
     "files": {
         "addon/utils/cycle-breaker.js": {
@@ -272,7 +272,7 @@
             "tag": "main",
             "file": "app/validators/presence.js",
             "line": 14,
-            "description": "## Common Options\n\n### description\nA descriptor for your attribute used in the error message strings. Defaults to `This field'`.\nYou can overwrite this value in your `validators/messages.js` file by changing the `defaultDescription` property.\n\n```javascript\n// Examples\nvalidator('date', {\n    description: 'Date of birth'\n})\n// If validation is run and the attribute is empty, the error returned will be:\n// 'Date of birth can't be blank'\n```\n\n### dependentKeys\nA list of other model specific dependents for you validator.\n\n```javascript\n// Examples\nvalidator('has-friends', {\n    dependentKeys: ['friends.[]']\n})\nvalidator('has-valid-friends', {\n    dependentKeys: ['friends.@each.username']\n})\nvalidator('x-validator', {\n    dependentKeys: ['username', 'email', 'meta.foo.bar']\n})\n```\n\n### debounce\nDebounces the validation with the given time in `milliseconds`. All debounced validations will be handled asynchronously (wrapped in a promise).\n\n```javascript\n// Examples\nvalidator('length', {\n    debounce: 500\n})\nvalidator('x-validator', {\n    debounce: 250\n})\n```\n\n### message\nThis option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator.\n\n```javascript\n// Example: String\nvalidator('confirmation', {\n  message: 'Email does not match {attribute}. What are you even thinking?!'\n})\n```\n\nWe can pass a `function` into our message option for even more customization capabilities.\n\n```javascript\n// Example: Function\nvalidator('date', {\n  message: function(type, options, value, context) {\n      if (type === 'before') {\n          return '{description} should really be before {date}';\n      }\n      if (type === 'after') {\n          return '{description} should really be after {date}';\n      }\n  }\n})\n```\nThe message function is given the following arguments:\n\n- `type` (**String**): The error message type\n- `options` (**Object**): The validator options that were defined in the model\n- `value`: The current value being evaluated\n- `context` (**Object**): Context for string replacement\n\nThe return value must be a `string`. If nothing is returned (`undefined`), defaults to the default error message of the specified type.\n\nWithin this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.\n\n\n## Function Based Validators\n\nA validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.\n\n```javascript\n// Example\nvalidator(function(value, options, model, attribute) {\n  return value === options.username ? true : `must be ${options.username}`;\n} , {\n    username: 'John' // Any options can be passed here\n})\n```",
+            "description": "## Common Options\n\n### description\nA descriptor for your attribute used in the error message strings. Defaults to `This field'`.\nYou can overwrite this value in your `validators/messages.js` file by changing the `defaultDescription` property.\n\n```javascript\n// Examples\nvalidator('date', {\n  description: 'Date of birth'\n})\n// If validation is run and the attribute is empty, the error returned will be:\n// 'Date of birth can't be blank'\n```\n\n### dependentKeys\nA list of other model specific dependents for you validator.\n\n```javascript\n// Examples\nvalidator('has-friends', {\n  dependentKeys: ['friends.[]']\n})\nvalidator('has-valid-friends', {\n  dependentKeys: ['friends.@each.username']\n})\nvalidator('x-validator', {\n  dependentKeys: ['username', 'email', 'meta.foo.bar']\n})\n```\n\n### disabled\nIf set to `true`, disables the given validator. This option would usually go hand-in-hand\nwith {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`. Defaults to `false`.\n\n```js\n// Examples\nvalidator('presence', {\n  presence: true,\n  disabled: true\n})\nvalidator('presence', {\n  presence: true,\n  dependentKeys: ['shouldValidate'],\n  disabled() {\n    return !this.get('model.shouldValidate');\n  }\n})\n```\n\n### debounce\nDebounces the validation with the given time in `milliseconds`. All debounced validations will be handled asynchronously (wrapped in a promise).\n\n```javascript\n// Examples\nvalidator('length', {\n  debounce: 500\n})\nvalidator('x-validator', {\n  debounce: 250\n})\n```\n\n### message\nThis option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator.\n\n```javascript\n// Example: String\nvalidator('confirmation', {\n  message: 'Email does not match {attribute}. What are you even thinking?!'\n})\n```\n\nWe can pass a `function` into our message option for even more customization capabilities.\n\n```javascript\n// Example: Function\nvalidator('date', {\n  message: function(type, options, value, context) {\n    if (type === 'before') {\n      return '{description} should really be before {date}';\n    }\n    if (type === 'after') {\n      return '{description} should really be after {date}';\n    }\n  }\n})\n```\nThe message function is given the following arguments:\n\n- `type` (**String**): The error message type\n- `options` (**Object**): The validator options that were defined in the model\n- `value`: The current value being evaluated\n- `context` (**Object**): Context for string replacement\n\nThe return value must be a `string`. If nothing is returned (`undefined`), defaults to the default error message of the specified type.\n\nWithin this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.\n\n\n## Function Based Validators\n\nA validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.\n\n```javascript\n// Example\nvalidator(function(value, options, model, attribute) {\n  return value === options.username ? true : `must be ${options.username}`;\n} , {\n  username: 'John' // Any options can be passed here\n})\n```",
             "itemtype": "main"
         },
         "Home": {
@@ -303,7 +303,7 @@
             "namespace": "",
             "file": "addon/index.js",
             "line": 31,
-            "description": "## Models\nThe first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.\n\n```javascript\n// models/user.js\n\nimport Ember from 'ember';\nimport DS from 'ember-data';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nvar Validations = buildValidations({\n  username: validator('presence', true),\n  password: [\n    validator('presence', true),\n    validator('length', {\n      min: 4,\n      max: 8\n    })\n  ],\n  email: [\n    validator('presence', true),\n    validator('format', { type: 'email' })\n  ],\n  emailConfirmation: [\n    validator('presence', true),\n    validator('confirmation', {\n      on: 'email',\n      message: 'do not match',\n      description: 'Email addresses'\n    })\n  ]\n});\n```\n\nOnce our rules are created and our Mixin is generated, all we have to do is add it to our model.\n\n```javascript\n// models/user.js\n\nexport default DS.Model.extend(Validations, {\n  'username': attr('string'),\n  'password': attr('string'),\n  'email': attr('string')\n});\n```\n\n## Objects\nYou can also use the generated `Validations` mixin on any `Ember.Object` or child\nof `Ember.Object`, like `Ember.Component`. For example:\n\n```javascript\n// components/x-foo.js\n\nimport Ember from 'ember';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nvar Validations = buildValidations({\n  bar: validator('presence', true)\n});\n\nexport default Ember.Component.extend(Validations, {\n  bar: null\n});\n```\n\nTo lookup validators, container access is required which can cause an issue with `Ember.Object` creation if the object is statically imported. The current fix for this is as follows.\n\n```javascript\n// models/user.js\n\nexport default Ember.Object.extend(Validations, {\n  username: null\n});\n```\n\n**Ember < 2.3.0-beta.1**\n\n```javascript\n// routes/index.js\n\nimport User from '../models/user';\n\nexport default Ember.Route.extend({\n  model() {\n    var container = this.get('container');\n    return User.create({ username: 'John', container })\n  }\n});\n```\n\n**Ember >= 2.3.0-beta.2**\n\n```javascript\n// routes/index.js\n\nimport User from '../models/user';\n\nexport default Ember.Route.extend({\n  model() {\n    User.create(\n     getOwner(this).ownerInjection(),\n     { username: 'John' }\n    );\n  }\n});\n```"
+            "description": "## Models\nThe first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.\n\n```javascript\n// models/user.js\n\nimport Ember from 'ember';\nimport DS from 'ember-data';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  username: validator('presence', true),\n  password: [\n    validator('presence', true),\n    validator('length', {\n      min: 4,\n      max: 8\n    })\n  ],\n  email: [\n    validator('presence', true),\n    validator('format', { type: 'email' })\n  ],\n  emailConfirmation: [\n    validator('presence', true),\n    validator('confirmation', {\n      on: 'email',\n      message: 'do not match',\n      description: 'Email addresses'\n    })\n  ]\n});\n```\n\nOnce our rules are created and our Mixin is generated, all we have to do is add it to our model.\n\n```javascript\n// models/user.js\n\nexport default DS.Model.extend(Validations, {\n  'username': attr('string'),\n  'password': attr('string'),\n  'email': attr('string')\n});\n```\n\n## Objects\nYou can also use the generated `Validations` mixin on any `Ember.Object` or child\nof `Ember.Object`, like `Ember.Component`. For example:\n\n```javascript\n// components/x-foo.js\n\nimport Ember from 'ember';\nimport {\n  validator, buildValidations\n}\nfrom 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  bar: validator('presence', true)\n});\n\nexport default Ember.Component.extend(Validations, {\n  bar: null\n});\n```\n\nTo lookup validators, container access is required which can cause an issue with `Ember.Object` creation if the object is statically imported. The current fix for this is as follows.\n\n```javascript\n// models/user.js\n\nexport default Ember.Object.extend(Validations, {\n  username: null\n});\n```\n\n**Ember < 2.3.0-beta.1**\n\n```javascript\n// routes/index.js\n\nimport User from '../models/user';\n\nexport default Ember.Route.extend({\n  model() {\n    var container = this.get('container');\n    return User.create({ username: 'John', container })\n  }\n});\n```\n\n**Ember >= 2.3.0-beta.2**\n\n```javascript\n// routes/index.js\n\nimport User from '../models/user';\n\nexport default Ember.Route.extend({\n  model() {\n    User.create(\n     getOwner(this).ownerInjection(),\n     { username: 'John' }\n    );\n  }\n});\n```"
         },
         "Advanced Usage": {
             "name": "Advanced Usage",
@@ -317,7 +317,7 @@
             "namespace": "",
             "file": "addon/index.js",
             "line": 149,
-            "description": "### Default Options\n\nDefault options can be specified over a set of validations for a given attribute. Local properties will always take precedence.\n\nInstead of doing the following:\n\n```javascript\nvar Validations = buildValidations({\n  username: [\n    validator('presence', {\n      presence: true,\n      description: 'Username'\n    }),\n    validator('length', {\n      min: 1,\n      description: 'Username'\n    }),\n    validator('no-whitespace-around', {\n      description: 'A username'\n    })\n  ]\n});\n```\n\nWe can declare default options:\n\n```javascript\nvar Validations = buildValidations({\n  username: {\n    description: 'Username'\n    validators: [\n      validator('presence', true),\n      validator('length', {\n        min: 1\n      }),\n      validator('no-whitespace-around', {\n        description: 'A username'\n      })\n    ]\n  },\n});\n```\n\nIn the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.\n\n### Options as Functions\n\nAll options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc.\n\nPlease note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).\n\n```javascript\nvar Validations = buildValidations({\n  dob: validator('date', {\n    description: 'Date of Birth',\n    format() {\n      return this.get('model.meta.date.format');\n    },\n    before() {\n      return moment();\n    },\n    after() {\n      return moment().subtract(120, 'years');\n    }\n  })\n});\n```"
+            "description": "### Default Options\n\nDefault options can be specified over a set of validations for a given attribute. Local properties will always take precedence.\n\nInstead of doing the following:\n\n```javascript\nconst Validations = buildValidations({\n  username: [\n    validator('presence', {\n      presence: true,\n      description: 'Username'\n    }),\n    validator('length', {\n      min: 1,\n      description: 'Username'\n    }),\n    validator('no-whitespace-around', {\n      description: 'A username'\n    })\n  ]\n});\n```\n\nWe can declare default options:\n\n```javascript\nconst Validations = buildValidations({\n  username: {\n    description: 'Username'\n    validators: [\n      validator('presence', true),\n      validator('length', {\n        min: 1\n      }),\n      validator('no-whitespace-around', {\n        description: 'A username'\n      })\n    ]\n  },\n});\n```\n\nIn the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.\n\n### Options as Functions\n\nAll options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc.\n\nPlease note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).\n\n```javascript\nconst Validations = buildValidations({\n  dob: validator('date', {\n    description: 'Date of Birth',\n    format() {\n      return this.get('model.meta.date.format');\n    },\n    before() {\n      return moment();\n    },\n    after() {\n      return moment().subtract(120, 'years');\n    }\n  })\n});\n```"
         },
         "I18n Solutions": {
             "name": "I18n Solutions",
@@ -372,7 +372,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/validations/factory.js",
-            "line": 38,
+            "line": 39,
             "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed two methods:\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n\n## Inspecting Validations\n\nAll validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.",
             "mainName": "Validations",
             "tag": "main",
@@ -678,14 +678,14 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 57,
+            "line": 58,
             "description": "Temporary fix until setOwner polyfill is created\nhttps://github.com/rwjblue/ember-getowner-polyfill/issues/1",
             "class": "Factory",
             "module": "Validations"
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 70,
+            "line": 71,
             "description": "Top level method that will ultimately return a mixin with all CP validations",
             "itemtype": "method",
             "name": "buildValidations",
@@ -705,7 +705,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 103,
+            "line": 104,
             "description": "Validation rules can be created with default options\n{\n  description: 'Username',\n  validators: [...]\n}\nThis method generate the default options pojo, applies it to each validation rule, and flattens the object",
             "itemtype": "method",
             "name": "processDefaultOptions",
@@ -726,7 +726,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 134,
+            "line": 135,
             "description": "Create the global properties under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
             "itemtype": "method",
             "name": "createGlobalValidationProps",
@@ -748,7 +748,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 199,
+            "line": 200,
             "description": "Create the mixin that will be used to incorporate into the model",
             "itemtype": "method",
             "name": "createMixin",
@@ -770,7 +770,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 226,
+            "line": 227,
             "description": "CP generator for the given attribute",
             "itemtype": "method",
             "name": "createCPValidationFor",
@@ -797,7 +797,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 265,
+            "line": 268,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -824,7 +824,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 308,
+            "line": 310,
             "description": "Debounce handler for running a validation for the specified options",
             "itemtype": "method",
             "name": "debouncedValidate",
@@ -867,7 +867,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 323,
+            "line": 325,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -899,7 +899,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 352,
+            "line": 354,
             "description": "Unique id getter for validator cache",
             "itemtype": "method",
             "name": "getKey",
@@ -921,7 +921,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 363,
+            "line": 365,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -948,7 +948,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 382,
+            "line": 384,
             "description": "Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -975,7 +975,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 405,
+            "line": 407,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1002,7 +1002,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 454,
+            "line": 456,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1029,7 +1029,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 471,
+            "line": 473,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1054,7 +1054,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 536,
+            "line": 538,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nconst { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -1074,7 +1074,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 553,
+            "line": 555,
             "description": "willDestroy override for the final created mixin. Cancels all ongoing debounce timers\nand removes all cached data for the current object being destroyed",
             "itemtype": "method",
             "name": "willDestroy",
@@ -1961,7 +1961,7 @@
         },
         {
             "message": "Missing item type\nTemporary fix until setOwner polyfill is created\nhttps://github.com/rwjblue/ember-getowner-polyfill/issues/1",
-            "line": " addon/validations/factory.js:57"
+            "line": " addon/validations/factory.js:58"
         },
         {
             "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",

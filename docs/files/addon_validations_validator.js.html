@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.2.1</p>
+                <p class="version pull-right">v2.3.0</p>
               </div>
             </div>
         </div>
@@ -122,7 +122,7 @@ const {
  * &#x60;&#x60;&#x60;javascript
  * // Examples
  * validator(&#x27;date&#x27;, {
- *     description: &#x27;Date of birth&#x27;
+ *   description: &#x27;Date of birth&#x27;
  * })
  * // If validation is run and the attribute is empty, the error returned will be:
  * // &#x27;Date of birth can&#x27;t be blank&#x27;
@@ -134,13 +134,32 @@ const {
  * &#x60;&#x60;&#x60;javascript
  * // Examples
  * validator(&#x27;has-friends&#x27;, {
- *     dependentKeys: [&#x27;friends.[]&#x27;]
+ *   dependentKeys: [&#x27;friends.[]&#x27;]
  * })
  * validator(&#x27;has-valid-friends&#x27;, {
- *     dependentKeys: [&#x27;friends.@each.username&#x27;]
+ *   dependentKeys: [&#x27;friends.@each.username&#x27;]
  * })
  * validator(&#x27;x-validator&#x27;, {
- *     dependentKeys: [&#x27;username&#x27;, &#x27;email&#x27;, &#x27;meta.foo.bar&#x27;]
+ *   dependentKeys: [&#x27;username&#x27;, &#x27;email&#x27;, &#x27;meta.foo.bar&#x27;]
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * ### disabled
+ * If set to &#x60;true&#x60;, disables the given validator. This option would usually go hand-in-hand
+ * with {{#crossLinkModule &#x27;Advanced Usage&#x27;}}options as functions{{/crossLinkModule}} and &#x60;dependentKeys&#x60;. Defaults to &#x60;false&#x60;.
+ *
+ * &#x60;&#x60;&#x60;js
+ * // Examples
+ * validator(&#x27;presence&#x27;, {
+ *   presence: true,
+ *   disabled: true
+ * })
+ * validator(&#x27;presence&#x27;, {
+ *   presence: true,
+ *   dependentKeys: [&#x27;shouldValidate&#x27;],
+ *   disabled() {
+ *     return !this.get(&#x27;model.shouldValidate&#x27;);
+ *   }
  * })
  * &#x60;&#x60;&#x60;
  *
@@ -150,10 +169,10 @@ const {
  * &#x60;&#x60;&#x60;javascript
  * // Examples
  * validator(&#x27;length&#x27;, {
- *     debounce: 500
+ *   debounce: 500
  * })
  * validator(&#x27;x-validator&#x27;, {
- *     debounce: 250
+ *   debounce: 250
  * })
  * &#x60;&#x60;&#x60;
  *
@@ -173,12 +192,12 @@ const {
  * // Example: Function
  * validator(&#x27;date&#x27;, {
  *   message: function(type, options, value, context) {
- *       if (type === &#x27;before&#x27;) {
- *           return &#x27;{description} should really be before {date}&#x27;;
- *       }
- *       if (type === &#x27;after&#x27;) {
- *           return &#x27;{description} should really be after {date}&#x27;;
- *       }
+ *     if (type === &#x27;before&#x27;) {
+ *       return &#x27;{description} should really be before {date}&#x27;;
+ *     }
+ *     if (type === &#x27;after&#x27;) {
+ *       return &#x27;{description} should really be after {date}&#x27;;
+ *     }
  *   }
  * })
  * &#x60;&#x60;&#x60;
@@ -203,7 +222,7 @@ const {
  * validator(function(value, options, model, attribute) {
  *   return value === options.username ? true : &#x60;must be ${options.username}&#x60;;
  * } , {
- *     username: &#x27;John&#x27; // Any options can be passed here
+ *   username: &#x27;John&#x27; // Any options can be passed here
  * })
  * &#x60;&#x60;&#x60;
  *

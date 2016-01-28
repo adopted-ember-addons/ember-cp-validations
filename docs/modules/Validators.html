@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.2.1</p>
+                <p class="version pull-right">v2.3.0</p>
               </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
 You can overwrite this value in your <code>validators/messages.js</code> file by changing the <code>defaultDescription</code> property.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('date', {
-    description: 'Date of birth'
+  description: 'Date of birth'
 })
 // If validation is run and the attribute is empty, the error returned will be:
 // 'Date of birth can't be blank'
@@ -126,23 +126,39 @@ validator('date', {
 <p>A list of other model specific dependents for you validator.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('has-friends', {
-    dependentKeys: ['friends.[]']
+  dependentKeys: ['friends.[]']
 })
 validator('has-valid-friends', {
-    dependentKeys: ['friends.@each.username']
+  dependentKeys: ['friends.@each.username']
 })
 validator('x-validator', {
-    dependentKeys: ['username', 'email', 'meta.foo.bar']
+  dependentKeys: ['username', 'email', 'meta.foo.bar']
+})
+</code></pre>
+<h3>disabled</h3>
+<p>If set to <code>true</code>, disables the given validator. This option would usually go hand-in-hand
+with <a href="../modules/Advanced Usage.html">options as functions</a> and <code>dependentKeys</code>. Defaults to <code>false</code>.</p>
+<pre class="code prettyprint"><code class="language-js">// Examples
+validator('presence', {
+  presence: true,
+  disabled: true
+})
+validator('presence', {
+  presence: true,
+  dependentKeys: ['shouldValidate'],
+  disabled() {
+    return !this.get('model.shouldValidate');
+  }
 })
 </code></pre>
 <h3>debounce</h3>
 <p>Debounces the validation with the given time in <code>milliseconds</code>. All debounced validations will be handled asynchronously (wrapped in a promise).</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('length', {
-    debounce: 500
+  debounce: 500
 })
 validator('x-validator', {
-    debounce: 250
+  debounce: 250
 })
 </code></pre>
 <h3>message</h3>
@@ -156,12 +172,12 @@ validator('confirmation', {
 <pre class="code prettyprint"><code class="language-javascript">// Example: Function
 validator('date', {
   message: function(type, options, value, context) {
-      if (type === 'before') {
-          return '{description} should really be before {date}';
-      }
-      if (type === 'after') {
-          return '{description} should really be after {date}';
-      }
+    if (type === 'before') {
+      return '{description} should really be before {date}';
+    }
+    if (type === 'after') {
+      return '{description} should really be after {date}';
+    }
   }
 })
 </code></pre>
@@ -180,7 +196,7 @@ validator('date', {
 validator(function(value, options, model, attribute) {
   return value === options.username ? true : <code>must be ${options.username}</code>;
 } , {
-    username: 'John' // Any options can be passed here
+  username: 'John' // Any options can be passed here
 })
 </code></pre>
 

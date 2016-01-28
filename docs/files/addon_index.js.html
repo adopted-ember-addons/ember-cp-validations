@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.2.1</p>
+                <p class="version pull-right">v2.3.0</p>
               </div>
             </div>
         </div>
@@ -146,7 +146,7 @@ export var validator = Validator;
  * }
  * from &#x27;ember-cp-validations&#x27;;
  *
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: validator(&#x27;presence&#x27;, true),
  *   password: [
  *     validator(&#x27;presence&#x27;, true),
@@ -195,7 +195,7 @@ export var validator = Validator;
  * }
  * from &#x27;ember-cp-validations&#x27;;
  *
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   bar: validator(&#x27;presence&#x27;, true)
  * });
  *
@@ -258,7 +258,7 @@ export var validator = Validator;
  * Instead of doing the following:
  *
  * &#x60;&#x60;&#x60;javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: [
  *     validator(&#x27;presence&#x27;, {
  *       presence: true,
@@ -278,7 +278,7 @@ export var validator = Validator;
  * We can declare default options:
  *
  * &#x60;&#x60;&#x60;javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: {
  *     description: &#x27;Username&#x27;
  *     validators: [
@@ -303,7 +303,7 @@ export var validator = Validator;
  * Please note that the &#x60;message&#x60; option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
  *
  * &#x60;&#x60;&#x60;javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   dob: validator(&#x27;date&#x27;, {
  *     description: &#x27;Date of Birth&#x27;,
  *     format() {
