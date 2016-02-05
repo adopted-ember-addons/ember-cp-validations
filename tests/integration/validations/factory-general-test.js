@@ -468,6 +468,87 @@ test("attribute validation result options hash", function(assert) {
   assert.equal(options.length.description, 'First Name');
   assert.equal(options.presence.description, 'First Name');
   assert.equal(options['function'][0].description, 'First Name');
+});
 
+test("validations persist with inheritance", function(assert) {
+  var Parent = Ember.Object.extend(buildValidations({
+    firstName: validator(Validators.presence),
+    lastName: validator(Validators.presence)
+  }));
+
+  var Child = Parent.extend(buildValidations({
+    middleName: validator(Validators.presence),
+    dob: validator(Validators.presence)
+  }));
+
+  var child = setupObject(this, Child);
+
+  child.validateSync();
+
+  assert.equal(child.get('validations.errors.length'), 4);
+  assert.equal(child.get('validations.isValid'), false);
+  assert.deepEqual(child.get('validations._validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob'].sort());
+
+  child.setProperties({
+    middleName: 'John',
+    dob: '10/22/16'
+  });
+
+  assert.equal(child.get('validations.errors.length'), 2);
+
+  child.setProperties({
+    firstName: 'Joe',
+    lastName: 'Jenkins'
+  });
+
+  assert.equal(child.get('validations.isValid'), true);
+  assert.equal(child.get('validations.errors.length'), 0);
+});
+
+test("validations persist with deep inheritance", function(assert) {
+  var Parent = Ember.Object.extend(buildValidations({
+    firstName: validator(Validators.presence),
+    lastName: validator(Validators.presence)
+  }));
+
+  var Child = Parent.extend(buildValidations({
+    middleName: validator(Validators.presence),
+    dob: validator(Validators.presence)
+  }));
+
+  var Baby = Child.extend(buildValidations({
+    diaper: validator(Validators.presence),
+    favParent: validator(Validators.presence)
+  }));
+
+  var baby = setupObject(this, Baby);
+
+  baby.validateSync();
+
+  assert.equal(baby.get('validations.errors.length'), 6);
+  assert.equal(baby.get('validations.isValid'), false);
+  assert.deepEqual(baby.get('validations._validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob', 'diaper', 'favParent'].sort());
+
+  baby.setProperties({
+    middleName: 'John',
+    dob: '10/22/16'
+  });
+
+  assert.equal(baby.get('validations.errors.length'), 4);
+
+  baby.setProperties({
+    firstName: 'Joe',
+    lastName: 'Jenkins'
+  });
+
+  assert.equal(baby.get('validations.errors.length'), 2);
+
+  baby.setProperties({
+    diaper: 'soiled',
+    favParent: 'mom'
+  });
+
+  assert.equal(baby.get('validations.isValid'), true);
+  assert.equal(baby.get('validations.errors.length'), 0);
 });
 
