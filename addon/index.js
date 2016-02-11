@@ -134,7 +134,7 @@ export var validator = Validator;
  *
  * export default Ember.Route.extend({
  *   model() {
- *     User.create(
+ *     return User.create(
  *      getOwner(this).ownerInjection(),
  *      { username: 'John' }
  *     );

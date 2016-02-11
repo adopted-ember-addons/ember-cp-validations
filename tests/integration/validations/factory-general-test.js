@@ -6,7 +6,7 @@ import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
-var Validators = {
+const Validators = {
   presence(value, options, model, attr) {
     var isValid = !Ember.isNone(value);
     if (Ember.isNone(value)) {
