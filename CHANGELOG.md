@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.4.0
+- [#112](https://github.com/offirgolan/ember-cp-validations/pull/112) Support validations via inheritance
+- [#116](https://github.com/offirgolan/ember-cp-validations/pull/116) Support relational validators (`has-many` and `belongs-to`) in plain Ember Objects
+- [#117](https://github.com/offirgolan/ember-cp-validations/pull/117) Move caches out of the prototype and into the instance
+
 ## 2.3.0
 - [#106](https://github.com/offirgolan/ember-cp-validations/pull/106) Ability to enable/disable validations. See documentation [here](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html)
 
