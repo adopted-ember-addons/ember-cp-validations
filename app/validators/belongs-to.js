@@ -13,14 +13,17 @@ const {
 
 
 /**
- *  Identifies a `belongs-to` relationship in an Ember Data Model. This is used to create a link to the validations object of the child model.
+ *  Identifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.
+ *  This is used to create a link to the validations object of the child model.
  *
- *  _**Note:** Validations must exist on **both** models_
+ *  _**Note:** Validations must exist on **both** models/objects_
+ *
+ *  ### Ember Model
  *
  *  ```javascript
  *  // model/users.js
  *
- *  var Validations = buildValidations({
+ *  const Validations = buildValidations({
  *    details: validator('belongs-to')
  *  });
  *
@@ -32,7 +35,7 @@ const {
  *  ```javascript
  *  // model/user-details.js
  *
- *  var Validations = buildValidations({
+ *  const Validations = buildValidations({
  *    firstName: validator('presence', true),
  *    lastName: validator('presence', true)
  *  });
@@ -40,6 +43,28 @@ const {
  *  export default DS.Model.extend(Validations, {
  *    "firstName": attr('string'),
  *    "lastName": attr('string'),
+ *  });
+ *  ```
+ *
+ *  ### Ember Object
+ *
+ *  ```javascript
+ *  // model/users.js
+ *
+ *  import UserDetails from '../user-details';
+ *
+ *  const Validations = buildValidations({
+ *    details: validator('belongs-to')
+ *  });
+ *
+ *  export default Ember.Object.extend(Validations, {
+ *    details: null,
+ *
+ *    init() {
+ *      this._super(...arguments);
+ *      let owner = Ember.getOwner(this);
+ *      this.set('details', UserDetails.create(owner.ownerInjection()));
+ *    }
  *  });
  *  ```
  *

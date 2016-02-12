@@ -8,23 +8,39 @@ import Base from 'ember-cp-validations/validators/base';
 
 const {
   canInvoke,
-  A: emberArray
 } = Ember;
 
 /**
- *  Identifies a `has-many` relationship in an Ember Data Model. This is used to create a validation collection of the `has-many` validations.
+ *  Identifies a `has-many` relationship in an Ember Data Model or Ember.Object.
+ *  This is used to create a validation collection of the `has-many` validations.
  *
- *  _**Note:** Validations must exist on **all** models_
+ *  _**Note:** Validations must exist on **all** models/objects_
+ *
+ *  ### Ember Models
  *
  *  ```javascript
  *  // model/users.js
  *
- *  var Validations = buildValidations({
+ *  const Validations = buildValidations({
  *    friends: validator('has-many')
  *  });
  *
  *  export default DS.Model.extend(Validations, {
- *    'friends': DS.hasMany('user')
+ *    friends: DS.hasMany('user')
+ *  });
+ *  ```
+ *
+ *  ### Ember Objects
+ *
+ *  ```javascript
+ *  // model/users.js
+ *
+ *  const Validations = buildValidations({
+ *    friends: validator('has-many')
+ *  });
+ *
+ *  export default Ember.Object.extend(Validations, {
+ *    friends: null
  *  });
  *  ```
  *
@@ -44,10 +60,10 @@ export default Base.extend({
     if (value) {
       if (canInvoke(value, 'then')) {
         return value.then((models) => {
-          return emberArray(models).getEach('validations');
+          return models.map(m => m.get('validations'));
         });
       } else {
-        return value.toArray().getEach('validations');
+        return value.map(m => m.get('validations'));
       }
     }
 

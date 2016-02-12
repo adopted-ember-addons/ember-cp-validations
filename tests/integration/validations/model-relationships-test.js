@@ -8,7 +8,7 @@ import PresenceValidator from 'dummy/validators/presence';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
-var Validators = {
+const Validators = {
   presence(value, options, model, attr) {
     var isValid = !Ember.isNone(value);
     if (Ember.isNone(value)) {
@@ -23,6 +23,14 @@ var Validations = buildValidations({
   lastName: validator(Validators.presence)
 });
 
+const BelongsToValidations = buildValidations({
+  friend: validator('belongs-to')
+});
+
+const HasManyValidations = buildValidations({
+  friends: validator('has-many')
+});
+
 moduleFor('foo', 'Integration | Validations | Model Relationships', {
   integration: true,
   beforeEach() {
@@ -32,10 +40,6 @@ moduleFor('foo', 'Integration | Validations | Model Relationships', {
 
 test("belong to validation - no cycle", function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
-
-  var BelongsToValidations = buildValidations({
-    friend: validator('belongs-to')
-  });
 
   var user2 = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'John'
@@ -64,10 +68,6 @@ test("belong to validation - no cycle", function(assert) {
 test("belong to validation - with cycle", function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var BelongsToValidations = buildValidations({
-    friend: validator('belongs-to')
-  });
-
   var user = setupObject(this, Ember.Object.extend(BelongsToValidations));
   user.set('friend', user);
 
@@ -87,12 +87,58 @@ test("belong to validation - with cycle", function(assert) {
 
 });
 
+test("has-many relationship is sync", function(assert) {
+  this.register('validator:belongs-to', BelongsToValidator);
+
+  var friend = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'John'
+  });
+
+  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+    friends: [friend]
+  });
+
+  const {
+    validations,
+    model
+  } = user.get('validations').validateSync();
+
+  assert.equal(model, user, 'expected model to be the correct model');
+  assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friends'].sort());
+
+  let friends = validations.get('content').findBy('attribute', 'friends');
+
+  assert.equal(friends.get('isValid'), false);
+  assert.equal(friends.get('message'), 'lastName should be present');
+});
+
+test("has-many relationship is sync with proxy", function(assert) {
+  this.register('validator:belongs-to', BelongsToValidator);
+
+  var friend = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'John'
+  });
+
+  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+    friends: Ember.ArrayProxy.create({ content: Ember.A([friend]) })
+  });
+
+  const {
+    validations,
+    model
+  } = user.get('validations').validateSync();
+
+  assert.equal(model, user, 'expected model to be the correct model');
+  assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friends'].sort());
+
+  let friends = validations.get('content').findBy('attribute', 'friends');
+
+  assert.equal(friends.get('isValid'), false);
+  assert.equal(friends.get('message'), 'lastName should be present');
+});
+
 test("has-many relationship is async", function(assert) {
   this.register('validator:has-many', HasManyValidator);
-
-  var HasManyValidations = buildValidations({
-    friends: validator('has-many')
-  });
 
   var friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
@@ -126,10 +172,6 @@ test("has-many relationship is async", function(assert) {
 test("belongs-to relationship is async", function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var BelongsToValidations = buildValidations({
-    friend: validator('belongs-to')
-  });
-
   var friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
   });
@@ -162,10 +204,6 @@ test("belongs-to relationship is async", function(assert) {
 
 test("belongs-to relationship returns undefined", function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
-
-  var BelongsToValidations = buildValidations({
-    friend: validator('belongs-to')
-  });
 
   var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve, reject) => {
