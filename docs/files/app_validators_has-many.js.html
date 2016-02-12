@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.3.0</p>
+                <p class="version pull-right">v2.4.0</p>
               </div>
             </div>
         </div>
@@ -112,23 +112,39 @@ import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
   canInvoke,
-  A: emberArray
 } = Ember;
 
 /**
- *  Identifies a &#x60;has-many&#x60; relationship in an Ember Data Model. This is used to create a validation collection of the &#x60;has-many&#x60; validations.
+ *  Identifies a &#x60;has-many&#x60; relationship in an Ember Data Model or Ember.Object.
+ *  This is used to create a validation collection of the &#x60;has-many&#x60; validations.
  *
- *  _**Note:** Validations must exist on **all** models_
+ *  _**Note:** Validations must exist on **all** models/objects_
+ *
+ *  ### Ember Models
  *
  *  &#x60;&#x60;&#x60;javascript
  *  // model/users.js
  *
- *  var Validations = buildValidations({
+ *  const Validations = buildValidations({
  *    friends: validator(&#x27;has-many&#x27;)
  *  });
  *
  *  export default DS.Model.extend(Validations, {
- *    &#x27;friends&#x27;: DS.hasMany(&#x27;user&#x27;)
+ *    friends: DS.hasMany(&#x27;user&#x27;)
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  ### Ember Objects
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/users.js
+ *
+ *  const Validations = buildValidations({
+ *    friends: validator(&#x27;has-many&#x27;)
+ *  });
+ *
+ *  export default Ember.Object.extend(Validations, {
+ *    friends: null
  *  });
  *  &#x60;&#x60;&#x60;
  *
@@ -148,10 +164,10 @@ export default Base.extend({
     if (value) {
       if (canInvoke(value, &#x27;then&#x27;)) {
         return value.then((models) =&gt; {
-          return emberArray(models).getEach(&#x27;validations&#x27;);
+          return models.map(m =&gt; m.get(&#x27;validations&#x27;));
         });
       } else {
-        return value.toArray().getEach(&#x27;validations&#x27;);
+        return value.map(m =&gt; m.get(&#x27;validations&#x27;));
       }
     }
 

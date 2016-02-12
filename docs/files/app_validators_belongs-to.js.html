@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.3.0</p>
+                <p class="version pull-right">v2.4.0</p>
               </div>
             </div>
         </div>
@@ -117,14 +117,17 @@ const {
 
 
 /**
- *  Identifies a &#x60;belongs-to&#x60; relationship in an Ember Data Model. This is used to create a link to the validations object of the child model.
+ *  Identifies a &#x60;belongs-to&#x60; relationship in an Ember Data Model or Ember.Object.
+ *  This is used to create a link to the validations object of the child model.
  *
- *  _**Note:** Validations must exist on **both** models_
+ *  _**Note:** Validations must exist on **both** models/objects_
+ *
+ *  ### Ember Model
  *
  *  &#x60;&#x60;&#x60;javascript
  *  // model/users.js
  *
- *  var Validations = buildValidations({
+ *  const Validations = buildValidations({
  *    details: validator(&#x27;belongs-to&#x27;)
  *  });
  *
@@ -136,7 +139,7 @@ const {
  *  &#x60;&#x60;&#x60;javascript
  *  // model/user-details.js
  *
- *  var Validations = buildValidations({
+ *  const Validations = buildValidations({
  *    firstName: validator(&#x27;presence&#x27;, true),
  *    lastName: validator(&#x27;presence&#x27;, true)
  *  });
@@ -144,6 +147,28 @@ const {
  *  export default DS.Model.extend(Validations, {
  *    &quot;firstName&quot;: attr(&#x27;string&#x27;),
  *    &quot;lastName&quot;: attr(&#x27;string&#x27;),
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  ### Ember Object
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/users.js
+ *
+ *  import UserDetails from &#x27;../user-details&#x27;;
+ *
+ *  const Validations = buildValidations({
+ *    details: validator(&#x27;belongs-to&#x27;)
+ *  });
+ *
+ *  export default Ember.Object.extend(Validations, {
+ *    details: null,
+ *
+ *    init() {
+ *      this._super(...arguments);
+ *      let owner = Ember.getOwner(this);
+ *      this.set(&#x27;details&#x27;, UserDetails.create(owner.ownerInjection()));
+ *    }
  *  });
  *  &#x60;&#x60;&#x60;
  *

@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.3.0</p>
+                <p class="version pull-right">v2.4.0</p>
               </div>
             </div>
         </div>
@@ -199,7 +199,7 @@ import User from '../models/user';
 
 export default Ember.Route.extend({
   model() {
-    User.create(
+    return User.create(
      getOwner(this).ownerInjection(),
      { username: 'John' }
     );

@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.3.0</p>
+                <p class="version pull-right">v2.4.0</p>
               </div>
             </div>
         </div>
@@ -115,11 +115,13 @@
 
 
   <div class="yuidoc-class-description">
-  <p>Identifies a <code>belongs-to</code> relationship in an Ember Data Model. This is used to create a link to the validations object of the child model.</p>
-<p><em><strong>Note:</strong> Validations must exist on <strong>both</strong> models</em></p>
+  <p>Identifies a <code>belongs-to</code> relationship in an Ember Data Model or Ember.Object.
+This is used to create a link to the validations object of the child model.</p>
+<p><em><strong>Note:</strong> Validations must exist on <strong>both</strong> models/objects</em></p>
+<h3>Ember Model</h3>
 <pre class="code prettyprint"><code class="language-javascript">// model/users.js
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   details: validator('belongs-to')
 });
 
@@ -129,7 +131,7 @@ export default DS.Model.extend(Validations, {
 </code></pre>
 <pre class="code prettyprint"><code class="language-javascript">// model/user-details.js
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   firstName: validator('presence', true),
   lastName: validator('presence', true)
 });
@@ -137,6 +139,25 @@ var Validations = buildValidations({
 export default DS.Model.extend(Validations, {
   "firstName": attr('string'),
   "lastName": attr('string'),
+});
+</code></pre>
+<h3>Ember Object</h3>
+<pre class="code prettyprint"><code class="language-javascript">// model/users.js
+
+import UserDetails from '../user-details';
+
+const Validations = buildValidations({
+  details: validator('belongs-to')
+});
+
+export default Ember.Object.extend(Validations, {
+  details: null,
+
+  init() {
+    this._super(...arguments);
+    let owner = Ember.getOwner(this);
+    this.set('details', UserDetails.create(owner.ownerInjection()));
+  }
 });
 </code></pre>
 <p>From our <code>user</code> model, we can now check any validation propery on the <code>user-details</code> model.</p>

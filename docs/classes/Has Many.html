@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.3.0</p>
+                <p class="version pull-right">v2.4.0</p>
               </div>
             </div>
         </div>
@@ -109,22 +109,35 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/app_validators_has-many.js.html#l14"><code>app&#x2F;validators&#x2F;has-many.js:14</code></a>
+            Defined in: <a href="../files/app_validators_has-many.js.html#l13"><code>app&#x2F;validators&#x2F;has-many.js:13</code></a>
         </div>
 </div>
 
 
   <div class="yuidoc-class-description">
-  <p>Identifies a <code>has-many</code> relationship in an Ember Data Model. This is used to create a validation collection of the <code>has-many</code> validations.</p>
-<p><em><strong>Note:</strong> Validations must exist on <strong>all</strong> models</em></p>
+  <p>Identifies a <code>has-many</code> relationship in an Ember Data Model or Ember.Object.
+This is used to create a validation collection of the <code>has-many</code> validations.</p>
+<p><em><strong>Note:</strong> Validations must exist on <strong>all</strong> models/objects</em></p>
+<h3>Ember Models</h3>
 <pre class="code prettyprint"><code class="language-javascript">// model/users.js
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   friends: validator('has-many')
 });
 
 export default DS.Model.extend(Validations, {
-  'friends': DS.hasMany('user')
+  friends: DS.hasMany('user')
+});
+</code></pre>
+<h3>Ember Objects</h3>
+<pre class="code prettyprint"><code class="language-javascript">// model/users.js
+
+const Validations = buildValidations({
+  friends: validator('has-many')
+});
+
+export default Ember.Object.extend(Validations, {
+  friends: null
 });
 </code></pre>
 <p>From our <code>user</code> model, we can now check validation properties on the <code>friends</code> attribute.</p>
