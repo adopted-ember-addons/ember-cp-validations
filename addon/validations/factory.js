@@ -15,6 +15,7 @@ const {
   get,
   run,
   RSVP,
+  merge,
   isNone,
   guidFor,
   isEmpty,
@@ -75,30 +76,22 @@ function setOwner(obj, model) {
  * @return {Ember.Mixin}
  */
 export default function buildValidations(validations = {}) {
-  var validatableAttrs = Object.keys(validations);
-  var props = createGlobalValidationProps(validatableAttrs);
-  var attrs = {};
-
-  // Private
-  props._validators = {};
-  props._debouncedValidations = {};
-  props._validatableAttributes = validatableAttrs;
-  props._validationRules = validations;
-
   processDefaultOptions(validations);
 
-  validatableAttrs.forEach((attribute) => {
-    attrs[attribute] = createCPValidationFor(attribute, validations[attribute]);
-  });
+  const Validations = createValidationsObject(validations);
 
-  var AttrValidations = Ember.Object.extend(attrs);
-  var GlobalValidations = Ember.Object.extend(props, {
-    isValidations: true,
-    validate,
-    validateSync
+  return Ember.Mixin.create({
+    validations: computed(function() {
+      return Validations.create({ model: this, _parentValidations: this._super() });
+    }).readOnly(),
+    validate() {
+      return get(this, 'validations').validate(...arguments);
+    },
+    validateSync() {
+      return get(this, 'validations').validateSync(...arguments);
+    },
+    willDestroy
   });
-
-  return createMixin(GlobalValidations, AttrValidations);
 }
 
 /**
@@ -133,94 +126,56 @@ function processDefaultOptions(validations = {}) {
 }
 
 /**
- * Create the global properties under the validations object.
- * These are computed collections on different properties of each attribute validations CP
- * @method createGlobalValidationProps
- * @private
- * @param  {Array} validatableAttrs
- * @return {Object}
- */
-function createGlobalValidationProps(validatableAttrs) {
-  var props = {};
-  props.isValid = and(...validatableAttrs.map((attr) => `attrs.${attr}.isValid`)).readOnly();
-  props.isValidating = or(...validatableAttrs.map((attr) => `attrs.${attr}.isValidating`)).readOnly();
-  props.isDirty = or(...validatableAttrs.map((attr) => `attrs.${attr}.isDirty`)).readOnly();
-  props.isAsync = or(...validatableAttrs.map((attr) => `attrs.${attr}.isAsync`)).readOnly();
-  props.isNotValidating = not('isValidating').readOnly();
-  props.isInvalid = not('isValid').readOnly();
-  props.isTruelyValid = and('isValid', 'isNotValidating').readOnly();
-
-  props._promise = computed(...validatableAttrs.map((attr) => `attrs.${attr}._promise`), function() {
-    var promises = [];
-    validatableAttrs.forEach((attr) => {
-      var validation = get(this, `attrs.${attr}`);
-      if (get(validation, 'isAsync')) {
-        promises.push(get(validation, '_promise'));
-      }
-    });
-    return RSVP.all(flatten(promises));
-  });
-
-  props.messages = computed(...validatableAttrs.map((attr) => `attrs.${attr}.messages`), function() {
-    var messages = [];
-    validatableAttrs.forEach((attr) => {
-      var validation = get(this, `attrs.${attr}`);
-      if (validation) {
-        messages.push(get(validation, 'messages'));
-      }
-    });
-
-    return emberArray(flatten(messages)).compact();
-  });
-
-  props.message = computed('messages.[]', cycleBreaker(function() {
-    return get(this, 'messages.0');
-  }));
-
-
-  props.errors = computed(...validatableAttrs.map((attr) => `attrs.${attr}.@each.errors`), function() {
-    var errors = [];
-    validatableAttrs.forEach((attr) => {
-      var validation = get(this, `attrs.${attr}`);
-      if (validation) {
-        errors.push(get(validation, 'errors'));
-      }
-    });
-
-    return emberArray(flatten(errors)).compact();
-  });
-
-  props.error = computed('errors.[]', cycleBreaker(function() {
-    return get(this, 'errors.0');
-  }));
-
-  return props;
-}
-
-/**
- * Create the mixin that will be used to incorporate into the model
- * @method createMixin
+ * Creates the validations object that will become `model.validations`. Creates all necessary global CPs such as
+ * `isValid`, `isAsync`, etc and also the `attrs` object.
+ * @method createValidationsObject
  * @private
  * @param  {Object} validations
- * @return {Ember.Mixin}
+ * @return {Ember.Object}
  */
-function createMixin(GlobalValidations, AttrValidations) {
-  return Ember.Mixin.create({
-    validate() {
-      return get(this, 'validations').validate(...arguments);
-    },
-    validateSync() {
-      return get(this, 'validations').validateSync(...arguments);
-    },
-    validations: computed(function() {
-      return GlobalValidations.create({
-        model: this,
-        attrs: AttrValidations.create({
-          _model: this
+function createValidationsObject(validations = {}) {
+  return Ember.Object.extend({
+    model: null,
+    attrs: null,
+    isValidations: true,
+
+    // Caches
+    _validators: {},
+    _debouncedValidations: {},
+
+    // Private
+    _validationRules: null,
+    _validatableAttributes: null,
+    _parentValidations: null,
+
+    validate,
+    validateSync,
+
+    init() {
+      this._super(...arguments);
+      let validationRules = validations;
+      let parentValidations = this.get('_parentValidations');
+      let attrs = {};
+
+      if(parentValidations) {
+        validationRules = merge(merge({}, parentValidations.get('_validationRules')), validationRules);
+      }
+
+      let validatableAttributes = Object.keys(validationRules);
+      validatableAttributes.forEach((attribute) => {
+        attrs[attribute] = createCPValidationFor(attribute, validationRules[attribute]);
+      });
+
+      this.setProperties({
+        _validatableAttributes: validatableAttributes,
+        _validationRules: validationRules,
+        attrs: Ember.Object.extend(attrs).create({
+          _model: this.get('model')
         })
       });
-    }).readOnly(),
-    willDestroy
+
+      createGlobalValidationProps(this);
+    }
   });
 }
 
@@ -263,6 +218,53 @@ function createCPValidationFor(attribute, validations) {
       attribute, content: flatten(validationResults)
     });
   }));
+}
+
+/**
+ * Create the global properties under the validations object.
+ * These are computed collections on different properties of each attribute validations CP
+ * @method createGlobalValidationProps
+ * @private
+ * @param  {Object} validations
+ */
+function createGlobalValidationProps(validations) {
+  const validatableAttrs = validations.get('_validatableAttributes');
+  validations.setProperties({
+    isValid: and(...validatableAttrs.map((attr) => `attrs.${attr}.isValid`)).readOnly(),
+    isValidating: or(...validatableAttrs.map((attr) => `attrs.${attr}.isValidating`)).readOnly(),
+    isDirty: or(...validatableAttrs.map((attr) => `attrs.${attr}.isDirty`)).readOnly(),
+    isAsync: or(...validatableAttrs.map((attr) => `attrs.${attr}.isAsync`)).readOnly(),
+    isNotValidating: not('isValidating').readOnly(),
+    isInvalid: not('isValid').readOnly(),
+    isTruelyValid: and('isValid', 'isNotValidating').readOnly(),
+
+    messages: computed(...validatableAttrs.map((attr) => `attrs.${attr}.messages`), function() {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.messages`)))).compact();
+    }),
+
+    message: computed('messages.[]', cycleBreaker(function() {
+      return get(this, 'messages.0');
+    })),
+
+    errors: computed(...validatableAttrs.map((attr) => `attrs.${attr}.@each.errors`), function() {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.errors`)))).compact();
+    }),
+
+    error: computed('errors.[]', cycleBreaker(function() {
+      return get(this, 'errors.0');
+    })),
+
+    _promise: computed(...validatableAttrs.map((attr) => `attrs.${attr}._promise`), function() {
+      var promises = [];
+      validatableAttrs.forEach((attr) => {
+        var validation = get(this, `attrs.${attr}`);
+        if (get(validation, 'isAsync')) {
+          promises.push(get(validation, '_promise'));
+        }
+      });
+      return RSVP.Promise.all(flatten(promises));
+    })
+  });
 }
 
 /**
