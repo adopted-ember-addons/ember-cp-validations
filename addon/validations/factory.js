@@ -184,19 +184,14 @@ function createValidationsObject(validations = {}) {
 
     destroy() {
       this._super(...arguments);
-      let debounceCache = get(this, `_debouncedValidations`);
-      let validatorCache = get(this, `_validators`);
+      let debouncedValidations = get(this, `_debouncedValidations`);
 
       // Cancel all debounced timers
-      Object.keys(debounceCache).forEach(attr => {
-        let attrCache = debounceCache[attr];
+      Object.keys(debouncedValidations).forEach(attr => {
+        let attrCache = debouncedValidations[attr];
         // Itterate over each attribute and cancel all of its debounced validations
         Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
-        delete debounceCache[attr];
       });
-
-      // Delete all validator references
-      Object.keys(validatorCache).forEach(attr => delete validatorCache[attr]);
     }
   });
 }

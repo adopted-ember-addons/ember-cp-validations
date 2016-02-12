@@ -371,7 +371,7 @@ test("disabled validations - function with dependent key", function(assert) {
   assert.equal(object.get('validations.isValid'), true);
 });
 
-test("destroy object clears caches", function(assert) {
+test("destroy object clears debounce cache", function(assert) {
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator((value, options, model, attr) => {
@@ -381,74 +381,12 @@ test("destroy object clears caches", function(assert) {
   });
   var object = setupObject(this, Ember.Object.extend(Validations));
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(Object.keys(object.get('validations._validators')).length, 2);
   assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 1);
 
   Ember.run(() => object.destroy());
 
   Ember.run(() => {
-    assert.equal(Object.keys(object.get('validations._validators')).length, 0);
     assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 0);
-  });
-});
-
-test("destroy object clears caches - no debounce", function(assert) {
-  var object = setupObject(this, Ember.Object.extend(Validations));
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(Object.keys(object.get('validations._validators')).length, 2);
-  assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 0);
-
-  Ember.run(() => object.destroy());
-
-  Ember.run(() => {
-    assert.equal(Object.keys(object.get('validations._validators')).length, 0);
-    assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 0);
-  });
-});
-
-test("destroy object clears caches - caches stay belong on the instance", function(assert) {
-  var Validations = buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator((value, options, model, attr) => {
-      model.set('foo', 'bar');
-      return Validators.presence(value, options, model, attr);
-    }, { debounce: 500 }),
-  });
-
-  var Obj = Ember.Object.extend(Validations);
-  var objects = [];
-  for(let i =  0; i < 2; i++) {
-    objects.push(setupObject(this, Obj));
-  }
-
-  // fire up validations
-  objects.forEach(o => o.get('validations.isValid'));
-
-  objects.forEach(o => {
-    assert.equal(Object.keys(o.get('validations._validators')).length, 2);
-    assert.equal(Object.keys(o.get('validations._debouncedValidations')).length, 1);
-  });
-
-  Ember.run(() => {
-    objects[0].destroy();
-  });
-
-  Ember.run(() => {
-    assert.equal(Object.keys(objects[0].get('validations._validators')).length, 0);
-    assert.equal(Object.keys(objects[0].get('validations._debouncedValidations')).length, 0);
-    assert.equal(Object.keys(objects[1].get('validations._validators')).length, 2);
-    assert.equal(Object.keys(objects[1].get('validations._debouncedValidations')).length, 1);
-  });
-
-  Ember.run(() => {
-    objects[1].destroy();
-  });
-
-  Ember.run(() => {
-    objects.forEach(o => {
-      assert.equal(Object.keys(o.get('validations._validators')).length, 0);
-      assert.equal(Object.keys(o.get('validations._debouncedValidations')).length, 0);
-    });
   });
 });
 
