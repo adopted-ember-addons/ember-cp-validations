@@ -80,7 +80,7 @@ const Validations = buildValidations({
     validator('presence', true),
     validator('confirmation', {
       on: 'email',
-      message: 'do not match',
+      message: '{description} do not match',
       description: 'Email addresses'
     })
   ]
