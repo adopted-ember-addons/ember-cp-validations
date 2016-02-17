@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.4.0</p>
+                <p class="version pull-right">2.4.0.ae024047</p>
               </div>
             </div>
         </div>
@@ -139,7 +139,7 @@ const Validations = buildValidations({
     validator('presence', true),
     validator('confirmation', {
       on: 'email',
-      message: 'do not match',
+      message: '{description} do not match',
       description: 'Email addresses'
     })
   ]
