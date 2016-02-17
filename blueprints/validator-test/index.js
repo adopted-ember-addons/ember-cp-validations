@@ -23,7 +23,7 @@ module.exports = {
       type = 'qunit';
     } else {
       this.ui.writeLine('Couldn\'t determine test style - using QUnit');
-      testStyle = 'qunit';
+      type = 'qunit';
     }
     return path.join(this.path, type + '-files');
   },
