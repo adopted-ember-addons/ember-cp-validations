@@ -154,7 +154,7 @@ export default Ember.Object.extend({
    *   // check with server if username exists...
    *
    *   if(exists) {
-   *     return this.createErrorMessage('uniqueUsername', options, value);
+   *     return this.createErrorMessage('uniqueUsername', value, options);
    *   }
    *
    *   return true;
