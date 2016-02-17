@@ -20,7 +20,7 @@ export var validator = Validator;
  * Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
  *
  * ## Live Demo
- * A live demo can be found [here](../../../)
+ * A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations/)
  *
  * ## Looking for help?
  * If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
@@ -59,7 +59,7 @@ export var validator = Validator;
  *     validator('presence', true),
  *     validator('confirmation', {
  *       on: 'email',
- *       message: 'do not match',
+ *       message: '{description} do not match',
  *       description: 'Email addresses'
  *     })
  *   ]
