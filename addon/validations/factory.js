@@ -492,18 +492,18 @@ function validate(options = {}, async = true) {
   var validationResult, value;
 
   var validationResults = get(this, '_validatableAttributes').reduce((v, name) => {
-    validationResult = get(this, `attrs.${name}`);
-
     if (!isEmpty(blackList) && blackList.indexOf(name) !== -1) {
       return v;
     }
 
-    // If an async validation is found, throw an error
-    if (!async && get(validationResult, 'isAsync')) {
-      throw new Error(`[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`);
-    }
-
     if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
+      validationResult = get(this, `attrs.${name}`);
+
+      // If an async validation is found, throw an error
+      if (!async && get(validationResult, 'isAsync')) {
+        throw new Error(`[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`);
+      }
+
       value = get(validationResult, 'value');
       v.push(validationResult);
     }
