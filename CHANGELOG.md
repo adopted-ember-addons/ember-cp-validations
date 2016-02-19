@@ -1,8 +1,8 @@
 # Change Log
 
 ## 2.4.1
-- [#124](https://github.com/offirgolan/ember-cp-validations/issues/124) Validate `on` runs validation on all attributes [@kat3kasper](https://github.com/kat3kasper)
 - [#119](https://github.com/offirgolan/ember-cp-validations/issues/119) Fix for `Dependent keys containing @each only work one level deep` warnings in Ember Canary - 2.5
+- [#124](https://github.com/offirgolan/ember-cp-validations/issues/124) Validate `on` runs validation on all attributes [@kat3kasper](https://github.com/kat3kasper)
 
 ## 2.4.0
 - [#112](https://github.com/offirgolan/ember-cp-validations/pull/112) Support validations via inheritance
