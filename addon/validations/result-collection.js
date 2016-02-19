@@ -169,7 +169,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  messages: computed('content.@each.messages.[]', cycleBreaker(function() {
+  messages: computed('content.@each.messages', cycleBreaker(function() {
     let messages = flatten(get(this, 'content').getEach('messages'));
     return uniq(compact(messages));
   })),
@@ -204,7 +204,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  errors: computed('content.@each.errors.[]', cycleBreaker(function() {
+  errors: computed('content.@each.errors', cycleBreaker(function() {
     let errors = flatten(get(this, 'content').getEach('errors'));
     return uniq(compact(errors));
   })),
