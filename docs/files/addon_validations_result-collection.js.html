@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.4.0.ae024047</p>
+                <p class="version pull-right">v2.4.1</p>
               </div>
             </div>
         </div>
@@ -273,7 +273,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  messages: computed(&#x27;content.@each.messages.[]&#x27;, cycleBreaker(function() {
+  messages: computed(&#x27;content.@each.messages&#x27;, cycleBreaker(function() {
     let messages = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;messages&#x27;));
     return uniq(compact(messages));
   })),
@@ -308,7 +308,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  errors: computed(&#x27;content.@each.errors.[]&#x27;, cycleBreaker(function() {
+  errors: computed(&#x27;content.@each.errors&#x27;, cycleBreaker(function() {
     let errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
     return uniq(compact(errors));
   })),

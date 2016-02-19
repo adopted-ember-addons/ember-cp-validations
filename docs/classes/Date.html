@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.4.0.ae024047</p>
+                <p class="version pull-right">v2.4.1</p>
               </div>
             </div>
         </div>
@@ -319,7 +319,7 @@ we can use this method to generate our error message.</p>
   // check with server if username exists...
 
   if(exists) {
-    return this.createErrorMessage('uniqueUsername', options, value);
+    return this.createErrorMessage('uniqueUsername', value, options);
   }
 
   return true;

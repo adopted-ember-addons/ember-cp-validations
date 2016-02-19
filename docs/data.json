@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "2.4.0.ae024047"
+        "version": "v2.4.1"
     },
     "files": {
         "addon/utils/cycle-breaker.js": {
@@ -1581,7 +1581,7 @@
         {
             "file": "addon/validators/base.js",
             "line": 140,
-            "description": "Used by all pre-defined validators to build an error message that is present\nin `validators/message` or decalred in your i18n solution.\n\nIf we extended our default messages to include `uniqueUsername: '{username} already exists'`,\nwe can use this method to generate our error message.\n\n```javascript\nvalidate(value, options) {\n  var exists = false;\n\n  options.description = 'Username';\n  options.username = value;\n\n  // check with server if username exists...\n\n  if(exists) {\n    return this.createErrorMessage('uniqueUsername', options, value);\n  }\n\n  return true;\n}\n```\n\nIf we input `johndoe` and that username already exists, the returned message would be `'johndoe already exists'`.",
+            "description": "Used by all pre-defined validators to build an error message that is present\nin `validators/message` or decalred in your i18n solution.\n\nIf we extended our default messages to include `uniqueUsername: '{username} already exists'`,\nwe can use this method to generate our error message.\n\n```javascript\nvalidate(value, options) {\n  var exists = false;\n\n  options.description = 'Username';\n  options.username = value;\n\n  // check with server if username exists...\n\n  if(exists) {\n    return this.createErrorMessage('uniqueUsername', value, options);\n  }\n\n  return true;\n}\n```\n\nIf we input `johndoe` and that username already exists, the returned message would be `'johndoe already exists'`.",
             "itemtype": "method",
             "name": "createErrorMessage",
             "params": [

@@ -65,7 +65,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.4.0.ae024047</p>
+                <p class="version pull-right">v2.4.1</p>
               </div>
             </div>
         </div>
@@ -596,18 +596,18 @@ function validate(options = {}, async = true) {
   var validationResult, value;
 
   var validationResults = get(this, &#x27;_validatableAttributes&#x27;).reduce((v, name) =&gt; {
-    validationResult = get(this, &#x60;attrs.${name}&#x60;);
-
     if (!isEmpty(blackList) &amp;&amp; blackList.indexOf(name) !== -1) {
       return v;
     }
 
-    // If an async validation is found, throw an error
-    if (!async &amp;&amp; get(validationResult, &#x27;isAsync&#x27;)) {
-      throw new Error(&#x60;[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.&#x60;);
-    }
-
     if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
+      validationResult = get(this, &#x60;attrs.${name}&#x60;);
+
+      // If an async validation is found, throw an error
+      if (!async &amp;&amp; get(validationResult, &#x27;isAsync&#x27;)) {
+        throw new Error(&#x60;[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.&#x60;);
+      }
+
       value = get(validationResult, &#x27;value&#x27;);
       v.push(validationResult);
     }
