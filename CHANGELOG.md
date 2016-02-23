@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.5.0
+- [#122](https://github.com/offirgolan/ember-cp-validations/pull/122) Blueprints/validator-test: Fix typo in _filesPath() method [@Turbo87](https://github.com/Turbo87)
+- [#127](https://github.com/offirgolan/ember-cp-validations/pull/127) DS Error validator. See docs [here](http://offirgolan.github.io/ember-cp-validations/docs/classes/DS%20Error.html)
+
 ## 2.4.1
 - [#119](https://github.com/offirgolan/ember-cp-validations/issues/119) Fix for `Dependent keys containing @each only work one level deep` warnings in Ember Canary - 2.5
 - [#124](https://github.com/offirgolan/ember-cp-validations/issues/124) Validate `on` runs validation on all attributes [@kat3kasper](https://github.com/kat3kasper)
