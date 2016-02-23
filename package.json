@@ -57,7 +57,7 @@
     "ember-export-application-global": "^1.0.4",
     "ember-get-helper": "^1.0.4",
     "ember-moment": "6.0.0",
-    "ember-try": "0.2.0",
+    "ember-try": "0.0.8",
     "moment": "2.11.2",
     "moment-timezone": "0.5.0",
     "yuidoc-ember-cp-validations-theme": "offirgolan/yuidoc-ember-cp-validations-theme"
