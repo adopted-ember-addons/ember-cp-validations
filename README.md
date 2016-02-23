@@ -1,6 +1,5 @@
 # Ember CP Validations #
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/offirgolan/ember-cp-validations?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg)](https://travis-ci.org/offirgolan/ember-cp-validations)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Code Climate](https://codeclimate.com/github/offirgolan/ember-cp-validations/badges/gpa.svg)](https://codeclimate.com/github/offirgolan/ember-cp-validations)
@@ -20,12 +19,13 @@ __No observers were used nor harmed while developing and testing this addon.__
 * Support for both Ember Data Models and Objects
 * Synchronous and asynchronous support for both validators and validations
 * Dirty tracking
-* Support for nested models via `belongs-to` and `hasMany` relationships
+* Support for nested models via `belongsTo` and `hasMany` relationships
+* Easily integrated with Ember Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
 * No observers. Seriously... there are none. Like absolutely zero....
 * Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
 * Custom validators
 * Ember CLI generator to create custom validators with a unit test
-* Debounced validations
+* Debounceable validations
 * I18n support
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
@@ -35,17 +35,13 @@ __No observers were used nor harmed while developing and testing this addon.__
 ember install ember-cp-validations
 ```
 
-## Changelog ##
-Changelog can be found [here](CHANGELOG.md)
+## Helpful Links ##
 
-## Upgrading from 1.x to 2.x ##
-There are some breaking changes so to make the process of upgrading as smooth as possible, we wrote up some [upgrade documentation](UPGRADING.md). If you face any issue, please feel don't hesitate to open an issue.
+- ### [Live Demo](http://offirgolan.github.io/ember-cp-validations) ###
 
-## Documentation ##
-Detailed documentation can be found [here](http://offirgolan.github.io/ember-cp-validations/docs)
+- ### [Documentation](http://offirgolan.github.io/ember-cp-validations/docs) ###
 
-## Live Demo ##
-A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations)
+- ### [Changelog](CHANGELOG.md) ###
 
 ## Looking for help? ##
 If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
