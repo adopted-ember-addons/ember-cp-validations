@@ -49,6 +49,7 @@
                     <li ><a  href="../classes/Custom.html">Custom</a></li>
                     <li ><a  href="../classes/Date.html">Date</a></li>
                     <li ><a  href="../classes/Dependent.html">Dependent</a></li>
+                    <li ><a  href="../classes/DS Error.html">DS Error</a></li>
                     <li ><a  href="../classes/Error.html">Error</a></li>
                     <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
                     <li ><a  href="../classes/Factory.html">Factory</a></li>
@@ -65,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.4.1</p>
+                <p class="version pull-right">v2.5.0</p>
               </div>
             </div>
         </div>
@@ -103,7 +104,7 @@
 <div class="file">
     <pre class="prettyprint linenums">
 /**
- * Copyright 2015, Yahoo! Inc.
+ * Copyright 2016, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
@@ -410,6 +411,8 @@ function getCPDependentKeysFor(attribute, validations) {
       dependentKeys.push(&#x60;${attribute}.isTruelyValid&#x60;);
     } else if (type === &#x27;has-many&#x27;) {
       dependentKeys.push(&#x60;${attribute}.@each.isTruelyValid&#x60;);
+    } else if (type === &#x27;ds-error&#x27;) {
+      dependentKeys.push(&#x60;_model.errors.${attribute}.[]&#x60;);
     } else if (type === &#x27;confirmation&#x27; &amp;&amp; validation.options.on) {
       dependentKeys.push(&#x60;_model.${validation.options.on}&#x60;);
     } else if (type === &#x27;dependent&#x27;) {

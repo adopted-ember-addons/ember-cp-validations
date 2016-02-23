@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/validators/length.js - Ember CP Validations</title>
+    <title>app/validators/ds-error.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>app/validators/length.js <small>File</small></h1>
+    <h1>app/validators/ds-error.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -110,61 +110,35 @@
 
 import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
+const DS = self.DS;
+
+if (typeof self.DS === &#x27;undefined&#x27;) {
+  throw new Error(&#x27;Ember-Data is required to use the DS Error validator.&#x27;);
+}
 
 const {
   get,
-  isNone,
-  isEmpty
+  isNone
 } = Ember;
-
 /**
- *  Validates the length of the attributes’ values.
- *
- *   #### Options
- *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
- *  - &#x60;is&#x60; (**Number**): The exact length the value can be
- *  - &#x60;min&#x60; (**Number**): The minimum length the value can be
- *  - &#x60;max&#x60; (**Number**): The maximum length the value can be
+ *  Creates a link between this library and Ember-Data&#x27;s [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
+ *  to fetch the latest message for the given attribute.
  *
  *  &#x60;&#x60;&#x60;javascript
  *  // Examples
- *  validator(&#x27;length&#x27;, {
- *    is: 15
- *  })
- *  validator(&#x27;length&#x27;, {
- *      min: 5,
- *      max: 10
- *  })
+ *  validator(&#x27;ds-error&#x27;)
  *  &#x60;&#x60;&#x60;
  *
- *  @class Length
+ *  @class DS Error
  *  @module Validators
  *  @extends Base
  */
 export default Base.extend({
-  validate(value, options) {
-    if (isEmpty(Object.keys(options))) {
-      return true;
-    }
+  validate(value, options, model, attribute) {
+    let errors = get(model, &#x27;errors&#x27;);
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
-      return true;
-    }
-
-    if (isNone(value)) {
-      return true;
-    }
-
-    if (!isNone(options.is) &amp;&amp; options.is !== get(value, &#x27;length&#x27;)) {
-      return this.createErrorMessage(&#x27;wrongLength&#x27;, value, options);
-    }
-
-    if (!isNone(options.min) &amp;&amp; options.min &gt; get(value, &#x27;length&#x27;)) {
-      return this.createErrorMessage(&#x27;tooShort&#x27;, value, options);
-    }
-
-    if (!isNone(options.max) &amp;&amp; options.max &lt; get(value, &#x27;length&#x27;)) {
-      return this.createErrorMessage(&#x27;tooLong&#x27;, value, options);
+    if(!isNone(errors) &amp;&amp; errors instanceof DS.Errors &amp;&amp; errors.has(attribute)) {
+      return get(errors.errorsFor(attribute), &#x27;lastObject.message&#x27;);
     }
 
     return true;

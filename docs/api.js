@@ -6,6 +6,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Collection",
         "Confirmation",
         "Custom",
+        "DS Error",
         "Date",
         "Dependent",
         "Error",

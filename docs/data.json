@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v2.4.1"
+        "version": "v2.5.0"
     },
     "files": {
         "addon/utils/cycle-breaker.js": {
@@ -143,6 +143,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/validators/ds-error.js": {
+            "name": "app/validators/ds-error.js",
+            "modules": {},
+            "classes": {
+                "DS Error": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/validators/exclusion.js": {
             "name": "app/validators/exclusion.js",
             "modules": {},
@@ -259,6 +268,7 @@
                 "Confirmation": 1,
                 "Date": 1,
                 "Dependent": 1,
+                "DS Error": 1,
                 "Exclusion": 1,
                 "Format": 1,
                 "Has Many": 1,
@@ -523,6 +533,21 @@
             "description": "Defines an attribute as valid only if its dependents are valid.\n\n #### Options\n- `on` (**Array**): Attributes this field is dependent on\n\n```javascript\n// Example\n// Full name will only be valid if firstName and lastName are filled in\nvalidator('dependent', {\n    on: ['firstName', 'lastName'],\n})\n```",
             "extends": "Base"
         },
+        "DS Error": {
+            "name": "DS Error",
+            "shortname": "DS Error",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Validators",
+            "namespace": "",
+            "file": "app/validators/ds-error.js",
+            "line": 18,
+            "description": "Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)\nto fetch the latest message for the given attribute.\n\n```javascript\n// Examples\nvalidator('ds-error')\n```",
+            "extends": "Base"
+        },
         "Exclusion": {
             "name": "Exclusion",
             "shortname": "Exclusion",
@@ -634,7 +659,7 @@
         {
             "file": "addon/utils/cycle-breaker.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Error"
         },
         {
@@ -646,7 +671,7 @@
         {
             "file": "addon/utils/meta-data.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Error"
         },
         {
@@ -672,7 +697,7 @@
         {
             "file": "addon/validations/factory.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Factory",
             "module": "Validations"
         },
@@ -820,7 +845,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 329,
+            "line": 331,
             "description": "Debounce handler for running a validation for the specified options",
             "itemtype": "method",
             "name": "debouncedValidate",
@@ -863,7 +888,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 344,
+            "line": 346,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -895,7 +920,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 373,
+            "line": 375,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -922,7 +947,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 391,
+            "line": 393,
             "description": "Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -949,7 +974,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 409,
+            "line": 411,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -976,7 +1001,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 450,
+            "line": 452,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1007,7 +1032,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 467,
+            "line": 469,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1032,7 +1057,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 532,
+            "line": 534,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nconst { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -1053,7 +1078,7 @@
         {
             "file": "addon/validations/result-collection.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "ResultCollection",
             "module": "Validations"
         },
@@ -1244,7 +1269,7 @@
         {
             "file": "addon/validations/result.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Result",
             "module": "Validations"
         },
@@ -1433,14 +1458,14 @@
         {
             "file": "addon/validations/validator.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Base",
             "module": "Validations"
         },
         {
             "file": "addon/validators/base.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Base",
             "module": "Validators"
         },
@@ -1610,7 +1635,7 @@
         {
             "file": "addon/validators/messages.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Messages",
             "module": "Validators"
         },
@@ -1721,98 +1746,105 @@
         {
             "file": "addon/index.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Belongs To",
             "module": "Validators"
         },
         {
             "file": "app/validators/belongs-to.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Belongs To",
             "module": "Home"
         },
         {
             "file": "app/validators/collection.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Collection",
             "module": "Validators"
         },
         {
             "file": "app/validators/confirmation.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Confirmation",
             "module": "Validators"
         },
         {
             "file": "app/validators/date.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Date",
             "module": "Validators"
         },
         {
             "file": "app/validators/dependent.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Dependent",
+            "module": "Validators"
+        },
+        {
+            "file": "app/validators/ds-error.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "DS Error",
             "module": "Validators"
         },
         {
             "file": "app/validators/exclusion.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Exclusion",
             "module": "Validators"
         },
         {
             "file": "app/validators/format.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Format",
             "module": "Validators"
         },
         {
             "file": "app/validators/has-many.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Has Many",
             "module": "Validators"
         },
         {
             "file": "app/validators/inclusion.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Inclusion",
             "module": "Validators"
         },
         {
             "file": "app/validators/length.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Length",
             "module": "Validators"
         },
         {
             "file": "app/validators/messages.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Number",
             "module": "Validators"
         },
         {
             "file": "app/validators/number.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Number",
             "module": "Validators"
         },
         {
             "file": "app/validators/presence.js",
             "line": 1,
-            "description": "Copyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Presence",
             "module": "Validators"
         },
@@ -1911,7 +1943,7 @@
     ],
     "warnings": [
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/utils/cycle-breaker.js:1"
         },
         {
@@ -1919,11 +1951,11 @@
             "line": " addon/utils/cycle-breaker.js:6"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/utils/meta-data.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validations/factory.js:1"
         },
         {
@@ -1931,23 +1963,23 @@
             "line": " addon/validations/factory.js:59"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validations/result-collection.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validations/result.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validations/validator.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validators/base.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validators/messages.js:1"
         },
         {
@@ -1955,59 +1987,63 @@
             "line": " addon/validators/messages.js:86"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/index.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/belongs-to.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/collection.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/confirmation.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/date.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/dependent.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " app/validators/ds-error.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/exclusion.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/format.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/has-many.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/inclusion.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/length.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/messages.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/number.js:1"
         },
         {
-            "message": "Missing item type\nCopyright 2015, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " app/validators/presence.js:1"
         },
         {
