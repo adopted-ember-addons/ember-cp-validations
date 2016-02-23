@@ -14,7 +14,6 @@ var Validations = buildValidations({
     debounce: 500,
     validators: [
       validator('presence', true),
-      validator('ds-error'),
       validator('length', {
         max: 15
       })
