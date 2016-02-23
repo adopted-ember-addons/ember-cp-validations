@@ -306,6 +306,8 @@ function getCPDependentKeysFor(attribute, validations) {
       dependentKeys.push(`${attribute}.isTruelyValid`);
     } else if (type === 'has-many') {
       dependentKeys.push(`${attribute}.@each.isTruelyValid`);
+    } else if (type === 'ds-error') {
+      dependentKeys.push(`_model.errors.${attribute}.[]`);
     } else if (type === 'confirmation' && validation.options.on) {
       dependentKeys.push(`_model.${validation.options.on}`);
     } else if (type === 'dependent') {

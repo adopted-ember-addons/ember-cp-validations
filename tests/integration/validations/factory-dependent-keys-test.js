@@ -1,7 +1,9 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 import setupObject from '../../helpers/setup-object';
 import CollectionValidator from 'dummy/validators/collection';
 import LengthValidator from 'dummy/validators/length';
+import DSErrorValidator from 'dummy/validators/ds-error';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
@@ -31,7 +33,27 @@ test("collection validator creates correct dependent keys", function(assert) {
   obj.get('array').removeObject('bar');
 
   assert.equal(obj.get('validations.attrs.array.isValid'), false);
-  assert.equal(obj.get('validations.attrs.array.message'), "Array must have 2 items");
+  assert.equal(obj.get('validations.attrs.array.message'), 'Array must have 2 items');
+});
+
+test("ds-error validator creates correct dependent keys", function(assert) {
+  this.register('validator:ds-error', DSErrorValidator);
+  this.register('validator:length', LengthValidator);
+
+  var DSErrorValidations = buildValidations({
+    username: validator('ds-error')
+  });
+  var obj = setupObject(this, Ember.Object.extend(DSErrorValidations), {
+    errors: DS.Errors.create(),
+    username: ''
+  });
+
+  assert.equal(obj.get('validations.attrs.username.isValid'), true);
+
+  obj.get('errors').add('username', 'Username is not unique');
+
+  assert.equal(obj.get('validations.attrs.username.isValid'), false);
+  assert.equal(obj.get('validations.attrs.username.message'), 'Username is not unique');
 });
 
 test("custom dependent keys - simple", function(assert) {
