@@ -22,6 +22,7 @@ const {
  *  ```javascript
  *  // Examples
  *  validator('ds-error')
+ *  ```
  *
  *  @class DS Error
  *  @module Validators
