@@ -210,7 +210,7 @@ In the above example, all the validators for username will have a description of
 
 All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc. 
 
-Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
+Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
 
 ```javascript
 const Validations = buildValidations({

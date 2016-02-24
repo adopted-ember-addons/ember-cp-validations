@@ -11,7 +11,7 @@ const {
 /**
  * ## Common Options
  *
- * ### description
+ * <h3 id="description">description</h3>
  * A descriptor for your attribute used in the error message strings. Defaults to `This field'`.
  * You can overwrite this value in your `validators/messages.js` file by changing the `defaultDescription` property.
  *
@@ -24,7 +24,7 @@ const {
  * // 'Date of birth can't be blank'
  * ```
  *
- * ### dependentKeys
+ * <h3 id="dependentKeys">dependentKeys</h3>
  * A list of other model specific dependents for you validator.
  *
  * ```javascript
@@ -40,7 +40,7 @@ const {
  * })
  * ```
  *
- * ### disabled
+ * <h3 id="disabled">disabled</h3>
  * If set to `true`, disables the given validator. This option would usually go hand-in-hand
  * with {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`. Defaults to `false`.
  *
@@ -59,7 +59,7 @@ const {
  * })
  * ```
  *
- * ### debounce
+ * <h3 id="debounce">debounce</h3>
  * Debounces the validation with the given time in `milliseconds`. All debounced validations will be handled asynchronously (wrapped in a promise).
  *
  * ```javascript
@@ -72,7 +72,7 @@ const {
  * })
  * ```
  *
- * ### message
+ * <h3 id="message">message</h3>
  * This option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator.
  *
  * ```javascript
@@ -109,7 +109,7 @@ const {
  * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
  *
  *
- * ## Function Based Validators
+ * <h2 id="functionBasedValidators">Function Based Validators</h2>
  *
  * A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
  *

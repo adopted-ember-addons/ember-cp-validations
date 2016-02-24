@@ -29,7 +29,8 @@ export var validator = Validator;
  */
 
 /**
- * ## Models
+ * <h2 id="models">Models</h2>
+ *
  * The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
  *
  * ```javascript
@@ -78,7 +79,8 @@ export var validator = Validator;
  * });
  * ```
  *
- * ## Objects
+ * <h2 id="objects">Objects</h2>
+ *
  * You can also use the generated `Validations` mixin on any `Ember.Object` or child
  * of `Ember.Object`, like `Ember.Component`. For example:
  *
@@ -147,7 +149,7 @@ export var validator = Validator;
  */
 
 /**
- * ### Default Options
+ * <h3 id="defaultOptions">Default Options</h3>
  *
  * Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
  *
@@ -192,11 +194,11 @@ export var validator = Validator;
  *
  * In the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.
  *
- * ### Options as Functions
+ * <h3 id="optionsAsFunctions">Options as Functions</h3>
  *
  * All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc.
  *
- * Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message).
+ * Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
  * ```javascript
  * const Validations = buildValidations({
