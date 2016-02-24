@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.5.0</p>
+                <p class="version pull-right">2.5.0.b85adaab</p>
               </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
 
 
 <div class="moduledesc page-section">
-    <h2>Models</h2>
+    <p><h2 id="models">Models</h2></p>
 <p>The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.</p>
 <pre class="code prettyprint"><code class="language-javascript">// models/user.js
 
@@ -155,7 +155,7 @@ export default DS.Model.extend(Validations, {
   'email': attr('string')
 });
 </code></pre>
-<h2>Objects</h2>
+<p><h2 id="objects">Objects</h2></p>
 <p>You can also use the generated <code>Validations</code> mixin on any <code>Ember.Object</code> or child
 of <code>Ember.Object</code>, like <code>Ember.Component</code>. For example:</p>
 <pre class="code prettyprint"><code class="language-javascript">// components/x-foo.js

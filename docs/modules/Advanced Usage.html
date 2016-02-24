@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.5.0</p>
+                <p class="version pull-right">2.5.0.b85adaab</p>
               </div>
             </div>
         </div>
@@ -105,14 +105,14 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_index.js.html#l149"><code>addon&#x2F;index.js:149</code></a>
+            Defined in: <a href="../files/addon_index.js.html#l151"><code>addon&#x2F;index.js:151</code></a>
         </div>
 
 </div>
 
 
 <div class="moduledesc page-section">
-    <h3>Default Options</h3>
+    <p><h3 id="defaultOptions">Default Options</h3></p>
 <p>Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.</p>
 <p>Instead of doing the following:</p>
 <pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
@@ -148,9 +148,9 @@
 });
 </code></pre>
 <p>In the above example, all the validators for username will have a description of <code>Username</code> except that of the <code>no-whitespace-around</code> validator which will be <code>A username</code>.</p>
-<h3>Options as Functions</h3>
+<p><h3 id="optionsAsFunctions">Options as Functions</h3></p>
 <p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as <code>options</code>, <code>model</code>, <code>attribute</code>, etc.</p>
-<p>Please note that the <code>message</code> option of a validator has its <a href="http://offirgolan.github.io/ember-cp-validations/docs/validators/common/index.html#message">own signature</a>.</p>
+<p>Please note that the <code>message</code> option of a validator has its <a href="http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message">own signature</a>.</p>
 <pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
   dob: validator('date', {
     description: 'Date of Birth',

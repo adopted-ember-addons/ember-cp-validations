@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.5.0</p>
+                <p class="version pull-right">2.5.0.b85adaab</p>
               </div>
             </div>
         </div>
@@ -116,7 +116,7 @@ const {
 /**
  * ## Common Options
  *
- * ### description
+ * &lt;h3 id=&quot;description&quot;&gt;description&lt;/h3&gt;
  * A descriptor for your attribute used in the error message strings. Defaults to &#x60;This field&#x27;&#x60;.
  * You can overwrite this value in your &#x60;validators/messages.js&#x60; file by changing the &#x60;defaultDescription&#x60; property.
  *
@@ -129,7 +129,7 @@ const {
  * // &#x27;Date of birth can&#x27;t be blank&#x27;
  * &#x60;&#x60;&#x60;
  *
- * ### dependentKeys
+ * &lt;h3 id=&quot;dependentKeys&quot;&gt;dependentKeys&lt;/h3&gt;
  * A list of other model specific dependents for you validator.
  *
  * &#x60;&#x60;&#x60;javascript
@@ -145,7 +145,7 @@ const {
  * })
  * &#x60;&#x60;&#x60;
  *
- * ### disabled
+ * &lt;h3 id=&quot;disabled&quot;&gt;disabled&lt;/h3&gt;
  * If set to &#x60;true&#x60;, disables the given validator. This option would usually go hand-in-hand
  * with {{#crossLinkModule &#x27;Advanced Usage&#x27;}}options as functions{{/crossLinkModule}} and &#x60;dependentKeys&#x60;. Defaults to &#x60;false&#x60;.
  *
@@ -164,7 +164,7 @@ const {
  * })
  * &#x60;&#x60;&#x60;
  *
- * ### debounce
+ * &lt;h3 id=&quot;debounce&quot;&gt;debounce&lt;/h3&gt;
  * Debounces the validation with the given time in &#x60;milliseconds&#x60;. All debounced validations will be handled asynchronously (wrapped in a promise).
  *
  * &#x60;&#x60;&#x60;javascript
@@ -177,7 +177,7 @@ const {
  * })
  * &#x60;&#x60;&#x60;
  *
- * ### message
+ * &lt;h3 id=&quot;message&quot;&gt;message&lt;/h3&gt;
  * This option can take two forms. It can either be a &#x60;string&#x60; or a &#x60;function&#x60;. If a string is used, then it will overwrite all error message types for the specified validator.
  *
  * &#x60;&#x60;&#x60;javascript
@@ -214,7 +214,7 @@ const {
  * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
  *
  *
- * ## Function Based Validators
+ * &lt;h2 id=&quot;functionBasedValidators&quot;&gt;Function Based Validators&lt;/h2&gt;
  *
  * A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
  *

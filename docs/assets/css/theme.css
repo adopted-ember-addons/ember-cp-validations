@@ -273,6 +273,7 @@ pre {
 .apidocs .flag.deprecated { border-color: #333; color: #333; }
 .apidocs .flag.optional { border-color: #DADADA; color: #DADADA; }
 .apidocs .flag.final { border-color: #B6B6B6; color: #B6B6B6; }
+.apidocs .flag.static { border-color: #B6B6B6; color: #B6B6B6; }
 
 .page-header {
   border-bottom: 0 none;
