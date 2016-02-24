@@ -15,8 +15,8 @@
         "json": "http://builds.emberjs.com/tags/v2.0.0/ember-docs.json"
       }]
     },
-    "themedir": "node_modules/yuidoc-ember-cp-validations-theme",
-    "helpers": ["node_modules/yuidoc-ember-cp-validations-theme/helpers/helpers.js"],
+    "themedir": "node_modules/yuidoc-ember-theme",
+    "helpers": ["node_modules/yuidoc-ember-theme/helpers/helpers.js"],
     "exclude": "vendor",
     "outdir": "docs",
     "linkNatives": true,
