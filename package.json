@@ -60,7 +60,7 @@
     "ember-try": "0.0.8",
     "moment": "2.11.2",
     "moment-timezone": "0.5.0",
-    "yuidoc-ember-cp-validations-theme": "offirgolan/yuidoc-ember-theme"
+    "yuidoc-ember-theme": "offirgolan/yuidoc-ember-theme"
   },
   "keywords": [
     "yahoo",
