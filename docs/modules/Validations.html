@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.5.0.b85adaab</p>
+                <p class="version pull-right">2.5.0.b2110959</p>
               </div>
             </div>
         </div>
@@ -123,6 +123,22 @@ specific validations to happen. For this reason we have exposed two methods:</p>
 <p>All validations can be accessed via the <code>validations</code> object created on your model/object.
 Each attribute also has its own validation which has the same properties.
 An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+<h4>Global Validations</h4>
+<p>Global validations exist on the <code>validations</code> object that resides on the object that is being validated.
+To see all possible properties, please checkout the docs for <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+<pre class="code prettyprint"><code class="language-js">model.get('validations.isValid');
+model.get('validations.errors');
+model.get('validations.messages');
+// etc...
+</code></pre>
+<h4>Attribute Validations</h4>
+<p>The <code>validations</code> object also contains an <code>attrs</code> object which holds a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>
+for each attribute specified in your validation rules.</p>
+<pre class="code prettyprint"><code class="language-js">model.get('validations.attrs.username.isValid');
+model.get('validations.attrs.password.errors');
+model.get('validations.attrs.email.messages');
+// etc...
+</code></pre>
 
 </div>
 

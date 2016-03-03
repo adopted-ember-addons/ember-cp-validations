@@ -75,6 +75,10 @@ code {
   color: #636363;
 }
 
+.description {
+  padding: 10px 0;
+}
+
 ul.inline > li, ol.inline > li {
   padding: 0 !important;
 }

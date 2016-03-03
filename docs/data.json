@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "2.5.0.b85adaab"
+        "version": "2.5.0.b2110959"
     },
     "files": {
         "addon/utils/cycle-breaker.js": {
@@ -248,7 +248,7 @@
             "tag": "main",
             "file": "addon/validations/result.js",
             "line": 30,
-            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed two methods:\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n\n## Inspecting Validations\n\nAll validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.",
+            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed two methods:\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n\n## Inspecting Validations\n\nAll validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n#### Global Validations\n\nGlobal validations exist on the `validations` object that resides on the object that is being validated.\nTo see all possible properties, please checkout the docs for {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```js\nmodel.get('validations.isValid');\nmodel.get('validations.errors');\nmodel.get('validations.messages');\n// etc...\n```\n\n#### Attribute Validations\n\nThe `validations` object also contains an `attrs` object which holds a {{#crossLink \"ResultCollection\"}}{{/crossLink}}\nfor each attribute specified in your validation rules.\n\n```js\nmodel.get('validations.attrs.username.isValid');\nmodel.get('validations.attrs.password.errors');\nmodel.get('validations.attrs.email.messages');\n// etc...\n```",
             "itemtype": "main",
             "access": "private",
             "tagname": ""
@@ -383,7 +383,7 @@
             "namespace": "",
             "file": "addon/validations/factory.js",
             "line": 40,
-            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed two methods:\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n\n## Inspecting Validations\n\nAll validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.",
+            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed two methods:\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n\n## Inspecting Validations\n\nAll validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n#### Global Validations\n\nGlobal validations exist on the `validations` object that resides on the object that is being validated.\nTo see all possible properties, please checkout the docs for {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```js\nmodel.get('validations.isValid');\nmodel.get('validations.errors');\nmodel.get('validations.messages');\n// etc...\n```\n\n#### Attribute Validations\n\nThe `validations` object also contains an `attrs` object which holds a {{#crossLink \"ResultCollection\"}}{{/crossLink}}\nfor each attribute specified in your validation rules.\n\n```js\nmodel.get('validations.attrs.username.isValid');\nmodel.get('validations.attrs.password.errors');\nmodel.get('validations.attrs.email.messages');\n// etc...\n```",
             "mainName": "Validations",
             "tag": "main",
             "itemtype": "main",
@@ -703,14 +703,14 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 59,
+            "line": 83,
             "description": "Temporary fix until setOwner polyfill is created\nhttps://github.com/rwjblue/ember-getowner-polyfill/issues/1",
             "class": "Factory",
             "module": "Validations"
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 72,
+            "line": 96,
             "description": "Top level method that will ultimately return a mixin with all CP validations",
             "itemtype": "method",
             "name": "buildValidations",
@@ -730,7 +730,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 100,
+            "line": 124,
             "description": "Validation rules can be created with default options\n{\n  description: 'Username',\n  validators: [...]\n}\nThis method generate the default options pojo, applies it to each validation rule, and flattens the object",
             "itemtype": "method",
             "name": "processDefaultOptions",
@@ -751,7 +751,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 131,
+            "line": 155,
             "description": "Creates the validations object that will become `model.validations`. Creates all necessary global CPs such as\n`isValid`, `isAsync`, etc and also the `attrs` object.",
             "itemtype": "method",
             "name": "createValidationsObject",
@@ -773,7 +773,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 199,
+            "line": 223,
             "description": "CP generator for the given attribute",
             "itemtype": "method",
             "name": "createCPValidationFor",
@@ -800,7 +800,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 240,
+            "line": 264,
             "description": "Create the global properties under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
             "itemtype": "method",
             "name": "createGlobalValidationProps",
@@ -818,7 +818,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 287,
+            "line": 311,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -845,7 +845,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 331,
+            "line": 355,
             "description": "Debounce handler for running a validation for the specified options",
             "itemtype": "method",
             "name": "debouncedValidate",
@@ -888,7 +888,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 346,
+            "line": 370,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -920,7 +920,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 375,
+            "line": 399,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -947,7 +947,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 393,
+            "line": 417,
             "description": "Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -974,7 +974,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 411,
+            "line": 435,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1001,7 +1001,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 452,
+            "line": 476,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1032,7 +1032,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 469,
+            "line": 493,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1057,7 +1057,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 534,
+            "line": 558,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nconst { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -1960,7 +1960,7 @@
         },
         {
             "message": "Missing item type\nTemporary fix until setOwner polyfill is created\nhttps://github.com/rwjblue/ember-getowner-polyfill/issues/1",
-            "line": " addon/validations/factory.js:59"
+            "line": " addon/validations/factory.js:83"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",

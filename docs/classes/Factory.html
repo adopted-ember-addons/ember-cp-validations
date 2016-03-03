@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.5.0.b85adaab</p>
+                <p class="version pull-right">2.5.0.b2110959</p>
               </div>
             </div>
         </div>
@@ -125,6 +125,22 @@ specific validations to happen. For this reason we have exposed two methods:</p>
 <p>All validations can be accessed via the <code>validations</code> object created on your model/object.
 Each attribute also has its own validation which has the same properties.
 An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+<h4>Global Validations</h4>
+<p>Global validations exist on the <code>validations</code> object that resides on the object that is being validated.
+To see all possible properties, please checkout the docs for <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+<pre class="code prettyprint"><code class="language-js">model.get('validations.isValid');
+model.get('validations.errors');
+model.get('validations.messages');
+// etc...
+</code></pre>
+<h4>Attribute Validations</h4>
+<p>The <code>validations</code> object also contains an <code>attrs</code> object which holds a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>
+for each attribute specified in your validation rules.</p>
+<pre class="code prettyprint"><code class="language-js">model.get('validations.attrs.username.isValid');
+model.get('validations.attrs.password.errors');
+model.get('validations.attrs.email.messages');
+// etc...
+</code></pre>
 
   </div>
 
@@ -226,7 +242,7 @@ An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUT
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l72"><code>addon&#x2F;validations&#x2F;factory.js:72</code></a>
+		<a href="../files/addon_validations_factory.js.html#l96"><code>addon&#x2F;validations&#x2F;factory.js:96</code></a>
 		</p>
 
 
@@ -290,7 +306,7 @@ An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUT
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l199"><code>addon&#x2F;validations&#x2F;factory.js:199</code></a>
+		<a href="../files/addon_validations_factory.js.html#l223"><code>addon&#x2F;validations&#x2F;factory.js:223</code></a>
 		</p>
 
 
@@ -355,7 +371,7 @@ An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUT
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l240"><code>addon&#x2F;validations&#x2F;factory.js:240</code></a>
+		<a href="../files/addon_validations_factory.js.html#l264"><code>addon&#x2F;validations&#x2F;factory.js:264</code></a>
 		</p>
 
 
@@ -408,7 +424,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l131"><code>addon&#x2F;validations&#x2F;factory.js:131</code></a>
+		<a href="../files/addon_validations_factory.js.html#l155"><code>addon&#x2F;validations&#x2F;factory.js:155</code></a>
 		</p>
 
 
@@ -471,7 +487,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l411"><code>addon&#x2F;validations&#x2F;factory.js:411</code></a>
+		<a href="../files/addon_validations_factory.js.html#l435"><code>addon&#x2F;validations&#x2F;factory.js:435</code></a>
 		</p>
 
 
@@ -549,7 +565,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l331"><code>addon&#x2F;validations&#x2F;factory.js:331</code></a>
+		<a href="../files/addon_validations_factory.js.html#l355"><code>addon&#x2F;validations&#x2F;factory.js:355</code></a>
 		</p>
 
 
@@ -639,7 +655,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l287"><code>addon&#x2F;validations&#x2F;factory.js:287</code></a>
+		<a href="../files/addon_validations_factory.js.html#l311"><code>addon&#x2F;validations&#x2F;factory.js:311</code></a>
 		</p>
 
 
@@ -710,7 +726,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l393"><code>addon&#x2F;validations&#x2F;factory.js:393</code></a>
+		<a href="../files/addon_validations_factory.js.html#l417"><code>addon&#x2F;validations&#x2F;factory.js:417</code></a>
 		</p>
 
 
@@ -779,7 +795,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l375"><code>addon&#x2F;validations&#x2F;factory.js:375</code></a>
+		<a href="../files/addon_validations_factory.js.html#l399"><code>addon&#x2F;validations&#x2F;factory.js:399</code></a>
 		</p>
 
 
@@ -848,7 +864,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l452"><code>addon&#x2F;validations&#x2F;factory.js:452</code></a>
+		<a href="../files/addon_validations_factory.js.html#l476"><code>addon&#x2F;validations&#x2F;factory.js:476</code></a>
 		</p>
 
 
@@ -916,7 +932,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l100"><code>addon&#x2F;validations&#x2F;factory.js:100</code></a>
+		<a href="../files/addon_validations_factory.js.html#l124"><code>addon&#x2F;validations&#x2F;factory.js:124</code></a>
 		</p>
 
 
@@ -981,7 +997,7 @@ This method generate the default options pojo, applies it to each validation rul
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l469"><code>addon&#x2F;validations&#x2F;factory.js:469</code></a>
+		<a href="../files/addon_validations_factory.js.html#l493"><code>addon&#x2F;validations&#x2F;factory.js:493</code></a>
 		</p>
 
 
@@ -1063,7 +1079,7 @@ If <code>true</code>, will get all validations and wrap them in a promise hash</
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l534"><code>addon&#x2F;validations&#x2F;factory.js:534</code></a>
+		<a href="../files/addon_validations_factory.js.html#l558"><code>addon&#x2F;validations&#x2F;factory.js:558</code></a>
 		</p>
 
 
@@ -1135,7 +1151,7 @@ validations.get('isValid') // true or false
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l346"><code>addon&#x2F;validations&#x2F;factory.js:346</code></a>
+		<a href="../files/addon_validations_factory.js.html#l370"><code>addon&#x2F;validations&#x2F;factory.js:370</code></a>
 		</p>
 
 
