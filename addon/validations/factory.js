@@ -51,6 +51,30 @@ const {
  * Each attribute also has its own validation which has the same properties.
  * An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink "ResultCollection"}}{{/crossLink}}.
  *
+ * #### Global Validations
+ *
+ * Global validations exist on the `validations` object that resides on the object that is being validated.
+ * To see all possible properties, please checkout the docs for {{#crossLink "ResultCollection"}}{{/crossLink}}.
+ *
+ * ```js
+ * model.get('validations.isValid');
+ * model.get('validations.errors');
+ * model.get('validations.messages');
+ * // etc...
+ * ```
+ *
+ * #### Attribute Validations
+ *
+ * The `validations` object also contains an `attrs` object which holds a {{#crossLink "ResultCollection"}}{{/crossLink}}
+ * for each attribute specified in your validation rules.
+ *
+ * ```js
+ * model.get('validations.attrs.username.isValid');
+ * model.get('validations.attrs.password.errors');
+ * model.get('validations.attrs.email.messages');
+ * // etc...
+ * ```
+ *
  * @module Validations
  * @main Validations
  * @class Factory
