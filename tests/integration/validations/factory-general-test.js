@@ -286,18 +286,24 @@ test("debounced validations", function(assert) {
 test("debounced validations should cleanup on object destroy", function(assert) {
   var done = assert.async();
   var initSetup = true;
+
+  var debouncedValidator = validator((value, options, model, attr) => {
+    model.set('foo', 'bar');
+    return Validators.presence(value, options, model, attr);
+  }, {
+    debounce() {
+      return initSetup ? 0 : 500; // Do not debounce on initial object creation
+    }
+  });
+
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
-    lastName: validator((value, options, model, attr) => {
-      model.set('foo', 'bar');
-      return Validators.presence(value, options, model, attr);
-    }, {
-      debounce() {
-        return initSetup ? 0 : 500; // Do not debounce on initial object creation
-      }
-    }),
+    lastName: debouncedValidator,
+    'details.url': debouncedValidator,
   });
-  var object = setupObject(this, Ember.Object.extend(Validations));
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    details: {}
+  });
 
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
@@ -308,8 +314,12 @@ test("debounced validations should cleanup on object destroy", function(assert) 
   assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
 
   initSetup = false;
-  object.set('lastName', 'Golan');
+  object.setProperties({
+    'lastName': 'Golan',
+    'details.url': 'github.com'
+  });
   assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
+  assert.equal(object.get('validations.attrs.details.url.isValidating'), true);
 
   Ember.run.later(() => {
     try {
@@ -502,4 +512,106 @@ test("validations persist with deep inheritance", function(assert) {
   assert.equal(baby.get('validations.isValid'), true);
   assert.equal(baby.get('validations.errors.length'), 0);
 });
+
+test("nested keys - simple", function(assert) {
+  var Validations = buildValidations({
+    'user.firstName': validator(Validators.presence),
+    'user.lastName': validator(Validators.presence)
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    user: {}
+  });
+
+  assert.equal(object.get('validations.attrs.user.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.user.lastName.isValid'), false);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('user.firstName', 'Offir');
+
+  assert.equal(object.get('validations.attrs.user.firstName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('user.lastName', 'Golan');
+
+  assert.equal(object.get('validations.attrs.user.lastName.isValid'), true);
+  assert.ok(!object.get('validations.attrs._model'));
+  assert.equal(object.get('validations.isValid'), true);
+});
+
+test("nested keys - complex", function(assert) {
+  var Validations = buildValidations({
+    'firstName': validator(Validators.presence),
+    'user.foo.bar.baz': validator(Validators.presence),
+    'user.foo.boop': validator(Validators.presence)
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.user.foo.bar.baz.isValid'), false);
+  assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), false);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('user', { foo: { bar: {} } });
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.user.foo.bar.baz.isValid'), false);
+  assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), false);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('firstName', 'Offir');
+  object.set('user.foo.bar.baz', 'blah');
+  object.set('user.foo.boop', 'blah');
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+  assert.equal(object.get('validations.attrs.user.foo.bar.baz.isValid'), true);
+  assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), true);
+
+  assert.ok(object.get('validations.attrs._model'));
+  assert.ok(object.get('validations.attrs.user.foo.bar._model'));
+  assert.ok(object.get('validations.attrs.user.foo._model'));
+
+  assert.equal(object.get('validations.isValid'), true);
+});
+
+test("nested keys - inheritance", function(assert) {
+  var Parent = Ember.Object.extend(buildValidations({
+    'firstName': validator(Validators.presence),
+    'user.firstName': validator(Validators.presence),
+    'user.middleName': validator(Validators.presence)
+  }));
+
+  var Child = Parent.extend(buildValidations({
+    'user.lastName': validator(Validators.presence),
+    'user.middleName': validator(function() {
+      return 'Middle name invalid';
+    })
+  }));
+
+  var child = setupObject(this, Child);
+
+  child.validateSync();
+
+  assert.equal(child.get('validations.errors.length'), 4);
+  assert.equal(child.get('validations.isValid'), false);
+  assert.deepEqual(child.get('validations._validatableAttributes').sort(), ['firstName', 'user.firstName', 'user.middleName' ,'user.lastName'].sort());
+
+  child.setProperties({
+    user: {
+      firstName: 'Offir',
+      'middleName': 'David',
+      lastName: 'Golan'
+    }
+  });
+
+  assert.equal(child.get('validations.errors.length'), 2);
+  assert.equal(child.get('validations.attrs.user.middleName.message'), 'Middle name invalid');
+
+  child.setProperties({
+    firstName: 'John'
+  });
+
+  assert.equal(child.get('validations.isValid'), false);
+  assert.equal(child.get('validations.errors.length'), 1);
+});
+
 
