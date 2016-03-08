@@ -17,17 +17,16 @@ const {
   defineProperty
 } = Ember;
 
-export default function assign(obj, path, value, delimiter = '.') {
+export default function assign(obj, path, value, useEmberObject = false, delimiter = '.') {
   let keyPath = path.split(delimiter);
   let lastKeyIndex = keyPath.length - 1;
-  let isEmberObject = obj instanceof Ember.Object;
 
   // Iterate over each key in the path (minus the last one which is the property to be assigned)
   for (let i = 0; i < lastKeyIndex; ++ i) {
    let key = keyPath[i];
    // Create a new object if it doesnt exist
    if (isNone(get(obj, key))) {
-     set(obj, key, isEmberObject ? Ember.Object.create() : {});
+     set(obj, key, useEmberObject ? Ember.Object.create() : {});
    }
    obj = get(obj, key);
   }

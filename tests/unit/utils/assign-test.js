@@ -12,7 +12,7 @@ test('single level', function(assert) {
 
 test('single level - ember object', function(assert) {
   let obj = Ember.Object.create();
-  assign(obj, 'foo.bar', 1);
+  assign(obj, 'foo.bar', 1, true);
   assert.ok(obj.foo instanceof Ember.Object);
   assert.equal(obj.get('foo.bar'), 1);
 });
@@ -20,7 +20,7 @@ test('single level - ember object', function(assert) {
 
 test('single level - ember object w/ CP', function(assert) {
   let obj = Ember.Object.create();
-  assign(obj, 'foo.bar', Ember.computed(() =>  1));
+  assign(obj, 'foo.bar', Ember.computed(() =>  1), true);
   assert.ok(obj.foo instanceof Ember.Object);
   assert.equal(obj.get('foo.bar'), 1);
 });
@@ -33,7 +33,7 @@ test('multi level', function(assert) {
 
 test('multi level - ember object', function(assert) {
   let obj = Ember.Object.create();
-  assign(obj, 'foo.bar.baz.boo', 1);
+  assign(obj, 'foo.bar.baz.boo', 1, true);
   assert.ok(obj.foo.bar.baz instanceof Ember.Object);
   assert.equal(obj.get('foo.bar.baz.boo'), 1);
 });

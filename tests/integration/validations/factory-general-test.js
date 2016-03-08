@@ -534,7 +534,6 @@ test("nested keys - simple", function(assert) {
   object.set('user.lastName', 'Golan');
 
   assert.equal(object.get('validations.attrs.user.lastName.isValid'), true);
-  assert.ok(!object.get('validations.attrs._model'));
   assert.equal(object.get('validations.isValid'), true);
 });
 
