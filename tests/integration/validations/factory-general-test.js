@@ -448,7 +448,7 @@ test("validations persist with inheritance", function(assert) {
 
   assert.equal(child.get('validations.errors.length'), 4);
   assert.equal(child.get('validations.isValid'), false);
-  assert.deepEqual(child.get('validations._validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob'].sort());
+  assert.deepEqual(child.get('validations.validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob'].sort());
 
   child.setProperties({
     middleName: 'John',
@@ -488,7 +488,7 @@ test("validations persist with deep inheritance", function(assert) {
 
   assert.equal(baby.get('validations.errors.length'), 6);
   assert.equal(baby.get('validations.isValid'), false);
-  assert.deepEqual(baby.get('validations._validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob', 'diaper', 'favParent'].sort());
+  assert.deepEqual(baby.get('validations.validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob', 'diaper', 'favParent'].sort());
 
   baby.setProperties({
     middleName: 'John',
@@ -592,7 +592,7 @@ test("nested keys - inheritance", function(assert) {
 
   assert.equal(child.get('validations.errors.length'), 4);
   assert.equal(child.get('validations.isValid'), false);
-  assert.deepEqual(child.get('validations._validatableAttributes').sort(), ['firstName', 'user.firstName', 'user.middleName' ,'user.lastName'].sort());
+  assert.deepEqual(child.get('validations.validatableAttributes').sort(), ['firstName', 'user.firstName', 'user.middleName' ,'user.lastName'].sort());
 
   child.setProperties({
     user: {

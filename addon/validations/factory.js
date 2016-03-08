@@ -104,15 +104,17 @@ function setOwner(obj, model) {
 export default function buildValidations(validations = {}) {
   processDefaultOptions(validations);
 
-  var Validations;
+  let Validations;
 
   return Ember.Mixin.create({
-    validations: computed(function() {
-      if(!Validations) {
-        // We only want to create this once per class
+    _validationsClass: computed(function() {
+      if (!Validations) {
         Validations = createValidationsClass(this._super(), validations);
       }
-      return Validations.create({ model: this });
+      return Validations;
+    }).readOnly(),
+    validations: computed(function() {
+      return this.get('_validationsClass').create({ model: this });
     }).readOnly(),
     validate() {
       return get(this, 'validations').validate(...arguments);
@@ -168,15 +170,17 @@ function processDefaultOptions(validations = {}) {
  *
  * @method createValidationsClass
  * @private
+ * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
  * @return {Ember.Object}
  */
-function createValidationsClass(inheritedValidations, validations = {}) {
+function createValidationsClass(inheritedValidationsClass, validations = {}) {
   let validationRules = {};
   let validatableAttributes = Object.keys(validations);
 
   // Setup validation inheritance
-  if(inheritedValidations) {
+  if(inheritedValidationsClass) {
+    let inheritedValidations = inheritedValidationsClass.create();
     validationRules = merge(validationRules, inheritedValidations.get('_validationRules'));
     validatableAttributes = emberArray(inheritedValidations.get('validatableAttributes').concat(validatableAttributes)).uniq();
   }
@@ -219,7 +223,9 @@ function createValidationsClass(inheritedValidations, validations = {}) {
     attrs: null,
     isValidations: true,
 
-    validatableAttributes: computed.alias('_validatableAttributes').readOnly(),
+    validatableAttributes: computed(function() {
+      return validatableAttributes;
+    }).readOnly(),
 
     // Caches
     _validators: null,
@@ -228,10 +234,6 @@ function createValidationsClass(inheritedValidations, validations = {}) {
     // Private
     _validationRules: computed(function() {
       return validationRules;
-    }).readOnly(),
-
-    _validatableAttributes: computed(function() {
-      return validatableAttributes;
     }).readOnly(),
 
     validate,
