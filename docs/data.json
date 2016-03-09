@@ -3,11 +3,25 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "2.5.0.d948c722"
+        "version": "v2.6.0"
     },
     "files": {
+        "addon/utils/assign.js": {
+            "name": "addon/utils/assign.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/utils/cycle-breaker.js": {
             "name": "addon/utils/cycle-breaker.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/utils/flatten.js": {
+            "name": "addon/utils/flatten.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -327,7 +341,7 @@
             "namespace": "",
             "file": "addon/index.js",
             "line": 151,
-            "description": "<h3 id=\"defaultOptions\">Default Options</h3>\n\nDefault options can be specified over a set of validations for a given attribute. Local properties will always take precedence.\n\nInstead of doing the following:\n\n```javascript\nconst Validations = buildValidations({\n  username: [\n    validator('presence', {\n      presence: true,\n      description: 'Username'\n    }),\n    validator('length', {\n      min: 1,\n      description: 'Username'\n    }),\n    validator('no-whitespace-around', {\n      description: 'A username'\n    })\n  ]\n});\n```\n\nWe can declare default options:\n\n```javascript\nconst Validations = buildValidations({\n  username: {\n    description: 'Username'\n    validators: [\n      validator('presence', true),\n      validator('length', {\n        min: 1\n      }),\n      validator('no-whitespace-around', {\n        description: 'A username'\n      })\n    ]\n  },\n});\n```\n\nIn the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.\n\n<h3 id=\"optionsAsFunctions\">Options as Functions</h3>\n\nAll options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc.\n\nPlease note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).\n\n```javascript\nconst Validations = buildValidations({\n  dob: validator('date', {\n    description: 'Date of Birth',\n    format() {\n      return this.get('model.meta.date.format');\n    },\n    before() {\n      return moment();\n    },\n    after() {\n      return moment().subtract(120, 'years');\n    }\n  })\n});\n```"
+            "description": "<h3 id=\"defaultOptions\">Default Options</h3>\n\nDefault options can be specified over a set of validations for a given attribute. Local properties will always take precedence.\n\nInstead of doing the following:\n\n```javascript\nconst Validations = buildValidations({\n  username: [\n    validator('presence', {\n      presence: true,\n      description: 'Username'\n    }),\n    validator('length', {\n      min: 1,\n      description: 'Username'\n    }),\n    validator('no-whitespace-around', {\n      description: 'A username'\n    })\n  ]\n});\n```\n\nWe can declare default options:\n\n```javascript\nconst Validations = buildValidations({\n  username: {\n    description: 'Username'\n    validators: [\n      validator('presence', true),\n      validator('length', {\n        min: 1\n      }),\n      validator('no-whitespace-around', {\n        description: 'A username'\n      })\n    ]\n  },\n});\n```\n\nIn the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.\n\n<h3 id=\"optionsAsFunctions\">Options as Functions</h3>\n\nAll options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc.\n\nPlease note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).\n\n```javascript\nconst Validations = buildValidations({\n  dob: validator('date', {\n    description: 'Date of Birth',\n    format() {\n      return this.get('model.meta.date.format');\n    },\n    before() {\n      return moment();\n    },\n    after() {\n      return moment().subtract(120, 'years');\n    }\n  })\n});\n```\n\n<h3 id=\"nestedKeys\">Nested Keys</h3>\n\nWhen declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.\n\n```javascript\nimport Ember from 'ember';\nimport { validator, buildValidations } from 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  'acceptTerms': validator('inclusion', { in: [ true ] }),\n  'user.firstName': validator('presence', true),\n  'user.lasName': validator('presence', true),\n  'user.account.number': validator('number')\n});\n\nexport default Ember.Component.extend(Validations, {\n  acceptTerms: false,\n  user:  {\n    firstName: 'John',\n    lastName: 'Doe' ,\n    account: {\n      number: 123456,\n    }\n  },\n  isFormValid: Ember.computed.alias('validations.isValid'),\n});\n```"
         },
         "I18n Solutions": {
             "name": "I18n Solutions",
@@ -340,7 +354,7 @@
             "module": "Home",
             "namespace": "",
             "file": "addon/index.js",
-            "line": 223,
+            "line": 252,
             "description": "## [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)\n\n ```bash\n ember install ember-intl-cp-validations\n ```\n\n## [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)\n\n```bash\n ember install ember-i18n-cp-validations\n```"
         },
         "Templating": {
@@ -382,7 +396,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/validations/factory.js",
-            "line": 40,
+            "line": 42,
             "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed two methods:\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n\n## Inspecting Validations\n\nAll validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n### Global Validations\n\nGlobal validations exist on the `validations` object that resides on the object that is being validated.\nTo see all possible properties, please checkout the docs for {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```js\nmodel.get('validations.isValid');\nmodel.get('validations.errors');\nmodel.get('validations.messages');\n// etc...\n```\n\n### Attribute Validations\n\nThe `validations` object also contains an `attrs` object which holds a {{#crossLink \"ResultCollection\"}}{{/crossLink}}\nfor each attribute specified in your validation rules.\n\n```js\nmodel.get('validations.attrs.username.isValid');\nmodel.get('validations.attrs.password.errors');\nmodel.get('validations.attrs.email.messages');\n// etc...\n```",
             "mainName": "Validations",
             "tag": "main",
@@ -657,6 +671,18 @@
     "elements": {},
     "classitems": [
         {
+            "file": "addon/utils/assign.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Error"
+        },
+        {
+            "file": "addon/utils/assign.js",
+            "line": 6,
+            "description": "Assigns a value to an object via the given path while creating new objects if\nthe pathing requires it. If the given path is `foo.bar`, it will create a new object (obj.foo)\nand assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.",
+            "class": "Error"
+        },
+        {
             "file": "addon/utils/cycle-breaker.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
@@ -666,6 +692,12 @@
             "file": "addon/utils/cycle-breaker.js",
             "line": 6,
             "description": "Use Ember Meta to break cycles in the CP chains. Lets say we have a User model with a `friends` property that is a hasMany\nrelationship. If we have a user John and he has a friend Jane, that creates a two-way relationship. John is Jane's friends and vise\nversa. If we were to go down the CP chain and get validations for John's friends, it would go to Jane, then to Jane's friends, which\nwould point back to John. This method tracks which models have been already visited and breaks the cycle.",
+            "class": "Error"
+        },
+        {
+            "file": "addon/utils/flatten.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Error"
         },
         {
@@ -703,14 +735,14 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 83,
+            "line": 85,
             "description": "Temporary fix until setOwner polyfill is created\nhttps://github.com/rwjblue/ember-getowner-polyfill/issues/1",
             "class": "Factory",
             "module": "Validations"
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 96,
+            "line": 98,
             "description": "Top level method that will ultimately return a mixin with all CP validations",
             "itemtype": "method",
             "name": "buildValidations",
@@ -730,7 +762,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 124,
+            "line": 132,
             "description": "Validation rules can be created with default options\n{\n  description: 'Username',\n  validators: [...]\n}\nThis method generate the default options pojo, applies it to each validation rule, and flattens the object",
             "itemtype": "method",
             "name": "processDefaultOptions",
@@ -751,13 +783,18 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 155,
-            "description": "Creates the validations object that will become `model.validations`. Creates all necessary global CPs such as\n`isValid`, `isAsync`, etc and also the `attrs` object.",
+            "line": 163,
+            "description": "Creates the validations class that will become `model.validations`.\n  - Setup parent validation inheritance\n  - Normalize nested keys (i.e. 'details.dob') into objects (i.e { details: { dob: validator() }})\n  - Merge normalized validations with parent\n  - Create `attrs` object with CPs\n  - Create global CPs (i.e. 'isValid', 'messages', etc...)",
             "itemtype": "method",
-            "name": "createValidationsObject",
+            "name": "createValidationsClass",
             "access": "private",
             "tagname": "",
             "params": [
+                {
+                    "name": "inheritedValidationsClass",
+                    "description": "",
+                    "type": "Object"
+                },
                 {
                     "name": "validations",
                     "description": "",
@@ -773,7 +810,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 223,
+            "line": 268,
             "description": "CP generator for the given attribute",
             "itemtype": "method",
             "name": "createCPValidationFor",
@@ -800,10 +837,10 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 264,
-            "description": "Create the global properties under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
+            "line": 309,
+            "description": "Create a mixin that will have all the top level CPs under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
             "itemtype": "method",
-            "name": "createGlobalValidationProps",
+            "name": "createTopLevelPropsMixin",
             "access": "private",
             "tagname": "",
             "params": [
@@ -818,7 +855,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 311,
+            "line": 356,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -845,7 +882,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 355,
+            "line": 400,
             "description": "Debounce handler for running a validation for the specified options",
             "itemtype": "method",
             "name": "debouncedValidate",
@@ -888,7 +925,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 370,
+            "line": 415,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -920,7 +957,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 399,
+            "line": 444,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -947,7 +984,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 417,
+            "line": 462,
             "description": "Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -974,7 +1011,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 435,
+            "line": 480,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1001,7 +1038,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 476,
+            "line": 521,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1032,7 +1069,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 493,
+            "line": 538,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1057,7 +1094,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 558,
+            "line": 603,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nconst { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -1944,11 +1981,23 @@
     "warnings": [
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " addon/utils/assign.js:1"
+        },
+        {
+            "message": "Missing item type\nAssigns a value to an object via the given path while creating new objects if\nthe pathing requires it. If the given path is `foo.bar`, it will create a new object (obj.foo)\nand assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.",
+            "line": " addon/utils/assign.js:6"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/utils/cycle-breaker.js:1"
         },
         {
             "message": "Missing item type\nUse Ember Meta to break cycles in the CP chains. Lets say we have a User model with a `friends` property that is a hasMany\nrelationship. If we have a user John and he has a friend Jane, that creates a two-way relationship. John is Jane's friends and vise\nversa. If we were to go down the CP chain and get validations for John's friends, it would go to Jane, then to Jane's friends, which\nwould point back to John. This method tracks which models have been already visited and breaks the cycle.",
             "line": " addon/utils/cycle-breaker.js:6"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " addon/utils/flatten.js:1"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
@@ -1960,7 +2009,7 @@
         },
         {
             "message": "Missing item type\nTemporary fix until setOwner polyfill is created\nhttps://github.com/rwjblue/ember-getowner-polyfill/issues/1",
-            "line": " addon/validations/factory.js:83"
+            "line": " addon/validations/factory.js:85"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",

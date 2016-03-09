@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.5.0.d948c722</p>
+                <p class="version pull-right">v2.6.0</p>
               </div>
             </div>
         </div>
@@ -107,7 +107,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validations_factory.js.html#l40"><code>addon&#x2F;validations&#x2F;factory.js:40</code></a>
+            Defined in: <a href="../files/addon_validations_factory.js.html#l42"><code>addon&#x2F;validations&#x2F;factory.js:42</code></a>
         </div>
 </div>
 
@@ -160,11 +160,11 @@ model.get('validations.attrs.email.messages');
 
                             </li>
                             <li class="index-item method private">
-                                <a href="#method_createGlobalValidationProps">createGlobalValidationProps</a>
+                                <a href="#method_createTopLevelPropsMixin">createTopLevelPropsMixin</a>
 
                             </li>
                             <li class="index-item method private">
-                                <a href="#method_createValidationsObject">createValidationsObject</a>
+                                <a href="#method_createValidationsClass">createValidationsClass</a>
 
                             </li>
                             <li class="index-item method private">
@@ -242,7 +242,7 @@ model.get('validations.attrs.email.messages');
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l96"><code>addon&#x2F;validations&#x2F;factory.js:96</code></a>
+		<a href="../files/addon_validations_factory.js.html#l98"><code>addon&#x2F;validations&#x2F;factory.js:98</code></a>
 		</p>
 
 
@@ -306,7 +306,7 @@ model.get('validations.attrs.email.messages');
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l223"><code>addon&#x2F;validations&#x2F;factory.js:223</code></a>
+		<a href="../files/addon_validations_factory.js.html#l268"><code>addon&#x2F;validations&#x2F;factory.js:268</code></a>
 		</p>
 
 
@@ -348,9 +348,9 @@ model.get('validations.attrs.email.messages');
 		</div>
 
 </div>
-<div id="method_createGlobalValidationProps" class="method item private">
+<div id="method_createTopLevelPropsMixin" class="method item private">
 	<span class="method-signature">
-	<span class="name"><code>createGlobalValidationProps</code></span>
+	<span class="name"><code>createTopLevelPropsMixin</code></span>
 
 		<div class="args">
 			<span class="paren">(</span><ul class="args-list inline commas">
@@ -371,14 +371,14 @@ model.get('validations.attrs.email.messages');
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l264"><code>addon&#x2F;validations&#x2F;factory.js:264</code></a>
+		<a href="../files/addon_validations_factory.js.html#l309"><code>addon&#x2F;validations&#x2F;factory.js:309</code></a>
 		</p>
 
 
 
 	</div>
 
-	<div class="description"><p>Create the global properties under the validations object.
+	<div class="description"><p>Create a mixin that will have all the top level CPs under the validations object.
 These are computed collections on different properties of each attribute validations CP</p>
 </div>
 
@@ -398,12 +398,15 @@ These are computed collections on different properties of each attribute validat
 
 
 </div>
-<div id="method_createValidationsObject" class="method item private">
+<div id="method_createValidationsClass" class="method item private">
 	<span class="method-signature">
-	<span class="name"><code>createValidationsObject</code></span>
+	<span class="name"><code>createValidationsClass</code></span>
 
 		<div class="args">
 			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>inheritedValidationsClass</code>
+				</li>
 				<li class="arg">
 						<code>validations</code>
 				</li>
@@ -424,21 +427,34 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l155"><code>addon&#x2F;validations&#x2F;factory.js:155</code></a>
+		<a href="../files/addon_validations_factory.js.html#l163"><code>addon&#x2F;validations&#x2F;factory.js:163</code></a>
 		</p>
 
 
 
 	</div>
 
-	<div class="description"><p>Creates the validations object that will become <code>model.validations</code>. Creates all necessary global CPs such as
-<code>isValid</code>, <code>isAsync</code>, etc and also the <code>attrs</code> object.</p>
+	<div class="description"><p>Creates the validations class that will become <code>model.validations</code>.</p>
+<ul>
+<li>Setup parent validation inheritance</li>
+<li>Normalize nested keys (i.e. 'details.dob') into objects (i.e { details: { dob: validator() }})</li>
+<li>Merge normalized validations with parent</li>
+<li>Create <code>attrs</code> object with CPs</li>
+<li>Create global CPs (i.e. 'isValid', 'messages', etc...)</li>
+</ul>
 </div>
 
 		<div class="params">
 			<h4>Parameters:</h4>
 
 			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">inheritedValidationsClass</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
 				<li class="param">
 						<code class="param-name">validations</code>
 						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
@@ -487,7 +503,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l435"><code>addon&#x2F;validations&#x2F;factory.js:435</code></a>
+		<a href="../files/addon_validations_factory.js.html#l480"><code>addon&#x2F;validations&#x2F;factory.js:480</code></a>
 		</p>
 
 
@@ -565,7 +581,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l355"><code>addon&#x2F;validations&#x2F;factory.js:355</code></a>
+		<a href="../files/addon_validations_factory.js.html#l400"><code>addon&#x2F;validations&#x2F;factory.js:400</code></a>
 		</p>
 
 
@@ -655,7 +671,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l311"><code>addon&#x2F;validations&#x2F;factory.js:311</code></a>
+		<a href="../files/addon_validations_factory.js.html#l356"><code>addon&#x2F;validations&#x2F;factory.js:356</code></a>
 		</p>
 
 
@@ -726,7 +742,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l417"><code>addon&#x2F;validations&#x2F;factory.js:417</code></a>
+		<a href="../files/addon_validations_factory.js.html#l462"><code>addon&#x2F;validations&#x2F;factory.js:462</code></a>
 		</p>
 
 
@@ -795,7 +811,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l399"><code>addon&#x2F;validations&#x2F;factory.js:399</code></a>
+		<a href="../files/addon_validations_factory.js.html#l444"><code>addon&#x2F;validations&#x2F;factory.js:444</code></a>
 		</p>
 
 
@@ -864,7 +880,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l476"><code>addon&#x2F;validations&#x2F;factory.js:476</code></a>
+		<a href="../files/addon_validations_factory.js.html#l521"><code>addon&#x2F;validations&#x2F;factory.js:521</code></a>
 		</p>
 
 
@@ -932,7 +948,7 @@ These are computed collections on different properties of each attribute validat
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l124"><code>addon&#x2F;validations&#x2F;factory.js:124</code></a>
+		<a href="../files/addon_validations_factory.js.html#l132"><code>addon&#x2F;validations&#x2F;factory.js:132</code></a>
 		</p>
 
 
@@ -997,7 +1013,7 @@ This method generate the default options pojo, applies it to each validation rul
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l493"><code>addon&#x2F;validations&#x2F;factory.js:493</code></a>
+		<a href="../files/addon_validations_factory.js.html#l538"><code>addon&#x2F;validations&#x2F;factory.js:538</code></a>
 		</p>
 
 
@@ -1079,7 +1095,7 @@ If <code>true</code>, will get all validations and wrap them in a promise hash</
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l558"><code>addon&#x2F;validations&#x2F;factory.js:558</code></a>
+		<a href="../files/addon_validations_factory.js.html#l603"><code>addon&#x2F;validations&#x2F;factory.js:603</code></a>
 		</p>
 
 
@@ -1151,7 +1167,7 @@ validations.get('isValid') // true or false
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_factory.js.html#l370"><code>addon&#x2F;validations&#x2F;factory.js:370</code></a>
+		<a href="../files/addon_validations_factory.js.html#l415"><code>addon&#x2F;validations&#x2F;factory.js:415</code></a>
 		</p>
 
 

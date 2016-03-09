@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.5.0.d948c722</p>
+                <p class="version pull-right">v2.6.0</p>
               </div>
             </div>
         </div>
@@ -111,6 +111,7 @@
 import Ember from &#x27;ember&#x27;;
 import getOwner from &#x27;ember-getowner-polyfill&#x27;;
 import flatten from &#x27;../utils/flatten&#x27;;
+import assign from &#x27;../utils/assign&#x27;;
 import ValidationResult from &#x27;./result&#x27;;
 import ValidationResultCollection from &#x27;./result-collection&#x27;;
 import BaseValidator from &#x27;../validators/base&#x27;;
@@ -118,6 +119,7 @@ import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
 
 const {
   get,
+  set,
   run,
   RSVP,
   merge,
@@ -207,11 +209,17 @@ function setOwner(obj, model) {
 export default function buildValidations(validations = {}) {
   processDefaultOptions(validations);
 
-  const Validations = createValidationsObject(validations);
+  let Validations;
 
   return Ember.Mixin.create({
+    _validationsClass: computed(function() {
+      if (!Validations) {
+        Validations = createValidationsClass(this._super(), validations);
+      }
+      return Validations;
+    }).readOnly(),
     validations: computed(function() {
-      return Validations.create({ model: this, _parentValidations: this._super() });
+      return this.get(&#x27;_validationsClass&#x27;).create({ model: this });
     }).readOnly(),
     validate() {
       return get(this, &#x27;validations&#x27;).validate(...arguments);
@@ -258,68 +266,105 @@ function processDefaultOptions(validations = {}) {
 }
 
 /**
- * Creates the validations object that will become &#x60;model.validations&#x60;. Creates all necessary global CPs such as
- * &#x60;isValid&#x60;, &#x60;isAsync&#x60;, etc and also the &#x60;attrs&#x60; object.
- * @method createValidationsObject
+ * Creates the validations class that will become &#x60;model.validations&#x60;.
+ *   - Setup parent validation inheritance
+ *   - Normalize nested keys (i.e. &#x27;details.dob&#x27;) into objects (i.e { details: { dob: validator() }})
+ *   - Merge normalized validations with parent
+ *   - Create &#x60;attrs&#x60; object with CPs
+ *   - Create global CPs (i.e. &#x27;isValid&#x27;, &#x27;messages&#x27;, etc...)
+ *
+ * @method createValidationsClass
  * @private
+ * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
  * @return {Ember.Object}
  */
-function createValidationsObject(validations = {}) {
-  return Ember.Object.extend({
+function createValidationsClass(inheritedValidationsClass, validations = {}) {
+  let validationRules = {};
+  let validatableAttributes = Object.keys(validations);
+
+  // Setup validation inheritance
+  if(inheritedValidationsClass) {
+    let inheritedValidations = inheritedValidationsClass.create();
+    validationRules = merge(validationRules, inheritedValidations.get(&#x27;_validationRules&#x27;));
+    validatableAttributes = emberArray(inheritedValidations.get(&#x27;validatableAttributes&#x27;).concat(validatableAttributes)).uniq();
+  }
+
+  // Normalize nested keys into actual objects and merge them with parent object
+  Object.keys(validations).reduce((obj, key) =&gt; {
+    assign(obj, key, validations[key]);
+    return obj;
+  }, validationRules);
+
+  // Create the CPs that will be a part of the &#x60;attrs&#x60; object
+  let attrCPs = validatableAttributes.reduce((obj, attribute) =&gt; {
+    assign(obj, attribute, createCPValidationFor(attribute, validationRules[attribute]), true);
+    return obj;
+  }, {});
+
+  // Create the mixin that holds all the top level validation props (isValid, messages, etc)
+  const TopLevelProps = createTopLevelPropsMixin(validatableAttributes);
+
+  // Create the &#x60;attrs&#x60; class which will add the current model reference once instantiated
+  const Attrs = Ember.Object.extend(attrCPs, {
+    init() {
+      this._super(...arguments);
+      let model = this.get(&#x27;_model&#x27;);
+
+      validatableAttributes.forEach((attribute) =&gt; {
+        // Add a reference to the model in the deepest object
+        let path = attribute.split(&#x27;.&#x27;);
+        let lastObject = get(this, path.slice(0, path.length  - 1).join(&#x27;.&#x27;));
+        if(isNone(get(lastObject, &#x27;_model&#x27;))) {
+          set(lastObject, &#x27;_model&#x27;, model);
+        }
+      });
+    }
+  });
+
+  // Create &#x60;validations&#x60; class
+  return Ember.Object.extend(TopLevelProps, {
     model: null,
     attrs: null,
     isValidations: true,
+
+    validatableAttributes: computed(function() {
+      return validatableAttributes;
+    }).readOnly(),
 
     // Caches
     _validators: null,
     _debouncedValidations: null,
 
     // Private
-    _validationRules: null,
-    _validatableAttributes: null,
-    _parentValidations: null,
+    _validationRules: computed(function() {
+      return validationRules;
+    }).readOnly(),
 
     validate,
     validateSync,
 
     init() {
       this._super(...arguments);
-      let validationRules = validations;
-      let parentValidations = this.get(&#x27;_parentValidations&#x27;);
-      let attrs = {};
-
-      if(parentValidations) {
-        validationRules = merge(merge({}, parentValidations.get(&#x27;_validationRules&#x27;)), validationRules);
-      }
-
-      let validatableAttributes = Object.keys(validationRules);
-      validatableAttributes.forEach((attribute) =&gt; {
-        attrs[attribute] = createCPValidationFor(attribute, validationRules[attribute]);
-      });
-
       this.setProperties({
-        _validatableAttributes: validatableAttributes,
-        _validationRules: validationRules,
+        attrs: Attrs.create({ _model: this.get(&#x27;model&#x27;) }),
         _validators: {},
-        _debouncedValidations: {},
-        attrs: Ember.Object.extend(attrs).create({
-          _model: this.get(&#x27;model&#x27;)
-        })
+        _debouncedValidations: {}
       });
-
-      createGlobalValidationProps(this);
     },
 
     destroy() {
       this._super(...arguments);
+      let validatableAttrs = get(this, &#x27;validatableAttributes&#x27;);
       let debouncedValidations = get(this, &#x60;_debouncedValidations&#x60;);
 
       // Cancel all debounced timers
-      Object.keys(debouncedValidations).forEach(attr =&gt; {
-        let attrCache = debouncedValidations[attr];
-        // Itterate over each attribute and cancel all of its debounced validations
-        Object.keys(attrCache).forEach(v =&gt; run.cancel(attrCache[v]));
+      validatableAttrs.forEach(attr =&gt; {
+        let attrCache = get(debouncedValidations, attr);
+        if(!isNone(attrCache)) {
+          // Itterate over each attribute and cancel all of its debounced validations
+          Object.keys(attrCache).forEach(v =&gt; run.cancel(attrCache[v]));
+        }
       });
     }
   });
@@ -363,19 +408,19 @@ function createCPValidationFor(attribute, validations) {
     return ValidationResultCollection.create({
       attribute, content: flatten(validationResults)
     });
-  }));
+  })).readOnly();
 }
 
 /**
- * Create the global properties under the validations object.
+ * Create a mixin that will have all the top level CPs under the validations object.
  * These are computed collections on different properties of each attribute validations CP
- * @method createGlobalValidationProps
+ *
+ * @method createTopLevelPropsMixin
  * @private
  * @param  {Object} validations
  */
-function createGlobalValidationProps(validations) {
-  const validatableAttrs = validations.get(&#x27;_validatableAttributes&#x27;);
-  validations.setProperties({
+function createTopLevelPropsMixin(validatableAttrs) {
+  return Ember.Mixin.create({
     isValid: and(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}.isValid&#x60;)).readOnly(),
     isValidating: or(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}.isValidating&#x60;)).readOnly(),
     isDirty: or(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}.isDirty&#x60;)).readOnly(),
@@ -386,19 +431,19 @@ function createGlobalValidationProps(validations) {
 
     messages: computed(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}.messages&#x60;), function() {
       return emberArray(flatten(validatableAttrs.map(attr =&gt; get(this, &#x60;attrs.${attr}.messages&#x60;)))).compact();
-    }),
+    }).readOnly(),
 
     message: computed(&#x27;messages.[]&#x27;, cycleBreaker(function() {
       return get(this, &#x27;messages.0&#x27;);
-    })),
+    })).readOnly(),
 
     errors: computed(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}.@each.errors&#x60;), function() {
       return emberArray(flatten(validatableAttrs.map(attr =&gt; get(this, &#x60;attrs.${attr}.errors&#x60;)))).compact();
-    }),
+    }).readOnly(),
 
     error: computed(&#x27;errors.[]&#x27;, cycleBreaker(function() {
       return get(this, &#x27;errors.0&#x27;);
-    })),
+    })).readOnly(),
 
     _promise: computed(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}._promise&#x60;), function() {
       var promises = [];
@@ -409,7 +454,7 @@ function createGlobalValidationProps(validations) {
         }
       });
       return RSVP.Promise.all(flatten(promises));
-    })
+    }).readOnly()
   });
 }
 
@@ -530,11 +575,11 @@ function getValidatorsFor(attribute, model) {
 function getDebouncedValidationsCacheFor(attribute, model) {
   var debouncedValidations = get(model, &#x60;validations._debouncedValidations&#x60;);
 
-  if (isNone(debouncedValidations[attribute])) {
-    debouncedValidations[attribute] = {};
+  if (isNone(get(debouncedValidations, attribute))) {
+    assign(debouncedValidations, attribute, {});
   }
 
-  return debouncedValidations[attribute];
+  return get(debouncedValidations, attribute);
 }
 
 /**
@@ -573,7 +618,7 @@ function createValidatorsFor(attribute, model) {
   });
 
   // Add validators to model instance cache
-  validatorCache[attribute] = validators;
+  assign(validatorCache, attribute, validators);
 
   return validators;
 }
@@ -622,7 +667,7 @@ function validate(options = {}, async = true) {
   var blackList = makeArray(options.excludes);
   var validationResult, value;
 
-  var validationResults = get(this, &#x27;_validatableAttributes&#x27;).reduce((v, name) =&gt; {
+  var validationResults = get(this, &#x27;validatableAttributes&#x27;).reduce((v, name) =&gt; {
     if (!isEmpty(blackList) &amp;&amp; blackList.indexOf(name) !== -1) {
       return v;
     }

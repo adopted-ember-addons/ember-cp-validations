@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/validations/validator.js - Ember CP Validations</title>
+    <title>addon/utils/flatten.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/validations/validator.js <small>File</small></h1>
+    <h1>addon/utils/flatten.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -107,147 +107,21 @@
  * Copyright 2016, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import Ember from &#x27;ember&#x27;;
 
-const {
-  isNone
-} = Ember;
+export default function flatten(array = []) {
+  let result = [];
 
-/**
- * ## Common Options
- *
- * &lt;h3 id=&quot;description&quot;&gt;description&lt;/h3&gt;
- * A descriptor for your attribute used in the error message strings. Defaults to &#x60;This field&#x27;&#x60;.
- * You can overwrite this value in your &#x60;validators/messages.js&#x60; file by changing the &#x60;defaultDescription&#x60; property.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Examples
- * validator(&#x27;date&#x27;, {
- *   description: &#x27;Date of birth&#x27;
- * })
- * // If validation is run and the attribute is empty, the error returned will be:
- * // &#x27;Date of birth can&#x27;t be blank&#x27;
- * &#x60;&#x60;&#x60;
- *
- * &lt;h3 id=&quot;dependentKeys&quot;&gt;dependentKeys&lt;/h3&gt;
- * A list of other model specific dependents for you validator.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Examples
- * validator(&#x27;has-friends&#x27;, {
- *   dependentKeys: [&#x27;friends.[]&#x27;]
- * })
- * validator(&#x27;has-valid-friends&#x27;, {
- *   dependentKeys: [&#x27;friends.@each.username&#x27;]
- * })
- * validator(&#x27;x-validator&#x27;, {
- *   dependentKeys: [&#x27;username&#x27;, &#x27;email&#x27;, &#x27;meta.foo.bar&#x27;]
- * })
- * &#x60;&#x60;&#x60;
- *
- * &lt;h3 id=&quot;disabled&quot;&gt;disabled&lt;/h3&gt;
- * If set to &#x60;true&#x60;, disables the given validator. This option would usually go hand-in-hand
- * with {{#crossLinkModule &#x27;Advanced Usage&#x27;}}options as functions{{/crossLinkModule}} and &#x60;dependentKeys&#x60;. Defaults to &#x60;false&#x60;.
- *
- * &#x60;&#x60;&#x60;js
- * // Examples
- * validator(&#x27;presence&#x27;, {
- *   presence: true,
- *   disabled: true
- * })
- * validator(&#x27;presence&#x27;, {
- *   presence: true,
- *   dependentKeys: [&#x27;shouldValidate&#x27;],
- *   disabled() {
- *     return !this.get(&#x27;model.shouldValidate&#x27;);
- *   }
- * })
- * &#x60;&#x60;&#x60;
- *
- * &lt;h3 id=&quot;debounce&quot;&gt;debounce&lt;/h3&gt;
- * Debounces the validation with the given time in &#x60;milliseconds&#x60;. All debounced validations will be handled asynchronously (wrapped in a promise).
- *
- * &#x60;&#x60;&#x60;javascript
- * // Examples
- * validator(&#x27;length&#x27;, {
- *   debounce: 500
- * })
- * validator(&#x27;x-validator&#x27;, {
- *   debounce: 250
- * })
- * &#x60;&#x60;&#x60;
- *
- * &lt;h3 id=&quot;message&quot;&gt;message&lt;/h3&gt;
- * This option can take two forms. It can either be a &#x60;string&#x60; or a &#x60;function&#x60;. If a string is used, then it will overwrite all error message types for the specified validator.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Example: String
- * validator(&#x27;confirmation&#x27;, {
- *   message: &#x27;Email does not match {attribute}. What are you even thinking?!&#x27;
- * })
- * &#x60;&#x60;&#x60;
- *
- * We can pass a &#x60;function&#x60; into our message option for even more customization capabilities.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Example: Function
- * validator(&#x27;date&#x27;, {
- *   message: function(type, options, value, context) {
- *     if (type === &#x27;before&#x27;) {
- *       return &#x27;{description} should really be before {date}&#x27;;
- *     }
- *     if (type === &#x27;after&#x27;) {
- *       return &#x27;{description} should really be after {date}&#x27;;
- *     }
- *   }
- * })
- * &#x60;&#x60;&#x60;
- * The message function is given the following arguments:
- *
- * - &#x60;type&#x60; (**String**): The error message type
- * - &#x60;options&#x60; (**Object**): The validator options that were defined in the model
- * - &#x60;value&#x60;: The current value being evaluated
- * - &#x60;context&#x60; (**Object**): Context for string replacement
- *
- * The return value must be a &#x60;string&#x60;. If nothing is returned (&#x60;undefined&#x60;), defaults to the default error message of the specified type.
- *
- * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
- *
- *
- * &lt;h2 id=&quot;functionBasedValidators&quot;&gt;Function Based Validators&lt;/h2&gt;
- *
- * A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Example
- * validator(function(value, options, model, attribute) {
- *   return value === options.username ? true : &#x60;must be ${options.username}&#x60;;
- * } , {
- *   username: &#x27;John&#x27; // Any options can be passed here
- * })
- * &#x60;&#x60;&#x60;
- *
- * @module Validators
- * @main Validators
- */
+  for (var i = 0, l = array.length; i &lt; l; i++) {
+    let item = array[i];
 
-export default function(arg1, options) {
-  options = isNone(options) ? {} : options;
-
-  var props = {
-    options
-  };
-
-  if (typeof arg1 === &#x27;function&#x27;) {
-    props.validate = arg1;
-    props._type = &#x27;function&#x27;;
-  } else if (typeof arg1 === &#x27;string&#x27;) {
-    props._type = arg1;
-  } else {
-    throw new TypeError(&#x27;[ember-cp-validations] Unexpected type for first validator argument. It should either be a string or a function&#x27;);
+    if (Array.isArray(item)) {
+      result = result.concat(flatten(item));
+    } else {
+      result.push(item);
+    }
   }
 
-  return props;
+  return result;
 }
 
     </pre>

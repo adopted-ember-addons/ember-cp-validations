@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.5.0.d948c722</p>
+                <p class="version pull-right">v2.6.0</p>
               </div>
             </div>
         </div>
@@ -164,6 +164,30 @@
       return moment().subtract(120, 'years');
     }
   })
+});
+</code></pre>
+<p><h3 id="nestedKeys">Nested Keys</h3></p>
+<p>When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.</p>
+<pre class="code prettyprint"><code class="language-javascript">import Ember from 'ember';
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  'acceptTerms': validator('inclusion', { in: [ true ] }),
+  'user.firstName': validator('presence', true),
+  'user.lasName': validator('presence', true),
+  'user.account.number': validator('number')
+});
+
+export default Ember.Component.extend(Validations, {
+  acceptTerms: false,
+  user:  {
+    firstName: 'John',
+    lastName: 'Doe' ,
+    account: {
+      number: 123456,
+    }
+  },
+  isFormValid: Ember.computed.alias('validations.isValid'),
 });
 </code></pre>
 
