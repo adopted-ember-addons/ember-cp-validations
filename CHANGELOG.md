@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.6.0
+- [#132](https://github.com/offirgolan/ember-cp-validations/pull/132) Add support for nested keys in validation rules.
+- [#132](https://github.com/offirgolan/ember-cp-validations/pull/132) Create validations object once per class instead of every instance
+
 ## 2.5.0
 - [#122](https://github.com/offirgolan/ember-cp-validations/pull/122) Blueprints/validator-test: Fix typo in _filesPath() method [@Turbo87](https://github.com/Turbo87)
 - [#127](https://github.com/offirgolan/ember-cp-validations/pull/127) DS Error validator. See docs [here](http://offirgolan.github.io/ember-cp-validations/docs/classes/DS%20Error.html)
