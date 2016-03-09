@@ -20,6 +20,7 @@ __No observers were used nor harmed while developing and testing this addon.__
 * Synchronous and asynchronous support for both validators and validations
 * Dirty tracking
 * Support for nested models via `belongsTo` and `hasMany` relationships
+* Support for nested objects
 * Easily integrated with Ember Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
 * No observers. Seriously... there are none. Like absolutely zero....
 * Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
@@ -228,3 +229,32 @@ const Validations = buildValidations({
   })
 });
 ```
+
+**Nested Keys**
+
+When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.
+
+```javascript
+import Ember from 'ember';
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  'acceptTerms': validator('inclusion', { in: [ true ] }),
+  'user.firstName': validator('presence', true),
+  'user.lasName': validator('presence', true),
+  'user.account.number': validator('number')
+});
+
+export default Ember.Component.extend(Validations, {
+  acceptTerms: false,
+  user:  { 
+    firstName: 'John', 
+    lastName: 'Doe' ,
+    account: { 
+      number: 123456, 
+    }
+  },
+  isFormValid: Ember.computed.alias('validations.isValid'),
+});
+```
+
