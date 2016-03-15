@@ -43,39 +43,47 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+
+  _parseDate(dateStr, format) {
+    if (dateStr === 'now' || isEmpty(dateStr)) {
+      return moment();
+    } else {
+      return format ? moment(dateStr, format) : moment(new Date(dateStr));
+    }
+  },
+
   validate(value, options) {
     var errorFormat = options.errorFormat || 'MMM Do, YYYY';
-    var now = moment();
-    var date = moment(value);
+    let {format, before, after} = options;
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
     }
 
+    let date = this._parseDate(value, format);
+
     if (!date.isValid()) {
       return this.createErrorMessage('date', value, options);
     }
 
-    if (options.format && !moment(value, options.format, true).isValid()) {
+    if (format && !moment(value, format, true).isValid()) {
       return this.createErrorMessage('wrongDateFormat', value, options);
     }
 
-    if (options.before === 'now') {
-      options.before = now;
+    if (before) {
+      before = this._parseDate(before, format);
+      if (before < date) {
+        options.before = before.format(errorFormat);
+        return this.createErrorMessage('before', value, options);
+      }
     }
 
-    if (options.after === 'now') {
-      options.after = now;
-    }
-
-    if (options.before && (moment(options.before) < date)) {
-      options.before = moment(options.before).format(errorFormat);
-      return this.createErrorMessage('before', value, options);
-    }
-
-    if (options.after && (moment(options.after) > date)) {
-      options.after = moment(options.after).format(errorFormat);
-      return this.createErrorMessage('after', value, options);
+    if (after) {
+      after = this._parseDate(after, format);
+      if (after > date) {
+        options.after = after.format(errorFormat);
+        return this.createErrorMessage('after', value, options);
+      }
     }
 
     return true;
