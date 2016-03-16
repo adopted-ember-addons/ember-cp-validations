@@ -70,7 +70,7 @@ test('email', function(assert) {
   assert.equal(message, true);
 });
 
-test('phone', function(assert) {
+test('phone, default local', function(assert) {
   assert.expect(2);
 
   options = {
@@ -83,6 +83,102 @@ test('phone', function(assert) {
   assert.equal(message, 'This field must be a valid phone number');
 
   message = validator.validate('(408) 555-1234', options);
+  assert.equal(message, true);
+});
+
+test('phone, +41 international', function(assert) {
+  assert.expect(5);
+
+  options = {
+    type: 'phone'
+  };
+
+  options = validator.buildOptions(options, {});
+
+  message = validator.validate('+41 0123', options);
+  assert.equal(message, 'This field must be a valid phone number');
+
+  message = validator.validate('+41 (0)11 111 11 11 ', options);
+  assert.equal(message, 'This field must be a valid phone number');
+
+  message = validator.validate('+41 11 111 11 11', options);
+  assert.equal(message, true);
+
+  message = validator.validate('+41 (0)11 111 11 11', options);
+  assert.equal(message, true);
+
+  message = validator.validate('+41111111111', options);
+  assert.equal(message, true);
+});
+
+test('phone, +41 local', function(assert) {
+  assert.expect(4);
+
+  options = {
+    type: 'phone',
+    defaultCountryCode: '+41'
+  };
+
+  options = validator.buildOptions(options, {});
+
+  message = validator.validate('(408) 555-1234', options); // valid US number but not valid CH number
+  assert.equal(message, 'This field must be a valid phone number');
+
+  message = validator.validate('+1 (408) 555-1234', options); // international US must still work
+  assert.equal(message, true);
+
+  message = validator.validate('011 111 11 11', options);
+  assert.equal(message, true);
+
+  message = validator.validate('0111111111', options);
+  assert.equal(message, true);
+});
+
+test('phone, +49 international', function(assert) {
+  assert.expect(5);
+
+  options = {
+    type: 'phone'
+  };
+
+  options = validator.buildOptions(options, {});
+
+  message = validator.validate('+49 0123', options);
+  assert.equal(message, 'This field must be a valid phone number');
+
+  message = validator.validate('+49 (0)11 111 11 11 ', options);
+  assert.equal(message, 'This field must be a valid phone number');
+
+  message = validator.validate('+49 11 111 11 11', options);
+  assert.equal(message, true);
+
+  message = validator.validate('+49 (0)11 111 11 11', options);
+  assert.equal(message, true);
+
+  message = validator.validate('+49111111111', options);
+  assert.equal(message, true);
+});
+
+test('phone, +49 local', function(assert) {
+  assert.expect(4);
+
+  options = {
+    type: 'phone',
+    defaultCountryCode: '+49'
+  };
+
+  options = validator.buildOptions(options, {});
+
+  message = validator.validate('(408) 555-1234', options); // valid US number but not valid CH number
+  assert.equal(message, 'This field must be a valid phone number');
+
+  message = validator.validate('+1 (408) 555-1234', options); // international US must still work
+  assert.equal(message, true);
+
+  message = validator.validate('011 111 11 11', options);
+  assert.equal(message, true);
+
+  message = validator.validate('0111111111', options);
   assert.equal(message, true);
 });
 
