@@ -14,17 +14,10 @@ from 'ember-cp-validations';
 var attr = DS.attr;
 
 var Validations = buildValidations({
-  firstName: validator('presence', {
-    presence: true,
-    debounce: 500
-  }),
-  lastName: validator('presence', {
-    presence: true,
-    debounce: 500
-  }),
+  firstName: validator('presence', true),
+  lastName: validator('presence', true),
   dob: {
     description: 'Date of  birth',
-    debounce: 500,
     validators: [
       validator('presence', true),
       validator('date', {
@@ -47,18 +40,17 @@ var Validations = buildValidations({
   phone: [
     validator('format', {
       allowBlank: true,
-      debounce: 500,
       type: 'phone'
     })
   ],
   url: [
     validator('format', {
       allowBlank: true,
-      debounce: 500,
       type: 'url'
     })
   ]
-
+}, {
+  debounce: 500
 });
 
 export default DS.Model.extend(Validations, {

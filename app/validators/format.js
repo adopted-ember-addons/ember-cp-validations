@@ -59,13 +59,23 @@ export default Base.extend({
     url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-{}]*[\w@?^=%&amp;\/~+#-{}])??/,
   },
 
-  buildOptions(options = {}, defaultOptions = {}) {
+  /**
+   * Normalized options passed in by applying the desired regex or using the one declared
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     var regularExpressions = get(this, 'regularExpressions');
 
     if (options.type && !isNone(regularExpressions[options.type]) && isNone(options.regex)) {
       options.regex = regularExpressions[options.type];
     }
-    return this._super(options, defaultOptions);
+
+    return this._super(options, defaultOptions, globalOptions);
   },
 
   validate(value, options) {

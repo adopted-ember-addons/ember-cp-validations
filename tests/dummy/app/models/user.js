@@ -11,7 +11,7 @@ var attr = DS.attr;
 
 var Validations = buildValidations({
   username: {
-    debounce: 500,
+    description: 'Username',
     validators: [
       validator('presence', true),
       validator('length', {
@@ -21,7 +21,6 @@ var Validations = buildValidations({
   },
   password: {
     description: 'Password',
-    debounce: 500,
     validators: [
       validator('presence', true),
       validator('length', {
@@ -35,7 +34,6 @@ var Validations = buildValidations({
     ]
   },
   email: {
-    debounce: 500,
     validators: [
       validator('presence', true),
       validator('format', {
@@ -45,10 +43,11 @@ var Validations = buildValidations({
   },
   emailConfirmation: validator('confirmation', {
     on: 'email',
-    message: 'Email addresses do not match',
-    debounce: 500
+    message: 'Email addresses do not match'
   }),
   details: validator('belongs-to')
+}, {
+  debounce: 500
 });
 
 export default DS.Model.extend(Validations, {
