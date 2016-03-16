@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.0</p>
+                <p class="version pull-right">v2.6.1</p>
               </div>
             </div>
         </div>
@@ -148,39 +148,47 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+
+  _parseDate(dateStr, format) {
+    if (dateStr === &#x27;now&#x27; || isEmpty(dateStr)) {
+      return moment();
+    } else {
+      return format ? moment(dateStr, format) : moment(new Date(dateStr));
+    }
+  },
+
   validate(value, options) {
     var errorFormat = options.errorFormat || &#x27;MMM Do, YYYY&#x27;;
-    var now = moment();
-    var date = moment(value);
+    let {format, before, after} = options;
 
     if (options.allowBlank &amp;&amp; isEmpty(value)) {
       return true;
     }
 
+    let date = this._parseDate(value, format);
+
     if (!date.isValid()) {
       return this.createErrorMessage(&#x27;date&#x27;, value, options);
     }
 
-    if (options.format &amp;&amp; !moment(value, options.format, true).isValid()) {
+    if (format &amp;&amp; !moment(value, format, true).isValid()) {
       return this.createErrorMessage(&#x27;wrongDateFormat&#x27;, value, options);
     }
 
-    if (options.before === &#x27;now&#x27;) {
-      options.before = now;
+    if (before) {
+      before = this._parseDate(before, format);
+      if (before &lt; date) {
+        options.before = before.format(errorFormat);
+        return this.createErrorMessage(&#x27;before&#x27;, value, options);
+      }
     }
 
-    if (options.after === &#x27;now&#x27;) {
-      options.after = now;
-    }
-
-    if (options.before &amp;&amp; (moment(options.before) &lt; date)) {
-      options.before = moment(options.before).format(errorFormat);
-      return this.createErrorMessage(&#x27;before&#x27;, value, options);
-    }
-
-    if (options.after &amp;&amp; (moment(options.after) &gt; date)) {
-      options.after = moment(options.after).format(errorFormat);
-      return this.createErrorMessage(&#x27;after&#x27;, value, options);
+    if (after) {
+      after = this._parseDate(after, format);
+      if (after &gt; date) {
+        options.after = after.format(errorFormat);
+        return this.createErrorMessage(&#x27;after&#x27;, value, options);
+      }
     }
 
     return true;

@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v2.6.0"
+        "version": "v2.6.1"
     },
     "files": {
         "addon/utils/assign.js": {
