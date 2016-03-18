@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.6.1
+- [#140](https://github.com/offirgolan/ember-cp-validations/pull/140) Fixed moment date parsing deprecations [@danielspaniel](https://github.com/danielspaniel)
+
 ## 2.6.0
 - [#132](https://github.com/offirgolan/ember-cp-validations/pull/132) Add support for nested keys in validation rules.
 - [#132](https://github.com/offirgolan/ember-cp-validations/pull/132) Create validations object once per class instead of every instance
