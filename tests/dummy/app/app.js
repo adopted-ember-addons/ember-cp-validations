@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import Resolver from 'ember-resolver';
+import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
