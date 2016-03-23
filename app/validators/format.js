@@ -55,8 +55,23 @@ const {
 export default Base.extend({
   regularExpressions: {
     email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-    phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
+    // phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
     url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-{}]*[\w@?^=%&amp;\/~+#-{}])??/,
+  },
+
+  countyPhoneRegularExpressions: {
+    '+1': { // NANP
+      local: /(^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$)/,
+      international: /(^([\+]1\s*[-\/\.]?\s*)(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$)/,
+    },
+    '+41': { // Switzerland
+      local: /(^0([1-9])([0-9]|[0-9] [0-9])*$)/,
+      international: /(^\+41 ?(\(0\) ?)?([1-9])([0-9]|[0-9 ][0-9])*$)/,
+    },
+    '+49': { // Germany
+      local: /(^0([1-9])([0-9]|[0-9] [0-9])*$)/,
+      international: /(^\+49 ?(\(0\) ?)?([1-9])([0-9]|[0-9 ][0-9])*$)/,
+    },
   },
 
   buildOptions(options = {}, defaultOptions = {}) {
@@ -65,6 +80,21 @@ export default Base.extend({
     if (options.type && !isNone(regularExpressions[options.type]) && isNone(options.regex)) {
       options.regex = regularExpressions[options.type];
     }
+
+    if(options.type === 'phone' && isNone(options.regex)) {
+      let regExArr = [];
+      let defaultCountryCode = options.defaultCountryCode || options.defaultCountryCode !== null && '+1' || null;
+      let countyPhoneRegularExpressions = get(this, 'countyPhoneRegularExpressions');
+      if(defaultCountryCode) {
+        regExArr.push(countyPhoneRegularExpressions[defaultCountryCode].local);
+      }
+      Object.keys(countyPhoneRegularExpressions).forEach(key => {
+        regExArr.push(countyPhoneRegularExpressions[key].international);
+      });
+
+      options.regex = new RegExp(regExArr.map(r => r.toString()).map(str => str.substr(1, str.length-2)).join('|'));
+    }
+
     return this._super(options, defaultOptions);
   },
 
