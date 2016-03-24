@@ -29,6 +29,7 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+
   /**
    * Normalized options passed in.
    * ```js
@@ -46,12 +47,14 @@ export default Base.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    if(typeof options === 'boolean') {
-      options = {
+    let opts = options;
+
+    if (typeof options === 'boolean') {
+      opts = {
         presence: options
       };
     }
-    return this._super(options, defaultOptions, globalOptions);
+    return this._super(opts, defaultOptions, globalOptions);
   },
 
   validate(value, options) {
@@ -59,7 +62,7 @@ export default Base.extend({
       return this.createErrorMessage('blank', value, options);
     }
 
-    if(options.presence === false && this._isPresent(value)) {
+    if (options.presence === false && this._isPresent(value)) {
       return this.createErrorMessage('present', value, options);
     }
 
@@ -70,8 +73,8 @@ export default Base.extend({
    * Handle presence of ember proxy based instances
    */
   _isPresent(value) {
-    if(value instanceof Ember.ObjectProxy || value instanceof Ember.ArrayProxy) {
-        return this._isPresent(get(value, 'content'));
+    if (value instanceof Ember.ObjectProxy || value instanceof Ember.ArrayProxy) {
+      return this._isPresent(get(value, 'content'));
     }
     return !isEmpty(value);
   }

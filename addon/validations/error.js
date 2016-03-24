@@ -6,6 +6,7 @@ import Ember from 'ember';
  */
 
 export default Ember.Object.extend({
+
   /**
    * The attribute that the error belongs to
    * @property attribute

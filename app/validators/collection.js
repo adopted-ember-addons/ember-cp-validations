@@ -7,11 +7,12 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
-  isArray,
+  isArray
 } = Ember;
 
 /**
- *  If `true` validates that the given value is a valid collection and will add `<ATTRIUTE>.[]` as a dependent key to the CP. If `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
+ *  If `true` validates that the given value is a valid collection and will add `<ATTRIUTE>.[]` as a dependent key to the CP.
+ *  If `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
  *
  *  ```javascript
  *  // Examples
@@ -28,6 +29,7 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+
   /**
    * Normalized options passed in.
    * ```js
@@ -45,12 +47,14 @@ export default Base.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    if(typeof options === 'boolean') {
-      options = {
+    let opts = options;
+
+    if (typeof options === 'boolean') {
+      opts = {
         collection: options
       };
     }
-    return this._super(options, defaultOptions, globalOptions);
+    return this._super(opts, defaultOptions, globalOptions);
   },
 
   validate(value, options) {

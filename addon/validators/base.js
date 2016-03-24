@@ -11,7 +11,7 @@ const {
   get,
   set,
   merge,
-  isNone,
+  isNone
 } = Ember;
 
 /**
@@ -19,26 +19,27 @@ const {
  * @module Validators
  */
 export default Ember.Object.extend({
+
   /**
    * Options passed in to the validator when defined in the model
    * @property options
    * @type {Object}
    */
-  options: undefined,
+  options: null,
 
   /**
    * Default validation options for this specific attribute
    * @property defaultOptions
    * @type {Object}
    */
-  defaultOptions: undefined,
+  defaultOptions: null,
 
   /**
    * Global validation options for this model
    * @property globalOptions
    * @type {Object}
    */
-  globalOptions: undefined,
+  globalOptions: null,
 
   /**
    * Model instance
@@ -71,11 +72,11 @@ export default Ember.Object.extend({
 
   init() {
     this._super(...arguments);
-    var owner = getOwner(this);
-    var options = get(this, 'options');
-    var defaultOptions = get(this, 'defaultOptions');
-    var globalOptions = get(this, 'globalOptions');
-    var errorMessages;
+    const globalOptions = get(this, 'globalOptions');
+    const defaultOptions = get(this, 'defaultOptions');
+    const options = get(this, 'options');
+    const owner = getOwner(this);
+    let errorMessages;
 
     if (!isNone(owner)) {
       // Since default error messages are stored in app/validators/messages, we have to look it up via the owner
@@ -85,7 +86,7 @@ export default Ember.Object.extend({
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
     errorMessages = errorMessages || Messages;
 
-    set(this, 'options', this.buildOptions(options, defaultOptions, globalOptions));
+    set(this, 'options', this.buildOptions(options || {}, defaultOptions || {}, globalOptions || {}));
     set(this, 'errorMessages', errorMessages.create());
   },
 
@@ -110,9 +111,11 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   processOptions() {
-    let options = merge({}, get(this, 'options') || {});
+    const options = merge({}, get(this, 'options') || {});
+
     Object.keys(options).forEach(key => {
-      let opt = options[key];
+      const opt = options[key];
+
       if (typeof opt === 'function' && key !== 'message') {
         options[key] = opt.call(this);
       }
@@ -136,7 +139,7 @@ export default Ember.Object.extend({
    * - `String`: The error message
    * - `Promise`: A promise that will either resolve or reject, and will finally return either `true` or the final error message string.
    */
-  validate( /*value, options, model, attribute*/ ) {
+  validate() {
     return true;
   },
 
@@ -168,13 +171,13 @@ export default Ember.Object.extend({
    *
    * @method createErrorMessage
    * @param  {String} type        The type of message template to use
-   * @param  value                Current value being evaluated
+   * @param  {Unknown} value                Current value being evaluated
    * @param  {Object} options     Validator built and processed options (used as the message string context)
    * @return {String}             The generated message
    */
   createErrorMessage(type, value, options = {}) {
-    var messages = this.get('errorMessages');
-    var message;
+    const messages = this.get('errorMessages');
+    let message;
 
     options.description = messages.getDescriptionFor(get(this, 'attribute'), options);
 
@@ -183,7 +186,7 @@ export default Ember.Object.extend({
         message = messages.formatMessage(options.message, options);
       } else if (typeof options.message === 'function') {
         message = options.message.apply(this, arguments);
-        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options); // fail-safe to default message of type
+        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options);
       }
     } else {
       message = messages.getMessageFor(type, options);
@@ -221,7 +224,8 @@ export default Ember.Object.extend({
  *
  * **Side Node**: Before we continue, I would suggest checking out the documentation for the {{#crossLink 'Base'}}Base Validator{{/crossLink}}.
  *
- * If you want to interact with the `store` within your validator, you can simply inject the service like you would a component. Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.
+ * If you want to interact with the `store` within your validator, you can simply inject the service like you would a component.
+ * Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.
  *
  * ```javascript
  * // app/validators/unique-username.js
@@ -231,7 +235,7 @@ export default Ember.Object.extend({
  *
  * export default BaseValidator.extend({
  *   store: Ember.inject.service(),
-   *
+ *
  *   validate(value, options, model, attribute) {
  *     return this.get('store').findRecord('user', value).then((user) => {
  *       if(user && user.id === value) {
@@ -291,7 +295,7 @@ export default Ember.Object.extend({
  *
  *     let validator =  this.subject();
  *     let done = assert.async();
-     *
+ *
  *     validator.validate('johndoe42').then((message) => {
  *       assert.equal(message, true);
  *       done();
