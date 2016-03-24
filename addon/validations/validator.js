@@ -126,11 +126,9 @@ const {
  * @main Validators
  */
 
-export default function(arg1, options) {
-  options = isNone(options) ? {} : options;
-
-  var props = {
-    options
+export default function (arg1, options) {
+  const props = {
+    options: isNone(options) ? {} : options
   };
 
   if (typeof arg1 === 'function') {

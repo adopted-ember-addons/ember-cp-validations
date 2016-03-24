@@ -43,8 +43,8 @@ const {
  */
 export default Base.extend({
   validate(value, options) {
-    let numValue = Number(value);
-    let optionKeys = Object.keys(options);
+    const numValue = Number(value);
+    const optionKeys = Object.keys(options);
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
@@ -63,8 +63,9 @@ export default Base.extend({
     }
 
     for (let i = 0; i < optionKeys.length; i++) {
-      let type = optionKeys[i];
-      let m = this._validateType(type, options, numValue);
+      const type = optionKeys[i];
+      const m = this._validateType(type, options, numValue);
+
       if (typeof m === 'string') {
         return m;
       }
@@ -74,8 +75,8 @@ export default Base.extend({
   },
 
   _validateType(type, options, value) {
-    let expected = options[type];
-    let actual = value;
+    const expected = options[type];
+    const actual = value;
 
     if (type === 'is' && actual !== expected) {
       return this.createErrorMessage('equalTo', value, options);
@@ -101,10 +102,10 @@ export default Base.extend({
   /* Use polyfills instead of Number.isNaN or Number.isInteger to support IE & Safari */
 
   isNumber(value) {
-    return typeof value === "number" && !isNaN(value);
+    return typeof value === 'number' && !isNaN(value);
   },
 
   isInteger(value) {
-    return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
+    return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
   }
 });

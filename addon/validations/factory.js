@@ -88,20 +88,25 @@ const {
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
  */
-export default function buildValidations(validations = {}, globalOptions = {}) {
+export
+default
+
+function buildValidations(validations = {}, globalOptions = {}) {
   normalizeOptions(validations, globalOptions);
 
   let Validations;
 
   return Ember.Mixin.create({
-    _validationsClass: computed(function() {
+    _validationsClass: computed(function () {
       if (!Validations) {
         Validations = createValidationsClass(this._super(), validations);
       }
       return Validations;
     }).readOnly(),
-    validations: computed(function() {
-      return this.get('_validationsClass').create({ model: this });
+    validations: computed(function () {
+      return this.get('_validationsClass').create({
+        model: this
+      });
     }).readOnly(),
     validate() {
       return get(this, 'validations').validate(...arguments);
@@ -129,23 +134,30 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
  * @return
  */
 function normalizeOptions(validations = {}, globalOptions = {}) {
-  var validatableAttrs = Object.keys(validations);
+  const validatableAttrs = Object.keys(validations);
 
   validatableAttrs.forEach(attribute => {
-    let rules = validations[attribute];
-    if(rules && typeof rules === 'object' && isArray(rules.validators)) {
-      let options = Object.keys(rules).reduce((o, k) => {
-        if(k !== 'validators') {
+    const rules = validations[attribute];
+
+    if (rules && typeof rules === 'object' && isArray(rules.validators)) {
+      const options = Object.keys(rules).reduce((o, k) => {
+        if (k !== 'validators') {
           o[k] = rules[k];
         }
         return o;
       }, {});
-      let validators = rules.validators;
-      validators.forEach(v => v.defaultOptions = options);
+
+      const validators = rules.validators;
+
+      validators.forEach(v => {
+        v.defaultOptions = options;
+      });
       validations[attribute] = validators;
     }
     validations[attribute] = makeArray(validations[attribute]);
-    validations[attribute].forEach(v => v.globalOptions = globalOptions);
+    validations[attribute].forEach(v => {
+      v.globalOptions = globalOptions;
+    });
   });
 }
 
@@ -168,8 +180,9 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   let validatableAttributes = Object.keys(validations);
 
   // Setup validation inheritance
-  if(inheritedValidationsClass) {
-    let inheritedValidations = inheritedValidationsClass.create();
+  if (inheritedValidationsClass) {
+    const inheritedValidations = inheritedValidationsClass.create();
+
     validationRules = merge(validationRules, inheritedValidations.get('_validationRules'));
     validatableAttributes = emberArray(inheritedValidations.get('validatableAttributes').concat(validatableAttributes)).uniq();
   }
@@ -181,7 +194,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   }, validationRules);
 
   // Create the CPs that will be a part of the `attrs` object
-  let attrCPs = validatableAttributes.reduce((obj, attribute) => {
+  const attrCPs = validatableAttributes.reduce((obj, attribute) => {
     assign(obj, attribute, createCPValidationFor(attribute, get(validationRules, attribute)), true);
     return obj;
   }, {});
@@ -193,13 +206,14 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   const Attrs = Ember.Object.extend(attrCPs, {
     init() {
       this._super(...arguments);
-      let model = this.get('_model');
+      const model = this.get('_model');
 
-      validatableAttributes.forEach((attribute) => {
+      validatableAttributes.forEach(attribute => {
         // Add a reference to the model in the deepest object
-        let path = attribute.split('.');
-        let lastObject = get(this, path.slice(0, path.length  - 1).join('.'));
-        if(isNone(get(lastObject, '_model'))) {
+        const path = attribute.split('.');
+        const lastObject = get(this, path.slice(0, path.length - 1).join('.'));
+
+        if (isNone(get(lastObject, '_model'))) {
           set(lastObject, '_model', model);
         }
       });
@@ -212,7 +226,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
     attrs: null,
     isValidations: true,
 
-    validatableAttributes: computed(function() {
+    validatableAttributes: computed(function () {
       return validatableAttributes;
     }).readOnly(),
 
@@ -221,7 +235,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
     _debouncedValidations: null,
 
     // Private
-    _validationRules: computed(function() {
+    _validationRules: computed(function () {
       return validationRules;
     }).readOnly(),
 
@@ -231,7 +245,9 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
     init() {
       this._super(...arguments);
       this.setProperties({
-        attrs: Attrs.create({ _model: this.get('model') }),
+        attrs: Attrs.create({
+          _model: this.get('model')
+        }),
         _validators: {},
         _debouncedValidations: {}
       });
@@ -239,13 +255,14 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
 
     destroy() {
       this._super(...arguments);
-      let validatableAttrs = get(this, 'validatableAttributes');
-      let debouncedValidations = get(this, `_debouncedValidations`);
+      const validatableAttrs = get(this, 'validatableAttributes');
+      const debouncedValidations = get(this, '_debouncedValidations');
 
       // Cancel all debounced timers
       validatableAttrs.forEach(attr => {
-        let attrCache = get(debouncedValidations, attr);
-        if(!isNone(attrCache)) {
+        const attrCache = get(debouncedValidations, attr);
+
+        if (!isNone(attrCache)) {
           // Itterate over each attribute and cancel all of its debounced validations
           Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
         }
@@ -263,22 +280,23 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
  * @return {Ember.computed} A computed property which is a ValidationResultCollection
  */
 function createCPValidationFor(attribute, validations) {
-  var dependentKeys = getCPDependentKeysFor(attribute, validations);
+  const dependentKeys = getCPDependentKeysFor(attribute, validations);
 
-  return computed(...dependentKeys, cycleBreaker(function() {
-    var model = get(this, '_model');
-    var validators = getValidatorsFor(attribute, model);
+  return computed(...dependentKeys, cycleBreaker(function () {
+    const model = get(this, '_model');
+    const validators = getValidatorsFor(attribute, model);
 
-    var validationResults = validators.map(validator => {
-      let options = validator.processOptions();
-      let debounce = getWithDefault(options, 'debounce', 0);
-      let disabled = getWithDefault(options, 'disabled', false);
+    const validationResults = validators.map(validator => {
+      const options = validator.processOptions();
+      const debounce = getWithDefault(options, 'debounce', 0);
+      const disabled = getWithDefault(options, 'disabled', false);
       let value;
 
-      if(disabled) {
+      if (disabled) {
         value = true;
-      } else if(debounce > 0) {
-        let cache = getDebouncedValidationsCacheFor(attribute, model);
+      } else if (debounce > 0) {
+        const cache = getDebouncedValidationsCacheFor(attribute, model);
+
         // Return a promise and pass the resolve method to the debounce handler
         value = new Promise(resolve => {
           cache[guidFor(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
@@ -291,7 +309,8 @@ function createCPValidationFor(attribute, validations) {
     });
 
     return ValidationResultCollection.create({
-      attribute, content: flatten(validationResults)
+      attribute,
+      content: flatten(validationResults)
     });
   })).readOnly();
 }
@@ -306,34 +325,36 @@ function createCPValidationFor(attribute, validations) {
  */
 function createTopLevelPropsMixin(validatableAttrs) {
   return Ember.Mixin.create({
-    isValid: and(...validatableAttrs.map((attr) => `attrs.${attr}.isValid`)).readOnly(),
-    isValidating: or(...validatableAttrs.map((attr) => `attrs.${attr}.isValidating`)).readOnly(),
-    isDirty: or(...validatableAttrs.map((attr) => `attrs.${attr}.isDirty`)).readOnly(),
-    isAsync: or(...validatableAttrs.map((attr) => `attrs.${attr}.isAsync`)).readOnly(),
+    isValid: and(...validatableAttrs.map(attr => `attrs.${attr}.isValid`)).readOnly(),
+    isValidating: or(...validatableAttrs.map(attr => `attrs.${attr}.isValidating`)).readOnly(),
+    isDirty: or(...validatableAttrs.map(attr => `attrs.${attr}.isDirty`)).readOnly(),
+    isAsync: or(...validatableAttrs.map(attr => `attrs.${attr}.isAsync`)).readOnly(),
     isNotValidating: not('isValidating').readOnly(),
     isInvalid: not('isValid').readOnly(),
     isTruelyValid: and('isValid', 'isNotValidating').readOnly(),
 
-    messages: computed(...validatableAttrs.map((attr) => `attrs.${attr}.messages`), function() {
+    messages: computed(...validatableAttrs.map(attr => `attrs.${attr}.messages`), function () {
       return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.messages`)))).compact();
     }).readOnly(),
 
-    message: computed('messages.[]', cycleBreaker(function() {
+    message: computed('messages.[]', cycleBreaker(function () {
       return get(this, 'messages.0');
     })).readOnly(),
 
-    errors: computed(...validatableAttrs.map((attr) => `attrs.${attr}.@each.errors`), function() {
+    errors: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.errors`), function () {
       return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.errors`)))).compact();
     }).readOnly(),
 
-    error: computed('errors.[]', cycleBreaker(function() {
+    error: computed('errors.[]', cycleBreaker(function () {
       return get(this, 'errors.0');
     })).readOnly(),
 
-    _promise: computed(...validatableAttrs.map((attr) => `attrs.${attr}._promise`), function() {
-      var promises = [];
-      validatableAttrs.forEach((attr) => {
-        var validation = get(this, `attrs.${attr}`);
+    _promise: computed(...validatableAttrs.map(attr => `attrs.${attr}._promise`), function () {
+      const promises = [];
+
+      validatableAttrs.forEach(attr => {
+        const validation = get(this, `attrs.${attr}`);
+
         if (get(validation, 'isAsync')) {
           promises.push(get(validation, '_promise'));
         }
@@ -352,13 +373,13 @@ function createTopLevelPropsMixin(validatableAttrs) {
  * @return {Array} Unique list of dependencies
  */
 function getCPDependentKeysFor(attribute, validations) {
-  var dependentKeys = emberArray();
+  const dependentKeys = emberArray();
 
   dependentKeys.push(`_model.${attribute}`);
 
-  validations.forEach((validation) => {
-    let type = validation._type;
-    let options = validation.options;
+  validations.forEach(validation => {
+    const type = validation._type;
+    const options = validation.options;
 
     if (type === 'belongs-to') {
       dependentKeys.push(`${attribute}.isTruelyValid`);
@@ -369,15 +390,19 @@ function getCPDependentKeysFor(attribute, validations) {
     } else if (type === 'confirmation' && validation.options.on) {
       dependentKeys.push(`_model.${validation.options.on}`);
     } else if (type === 'dependent') {
-      var dependents = get(validation, 'options.on');
+      const dependents = get(validation, 'options.on');
+
       if (!isEmpty(dependents)) {
-        dependents.forEach((dependent) => dependentKeys.push(`${dependent}.isTruelyValid`));
+        dependents.forEach(dependent => dependentKeys.push(`${dependent}.isTruelyValid`));
       }
     } else if (type === 'collection' && (options === true || options.collection === true)) {
       dependentKeys.push(`_model.${attribute}.[]`);
     }
 
-    let specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []), getWithDefault(validation, 'defaultOptions.dependentKeys', []), getWithDefault(validation, 'globalOptions.dependentKeys', []));
+    const specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []),
+      getWithDefault(validation, 'defaultOptions.dependentKeys', []),
+      getWithDefault(validation, 'globalOptions.dependentKeys', []));
+
     specifiedDependents.forEach(d => {
       dependentKeys.push(`_model.${d}`);
     });
@@ -411,17 +436,19 @@ function debouncedValidate(validator, model, attribute, resolve) {
  * @return {ValidationResult}
  */
 function validationReturnValueHandler(attribute, value, model, validator) {
-  var result, _promise;
+  let result;
 
   if (canInvoke(value, 'then')) {
-    _promise = Promise.resolve(value);
     result = ValidationResult.create({
-      attribute, _promise, model,
+      attribute,
+      _promise: Promise.resolve(value),
+      model,
       _validator: validator
     });
   } else {
     result = ValidationResult.create({
-      attribute, model,
+      attribute,
+      model,
       _validator: validator
     });
     result.update(value);
@@ -439,7 +466,7 @@ function validationReturnValueHandler(attribute, value, model, validator) {
  * @return {Array}
  */
 function getValidatorsFor(attribute, model) {
-  var validators = get(model, `validations._validators.${attribute}`);
+  const validators = get(model, `validations._validators.${attribute}`);
 
   if (!isNone(validators)) {
     return validators;
@@ -457,7 +484,7 @@ function getValidatorsFor(attribute, model) {
  * @return {Map}
  */
 function getDebouncedValidationsCacheFor(attribute, model) {
-  var debouncedValidations = get(model, `validations._debouncedValidations`);
+  const debouncedValidations = get(model, 'validations._debouncedValidations');
 
   if (isNone(get(debouncedValidations, attribute))) {
     assign(debouncedValidations, attribute, {});
@@ -475,19 +502,19 @@ function getDebouncedValidationsCacheFor(attribute, model) {
  * @return {Array}
  */
 function createValidatorsFor(attribute, model) {
-  var validations = get(model, 'validations');
-  var validationRules = makeArray(get(validations, `_validationRules.${attribute}`));
-  var validatorCache = get(validations, '_validators');
-  var owner = getOwner(model);
-  var validators = [];
-  var validator;
+  const validations = get(model, 'validations');
+  const validationRules = makeArray(get(validations, `_validationRules.${attribute}`));
+  const validatorCache = get(validations, '_validators');
+  const owner = getOwner(model);
+  const validators = [];
+  let validator;
 
   // We must have an owner to be able to lookup our validators
   if (isNone(owner)) {
     throw new TypeError(`[ember-cp-validations] ${model.toString()} is missing a container or owner.`);
   }
 
-  validationRules.forEach((v) => {
+  validationRules.forEach(v => {
     v.attribute = attribute;
     v.model = model;
 
@@ -516,8 +543,9 @@ function createValidatorsFor(attribute, model) {
  * @return {Class} Validator class or undefined if not found
  */
 function lookupValidator(owner, type) {
-  var validatorClass = owner._lookupFactory(`validator:${type}`);
-  if(isNone(validatorClass)) {
+  const validatorClass = owner._lookupFactory(`validator:${type}`);
+
+  if (isNone(validatorClass)) {
     throw new Error(`[ember-cp-validations] Validator not found of type: ${type}.`);
   }
   return validatorClass;
@@ -545,35 +573,33 @@ function lookupValidator(owner, type) {
  * @return {Promise or Object}  Promise if async is true, object if async is false
  */
 function validate(options = {}, async = true) {
-  var model = get(this, 'model');
-  var whiteList = makeArray(options.on);
-  var blackList = makeArray(options.excludes);
-  var validationResult, value;
+  const model = get(this, 'model');
+  const whiteList = makeArray(options.on);
+  const blackList = makeArray(options.excludes);
 
-  var validationResults = get(this, 'validatableAttributes').reduce((v, name) => {
+  const validationResults = get(this, 'validatableAttributes').reduce((v, name) => {
     if (!isEmpty(blackList) && blackList.indexOf(name) !== -1) {
       return v;
     }
 
     if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
-      validationResult = get(this, `attrs.${name}`);
+      const validationResult = get(this, `attrs.${name}`);
 
       // If an async validation is found, throw an error
       if (!async && get(validationResult, 'isAsync')) {
         throw new Error(`[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`);
       }
 
-      value = get(validationResult, 'value');
       v.push(validationResult);
     }
     return v;
   }, []);
 
-  var validationResultsCollection = ValidationResultCollection.create({
+  const validationResultsCollection = ValidationResultCollection.create({
     content: validationResults
   });
 
-  var resultObject = {
+  const resultObject = {
     model,
     validations: validationResultsCollection
   };

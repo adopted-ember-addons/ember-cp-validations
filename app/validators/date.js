@@ -5,10 +5,11 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-const moment = (self.requirejs.entries['moment'] || self.requirejs.entries['moment/index']) && self.require('moment')['default'];
+const moment = (self.requirejs.entries.moment || self.requirejs.entries['moment/index']) && self.require('moment').default;
 
-if (moment === undefined) {
-  throw new Error('MomentJS is required to use the Date validator. The easiest way to install moment.js is to install ember-moment.\nInstallation instructions and documentation can be found at https://github.com/stefanpenner/ember-moment');
+if (typeof moment === 'undefined') {
+  throw new Error('MomentJS is required to use the Date validator. The easiest way to install moment.js is to install ember-moment.\n' +
+    'Installation instructions and documentation can be found at https://github.com/stefanpenner/ember-moment');
 }
 
 const {
@@ -47,20 +48,20 @@ export default Base.extend({
   _parseDate(dateStr, format) {
     if (dateStr === 'now' || isEmpty(dateStr)) {
       return moment();
-    } else {
-      return format ? moment(dateStr, format) : moment(new Date(dateStr));
     }
+    return format ? moment(dateStr, format) : moment(new Date(dateStr));
   },
 
   validate(value, options) {
-    var errorFormat = options.errorFormat || 'MMM Do, YYYY';
-    let {format, before, after} = options;
+    const errorFormat = options.errorFormat || 'MMM Do, YYYY';
+    const format = options.format;
+    let { before, after } = options;
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
     }
 
-    let date = this._parseDate(value, format);
+    const date = this._parseDate(value, format);
 
     if (!date.isValid()) {
       return this.createErrorMessage('date', value, options);

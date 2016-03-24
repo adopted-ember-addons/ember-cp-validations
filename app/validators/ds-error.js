@@ -15,6 +15,7 @@ const {
   get,
   isNone
 } = Ember;
+
 /**
  *  Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
  *  to fetch the latest message for the given attribute.
@@ -30,9 +31,9 @@ const {
  */
 export default Base.extend({
   validate(value, options, model, attribute) {
-    let errors = get(model, 'errors');
+    const errors = get(model, 'errors');
 
-    if(!isNone(errors) && errors instanceof DS.Errors && errors.has(attribute)) {
+    if (!isNone(errors) && errors instanceof DS.Errors && errors.has(attribute)) {
       return get(errors.errorsFor(attribute), 'lastObject.message');
     }
 

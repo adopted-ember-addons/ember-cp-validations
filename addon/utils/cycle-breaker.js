@@ -13,8 +13,9 @@
 import MetaData from './meta-data';
 
 export default function cycleBreaker(fn, value) {
-  var key = MetaData.symbol('cycle');
-  return function() {
+  const key = MetaData.symbol('cycle');
+
+  return function () {
     if (MetaData.getData(this, key)) {
       return value;
     }

@@ -18,22 +18,24 @@ const {
 } = Ember;
 
 export default function assign(obj, path, value, useEmberObject = false, delimiter = '.') {
-  let keyPath = path.split(delimiter);
-  let lastKeyIndex = keyPath.length - 1;
+  const keyPath = path.split(delimiter);
+  const lastKeyIndex = keyPath.length - 1;
+  let currObj = obj;
 
   // Iterate over each key in the path (minus the last one which is the property to be assigned)
-  for (let i = 0; i < lastKeyIndex; ++ i) {
-   let key = keyPath[i];
-   // Create a new object if it doesnt exist
-   if (isNone(get(obj, key))) {
-     set(obj, key, useEmberObject ? Ember.Object.create() : {});
-   }
-   obj = get(obj, key);
+  for (let i = 0; i < lastKeyIndex; ++i) {
+    const key = keyPath[i];
+
+    // Create a new object if it doesnt exist
+    if (isNone(get(currObj, key))) {
+      set(currObj, key, useEmberObject ? Ember.Object.create() : {});
+    }
+    currObj = get(currObj, key);
   }
 
-  if(value instanceof Ember.ComputedProperty) {
-    defineProperty(obj, keyPath[lastKeyIndex], value);
+  if (value instanceof Ember.ComputedProperty) {
+    defineProperty(currObj, keyPath[lastKeyIndex], value);
   } else {
-    set(obj, keyPath[lastKeyIndex], value);
+    set(currObj, keyPath[lastKeyIndex], value);
   }
 }

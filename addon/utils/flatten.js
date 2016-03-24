@@ -6,8 +6,8 @@
 export default function flatten(array = []) {
   let result = [];
 
-  for (var i = 0, l = array.length; i < l; i++) {
-    let item = array[i];
+  for (let i = 0, l = array.length; i < l; i++) {
+    const item = array[i];
 
     if (Array.isArray(item)) {
       result = result.concat(flatten(item));

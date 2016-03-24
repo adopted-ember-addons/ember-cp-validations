@@ -34,42 +34,44 @@ const {
  * @private
  */
 
-var ValidationsObject = Ember.Object.extend({
+const ValidationsObject = Ember.Object.extend({
   model: null,
   isValid: true,
   isValidating: false,
   message: null,
   attribute: '',
 
-  attrValue: undefined,
-  _promise: undefined,
+  attrValue: null,
+  _promise: null,
 
   init() {
     this._super(...arguments);
-    var attribute = get(this, 'attribute');
     // TODO: Not good practice. Stef will make this go away.
-    defineProperty(this, 'attrValue', computed.oneWay(`model.${attribute}`));
+    defineProperty(this, 'attrValue', computed.oneWay(`model.${get(this, 'attribute')}`));
   },
 
   isNotValidating: not('isValidating'),
   isInvalid: not('isValid'),
   isTruelyValid: and('isNotValidating', 'isValid'),
 
-  isAsync: computed('_promise', function() {
-    var promise = get(this, '_promise');
+  isAsync: computed('_promise', function () {
+    const promise = get(this, '_promise');
+
     return !isNone(promise) && canInvoke(promise, 'then');
   }),
 
-  isDirty: computed('attrValue', function() {
-    var model = get(this, 'model');
-    var attribute = get(this, 'attribute');
-    var attrValue = get(this, 'attrValue');
+  isDirty: computed('attrValue', function () {
+    const model = get(this, 'model');
+    const attribute = get(this, 'attribute');
+    const attrValue = get(this, 'attrValue');
 
     // Check default model values
     if (hasEmberData() && model instanceof self.DS.Model && canInvoke(model, 'eachAttribute')) {
-      let attrMeta = model.get('constructor.attributes').get(attribute);
+      const attrMeta = model.get('constructor.attributes').get(attribute);
+
       if (attrMeta) {
-        let defaultValue = attrMeta.options.defaultValue;
+        const defaultValue = attrMeta.options.defaultValue;
+
         if (!isNone(defaultValue)) {
           return defaultValue !== attrValue;
         }
@@ -78,11 +80,11 @@ var ValidationsObject = Ember.Object.extend({
     return !isNone(attrValue);
   }),
 
-  messages: computed('message', function() {
+  messages: computed('message', function () {
     return makeArray(get(this, 'message'));
   }),
 
-  error: computed('message', 'isInvalid', 'attribute', function() {
+  error: computed('message', 'isInvalid', 'attribute', function () {
     if (get(this, 'isInvalid')) {
       return ValidationError.create({
         message: get(this, 'message'),
@@ -93,12 +95,13 @@ var ValidationsObject = Ember.Object.extend({
     return null;
   }),
 
-  errors: computed('error', function() {
+  errors: computed('error', function () {
     return makeArray(get(this, 'error'));
   })
 });
 
 export default Ember.Object.extend({
+
   /**
    * @property model
    * @type {Object}
@@ -117,7 +120,7 @@ export default Ember.Object.extend({
    * @private
    * @type {Promise}
    */
-  _promise: undefined,
+  _promise: null,
 
   /**
    * The validator that returned this result
@@ -203,7 +206,7 @@ export default Ember.Object.extend({
    * @private
    * @type {Result}
    */
-  _validations: computed('model', 'attribute', '_promise', function() {
+  _validations: computed('model', 'attribute', '_promise', function () {
     return ValidationsObject.create(getProperties(this, ['model', 'attribute', '_promise']));
   }),
 
@@ -229,7 +232,7 @@ export default Ember.Object.extend({
    * @param result
    */
   update(result) {
-    var validations = get(this, '_validations');
+    const validations = get(this, '_validations');
 
     if (isNone(result)) {
       this.update(false);
@@ -239,10 +242,11 @@ export default Ember.Object.extend({
     if (get(result, 'isValidations')) {
       set(this, '_validations', result);
     } else if (isArray(result) && emberArray(result).isEvery('isValidations', true)) {
-      var validationResultsCollection = ValidationResultCollection.create({
+      const validationResultsCollection = ValidationResultCollection.create({
         attribute: get(this, 'attribute'),
         content: result
       });
+
       set(this, '_validations', validationResultsCollection);
     } else if (typeof result === 'string') {
       setProperties(validations, {
@@ -262,7 +266,8 @@ export default Ember.Object.extend({
    * @private
    */
   _handlePromise() {
-    var validations = get(this, '_validations');
+    const validations = get(this, '_validations');
+
     set(validations, 'isValidating', true);
     get(this, '_promise').then(
       result => this.update(result),

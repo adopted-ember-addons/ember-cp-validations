@@ -12,7 +12,8 @@ const {
 } = Ember;
 
 /**
- *  Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.
+ *  Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters!
+ *  For range, the value type is checked against both lower and upper bounds for type equality.
  *
  *   #### Options
  *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
@@ -50,8 +51,8 @@ const {
  */
 export default Base.extend({
   validate(value, options) {
-    var array = options['in'];
-    var range = options.range;
+    const array = options.in;
+    const range = options.range;
 
     if (isEmpty(Object.keys(options))) {
       return true;
@@ -66,9 +67,10 @@ export default Base.extend({
     }
 
     if (range && range.length === 2) {
-      var min = range[0];
-      var max = range[1];
-      var equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
+      const min = range[0];
+      const max = range[1];
+      const equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
+
       if (!equalType || min > value || value > max) {
         return this.createErrorMessage('inclusion', value, options);
       }
