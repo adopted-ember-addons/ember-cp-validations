@@ -83,26 +83,13 @@ const {
  */
 
 /**
- * Temporary fix until setOwner polyfill is created
- * https://github.com/rwjblue/ember-getowner-polyfill/issues/1
- */
-function setOwner(obj, model) {
-  obj = obj || {};
-  if(Ember.setOwner) {
-    Ember.setOwner(obj, getOwner(model));
-  } else {
-    obj.container = get(model, 'container');
-  }
-}
-
-/**
  * Top level method that will ultimately return a mixin with all CP validations
  * @method  buildValidations
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
  */
-export default function buildValidations(validations = {}) {
-  processDefaultOptions(validations);
+export default function buildValidations(validations = {}, globalOptions = {}) {
+  normalizeOptions(validations, globalOptions);
 
   let Validations;
 
@@ -130,18 +117,18 @@ export default function buildValidations(validations = {}) {
 }
 
 /**
- * Validation rules can be created with default options
+ * Validation rules can be created with default and global options
  * {
  *   description: 'Username',
  *   validators: [...]
  * }
  * This method generate the default options pojo, applies it to each validation rule, and flattens the object
- * @method processDefaultOptions
+ * @method normalizeOptions
  * @private
  * @param  {Object} validations
  * @return
  */
-function processDefaultOptions(validations = {}) {
+function normalizeOptions(validations = {}, globalOptions = {}) {
   var validatableAttrs = Object.keys(validations);
 
   validatableAttrs.forEach(attribute => {
@@ -157,6 +144,8 @@ function processDefaultOptions(validations = {}) {
       validators.forEach(v => v.defaultOptions = options);
       validations[attribute] = validators;
     }
+    validations[attribute] = makeArray(validations[attribute]);
+    validations[attribute].forEach(v => v.globalOptions = globalOptions);
   });
 }
 
@@ -193,7 +182,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
 
   // Create the CPs that will be a part of the `attrs` object
   let attrCPs = validatableAttributes.reduce((obj, attribute) => {
-    assign(obj, attribute, createCPValidationFor(attribute, validationRules[attribute]), true);
+    assign(obj, attribute, createCPValidationFor(attribute, get(validationRules, attribute)), true);
     return obj;
   }, {});
 
@@ -275,6 +264,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
  */
 function createCPValidationFor(attribute, validations) {
   var dependentKeys = getCPDependentKeysFor(attribute, validations);
+
   return computed(...dependentKeys, cycleBreaker(function() {
     var model = get(this, '_model');
     var validators = getValidatorsFor(attribute, model);
@@ -363,7 +353,6 @@ function createTopLevelPropsMixin(validatableAttrs) {
  */
 function getCPDependentKeysFor(attribute, validations) {
   var dependentKeys = emberArray();
-  validations = makeArray(validations);
 
   dependentKeys.push(`_model.${attribute}`);
 
@@ -388,7 +377,7 @@ function getCPDependentKeysFor(attribute, validations) {
       dependentKeys.push(`_model.${attribute}.[]`);
     }
 
-    let specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []), getWithDefault(validation, 'defaultOptions.dependentKeys', []));
+    let specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []), getWithDefault(validation, 'defaultOptions.dependentKeys', []), getWithDefault(validation, 'globalOptions.dependentKeys', []));
     specifiedDependents.forEach(d => {
       dependentKeys.push(`_model.${d}`);
     });
@@ -504,12 +493,11 @@ function createValidatorsFor(attribute, model) {
 
     // If validate function exists, that means validator was created with a function so use the base class
     if (v._type === 'function') {
-      validator = BaseValidator;
-      setOwner(v, model);
+      validator = BaseValidator.create(owner.ownerInjection(), v);
     } else {
-      validator = lookupValidator(owner, v._type);
+      validator = lookupValidator(owner, v._type).create(v);
     }
-    validators.push(validator.create(v));
+    validators.push(validator);
   });
 
   // Add validators to model instance cache

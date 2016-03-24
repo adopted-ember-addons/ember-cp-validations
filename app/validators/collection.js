@@ -28,13 +28,29 @@ const {
  *  @extends Base
  */
 export default Base.extend({
-  buildOptions(options, defaultOptions) {
+  /**
+   * Normalized options passed in.
+   * ```js
+   * validator('collection', true)
+   * // Becomes
+   * validator('collection', {
+   *   collection: true
+   * })
+   * ```
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     if(typeof options === 'boolean') {
       options = {
         collection: options
       };
     }
-    return this._super(options, defaultOptions);
+    return this._super(options, defaultOptions, globalOptions);
   },
 
   validate(value, options) {

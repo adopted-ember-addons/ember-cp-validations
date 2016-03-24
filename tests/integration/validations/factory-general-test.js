@@ -235,6 +235,42 @@ test("default options", function(assert) {
   assert.equal(rules[0].defaultOptions.description, 'Test field');
 });
 
+test("global options", function(assert) {
+  this.register('validator:length', LengthValidator);
+
+  var Validations = buildValidations({
+    firstName: {
+      description: 'Test field',
+      validators: [
+        validator('length', {min: 1, max: 5}),
+      ]
+    }
+  }, {
+    message: 'Global error message',
+    description: 'Default field',
+    max: 10
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: ''
+  });
+
+  // Global options present in rules
+  var rules = Ember.A(object.get('validations._validationRules.firstName'));
+  assert.equal(rules.isAny('globalOptions', undefined), false);
+  assert.equal(rules[0].globalOptions.max, 10);
+
+  assert.ok(object.get('validations.attrs.firstName.isInvalid'));
+
+  var v = object.get('validations._validators.firstName.0');
+  assert.deepEqual(v.get('options'), {
+    message: 'Global error message',
+    description: 'Test field',
+    min: 1,
+    max: 5
+  });
+});
+
 test("custom messages object", function(assert) {
   this.register('validator:messages', DefaultMessages);
   var Validations = buildValidations({

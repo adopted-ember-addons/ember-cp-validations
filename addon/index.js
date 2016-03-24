@@ -38,10 +38,7 @@ export var validator = Validator;
  *
  * import Ember from 'ember';
  * import DS from 'ember-data';
- * import {
- *   validator, buildValidations
- * }
- * from 'ember-cp-validations';
+ * import { validator, buildValidations } from 'ember-cp-validations';
  *
  * const Validations = buildValidations({
  *   username: validator('presence', true),
@@ -88,10 +85,7 @@ export var validator = Validator;
  * // components/x-foo.js
  *
  * import Ember from 'ember';
- * import {
- *   validator, buildValidations
- * }
- * from 'ember-cp-validations';
+ * import { validator, buildValidations } from 'ember-cp-validations';
  *
  * const Validations = buildValidations({
  *   bar: validator('presence', true)
@@ -193,6 +187,46 @@ export var validator = Validator;
  * ```
  *
  * In the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.
+ *
+ * <h3 id="globalOptions">Global Options</h3>
+ *
+ * If you have  specific options you want to propagate throught all your validation rules, you can do so by passing in a global options object.
+ * This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
+ * you want easily toggle your validations on/off.
+ *
+ * ```javascript
+ * const Validations = buildValidations(validationRules, globalOptions);
+ * ```
+ *
+ * ```javascript
+ * import Ember from 'ember';
+ * import { validator, buildValidations } from 'ember-cp-validations';
+ *
+ * const Validations = buildValidations({
+ *   firstName: {
+ *     description: 'First Name'
+ *     validators: [
+ *       validator('presence', {
+ *         presence: true,
+ *         dependentKeys: ['foo', 'bar']
+ *       })
+ *      ]
+ *    },
+ *   lastName: validator('presence', true)
+ * }, {
+ *   description: 'This field'
+ *   dependentKeys: ['i18n.locale', 'disableValidations'],
+ *   disabled() {
+ *     return this.get('model.disableValidations');
+ *   }
+ * });
+ * ```
+ *
+ * Just like in the default options, locale validator options will always take precedence over default options and default options will always take precedence
+ * over global options. This allows you to declare global rules while having the ability to override them in lower levels.
+ *
+ * This rule does not apply to `dependentKeys`, instead they all are merged. In the example above, __firstName__'s dependentKeys will be
+ * `['i18n.locale', 'disableValidations', 'foo', 'bar']`
  *
  * <h3 id="optionsAsFunctions">Options as Functions</h3>
  *

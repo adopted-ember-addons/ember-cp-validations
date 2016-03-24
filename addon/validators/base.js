@@ -27,11 +27,18 @@ export default Ember.Object.extend({
   options: undefined,
 
   /**
-   * Default validations options for this specific attribute
+   * Default validation options for this specific attribute
    * @property defaultOptions
    * @type {Object}
    */
   defaultOptions: undefined,
+
+  /**
+   * Global validation options for this model
+   * @property globalOptions
+   * @type {Object}
+   */
+  globalOptions: undefined,
 
   /**
    * Model instance
@@ -67,6 +74,7 @@ export default Ember.Object.extend({
     var owner = getOwner(this);
     var options = get(this, 'options');
     var defaultOptions = get(this, 'defaultOptions');
+    var globalOptions = get(this, 'globalOptions');
     var errorMessages;
 
     if (!isNone(owner)) {
@@ -77,7 +85,7 @@ export default Ember.Object.extend({
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
     errorMessages = errorMessages || Messages;
 
-    set(this, 'options', this.buildOptions(options, defaultOptions));
+    set(this, 'options', this.buildOptions(options, defaultOptions, globalOptions));
     set(this, 'errorMessages', errorMessages.create());
   },
 
@@ -88,16 +96,11 @@ export default Ember.Object.extend({
    * @method buildOptions
    * @param  {Object} options
    * @param  {Object} defaultOptions
+   * @param  {Object} globalOptions
    * @return {Object}
    */
-  buildOptions(options = {}, defaultOptions = {}) {
-    Object.keys(defaultOptions).forEach(key => {
-      if (isNone(options[key])) {
-        options[key] = defaultOptions[key];
-      }
-    });
-
-    return options;
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
+    return merge(merge(merge({}, globalOptions), defaultOptions), options);
   },
 
   /**

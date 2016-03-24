@@ -75,7 +75,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
     "ember-cli-version-checker": "^1.1.4",
-    "ember-getowner-polyfill": "^1.0.0",
+    "ember-getowner-polyfill": "^1.0.1",
     "exists-sync": "0.0.3",
     "walk-sync": "^0.2.0"
   },

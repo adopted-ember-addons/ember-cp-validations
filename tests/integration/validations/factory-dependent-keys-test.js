@@ -115,6 +115,46 @@ test("custom dependent keys - default options", function(assert) {
   assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
 });
 
+test("custom dependent keys - global options", function(assert) {
+  var Validations = buildValidations({
+    fullName: {
+      dependentKeys: ['firstName'],
+      validators: [
+        validator(function(value, options, model) {
+          let firstName = model.get('firstName');
+          let lastName = model.get('lastName');
+          let middleName = model.get('middleName');
+          if (!firstName || !lastName || !middleName) {
+            return 'Full name requires first, middle, and last name';
+          }
+          return true;
+        }, {
+          dependentKeys: ['lastName']
+        })
+      ]
+    }
+  }, {
+    dependentKeys: ['middleName']
+  });
+
+  var obj = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(obj.get('validations.isValid'), false);
+  assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+  assert.equal(obj.get('validations.attrs.fullName.message'), 'Full name requires first, middle, and last name');
+
+  obj.set('firstName', 'Offir');
+  obj.set('lastName', 'Golan');
+
+  assert.equal(obj.get('validations.isValid'), false);
+  assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+
+  obj.set('middleName', 'David');
+
+  assert.equal(obj.get('validations.isValid'), true);
+  assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
+});
+
 test("custom dependent keys - nested object", function(assert) {
   var Validations = buildValidations({
     page: validator(function(value, options, model) {

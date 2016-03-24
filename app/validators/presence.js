@@ -38,18 +38,20 @@ export default Base.extend({
    *   presence: true
    * })
    * ```
+   *
    * @method buildOptions
    * @param  {Object}     options
    * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
    * @return {Object}
    */
-  buildOptions(options, defaultOptions) {
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     if(typeof options === 'boolean') {
       options = {
         presence: options
       };
     }
-    return this._super(options, defaultOptions);
+    return this._super(options, defaultOptions, globalOptions);
   },
 
   validate(value, options) {

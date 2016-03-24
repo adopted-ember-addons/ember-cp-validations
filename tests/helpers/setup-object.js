@@ -1,10 +1,5 @@
-import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 
 export default function(context, obj, options = {}) {
-  if(Ember.setOwner) {
-    Ember.setOwner(options, Ember.getOwner(context));
-  } else {
-    options.container = context.container;
-  }
-  return obj.create(options);
+  return obj.create(getOwner(context).ownerInjection(), options);
 }
