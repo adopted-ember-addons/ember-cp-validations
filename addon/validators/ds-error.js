@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
+import Base from './base';
 const DS = self.DS;
 
 if (typeof self.DS === 'undefined') {
