@@ -4,13 +4,9 @@
  */
 
 import Ember from 'ember';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
-var options, validator, message;
-var set = Ember.set;
+let validator;
 
 moduleFor('validator:presence', 'Unit | Validator | presence', {
   needs: ['validator:messages'],
@@ -22,7 +18,7 @@ moduleFor('validator:presence', 'Unit | Validator | presence', {
 test('buildOptions', function(assert) {
   assert.expect(2);
 
-  options = true;
+  let options = true;
   let builtOptions = validator.buildOptions(options, {});
   assert.deepEqual(builtOptions, { presence: true });
 
@@ -34,16 +30,16 @@ test('buildOptions', function(assert) {
 test('presence - value present', function(assert) {
   assert.expect(1);
 
-  options = { presence: true };
-  message = validator.validate('value', options);
+  const options = { presence: true };
+  const message = validator.validate('value', options);
   assert.equal(message, true);
 });
 
 test('presence - value not present', function(assert) {
   assert.expect(1);
 
-  options = { presence: true };
-  message = validator.validate(undefined, options);
+  const options = { presence: true };
+  const message = validator.validate(undefined, options);
   assert.equal(message, "This field can't be blank");
 });
 
@@ -51,16 +47,15 @@ test('presence - value not present', function(assert) {
 test('absence - value present', function(assert) {
   assert.expect(1);
 
-  options = { presence: false };
-  message = validator.validate('value', options);
+  const options = { presence: false };
+  const message = validator.validate('value', options);
   assert.equal(message, "This field must be blank");
 });
 
 test('absence - value not present', function(assert) {
   assert.expect(1);
 
-  options = { presence: false };
-
-  message = validator.validate(undefined, options);
+  const options = { presence: false };
+  const message = validator.validate(undefined, options);
   assert.equal(message, true);
 });
