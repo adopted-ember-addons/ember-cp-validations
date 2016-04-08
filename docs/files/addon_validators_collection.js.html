@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/collection.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/collection.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,72 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  isArray
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+/**
+ *  If &#x60;true&#x60; validates that the given value is a valid collection and will add &#x60;&lt;ATTRIUTE&gt;.[]&#x60; as a dependent key to the CP.
+ *  If &#x60;false&#x60;, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Examples
+ *  validator(&#x27;collection&#x27;, true)
+ *  validator(&#x27;collection&#x27;, false)
+ *  validator(&#x27;collection&#x27;, {
+ *    collection: true,
+ *    message: &#x27;must be a collection&#x27;
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Collection
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+
+  /**
+   * Normalized options passed in.
+   * &#x60;&#x60;&#x60;js
+   * validator(&#x27;collection&#x27;, true)
+   * // Becomes
+   * validator(&#x27;collection&#x27;, {
+   *   collection: true
+   * })
+   * &#x60;&#x60;&#x60;
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
+    let opts = options;
+
+    if (typeof options === &#x27;boolean&#x27;) {
+      opts = {
+        collection: options
+      };
     }
-  }
+    return this._super(opts, defaultOptions, globalOptions);
+  },
 
-  return result;
-}
+  validate(value, options) {
+    if (options.collection === true &amp;&amp; !isArray(value)) {
+      return this.createErrorMessage(&#x27;collection&#x27;, value, options);
+    }
+
+    if (options.collection === false &amp;&amp; isArray(value)) {
+      return this.createErrorMessage(&#x27;singular&#x27;, value, options);
+    }
+
+    return true;
+  }
+});
 
     </pre>
 </div>

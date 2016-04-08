@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.1</p>
+                <p class="version pull-right">v2.7.0</p>
               </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_index.js.html#l151"><code>addon&#x2F;index.js:151</code></a>
+            Defined in: <a href="../files/addon_index.js.html#l141"><code>addon&#x2F;index.js:141</code></a>
         </div>
 
 </div>
@@ -148,8 +148,41 @@
 });
 </code></pre>
 <p>In the above example, all the validators for username will have a description of <code>Username</code> except that of the <code>no-whitespace-around</code> validator which will be <code>A username</code>.</p>
+<p><h3 id="globalOptions">Global Options</h3></p>
+<p>If you have  specific options you want to propagate throught all your validation rules, you can do so by passing in a global options object.
+This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
+you want easily toggle your validations on/off.</p>
+<pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations(validationRules, globalOptions);
+</code></pre>
+<pre class="code prettyprint"><code class="language-javascript">import Ember from 'ember';
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  firstName: {
+    description: 'First Name'
+    validators: [
+      validator('presence', {
+        presence: true,
+        dependentKeys: ['foo', 'bar']
+      })
+     ]
+   },
+  lastName: validator('presence', true)
+}, {
+  description: 'This field'
+  dependentKeys: ['i18n.locale', 'disableValidations'],
+  disabled() {
+    return this.get('model.disableValidations');
+  }
+});
+</code></pre>
+<p>Just like in the default options, locale validator options will always take precedence over default options and default options will always take precedence
+over global options. This allows you to declare global rules while having the ability to override them in lower levels.</p>
+<p>This rule does not apply to <code>dependentKeys</code>, instead they all are merged. In the example above, <strong>firstName</strong>'s dependentKeys will be
+<code>['i18n.locale', 'disableValidations', 'foo', 'bar']</code></p>
 <p><h3 id="optionsAsFunctions">Options as Functions</h3></p>
-<p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as <code>options</code>, <code>model</code>, <code>attribute</code>, etc.</p>
+<p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed,
+giving you access to all its properties such as <code>options</code>, <code>model</code>, <code>attribute</code>, etc.</p>
 <p>Please note that the <code>message</code> option of a validator has its <a href="http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message">own signature</a>.</p>
 <pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
   dob: validator('date', {

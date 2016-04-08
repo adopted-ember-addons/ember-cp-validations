@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.1</p>
+                <p class="version pull-right">v2.7.0</p>
               </div>
             </div>
         </div>
@@ -126,7 +126,7 @@ const {
 const A = emberArray();
 
 function callable(method) {
-  return function(collection) {
+  return function (collection) {
     return A[method].apply(collection, arguments);
   };
 }
@@ -140,6 +140,7 @@ const compact = callable(&#x27;compact&#x27;);
  * @class ResultCollection
  */
 export default Ember.Object.extend({
+
   /**
    * A set of all validator {{#crossLink &quot;Result&quot;}}{{/crossLink}} objects for this specific attribute
    * @property content
@@ -184,7 +185,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isValid: computed(&#x27;content.@each.isValid&#x27;, cycleBreaker(function() {
+  isValid: computed(&#x27;content.@each.isValid&#x27;, cycleBreaker(function () {
     return get(this, &#x27;content&#x27;).isEvery(&#x27;isValid&#x27;, true);
   }, true)),
 
@@ -202,7 +203,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isValidating: computed(&#x27;content.@each.isValidating&#x27;, cycleBreaker(function() {
+  isValidating: computed(&#x27;content.@each.isValidating&#x27;, cycleBreaker(function () {
     return !get(this, &#x27;content&#x27;).isEvery(&#x27;isValidating&#x27;, false);
   }, false)),
 
@@ -220,12 +221,13 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isTruelyValid: computed(&#x27;content.@each.isTruelyValid&#x27;, cycleBreaker(function() {
+  isTruelyValid: computed(&#x27;content.@each.isTruelyValid&#x27;, cycleBreaker(function () {
     return get(this, &#x27;content&#x27;).isEvery(&#x27;isTruelyValid&#x27;, true);
   }, true)),
 
   /**
-   * Will be true is the attribute in question is not &#x60;null&#x60; or &#x60;undefined&#x60;. If the object being validated is an Ember Data Model and you have a &#x60;defaultValue&#x60; specified, then it will use that for comparison.
+   * Will be true is the attribute in question is not &#x60;null&#x60; or &#x60;undefined&#x60;. If the object being
+   * validated is an Ember Data Model and you have a &#x60;defaultValue&#x60; specified, then it will use that for comparison.
    *
    * &#x60;&#x60;&#x60;javascript
    * // Examples
@@ -239,7 +241,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isDirty: computed(&#x27;content.@each.isDirty&#x27;, cycleBreaker(function() {
+  isDirty: computed(&#x27;content.@each.isDirty&#x27;, cycleBreaker(function () {
     return !get(this, &#x27;content&#x27;).isEvery(&#x27;isDirty&#x27;, false);
   }, false)),
 
@@ -257,7 +259,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isAsync: computed(&#x27;content.@each.isAsync&#x27;, cycleBreaker(function() {
+  isAsync: computed(&#x27;content.@each.isAsync&#x27;, cycleBreaker(function () {
     return !get(this, &#x27;content&#x27;).isEvery(&#x27;isAsync&#x27;, false);
   }, false)),
 
@@ -274,8 +276,9 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  messages: computed(&#x27;content.@each.messages&#x27;, cycleBreaker(function() {
-    let messages = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;messages&#x27;));
+  messages: computed(&#x27;content.@each.messages&#x27;, cycleBreaker(function () {
+    const messages = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;messages&#x27;));
+
     return uniq(compact(messages));
   })),
 
@@ -292,7 +295,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | String}
    */
-  message: computed(&#x27;messages.[]&#x27;, cycleBreaker(function() {
+  message: computed(&#x27;messages.[]&#x27;, cycleBreaker(function () {
     return get(this, &#x27;messages.0&#x27;);
   })),
 
@@ -309,8 +312,9 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  errors: computed(&#x27;content.@each.errors&#x27;, cycleBreaker(function() {
-    let errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
+  errors: computed(&#x27;content.@each.errors&#x27;, cycleBreaker(function () {
+    const errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
+
     return uniq(compact(errors));
   })),
 
@@ -327,7 +331,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Error}
    */
-  error: computed(&#x27;errors.[]&#x27;, cycleBreaker(function() {
+  error: computed(&#x27;errors.[]&#x27;, cycleBreaker(function () {
     return get(this, &#x27;errors.0&#x27;);
   })),
 
@@ -363,7 +367,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Object}
    */
-  options: computed(&#x27;content.[]&#x27;, function() {
+  options: computed(&#x27;content.[]&#x27;, function () {
     return this._groupValidatorOptions();
   }),
 
@@ -373,8 +377,9 @@ export default Ember.Object.extend({
    * @private
    * @type {Ember.ComputedProperty | Promise}
    */
-  _promise: computed(&#x27;content.@each._promise&#x27;, cycleBreaker(function() {
-    let promises = get(this, &#x27;content&#x27;).getEach(&#x27;_promise&#x27;);
+  _promise: computed(&#x27;content.@each._promise&#x27;, cycleBreaker(function () {
+    const promises = get(this, &#x27;content&#x27;).getEach(&#x27;_promise&#x27;);
+
     if (!isEmpty(promises)) {
       return RSVP.all(compact(flatten(promises)));
     }
@@ -385,7 +390,7 @@ export default Ember.Object.extend({
    * @type {Ember.ComputedProperty}
    * @private
    */
-  value: computed(&#x27;isAsync&#x27;, cycleBreaker(function() {
+  value: computed(&#x27;isAsync&#x27;, cycleBreaker(function () {
     return get(this, &#x27;isAsync&#x27;) ? get(this, &#x27;_promise&#x27;) : this;
   })),
 
@@ -398,17 +403,18 @@ export default Ember.Object.extend({
    * @private
    */
   _groupValidatorOptions() {
-    let validators = get(this, &#x27;content&#x27;).getEach(&#x27;_validator&#x27;);
+    const validators = get(this, &#x27;content&#x27;).getEach(&#x27;_validator&#x27;);
+
     return validators.reduce((options, v) =&gt; {
-      if(isNone(v) || isNone(get(v, &#x27;_type&#x27;))) {
+      if (isNone(v) || isNone(get(v, &#x27;_type&#x27;))) {
         return options;
       }
 
-      let type = get(v, &#x27;_type&#x27;);
-      let vOpts = get(v, &#x27;options&#x27;);
+      const type = get(v, &#x27;_type&#x27;);
+      const vOpts = get(v, &#x27;options&#x27;);
 
-      if(options[type]) {
-        if(isArray(options[type])) {
+      if (options[type]) {
+        if (isArray(options[type])) {
           options[type].push(vOpts);
         } else {
           options[type] = [options[type], vOpts];

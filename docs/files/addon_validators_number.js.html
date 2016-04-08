@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/number.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/number.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,112 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  isEmpty
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+/**
+ *  Validates that your attributes have only numeric values.
+ *
+ *   #### Options
+ *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
+ *  - &#x60;allowString&#x60; (**Boolean**): If true, validator will accept string representation of a number
+ *  - &#x60;integer&#x60; (**Boolean**): Number must be an integer
+ *  - &#x60;positive&#x60; (**Boolean**): Number must be greater than 0
+ *  - &#x60;odd&#x60; (**Boolean**): Number must be odd
+ *  - &#x60;even&#x60; (**Boolean**): Number must be even
+ *  - &#x60;is&#x60; (**Number**): Number must be equal to this value
+ *  - &#x60;lt&#x60; (**Number**): Number must be less than this value
+ *  - &#x60;lte&#x60; (**Number**): Number must be less than or equal to this value
+ *  - &#x60;gt&#x60; (**Number**): Number must be greater than this value
+ *  - &#x60;gte&#x60; (**Number**): Number must be greater than or equal to this value
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Examples
+ *  validator(&#x27;number&#x27;) // Simple check if the value is a number
+ *  validator(&#x27;number&#x27;, {
+ *      allowString: true,
+ *      integer: true,
+ *      gt: 5,
+ *      lte: 100
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Number
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+  validate(value, options) {
+    const numValue = Number(value);
+    const optionKeys = Object.keys(options);
+
+    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+      return true;
     }
-  }
 
-  return result;
-}
+    if (typeof value === &#x27;string&#x27; &amp;&amp; (isEmpty(value) || !options.allowString)) {
+      return this.createErrorMessage(&#x27;notANumber&#x27;, value, options);
+    }
+
+    if (!this.isNumber(numValue)) {
+      return this.createErrorMessage(&#x27;notANumber&#x27;, value, options);
+    }
+
+    if (options.integer &amp;&amp; !this.isInteger(numValue)) {
+      return this.createErrorMessage(&#x27;notAnInteger&#x27;, value, options);
+    }
+
+    for (let i = 0; i &lt; optionKeys.length; i++) {
+      const type = optionKeys[i];
+      const m = this._validateType(type, options, numValue);
+
+      if (typeof m === &#x27;string&#x27;) {
+        return m;
+      }
+    }
+
+    return true;
+  },
+
+  _validateType(type, options, value) {
+    const expected = options[type];
+    const actual = value;
+
+    if (type === &#x27;is&#x27; &amp;&amp; actual !== expected) {
+      return this.createErrorMessage(&#x27;equalTo&#x27;, value, options);
+    } else if (type === &#x27;lt&#x27; &amp;&amp; actual &gt;= expected) {
+      return this.createErrorMessage(&#x27;lessThan&#x27;, value, options);
+    } else if (type === &#x27;lte&#x27; &amp;&amp; actual &gt; expected) {
+      return this.createErrorMessage(&#x27;lessThanOrEqualTo&#x27;, value, options);
+    } else if (type === &#x27;gt&#x27; &amp;&amp; actual &lt;= expected) {
+      return this.createErrorMessage(&#x27;greaterThan&#x27;, value, options);
+    } else if (type === &#x27;gte&#x27; &amp;&amp; actual &lt; expected) {
+      return this.createErrorMessage(&#x27;greaterThanOrEqualTo&#x27;, value, options);
+    } else if (type === &#x27;positive&#x27; &amp;&amp; actual &lt; 0) {
+      return this.createErrorMessage(&#x27;positive&#x27;, value, options);
+    } else if (type === &#x27;odd&#x27; &amp;&amp; actual % 2 === 0) {
+      return this.createErrorMessage(&#x27;odd&#x27;, value, options);
+    } else if (type === &#x27;even&#x27; &amp;&amp; actual % 2 !== 0) {
+      return this.createErrorMessage(&#x27;even&#x27;, value, options);
+    }
+
+    return true;
+  },
+
+  /* Use polyfills instead of Number.isNaN or Number.isInteger to support IE &amp; Safari */
+
+  isNumber(value) {
+    return typeof value === &#x27;number&#x27; &amp;&amp; !isNaN(value);
+  },
+
+  isInteger(value) {
+    return typeof value === &#x27;number&#x27; &amp;&amp; isFinite(value) &amp;&amp; Math.floor(value) === value;
+  }
+});
 
     </pre>
 </div>

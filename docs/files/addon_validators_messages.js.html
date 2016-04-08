@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.1</p>
+                <p class="version pull-right">v2.7.0</p>
               </div>
             </div>
         </div>
@@ -111,7 +111,7 @@ import Ember from &#x27;ember&#x27;;
 
 const {
   get,
-  isNone,
+  isNone
 } = Ember;
 
 /**
@@ -136,6 +136,7 @@ const {
  *  @module Validators
  */
 export default Ember.Object.extend({
+
   /**
    * Regex for matching error message placeholders
    * @private
@@ -182,46 +183,48 @@ export default Ember.Object.extend({
    * @return {String}
    */
   formatMessage(message, context = {}) {
-    if (isNone(message) || typeof message !== &#x27;string&#x27;) {
-      message = get(this, &#x27;invalid&#x27;);
+    let m = message;
+
+    if (isNone(m) || typeof m !== &#x27;string&#x27;) {
+      m = get(this, &#x27;invalid&#x27;);
     }
-    return message.replace(get(this, &#x27;_regex&#x27;), (s, attr) =&gt; context[attr]);
+    return m.replace(get(this, &#x27;_regex&#x27;), (s, attr) =&gt; context[attr]);
   },
 
   /**
    * Default validation error message strings
    */
-  inclusion: &quot;{description} is not included in the list&quot;,
-  exclusion: &quot;{description} is reserved&quot;,
-  invalid: &quot;{description} is invalid&quot;,
-  confirmation: &quot;{description} doesn&#x27;t match {on}&quot;,
-  accepted: &quot;{description} must be accepted&quot;,
-  empty: &quot;{description} can&#x27;t be empty&quot;,
-  blank: &quot;{description} can&#x27;t be blank&quot;,
-  present: &quot;{description} must be blank&quot;,
-  collection: &quot;{description} must be a collection&quot;,
-  singular: &quot;{description} can&#x27;t be a collection&quot;,
-  tooLong: &quot;{description} is too long (maximum is {max} characters)&quot;,
-  tooShort: &quot;{description} is too short (minimum is {min} characters)&quot;,
-  before: &quot;{description} must be before {before}&quot;,
-  after: &quot;{description} must be after {after}&quot;,
-  wrongDateFormat: &quot;{description} must be in the format of {format}&quot;,
-  wrongLength: &quot;{description} is the wrong length (should be {is} characters)&quot;,
-  notANumber: &quot;{description} must be a number&quot;,
-  notAnInteger: &quot;{description} must be an integer&quot;,
-  greaterThan: &quot;{description} must be greater than {gt}&quot;,
-  greaterThanOrEqualTo: &quot;{description} must be greater than or equal to {gte}&quot;,
-  equalTo: &quot;{description} must be equal to {is}&quot;,
-  lessThan: &quot;{description} must be less than {lt}&quot;,
-  lessThanOrEqualTo: &quot;{description} must be less than or equal to {lte}&quot;,
-  otherThan: &quot;{description} must be other than {value}&quot;,
-  odd: &quot;{description} must be odd&quot;,
-  even: &quot;{description} must be even&quot;,
-  positive: &quot;{description} must be positive&quot;,
-  date: &quot;{description} must be a valid date&quot;,
-  email: &quot;{description} must be a valid email address&quot;,
-  phone: &quot;{description} must be a valid phone number&quot;,
-  url: &quot;{description} must be a valid url&quot;,
+  inclusion: &#x27;{description} is not included in the list&#x27;,
+  exclusion: &#x27;{description} is reserved&#x27;,
+  invalid: &#x27;{description} is invalid&#x27;,
+  confirmation: &#x27;{description} doesn\&#x27;t match {on}&#x27;,
+  accepted: &#x27;{description} must be accepted&#x27;,
+  empty: &#x27;{description} can\&#x27;t be empty&#x27;,
+  blank: &#x27;{description} can\&#x27;t be blank&#x27;,
+  present: &#x27;{description} must be blank&#x27;,
+  collection: &#x27;{description} must be a collection&#x27;,
+  singular: &#x27;{description} can\&#x27;t be a collection&#x27;,
+  tooLong: &#x27;{description} is too long (maximum is {max} characters)&#x27;,
+  tooShort: &#x27;{description} is too short (minimum is {min} characters)&#x27;,
+  before: &#x27;{description} must be before {before}&#x27;,
+  after: &#x27;{description} must be after {after}&#x27;,
+  wrongDateFormat: &#x27;{description} must be in the format of {format}&#x27;,
+  wrongLength: &#x27;{description} is the wrong length (should be {is} characters)&#x27;,
+  notANumber: &#x27;{description} must be a number&#x27;,
+  notAnInteger: &#x27;{description} must be an integer&#x27;,
+  greaterThan: &#x27;{description} must be greater than {gt}&#x27;,
+  greaterThanOrEqualTo: &#x27;{description} must be greater than or equal to {gte}&#x27;,
+  equalTo: &#x27;{description} must be equal to {is}&#x27;,
+  lessThan: &#x27;{description} must be less than {lt}&#x27;,
+  lessThanOrEqualTo: &#x27;{description} must be less than or equal to {lte}&#x27;,
+  otherThan: &#x27;{description} must be other than {value}&#x27;,
+  odd: &#x27;{description} must be odd&#x27;,
+  even: &#x27;{description} must be even&#x27;,
+  positive: &#x27;{description} must be positive&#x27;,
+  date: &#x27;{description} must be a valid date&#x27;,
+  email: &#x27;{description} must be a valid email address&#x27;,
+  phone: &#x27;{description} must be a valid phone number&#x27;,
+  url: &#x27;{description} must be a valid url&#x27;
 });
 
     </pre>

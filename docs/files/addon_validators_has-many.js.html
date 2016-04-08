@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/has-many.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/has-many.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,70 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  canInvoke
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+/**
+ *  Identifies a &#x60;has-many&#x60; relationship in an Ember Data Model or Ember.Object.
+ *  This is used to create a validation collection of the &#x60;has-many&#x60; validations.
+ *
+ *  _**Note:** Validations must exist on **all** models/objects_
+ *
+ *  ### Ember Models
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/users.js
+ *
+ *  const Validations = buildValidations({
+ *    friends: validator(&#x27;has-many&#x27;)
+ *  });
+ *
+ *  export default DS.Model.extend(Validations, {
+ *    friends: DS.hasMany(&#x27;user&#x27;)
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  ### Ember Objects
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/users.js
+ *
+ *  const Validations = buildValidations({
+ *    friends: validator(&#x27;has-many&#x27;)
+ *  });
+ *
+ *  export default Ember.Object.extend(Validations, {
+ *    friends: null
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  From our &#x60;user&#x60; model, we can now check validation properties on the &#x60;friends&#x60; attribute.
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  get(model, &#x27;validations.attrs.friends.isValid&#x27;)
+ *  get(model, &#x27;validations.attrs.friends.messages&#x27;)
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Has Many
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+  validate(value) {
+    if (value) {
+      if (canInvoke(value, &#x27;then&#x27;)) {
+        return value.then(models =&gt; models.map(m =&gt; m.get(&#x27;validations&#x27;)));
+      }
+      return value.map(m =&gt; m.get(&#x27;validations&#x27;));
     }
-  }
 
-  return result;
-}
+    return true;
+  }
+});
 
     </pre>
 </div>

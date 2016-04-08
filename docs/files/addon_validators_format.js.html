@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/format.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/format.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,100 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  get,
+  isNone,
+  isEmpty
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+/**
+ *  Validate over a predefined or custom regular expression.
+ *
+ *   #### Options
+ *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
+ *  - &#x60;type&#x60; (**String**): Can be the one of the following options [&#x60;email&#x60;, &#x60;phone&#x60;, &#x60;url&#x60;]
+ *  - &#x60;regex&#x60; (**RegExp**): The regular expression to test against
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Examples
+ *  validator(&#x27;format&#x27;, {
+ *    type: &#x27;email&#x27;
+ *  })
+ *  validator(&#x27;format&#x27;, {
+ *    allowBlank: true
+ *    type: &#x27;phone&#x27;
+ *  })
+ *  validator(&#x27;format&#x27;, {
+ *    type: &#x27;url&#x27;
+ *  })
+ *  validator(&#x27;format&#x27;, {
+ *      regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
+ *      message: &#x27;Password must include at least one upper case letter, one lower case letter, and a number&#x27;
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *
+ *  If you do not want to use the predefined regex for a specific type, you can do something like this
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Example
+ *  validator(&#x27;format&#x27;, {
+ *    type: &#x27;email&#x27;,
+ *    regex: /My Better Email Regexp/
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *  This allows you to still keep the email error message but with your own custom regex.
+ *  @class Format
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+  regularExpressions: {
+    email: /^[a-zA-Z0-9.!#$%&amp;&#x27;*+/=?^_&#x60;{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+    phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
+    url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;amp;:\/~+#-{}]*[\w@?^=%&amp;amp;\/~+#-{}])??/
+  },
+
+  /**
+   * Normalized options passed in by applying the desired regex or using the one declared
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
+    const regularExpressions = get(this, &#x27;regularExpressions&#x27;);
+
+    if (options.type &amp;&amp; !isNone(regularExpressions[options.type]) &amp;&amp; isNone(options.regex)) {
+      options.regex = regularExpressions[options.type];
     }
-  }
 
-  return result;
-}
+    return this._super(options, defaultOptions, globalOptions);
+  },
+
+  validate(value, options) {
+    if (isEmpty(Object.keys(options))) {
+      return true;
+    }
+
+    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+      return true;
+    }
+
+    if (options.regex &amp;&amp; !options.regex.test(value)) {
+      if (options.type) {
+        return this.createErrorMessage(options.type, value, options);
+      }
+      return this.createErrorMessage(&#x27;invalid&#x27;, value, options);
+    }
+
+    return true;
+  }
+});
 
     </pre>
 </div>

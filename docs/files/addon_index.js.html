@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.1</p>
+                <p class="version pull-right">v2.7.0</p>
               </div>
             </div>
         </div>
@@ -108,12 +108,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-// import Mixin from &#x27;./mixin&#x27;;
 import Factory from &#x27;./validations/factory&#x27;;
 import Validator from &#x27;./validations/validator&#x27;;
-
-export var buildValidations = Factory;
-export var validator = Validator;
 
 /**
  * ## Installation
@@ -143,10 +139,7 @@ export var validator = Validator;
  *
  * import Ember from &#x27;ember&#x27;;
  * import DS from &#x27;ember-data&#x27;;
- * import {
- *   validator, buildValidations
- * }
- * from &#x27;ember-cp-validations&#x27;;
+ * import { validator, buildValidations } from &#x27;ember-cp-validations&#x27;;
  *
  * const Validations = buildValidations({
  *   username: validator(&#x27;presence&#x27;, true),
@@ -193,10 +186,7 @@ export var validator = Validator;
  * // components/x-foo.js
  *
  * import Ember from &#x27;ember&#x27;;
- * import {
- *   validator, buildValidations
- * }
- * from &#x27;ember-cp-validations&#x27;;
+ * import { validator, buildValidations } from &#x27;ember-cp-validations&#x27;;
  *
  * const Validations = buildValidations({
  *   bar: validator(&#x27;presence&#x27;, true)
@@ -299,9 +289,50 @@ export var validator = Validator;
  *
  * In the above example, all the validators for username will have a description of &#x60;Username&#x60; except that of the &#x60;no-whitespace-around&#x60; validator which will be &#x60;A username&#x60;.
  *
+ * &lt;h3 id=&quot;globalOptions&quot;&gt;Global Options&lt;/h3&gt;
+ *
+ * If you have  specific options you want to propagate throught all your validation rules, you can do so by passing in a global options object.
+ * This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
+ * you want easily toggle your validations on/off.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * const Validations = buildValidations(validationRules, globalOptions);
+ * &#x60;&#x60;&#x60;
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * import Ember from &#x27;ember&#x27;;
+ * import { validator, buildValidations } from &#x27;ember-cp-validations&#x27;;
+ *
+ * const Validations = buildValidations({
+ *   firstName: {
+ *     description: &#x27;First Name&#x27;
+ *     validators: [
+ *       validator(&#x27;presence&#x27;, {
+ *         presence: true,
+ *         dependentKeys: [&#x27;foo&#x27;, &#x27;bar&#x27;]
+ *       })
+ *      ]
+ *    },
+ *   lastName: validator(&#x27;presence&#x27;, true)
+ * }, {
+ *   description: &#x27;This field&#x27;
+ *   dependentKeys: [&#x27;i18n.locale&#x27;, &#x27;disableValidations&#x27;],
+ *   disabled() {
+ *     return this.get(&#x27;model.disableValidations&#x27;);
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * Just like in the default options, locale validator options will always take precedence over default options and default options will always take precedence
+ * over global options. This allows you to declare global rules while having the ability to override them in lower levels.
+ *
+ * This rule does not apply to &#x60;dependentKeys&#x60;, instead they all are merged. In the example above, __firstName__&#x27;s dependentKeys will be
+ * &#x60;[&#x27;i18n.locale&#x27;, &#x27;disableValidations&#x27;, &#x27;foo&#x27;, &#x27;bar&#x27;]&#x60;
+ *
  * &lt;h3 id=&quot;optionsAsFunctions&quot;&gt;Options as Functions&lt;/h3&gt;
  *
- * All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as &#x60;options&#x60;, &#x60;model&#x60;, &#x60;attribute&#x60;, etc.
+ * All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed,
+ * giving you access to all its properties such as &#x60;options&#x60;, &#x60;model&#x60;, &#x60;attribute&#x60;, etc.
  *
  * Please note that the &#x60;message&#x60; option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
@@ -370,6 +401,10 @@ export var validator = Validator;
  * @module Home
  * @submodule I18n Solutions
  */
+
+export const buildValidations = Factory;
+export const validator = Validator;
+
 export default {
   buildValidations,
   validator

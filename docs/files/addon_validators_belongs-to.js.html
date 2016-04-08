@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/belongs-to.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/belongs-to.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,94 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  get,
+  canInvoke
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+
+/**
+ *  Identifies a &#x60;belongs-to&#x60; relationship in an Ember Data Model or Ember.Object.
+ *  This is used to create a link to the validations object of the child model.
+ *
+ *  _**Note:** Validations must exist on **both** models/objects_
+ *
+ *  ### Ember Model
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/users.js
+ *
+ *  const Validations = buildValidations({
+ *    details: validator(&#x27;belongs-to&#x27;)
+ *  });
+ *
+ *  export default DS.Model.extend(Validations, {
+ *    &#x27;details&#x27;: DS.belongsTo(&#x27;user-detail&#x27;)
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/user-details.js
+ *
+ *  const Validations = buildValidations({
+ *    firstName: validator(&#x27;presence&#x27;, true),
+ *    lastName: validator(&#x27;presence&#x27;, true)
+ *  });
+ *
+ *  export default DS.Model.extend(Validations, {
+ *    &quot;firstName&quot;: attr(&#x27;string&#x27;),
+ *    &quot;lastName&quot;: attr(&#x27;string&#x27;),
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  ### Ember Object
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // model/users.js
+ *
+ *  import UserDetails from &#x27;../user-details&#x27;;
+ *
+ *  const Validations = buildValidations({
+ *    details: validator(&#x27;belongs-to&#x27;)
+ *  });
+ *
+ *  export default Ember.Object.extend(Validations, {
+ *    details: null,
+ *
+ *    init() {
+ *      this._super(...arguments);
+ *      let owner = Ember.getOwner(this);
+ *      this.set(&#x27;details&#x27;, UserDetails.create(owner.ownerInjection()));
+ *    }
+ *  });
+ *  &#x60;&#x60;&#x60;
+ *
+ *  From our &#x60;user&#x60; model, we can now check any validation propery on the &#x60;user-details&#x60; model.
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  get(model, &#x27;validations.attrs.details.isValid&#x27;)
+ *  get(model, &#x27;validations.attrs.details.messages&#x27;)
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Belongs To
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+  validate(value) {
+    if (value) {
+      if (canInvoke(value, &#x27;then&#x27;)) {
+        return value.then(model =&gt; get(model, &#x27;validations&#x27;));
+      }
+      return get(value, &#x27;validations&#x27;);
     }
-  }
 
-  return result;
-}
+    return true;
+  }
+});
 
     </pre>
 </div>

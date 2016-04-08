@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.1</p>
+                <p class="version pull-right">v2.7.0</p>
               </div>
             </div>
         </div>
@@ -161,6 +161,10 @@
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_globalOptions">globalOptions</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_model">model</a>
 
                             </li>
@@ -189,6 +193,9 @@
 				<li class="arg">
 						<code>defaultOptions</code>
 				</li>
+				<li class="arg">
+						<code>globalOptions</code>
+				</li>
 			</ul><span class="paren">)</span>
 		</div>
 		<span class="returns-inline">
@@ -205,7 +212,7 @@
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validators_base.js.html#l84"><code>addon&#x2F;validators&#x2F;base.js:84</code></a>
+		<a href="../files/addon_validators_base.js.html#l93"><code>addon&#x2F;validators&#x2F;base.js:93</code></a>
 		</p>
 
 
@@ -230,6 +237,13 @@ The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/
 				</li>
 				<li class="param">
 						<code class="param-name">defaultOptions</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">globalOptions</code>
 						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
@@ -278,7 +292,7 @@ The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validators_base.js.html#l140"><code>addon&#x2F;validators&#x2F;base.js:140</code></a>
+		<a href="../files/addon_validators_base.js.html#l146"><code>addon&#x2F;validators&#x2F;base.js:146</code></a>
 		</p>
 
 
@@ -322,7 +336,7 @@ we can use this method to generate our error message.</p>
 				</li>
 				<li class="param">
 						<code class="param-name">value</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+						<span class="type">Unknown</span>
 
 
 					<div class="param-description"><p>Current value being evaluated</p>
@@ -371,7 +385,7 @@ we can use this method to generate our error message.</p>
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validators_base.js.html#l103"><code>addon&#x2F;validators&#x2F;base.js:103</code></a>
+		<a href="../files/addon_validators_base.js.html#l107"><code>addon&#x2F;validators&#x2F;base.js:107</code></a>
 		</p>
 
 
@@ -426,7 +440,7 @@ This method is called right before <code>validate</code> and the returned object
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validators_base.js.html#l121"><code>addon&#x2F;validators&#x2F;base.js:121</code></a>
+		<a href="../files/addon_validators_base.js.html#l127"><code>addon&#x2F;validators&#x2F;base.js:127</code></a>
 		</p>
 
 
@@ -514,7 +528,7 @@ Within the validator object, you will have access to the following properties:</
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validators_base.js.html#l57"><code>addon&#x2F;validators&#x2F;base.js:57</code></a>
+        <a href="../files/addon_validators_base.js.html#l65"><code>addon&#x2F;validators&#x2F;base.js:65</code></a>
         </p>
 
 
@@ -539,7 +553,7 @@ Within the validator object, you will have access to the following properties:</
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validators_base.js.html#l43"><code>addon&#x2F;validators&#x2F;base.js:43</code></a>
+        <a href="../files/addon_validators_base.js.html#l51"><code>addon&#x2F;validators&#x2F;base.js:51</code></a>
         </p>
 
 
@@ -564,14 +578,14 @@ Within the validator object, you will have access to the following properties:</
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validators_base.js.html#l29"><code>addon&#x2F;validators&#x2F;base.js:29</code></a>
+        <a href="../files/addon_validators_base.js.html#l30"><code>addon&#x2F;validators&#x2F;base.js:30</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Default validations options for this specific attribute</p>
+        <p>Default validation options for this specific attribute</p>
 
     </div>
 
@@ -589,7 +603,7 @@ Within the validator object, you will have access to the following properties:</
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validators_base.js.html#l50"><code>addon&#x2F;validators&#x2F;base.js:50</code></a>
+        <a href="../files/addon_validators_base.js.html#l58"><code>addon&#x2F;validators&#x2F;base.js:58</code></a>
         </p>
 
 
@@ -597,6 +611,31 @@ Within the validator object, you will have access to the following properties:</
 
     <div class="description">
         <p>Error message object. Populated by validators/messages</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_globalOptions" class="property item">
+    <h3 class="name"><code>globalOptions</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validators_base.js.html#l37"><code>addon&#x2F;validators&#x2F;base.js:37</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Global validation options for this model</p>
 
     </div>
 
@@ -614,7 +653,7 @@ Within the validator object, you will have access to the following properties:</
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validators_base.js.html#l36"><code>addon&#x2F;validators&#x2F;base.js:36</code></a>
+        <a href="../files/addon_validators_base.js.html#l44"><code>addon&#x2F;validators&#x2F;base.js:44</code></a>
         </p>
 
 
@@ -639,7 +678,7 @@ Within the validator object, you will have access to the following properties:</
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validators_base.js.html#l22"><code>addon&#x2F;validators&#x2F;base.js:22</code></a>
+        <a href="../files/addon_validators_base.js.html#l23"><code>addon&#x2F;validators&#x2F;base.js:23</code></a>
         </p>
 
 

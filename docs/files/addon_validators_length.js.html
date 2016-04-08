@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/length.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/length.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,68 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  get,
+  isNone,
+  isEmpty
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+/**
+ *  Validates the length of the attributes’ values.
+ *
+ *   #### Options
+ *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
+ *  - &#x60;is&#x60; (**Number**): The exact length the value can be
+ *  - &#x60;min&#x60; (**Number**): The minimum length the value can be
+ *  - &#x60;max&#x60; (**Number**): The maximum length the value can be
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Examples
+ *  validator(&#x27;length&#x27;, {
+ *    is: 15
+ *  })
+ *  validator(&#x27;length&#x27;, {
+ *      min: 5,
+ *      max: 10
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Length
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+  validate(value, options) {
+    if (isEmpty(Object.keys(options))) {
+      return true;
     }
-  }
 
-  return result;
-}
+    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+      return true;
+    }
+
+    if (isNone(value)) {
+      return true;
+    }
+
+    if (!isNone(options.is) &amp;&amp; options.is !== get(value, &#x27;length&#x27;)) {
+      return this.createErrorMessage(&#x27;wrongLength&#x27;, value, options);
+    }
+
+    if (!isNone(options.min) &amp;&amp; options.min &gt; get(value, &#x27;length&#x27;)) {
+      return this.createErrorMessage(&#x27;tooShort&#x27;, value, options);
+    }
+
+    if (!isNone(options.max) &amp;&amp; options.max &lt; get(value, &#x27;length&#x27;)) {
+      return this.createErrorMessage(&#x27;tooLong&#x27;, value, options);
+    }
+
+    return true;
+  }
+});
 
     </pre>
 </div>

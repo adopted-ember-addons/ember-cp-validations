@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/flatten.js - Ember CP Validations</title>
+    <title>addon/validators/confirmation.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -98,7 +98,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/flatten.js <small>File</small></h1>
+    <h1>addon/validators/confirmation.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -108,21 +108,45 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function flatten(array = []) {
-  let result = [];
+import Ember from &#x27;ember&#x27;;
+import Base from &#x27;./base&#x27;;
 
-  for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+const {
+  get,
+  isEqual,
+  isNone
+} = Ember;
 
-    if (Array.isArray(item)) {
-      result = result.concat(flatten(item));
-    } else {
-      result.push(item);
+/**
+ *  You should use this validator when you have two text fields that should receive exactly the same content.
+ *  For example, you may want to confirm an email address or a password. This validator doesnt have to be created on an attribute defined in your model.
+ *  This means that when you save your model, in this case, &#x60;verfiedEmail&#x60; will not be part of the payload.
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Example
+ *  email: validator(&#x27;format&#x27;, {
+ *    type: &#x27;email&#x27;
+ *  })
+ *  verifiedEmail: validator(&#x27;confirmation&#x27;, {
+ *    on: &#x27;email&#x27;,
+ *    message: &#x27;do not match&#x27;,
+ *    description: &#x27;Email addresses&#x27;
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Confirmation
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
+  validate(value, options, model) {
+    if (!isNone(options.on) &amp;&amp; !isEqual(value, get(model, options.on))) {
+      return this.createErrorMessage(&#x27;confirmation&#x27;, value, options);
     }
-  }
 
-  return result;
-}
+    return true;
+  }
+});
 
     </pre>
 </div>

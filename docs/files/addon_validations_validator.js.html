@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.6.1</p>
+                <p class="version pull-right">v2.7.0</p>
               </div>
             </div>
         </div>
@@ -231,11 +231,9 @@ const {
  * @main Validators
  */
 
-export default function(arg1, options) {
-  options = isNone(options) ? {} : options;
-
-  var props = {
-    options
+export default function (arg1, options) {
+  const props = {
+    options: isNone(options) ? {} : options
   };
 
   if (typeof arg1 === &#x27;function&#x27;) {
