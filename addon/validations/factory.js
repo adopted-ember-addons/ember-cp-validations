@@ -17,7 +17,6 @@ const {
   set,
   run,
   RSVP,
-  merge,
   isNone,
   guidFor,
   isEmpty,
@@ -28,6 +27,8 @@ const {
   getWithDefault,
   A: emberArray
 } = Ember;
+
+const merge = Ember.assign || Ember.merge;
 
 const {
   Promise
