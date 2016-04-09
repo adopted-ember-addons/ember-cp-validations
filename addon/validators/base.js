@@ -10,9 +10,10 @@ import getOwner from 'ember-getowner-polyfill';
 const {
   get,
   set,
-  merge,
   isNone
 } = Ember;
+
+const assign = Ember.assign || Ember.merge;
 
 /**
  * @class Base
@@ -101,7 +102,7 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    return merge(merge(merge({}, globalOptions), defaultOptions), options);
+    return assign(assign(assign({}, globalOptions), defaultOptions), options);
   },
 
   /**
@@ -111,7 +112,7 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   processOptions() {
-    const options = merge({}, get(this, 'options') || {});
+    const options = assign({}, get(this, 'options') || {});
 
     Object.keys(options).forEach(key => {
       const opt = options[key];
