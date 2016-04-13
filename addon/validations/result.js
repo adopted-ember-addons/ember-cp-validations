@@ -5,8 +5,7 @@
 
 import Ember from 'ember';
 import ValidationResultCollection from './result-collection';
-import ValidationError from './error';
-import { hasEmberData } from '../utils/utils';
+import InternalResultObject from './internal-result-object';
 
 const {
   get,
@@ -14,17 +13,12 @@ const {
   isNone,
   isArray,
   computed,
-  canInvoke,
-  makeArray,
   setProperties,
   getProperties,
-  defineProperty,
-  A: emberArray
 } = Ember;
 
 const {
-  and,
-  not
+  readOnly
 } = computed;
 
 /**
@@ -33,72 +27,6 @@ const {
  * @class Result
  * @private
  */
-
-const ValidationsObject = Ember.Object.extend({
-  model: null,
-  isValid: true,
-  isValidating: false,
-  message: null,
-  attribute: '',
-
-  attrValue: null,
-  _promise: null,
-
-  init() {
-    this._super(...arguments);
-    // TODO: Not good practice. Stef will make this go away.
-    defineProperty(this, 'attrValue', computed.oneWay(`model.${get(this, 'attribute')}`));
-  },
-
-  isNotValidating: not('isValidating'),
-  isInvalid: not('isValid'),
-  isTruelyValid: and('isNotValidating', 'isValid'),
-
-  isAsync: computed('_promise', function () {
-    const promise = get(this, '_promise');
-
-    return !isNone(promise) && canInvoke(promise, 'then');
-  }),
-
-  isDirty: computed('attrValue', function () {
-    const model = get(this, 'model');
-    const attribute = get(this, 'attribute');
-    const attrValue = get(this, 'attrValue');
-
-    // Check default model values
-    if (hasEmberData() && model instanceof self.DS.Model && canInvoke(model, 'eachAttribute')) {
-      const attrMeta = model.get('constructor.attributes').get(attribute);
-
-      if (attrMeta) {
-        const defaultValue = attrMeta.options.defaultValue;
-
-        if (!isNone(defaultValue)) {
-          return defaultValue !== attrValue;
-        }
-      }
-    }
-    return !isNone(attrValue);
-  }),
-
-  messages: computed('message', function () {
-    return makeArray(get(this, 'message'));
-  }),
-
-  error: computed('message', 'isInvalid', 'attribute', function () {
-    if (get(this, 'isInvalid')) {
-      return ValidationError.create({
-        message: get(this, 'message'),
-        attribute: get(this, 'attribute')
-      });
-    }
-
-    return null;
-  }),
-
-  errors: computed('error', function () {
-    return makeArray(get(this, 'error'));
-  })
-});
 
 export default Ember.Object.extend({
 
@@ -135,70 +63,70 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  isValid: computed.oneWay('_validations.isValid'),
+  isValid: readOnly('_validations.isValid'),
 
   /**
    * @property isInvalid
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  isInvalid: computed.oneWay('_validations.isInvalid'),
+  isInvalid: readOnly('_validations.isInvalid'),
 
   /**
    * @property isValidating
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  isValidating: computed.oneWay('_validations.isValidating'),
+  isValidating: readOnly('_validations.isValidating'),
 
   /**
    * @property isTruelyValid
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  isTruelyValid: computed.oneWay('_validations.isTruelyValid'),
+  isTruelyValid: readOnly('_validations.isTruelyValid'),
 
   /**
    * @property isAsync
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  isAsync: computed.oneWay('_validations.isAsync'),
+  isAsync: readOnly('_validations.isAsync'),
 
   /**
    * @property isDirty
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  isDirty: computed.oneWay('_validations.isDirty'),
+  isDirty: readOnly('_validations.isDirty'),
 
   /**
    * @property message
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  message: computed.oneWay('_validations.message'),
+  message: readOnly('_validations.message'),
 
   /**
    * @property messages
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  messages: computed.oneWay('_validations.messages'),
+  messages: readOnly('_validations.messages'),
 
   /**
    * @property error
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  error: computed.oneWay('_validations.error'),
+  error: readOnly('_validations.error'),
 
   /**
    * @property errors
    * @readOnly
    * @type {Ember.ComputedProperty}
    */
-  errors: computed.oneWay('_validations.errors'),
+  errors: readOnly('_validations.errors'),
 
   /**
    * This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
@@ -207,7 +135,7 @@ export default Ember.Object.extend({
    * @type {Result}
    */
   _validations: computed('model', 'attribute', '_promise', function () {
-    return ValidationsObject.create(getProperties(this, ['model', 'attribute', '_promise']));
+    return InternalResultObject.create(getProperties(this, ['model', 'attribute', '_promise']));
   }),
 
   init() {
@@ -222,7 +150,7 @@ export default Ember.Object.extend({
    * Update the current validation result object with the given result
    * - If result is undefined or null, set isValid to false
    * - If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)
-   * - If result is a collection of validation result objects, create a Validation Result Collection and set that to the _validations object (has-many)
+   * - If result is a collection of result objects, create a Validation Result Collection and set that to the _validations object (has-many)
    * - If result is a string, set the message to the given string and set isValid to false
    * - If result is a boolean, set isValid to result
    * - If result is a pojo, update _validations object with the information given
@@ -241,12 +169,11 @@ export default Ember.Object.extend({
 
     if (get(result, 'isValidations')) {
       set(this, '_validations', result);
-    } else if (isArray(result) && emberArray(result).isEvery('isValidations', true)) {
+    } else if (isArray(result)) {
       const validationResultsCollection = ValidationResultCollection.create({
         attribute: get(this, 'attribute'),
         content: result
       });
-
       set(this, '_validations', validationResultsCollection);
     } else if (typeof result === 'string') {
       setProperties(validations, {

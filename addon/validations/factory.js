@@ -398,6 +398,9 @@ function getCPDependentKeysFor(attribute, validations) {
       }
     } else if (type === 'collection' && (options === true || options.collection === true)) {
       dependentKeys.push(`_model.${attribute}.[]`);
+    } else if(type === 'alias') {
+      const alias = typeof options === 'string' ? options : options.alias;
+      dependentKeys.push(`${alias}.isTruelyValid`);
     }
 
     const specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []),

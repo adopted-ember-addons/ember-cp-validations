@@ -4,6 +4,7 @@
  */
 
 import Ember from 'ember';
+import ValidationError from './error';
 import flatten from '../utils/flatten';
 import cycleBreaker from '../utils/cycle-breaker';
 
@@ -28,7 +29,6 @@ function callable(method) {
 
 const uniq = callable('uniq');
 const compact = callable('compact');
-
 
 /**
  * @module Validations
@@ -195,7 +195,8 @@ export default Ember.Object.extend({
   })),
 
   /**
-   * A collection of all {{#crossLink "Error"}}Errors{{/crossLink}} on the object in question. Each error object includes the error message and it's associated attribute name.
+   * A collection of all {{#crossLink "Error"}}Errors{{/crossLink}} on the object in question.
+   * Each error object includes the error message and it's associated attribute name.
    *
    * ```javascript
    * // Example
@@ -207,10 +208,13 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  errors: computed('content.@each.errors', cycleBreaker(function () {
-    const errors = flatten(get(this, 'content').getEach('errors'));
+  errors: computed('attribute', 'content.@each.errors', cycleBreaker(function () {
+    const attribute = get(this, 'attribute');
+    let errors = flatten(get(this, 'content').getEach('errors'));
 
-    return uniq(compact(errors));
+    errors = uniq(compact(errors));
+
+    return errors.map(e => ValidationError.create({ attribute, message: e.get('message')}));
   })),
 
   /**

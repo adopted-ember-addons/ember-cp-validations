@@ -2,11 +2,16 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
-import BelongsToValidator from 'dummy/validators/belongs-to';
-import HasManyValidator from 'dummy/validators/has-many';
-import PresenceValidator from 'dummy/validators/presence';
+import BelongsToValidator from 'ember-cp-validations/validators/belongs-to';
+import HasManyValidator from 'ember-cp-validations/validators/has-many';
+import AliasValidator from 'ember-cp-validations/validators/alias';
+import PresenceValidator from 'ember-cp-validations/validators/presence';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
+
+const {
+  A: emberArray
+} = Ember;
 
 const Validators = {
   presence(value, options, model, attr) {
@@ -30,6 +35,7 @@ const BelongsToValidations = buildValidations({
 const HasManyValidations = buildValidations({
   friends: validator('has-many')
 });
+
 
 moduleFor('foo', 'Integration | Validations | Model Relationships', {
   integration: true,
@@ -228,6 +234,65 @@ test("belongs-to relationship returns undefined", function(assert) {
   });
 
   return validations;
+});
+
+test("alias validation - simple", function(assert) {
+  this.register('validator:alias', AliasValidator);
+
+  var user = setupObject(this, Ember.Object.extend(buildValidations({
+    firstName: validator(Validators.presence),
+    lastName: validator(Validators.presence),
+    fullName: validator('alias', 'firstName')
+  })));
+
+  user.get('validations').validateSync();
+
+  assert.equal(user.get('validations.isValid'), false);
+  assert.equal(user.get('validations.isValidating'), false);
+  assert.equal(user.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+  assert.equal(user.get('validations.attrs.fullName.message'), 'firstName should be present');
+  assert.equal(user.get('validations.attrs.fullName.error.attribute'), 'fullName');
+  assert.equal(user.get('validations.attrs.fullName.error.message'), 'firstName should be present');
+
+  user.set('firstName', 'Offir');
+
+  assert.equal(user.get('validations.attrs.firstName.isValid'), true);
+  assert.equal(user.get('validations.attrs.fullName.isValid'), true);
+});
+
+test("alias validation - multiple", function(assert) {
+  this.register('validator:alias', AliasValidator);
+
+  var user = setupObject(this, Ember.Object.extend(buildValidations({
+    firstName: validator(Validators.presence),
+    lastName: validator(Validators.presence),
+    fullName: [
+      validator('alias', 'firstName'),
+      validator('alias', 'lastName')
+    ]
+  })));
+
+  user.get('validations').validateSync();
+
+  assert.equal(user.get('validations.isValid'), false);
+  assert.equal(user.get('validations.isValidating'), false);
+  assert.equal(user.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(user.get('validations.attrs.lastName.isValid'), false);
+  assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+  assert.deepEqual(user.get('validations.attrs.fullName.messages').sort(), ['firstName should be present', 'lastName should be present'].sort());
+  assert.ok(emberArray(user.get('validations.attrs.fullName.errors')).isEvery('attribute', 'fullName'));
+
+  user.set('firstName', 'Offir');
+
+  assert.equal(user.get('validations.attrs.firstName.isValid'), true);
+  assert.equal(user.get('validations.attrs.lastName.isValid'), false);
+  assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+
+  user.set('lastName', 'Golan');
+
+  assert.equal(user.get('validations.attrs.lastName.isValid'), true);
+  assert.equal(user.get('validations.attrs.fullName.isValid'), true);
 });
 
 test("presence on empty DS.PromiseObject", function(assert) {
