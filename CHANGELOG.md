@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.7.1
+- [#159](https://github.com/offirgolan/ember-cp-validations/pull/159) Fix deprecation warning Ember.merge > Ember.assign for Ember >= 2.5.0 [@urbany](https://github.com/urbany)
+
 ## 2.7.0
 - [#146](https://github.com/offirgolan/ember-cp-validations/pull/146) Global options
 - [#152](https://github.com/offirgolan/ember-cp-validations/pull/152) Export validators from addon namespace [@luxferresum](https://github.com/luxferresum)
