@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.0</p>
+                <p class="version pull-right">v2.7.1</p>
               </div>
             </div>
         </div>
@@ -115,9 +115,10 @@ import getOwner from &#x27;ember-getowner-polyfill&#x27;;
 const {
   get,
   set,
-  merge,
   isNone
 } = Ember;
+
+const assign = Ember.assign || Ember.merge;
 
 /**
  * @class Base
@@ -206,7 +207,7 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    return merge(merge(merge({}, globalOptions), defaultOptions), options);
+    return assign(assign(assign({}, globalOptions), defaultOptions), options);
   },
 
   /**
@@ -216,7 +217,7 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   processOptions() {
-    const options = merge({}, get(this, &#x27;options&#x27;) || {});
+    const options = assign({}, get(this, &#x27;options&#x27;) || {});
 
     Object.keys(options).forEach(key =&gt; {
       const opt = options[key];
