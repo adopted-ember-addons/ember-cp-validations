@@ -218,6 +218,19 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
           set(lastObject, '_model', model);
         }
       });
+    },
+
+    destroy() {
+      this._super(...arguments);
+      validatableAttributes.forEach(attribute => {
+        // Remove model reference from nested objects
+        const path = attribute.split('.');
+        const lastObject = get(this, path.slice(0, path.length - 1).join('.'));
+
+        if (!isNone(get(lastObject, '_model'))) {
+          set(lastObject, '_model', null);
+        }
+      });
     }
   });
 
@@ -258,6 +271,9 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
       this._super(...arguments);
       const validatableAttrs = get(this, 'validatableAttributes');
       const debouncedValidations = get(this, '_debouncedValidations');
+
+      // Initiate attrs destroy to cleanup any remaining model references
+      this.get('attrs').destroy();
 
       // Cancel all debounced timers
       validatableAttrs.forEach(attr => {
