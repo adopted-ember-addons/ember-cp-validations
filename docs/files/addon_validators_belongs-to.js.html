@@ -66,7 +66,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.1</p>
+                <p class="version pull-right">v2.7.2</p>
               </div>
             </div>
         </div>
@@ -188,7 +188,7 @@ export default Base.extend({
   validate(value) {
     if (value) {
       if (canInvoke(value, &#x27;then&#x27;)) {
-        return value.then(model =&gt; get(model, &#x27;validations&#x27;));
+        return value.then(model =&gt; model ? get(model, &#x27;validations&#x27;) : true);
       }
       return get(value, &#x27;validations&#x27;);
     }

@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v2.7.1"
+        "version": "v2.7.2"
     },
     "files": {
         "addon/utils/assign.js": {
@@ -801,7 +801,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 275,
+            "line": 291,
             "description": "CP generator for the given attribute",
             "itemtype": "method",
             "name": "createCPValidationFor",
@@ -828,7 +828,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 319,
+            "line": 335,
             "description": "Create a mixin that will have all the top level CPs under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
             "itemtype": "method",
             "name": "createTopLevelPropsMixin",
@@ -846,7 +846,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 368,
+            "line": 384,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -873,7 +873,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 415,
+            "line": 431,
             "description": "Debounce handler for running a validation for the specified options",
             "itemtype": "method",
             "name": "debouncedValidate",
@@ -916,7 +916,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 430,
+            "line": 446,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -948,7 +948,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 461,
+            "line": 477,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -975,7 +975,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 479,
+            "line": 495,
             "description": "Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -1002,7 +1002,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 497,
+            "line": 513,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1029,7 +1029,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 537,
+            "line": 553,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1060,7 +1060,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 555,
+            "line": 571,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1085,7 +1085,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 618,
+            "line": 634,
             "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nconst { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
