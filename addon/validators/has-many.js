@@ -59,7 +59,7 @@ export default Base.extend({
   validate(value) {
     if (value) {
       if (canInvoke(value, 'then')) {
-        return value.then(models => models.map(m => m.get('validations')));
+        return value.then(models => models ? models.map(m => m.get('validations')) : true);
       }
       return value.map(m => m.get('validations'));
     }
