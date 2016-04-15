@@ -16,6 +16,8 @@ const {
   isEmpty
 } = Ember;
 
+const assign = Ember.assign || Ember.merge;
+
 /**
  *  Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
  *
@@ -24,7 +26,10 @@ const {
  *   #### Options
  *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
  *  - `before` (**String**): The specified date must be before this date
+ *  - `beforeOrSame` (**String**): The specified date must be on or before this date
  *  - `after` (**String**): The specified date must be after this date
+ *  - `afterOrSame` (**String**): The specified date must be on or after this date
+ *  - `percision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second. Defaults to 'second'
  *  - `format` (**String**): Input value date format
  *  - `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`
  *
@@ -33,10 +38,11 @@ const {
  *  validator('date', {
  *      after: 'now',
  *      before: '1/1/2020',
+ *      percision: 'day',
  *      format: 'M/D/YYY',
  *      errorFormat: 'M/D/YYY'
  *  })
- *  // If before or after is set to 'now', the value given to the validator will be tested against the current date and time.
+ *  // If before, beforeOrSame, after, or afterOrSame is set to 'now', the value given to the validator will be tested against the current date and time.
  *  ```
  *
  *  @class Date
@@ -53,9 +59,11 @@ export default Base.extend({
   },
 
   validate(value, options) {
+    options = assign({}, options);
     const errorFormat = options.errorFormat || 'MMM Do, YYYY';
     const format = options.format;
-    let { before, after } = options;
+    const percision = options.percision || 'second';
+    let { before, beforeOrSame, after, afterOrSame } = options;
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
@@ -73,17 +81,33 @@ export default Base.extend({
 
     if (before) {
       before = this._parseDate(before, format);
-      if (before < date) {
+      if (!date.isBefore(before, percision)) {
         options.before = before.format(errorFormat);
         return this.createErrorMessage('before', value, options);
       }
     }
 
+    if (beforeOrSame) {
+      beforeOrSame = this._parseDate(beforeOrSame, format);
+      if (!date.isSameOrBefore(beforeOrSame, percision))  {
+        options.beforeOrSame = beforeOrSame.format(errorFormat);
+        return this.createErrorMessage('beforeOrSame', value, options);
+      }
+    }
+
     if (after) {
       after = this._parseDate(after, format);
-      if (after > date) {
+      if (!date.isAfter(after, percision)) {
         options.after = after.format(errorFormat);
         return this.createErrorMessage('after', value, options);
+      }
+    }
+
+    if (afterOrSame) {
+      afterOrSame = this._parseDate(afterOrSame, format);
+      if (!date.isSameOrAfter(afterOrSame, percision)) {
+        options.afterOrSame = afterOrSame.format(errorFormat);
+        return this.createErrorMessage('afterOrSame', value, options);
       }
     }
 

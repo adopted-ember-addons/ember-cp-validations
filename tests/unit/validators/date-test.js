@@ -109,6 +109,64 @@ test('before now', function(assert) {
   assert.equal(message, true);
 });
 
+test('before or same', function(assert) {
+  assert.expect(3);
+
+  options = {
+    beforeOrSame: '1/1/2015'
+  };
+
+  message = validator.validate('1/1/2016', options);
+  assert.equal(message, 'This field must be on or before Jan 1st, 2015');
+
+  message = validator.validate('1/1/2014', options);
+  assert.equal(message, true);
+
+  message = validator.validate('1/1/2015', options);
+  assert.equal(message, true);
+});
+
+test('before now or same', function(assert) {
+  assert.expect(3);
+  var now = moment().format('MMM Do, YYYY');
+  options = {
+    beforeOrSame: 'now'
+  };
+  message = validator.validate('1/1/3015', options);
+  assert.equal(message, `This field must be on or before ${now}`);
+
+  message = validator.validate('1/1/2014', options);
+  assert.equal(message, true);
+
+  message = validator.validate('now', options);
+  assert.equal(message, true);
+});
+
+test('before or same percision', function(assert) {
+  var percisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+
+  assert.expect((percisions.length * 3) -1);
+  var date = '2013-02-08T09:30:26';
+  var now = moment(date);
+  var dateString = now.toString();
+  var nowMessage = now.format('MMM Do, YYYY');
+
+  for (var i = 0; i < percisions.length; i++) {
+    var percision = percisions[i];
+
+    message = validator.validate(dateString, { beforeOrSame: dateString });
+    assert.equal(message, true);
+
+    message = validator.validate(moment(dateString).add(1, percision), { beforeOrSame: dateString });
+    assert.equal(message, `This field must be on or before ${nowMessage}`);
+
+    if ((i + 1) !== percisions.length) {
+      message = validator.validate(moment(dateString).add(1, percisions), { beforeOrSame: dateString, percision: percisions[i + 1] });
+      assert.equal(message, true);
+    }
+  }
+});
+
 test('after', function(assert) {
   assert.expect(2);
 
@@ -135,4 +193,63 @@ test('after now', function(assert) {
 
   message = validator.validate('1/1/3015', options);
   assert.equal(message, true);
+});
+
+test('after or same', function(assert) {
+  assert.expect(3);
+
+  options = {
+    afterOrSame: '1/1/2015'
+  };
+
+  message = validator.validate('1/1/2014', options);
+  assert.equal(message, 'This field must be on or after Jan 1st, 2015');
+
+  message = validator.validate('1/1/2016', options);
+  assert.equal(message, true);
+
+  message = validator.validate('1/1/2015', options);
+  assert.equal(message, true);
+});
+
+test('after now or same', function(assert) {
+  assert.expect(3);
+  var now = moment().format('MMM Do, YYYY');
+  options = {
+    afterOrSame: 'now'
+  };
+
+  message = validator.validate('1/1/2014', options);
+  assert.equal(message, `This field must be on or after ${now}`);
+
+  message = validator.validate('1/1/3015', options);
+  assert.equal(message, true);
+
+  message = validator.validate('now', options);
+  assert.equal(message, true);
+});
+
+test('after or same percision', function(assert) {
+  var percisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+
+  assert.expect((percisions.length * 3) -1);
+  var date = '2013-02-08T09:30:26';
+  var now = moment(date);
+  var dateString = now.toString();
+  var nowMessage = now.format('MMM Do, YYYY');
+
+  for (var i = 0; i < percisions.length; i++) {
+    var percision = percisions[i];
+
+    message = validator.validate(dateString, { afterOrSame: dateString });
+    assert.equal(message, true);
+
+    message = validator.validate(moment(dateString).subtract(1, percision), { afterOrSame: dateString });
+    assert.equal(message, `This field must be on or after ${nowMessage}`);
+
+    if ((i + 1) !== percisions.length) {
+      message = validator.validate(moment(dateString).subtract(1, percisions), { afterOrSame: dateString, percision: percisions[i + 1] });
+      assert.equal(message, true);
+    }
+  }
 });
