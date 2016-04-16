@@ -249,7 +249,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   });
 
   // Create `validations` class
-  const ValidationClass = Ember.Object.extend(TopLevelProps, {
+  const ValidationsClass = Ember.Object.extend(TopLevelProps, {
     model: null,
     attrs: null,
     isValidations: true,
@@ -301,11 +301,11 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
     }
   });
 
-  ValidationClass.reopenClass({
+  ValidationsClass.reopenClass({
     __isCPValidationsClass__: true
   });
 
-  return ValidationClass;
+  return ValidationsClass;
 }
 
 /**
