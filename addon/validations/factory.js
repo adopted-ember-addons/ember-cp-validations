@@ -96,21 +96,21 @@ default
 function buildValidations(validations = {}, globalOptions = {}) {
   normalizeOptions(validations, globalOptions);
 
-  let Validations;
+  let Validations, validationMixinCount;
 
   return Ember.Mixin.create({
     init() {
       this._super(...arguments);
 
       // Count number of mixins to bypass super check if there is more than 1
-      this.__validationsMixinCount__ = this.__validationsMixinCount__|| 0;
-      this.__validationsMixinCount__++;
+      this.__validationsMixinCount__ = this.__validationsMixinCount__ || 0;
+      validationMixinCount = ++this.__validationsMixinCount__;
     },
     __validationsClass__: computed(function () {
       if (!Validations) {
         let inheritedClass;
-
-        if(shouldCallSuper(this, '__validationsClass__') || this.__validationsMixinCount__ > 1) {
+        console.log(shouldCallSuper(this, '__validationsClass__'), validationMixinCount);
+        if(shouldCallSuper(this, '__validationsClass__') || validationMixinCount > 1) {
           inheritedClass = this._super();
         }
 
