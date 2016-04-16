@@ -109,11 +109,11 @@ test('before now', function(assert) {
   assert.equal(message, true);
 });
 
-test('before or same', function(assert) {
+test('before or on', function(assert) {
   assert.expect(3);
 
   options = {
-    beforeOrSame: '1/1/2015'
+    beforeOrOn: '1/1/2015'
   };
 
   message = validator.validate('1/1/2016', options);
@@ -126,11 +126,11 @@ test('before or same', function(assert) {
   assert.equal(message, true);
 });
 
-test('before now or same', function(assert) {
+test('before now or on', function(assert) {
   assert.expect(3);
   var now = moment().format('MMM Do, YYYY');
   options = {
-    beforeOrSame: 'now'
+    beforeOrOn: 'now'
   };
   message = validator.validate('1/1/3015', options);
   assert.equal(message, `This field must be on or before ${now}`);
@@ -142,7 +142,7 @@ test('before now or same', function(assert) {
   assert.equal(message, true);
 });
 
-test('before or same percision', function(assert) {
+test('before or on percision', function(assert) {
   var percisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
   assert.expect((percisions.length * 3) -1);
@@ -154,14 +154,14 @@ test('before or same percision', function(assert) {
   for (var i = 0; i < percisions.length; i++) {
     var percision = percisions[i];
 
-    message = validator.validate(dateString, { beforeOrSame: dateString });
+    message = validator.validate(dateString, { beforeOrOn: dateString });
     assert.equal(message, true);
 
-    message = validator.validate(moment(dateString).add(1, percision), { beforeOrSame: dateString });
+    message = validator.validate(moment(dateString).add(1, percision), { beforeOrOn: dateString });
     assert.equal(message, `This field must be on or before ${nowMessage}`);
 
     if ((i + 1) !== percisions.length) {
-      message = validator.validate(moment(dateString).add(1, percisions), { beforeOrSame: dateString, percision: percisions[i + 1] });
+      message = validator.validate(moment(dateString).add(1, percisions), { beforeOrOn: dateString, percision: percisions[i + 1] });
       assert.equal(message, true);
     }
   }
@@ -195,11 +195,11 @@ test('after now', function(assert) {
   assert.equal(message, true);
 });
 
-test('after or same', function(assert) {
+test('after or on', function(assert) {
   assert.expect(3);
 
   options = {
-    afterOrSame: '1/1/2015'
+    afterOrOn: '1/1/2015'
   };
 
   message = validator.validate('1/1/2014', options);
@@ -212,11 +212,11 @@ test('after or same', function(assert) {
   assert.equal(message, true);
 });
 
-test('after now or same', function(assert) {
+test('after now or on', function(assert) {
   assert.expect(3);
   var now = moment().format('MMM Do, YYYY');
   options = {
-    afterOrSame: 'now'
+    afterOrOn: 'now'
   };
 
   message = validator.validate('1/1/2014', options);
@@ -229,7 +229,7 @@ test('after now or same', function(assert) {
   assert.equal(message, true);
 });
 
-test('after or same percision', function(assert) {
+test('after or on percision', function(assert) {
   var percisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
   assert.expect((percisions.length * 3) -1);
@@ -241,14 +241,14 @@ test('after or same percision', function(assert) {
   for (var i = 0; i < percisions.length; i++) {
     var percision = percisions[i];
 
-    message = validator.validate(dateString, { afterOrSame: dateString });
+    message = validator.validate(dateString, { afterOrOn: dateString });
     assert.equal(message, true);
 
-    message = validator.validate(moment(dateString).subtract(1, percision), { afterOrSame: dateString });
+    message = validator.validate(moment(dateString).subtract(1, percision), { afterOrOn: dateString });
     assert.equal(message, `This field must be on or after ${nowMessage}`);
 
     if ((i + 1) !== percisions.length) {
-      message = validator.validate(moment(dateString).subtract(1, percisions), { afterOrSame: dateString, percision: percisions[i + 1] });
+      message = validator.validate(moment(dateString).subtract(1, percisions), { afterOrOn: dateString, percision: percisions[i + 1] });
       assert.equal(message, true);
     }
   }

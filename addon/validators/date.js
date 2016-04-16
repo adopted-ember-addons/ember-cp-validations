@@ -26,9 +26,9 @@ const assign = Ember.assign || Ember.merge;
  *   #### Options
  *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
  *  - `before` (**String**): The specified date must be before this date
- *  - `beforeOrSame` (**String**): The specified date must be on or before this date
+ *  - `beforeOrOn` (**String**): The specified date must be on or before this date
  *  - `after` (**String**): The specified date must be after this date
- *  - `afterOrSame` (**String**): The specified date must be on or after this date
+ *  - `afterOrOn` (**String**): The specified date must be on or after this date
  *  - `percision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second. Defaults to 'second'
  *  - `format` (**String**): Input value date format
  *  - `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`
@@ -42,7 +42,7 @@ const assign = Ember.assign || Ember.merge;
  *      format: 'M/D/YYY',
  *      errorFormat: 'M/D/YYY'
  *  })
- *  // If before, beforeOrSame, after, or afterOrSame is set to 'now', the value given to the validator will be tested against the current date and time.
+ *  // If before, beforeOrOn, after, or afterOrOn is set to 'now', the value given to the validator will be tested against the current date and time.
  *  ```
  *
  *  @class Date
@@ -63,7 +63,7 @@ export default Base.extend({
     const errorFormat = options.errorFormat || 'MMM Do, YYYY';
     const format = options.format;
     const percision = options.percision || 'second';
-    let { before, beforeOrSame, after, afterOrSame } = options;
+    let { before, beforeOrOn, after, afterOrOn } = options;
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
@@ -87,11 +87,11 @@ export default Base.extend({
       }
     }
 
-    if (beforeOrSame) {
-      beforeOrSame = this._parseDate(beforeOrSame, format);
-      if (!date.isSameOrBefore(beforeOrSame, percision))  {
-        options.beforeOrSame = beforeOrSame.format(errorFormat);
-        return this.createErrorMessage('beforeOrSame', value, options);
+    if (beforeOrOn) {
+      beforeOrOn = this._parseDate(beforeOrOn, format);
+      if (!date.isSameOrBefore(beforeOrOn, percision))  {
+        options.beforeOrOn = beforeOrOn.format(errorFormat);
+        return this.createErrorMessage('beforeOrOn', value, options);
       }
     }
 
@@ -103,11 +103,11 @@ export default Base.extend({
       }
     }
 
-    if (afterOrSame) {
-      afterOrSame = this._parseDate(afterOrSame, format);
-      if (!date.isSameOrAfter(afterOrSame, percision)) {
-        options.afterOrSame = afterOrSame.format(errorFormat);
-        return this.createErrorMessage('afterOrSame', value, options);
+    if (afterOrOn) {
+      afterOrOn = this._parseDate(afterOrOn, format);
+      if (!date.isSameOrAfter(afterOrOn, percision)) {
+        options.afterOrOn = afterOrOn.format(errorFormat);
+        return this.createErrorMessage('afterOrOn', value, options);
       }
     }
 
