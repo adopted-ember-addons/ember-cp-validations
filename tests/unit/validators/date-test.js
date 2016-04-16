@@ -113,7 +113,7 @@ test('before or on', function(assert) {
   assert.expect(3);
 
   options = {
-    beforeOrOn: '1/1/2015'
+    onOrBefore: '1/1/2015'
   };
 
   message = validator.validate('1/1/2016', options);
@@ -130,7 +130,7 @@ test('before now or on', function(assert) {
   assert.expect(3);
   var now = moment().format('MMM Do, YYYY');
   options = {
-    beforeOrOn: 'now'
+    onOrBefore: 'now'
   };
   message = validator.validate('1/1/3015', options);
   assert.equal(message, `This field must be on or before ${now}`);
@@ -154,14 +154,14 @@ test('before or on percision', function(assert) {
   for (var i = 0; i < percisions.length; i++) {
     var percision = percisions[i];
 
-    message = validator.validate(dateString, { beforeOrOn: dateString });
+    message = validator.validate(dateString, { onOrBefore: dateString });
     assert.equal(message, true);
 
-    message = validator.validate(moment(dateString).add(1, percision), { beforeOrOn: dateString });
+    message = validator.validate(moment(dateString).add(1, percision), { onOrBefore: dateString });
     assert.equal(message, `This field must be on or before ${nowMessage}`);
 
     if ((i + 1) !== percisions.length) {
-      message = validator.validate(moment(dateString).add(1, percisions), { beforeOrOn: dateString, percision: percisions[i + 1] });
+      message = validator.validate(moment(dateString).add(1, percisions), { onOrBefore: dateString, percision: percisions[i + 1] });
       assert.equal(message, true);
     }
   }
@@ -199,7 +199,7 @@ test('after or on', function(assert) {
   assert.expect(3);
 
   options = {
-    afterOrOn: '1/1/2015'
+    onOrAfter: '1/1/2015'
   };
 
   message = validator.validate('1/1/2014', options);
@@ -216,7 +216,7 @@ test('after now or on', function(assert) {
   assert.expect(3);
   var now = moment().format('MMM Do, YYYY');
   options = {
-    afterOrOn: 'now'
+    onOrAfter: 'now'
   };
 
   message = validator.validate('1/1/2014', options);
@@ -241,14 +241,14 @@ test('after or on percision', function(assert) {
   for (var i = 0; i < percisions.length; i++) {
     var percision = percisions[i];
 
-    message = validator.validate(dateString, { afterOrOn: dateString });
+    message = validator.validate(dateString, { onOrAfter: dateString });
     assert.equal(message, true);
 
-    message = validator.validate(moment(dateString).subtract(1, percision), { afterOrOn: dateString });
+    message = validator.validate(moment(dateString).subtract(1, percision), { onOrAfter: dateString });
     assert.equal(message, `This field must be on or after ${nowMessage}`);
 
     if ((i + 1) !== percisions.length) {
-      message = validator.validate(moment(dateString).subtract(1, percisions), { afterOrOn: dateString, percision: percisions[i + 1] });
+      message = validator.validate(moment(dateString).subtract(1, percisions), { onOrAfter: dateString, percision: percisions[i + 1] });
       assert.equal(message, true);
     }
   }
