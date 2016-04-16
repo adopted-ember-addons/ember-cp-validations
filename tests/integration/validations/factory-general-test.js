@@ -650,3 +650,70 @@ test("nested keys - inheritance", function(assert) {
 });
 
 
+test("call super in validations class with no super property", function(assert) {
+  // see https://github.com/offirgolan/ember-cp-validations/issues/149
+  assert.expect(1);
+
+  var Validations = buildValidations({
+    'firstName': validator(Validators.presence)
+  });
+
+  var mixin = Ember.Mixin.create({
+    actions: {
+      foo() {
+        // The issue is that __validationsClass__ is calling super but since
+        // this is no __validationsClass__ method on the super, it is wrapped
+        // with the closest context which is the 'foo' action
+        assert.ok(false); // should not reach here
+      }
+    }
+  });
+
+  var component = setupObject(this, Ember.Component.extend(Validations, mixin, {
+    actions: {
+      foo() {
+        assert.ok(true);
+        const validations = this.get('validations');
+      }
+    }
+  }));
+
+  component.send('foo');
+});
+
+
+test("multiple mixins", function(assert) {
+  var Validations1 = buildValidations({
+    'firstName': validator(Validators.presence)
+  });
+
+  var Validations2 = buildValidations({
+    'middleName': validator(Validators.presence)
+  });
+
+  var Validations3 = buildValidations({
+    'lastName': validator(Validators.presence)
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations1, Validations2, Validations3));
+
+  assert.deepEqual(object.get('validations.validatableAttributes').sort(), ['firstName', 'middleName', 'lastName'].sort());
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.lastName.isValid'), false);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('firstName', 'Offir');
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('middleName', 'David');
+
+  assert.equal(object.get('validations.attrs.middleName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), false);
+
+  object.set('lastName', 'Golan');
+
+  assert.equal(object.get('validations.attrs.lastName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), true);
+});
