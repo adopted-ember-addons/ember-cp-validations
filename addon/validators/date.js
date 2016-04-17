@@ -29,7 +29,7 @@ const assign = Ember.assign || Ember.merge;
  *  - `onOrBefore` (**String**): The specified date must be on or before this date
  *  - `after` (**String**): The specified date must be after this date
  *  - `onOrAfter` (**String**): The specified date must be on or after this date
- *  - `percision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second. Defaults to 'second'
+ *  - `percision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.
  *  - `format` (**String**): Input value date format
  *  - `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`
  *
@@ -62,7 +62,7 @@ export default Base.extend({
     options = assign({}, options);
     const errorFormat = options.errorFormat || 'MMM Do, YYYY';
     const format = options.format;
-    const percision = options.percision || 'second';
+    const percision = options.percision;
     let { before, onOrBefore, after, onOrAfter } = options;
 
     if (options.allowBlank && isEmpty(value)) {
