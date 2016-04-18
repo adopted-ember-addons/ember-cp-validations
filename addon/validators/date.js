@@ -16,8 +16,6 @@ const {
   isEmpty
 } = Ember;
 
-const assign = Ember.assign || Ember.merge;
-
 /**
  *  Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
  *
@@ -59,7 +57,6 @@ export default Base.extend({
   },
 
   validate(value, options) {
-    options = assign({}, options);
     const errorFormat = options.errorFormat || 'MMM Do, YYYY';
     const format = options.format;
     const percision = options.percision;
