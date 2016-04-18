@@ -24,7 +24,10 @@ const {
  *   #### Options
  *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
  *  - `before` (**String**): The specified date must be before this date
+ *  - `onOrBefore` (**String**): The specified date must be on or before this date
  *  - `after` (**String**): The specified date must be after this date
+ *  - `onOrAfter` (**String**): The specified date must be on or after this date
+ *  - `percision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.
  *  - `format` (**String**): Input value date format
  *  - `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`
  *
@@ -33,10 +36,11 @@ const {
  *  validator('date', {
  *      after: 'now',
  *      before: '1/1/2020',
+ *      percision: 'day',
  *      format: 'M/D/YYY',
  *      errorFormat: 'M/D/YYY'
  *  })
- *  // If before or after is set to 'now', the value given to the validator will be tested against the current date and time.
+ *  // If before, onOrBefore, after, or onOrAfter is set to 'now', the value given to the validator will be tested against the current date and time.
  *  ```
  *
  *  @class Date
@@ -55,7 +59,8 @@ export default Base.extend({
   validate(value, options) {
     const errorFormat = options.errorFormat || 'MMM Do, YYYY';
     const format = options.format;
-    let { before, after } = options;
+    const percision = options.percision;
+    let { before, onOrBefore, after, onOrAfter } = options;
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
@@ -73,17 +78,33 @@ export default Base.extend({
 
     if (before) {
       before = this._parseDate(before, format);
-      if (before < date) {
+      if (!date.isBefore(before, percision)) {
         options.before = before.format(errorFormat);
         return this.createErrorMessage('before', value, options);
       }
     }
 
+    if (onOrBefore) {
+      onOrBefore = this._parseDate(onOrBefore, format);
+      if (!date.isSameOrBefore(onOrBefore, percision))  {
+        options.onOrBefore = onOrBefore.format(errorFormat);
+        return this.createErrorMessage('onOrBefore', value, options);
+      }
+    }
+
     if (after) {
       after = this._parseDate(after, format);
-      if (after > date) {
+      if (!date.isAfter(after, percision)) {
         options.after = after.format(errorFormat);
         return this.createErrorMessage('after', value, options);
+      }
+    }
+
+    if (onOrAfter) {
+      onOrAfter = this._parseDate(onOrAfter, format);
+      if (!date.isSameOrAfter(onOrAfter, percision)) {
+        options.onOrAfter = onOrAfter.format(errorFormat);
+        return this.createErrorMessage('onOrAfter', value, options);
       }
     }
 
