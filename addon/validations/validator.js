@@ -72,6 +72,27 @@ const {
  * })
  * ```
  *
+ * <h3 id="value">value</h3>
+ * Used to retrieve the value to validate. This will overwrite the validator's default `value` method.
+ * By default this returns `model[attribute]`.
+ *
+ * ```javascript
+ * // Examples
+ * validator('date', {
+ *   value() {
+ *   	// Format the orignal value before passing it into the validator
+ *   	const rawValue = this.get(this.get('model'), this.get('attribute'));
+ *   	return moment().utc(rawValue).format('DD/MM/YYY');
+ *   }
+ * })
+ * validator('number', {
+ *   value() {
+ *   	// Validate a value that is not the current attribute
+ *   	return this.get('model').get('someOtherAttr');
+ *   }
+ * })
+ * ```
+ *
  * <h3 id="message">message</h3>
  * This option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator.
  *

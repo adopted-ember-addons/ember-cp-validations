@@ -339,7 +339,7 @@ function createCPValidationFor(attribute, validations) {
           cache[guidFor(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
         });
       } else {
-        value = validator.validate(get(model, attribute), options, model, attribute);
+        value = validator.validate(validator.value(), options, model, attribute);
       }
 
       return validationReturnValueHandler(attribute, value, model, validator);
@@ -460,7 +460,7 @@ function getCPDependentKeysFor(attribute, validations) {
  * @param  {Function} resolve
  */
 function debouncedValidate(validator, model, attribute, resolve) {
-  resolve(validator.validate(get(model, attribute), validator.processOptions(), model, attribute));
+  resolve(validator.validate(validator.value(), validator.processOptions(), model, attribute));
 }
 
 /**

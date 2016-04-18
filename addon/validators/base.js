@@ -102,7 +102,14 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    return assign(assign(assign({}, globalOptions), defaultOptions), options);
+    const builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
+
+    // Overwrite the validator's value method if it exists in the options and remove it since
+    // there is no need for it to be passed around
+    this.value = builtOptions.value || this.value;
+    delete builtOptions.value;
+
+    return builtOptions;
   },
 
   /**
@@ -123,6 +130,18 @@ export default Ember.Object.extend({
     });
 
     return options;
+  },
+
+  /**
+   * Used to retrieve the value to validate.
+   * This method gets called right before `validate` and the returned value
+   * gets passed into the validate method.
+   *
+   * @method value
+   * @return The current value of `model[attribute]`
+   */
+  value() {
+    return get(get(this, 'model'), get(this, 'attribute'));
   },
 
   /**
