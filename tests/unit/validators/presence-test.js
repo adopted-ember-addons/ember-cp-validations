@@ -39,6 +39,22 @@ test('presence - value present', function(assert) {
   assert.equal(message, true);
 });
 
+test('presence - value blank', function(assert) {
+  assert.expect(1);
+
+  options = { presence: true };
+  message = validator.validate(' ', options);
+  assert.equal(message, true);
+});
+
+test('presence with ignoreWhitespace - value blank', function(assert) {
+  assert.expect(1);
+
+  options = { presence: true, ignoreWhitespace: true };
+  message = validator.validate(' ', options);
+  assert.equal(message, "This field can't be blank");
+});
+
 test('presence - value not present', function(assert) {
   assert.expect(1);
 
@@ -46,7 +62,6 @@ test('presence - value not present', function(assert) {
   message = validator.validate(undefined, options);
   assert.equal(message, "This field can't be blank");
 });
-
 
 test('absence - value present', function(assert) {
   assert.expect(1);
