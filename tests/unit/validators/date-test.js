@@ -217,7 +217,8 @@ test('after now or on', function(assert) {
   assert.expect(3);
   var now = moment().format('MMM Do, YYYY');
   options = {
-    onOrAfter: 'now'
+    onOrAfter: 'now',
+    percision: 'second'
   };
 
   message = validator.validate('1/1/2014', assign({}, options));
