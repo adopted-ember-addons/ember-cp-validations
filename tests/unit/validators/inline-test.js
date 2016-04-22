@@ -77,3 +77,22 @@ test('inline - returning false uses option message', function(assert) {
   message = validator.validate('value', options);
   assert.equal(message, "This field didn't say the magic word");
 });
+
+test('inline - validates based on variable value', function(assert) {
+  assert.expect(4);
+
+  options = {
+    validate: function(value) { return value % 2 === 0; }
+  };
+  message = validator.validate(1, options);
+  assert.equal(message, "This field is not valid");
+
+  message = validator.validate(2, options);
+  assert.equal(message, true);
+
+  message = validator.validate(3, options);
+  assert.equal(message, "This field is not valid");
+
+  message = validator.validate(4, options);
+  assert.equal(message, true);
+});

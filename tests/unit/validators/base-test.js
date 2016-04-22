@@ -52,12 +52,15 @@ test('buildOptions - does not overwrite options', function(assert) {
 });
 
 test('processOptions - calls functions', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
 
   options = {
     foo() { return 'a'; },
     message() {
       return "has some sort of error";
+    },
+    validate() {
+      return true;
     }
   };
 
@@ -65,6 +68,7 @@ test('processOptions - calls functions', function(assert) {
   options = validator.processOptions();
   assert.equal(options.foo, 'a');
   assert.equal(typeof options.message, 'function', 'message function should only be called by createErrorMessage');
+  assert.equal(typeof options.validate, 'function', 'validate function should only be called by inline validator');
 });
 
 test('createErrorMessage - message function', function(assert) {
