@@ -117,7 +117,7 @@ export default Ember.Object.extend({
     Object.keys(options).forEach(key => {
       const opt = options[key];
 
-      if (typeof opt === 'function' && key !== 'message') {
+      if (typeof opt === 'function' && key !== 'message' && key !== 'validate') {
         options[key] = opt.call(this);
       }
     });

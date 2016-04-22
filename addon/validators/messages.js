@@ -121,5 +121,6 @@ export default Ember.Object.extend({
   date: '{description} must be a valid date',
   email: '{description} must be a valid email address',
   phone: '{description} must be a valid phone number',
-  url: '{description} must be a valid url'
+  url: '{description} must be a valid url',
+  inline: '{description} is not valid'
 });
