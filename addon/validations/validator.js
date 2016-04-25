@@ -53,8 +53,8 @@ const {
  * validator('presence', {
  *   presence: true,
  *   dependentKeys: ['shouldValidate'],
- *   disabled() {
- *     return !this.get('model.shouldValidate');
+ *   disabled(model, attribute) {
+ *     return !model.get('shouldValidate');
  *   }
  * })
  * ```
@@ -74,19 +74,20 @@ const {
  *
  * <h3 id="value">value</h3>
  * Used to retrieve the value to validate. This will overwrite the validator's default `value` method.
- * By default this returns `model[attribute]`.
+ * By default this returns `model[attribute]`. If you are dependent on other model attributes, you will
+ * need to add them as `dependentKeys`.
  *
  * ```javascript
  * // Examples
  * validator('date', {
- *   value() {
+ *   value(model, attribute) {
  *   	// Format the orignal value before passing it into the validator
- *   	const rawValue = this.get(this.get('model'), this.get('attribute'));
- *   	return moment().utc(rawValue).format('DD/MM/YYY');
+ *   	return moment().utc(model.get(attribute)).format('DD/MM/YYY');
  *   }
  * })
  * validator('number', {
- *   value() {
+ * 	 dependentKeys: ['someOtherAttr'],
+ *   value(model, attribute) {
  *   	// Validate a value that is not the current attribute
  *   	return this.get('model').get('someOtherAttr');
  *   }

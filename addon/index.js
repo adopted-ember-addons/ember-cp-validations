@@ -212,8 +212,8 @@ import Validator from './validations/validator';
  * }, {
  *   description: 'This field'
  *   dependentKeys: ['i18n.locale', 'disableValidations'],
- *   disabled() {
- *     return this.get('model.disableValidations');
+ *   disabled(model, attribute) {
+ *     return model.get('disableValidations');
  *   }
  * });
  * ```
@@ -226,8 +226,8 @@ import Validator from './validations/validator';
  *
  * <h3 id="optionsAsFunctions">Options as Functions</h3>
  *
- * All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed,
- * giving you access to all its properties such as `options`, `model`, `attribute`, etc.
+ * All options can be functions which are processed lazily before validate is called. These functions are passed the `model` and `attribute` that is associated with
+ * the validator while also given that as their context, giving you access to all its properties.
  *
  * Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
@@ -235,13 +235,13 @@ import Validator from './validations/validator';
  * const Validations = buildValidations({
  *   dob: validator('date', {
  *     description: 'Date of Birth',
- *     format() {
- *       return this.get('model.meta.date.format');
+ *     format(model, attribute) {
+ *       return model.get('meta.date.format');
  *     },
- *     before() {
+ *     before(model, attribute) {
  *       return moment();
  *     },
- *     after() {
+ *     after(model, attribute) {
  *       return moment().subtract(120, 'years');
  *     }
  *   })

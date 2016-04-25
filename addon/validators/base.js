@@ -120,12 +120,14 @@ export default Ember.Object.extend({
    */
   processOptions() {
     const options = assign({}, get(this, 'options') || {});
+    const model = get(this, 'model');
+    const attribute = get(this, 'attribute');
 
     Object.keys(options).forEach(key => {
-      const opt = options[key];
+      const option = options[key];
 
-      if (typeof opt === 'function' && key !== 'message') {
-        options[key] = opt.call(this);
+      if (typeof option === 'function' && key !== 'message') {
+        options[key] = option.call(this, model, attribute);
       }
     });
 
@@ -138,10 +140,23 @@ export default Ember.Object.extend({
    * gets passed into the validate method.
    *
    * @method value
+   * @param {Object} model
+   * @param {String} attribute
    * @return The current value of `model[attribute]`
    */
-  value() {
-    return get(get(this, 'model'), get(this, 'attribute'));
+  value(model, attribute) {
+    return get(model, attribute);
+  },
+
+  /**
+   * Wrapper method to `value` that passes the necessary parameters
+   * 
+   * @method getValue
+   * @private
+   * @return {Unknown} value
+   */
+  getValue() {
+    return this.value(get(this, 'model'), get(this, 'attribute'));
   },
 
   /**

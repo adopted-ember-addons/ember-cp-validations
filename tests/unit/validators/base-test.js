@@ -91,8 +91,9 @@ test('value - default gets model value', function(assert) {
   });
 
   validator.init();
+  
   assert.equal(validator.get('attribute'), 'foo');
-  assert.equal(validator.value(), 'bar');
+  assert.equal(validator.getValue(), 'bar');
 });
 
 test('value - overwrite value method via options', function(assert) {
@@ -109,7 +110,8 @@ test('value - overwrite value method via options', function(assert) {
   });
 
   validator.init();
+
   assert.equal(validator.get('attribute'), 'foo');
-  assert.equal(validator.value(), 'baz');
-  assert.deepEqual(Object.keys(validator.get('options')), []);
+  assert.equal(validator.getValue(), 'baz');
+  assert.deepEqual(validator.get('options'), {});
 });
