@@ -11,6 +11,7 @@ import ValidationResult from './result';
 import ValidationResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
+import shouldCallSuper from '../utils/should-call-super';
 
 const {
   get,
@@ -95,17 +96,30 @@ default
 function buildValidations(validations = {}, globalOptions = {}) {
   normalizeOptions(validations, globalOptions);
 
-  let Validations;
+  let Validations, validationMixinCount;
 
   return Ember.Mixin.create({
-    _validationsClass: computed(function () {
+    init() {
+      this._super(...arguments);
+
+      // Count number of mixins to bypass super check if there is more than 1
+      this.__validationsMixinCount__ = this.__validationsMixinCount__ || 0;
+      validationMixinCount = ++this.__validationsMixinCount__;
+    },
+    __validationsClass__: computed(function () {
       if (!Validations) {
-        Validations = createValidationsClass(this._super(), validations);
+        let inheritedClass;
+        console.log(shouldCallSuper(this, '__validationsClass__'), validationMixinCount);
+        if(shouldCallSuper(this, '__validationsClass__') || validationMixinCount > 1) {
+          inheritedClass = this._super();
+        }
+
+        Validations = createValidationsClass(inheritedClass, validations);
       }
       return Validations;
     }).readOnly(),
     validations: computed(function () {
-      return this.get('_validationsClass').create({
+      return this.get('__validationsClass__').create({
         model: this
       });
     }).readOnly(),
@@ -181,7 +195,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   let validatableAttributes = Object.keys(validations);
 
   // Setup validation inheritance
-  if (inheritedValidationsClass) {
+  if (inheritedValidationsClass && inheritedValidationsClass.__isCPValidationsClass__) {
     const inheritedValidations = inheritedValidationsClass.create();
 
     validationRules = merge(validationRules, inheritedValidations.get('_validationRules'));
@@ -235,7 +249,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   });
 
   // Create `validations` class
-  return Ember.Object.extend(TopLevelProps, {
+  const ValidationsClass = Ember.Object.extend(TopLevelProps, {
     model: null,
     attrs: null,
     isValidations: true,
@@ -286,6 +300,12 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
       });
     }
   });
+
+  ValidationsClass.reopenClass({
+    __isCPValidationsClass__: true
+  });
+
+  return ValidationsClass;
 }
 
 /**
@@ -319,7 +339,7 @@ function createCPValidationFor(attribute, validations) {
           cache[guidFor(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
         });
       } else {
-        value = validator.validate(get(model, attribute), options, model, attribute);
+        value = validator.validate(validator.getValue(), options, model, attribute);
       }
 
       return validationReturnValueHandler(attribute, value, model, validator);
@@ -443,7 +463,10 @@ function getCPDependentKeysFor(attribute, validations) {
  * @param  {Function} resolve
  */
 function debouncedValidate(validator, model, attribute, resolve) {
-  resolve(validator.validate(get(model, attribute), validator.processOptions(), model, attribute));
+  const options = validator.processOptions();
+  const value = validator.getValue();
+
+  resolve(validator.validate(value, options, model, attribute));
 }
 
 /**

@@ -8,7 +8,8 @@ import Base from 'ember-cp-validations/validators/base';
 
 const {
   get,
-  isEmpty
+  isEmpty,
+  isPresent
 } = Ember;
 
 /**
@@ -21,6 +22,13 @@ const {
  *  validator('presence', {
  *    presence: true,
  *    message: 'should not be empty'
+ *  })
+ *
+ *  If you want whitespace to be ignored, use `ignoreWhitespace: true`:
+ *
+ *  validator('presence', {
+ *    ignoreWhitespace: true,
+ *    message: 'should not be empty or consist only of spaces'
  *  })
  *  ```
  *
@@ -58,11 +66,11 @@ export default Base.extend({
   },
 
   validate(value, options) {
-    if (options.presence === true && !this._isPresent(value)) {
+    if (options.presence === true && !this._isPresent(value, options.ignoreWhitespace)) {
       return this.createErrorMessage('blank', value, options);
     }
 
-    if (options.presence === false && this._isPresent(value)) {
+    if (options.presence === false && this._isPresent(value, options.ignoreWhitespace)) {
       return this.createErrorMessage('present', value, options);
     }
 
@@ -72,10 +80,15 @@ export default Base.extend({
   /**
    * Handle presence of ember proxy based instances
    */
-  _isPresent(value) {
+  _isPresent(value, ignoreWhitespace) {
     if (value instanceof Ember.ObjectProxy || value instanceof Ember.ArrayProxy) {
-      return this._isPresent(get(value, 'content'));
+      return this._isPresent(get(value, 'content'), ignoreWhitespace);
     }
-    return !isEmpty(value);
+
+    if (ignoreWhitespace) {
+      return isPresent(value);
+    } else {
+      return !isEmpty(value);
+    }
   }
 });

@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.7.2
+- [#163](https://github.com/offirgolan/ember-cp-validations/pull/163) Fix leaky state with nested objects
+- [#167](https://github.com/offirgolan/ember-cp-validations/pull/167) Add null safe checks for relational validators after promise resolves
+
 ## 2.7.1
 - [#159](https://github.com/offirgolan/ember-cp-validations/pull/159) Fix deprecation warning Ember.merge > Ember.assign for Ember >= 2.5.0 [@urbany](https://github.com/urbany)
 

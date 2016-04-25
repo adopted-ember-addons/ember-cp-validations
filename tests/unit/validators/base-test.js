@@ -79,3 +79,39 @@ test('createErrorMessage - message function', function(assert) {
   message = validator.createErrorMessage(undefined, undefined, options);
   assert.equal(message, 'This field has some sort of error');
 });
+
+
+test('value - default gets model value', function(assert) {
+  assert.expect(2);
+
+  validator.setProperties({
+    model: Ember.Object.create({ foo: 'bar'}),
+    attribute: 'foo',
+    options: {}
+  });
+
+  validator.init();
+  
+  assert.equal(validator.get('attribute'), 'foo');
+  assert.equal(validator.getValue(), 'bar');
+});
+
+test('value - overwrite value method via options', function(assert) {
+  assert.expect(3);
+
+  validator.setProperties({
+    model: Ember.Object.create({ foo: 'bar', bar: 'baz'}),
+    attribute: 'foo',
+    options: {
+      value() {
+        return this.get('model.bar');
+      }
+    }
+  });
+
+  validator.init();
+
+  assert.equal(validator.get('attribute'), 'foo');
+  assert.equal(validator.getValue(), 'baz');
+  assert.deepEqual(validator.get('options'), {});
+});

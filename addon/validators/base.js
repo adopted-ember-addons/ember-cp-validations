@@ -102,7 +102,14 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    return assign(assign(assign({}, globalOptions), defaultOptions), options);
+    const builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
+
+    // Overwrite the validator's value method if it exists in the options and remove it since
+    // there is no need for it to be passed around
+    this.value = builtOptions.value || this.value;
+    delete builtOptions.value;
+
+    return builtOptions;
   },
 
   /**
@@ -113,16 +120,43 @@ export default Ember.Object.extend({
    */
   processOptions() {
     const options = assign({}, get(this, 'options') || {});
+    const model = get(this, 'model');
+    const attribute = get(this, 'attribute');
 
     Object.keys(options).forEach(key => {
-      const opt = options[key];
+      const option = options[key];
 
-      if (typeof opt === 'function' && key !== 'message') {
-        options[key] = opt.call(this);
+      if (typeof option === 'function' && key !== 'message') {
+        options[key] = option.call(this, model, attribute);
       }
     });
 
     return options;
+  },
+
+  /**
+   * Used to retrieve the value to validate.
+   * This method gets called right before `validate` and the returned value
+   * gets passed into the validate method.
+   *
+   * @method value
+   * @param {Object} model
+   * @param {String} attribute
+   * @return The current value of `model[attribute]`
+   */
+  value(model, attribute) {
+    return get(model, attribute);
+  },
+
+  /**
+   * Wrapper method to `value` that passes the necessary parameters
+   * 
+   * @method getValue
+   * @private
+   * @return {Unknown} value
+   */
+  getValue() {
+    return this.value(get(this, 'model'), get(this, 'attribute'));
   },
 
   /**
