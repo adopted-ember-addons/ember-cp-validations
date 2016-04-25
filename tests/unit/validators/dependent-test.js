@@ -4,14 +4,10 @@
  */
 
 import Ember from 'ember';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
-import {
-  test, moduleFor
-}
-from 'ember-qunit';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { test, moduleFor } from 'ember-qunit';
+import setupObject from '../../helpers/setup-object';
+
 const {
   get,
   set,
@@ -46,9 +42,7 @@ test('all empty attributes', function(assert) {
   assert.expect(5);
 
   options = defaultOptions;
-  model = Ember.Object.extend(Validations).create({
-    container: get(this, 'container')
-  });
+  model = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), false);
@@ -64,11 +58,9 @@ test('one dependent error', function(assert) {
   assert.expect(5);
 
   options = defaultOptions;
-  model = Ember.Object.extend(Validations).create({
-    firstName: 'Offir',
-    container: get(this, 'container')
+  model = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Offir'
   });
-
 
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), true);
@@ -83,10 +75,10 @@ test('one dependent error', function(assert) {
 test('no dependent errors', function(assert) {
   assert.expect(5);
   options = defaultOptions;
-  model = Ember.Object.extend(Validations).create({
+
+  model = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir',
-    lastName: 'Golan',
-    container: get(this, 'container')
+    lastName: 'Golan'
   });
 
   assert.equal(get(model, 'validations.isValid'), true);

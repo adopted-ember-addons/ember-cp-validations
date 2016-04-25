@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import Base from './base';
+import Base from 'ember-cp-validations/validators/base';
 const moment = (self.requirejs.entries.moment || self.requirejs.entries['moment/index']) && self.require('moment').default;
 
 if (typeof moment === 'undefined') {

@@ -109,7 +109,6 @@ function buildValidations(validations = {}, globalOptions = {}) {
     __validationsClass__: computed(function () {
       if (!Validations) {
         let inheritedClass;
-        console.log(shouldCallSuper(this, '__validationsClass__'), validationMixinCount);
         if(shouldCallSuper(this, '__validationsClass__') || validationMixinCount > 1) {
           inheritedClass = this._super();
         }
@@ -434,6 +433,9 @@ function getCPDependentKeysFor(attribute, validations) {
       }
     } else if (type === 'collection' && (options === true || options.collection === true)) {
       dependentKeys.push(`_model.${attribute}.[]`);
+    } else if(type === 'alias') {
+      const alias = typeof options === 'string' ? options : options.alias;
+      dependentKeys.push(`${alias}.isTruelyValid`);
     }
 
     const specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []),
