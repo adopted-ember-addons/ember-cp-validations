@@ -308,6 +308,31 @@ test("alias validation - simple", function(assert) {
   assert.equal(user.get('validations.attrs.fullName.isValid'), true);
 });
 
+test("alias validation - firstMessageOnly", function(assert) {
+  this.register('validator:alias', AliasValidator);
+
+  var user = setupObject(this, Ember.Object.extend(buildValidations({
+    firstName: [
+      validator(() => 'First error message'),
+      validator(() => 'Second error message'),
+    ],
+    fullName: validator('alias', {
+      alias: 'firstName',
+      firstMessageOnly: true
+    })
+  })));
+
+  user.get('validations').validateSync();
+
+  assert.equal(user.get('validations.isValid'), false);
+  assert.equal(user.get('validations.isValidating'), false);
+  assert.equal(user.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(user.get('validations.attrs.firstName.messages.length'), 2);
+  assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+  assert.equal(user.get('validations.attrs.fullName.messages.length'), 1);
+  assert.equal(user.get('validations.attrs.fullName.message'), 'First error message');
+});
+
 test("alias validation - multiple", function(assert) {
   this.register('validator:alias', AliasValidator);
 

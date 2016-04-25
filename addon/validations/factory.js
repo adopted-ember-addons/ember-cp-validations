@@ -109,7 +109,6 @@ function buildValidations(validations = {}, globalOptions = {}) {
     __validationsClass__: computed(function () {
       if (!Validations) {
         let inheritedClass;
-        console.log(shouldCallSuper(this, '__validationsClass__'), validationMixinCount);
         if(shouldCallSuper(this, '__validationsClass__') || validationMixinCount > 1) {
           inheritedClass = this._super();
         }

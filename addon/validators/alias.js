@@ -12,13 +12,20 @@ const {
 } = Ember;
 
 /**
- *  Creates an alias between a single attribute's validations to another. 
+ *  Creates an alias between a single attribute's validations to another.
+ *  This copies all messages, errors, etc., to the current attribute as well as
+ *  its validation state (isValid, isValidating, etc.)
+ *
+ *   #### Options
+ *  - `firstMessageOnly` (**Boolean**): If true, only returns the first error message of the
+ *  aliased attribute and will not include validation state
  *
  *  ```javascript
  *  // Examples
  *  validator('alias', 'attribute')
  *  validator('alias', {
- *    alias: 'attribute'
+ *    alias: 'attribute',
+ *    firstMessageOnly: true
  *  })
  *  ```
  *
@@ -56,12 +63,14 @@ export default Base.extend({
   },
 
   validate(value, options, model) {
-    const alias = options.alias;
+    const { alias, firstMessageOnly } = options;
 
-    if(!isEmpty(alias)) {
-      return get(model, `validations.attrs.${alias}.content`);
+    if(isEmpty(alias)) {
+      return true;
     }
 
-    return true;
+    const aliasValidation = get(model, `validations.attrs.${alias}`);
+
+    return firstMessageOnly ? get(aliasValidation, 'message') : get(aliasValidation, 'content');
   }
 });
