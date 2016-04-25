@@ -47,10 +47,10 @@ test('presence - value blank', function(assert) {
   assert.equal(message, true);
 });
 
-test('presence with ignoreWhitespace - value blank', function(assert) {
+test('presence with ignoreBlank - value blank', function(assert) {
   assert.expect(1);
 
-  options = { presence: true, ignoreWhitespace: true };
+  options = { presence: true, ignoreBlank: true };
   message = validator.validate(' ', options);
   assert.equal(message, "This field can't be blank");
 });
