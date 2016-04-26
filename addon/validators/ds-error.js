@@ -29,7 +29,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const DSError = Base.extend({
   validate(value, options, model, attribute) {
     const errors = get(model, 'errors');
 
@@ -40,3 +40,11 @@ export default Base.extend({
     return true;
   }
 });
+
+DSError.reopenClass({
+  getDependentsFor(attribute) {
+    return [ `_model.errors.${attribute}.[]` ];
+  }
+});
+
+export default DSError;

@@ -30,7 +30,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Dependent = Base.extend({
   validate(value, options, model) {
     if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
       return true;
@@ -53,3 +53,17 @@ export default Base.extend({
     return true;
   }
 });
+
+Dependent.reopenClass({
+  getDependentsFor(attribute, options) {
+    const dependents = options.on;
+
+    if (!isEmpty(dependents)) {
+      return dependents.map(dependent => `${dependent}.isTruelyValid`);
+    }
+
+    return [];
+  }
+});
+
+export default Dependent;

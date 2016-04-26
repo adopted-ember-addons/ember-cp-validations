@@ -19,7 +19,7 @@ const assign = Ember.assign || Ember.merge;
  * @class Base
  * @module Validators
  */
-export default Ember.Object.extend({
+const Base = Ember.Object.extend({
 
   /**
    * Options passed in to the validator when defined in the model
@@ -150,7 +150,7 @@ export default Ember.Object.extend({
 
   /**
    * Wrapper method to `value` that passes the necessary parameters
-   * 
+   *
    * @method getValue
    * @private
    * @return {Unknown} value
@@ -230,6 +230,23 @@ export default Ember.Object.extend({
     return message.trim();
   }
 });
+
+Base.reopenClass({
+  /**
+   * Generate the needed depenent keys for this validator
+   *
+   * @method getDependentsFor
+   * @static
+   * @param  {String} attribute
+   * @param  {Object} options
+   * @return {Array} dependent keys
+   */
+  getDependentsFor() {
+    return [];
+  }
+});
+
+export default Base;
 
 /**
  * Creating custom validators is very simple. To generate a validator named `unique-username` in Ember CLI

@@ -6,7 +6,7 @@ import {
 from 'ember-qunit';
 
 moduleForModel('signup', 'Unit | Validations | DS.Model', {
-
+  needs: ['validator:presence']
 });
 
 test('create model with defaults', function(assert) {
