@@ -16,6 +16,7 @@ const {
   isEmpty,
   isArray,
   isNone,
+  canInvoke,
   A: emberArray
 } = Ember;
 
@@ -159,7 +160,7 @@ export default Ember.Object.extend({
   }, false)),
 
   hasValidated: computed('content.@each.hasValidated', cycleBreaker(function () {
-    return !get(this, 'content').isEvery('hasValidated', false);
+    return get(this, 'content').isEvery('hasValidated', true);
   }, false)),
 
   /**
@@ -298,7 +299,13 @@ export default Ember.Object.extend({
   })),
 
   setValidated() {
-    get(this, 'content').setEach('hasValidated', true);
+    get(this, 'content').forEach((result) => {
+      if (canInvoke(result, 'setValidated')) {
+        result.setValidated();
+      } else {
+        set(result, 'hasValidated', true);
+      }
+    });
   },
 
   /**
