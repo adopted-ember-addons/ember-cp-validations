@@ -7,7 +7,7 @@ import Ember from 'ember';
 
 const {
   computed,
-  defineProperty,
+  defineProperty
 } = Ember;
 
 export default Ember.Component.extend({
@@ -29,12 +29,12 @@ export default Ember.Component.extend({
   },
 
   notValidating: computed.not('validation.isValidating'),
-  didValidate: computed.oneWay('targetObject.didValidate'),
+  didValidate: computed.oneWay('validation.hasValidated'),
   hasContent: computed.notEmpty('value'),
   isValid: computed.and('hasContent', 'validation.isValid', 'notValidating'),
   isInvalid: computed.oneWay('validation.isInvalid'),
   showErrorClass: computed.and('notValidating', 'showMessage', 'hasContent', 'validation'),
-  showMessage: computed('validation.isDirty', 'isInvalid', 'didValidate', function() {
-    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
+  showMessage: computed('isInvalid', 'didValidate', function() {
+    return this.get('didValidate') && this.get('isInvalid');
   })
 });

@@ -58,6 +58,8 @@ export default Ember.Object.extend({
    */
   _validator: null,
 
+  hasValidated: false,
+
   /**
    * @property isValid
    * @readOnly
@@ -161,6 +163,10 @@ export default Ember.Object.extend({
    */
   update(result) {
     const validations = get(this, '_validations');
+
+    if (get(this, 'hasValidated')) {
+      set(this, 'hasValidated', false);
+    }
 
     if (isNone(result)) {
       this.update(false);

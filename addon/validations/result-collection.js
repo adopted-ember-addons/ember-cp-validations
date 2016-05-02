@@ -158,6 +158,10 @@ export default Ember.Object.extend({
     return !get(this, 'content').isEvery('isAsync', false);
   }, false)),
 
+  hasValidated: computed('content.@each.hasValidated', cycleBreaker(function () {
+    return !get(this, 'content').isEvery('hasValidated', false);
+  }, false)),
+
   /**
    * A collection of all error messages on the object in question
    *
@@ -292,6 +296,10 @@ export default Ember.Object.extend({
   value: computed('isAsync', cycleBreaker(function () {
     return get(this, 'isAsync') ? get(this, '_promise') : this;
   })),
+
+  setValidated() {
+    get(this, 'content').setEach('hasValidated', true);
+  },
 
   /**
    * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
