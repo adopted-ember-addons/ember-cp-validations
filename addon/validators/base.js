@@ -180,7 +180,7 @@ export default Ember.Object.extend({
 
   /**
    * Used by all pre-defined validators to build an error message that is present
-   * in `validators/message` or decalred in your i18n solution.
+   * in `validators/message` or declared in your i18n solution.
    *
    * If we extended our default messages to include `uniqueUsername: '{username} already exists'`,
    * we can use this method to generate our error message.
