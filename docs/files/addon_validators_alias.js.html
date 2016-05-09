@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/assign.js - Ember CP Validations</title>
+    <title>addon/validators/alias.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -100,7 +100,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/assign.js <small>File</small></h1>
+    <h1>addon/validators/alias.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -110,42 +110,77 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-/**
- * Assigns a value to an object via the given path while creating new objects if
- * the pathing requires it. If the given path is &#x60;foo.bar&#x60;, it will create a new object (obj.foo)
- * and assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.
- */
 import Ember from &#x27;ember&#x27;;
+import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
   get,
-  set,
-  isNone,
-  defineProperty
+  isEmpty
 } = Ember;
 
-export default function assign(obj, path, value, useEmberObject = false, delimiter = &#x27;.&#x27;) {
-  const keyPath = path.split(delimiter);
-  const lastKeyIndex = keyPath.length - 1;
-  let currObj = obj;
+/**
+ *  Creates an alias between a single attribute&#x27;s validations to another.
+ *  This copies all messages, errors, etc., to the current attribute as well as
+ *  its validation state (isValid, isValidating, etc.)
+ *
+ *   #### Options
+ *  - &#x60;firstMessageOnly&#x60; (**Boolean**): If true, only returns the first error message of the
+ *  aliased attribute and will not include validation state
+ *
+ *  &#x60;&#x60;&#x60;javascript
+ *  // Examples
+ *  validator(&#x27;alias&#x27;, &#x27;attribute&#x27;)
+ *  validator(&#x27;alias&#x27;, {
+ *    alias: &#x27;attribute&#x27;,
+ *    firstMessageOnly: true
+ *  })
+ *  &#x60;&#x60;&#x60;
+ *
+ *  @class Alias
+ *  @module Validators
+ *  @extends Base
+ */
+export default Base.extend({
 
-  // Iterate over each key in the path (minus the last one which is the property to be assigned)
-  for (let i = 0; i &lt; lastKeyIndex; ++i) {
-    const key = keyPath[i];
+  /**
+   * Normalized options passed in.
+   * &#x60;&#x60;&#x60;js
+   * validator(&#x27;alias&#x27;, &#x27;attribute&#x27;)
+   * // Becomes
+   * validator(&#x27;alias&#x27;, {
+   *   alias: &#x27;attribute&#x27;
+   * })
+   * &#x60;&#x60;&#x60;
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
+    let opts = options;
 
-    // Create a new object if it doesnt exist
-    if (isNone(get(currObj, key))) {
-      set(currObj, key, useEmberObject ? Ember.Object.create() : {});
+    if (typeof options === &#x27;string&#x27;) {
+      opts = {
+        alias: options
+      };
     }
-    currObj = get(currObj, key);
-  }
+    return this._super(opts, defaultOptions, globalOptions);
+  },
 
-  if (value instanceof Ember.ComputedProperty) {
-    defineProperty(currObj, keyPath[lastKeyIndex], value);
-  } else {
-    set(currObj, keyPath[lastKeyIndex], value);
+  validate(value, options, model) {
+    const { alias, firstMessageOnly } = options;
+
+    if(isEmpty(alias)) {
+      return true;
+    }
+
+    const aliasValidation = get(model, &#x60;validations.attrs.${alias}&#x60;);
+
+    return firstMessageOnly ? get(aliasValidation, &#x27;message&#x27;) : get(aliasValidation, &#x27;content&#x27;);
   }
-}
+});
 
     </pre>
 </div>

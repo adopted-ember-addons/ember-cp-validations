@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -109,6 +111,7 @@
  */
 
 import Ember from &#x27;ember&#x27;;
+import ValidationError from &#x27;./error&#x27;;
 import flatten from &#x27;../utils/flatten&#x27;;
 import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
 
@@ -133,7 +136,6 @@ function callable(method) {
 
 const uniq = callable(&#x27;uniq&#x27;);
 const compact = callable(&#x27;compact&#x27;);
-
 
 /**
  * @module Validations
@@ -300,7 +302,8 @@ export default Ember.Object.extend({
   })),
 
   /**
-   * A collection of all {{#crossLink &quot;Error&quot;}}Errors{{/crossLink}} on the object in question. Each error object includes the error message and it&#x27;s associated attribute name.
+   * A collection of all {{#crossLink &quot;Error&quot;}}Errors{{/crossLink}} on the object in question.
+   * Each error object includes the error message and it&#x27;s associated attribute name.
    *
    * &#x60;&#x60;&#x60;javascript
    * // Example
@@ -312,10 +315,13 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  errors: computed(&#x27;content.@each.errors&#x27;, cycleBreaker(function () {
-    const errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
+  errors: computed(&#x27;attribute&#x27;, &#x27;content.@each.errors&#x27;, cycleBreaker(function () {
+    const attribute = get(this, &#x27;attribute&#x27;);
+    let errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
 
-    return uniq(compact(errors));
+    errors = uniq(compact(errors));
+
+    return errors.map(e =&gt; ValidationError.create({ attribute, message: e.get(&#x27;message&#x27;)}));
   })),
 
   /**

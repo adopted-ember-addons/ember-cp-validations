@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/assign.js - Ember CP Validations</title>
+    <title>addon/utils/should-call-super.js - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -100,7 +100,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>addon/utils/assign.js <small>File</small></h1>
+    <h1>addon/utils/should-call-super.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -111,40 +111,26 @@
  */
 
 /**
- * Assigns a value to an object via the given path while creating new objects if
- * the pathing requires it. If the given path is &#x60;foo.bar&#x60;, it will create a new object (obj.foo)
- * and assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.
+ * Checks if the give key exists on the object&#x27;s super.
+ * If so, we can successfuly call the obj[key] _super
+ *
+ * Created by @rwjblue
  */
-import Ember from &#x27;ember&#x27;;
+export default function shouldCallSuper(obj, key) {
+  let current = Object.getPrototypeOf(obj);
+  current = Object.getPrototypeOf(current);
 
-const {
-  get,
-  set,
-  isNone,
-  defineProperty
-} = Ember;
+  while (current) {
+    let descriptor = Object.getOwnPropertyDescriptor(current, key);
 
-export default function assign(obj, path, value, useEmberObject = false, delimiter = &#x27;.&#x27;) {
-  const keyPath = path.split(delimiter);
-  const lastKeyIndex = keyPath.length - 1;
-  let currObj = obj;
-
-  // Iterate over each key in the path (minus the last one which is the property to be assigned)
-  for (let i = 0; i &lt; lastKeyIndex; ++i) {
-    const key = keyPath[i];
-
-    // Create a new object if it doesnt exist
-    if (isNone(get(currObj, key))) {
-      set(currObj, key, useEmberObject ? Ember.Object.create() : {});
+    if (descriptor) {
+      return true;
     }
-    currObj = get(currObj, key);
+
+    current = Object.getPrototypeOf(current);
   }
 
-  if (value instanceof Ember.ComputedProperty) {
-    defineProperty(currObj, keyPath[lastKeyIndex], value);
-  } else {
-    set(currObj, keyPath[lastKeyIndex], value);
-  }
+  return false;
 }
 
     </pre>

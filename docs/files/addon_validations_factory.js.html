@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -116,6 +118,7 @@ import ValidationResult from &#x27;./result&#x27;;
 import ValidationResultCollection from &#x27;./result-collection&#x27;;
 import BaseValidator from &#x27;../validators/base&#x27;;
 import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
+import shouldCallSuper from &#x27;../utils/should-call-super&#x27;;
 
 const {
   get,
@@ -200,17 +203,29 @@ default
 function buildValidations(validations = {}, globalOptions = {}) {
   normalizeOptions(validations, globalOptions);
 
-  let Validations;
+  let Validations, validationMixinCount;
 
   return Ember.Mixin.create({
-    _validationsClass: computed(function () {
+    init() {
+      this._super(...arguments);
+
+      // Count number of mixins to bypass super check if there is more than 1
+      this.__validationsMixinCount__ = this.__validationsMixinCount__ || 0;
+      validationMixinCount = ++this.__validationsMixinCount__;
+    },
+    __validationsClass__: computed(function () {
       if (!Validations) {
-        Validations = createValidationsClass(this._super(), validations);
+        let inheritedClass;
+        if(shouldCallSuper(this, &#x27;__validationsClass__&#x27;) || validationMixinCount &gt; 1) {
+          inheritedClass = this._super();
+        }
+
+        Validations = createValidationsClass(inheritedClass, validations);
       }
       return Validations;
     }).readOnly(),
     validations: computed(function () {
-      return this.get(&#x27;_validationsClass&#x27;).create({
+      return this.get(&#x27;__validationsClass__&#x27;).create({
         model: this
       });
     }).readOnly(),
@@ -286,7 +301,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   let validatableAttributes = Object.keys(validations);
 
   // Setup validation inheritance
-  if (inheritedValidationsClass) {
+  if (inheritedValidationsClass &amp;&amp; inheritedValidationsClass.__isCPValidationsClass__) {
     const inheritedValidations = inheritedValidationsClass.create();
 
     validationRules = merge(validationRules, inheritedValidations.get(&#x27;_validationRules&#x27;));
@@ -340,7 +355,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
   });
 
   // Create &#x60;validations&#x60; class
-  return Ember.Object.extend(TopLevelProps, {
+  const ValidationsClass = Ember.Object.extend(TopLevelProps, {
     model: null,
     attrs: null,
     isValidations: true,
@@ -391,6 +406,12 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
       });
     }
   });
+
+  ValidationsClass.reopenClass({
+    __isCPValidationsClass__: true
+  });
+
+  return ValidationsClass;
 }
 
 /**
@@ -424,7 +445,7 @@ function createCPValidationFor(attribute, validations) {
           cache[guidFor(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
         });
       } else {
-        value = validator.validate(get(model, attribute), options, model, attribute);
+        value = validator.validate(validator.getValue(), options, model, attribute);
       }
 
       return validationReturnValueHandler(attribute, value, model, validator);
@@ -519,6 +540,9 @@ function getCPDependentKeysFor(attribute, validations) {
       }
     } else if (type === &#x27;collection&#x27; &amp;&amp; (options === true || options.collection === true)) {
       dependentKeys.push(&#x60;_model.${attribute}.[]&#x60;);
+    } else if(type === &#x27;alias&#x27;) {
+      const alias = typeof options === &#x27;string&#x27; ? options : options.alias;
+      dependentKeys.push(&#x60;${alias}.isTruelyValid&#x60;);
     }
 
     const specifiedDependents = [].concat(getWithDefault(options, &#x27;dependentKeys&#x27;, []),
@@ -545,7 +569,10 @@ function getCPDependentKeysFor(attribute, validations) {
  * @param  {Function} resolve
  */
 function debouncedValidate(validator, model, attribute, resolve) {
-  resolve(validator.validate(get(model, attribute), validator.processOptions(), model, attribute));
+  const options = validator.processOptions();
+  const value = validator.getValue();
+
+  resolve(validator.validate(value, options, model, attribute));
 }
 
 /**

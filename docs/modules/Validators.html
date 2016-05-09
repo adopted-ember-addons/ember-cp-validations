@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -105,7 +107,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validators_presence.js.html#l14"><code>addon&#x2F;validators&#x2F;presence.js:14</code></a>
+            Defined in: <a href="../files/addon_validators_presence.js.html#l15"><code>addon&#x2F;validators&#x2F;presence.js:15</code></a>
         </div>
 
 </div>
@@ -147,8 +149,8 @@ validator('presence', {
 validator('presence', {
   presence: true,
   dependentKeys: ['shouldValidate'],
-  disabled() {
-    return !this.get('model.shouldValidate');
+  disabled(model, attribute) {
+    return !model.get('shouldValidate');
   }
 })
 </code></pre>
@@ -160,6 +162,25 @@ validator('length', {
 })
 validator('x-validator', {
   debounce: 250
+})
+</code></pre>
+<p><h3 id="value">value</h3>
+Used to retrieve the value to validate. This will overwrite the validator's default <code>value</code> method.
+By default this returns <code>model[attribute]</code>. If you are dependent on other model attributes, you will
+need to add them as <code>dependentKeys</code>.</p>
+<pre class="code prettyprint"><code class="language-javascript">// Examples
+validator('date', {
+  value(model, attribute) {
+    // Format the orignal value before passing it into the validator
+    return moment().utc(model.get(attribute)).format('DD/MM/YYY');
+  }
+})
+validator('number', {
+     dependentKeys: ['someOtherAttr'],
+  value(model, attribute) {
+    // Validate a value that is not the current attribute
+    return this.get('model').get('someOtherAttr');
+  }
 })
 </code></pre>
 <p><h3 id="message">message</h3>
@@ -209,6 +230,11 @@ validator(function(value, options, model, attribute) {
                     <p>This module provides the following classes:</p>
 
                     <ul class="module-classes">
+                        <li class="module-class">
+                            <a href="../classes/Alias.html">
+                                Alias
+                            </a>
+                        </li>
                         <li class="module-class">
                             <a href="../classes/Base.html">
                                 Base
@@ -267,6 +293,11 @@ validator(function(value, options, model, attribute) {
                         <li class="module-class">
                             <a href="../classes/Inclusion.html">
                                 Inclusion
+                            </a>
+                        </li>
+                        <li class="module-class">
+                            <a href="../classes/Inline.html">
+                                Inline
                             </a>
                         </li>
                         <li class="module-class">

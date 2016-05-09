@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -171,8 +173,8 @@ const Validations = buildValidations({
 }, {
   description: 'This field'
   dependentKeys: ['i18n.locale', 'disableValidations'],
-  disabled() {
-    return this.get('model.disableValidations');
+  disabled(model, attribute) {
+    return model.get('disableValidations');
   }
 });
 </code></pre>
@@ -181,19 +183,19 @@ over global options. This allows you to declare global rules while having the ab
 <p>This rule does not apply to <code>dependentKeys</code>, instead they all are merged. In the example above, <strong>firstName</strong>'s dependentKeys will be
 <code>['i18n.locale', 'disableValidations', 'foo', 'bar']</code></p>
 <p><h3 id="optionsAsFunctions">Options as Functions</h3></p>
-<p>All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed,
-giving you access to all its properties such as <code>options</code>, <code>model</code>, <code>attribute</code>, etc.</p>
+<p>All options can be functions which are processed lazily before validate is called. These functions are passed the <code>model</code> and <code>attribute</code> that is associated with
+the validator while also given that as their context, giving you access to all its properties.</p>
 <p>Please note that the <code>message</code> option of a validator has its <a href="http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message">own signature</a>.</p>
 <pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
   dob: validator('date', {
     description: 'Date of Birth',
-    format() {
-      return this.get('model.meta.date.format');
+    format(model, attribute) {
+      return model.get('meta.date.format');
     },
-    before() {
+    before(model, attribute) {
       return moment();
     },
-    after() {
+    after(model, attribute) {
       return moment().subtract(120, 'years');
     }
   })

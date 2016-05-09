@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -207,7 +209,14 @@ export default Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    return assign(assign(assign({}, globalOptions), defaultOptions), options);
+    const builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
+
+    // Overwrite the validator&#x27;s value method if it exists in the options and remove it since
+    // there is no need for it to be passed around
+    this.value = builtOptions.value || this.value;
+    delete builtOptions.value;
+
+    return builtOptions;
   },
 
   /**
@@ -218,16 +227,43 @@ export default Ember.Object.extend({
    */
   processOptions() {
     const options = assign({}, get(this, &#x27;options&#x27;) || {});
+    const model = get(this, &#x27;model&#x27;);
+    const attribute = get(this, &#x27;attribute&#x27;);
 
     Object.keys(options).forEach(key =&gt; {
-      const opt = options[key];
+      const option = options[key];
 
-      if (typeof opt === &#x27;function&#x27; &amp;&amp; key !== &#x27;message&#x27;) {
-        options[key] = opt.call(this);
+      if (typeof option === &#x27;function&#x27; &amp;&amp; key !== &#x27;message&#x27;) {
+        options[key] = option.call(this, model, attribute);
       }
     });
 
     return options;
+  },
+
+  /**
+   * Used to retrieve the value to validate.
+   * This method gets called right before &#x60;validate&#x60; and the returned value
+   * gets passed into the validate method.
+   *
+   * @method value
+   * @param {Object} model
+   * @param {String} attribute
+   * @return The current value of &#x60;model[attribute]&#x60;
+   */
+  value(model, attribute) {
+    return get(model, attribute);
+  },
+
+  /**
+   * Wrapper method to &#x60;value&#x60; that passes the necessary parameters
+   *
+   * @method getValue
+   * @private
+   * @return {Unknown} value
+   */
+  getValue() {
+    return this.value(get(this, &#x27;model&#x27;), get(this, &#x27;attribute&#x27;));
   },
 
   /**
@@ -251,7 +287,7 @@ export default Ember.Object.extend({
 
   /**
    * Used by all pre-defined validators to build an error message that is present
-   * in &#x60;validators/message&#x60; or decalred in your i18n solution.
+   * in &#x60;validators/message&#x60; or declared in your i18n solution.
    *
    * If we extended our default messages to include &#x60;uniqueUsername: &#x27;{username} already exists&#x27;&#x60;,
    * we can use this method to generate our error message.
@@ -411,6 +447,23 @@ export default Ember.Object.extend({
  *  @class Custom
  *  @module Validators
  *  @extends Base
+ */
+
+/**
+ * A validator can also be declared with an inline function. The function will be then wrapped in the {{#crossLink &#x27;Base&#x27;}}Base Validator{{/crossLink}} class and used just like any other pre-defined validator.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Example
+ * validator(function(value, options, model, attribute) {
+ *   return value === options.username ? true : &#x60;must be ${options.username}&#x60;;
+ * } , {
+ *   username: &#x27;John&#x27; // Any options can be passed here
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * @class Inline
+ * @module Validators
+ * @extends Base
  */
 
     </pre>

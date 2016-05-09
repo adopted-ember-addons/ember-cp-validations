@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -109,15 +111,19 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import Base from &#x27;./base&#x27;;
+import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
   get,
-  isEmpty
+  isEmpty,
+  isPresent
 } = Ember;
 
 /**
  *  If &#x60;true&#x60; validates that the given value is not empty, if &#x60;false&#x60;, validates that the given value is empty.
+ *
+ *   #### Options
+ *  - &#x60;ignoreBlank&#x60; (**Boolean**): If true, treats an empty or whitespace string as not present
  *
  *  &#x60;&#x60;&#x60;javascript
  *  // Examples
@@ -126,6 +132,12 @@ const {
  *  validator(&#x27;presence&#x27;, {
  *    presence: true,
  *    message: &#x27;should not be empty&#x27;
+ *  })
+ *
+ *  validator(&#x27;presence&#x27;, {
+ *  	presence: true,
+ *    ignoreBlank: true,
+ *    message: &#x27;should not be empty or consist only of spaces&#x27;
  *  })
  *  &#x60;&#x60;&#x60;
  *
@@ -163,11 +175,13 @@ export default Base.extend({
   },
 
   validate(value, options) {
-    if (options.presence === true &amp;&amp; !this._isPresent(value)) {
+    const { presence, ignoreBlank } = options;
+
+    if (presence === true &amp;&amp; !this._isPresent(value, ignoreBlank)) {
       return this.createErrorMessage(&#x27;blank&#x27;, value, options);
     }
 
-    if (options.presence === false &amp;&amp; this._isPresent(value)) {
+    if (presence === false &amp;&amp; this._isPresent(value, ignoreBlank)) {
       return this.createErrorMessage(&#x27;present&#x27;, value, options);
     }
 
@@ -177,11 +191,16 @@ export default Base.extend({
   /**
    * Handle presence of ember proxy based instances
    */
-  _isPresent(value) {
+  _isPresent(value, ignoreBlank = false) {
     if (value instanceof Ember.ObjectProxy || value instanceof Ember.ArrayProxy) {
-      return this._isPresent(get(value, &#x27;content&#x27;));
+      return this._isPresent(get(value, &#x27;content&#x27;), ignoreBlank);
     }
-    return !isEmpty(value);
+
+    if (ignoreBlank) {
+      return isPresent(value);
+    } else {
+      return !isEmpty(value);
+    }
   }
 });
 

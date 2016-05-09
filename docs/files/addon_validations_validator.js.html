@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -158,8 +160,8 @@ const {
  * validator(&#x27;presence&#x27;, {
  *   presence: true,
  *   dependentKeys: [&#x27;shouldValidate&#x27;],
- *   disabled() {
- *     return !this.get(&#x27;model.shouldValidate&#x27;);
+ *   disabled(model, attribute) {
+ *     return !model.get(&#x27;shouldValidate&#x27;);
  *   }
  * })
  * &#x60;&#x60;&#x60;
@@ -174,6 +176,28 @@ const {
  * })
  * validator(&#x27;x-validator&#x27;, {
  *   debounce: 250
+ * })
+ * &#x60;&#x60;&#x60;
+ *
+ * &lt;h3 id=&quot;value&quot;&gt;value&lt;/h3&gt;
+ * Used to retrieve the value to validate. This will overwrite the validator&#x27;s default &#x60;value&#x60; method.
+ * By default this returns &#x60;model[attribute]&#x60;. If you are dependent on other model attributes, you will
+ * need to add them as &#x60;dependentKeys&#x60;.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * validator(&#x27;date&#x27;, {
+ *   value(model, attribute) {
+ *   	// Format the orignal value before passing it into the validator
+ *   	return moment().utc(model.get(attribute)).format(&#x27;DD/MM/YYY&#x27;);
+ *   }
+ * })
+ * validator(&#x27;number&#x27;, {
+ * 	 dependentKeys: [&#x27;someOtherAttr&#x27;],
+ *   value(model, attribute) {
+ *   	// Validate a value that is not the current attribute
+ *   	return this.get(&#x27;model&#x27;).get(&#x27;someOtherAttr&#x27;);
+ *   }
  * })
  * &#x60;&#x60;&#x60;
  *

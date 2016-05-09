@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Inclusion - Ember CP Validations</title>
+    <title>Inline - Ember CP Validations</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -56,8 +56,8 @@
                     <li ><a  href="../classes/Factory.html">Factory</a></li>
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
-                    <li  class="active"><a  href="../classes/Inclusion.html">Inclusion</a></li>
-                    <li ><a  href="../classes/Inline.html">Inline</a></li>
+                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li  class="active"><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -100,7 +100,7 @@
                         </form>
                     
 <div class="page-header">
-    <h1>Inclusion</h1>
+    <h1>Inline</h1>
 </div>
 <div class="well well-small">
 
@@ -112,39 +112,19 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validators_inclusion.js.html#l14"><code>addon&#x2F;validators&#x2F;inclusion.js:14</code></a>
+            Defined in: <a href="../files/addon_validators_base.js.html#l345"><code>addon&#x2F;validators&#x2F;base.js:345</code></a>
         </div>
 </div>
 
 
 
   <div class="yuidoc-class-description">
-  <p>Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters!
-For range, the value type is checked against both lower and upper bounds for type equality.</p>
-<h4>Options</h4>
-<ul>
-<li><code>allowBlank</code> (<strong>Boolean</strong>): If true, skips validation if the value is empty</li>
-<li><code>in</code> (<strong>Array</strong>): The list of values this attribute could be</li>
-<li><code>range</code> (<strong>Array</strong>): The range in which the attribute's value should reside in</li>
-</ul>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('inclusion', {
-    in: ['User', 'Admin']
-})
-validator('inclusion', {
-    range: [0, 5] // Must be between 0 (inclusive) to 5 (inclusive)
-})
-</code></pre>
-<p>Because of the strict equality comparisons, you can use this validator in many different ways.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('inclusion', {
-    in: ['Admin'] // Input must be equal to 'Admin'
-})
-validator('inclusion', {
-    range: [0, Infinity] // Input must be positive number
-})
-validator('inclusion', {
-    range: [-Infinity, Infinity] // Input must be a number
+  <p>A validator can also be declared with an inline function. The function will be then wrapped in the <a href="../classes/Base.html" class="crosslink">Base Validator</a> class and used just like any other pre-defined validator.</p>
+<pre class="code prettyprint"><code class="language-javascript">// Example
+validator(function(value, options, model, attribute) {
+  return value === options.username ? true : <code>must be ${options.username}</code>;
+} , {
+  username: 'John' // Any options can be passed here
 })
 </code></pre>
 

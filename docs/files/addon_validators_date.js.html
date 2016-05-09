@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -109,7 +111,7 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import Base from &#x27;./base&#x27;;
+import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 const moment = (self.requirejs.entries.moment || self.requirejs.entries[&#x27;moment/index&#x27;]) &amp;&amp; self.require(&#x27;moment&#x27;).default;
 
 if (typeof moment === &#x27;undefined&#x27;) {
@@ -129,7 +131,10 @@ const {
  *   #### Options
  *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
  *  - &#x60;before&#x60; (**String**): The specified date must be before this date
+ *  - &#x60;onOrBefore&#x60; (**String**): The specified date must be on or before this date
  *  - &#x60;after&#x60; (**String**): The specified date must be after this date
+ *  - &#x60;onOrAfter&#x60; (**String**): The specified date must be on or after this date
+ *  - &#x60;precision&#x60; (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.
  *  - &#x60;format&#x60; (**String**): Input value date format
  *  - &#x60;errorFormat&#x60; (**String**): Error output date format. Defaults to &#x60;MMM Do, YYYY&#x60;
  *
@@ -138,10 +143,11 @@ const {
  *  validator(&#x27;date&#x27;, {
  *      after: &#x27;now&#x27;,
  *      before: &#x27;1/1/2020&#x27;,
+ *      precision: &#x27;day&#x27;,
  *      format: &#x27;M/D/YYY&#x27;,
  *      errorFormat: &#x27;M/D/YYY&#x27;
  *  })
- *  // If before or after is set to &#x27;now&#x27;, the value given to the validator will be tested against the current date and time.
+ *  // If before, onOrBefore, after, or onOrAfter is set to &#x27;now&#x27;, the value given to the validator will be tested against the current date and time.
  *  &#x60;&#x60;&#x60;
  *
  *  @class Date
@@ -160,7 +166,8 @@ export default Base.extend({
   validate(value, options) {
     const errorFormat = options.errorFormat || &#x27;MMM Do, YYYY&#x27;;
     const format = options.format;
-    let { before, after } = options;
+    const precision = options.precision;
+    let { before, onOrBefore, after, onOrAfter } = options;
 
     if (options.allowBlank &amp;&amp; isEmpty(value)) {
       return true;
@@ -178,17 +185,33 @@ export default Base.extend({
 
     if (before) {
       before = this._parseDate(before, format);
-      if (before &lt; date) {
+      if (!date.isBefore(before, precision)) {
         options.before = before.format(errorFormat);
         return this.createErrorMessage(&#x27;before&#x27;, value, options);
       }
     }
 
+    if (onOrBefore) {
+      onOrBefore = this._parseDate(onOrBefore, format);
+      if (!date.isSameOrBefore(onOrBefore, precision))  {
+        options.onOrBefore = onOrBefore.format(errorFormat);
+        return this.createErrorMessage(&#x27;onOrBefore&#x27;, value, options);
+      }
+    }
+
     if (after) {
       after = this._parseDate(after, format);
-      if (after &gt; date) {
+      if (!date.isAfter(after, precision)) {
         options.after = after.format(errorFormat);
         return this.createErrorMessage(&#x27;after&#x27;, value, options);
+      }
+    }
+
+    if (onOrAfter) {
+      onOrAfter = this._parseDate(onOrAfter, format);
+      if (!date.isSameOrAfter(onOrAfter, precision)) {
+        options.onOrAfter = onOrAfter.format(errorFormat);
+        return this.createErrorMessage(&#x27;onOrAfter&#x27;, value, options);
       }
     }
 

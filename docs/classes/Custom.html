@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -110,7 +112,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validators_base.js.html#l200"><code>addon&#x2F;validators&#x2F;base.js:200</code></a>
+            Defined in: <a href="../files/addon_validators_base.js.html#l234"><code>addon&#x2F;validators&#x2F;base.js:234</code></a>
         </div>
 </div>
 
@@ -223,12 +225,20 @@ test('it works', function(assert) {
                                 <a href="#method_createErrorMessage">createErrorMessage</a>
 
                             </li>
+                            <li class="index-item method private inherited">
+                                <a href="#method_getValue">getValue</a>
+
+                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_processOptions">processOptions</a>
 
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_validate">validate</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_value">value</a>
 
                             </li>
                     </ul>
@@ -386,7 +396,7 @@ The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l147"><code>addon&#x2F;validators&#x2F;base.js:147</code></a>
+		<a href="../files/addon_validators_base.js.html#l181"><code>addon&#x2F;validators&#x2F;base.js:181</code></a>
 		</p>
 
 
@@ -394,7 +404,7 @@ The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/
 	</div>
 
 	<div class="description"><p>Used by all pre-defined validators to build an error message that is present
-in <code>validators/message</code> or decalred in your i18n solution.</p>
+in <code>validators/message</code> or declared in your i18n solution.</p>
 <p>If we extended our default messages to include <code>uniqueUsername: '{username} already exists'</code>,
 we can use this method to generate our error message.</p>
 <pre class="code prettyprint"><code class="language-javascript">validate(value, options) {
@@ -460,6 +470,48 @@ we can use this method to generate our error message.</p>
 		</div>
 
 </div>
+<div id="method_getValue" class="method item private inherited">
+	<span class="method-signature">
+	<span class="name"><code>getValue</code></span>
+
+		<span class="paren">()</span>
+		<span class="returns-inline">
+			<span class="type">Unknown</span>
+		</span>
+	</span>
+
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>Inherited from
+				<a href="../classes/Base.html#method_getValue">Base</a>:
+		<a href="../files/addon_validators_base.js.html#l151"><code>addon&#x2F;validators&#x2F;base.js:151</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Wrapper method to <code>value</code> that passes the necessary parameters</p>
+</div>
+
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type">Unknown</span>:
+					<p>value</p>
+
+			</div>
+		</div>
+
+</div>
 <div id="method_processOptions" class="method item inherited">
 	<span class="method-signature">
 	<span class="name"><code>processOptions</code></span>
@@ -479,7 +531,7 @@ we can use this method to generate our error message.</p>
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_processOptions">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l108"><code>addon&#x2F;validators&#x2F;base.js:108</code></a>
+		<a href="../files/addon_validators_base.js.html#l115"><code>addon&#x2F;validators&#x2F;base.js:115</code></a>
 		</p>
 
 
@@ -534,7 +586,7 @@ This method is called right before <code>validate</code> and the returned object
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_validate">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l128"><code>addon&#x2F;validators&#x2F;base.js:128</code></a>
+		<a href="../files/addon_validators_base.js.html#l162"><code>addon&#x2F;validators&#x2F;base.js:162</code></a>
 		</p>
 
 
@@ -599,6 +651,77 @@ Within the validator object, you will have access to the following properties:</
 <li><code>String</code>: The error message</li>
 <li><code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</li>
 </ul>
+
+			</div>
+		</div>
+
+</div>
+<div id="method_value" class="method item inherited">
+	<span class="method-signature">
+	<span class="name"><code>value</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>model</code>
+				</li>
+				<li class="arg">
+						<code>attribute</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</span>
+
+
+
+
+
+
+
+	<div class="meta">
+				<p>Inherited from
+				<a href="../classes/Base.html#method_value">Base</a>:
+		<a href="../files/addon_validators_base.js.html#l137"><code>addon&#x2F;validators&#x2F;base.js:137</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>Used to retrieve the value to validate.
+This method gets called right before <code>validate</code> and the returned value
+gets passed into the validate method.</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">attribute</code>
+						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>The current value of <code>model[attribute]</code></p>
 
 			</div>
 		</div>

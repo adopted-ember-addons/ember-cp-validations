@@ -42,6 +42,7 @@
                    </li>
             
                 <li class="section">Classes</li>
+                    <li ><a  href="../classes/Alias.html">Alias</a></li>
                     <li ><a  href="../classes/Base.html">Base</a></li>
                     <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
                     <li ><a  href="../classes/Collection.html">Collection</a></li>
@@ -56,6 +57,7 @@
                     <li ><a  href="../classes/Format.html">Format</a></li>
                     <li ><a  href="../classes/Has Many.html">Has Many</a></li>
                     <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
+                    <li ><a  href="../classes/Inline.html">Inline</a></li>
                     <li ><a  href="../classes/Length.html">Length</a></li>
                     <li ><a  href="../classes/Messages.html">Messages</a></li>
                     <li ><a  href="../classes/Number.html">Number</a></li>
@@ -66,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.7.2</p>
+                <p class="version pull-right">v2.8.0</p>
               </div>
             </div>
         </div>
@@ -207,7 +209,9 @@ export default Ember.Object.extend({
   tooLong: &#x27;{description} is too long (maximum is {max} characters)&#x27;,
   tooShort: &#x27;{description} is too short (minimum is {min} characters)&#x27;,
   before: &#x27;{description} must be before {before}&#x27;,
+  onOrBefore: &#x27;{description} must be on or before {onOrBefore}&#x27;,
   after: &#x27;{description} must be after {after}&#x27;,
+  onOrAfter: &#x27;{description} must be on or after {onOrAfter}&#x27;,
   wrongDateFormat: &#x27;{description} must be in the format of {format}&#x27;,
   wrongLength: &#x27;{description} is the wrong length (should be {is} characters)&#x27;,
   notANumber: &#x27;{description} must be a number&#x27;,
