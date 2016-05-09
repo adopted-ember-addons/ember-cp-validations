@@ -150,7 +150,7 @@ export default Ember.Object.extend({
 
   /**
    * Wrapper method to `value` that passes the necessary parameters
-   * 
+   *
    * @method getValue
    * @private
    * @return {Unknown} value
@@ -340,4 +340,21 @@ export default Ember.Object.extend({
  *  @class Custom
  *  @module Validators
  *  @extends Base
+ */
+
+/**
+ * A validator can also be declared with an inline function. The function will be then wrapped in the {{#crossLink 'Base'}}Base Validator{{/crossLink}} class and used just like any other pre-defined validator.
+ *
+ * ```javascript
+ * // Example
+ * validator(function(value, options, model, attribute) {
+ *   return value === options.username ? true : `must be ${options.username}`;
+ * } , {
+ *   username: 'John' // Any options can be passed here
+ * })
+ * ```
+ *
+ * @class Inline
+ * @module Validators
+ * @extends Base
  */

@@ -118,7 +118,7 @@ export default Ember.Component.extend(Validations, {
 });
 ```
 
-To lookup validators, container access is required which can cause an issue with `Ember.Object` creation if the object is statically imported. The current fix for this is as follows. 
+To lookup validators, container access is required which can cause an issue with `Ember.Object` creation if the object is statically imported. The current fix for this is as follows.
 
 ```javascript
 // models/user.js
@@ -186,7 +186,7 @@ const Validations = buildValidations({
 });
 ```
 
-We can declare default options: 
+We can declare default options:
 
 ```javascript
 const Validations = buildValidations({
@@ -209,7 +209,7 @@ In the above example, all the validators for username will have a description of
 
 **Options as Functions**
 
-All options can be functions which are processed lazily before validate is called. These functions have the context of the validator that is being executed, giving you access to all its properties such as `options`, `model`, `attribute`, etc. 
+All options can be functions which are processed lazily before validate is called. These functions are passed the `model` and `attribute` that is associated with the validator while also given that as their context, giving you access to all its properties.
 
 Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
 
@@ -217,13 +217,13 @@ Please note that the `message` option of a validator has its [own signature](htt
 const Validations = buildValidations({
   dob: validator('date', {
     description: 'Date of Birth',
-    format() {
+    format(model, attribute) {
       return this.get('model.meta.date.format');
     },
-    before() {
+    before(model, attribute) {
       return moment();
     },
-    after() {
+    after(model, attribute) {
       return moment().subtract(120, 'years');
     }
   })
@@ -247,14 +247,13 @@ const Validations = buildValidations({
 
 export default Ember.Component.extend(Validations, {
   acceptTerms: false,
-  user:  { 
-    firstName: 'John', 
+  user:  {
+    firstName: 'John',
     lastName: 'Doe' ,
-    account: { 
-      number: 123456, 
+    account: {
+      number: 123456,
     }
   },
   isFormValid: Ember.computed.alias('validations.isValid'),
 });
 ```
-

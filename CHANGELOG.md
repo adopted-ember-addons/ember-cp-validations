@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.8.0
+- [#168](https://github.com/offirgolan/ember-cp-validations/pull/168) Add `onOrBefore`, `onOrAfter`, and `precision` options to date validator [@aaronbhansen](https://github.com/aaronbhansen)
+- [#170](https://github.com/offirgolan/ember-cp-validations/pull/170) Only call super on validations class if it exists via shouldCallSuper
+- [#171](https://github.com/offirgolan/ember-cp-validations/pull/171) Value option
+- [#171](https://github.com/offirgolan/ember-cp-validations/pull/171) All _Options as Functions_ methods are now provided with `model` and `attribute`
+- [#173](https://github.com/offirgolan/ember-cp-validations/pull/173) Add `ignoreBlank` option to presence validator [@krasnoukhov](https://github.com/krasnoukhov)
+
 ## 2.7.2
 - [#163](https://github.com/offirgolan/ember-cp-validations/pull/163) Fix leaky state with nested objects
 - [#167](https://github.com/offirgolan/ember-cp-validations/pull/167) Add null safe checks for relational validators after promise resolves
@@ -19,7 +26,7 @@
 - [#132](https://github.com/offirgolan/ember-cp-validations/pull/132) Create validations object once per class instead of every instance
 
 ## 2.5.0
-- [#122](https://github.com/offirgolan/ember-cp-validations/pull/122) Blueprints/validator-test: Fix typo in _filesPath() method [@Turbo87](https://github.com/Turbo87)
+- [#122](https://github.com/offirgolan/ember-cp-validations/pull/122) Blueprints/validator-test: Fix typo in `_filesPath()` method [@Turbo87](https://github.com/Turbo87)
 - [#127](https://github.com/offirgolan/ember-cp-validations/pull/127) DS Error validator. See docs [here](http://offirgolan.github.io/ember-cp-validations/docs/classes/DS%20Error.html)
 
 ## 2.4.1
