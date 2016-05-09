@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.8.0</p>
+                <p class="version pull-right">2.8.0.e0778382</p>
               </div>
             </div>
         </div>
@@ -237,19 +237,6 @@ const {
  *
  * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
  *
- *
- * &lt;h2 id=&quot;functionBasedValidators&quot;&gt;Function Based Validators&lt;/h2&gt;
- *
- * A validator can also be declared with a function. The function will be then wrapped in the [Base Validator](./base.md) class and used just like any other pre-defined validator.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Example
- * validator(function(value, options, model, attribute) {
- *   return value === options.username ? true : &#x60;must be ${options.username}&#x60;;
- * } , {
- *   username: &#x27;John&#x27; // Any options can be passed here
- * })
- * &#x60;&#x60;&#x60;
  *
  * @module Validators
  * @main Validators

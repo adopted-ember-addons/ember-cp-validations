@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.8.0</p>
+                <p class="version pull-right">2.8.0.e0778382</p>
               </div>
             </div>
         </div>
@@ -212,15 +212,6 @@ validator('date', {
 </ul>
 <p>The return value must be a <code>string</code>. If nothing is returned (<code>undefined</code>), defaults to the default error message of the specified type.</p>
 <p>Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.</p>
-<p><h2 id="functionBasedValidators">Function Based Validators</h2></p>
-<p>A validator can also be declared with a function. The function will be then wrapped in the <a href="./base.md">Base Validator</a> class and used just like any other pre-defined validator.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-validator(function(value, options, model, attribute) {
-  return value === options.username ? true : <code>must be ${options.username}</code>;
-} , {
-  username: 'John' // Any options can be passed here
-})
-</code></pre>
 
 </div>
 
