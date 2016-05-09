@@ -1,6 +1,7 @@
 # Change Log
 
 ## 2.8.0
+- [#161](https://github.com/offirgolan/ember-cp-validations/pull/161) Alias validator
 - [#168](https://github.com/offirgolan/ember-cp-validations/pull/168) Add `onOrBefore`, `onOrAfter`, and `precision` options to date validator [@aaronbhansen](https://github.com/aaronbhansen)
 - [#170](https://github.com/offirgolan/ember-cp-validations/pull/170) Only call super on validations class if it exists via shouldCallSuper
 - [#171](https://github.com/offirgolan/ember-cp-validations/pull/171) Value option
