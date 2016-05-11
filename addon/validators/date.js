@@ -27,7 +27,7 @@ const {
  *  - `onOrBefore` (**String**): The specified date must be on or before this date
  *  - `after` (**String**): The specified date must be after this date
  *  - `onOrAfter` (**String**): The specified date must be on or after this date
- *  - `percision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.
+ *  - `precision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.
  *  - `format` (**String**): Input value date format
  *  - `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`
  *
@@ -36,7 +36,7 @@ const {
  *  validator('date', {
  *      after: 'now',
  *      before: '1/1/2020',
- *      percision: 'day',
+ *      precision: 'day',
  *      format: 'M/D/YYY',
  *      errorFormat: 'M/D/YYY'
  *  })
@@ -59,7 +59,7 @@ export default Base.extend({
   validate(value, options) {
     const errorFormat = options.errorFormat || 'MMM Do, YYYY';
     const format = options.format;
-    const percision = options.percision;
+    const precision = options.precision;
     let { before, onOrBefore, after, onOrAfter } = options;
 
     if (options.allowBlank && isEmpty(value)) {
@@ -78,7 +78,7 @@ export default Base.extend({
 
     if (before) {
       before = this._parseDate(before, format);
-      if (!date.isBefore(before, percision)) {
+      if (!date.isBefore(before, precision)) {
         options.before = before.format(errorFormat);
         return this.createErrorMessage('before', value, options);
       }
@@ -86,7 +86,7 @@ export default Base.extend({
 
     if (onOrBefore) {
       onOrBefore = this._parseDate(onOrBefore, format);
-      if (!date.isSameOrBefore(onOrBefore, percision))  {
+      if (!date.isSameOrBefore(onOrBefore, precision))  {
         options.onOrBefore = onOrBefore.format(errorFormat);
         return this.createErrorMessage('onOrBefore', value, options);
       }
@@ -94,7 +94,7 @@ export default Base.extend({
 
     if (after) {
       after = this._parseDate(after, format);
-      if (!date.isAfter(after, percision)) {
+      if (!date.isAfter(after, precision)) {
         options.after = after.format(errorFormat);
         return this.createErrorMessage('after', value, options);
       }
@@ -102,7 +102,7 @@ export default Base.extend({
 
     if (onOrAfter) {
       onOrAfter = this._parseDate(onOrAfter, format);
-      if (!date.isSameOrAfter(onOrAfter, percision)) {
+      if (!date.isSameOrAfter(onOrAfter, precision)) {
         options.onOrAfter = onOrAfter.format(errorFormat);
         return this.createErrorMessage('onOrAfter', value, options);
       }

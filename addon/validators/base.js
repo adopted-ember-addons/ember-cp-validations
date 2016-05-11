@@ -180,7 +180,7 @@ const Base = Ember.Object.extend({
 
   /**
    * Used by all pre-defined validators to build an error message that is present
-   * in `validators/message` or decalred in your i18n solution.
+   * in `validators/message` or declared in your i18n solution.
    *
    * If we extended our default messages to include `uniqueUsername: '{username} already exists'`,
    * we can use this method to generate our error message.
@@ -357,4 +357,21 @@ export default Base;
  *  @class Custom
  *  @module Validators
  *  @extends Base
+ */
+
+/**
+ * A validator can also be declared with an inline function. The function will be then wrapped in the {{#crossLink 'Base'}}Base Validator{{/crossLink}} class and used just like any other pre-defined validator.
+ *
+ * ```javascript
+ * // Example
+ * validator(function(value, options, model, attribute) {
+ *   return value === options.username ? true : `must be ${options.username}`;
+ * } , {
+ *   username: 'John' // Any options can be passed here
+ * })
+ * ```
+ *
+ * @class Inline
+ * @module Validators
+ * @extends Base
  */
