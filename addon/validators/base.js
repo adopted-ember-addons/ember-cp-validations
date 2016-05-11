@@ -263,15 +263,21 @@ export default Base;
  * ```javascript
  * // app/validators/unique-username.js
  *
- * import Ember from 'ember';
  * import BaseValidator from 'ember-cp-validations/validators/base';
  *
- * export default BaseValidator.extend({
+ * const UniqueUsername = BaseValidator.extend({
  *   validate(value, options, model, attribute) {
  *     return true;
- *     })
  *   }
  * });
+ *
+ * UniqueUsername.reopenClass({
+ *   getDependentsFor(attribute, options) {
+ *     return [];
+ *   }
+ * });
+ *
+ * export default UniqueUsername;
  * ```
  *
  * **Side Node**: Before we continue, I would suggest checking out the documentation for the {{#crossLink 'Base'}}Base Validator{{/crossLink}}.
@@ -285,7 +291,7 @@ export default Base;
  * import Ember from 'ember';
  * import BaseValidator from 'ember-cp-validations/validators/base';
  *
- * export default BaseValidator.extend({
+ * const UniqueUsername = BaseValidator.extend({
  *   store: Ember.inject.service(),
  *
  *   validate(value, options, model, attribute) {
@@ -305,6 +311,37 @@ export default Base;
  *   }
  * });
  * ```
+ *
+ * ## Dependent Keys
+ *
+ * There will be times when your validator will be dependent on some other property or object. Instead of having to
+ * include them in your option's `dependentKeys`, you can declare them in the static `getDependentsFor` hook. This hook
+ * recieves two parameters. The first is the `attribute` that this validator is being added to, and the second are the `options`
+ * there were passed to this validator.
+ *
+ * From the above code sample:
+ *
+ * ```javascript
+ * // app/validators/unique-username.js
+ *
+ * import BaseValidator from 'ember-cp-validations/validators/base';
+ *
+ * const UniqueUsername = BaseValidator.extend({});
+ *
+ * UniqueUsername.reopenClass({
+ *   getDependentsFor(attribute, options) {
+ *     return [];
+ *   }
+ * });
+ *
+ * export default UniqueUsername;
+ * ```
+ *
+ * All dependent keys are in reference to the model. So when you return `['username']`, it will add a dependent to `model.username`.
+ * This means that if you have a dependent on a service, that service must be injected into the model since returning `['myService.someProperty']`
+ * will be interpreted as `model.myService.someProperty`.
+ *
+ * ## Usage
  *
  * To use our unique-username validator we just have to add it to the model definition
  *

@@ -180,13 +180,13 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
  *   - Setup parent validation inheritance
  *   - Normalize nested keys (i.e. 'details.dob') into objects (i.e { details: { dob: validator() }})
  *   - Merge normalized validations with parent
- *   - Create `attrs` object with CPs
  *   - Create global CPs (i.e. 'isValid', 'messages', etc...)
  *
  * @method createValidationsClass
  * @private
  * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
+ * @param  {Object} owner
  * @return {Ember.Object}
  */
 function createValidationsClass(inheritedValidationsClass, validations, owner) {
@@ -211,7 +211,85 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
   const TopLevelProps = createTopLevelPropsMixin(validatableAttributes);
 
   // Create the `attrs` class which will add the current model reference once instantiated
-  const Attrs = Ember.Object.extend({
+  const AttrsClass = createAttrsClass(validatableAttributes, validationRules, owner);
+
+  // Create `validations` class
+  const ValidationsClass = Ember.Object.extend(TopLevelProps, {
+    model: null,
+    attrs: null,
+    isValidations: true,
+
+    validatableAttributes: computed(function () {
+      return validatableAttributes;
+    }).readOnly(),
+
+    // Caches
+    _validators: null,
+    _debouncedValidations: null,
+
+    // Private
+    _validationRules: computed(function () {
+      return validationRules;
+    }).readOnly(),
+
+    validate,
+    validateSync,
+
+    init() {
+      this._super(...arguments);
+      this.setProperties({
+        attrs: AttrsClass.create({
+          _model: this.get('model')
+        }),
+        _validators: {},
+        _debouncedValidations: {}
+      });
+    },
+
+    destroy() {
+      this._super(...arguments);
+      const validatableAttrs = get(this, 'validatableAttributes');
+      const debouncedValidations = get(this, '_debouncedValidations');
+
+      // Initiate attrs destroy to cleanup any remaining model references
+      this.get('attrs').destroy();
+
+      // Cancel all debounced timers
+      validatableAttrs.forEach(attr => {
+        const attrCache = get(debouncedValidations, attr);
+
+        if (!isNone(attrCache)) {
+          // Itterate over each attribute and cancel all of its debounced validations
+          Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
+        }
+      });
+    }
+  });
+
+  ValidationsClass.reopenClass({
+    __isCPValidationsClass__: true
+  });
+
+  return ValidationsClass;
+}
+
+/**
+ * Creates the `attrs` class which holds all the CP logic
+ *
+ * ```javascript
+ * model.get('validations.attrs.username');
+ * model.get('validations.attrs.nested.object.attribute');
+ * ```
+ *
+ * @method createAttrsClass
+ * @private
+ * @param  {Object} validatableAttributes
+ * @param  {Object} validationRules
+ * @param  {Object} owner
+ * @return {Ember.Object}
+ */
+function createAttrsClass(validatableAttributes, validationRules, owner) {
+  return Ember.Object.extend({
     init() {
       this._super(...arguments);
       const model = this.get('_model');
@@ -246,65 +324,6 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
       });
     }
   });
-
-  // Create `validations` class
-  const ValidationsClass = Ember.Object.extend(TopLevelProps, {
-    model: null,
-    attrs: null,
-    isValidations: true,
-
-    validatableAttributes: computed(function () {
-      return validatableAttributes;
-    }).readOnly(),
-
-    // Caches
-    _validators: null,
-    _debouncedValidations: null,
-
-    // Private
-    _validationRules: computed(function () {
-      return validationRules;
-    }).readOnly(),
-
-    validate,
-    validateSync,
-
-    init() {
-      this._super(...arguments);
-      this.setProperties({
-        attrs: Attrs.create({
-          _model: this.get('model')
-        }),
-        _validators: {},
-        _debouncedValidations: {}
-      });
-    },
-
-    destroy() {
-      this._super(...arguments);
-      const validatableAttrs = get(this, 'validatableAttributes');
-      const debouncedValidations = get(this, '_debouncedValidations');
-
-      // Initiate attrs destroy to cleanup any remaining model references
-      this.get('attrs').destroy();
-
-      // Cancel all debounced timers
-      validatableAttrs.forEach(attr => {
-        const attrCache = get(debouncedValidations, attr);
-
-        if (!isNone(attrCache)) {
-          // Itterate over each attribute and cancel all of its debounced validations
-          Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
-        }
-      });
-    }
-  });
-
-  ValidationsClass.reopenClass({
-    __isCPValidationsClass__: true
-  });
-
-  return ValidationsClass;
 }
 
 /**
