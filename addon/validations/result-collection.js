@@ -299,11 +299,36 @@ export default Ember.Object.extend({
   })),
 
   setValidated() {
+    function handleResult(result) {
+      if (get(result, '_validations')) {
+        let validations = get(result, '_validations');
+
+        if (get(validations, 'attrs')) {
+          Object.keys(get(validations, '_validators')).forEach(validator => {
+            get(validations, `attrs.${validator}`).setValidated();
+          });
+        } else if (canInvoke(validations, 'setValidated')) {
+          validations.setValidated();
+        } else {
+          set(result, 'hasValidated', true);
+        }
+      } else {
+        set(result, 'hasValidated', true);
+      }
+    }
+
     get(this, 'content').forEach((result) => {
       if (canInvoke(result, 'setValidated')) {
         result.setValidated();
       } else {
-        set(result, 'hasValidated', true);
+        let promise = get(this, '_promise');
+        if (promise) {
+          promise.then(() => {
+            handleResult(result);
+          });
+        } else {
+          handleResult(result);
+        }
       }
     });
   },
