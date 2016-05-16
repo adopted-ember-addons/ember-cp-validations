@@ -55,7 +55,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const HasMany = Base.extend({
   validate(value) {
     if (value) {
       if (canInvoke(value, 'then')) {
@@ -67,3 +67,11 @@ export default Base.extend({
     return true;
   }
 });
+
+HasMany.reopenClass({
+  getDependentsFor(attribute) {
+    return [ `${attribute}.@each.isTruelyValid` ];
+  }
+});
+
+export default HasMany;

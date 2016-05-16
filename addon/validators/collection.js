@@ -28,7 +28,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Collection = Base.extend({
 
   /**
    * Normalized options passed in.
@@ -69,3 +69,11 @@ export default Base.extend({
     return true;
   }
 });
+
+Collection.reopenClass({
+  getDependentsFor(attribute, options) {
+    return (options === true || options.collection === true) ? [ `_model.${attribute}.[]` ] : [];
+  }
+});
+
+export default Collection;

@@ -33,7 +33,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Confirmation = Base.extend({
   validate(value, options, model) {
     if (!isNone(options.on) && !isEqual(value, get(model, options.on))) {
       return this.createErrorMessage('confirmation', value, options);
@@ -42,3 +42,11 @@ export default Base.extend({
     return true;
   }
 });
+
+Confirmation.reopenClass({
+  getDependentsFor(attribute, options) {
+    return options.on ? [ `_model.${options.on}` ] : [];
+  }
+});
+
+export default Confirmation;

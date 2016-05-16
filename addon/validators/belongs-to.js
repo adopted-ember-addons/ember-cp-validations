@@ -79,7 +79,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const BelongsTo = Base.extend({
   validate(value) {
     if (value) {
       if (canInvoke(value, 'then')) {
@@ -91,3 +91,11 @@ export default Base.extend({
     return true;
   }
 });
+
+BelongsTo.reopenClass({
+  getDependentsFor(attribute) {
+    return [ `${attribute}.isTruelyValid` ];
+  }
+});
+
+export default BelongsTo;

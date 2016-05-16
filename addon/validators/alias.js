@@ -33,7 +33,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Alias = Base.extend({
 
   /**
    * Normalized options passed in.
@@ -74,3 +74,12 @@ export default Base.extend({
     return firstMessageOnly ? get(aliasValidation, 'message') : get(aliasValidation, 'content');
   }
 });
+
+Alias.reopenClass({
+  getDependentsFor(attribute, options) {
+    const alias = typeof options === 'string' ? options : options.alias;
+    return [ `${alias}.messages.[]`, `${alias}.isTruelyValid` ];
+  }
+});
+
+export default Alias;
