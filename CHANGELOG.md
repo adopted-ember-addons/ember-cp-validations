@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.9.0
+- [#177](https://github.com/offirgolan/ember-cp-validations/pull/177) Expose dependent keys API to validators
+
 ## 2.8.0
 - [#161](https://github.com/offirgolan/ember-cp-validations/pull/161) Alias validator
 - [#168](https://github.com/offirgolan/ember-cp-validations/pull/168) Add `onOrBefore`, `onOrAfter`, and `precision` options to date validator [@aaronbhansen](https://github.com/aaronbhansen)
