@@ -147,22 +147,21 @@ test('before or on precision', function(assert) {
   var precisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
   assert.expect((precisions.length * 3) -1);
-  var date = '2013-02-08T09:30:26';
-  var now = moment(date);
+  var now = moment(new Date('2013-02-08T09:30:26'));
   var dateString = now.toString();
   var nowMessage = now.format('MMM Do, YYYY');
 
   for (var i = 0; i < precisions.length; i++) {
     var precision = precisions[i];
 
-    message = validator.validate(dateString, { onOrBefore: dateString });
+    message = validator.validate(now, { onOrBefore: dateString });
     assert.equal(message, true);
 
-    message = validator.validate(moment(dateString).add(1, precision), { onOrBefore: dateString });
+    message = validator.validate(moment(now).add(1, precision), { onOrBefore: dateString });
     assert.equal(message, `This field must be on or before ${nowMessage}`);
 
     if ((i + 1) !== precisions.length) {
-      message = validator.validate(moment(dateString).add(1, precisions), { onOrBefore: dateString, precision: precisions[i + 1] });
+      message = validator.validate(moment(now).add(1, precisions), { onOrBefore: dateString, precision: precisions[i + 1] });
       assert.equal(message, true);
     }
   }
@@ -235,22 +234,21 @@ test('after or on precision', function(assert) {
   var precisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
   assert.expect((precisions.length * 3) -1);
-  var date = '2013-02-08T09:30:26';
-  var now = moment(date);
+  var now = moment(new Date('2013-02-08T09:30:26'));
   var dateString = now.toString();
   var nowMessage = now.format('MMM Do, YYYY');
 
   for (var i = 0; i < precisions.length; i++) {
     var precision = precisions[i];
 
-    message = validator.validate(dateString, { onOrAfter: dateString });
+    message = validator.validate(now, { onOrAfter: dateString });
     assert.equal(message, true);
 
-    message = validator.validate(moment(dateString).subtract(1, precision), { onOrAfter: dateString });
+    message = validator.validate(moment(now).subtract(1, precision), { onOrAfter: dateString });
     assert.equal(message, `This field must be on or after ${nowMessage}`);
 
     if ((i + 1) !== precisions.length) {
-      message = validator.validate(moment(dateString).subtract(1, precisions), { onOrAfter: dateString, precision: precisions[i + 1] });
+      message = validator.validate(moment(now).subtract(1, precisions), { onOrAfter: dateString, precision: precisions[i + 1] });
       assert.equal(message, true);
     }
   }

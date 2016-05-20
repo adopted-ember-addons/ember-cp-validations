@@ -339,7 +339,7 @@ function createCPValidationFor(attribute, validations, owner) {
 
   return computed(...dependentKeys, cycleBreaker(function () {
     const model = get(this, '_model');
-    const validators = getValidatorsFor(attribute, model);
+    const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
     const validationResults = validators.map(validator => {
       const options = validator.processOptions();
