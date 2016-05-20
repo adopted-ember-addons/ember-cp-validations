@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -140,7 +140,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Alias = Base.extend({
 
   /**
    * Normalized options passed in.
@@ -181,6 +181,15 @@ export default Base.extend({
     return firstMessageOnly ? get(aliasValidation, &#x27;message&#x27;) : get(aliasValidation, &#x27;content&#x27;);
   }
 });
+
+Alias.reopenClass({
+  getDependentsFor(attribute, options) {
+    const alias = typeof options === &#x27;string&#x27; ? options : options.alias;
+    return [ &#x60;${alias}.messages.[]&#x60;, &#x60;${alias}.isTruelyValid&#x60; ];
+  }
+});
+
+export default Alias;
 
     </pre>
 </div>

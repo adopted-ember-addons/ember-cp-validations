@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validators_base.js.html#l234"><code>addon&#x2F;validators&#x2F;base.js:234</code></a>
+            Defined in: <a href="../files/addon_validators_base.js.html#l251"><code>addon&#x2F;validators&#x2F;base.js:251</code></a>
         </div>
 </div>
 
@@ -129,15 +129,21 @@
 </ul>
 <pre class="code prettyprint"><code class="language-javascript">// app/validators/unique-username.js
 
-import Ember from 'ember';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
-export default BaseValidator.extend({
+const UniqueUsername = BaseValidator.extend({
   validate(value, options, model, attribute) {
     return true;
-    })
   }
 });
+
+UniqueUsername.reopenClass({
+  getDependentsFor(attribute, options) {
+    return [];
+  }
+});
+
+export default UniqueUsername;
 </code></pre>
 <p><strong>Side Node</strong>: Before we continue, I would suggest checking out the documentation for the <a href="../classes/Base.html" class="crosslink">Base Validator</a>.</p>
 <p>If you want to interact with the <code>store</code> within your validator, you can simply inject the service like you would a component.
@@ -147,7 +153,7 @@ Since you have access to your model and the current value, you should be able to
 import Ember from 'ember';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
-export default BaseValidator.extend({
+const UniqueUsername = BaseValidator.extend({
   store: Ember.inject.service(),
 
   validate(value, options, model, attribute) {
@@ -167,6 +173,30 @@ export default BaseValidator.extend({
   }
 });
 </code></pre>
+<h2>Dependent Keys</h2>
+<p>There will be times when your validator will be dependent on some other property or object. Instead of having to
+include them in your option's <code>dependentKeys</code>, you can declare them in the static <code>getDependentsFor</code> hook. This hook
+recieves two parameters. The first is the <code>attribute</code> that this validator is being added to, and the second are the <code>options</code>
+there were passed to this validator.</p>
+<p>From the above code sample:</p>
+<pre class="code prettyprint"><code class="language-javascript">// app/validators/unique-username.js
+
+import BaseValidator from 'ember-cp-validations/validators/base';
+
+const UniqueUsername = BaseValidator.extend({});
+
+UniqueUsername.reopenClass({
+  getDependentsFor(attribute, options) {
+    return [];
+  }
+});
+
+export default UniqueUsername;
+</code></pre>
+<p>All dependent keys are in reference to the model. So when you return <code>['username']</code>, it will add a dependent to <code>model.username</code>.
+This means that if you have a dependent on a service, that service must be injected into the model since returning <code>['myService.someProperty']</code>
+will be interpreted as <code>model.myService.someProperty</code>.</p>
+<h2>Usage</h2>
 <p>To use our unique-username validator we just have to add it to the model definition</p>
 <pre class="code prettyprint"><code class="language-javascript">var Validations = buildValidations({
   username: validator('unique-username', {

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -137,7 +137,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Dependent = Base.extend({
   validate(value, options, model) {
     if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
       return true;
@@ -160,6 +160,20 @@ export default Base.extend({
     return true;
   }
 });
+
+Dependent.reopenClass({
+  getDependentsFor(attribute, options) {
+    const dependents = options.on;
+
+    if (!isEmpty(dependents)) {
+      return dependents.map(dependent =&gt; &#x60;${dependent}.isTruelyValid&#x60;);
+    }
+
+    return [];
+  }
+});
+
+export default Dependent;
 
     </pre>
 </div>

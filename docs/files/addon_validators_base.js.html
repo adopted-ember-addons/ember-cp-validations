@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -126,7 +126,7 @@ const assign = Ember.assign || Ember.merge;
  * @class Base
  * @module Validators
  */
-export default Ember.Object.extend({
+const Base = Ember.Object.extend({
 
   /**
    * Options passed in to the validator when defined in the model
@@ -338,6 +338,23 @@ export default Ember.Object.extend({
   }
 });
 
+Base.reopenClass({
+  /**
+   * Generate the needed depenent keys for this validator
+   *
+   * @method getDependentsFor
+   * @static
+   * @param  {String} attribute
+   * @param  {Object} options
+   * @return {Array} dependent keys
+   */
+  getDependentsFor() {
+    return [];
+  }
+});
+
+export default Base;
+
 /**
  * Creating custom validators is very simple. To generate a validator named &#x60;unique-username&#x60; in Ember CLI
  *
@@ -353,15 +370,21 @@ export default Ember.Object.extend({
  * &#x60;&#x60;&#x60;javascript
  * // app/validators/unique-username.js
  *
- * import Ember from &#x27;ember&#x27;;
  * import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
  *
- * export default BaseValidator.extend({
+ * const UniqueUsername = BaseValidator.extend({
  *   validate(value, options, model, attribute) {
  *     return true;
- *     })
  *   }
  * });
+ *
+ * UniqueUsername.reopenClass({
+ *   getDependentsFor(attribute, options) {
+ *     return [];
+ *   }
+ * });
+ *
+ * export default UniqueUsername;
  * &#x60;&#x60;&#x60;
  *
  * **Side Node**: Before we continue, I would suggest checking out the documentation for the {{#crossLink &#x27;Base&#x27;}}Base Validator{{/crossLink}}.
@@ -375,7 +398,7 @@ export default Ember.Object.extend({
  * import Ember from &#x27;ember&#x27;;
  * import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
  *
- * export default BaseValidator.extend({
+ * const UniqueUsername = BaseValidator.extend({
  *   store: Ember.inject.service(),
  *
  *   validate(value, options, model, attribute) {
@@ -395,6 +418,37 @@ export default Ember.Object.extend({
  *   }
  * });
  * &#x60;&#x60;&#x60;
+ *
+ * ## Dependent Keys
+ *
+ * There will be times when your validator will be dependent on some other property or object. Instead of having to
+ * include them in your option&#x27;s &#x60;dependentKeys&#x60;, you can declare them in the static &#x60;getDependentsFor&#x60; hook. This hook
+ * recieves two parameters. The first is the &#x60;attribute&#x60; that this validator is being added to, and the second are the &#x60;options&#x60;
+ * there were passed to this validator.
+ *
+ * From the above code sample:
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // app/validators/unique-username.js
+ *
+ * import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
+ *
+ * const UniqueUsername = BaseValidator.extend({});
+ *
+ * UniqueUsername.reopenClass({
+ *   getDependentsFor(attribute, options) {
+ *     return [];
+ *   }
+ * });
+ *
+ * export default UniqueUsername;
+ * &#x60;&#x60;&#x60;
+ *
+ * All dependent keys are in reference to the model. So when you return &#x60;[&#x27;username&#x27;]&#x60;, it will add a dependent to &#x60;model.username&#x60;.
+ * This means that if you have a dependent on a service, that service must be injected into the model since returning &#x60;[&#x27;myService.someProperty&#x27;]&#x60;
+ * will be interpreted as &#x60;model.myService.someProperty&#x60;.
+ *
+ * ## Usage
  *
  * To use our unique-username validator we just have to add it to the model definition
  *

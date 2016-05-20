@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -186,7 +186,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const BelongsTo = Base.extend({
   validate(value) {
     if (value) {
       if (canInvoke(value, &#x27;then&#x27;)) {
@@ -198,6 +198,14 @@ export default Base.extend({
     return true;
   }
 });
+
+BelongsTo.reopenClass({
+  getDependentsFor(attribute) {
+    return [ &#x60;${attribute}.isTruelyValid&#x60; ];
+  }
+});
+
+export default BelongsTo;
 
     </pre>
 </div>

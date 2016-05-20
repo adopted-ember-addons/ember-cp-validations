@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -140,7 +140,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const Confirmation = Base.extend({
   validate(value, options, model) {
     if (!isNone(options.on) &amp;&amp; !isEqual(value, get(model, options.on))) {
       return this.createErrorMessage(&#x27;confirmation&#x27;, value, options);
@@ -149,6 +149,14 @@ export default Base.extend({
     return true;
   }
 });
+
+Confirmation.reopenClass({
+  getDependentsFor(attribute, options) {
+    return options.on ? [ &#x60;_model.${options.on}&#x60; ] : [];
+  }
+});
+
+export default Confirmation;
 
     </pre>
 </div>

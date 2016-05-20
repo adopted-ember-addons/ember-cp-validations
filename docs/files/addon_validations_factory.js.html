@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.8.0.e0778382</p>
+                <p class="version pull-right">v2.9.0</p>
               </div>
             </div>
         </div>
@@ -220,7 +220,7 @@ function buildValidations(validations = {}, globalOptions = {}) {
           inheritedClass = this._super();
         }
 
-        Validations = createValidationsClass(inheritedClass, validations);
+        Validations = createValidationsClass(inheritedClass, validations, getOwner(this));
       }
       return Validations;
     }).readOnly(),
@@ -287,16 +287,16 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
  *   - Setup parent validation inheritance
  *   - Normalize nested keys (i.e. &#x27;details.dob&#x27;) into objects (i.e { details: { dob: validator() }})
  *   - Merge normalized validations with parent
- *   - Create &#x60;attrs&#x60; object with CPs
  *   - Create global CPs (i.e. &#x27;isValid&#x27;, &#x27;messages&#x27;, etc...)
  *
  * @method createValidationsClass
  * @private
  * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
+ * @param  {Object} owner
  * @return {Ember.Object}
  */
-function createValidationsClass(inheritedValidationsClass, validations = {}) {
+function createValidationsClass(inheritedValidationsClass, validations, owner) {
   let validationRules = {};
   let validatableAttributes = Object.keys(validations);
 
@@ -314,45 +314,11 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
     return obj;
   }, validationRules);
 
-  // Create the CPs that will be a part of the &#x60;attrs&#x60; object
-  const attrCPs = validatableAttributes.reduce((obj, attribute) =&gt; {
-    assign(obj, attribute, createCPValidationFor(attribute, get(validationRules, attribute)), true);
-    return obj;
-  }, {});
-
   // Create the mixin that holds all the top level validation props (isValid, messages, etc)
   const TopLevelProps = createTopLevelPropsMixin(validatableAttributes);
 
   // Create the &#x60;attrs&#x60; class which will add the current model reference once instantiated
-  const Attrs = Ember.Object.extend(attrCPs, {
-    init() {
-      this._super(...arguments);
-      const model = this.get(&#x27;_model&#x27;);
-
-      validatableAttributes.forEach(attribute =&gt; {
-        // Add a reference to the model in the deepest object
-        const path = attribute.split(&#x27;.&#x27;);
-        const lastObject = get(this, path.slice(0, path.length - 1).join(&#x27;.&#x27;));
-
-        if (isNone(get(lastObject, &#x27;_model&#x27;))) {
-          set(lastObject, &#x27;_model&#x27;, model);
-        }
-      });
-    },
-
-    destroy() {
-      this._super(...arguments);
-      validatableAttributes.forEach(attribute =&gt; {
-        // Remove model reference from nested objects
-        const path = attribute.split(&#x27;.&#x27;);
-        const lastObject = get(this, path.slice(0, path.length - 1).join(&#x27;.&#x27;));
-
-        if (!isNone(get(lastObject, &#x27;_model&#x27;))) {
-          set(lastObject, &#x27;_model&#x27;, null);
-        }
-      });
-    }
-  });
+  const AttrsClass = createAttrsClass(validatableAttributes, validationRules, owner);
 
   // Create &#x60;validations&#x60; class
   const ValidationsClass = Ember.Object.extend(TopLevelProps, {
@@ -379,7 +345,7 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
     init() {
       this._super(...arguments);
       this.setProperties({
-        attrs: Attrs.create({
+        attrs: AttrsClass.create({
           _model: this.get(&#x27;model&#x27;)
         }),
         _validators: {},
@@ -415,6 +381,59 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
 }
 
 /**
+ * Creates the &#x60;attrs&#x60; class which holds all the CP logic
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * model.get(&#x27;validations.attrs.username&#x27;);
+ * model.get(&#x27;validations.attrs.nested.object.attribute&#x27;);
+ * &#x60;&#x60;&#x60;
+ *
+ * @method createAttrsClass
+ * @private
+ * @param  {Object} validatableAttributes
+ * @param  {Object} validationRules
+ * @param  {Object} owner
+ * @return {Ember.Object}
+ */
+function createAttrsClass(validatableAttributes, validationRules, owner) {
+  return Ember.Object.extend({
+    init() {
+      this._super(...arguments);
+      const model = this.get(&#x27;_model&#x27;);
+
+      // Create the CPs
+      validatableAttributes.forEach(attribute =&gt; {
+        const cp = createCPValidationFor(attribute, get(validationRules, attribute), owner);
+        assign(this, attribute, cp, true);
+      });
+
+      validatableAttributes.forEach(attribute =&gt; {
+        // Add a reference to the model in the deepest object
+        const path = attribute.split(&#x27;.&#x27;);
+        const lastObject = get(this, path.slice(0, path.length - 1).join(&#x27;.&#x27;));
+
+        if (isNone(get(lastObject, &#x27;_model&#x27;))) {
+          set(lastObject, &#x27;_model&#x27;, model);
+        }
+      });
+    },
+
+    destroy() {
+      this._super(...arguments);
+      validatableAttributes.forEach(attribute =&gt; {
+        // Remove model reference from nested objects
+        const path = attribute.split(&#x27;.&#x27;);
+        const lastObject = get(this, path.slice(0, path.length - 1).join(&#x27;.&#x27;));
+
+        if (!isNone(get(lastObject, &#x27;_model&#x27;))) {
+          set(lastObject, &#x27;_model&#x27;, null);
+        }
+      });
+    }
+  });
+}
+
+/**
  * CP generator for the given attribute
  * @method createCPValidationFor
  * @private
@@ -422,12 +441,12 @@ function createValidationsClass(inheritedValidationsClass, validations = {}) {
  * @param  {Array / Object} validations
  * @return {Ember.computed} A computed property which is a ValidationResultCollection
  */
-function createCPValidationFor(attribute, validations) {
-  const dependentKeys = getCPDependentKeysFor(attribute, validations);
+function createCPValidationFor(attribute, validations, owner) {
+  const dependentKeys = getCPDependentKeysFor(attribute, validations, owner);
 
   return computed(...dependentKeys, cycleBreaker(function () {
     const model = get(this, &#x27;_model&#x27;);
-    const validators = getValidatorsFor(attribute, model);
+    const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
     const validationResults = validators.map(validator =&gt; {
       const options = validator.processOptions();
@@ -515,46 +534,28 @@ function createTopLevelPropsMixin(validatableAttrs) {
  * @param  {Array / Object} validations
  * @return {Array} Unique list of dependencies
  */
-function getCPDependentKeysFor(attribute, validations) {
-  const dependentKeys = emberArray();
-
-  dependentKeys.push(&#x60;_model.${attribute}&#x60;);
-
-  validations.forEach(validation =&gt; {
+function getCPDependentKeysFor(attribute, validations, owner) {
+  let dependentKeys = validations.map(validation =&gt; {
     const type = validation._type;
     const options = validation.options;
-
-    if (type === &#x27;belongs-to&#x27;) {
-      dependentKeys.push(&#x60;${attribute}.isTruelyValid&#x60;);
-    } else if (type === &#x27;has-many&#x27;) {
-      dependentKeys.push(&#x60;${attribute}.@each.isTruelyValid&#x60;);
-    } else if (type === &#x27;ds-error&#x27;) {
-      dependentKeys.push(&#x60;_model.errors.${attribute}.[]&#x60;);
-    } else if (type === &#x27;confirmation&#x27; &amp;&amp; validation.options.on) {
-      dependentKeys.push(&#x60;_model.${validation.options.on}&#x60;);
-    } else if (type === &#x27;dependent&#x27;) {
-      const dependents = get(validation, &#x27;options.on&#x27;);
-
-      if (!isEmpty(dependents)) {
-        dependents.forEach(dependent =&gt; dependentKeys.push(&#x60;${dependent}.isTruelyValid&#x60;));
-      }
-    } else if (type === &#x27;collection&#x27; &amp;&amp; (options === true || options.collection === true)) {
-      dependentKeys.push(&#x60;_model.${attribute}.[]&#x60;);
-    } else if(type === &#x27;alias&#x27;) {
-      const alias = typeof options === &#x27;string&#x27; ? options : options.alias;
-      dependentKeys.push(&#x60;${alias}.isTruelyValid&#x60;);
-    }
+    const Validator = type === &#x27;function&#x27; ? BaseValidator : lookupValidator(owner, type);
+    const dependents = Validator.getDependentsFor(attribute, options);
 
     const specifiedDependents = [].concat(getWithDefault(options, &#x27;dependentKeys&#x27;, []),
       getWithDefault(validation, &#x27;defaultOptions.dependentKeys&#x27;, []),
       getWithDefault(validation, &#x27;globalOptions.dependentKeys&#x27;, []));
 
     specifiedDependents.forEach(d =&gt; {
-      dependentKeys.push(&#x60;_model.${d}&#x60;);
+      dependents.push(&#x60;_model.${d}&#x60;);
     });
+
+    return dependents;
   });
 
-  return dependentKeys.uniq();
+  dependentKeys = flatten(dependentKeys);
+  dependentKeys.push(&#x60;_model.${attribute}&#x60;);
+
+  return emberArray(dependentKeys).uniq();
 }
 
 /**
