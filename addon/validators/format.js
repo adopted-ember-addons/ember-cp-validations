@@ -26,7 +26,7 @@ const {
  *    type: 'email'
  *  })
  *  validator('format', {
- *    allowBlank: true
+ *    allowBlank: true,
  *    type: 'phone'
  *  })
  *  validator('format', {
