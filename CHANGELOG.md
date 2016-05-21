@@ -3,6 +3,16 @@
 ## 2.9.0
 - [#177](https://github.com/offirgolan/ember-cp-validations/pull/177) Expose dependent keys API to validators
 
+#### Upgrade Notes
+
+Since the CPs now require container/owner access to get all the dependent keys, you will need to add all validators that your unit tests depend on to the `needs` array in your test module declaration.
+
+```js
+moduleForModel('user', {
+  needs: ['validator:presence', 'validator:length']
+});
+```
+
 ## 2.8.0
 - [#161](https://github.com/offirgolan/ember-cp-validations/pull/161) Alias validator
 - [#168](https://github.com/offirgolan/ember-cp-validations/pull/168) Add `onOrBefore`, `onOrAfter`, and `precision` options to date validator [@aaronbhansen](https://github.com/aaronbhansen)
