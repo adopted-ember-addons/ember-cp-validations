@@ -13,6 +13,7 @@ if (typeof moment === 'undefined') {
 }
 
 const {
+  isNone,
   isEmpty
 } = Ember;
 
@@ -49,11 +50,12 @@ const {
  */
 export default Base.extend({
 
-  _parseDate(dateStr, format) {
-    if (dateStr === 'now' || isEmpty(dateStr)) {
+  _parseDate(date, format, useStrict = false) {
+    if (date === 'now' || isEmpty(date)) {
       return moment();
     }
-    return format ? moment(dateStr, format) : moment(new Date(dateStr));
+
+    return isNone(format) ? moment(new Date(date)) : moment(date, format, useStrict);
   },
 
   validate(value, options) {
@@ -66,14 +68,17 @@ export default Base.extend({
       return true;
     }
 
-    const date = this._parseDate(value, format);
+    let date = this._parseDate(value);
 
     if (!date.isValid()) {
       return this.createErrorMessage('date', value, options);
     }
 
-    if (format && !moment(value, format, true).isValid()) {
-      return this.createErrorMessage('wrongDateFormat', value, options);
+    if (format) {
+      date = this._parseDate(value, format, true);
+      if (!date.isValid()) {
+        return this.createErrorMessage('wrongDateFormat', value, options);
+      }
     }
 
     if (before) {
