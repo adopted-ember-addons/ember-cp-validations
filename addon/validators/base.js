@@ -4,8 +4,9 @@
  */
 
 import Ember from 'ember';
-import Messages from './messages';
+import Messages from 'ember-cp-validations/validators/messages';
 import getOwner from 'ember-getowner-polyfill';
+import { unwrapString } from 'ember-cp-validations/utils/utils';
 
 const {
   get,
@@ -212,15 +213,15 @@ const Base = Ember.Object.extend({
    */
   createErrorMessage(type, value, options = {}) {
     const messages = this.get('errorMessages');
-    let message;
+    let message = unwrapString(options.message);
 
     options.description = messages.getDescriptionFor(get(this, 'attribute'), options);
 
-    if (options.message) {
-      if (typeof options.message === 'string') {
-        message = messages.formatMessage(options.message, options);
-      } else if (typeof options.message === 'function') {
-        message = options.message.apply(this, arguments);
+    if (message) {
+      if (typeof message === 'string') {
+        message = messages.formatMessage(message, options);
+      } else if (typeof message === 'function') {
+        message = message.apply(this, arguments);
         message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options);
       }
     } else {

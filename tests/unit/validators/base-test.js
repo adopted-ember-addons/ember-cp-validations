@@ -124,5 +124,5 @@ test('message - handles SafeString', function(assert) {
   };
 
   message = validator.createErrorMessage(undefined, undefined, options);
-  assert.equal(message, 'should be more than €15');
+  assert.equal(message, 'should be more than &euro;15');
 });
