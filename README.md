@@ -241,7 +241,7 @@ import { validator, buildValidations } from 'ember-cp-validations';
 const Validations = buildValidations({
   'acceptTerms': validator('inclusion', { in: [ true ] }),
   'user.firstName': validator('presence', true),
-  'user.lasName': validator('presence', true),
+  'user.lastName': validator('presence', true),
   'user.account.number': validator('number')
 });
 
