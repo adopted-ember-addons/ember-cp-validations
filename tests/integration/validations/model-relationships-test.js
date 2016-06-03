@@ -299,7 +299,8 @@ test("alias validation - simple", function(assert) {
   assert.equal(user.get('validations.attrs.firstName.isValid'), false);
   assert.equal(user.get('validations.attrs.fullName.isValid'), false);
   assert.equal(user.get('validations.attrs.fullName.message'), 'firstName should be present');
-  assert.equal(user.get('validations.attrs.fullName.error.attribute'), 'fullName');
+  assert.equal(user.get('validations.attrs.fullName.error.attribute'), 'firstName');
+  assert.equal(user.get('validations.attrs.fullName.error.parentAttribute'), 'fullName');
   assert.equal(user.get('validations.attrs.fullName.error.message'), 'firstName should be present');
 
   user.set('firstName', 'Offir');
@@ -353,7 +354,7 @@ test("alias validation - multiple", function(assert) {
   assert.equal(user.get('validations.attrs.lastName.isValid'), false);
   assert.equal(user.get('validations.attrs.fullName.isValid'), false);
   assert.deepEqual(user.get('validations.attrs.fullName.messages').sort(), ['firstName should be present', 'lastName should be present'].sort());
-  assert.ok(emberArray(user.get('validations.attrs.fullName.errors')).isEvery('attribute', 'fullName'));
+  assert.ok(emberArray(user.get('validations.attrs.fullName.errors')).isEvery('parentAttribute', 'fullName'));
 
   user.set('firstName', 'Offir');
 

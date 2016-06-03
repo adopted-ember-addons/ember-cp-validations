@@ -15,6 +15,13 @@ export default Ember.Object.extend({
   attribute: null,
 
   /**
+   * The parent attribute that the error belongs to
+   * @property parentAttribute
+   * @type {String}
+   */
+  parentAttribute: null,
+
+  /**
    * The error message
    * @property message
    * @type {String}

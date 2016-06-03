@@ -213,8 +213,13 @@ export default Ember.Object.extend({
     let errors = flatten(get(this, 'content').getEach('errors'));
 
     errors = uniq(compact(errors));
+    errors.forEach(e => {
+      if(e.get('attribute') !== attribute) {
+        e.set('parentAttribute', attribute);
+      }
+    });
 
-    return errors.map(e => ValidationError.create({ attribute, message: e.get('message')}));
+    return errors;
   })),
 
   /**
