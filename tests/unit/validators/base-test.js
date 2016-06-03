@@ -91,7 +91,7 @@ test('value - default gets model value', function(assert) {
   });
 
   validator.init();
-  
+
   assert.equal(validator.get('attribute'), 'foo');
   assert.equal(validator.getValue(), 'bar');
 });
@@ -114,4 +114,15 @@ test('value - overwrite value method via options', function(assert) {
   assert.equal(validator.get('attribute'), 'foo');
   assert.equal(validator.getValue(), 'baz');
   assert.deepEqual(validator.get('options'), {});
+});
+
+test('message - handles SafeString', function(assert) {
+  assert.expect(1);
+
+  options = {
+    message: Ember.String.htmlSafe('should be more than &euro;15')
+  };
+
+  message = validator.createErrorMessage(undefined, undefined, options);
+  assert.equal(message, 'should be more than &euro;15');
 });
