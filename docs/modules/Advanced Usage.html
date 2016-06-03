@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
 
 
 <div class="moduledesc page-section">
-    <p><h3 id="defaultOptions">Default Options</h3></p>
+    <h3 id="defaultOptions">Default Options</h3>
 <p>Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.</p>
 <p>Instead of doing the following:</p>
 <pre class="code prettyprint"><code class="language-javascript">const Validations = buildValidations({
@@ -150,7 +150,7 @@
 });
 </code></pre>
 <p>In the above example, all the validators for username will have a description of <code>Username</code> except that of the <code>no-whitespace-around</code> validator which will be <code>A username</code>.</p>
-<p><h3 id="globalOptions">Global Options</h3></p>
+<h3 id="globalOptions">Global Options</h3>
 <p>If you have  specific options you want to propagate throught all your validation rules, you can do so by passing in a global options object.
 This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
 you want easily toggle your validations on/off.</p>
@@ -182,7 +182,7 @@ const Validations = buildValidations({
 over global options. This allows you to declare global rules while having the ability to override them in lower levels.</p>
 <p>This rule does not apply to <code>dependentKeys</code>, instead they all are merged. In the example above, <strong>firstName</strong>'s dependentKeys will be
 <code>['i18n.locale', 'disableValidations', 'foo', 'bar']</code></p>
-<p><h3 id="optionsAsFunctions">Options as Functions</h3></p>
+<h3 id="optionsAsFunctions">Options as Functions</h3>
 <p>All options can be functions which are processed lazily before validate is called. These functions are passed the <code>model</code> and <code>attribute</code> that is associated with
 the validator while also given that as their context, giving you access to all its properties.</p>
 <p>Please note that the <code>message</code> option of a validator has its <a href="http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message">own signature</a>.</p>
@@ -201,7 +201,7 @@ the validator while also given that as their context, giving you access to all i
   })
 });
 </code></pre>
-<p><h3 id="nestedKeys">Nested Keys</h3></p>
+<h3 id="nestedKeys">Nested Keys</h3>
 <p>When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.</p>
 <pre class="code prettyprint"><code class="language-javascript">import Ember from 'ember';
 import { validator, buildValidations } from 'ember-cp-validations';

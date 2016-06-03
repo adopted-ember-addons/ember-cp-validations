@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -539,17 +539,19 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     const type = validation._type;
     const options = validation.options;
     const Validator = type === &#x27;function&#x27; ? BaseValidator : lookupValidator(owner, type);
-    const dependents = Validator.getDependentsFor(attribute, options);
+    const baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
+    const dependents = Validator.getDependentsFor(attribute, options) || [];
 
-    const specifiedDependents = [].concat(getWithDefault(options, &#x27;dependentKeys&#x27;, []),
+    const specifiedDependents = [].concat(
+      getWithDefault(options, &#x27;dependentKeys&#x27;, []),
       getWithDefault(validation, &#x27;defaultOptions.dependentKeys&#x27;, []),
-      getWithDefault(validation, &#x27;globalOptions.dependentKeys&#x27;, []));
+      getWithDefault(validation, &#x27;globalOptions.dependentKeys&#x27;, [])
+    );
 
-    specifiedDependents.forEach(d =&gt; {
-      dependents.push(&#x60;_model.${d}&#x60;);
-    });
-
-    return dependents;
+    return baseDependents.concat(
+      dependents,
+      specifiedDependents.map(d =&gt; &#x60;_model.${d}&#x60;)
+    );
   });
 
   dependentKeys = flatten(dependentKeys);

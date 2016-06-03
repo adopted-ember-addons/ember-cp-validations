@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -111,8 +111,9 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import Messages from &#x27;./messages&#x27;;
+import Messages from &#x27;ember-cp-validations/validators/messages&#x27;;
 import getOwner from &#x27;ember-getowner-polyfill&#x27;;
+import { unwrapString } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 const {
   get,
@@ -319,15 +320,15 @@ const Base = Ember.Object.extend({
    */
   createErrorMessage(type, value, options = {}) {
     const messages = this.get(&#x27;errorMessages&#x27;);
-    let message;
+    let message = unwrapString(options.message);
 
     options.description = messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options);
 
-    if (options.message) {
-      if (typeof options.message === &#x27;string&#x27;) {
-        message = messages.formatMessage(options.message, options);
-      } else if (typeof options.message === &#x27;function&#x27;) {
-        message = options.message.apply(this, arguments);
+    if (message) {
+      if (typeof message === &#x27;string&#x27;) {
+        message = messages.formatMessage(message, options);
+      } else if (typeof message === &#x27;function&#x27;) {
+        message = message.apply(this, arguments);
         message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options);
       }
     } else {

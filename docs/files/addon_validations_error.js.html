@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -120,6 +120,13 @@ export default Ember.Object.extend({
    * @type {String}
    */
   attribute: null,
+
+  /**
+   * The parent attribute that the error belongs to
+   * @property parentAttribute
+   * @type {String}
+   */
+  parentAttribute: null,
 
   /**
    * The error message

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -177,7 +177,7 @@ const HasMany = Base.extend({
 
 HasMany.reopenClass({
   getDependentsFor(attribute) {
-    return [ &#x60;${attribute}.@each.isTruelyValid&#x60; ];
+    return [ &#x60;_model.${attribute}.[]&#x60;, &#x60;${attribute}.@each.isTruelyValid&#x60; ];
   }
 });
 

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -320,8 +320,13 @@ export default Ember.Object.extend({
     let errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
 
     errors = uniq(compact(errors));
+    errors.forEach(e =&gt; {
+      if(e.get(&#x27;attribute&#x27;) !== attribute) {
+        e.set(&#x27;parentAttribute&#x27;, attribute);
+      }
+    });
 
-    return errors.map(e =&gt; ValidationError.create({ attribute, message: e.get(&#x27;message&#x27;)}));
+    return errors;
   })),
 
   /**

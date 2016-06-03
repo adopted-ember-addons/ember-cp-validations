@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -120,6 +120,7 @@ if (typeof moment === &#x27;undefined&#x27;) {
 }
 
 const {
+  isNone,
   isEmpty
 } = Ember;
 
@@ -156,11 +157,12 @@ const {
  */
 export default Base.extend({
 
-  _parseDate(dateStr, format) {
-    if (dateStr === &#x27;now&#x27; || isEmpty(dateStr)) {
+  _parseDate(date, format, useStrict = false) {
+    if (date === &#x27;now&#x27; || isEmpty(date)) {
       return moment();
     }
-    return format ? moment(dateStr, format) : moment(new Date(dateStr));
+
+    return isNone(format) ? moment(new Date(date)) : moment(date, format, useStrict);
   },
 
   validate(value, options) {
@@ -173,14 +175,17 @@ export default Base.extend({
       return true;
     }
 
-    const date = this._parseDate(value, format);
+    let date = this._parseDate(value);
 
     if (!date.isValid()) {
       return this.createErrorMessage(&#x27;date&#x27;, value, options);
     }
 
-    if (format &amp;&amp; !moment(value, format, true).isValid()) {
-      return this.createErrorMessage(&#x27;wrongDateFormat&#x27;, value, options);
+    if (format) {
+      date = this._parseDate(value, format, true);
+      if (!date.isValid()) {
+        return this.createErrorMessage(&#x27;wrongDateFormat&#x27;, value, options);
+      }
     }
 
     if (before) {

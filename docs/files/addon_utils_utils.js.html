@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.0</p>
+                <p class="version pull-right">v2.9.1</p>
               </div>
             </div>
         </div>
@@ -110,8 +110,18 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+import Ember from &#x27;ember&#x27;;
+
 export function hasEmberData() {
   return typeof self.DS !== &#x27;undefined&#x27;;
+}
+
+export function unwrapString(input) {
+  if (input &amp;&amp; input instanceof Ember.Handlebars.SafeString) {
+    return input.toString();
+  }
+
+  return input;
 }
 
     </pre>
