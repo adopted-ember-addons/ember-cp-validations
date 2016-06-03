@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.9.1
+- [#203](https://github.com/offirgolan/ember-cp-validations/pull/203) Ember.String.htmlSafe throws exception
+- [#207](https://github.com/offirgolan/ember-cp-validations/pull/207) Minor bug fixes
+  - Null or undefined value in `length` validator should be invalid
+  - Added `parentAttribute` to error object to better understand where an error is coming from
+  - Added `.[]` to has-many dependent keys
+  - Extend all dependents from Base
+
 ## 2.9.0
 - [#177](https://github.com/offirgolan/ember-cp-validations/pull/177) Expose dependent keys API to validators
 
