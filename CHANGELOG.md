@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.9.2
+- [#208](https://github.com/offirgolan/ember-cp-validations/pull/208) Null or undefined value in length should return invalid not blank
+
 ## 2.9.1
 - [#203](https://github.com/offirgolan/ember-cp-validations/pull/203) Ember.String.htmlSafe throws exception
 - [#207](https://github.com/offirgolan/ember-cp-validations/pull/207) Minor bug fixes
