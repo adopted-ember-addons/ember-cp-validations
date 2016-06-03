@@ -432,17 +432,19 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     const type = validation._type;
     const options = validation.options;
     const Validator = type === 'function' ? BaseValidator : lookupValidator(owner, type);
-    const dependents = Validator.getDependentsFor(attribute, options);
+    const baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
+    const dependents = Validator.getDependentsFor(attribute, options) || [];
 
-    const specifiedDependents = [].concat(getWithDefault(options, 'dependentKeys', []),
+    const specifiedDependents = [].concat(
+      getWithDefault(options, 'dependentKeys', []),
       getWithDefault(validation, 'defaultOptions.dependentKeys', []),
-      getWithDefault(validation, 'globalOptions.dependentKeys', []));
+      getWithDefault(validation, 'globalOptions.dependentKeys', [])
+    );
 
-    specifiedDependents.forEach(d => {
-      dependents.push(`_model.${d}`);
-    });
-
-    return dependents;
+    return baseDependents.concat(
+      dependents,
+      specifiedDependents.map(d => `_model.${d}`)
+    );
   });
 
   dependentKeys = flatten(dependentKeys);

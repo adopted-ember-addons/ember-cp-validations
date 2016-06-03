@@ -47,7 +47,7 @@ export default Base.extend({
     }
 
     if (isNone(value)) {
-      return true;
+      return this.createErrorMessage('blank', value, options);
     }
 
     if (!isNone(options.is) && options.is !== get(value, 'length')) {
