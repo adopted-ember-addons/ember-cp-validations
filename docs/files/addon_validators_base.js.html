@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.2</p>
+                <p class="version pull-right">2.9.2.32899a43</p>
               </div>
             </div>
         </div>
@@ -445,8 +445,10 @@ export default Base;
  * export default UniqueUsername;
  * &#x60;&#x60;&#x60;
  *
- * All dependent keys are in reference to the model. So when you return &#x60;[&#x27;username&#x27;]&#x60;, it will add a dependent to &#x60;model.username&#x60;.
- * This means that if you have a dependent on a service, that service must be injected into the model since returning &#x60;[&#x27;myService.someProperty&#x27;]&#x60;
+ * All dependent keys are in reference to the model&#x27;s &#x60;validations.attrs&#x60; object. So when you return &#x60;[&#x27;username&#x27;]&#x60;,
+ * it will add a dependent to &#x60;model.validations.attrs.username&#x60;. If you want to add a dependent on the model, your
+ * key needs to be prefixed with &#x60;_model&#x60;. So when you return &#x60;[&#x27;_model.username&#x27;]&#x60;, it will add a dependent to &#x60;model.username&#x60;.
+ * This means that if you have a dependent on a service, that service must be injected into the model since returning &#x60;[&#x27;_model.myService.someProperty&#x27;]&#x60;
  * will be interpreted as &#x60;model.myService.someProperty&#x60;.
  *
  * ## Usage

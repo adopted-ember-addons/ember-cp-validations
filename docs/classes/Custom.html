@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.2</p>
+                <p class="version pull-right">2.9.2.32899a43</p>
               </div>
             </div>
         </div>
@@ -193,8 +193,10 @@ UniqueUsername.reopenClass({
 
 export default UniqueUsername;
 </code></pre>
-<p>All dependent keys are in reference to the model. So when you return <code>['username']</code>, it will add a dependent to <code>model.username</code>.
-This means that if you have a dependent on a service, that service must be injected into the model since returning <code>['myService.someProperty']</code>
+<p>All dependent keys are in reference to the model's <code>validations.attrs</code> object. So when you return <code>['username']</code>,
+it will add a dependent to <code>model.validations.attrs.username</code>. If you want to add a dependent on the model, your
+key needs to be prefixed with <code>_model</code>. So when you return <code>['_model.username']</code>, it will add a dependent to <code>model.username</code>.
+This means that if you have a dependent on a service, that service must be injected into the model since returning <code>['_model.myService.someProperty']</code>
 will be interpreted as <code>model.myService.someProperty</code>.</p>
 <h2>Usage</h2>
 <p>To use our unique-username validator we just have to add it to the model definition</p>
