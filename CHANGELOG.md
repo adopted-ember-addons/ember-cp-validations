@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.9.3
+- [#211](https://github.com/offirgolan/ember-cp-validations/pull/211) Fix regression from last patch by exposing `allowNone` which defaults to __true__ in length validator
+
 ## 2.9.2
 - [#208](https://github.com/offirgolan/ember-cp-validations/pull/208) Null or undefined value in length should return invalid not blank
 
