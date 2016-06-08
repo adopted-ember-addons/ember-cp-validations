@@ -266,6 +266,7 @@ test("global options", function(assert) {
   assert.deepEqual(v.get('options'), {
     message: 'Global error message',
     description: 'Test field',
+    allowNone: true,
     min: 1,
     max: 5
   });
