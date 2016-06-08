@@ -16,6 +16,7 @@ const {
  *  Validates the length of the attributes’ values.
  *
  *   #### Options
+ *  - `allowNone` (**Boolean**): If true, skips validation if the value is null or undefined. __Default: true__
  *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
  *  - `is` (**Number**): The exact length the value can be
  *  - `min` (**Number**): The minimum length the value can be
@@ -37,17 +38,32 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+  /**
+   * Default allowNone to true
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
+    options.allowNone = isNone(options.allowNone) ? true : options.allowNone;
+
+    return this._super(options, defaultOptions, globalOptions);
+  },
+
   validate(value, options) {
     if (isEmpty(Object.keys(options))) {
       return true;
     }
 
-    if (options.allowBlank && isEmpty(value)) {
-      return true;
+    if (isNone(value)) {
+      return options.allowNone ? true : this.createErrorMessage('invalid', value, options);
     }
 
-    if (isNone(value)) {
-      return this.createErrorMessage('invalid', value, options);
+    if (options.allowBlank && isEmpty(value)) {
+      return true;
     }
 
     if (!isNone(options.is) && options.is !== get(value, 'length')) {

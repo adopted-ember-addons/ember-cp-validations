@@ -41,6 +41,22 @@ test('allow blank', function(assert) {
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 });
 
+test('allow none', function(assert) {
+  assert.expect(2);
+
+  options = {
+    // default allowNone should be true
+  };
+
+  message = validator.validate(undefined, options);
+  assert.equal(message, true);
+
+  options.allowNone = false;
+
+  message = validator.validate(null, options);
+  assert.equal(message, 'This field is invalid');
+});
+
 test('is', function(assert) {
   assert.expect(2);
 
