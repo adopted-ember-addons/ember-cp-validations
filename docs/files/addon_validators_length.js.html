@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.2.32899a43</p>
+                <p class="version pull-right">v2.9.3</p>
               </div>
             </div>
         </div>
@@ -123,6 +123,7 @@ const {
  *  Validates the length of the attributes’ values.
  *
  *   #### Options
+ *  - &#x60;allowNone&#x60; (**Boolean**): If true, skips validation if the value is null or undefined. __Default: true__
  *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
  *  - &#x60;is&#x60; (**Number**): The exact length the value can be
  *  - &#x60;min&#x60; (**Number**): The minimum length the value can be
@@ -144,17 +145,32 @@ const {
  *  @extends Base
  */
 export default Base.extend({
+  /**
+   * Default allowNone to true
+   *
+   * @method buildOptions
+   * @param  {Object}     options
+   * @param  {Object}     defaultOptions
+   * @param  {Object}     globalOptions
+   * @return {Object}
+   */
+  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
+    options.allowNone = isNone(options.allowNone) ? true : options.allowNone;
+
+    return this._super(options, defaultOptions, globalOptions);
+  },
+
   validate(value, options) {
     if (isEmpty(Object.keys(options))) {
       return true;
     }
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
-      return true;
+    if (isNone(value)) {
+      return options.allowNone ? true : this.createErrorMessage(&#x27;invalid&#x27;, value, options);
     }
 
-    if (isNone(value)) {
-      return this.createErrorMessage(&#x27;invalid&#x27;, value, options);
+    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+      return true;
     }
 
     if (!isNone(options.is) &amp;&amp; options.is !== get(value, &#x27;length&#x27;)) {

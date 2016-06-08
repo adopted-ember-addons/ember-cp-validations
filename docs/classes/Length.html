@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.2.32899a43</p>
+                <p class="version pull-right">v2.9.3</p>
               </div>
             </div>
         </div>
@@ -122,6 +122,7 @@
   <p>Validates the length of the attributes’ values.</p>
 <h4>Options</h4>
 <ul>
+<li><code>allowNone</code> (<strong>Boolean</strong>): If true, skips validation if the value is null or undefined. <strong>Default: true</strong></li>
 <li><code>allowBlank</code> (<strong>Boolean</strong>): If true, skips validation if the value is empty</li>
 <li><code>is</code> (<strong>Number</strong>): The exact length the value can be</li>
 <li><code>min</code> (<strong>Number</strong>): The minimum length the value can be</li>
@@ -214,7 +215,7 @@ validator('length', {
             <div id="methods" class="page-section">
                 <h2 class="off-left">Methods</h2>
                 <div class="item-list">
-<div id="method_buildOptions" class="method item inherited">
+<div id="method_buildOptions" class="method item">
 	<span class="method-signature">
 	<span class="name"><code>buildOptions</code></span>
 
@@ -243,18 +244,19 @@ validator('length', {
 
 
 	<div class="meta">
-				<p>Inherited from
-				<a href="../classes/Base.html#method_buildOptions">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l95"><code>addon&#x2F;validators&#x2F;base.js:95</code></a>
+			<p>Inherited from
+			<a href="../classes/Base.html#method_buildOptions">
+				Base
+			</a>
+			but overwritten in
+		<a href="../files/addon_validators_length.js.html#l41"><code>addon&#x2F;validators&#x2F;length.js:41</code></a>
 		</p>
 
 
 
 	</div>
 
-	<div class="description"><p>Build options hook. Merges default options into options object.
-This method gets called on init and is the ideal place to normalize your options.
-The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js">presence validator</a> is a good example to checkout</p>
+	<div class="description"><p>Default allowNone to true</p>
 </div>
 
 		<div class="params">

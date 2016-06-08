@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "2.9.2.32899a43"
+        "version": "v2.9.3"
     },
     "files": {
         "addon/utils/assign.js": {
@@ -681,7 +681,7 @@
             "namespace": "",
             "file": "addon/validators/length.js",
             "line": 15,
-            "description": "Validates the length of the attributes’ values.\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `is` (**Number**): The exact length the value can be\n- `min` (**Number**): The minimum length the value can be\n- `max` (**Number**): The maximum length the value can be\n\n```javascript\n// Examples\nvalidator('length', {\n  is: 15\n})\nvalidator('length', {\n    min: 5,\n    max: 10\n})\n```",
+            "description": "Validates the length of the attributes’ values.\n\n #### Options\n- `allowNone` (**Boolean**): If true, skips validation if the value is null or undefined. __Default: true__\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `is` (**Number**): The exact length the value can be\n- `min` (**Number**): The minimum length the value can be\n- `max` (**Number**): The maximum length the value can be\n\n```javascript\n// Examples\nvalidator('length', {\n  is: 15\n})\nvalidator('length', {\n    min: 5,\n    max: 10\n})\n```",
             "extends": "Base"
         },
         "Messages": {
@@ -2047,6 +2047,36 @@
             "file": "addon/validators/length.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Length",
+            "module": "Validators"
+        },
+        {
+            "file": "addon/validators/length.js",
+            "line": 41,
+            "description": "Default allowNone to true",
+            "itemtype": "method",
+            "name": "buildOptions",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "defaultOptions",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "globalOptions",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
             "class": "Length",
             "module": "Validators"
         },
