@@ -4,7 +4,6 @@
  */
 
 import Ember from 'ember';
-import ValidationError from './error';
 import flatten from '../utils/flatten';
 import cycleBreaker from '../utils/cycle-breaker';
 
