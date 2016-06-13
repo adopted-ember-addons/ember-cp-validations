@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v2.9.3</p>
+                <p class="version pull-right">2.9.3.500f85ac</p>
               </div>
             </div>
         </div>
@@ -115,9 +115,9 @@
 
 <div class="moduledesc page-section">
     <h2>Common Options</h2>
-<h3 id="description">description</h3>
-A descriptor for your attribute used in the error message strings. Defaults to <code>This field&#x27;</code>.
-You can overwrite this value in your <code>validators&#x2F;messages.js</code> file by changing the <code>defaultDescription</code> property.
+<p><h3 id="description">description</h3>
+A descriptor for your attribute used in the error message strings. Defaults to <code>This field'</code>.
+You can overwrite this value in your <code>validators/messages.js</code> file by changing the <code>defaultDescription</code> property.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('date', {
   description: 'Date of birth'
@@ -125,8 +125,8 @@ validator('date', {
 // If validation is run and the attribute is empty, the error returned will be:
 // 'Date of birth can't be blank'
 </code></pre>
-<h3 id="dependentKeys">dependentKeys</h3>
-A list of other model specific dependents for you validator.
+<p><h3 id="dependentKeys">dependentKeys</h3>
+A list of other model specific dependents for you validator.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('has-friends', {
   dependentKeys: ['friends.[]']
@@ -138,9 +138,9 @@ validator('x-validator', {
   dependentKeys: ['username', 'email', 'meta.foo.bar']
 })
 </code></pre>
-<h3 id="disabled">disabled</h3>
+<p><h3 id="disabled">disabled</h3>
 If set to <code>true</code>, disables the given validator. This option would usually go hand-in-hand
-with <a href="../modules/Advanced Usage.html">options as functions</a> and <code>dependentKeys</code>. Defaults to <code>false</code>.
+with <a href="../modules/Advanced Usage.html">options as functions</a> and <code>dependentKeys</code>. Defaults to <code>false</code>.</p>
 <pre class="code prettyprint"><code class="language-js">// Examples
 validator('presence', {
   presence: true,
@@ -154,8 +154,8 @@ validator('presence', {
   }
 })
 </code></pre>
-<h3 id="debounce">debounce</h3>
-Debounces the validation with the given time in <code>milliseconds</code>. All debounced validations will be handled asynchronously (wrapped in a promise).
+<p><h3 id="debounce">debounce</h3>
+Debounces the validation with the given time in <code>milliseconds</code>. All debounced validations will be handled asynchronously (wrapped in a promise).</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('length', {
   debounce: 500
@@ -164,10 +164,10 @@ validator('x-validator', {
   debounce: 250
 })
 </code></pre>
-<h3 id="value">value</h3>
+<p><h3 id="value">value</h3>
 Used to retrieve the value to validate. This will overwrite the validator's default <code>value</code> method.
 By default this returns <code>model[attribute]</code>. If you are dependent on other model attributes, you will
-need to add them as <code>dependentKeys</code>.
+need to add them as <code>dependentKeys</code>.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('date', {
   value(model, attribute) {
@@ -183,8 +183,8 @@ validator('number', {
   }
 })
 </code></pre>
-<h3 id="message">message</h3>
-This option can take two forms. It can either be a <code>string</code> or a <code>function</code>. If a string is used, then it will overwrite all error message types for the specified validator.
+<p><h3 id="message">message</h3>
+This option can take two forms. It can either be a <code>string</code> or a <code>function</code>. If a string is used, then it will overwrite all error message types for the specified validator.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Example: String
 validator('confirmation', {
   message: 'Email does not match {attribute}. What are you even thinking?!'

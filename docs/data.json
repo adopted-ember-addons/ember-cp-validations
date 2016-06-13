@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v2.9.3"
+        "version": "2.9.3.500f85ac"
     },
     "files": {
         "addon/utils/assign.js": {
@@ -445,7 +445,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/validations/result-collection.js",
-            "line": 33
+            "line": 32
         },
         "Result": {
             "name": "Result",
@@ -1247,7 +1247,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 39,
+            "line": 38,
             "description": "A set of all validator {{#crossLink \"Result\"}}{{/crossLink}} objects for this specific attribute",
             "itemtype": "property",
             "name": "content",
@@ -1257,7 +1257,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 46,
+            "line": 45,
             "description": "The attribute that this collection belongs to",
             "itemtype": "property",
             "name": "attribute",
@@ -1267,7 +1267,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 58,
+            "line": 57,
             "description": "```javascript\n// Examples\nget(user, 'validations.isInvalid')\nget(user, 'validations.attrs.username.isInvalid')\n```",
             "itemtype": "property",
             "name": "isInvalid",
@@ -1278,7 +1278,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 71,
+            "line": 70,
             "description": "```javascript\n// Examples\nget(user, 'validations.isValid')\nget(user, 'validations.attrs.username.isValid')\n```",
             "itemtype": "property",
             "name": "isValid",
@@ -1290,7 +1290,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 87,
+            "line": 86,
             "description": "This property is toggled only if there is an async validation\n\n```javascript\n// Examples\nget(user, 'validations.isValidating')\nget(user, 'validations.attrs.username.isValidating')\n```",
             "itemtype": "property",
             "name": "isValidating",
@@ -1302,7 +1302,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 105,
+            "line": 104,
             "description": "Will be true only if isValid is `true` and isValidating is `false`\n\n```javascript\n// Examples\nget(user, 'validations.isTruelyValid')\nget(user, 'validations.attrs.username.isTruelyValid')\n```",
             "itemtype": "property",
             "name": "isTruelyValid",
@@ -1314,7 +1314,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 123,
+            "line": 122,
             "description": "Will be true is the attribute in question is not `null` or `undefined`. If the object being\nvalidated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison.\n\n```javascript\n// Examples\n// 'username' : DS.attr('string', { defaultValue: 'johndoe' })\nget(user, 'validations.isDirty')\nget(user, 'validations.attrs.username.isDirty')\n```",
             "itemtype": "property",
             "name": "isDirty",
@@ -1326,7 +1326,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 143,
+            "line": 142,
             "description": "Will be `true` only if a validation returns a promise\n\n```javascript\n// Examples\nget(user, 'validations.isAsync')\nget(user, 'validations.attrs.username.isAsync')\n```",
             "itemtype": "property",
             "name": "isAsync",
@@ -1338,7 +1338,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 161,
+            "line": 160,
             "description": "A collection of all error messages on the object in question\n\n```javascript\n// Examples\nget(user, 'validations.messages')\nget(user, 'validations.attrs.username.messages')\n```",
             "itemtype": "property",
             "name": "messages",
@@ -1349,7 +1349,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 180,
+            "line": 179,
             "description": "An alias to the first message in the messages collection.\n\n```javascript\n// Example\nget(user, 'validations.message')\nget(user, 'validations.attrs.username.message')\n```",
             "itemtype": "property",
             "name": "message",
@@ -1360,7 +1360,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 197,
+            "line": 196,
             "description": "A collection of all {{#crossLink \"Error\"}}Errors{{/crossLink}} on the object in question.\nEach error object includes the error message and it's associated attribute name.\n\n```javascript\n// Example\nget(user, 'validations.errors')\nget(user, 'validations.attrs.username.errors')\n```",
             "itemtype": "property",
             "name": "errors",
@@ -1371,7 +1371,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 225,
+            "line": 224,
             "description": "An alias to the first {{#crossLink \"Error\"}}{{/crossLink}} in the errors collection.\n\n```javascript\n// Example\nget(user, 'validations.error')\nget(user, 'validations.attrs.username.error')\n```",
             "itemtype": "property",
             "name": "error",
@@ -1382,7 +1382,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 242,
+            "line": 241,
             "description": "All built options of the validators associated with the results in this collection grouped by validator type\n\n```javascript\n// Given the following validators\n{\n  username: [\n    validator('presence', true),\n    validator('length', { max: 15 }),\n    validator('format', { regex: /foo/ }),\n    validator('format', { regex: /bar/ }),\n  ]\n}\n```\n\n```js\nget(user, 'validations.attrs.username.options')\n```\n\nThe above will return the following\n```js\n{\n  'presence': { presence: true},\n  'length': { max: 15 },\n  'regex': [{ regex: /foo/ }, { regex: /bar/ }]\n}\n```",
             "itemtype": "property",
             "name": "options",
@@ -1393,7 +1393,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 278,
+            "line": 277,
             "itemtype": "property",
             "name": "_promise",
             "async": 1,
@@ -1405,7 +1405,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 292,
+            "line": 291,
             "itemtype": "property",
             "name": "value",
             "type": "{Ember.ComputedProperty}",
@@ -1416,7 +1416,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 301,
+            "line": 300,
             "description": "Used by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
             "itemtype": "method",
             "name": "_groupValidatorOptions",
