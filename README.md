@@ -147,6 +147,8 @@ export default Ember.Route.extend({
 
 ```javascript
 // routes/index.js
+import Ember from 'ember';
+const { getOwner } = Ember;
 
 import User from '../models/user';
 
