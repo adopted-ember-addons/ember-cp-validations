@@ -6,6 +6,10 @@ import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
+const {
+  run
+} = Ember;
+
 const Validators = {
   presence(value, options, model, attr) {
     var isValid = !Ember.isNone(value);
@@ -312,7 +316,7 @@ test("debounced validations", function(assert) {
   object.set('lastName', 'Golan');
   assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
 
-  Ember.run.later(() => {
+  run.later(() => {
     assert.equal(object.get('validations.attrs.lastName.isValid'), true);
     assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
     assert.equal(object.get('validations.attrs.lastName.message'), null);
@@ -358,12 +362,12 @@ test("debounced validations should cleanup on object destroy", function(assert) 
   assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
   assert.equal(object.get('validations.attrs.details.url.isValidating'), true);
 
-  Ember.run.later(() => {
+  run.later(() => {
     try {
       object.destroy();
       assert.ok(true, 'Object destroy was clean');
     } catch(e) {}
-    Ember.run.later(() => {
+    run.later(() => {
       done();
     }, 400);
   }, 200);
@@ -430,9 +434,9 @@ test("destroy object clears debounce cache", function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 1);
 
-  Ember.run(() => object.destroy());
+  run(() => object.destroy());
 
-  Ember.run(() => {
+  run(() => {
     assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 0);
   });
 });
@@ -448,11 +452,14 @@ test("attribute validation result options hash", function(assert) {
         validator(Validators.presence, {}),
         validator(Validators.presence, { presence: true} ),
         validator('presence', true),
-        validator('length', {min: 1, max: 5})
+        validator('length', {
+          min: 1,
+          max: 5
+        })
       ]
     }
   });
-  var object = setupObject(this, Ember.Object.extend(Validations));
+  var object = setupObject(this, Ember.Object.extend(Validations, { max: 5 }));
   var options = object.get('validations.attrs.firstName.options');
 
   assert.ok(options);
@@ -466,6 +473,37 @@ test("attribute validation result options hash", function(assert) {
   assert.equal(options.length.description, 'First Name');
   assert.equal(options.presence.description, 'First Name');
   assert.equal(options['function'][0].description, 'First Name');
+});
+
+test("attribute validation result options hash with functions", function(assert) {
+  assert.expect(5);
+  this.register('validator:length', LengthValidator);
+
+  var Validations = buildValidations({
+    firstName: {
+      validators: [
+        validator('length', {
+          dependentKeys: ['max'],
+          min: 1,
+          max(model) {
+            assert.ok(true);
+            return model.get('max');
+          }
+        })
+      ]
+    }
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations, { max: 5 }));
+  var options = object.get('validations.attrs.firstName.options');
+  assert.equal(options.length.max, 5);
+
+  run(() => object.set('max', 3));
+
+  options = object.get('validations.attrs.firstName.options');
+  assert.equal(options.length.max, 3);
+
+  options = object.get('validations.attrs.firstName.options');
+  assert.equal(options.length.max, 3);
 });
 
 test("validations persist with inheritance", function(assert) {

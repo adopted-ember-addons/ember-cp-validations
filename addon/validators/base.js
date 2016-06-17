@@ -72,6 +72,14 @@ const Base = Ember.Object.extend({
    */
   _type: null,
 
+  /**
+   * Cached processed options
+   * @property _cachedOptions
+   * @private
+   * @type {Object}
+   */
+  _cachedOptions: null,
+
   init() {
     this._super(...arguments);
     const globalOptions = get(this, 'globalOptions');
@@ -131,6 +139,9 @@ const Base = Ember.Object.extend({
         options[key] = option.call(this, model, attribute);
       }
     });
+
+    // Cache the options so it can be accessed without triggering this method again
+    set(this, '_cachedOptions', assign({}, options));
 
     return options;
   },

@@ -135,7 +135,7 @@ export default Ember.Object.extend({
    * @type {Result}
    */
   _validations: computed('model', 'attribute', '_promise', function () {
-    return InternalResultObject.create(getProperties(this, ['model', 'attribute', '_promise']));
+    return InternalResultObject.create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
   }),
 
   init() {
