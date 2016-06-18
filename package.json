@@ -39,7 +39,7 @@
     "ember-ajax": "^2.0.1",
     "ember-cli": "2.6.1",
     "ember-cli-app-version": "^1.0.0",
-    "ember-cli-blanket": "0.9.4",
+    "ember-cli-blanket": "0.9.5",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-github-pages": "^0.1.0",
     "ember-cli-htmlbars": "^1.0.3",
