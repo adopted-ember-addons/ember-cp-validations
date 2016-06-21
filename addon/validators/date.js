@@ -63,21 +63,21 @@ export default Base.extend({
     const format = options.format;
     const precision = options.precision;
     let { before, onOrBefore, after, onOrAfter } = options;
+    let date;
 
     if (options.allowBlank && isEmpty(value)) {
       return true;
-    }
-
-    let date = this._parseDate(value);
-
-    if (!date.isValid()) {
-      return this.createErrorMessage('date', value, options);
-    }
+    }  
 
     if (format) {
       date = this._parseDate(value, format, true);
       if (!date.isValid()) {
         return this.createErrorMessage('wrongDateFormat', value, options);
+      }
+    } else {
+      date = this._parseDate(value);
+      if (!date.isValid()) {
+        return this.createErrorMessage('date', value, options);
       }
     }
 
