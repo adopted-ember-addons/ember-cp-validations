@@ -234,7 +234,6 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
 
     validate,
     validateSync,
-    validateAttribute,
 
     init() {
       this._super(...arguments);
@@ -369,32 +368,6 @@ function createCPValidationFor(attribute, validations, owner) {
       content: flatten(validationResults)
     });
   })).readOnly();
-}
-
-function validateAttribute(attribute, value, options = {}) {
-  const model = get(this, 'model');
-  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-
-  const validationResults = validators.map(validator => {
-    const opts = merge(validator.processOptions(), options);
-    const disabled = getWithDefault(opts, 'disabled', false);
-    let result = disabled ? true : validator.validate(value, opts, model, attribute);
-
-    return validationReturnValueHandler(attribute, result, model, validator);
-  });
-
-  const result = ValidationResultCollection.create({
-    attribute,
-    content: flatten(validationResults)
-  });
-
-  if(get(result, 'isAsync')) {
-    return get(result, '_promise').then(() => {
-      return result;
-    });
-  }
-
-  return result;
 }
 
 /**
