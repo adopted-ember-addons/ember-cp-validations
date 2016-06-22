@@ -30,6 +30,7 @@ export default Ember.Object.extend({
 
   attrValue: null,
   _promise: null,
+  _validator: null,
 
   init() {
     this._super(...arguments);

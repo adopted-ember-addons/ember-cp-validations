@@ -18,6 +18,7 @@ const {
   A: emberArray
 } = Ember;
 
+const assign = Ember.assign || Ember.merge;
 const A = emberArray();
 
 function callable(method) {
@@ -270,9 +271,18 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Object}
    */
-  options: computed('content.[]', function () {
+  options: computed('_contentValidators.[]', '_contentValidators.@each._cachedOptions', function () {
     return this._groupValidatorOptions();
   }),
+
+  /**
+   * @property value
+   * @type {Ember.ComputedProperty}
+   * @private
+   */
+  value: computed('isAsync', cycleBreaker(function () {
+    return get(this, 'isAsync') ? get(this, '_promise') : this;
+  })),
 
   /**
    * @property _promise
@@ -289,13 +299,11 @@ export default Ember.Object.extend({
   })),
 
   /**
-   * @property value
+   * @property _contentValidators
    * @type {Ember.ComputedProperty}
    * @private
    */
-  value: computed('isAsync', cycleBreaker(function () {
-    return get(this, 'isAsync') ? get(this, '_promise') : this;
-  })),
+  _contentValidators: computed.mapBy('content', '_validator').readOnly(),
 
   /**
    * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
@@ -314,7 +322,7 @@ export default Ember.Object.extend({
       }
 
       const type = get(v, '_type');
-      const vOpts = get(v, 'options');
+      const vOpts = assign({}, get(v, '_cachedOptions'));
 
       if (options[type]) {
         if (isArray(options[type])) {
