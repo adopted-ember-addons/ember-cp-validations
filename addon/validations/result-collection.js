@@ -154,8 +154,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isAsync: computed('_errorContent.@each.isAsync', cycleBreaker(function () {
-    return !get(this, '_errorContent').isEvery('isAsync', false);
+  isAsync: computed('content.@each.isAsync', cycleBreaker(function () {
+    return !get(this, 'content').isEvery('isAsync', false);
   }, false)),
 
   /**
