@@ -5,11 +5,11 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-const DS = self.DS;
+import require from 'require';
 
-if (typeof self.DS === 'undefined') {
-  throw new Error('Ember-Data is required to use the DS Error validator.');
-}
+const { assert } = Ember;
+const hasEmberData = require.has('ember-data');
+assert('Ember-Data is required to use the DS Error validator.', hasEmberData);
 
 const {
   get,
