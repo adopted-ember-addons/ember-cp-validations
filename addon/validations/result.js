@@ -101,6 +101,13 @@ export default Ember.Object.extend({
   isDirty: readOnly('_validations.isDirty'),
 
   /**
+   * @property isWarning
+   * @readOnly
+   * @type {Ember.ComputedProperty}
+   */
+  isWarning: readOnly('_validations.isWarning'),
+
+  /**
    * @property message
    * @readOnly
    * @type {Ember.ComputedProperty}
@@ -134,7 +141,7 @@ export default Ember.Object.extend({
    * @private
    * @type {Result}
    */
-  _validations: computed('model', 'attribute', '_promise', function () {
+  _validations: computed('model', 'attribute', '_promise', '_validator', function () {
     return InternalResultObject.create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
   }),
 

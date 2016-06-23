@@ -11,7 +11,8 @@ import { unwrapString } from 'ember-cp-validations/utils/utils';
 const {
   get,
   set,
-  isNone
+  isNone,
+  computed
 } = Ember;
 
 const assign = Ember.assign || Ember.merge;
@@ -63,6 +64,12 @@ const Base = Ember.Object.extend({
    * @type {Object}
    */
   errorMessages: null,
+
+  /**
+   * @property isWarning
+   * @type {Boolean}
+   */
+  isWarning: computed.bool('_cachedOptions.warning').readOnly(),
 
   /**
    * Validator type

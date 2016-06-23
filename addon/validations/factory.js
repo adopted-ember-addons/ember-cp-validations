@@ -396,6 +396,14 @@ function createTopLevelPropsMixin(validatableAttrs) {
       return get(this, 'messages.0');
     })).readOnly(),
 
+    warnings: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.warning`), function () {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warning`)))).compact();
+    }).readOnly(),
+
+    warning: computed('warning.[]', cycleBreaker(function () {
+      return get(this, 'warning.0');
+    })).readOnly(),
+
     errors: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.errors`), function () {
       return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.errors`)))).compact();
     }).readOnly(),

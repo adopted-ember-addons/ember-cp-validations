@@ -80,8 +80,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isValid: computed('content.@each.isValid', cycleBreaker(function () {
-    return get(this, 'content').isEvery('isValid', true);
+  isValid: computed('_errorContent.@each.isValid', cycleBreaker(function () {
+    return get(this, '_errorContent').isEvery('isValid', true);
   }, true)),
 
   /**
@@ -98,8 +98,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isValidating: computed('content.@each.isValidating', cycleBreaker(function () {
-    return !get(this, 'content').isEvery('isValidating', false);
+  isValidating: computed('_errorContent.@each.isValidating', cycleBreaker(function () {
+    return !get(this, '_errorContent').isEvery('isValidating', false);
   }, false)),
 
   /**
@@ -116,8 +116,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isTruelyValid: computed('content.@each.isTruelyValid', cycleBreaker(function () {
-    return get(this, 'content').isEvery('isTruelyValid', true);
+  isTruelyValid: computed('_errorContent.@each.isTruelyValid', cycleBreaker(function () {
+    return get(this, '_errorContent').isEvery('isTruelyValid', true);
   }, true)),
 
   /**
@@ -136,8 +136,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isDirty: computed('content.@each.isDirty', cycleBreaker(function () {
-    return !get(this, 'content').isEvery('isDirty', false);
+  isDirty: computed('_errorContent.@each.isDirty', cycleBreaker(function () {
+    return !get(this, '_errorContent').isEvery('isDirty', false);
   }, false)),
 
   /**
@@ -154,8 +154,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isAsync: computed('content.@each.isAsync', cycleBreaker(function () {
-    return !get(this, 'content').isEvery('isAsync', false);
+  isAsync: computed('_errorContent.@each.isAsync', cycleBreaker(function () {
+    return !get(this, '_errorContent').isEvery('isAsync', false);
   }, false)),
 
   /**
@@ -171,8 +171,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  messages: computed('content.@each.messages', cycleBreaker(function () {
-    const messages = flatten(get(this, 'content').getEach('messages'));
+  messages: computed('_errorContent.@each.messages', cycleBreaker(function () {
+    const messages = flatten(get(this, '_errorContent').getEach('messages'));
 
     return uniq(compact(messages));
   })),
@@ -195,6 +195,41 @@ export default Ember.Object.extend({
   })),
 
   /**
+   * A collection of all {{#crossLink "Error"}}Warnings{{/crossLink}} on the object in question.
+   * Each warning object includes the warning message and it's associated attribute name.
+   *
+   * ```javascript
+   * // Example
+   * get(user, 'validations.warnings')
+   * get(user, 'validations.attrs.username.warnings')
+   * ```
+   *
+   * @property warnings
+   * @readOnly
+   * @type {Ember.ComputedProperty | Array}
+   */
+  warnings: computed('attribute', '_warningContent.@each.errors', cycleBreaker(function () {
+    return this._computeErrorCollection(get(this, '_warningContent'));
+  })),
+
+  /**
+   * An alias to the first {{#crossLink "Warning"}}{{/crossLink}} in the warnings collection.
+   *
+   * ```javascript
+   * // Example
+   * get(user, 'validations.warning')
+   * get(user, 'validations.attrs.username.warning')
+   * ```
+   *
+   * @property warning
+   * @readOnly
+   * @type {Ember.ComputedProperty | Error}
+   */
+  warning: computed('warnings.[]', cycleBreaker(function () {
+    return get(this, 'warnings.0');
+  })),
+
+  /**
    * A collection of all {{#crossLink "Error"}}Errors{{/crossLink}} on the object in question.
    * Each error object includes the error message and it's associated attribute name.
    *
@@ -208,18 +243,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Array}
    */
-  errors: computed('attribute', 'content.@each.errors', cycleBreaker(function () {
-    const attribute = get(this, 'attribute');
-    let errors = flatten(get(this, 'content').getEach('errors'));
-
-    errors = uniq(compact(errors));
-    errors.forEach(e => {
-      if(e.get('attribute') !== attribute) {
-        e.set('parentAttribute', attribute);
-      }
-    });
-
-    return errors;
+  errors: computed('attribute', '_errorContent.@each.errors', cycleBreaker(function () {
+    return this._computeErrorCollection(get(this, '_errorContent'));
   })),
 
   /**
@@ -303,7 +328,43 @@ export default Ember.Object.extend({
    * @type {Ember.ComputedProperty}
    * @private
    */
-  _contentValidators: computed.mapBy('content', '_validator').readOnly(),
+  _contentValidators: computed.mapBy('_errorContent', '_validator').readOnly(),
+
+  /**
+   * @property _errorContent
+   * @type {Ember.ComputedProperty}
+   * @private
+   */
+  _errorContent: computed.filter('content', function(result) {
+    return get(result, 'isWarning') !== true;
+  }).readOnly(),
+
+  /**
+   * @property _warningContent
+   * @type {Ember.ComputedProperty}
+   * @private
+   */
+  _warningContent: computed.filterBy('content', 'isWarning', true).readOnly(),
+
+
+  /**
+   * @method  _computeErrorCollection
+   * @return  {Object}
+   * @private
+   */
+  _computeErrorCollection(content) {
+    const attribute = get(this, 'attribute');
+    let errors = flatten(content.getEach('errors'));
+
+    errors = uniq(compact(errors));
+    errors.forEach(e => {
+      if(e.get('attribute') !== attribute) {
+        e.set('parentAttribute', attribute);
+      }
+    });
+
+    return errors;
+  },
 
   /**
    * Used by the `options` property to create a hash from the `content` that is grouped by validator type.

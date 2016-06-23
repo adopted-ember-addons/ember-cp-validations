@@ -41,6 +41,7 @@ export default Ember.Object.extend({
   isNotValidating: not('isValidating'),
   isInvalid: not('isValid'),
   isTruelyValid: and('isNotValidating', 'isValid'),
+  isWarning: computed.bool('_validator.isWarning').readOnly(),
 
   isAsync: computed('_promise', function () {
     const promise = get(this, '_promise');
