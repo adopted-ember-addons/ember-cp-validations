@@ -15,6 +15,7 @@ const {
   isEmpty,
   isArray,
   isNone,
+  canInvoke,
   A: emberArray
 } = Ember;
 
@@ -156,6 +157,10 @@ export default Ember.Object.extend({
    */
   isAsync: computed('content.@each.isAsync', cycleBreaker(function () {
     return !get(this, 'content').isEvery('isAsync', false);
+  }, false)),
+
+  hasValidated: computed('content.@each.hasValidated', cycleBreaker(function () {
+    return get(this, 'content').isEvery('hasValidated', true);
   }, false)),
 
   /**
@@ -304,6 +309,41 @@ export default Ember.Object.extend({
    * @private
    */
   _contentValidators: computed.mapBy('content', '_validator').readOnly(),
+
+  setValidated() {
+    function handleResult(result) {
+      if (get(result, '_validations')) {
+        let validations = get(result, '_validations');
+
+        if (get(validations, 'attrs')) {
+          Object.keys(get(validations, '_validators')).forEach(validator => {
+            get(validations, `attrs.${validator}`).setValidated();
+          });
+        } else if (canInvoke(validations, 'setValidated')) {
+          validations.setValidated();
+        } else {
+          set(result, 'hasValidated', true);
+        }
+      } else {
+        set(result, 'hasValidated', true);
+      }
+    }
+
+    get(this, 'content').forEach((result) => {
+      if (canInvoke(result, 'setValidated')) {
+        result.setValidated();
+      } else {
+        let promise = get(this, '_promise');
+        if (promise) {
+          promise.then(() => {
+            handleResult(result);
+          });
+        } else {
+          handleResult(result);
+        }
+      }
+    });
+  },
 
   /**
    * Used by the `options` property to create a hash from the `content` that is grouped by validator type.

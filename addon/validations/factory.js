@@ -644,6 +644,8 @@ function validate(options = {}, async = true) {
     content: validationResults
   });
 
+  validationResultsCollection.setValidated();
+
   const resultObject = {
     model,
     validations: validationResultsCollection
