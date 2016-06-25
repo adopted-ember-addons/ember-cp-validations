@@ -71,8 +71,8 @@ export default Base.extend({
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     const regularExpressions = get(this, 'regularExpressions');
 
-    if (options.type && !isNone(regularExpressions[options.type]) && isNone(options.regex)) {
-      options.regex = regularExpressions[options.type];
+    if (options.type && !isNone(regularExpressions[get(options, 'type')]) && isNone(get(options, 'regex'))) {
+      options.regex = regularExpressions[get(options, 'type')];
     }
 
     return this._super(options, defaultOptions, globalOptions);
@@ -83,13 +83,13 @@ export default Base.extend({
       return true;
     }
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (get(options, 'allowBlank') && isEmpty(value)) {
       return true;
     }
 
-    if (options.regex && !options.regex.test(value)) {
-      if (options.type) {
-        return this.createErrorMessage(options.type, value, options);
+    if (get(options, 'regex') && !get(options, 'regex').test(value)) {
+      if (get(options, 'type')) {
+        return this.createErrorMessage(get(options, 'type'), value, options);
       }
       return this.createErrorMessage('invalid', value, options);
     }

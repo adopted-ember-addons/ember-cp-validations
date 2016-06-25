@@ -56,7 +56,7 @@ export default Ember.Object.extend({
    * @return {String}
    */
   getDescriptionFor(attribute, options = {}) {
-    return options.description || get(this, 'defaultDescription');
+    return get(options, 'description') || get(this, 'defaultDescription');
   },
 
   /**

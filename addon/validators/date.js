@@ -13,8 +13,12 @@ if (typeof moment === 'undefined') {
 }
 
 const {
+  get,
+  getWithDefault,
+  getProperties,
   isNone,
-  isEmpty
+  isEmpty,
+  set
 } = Ember;
 
 /**
@@ -59,15 +63,15 @@ export default Base.extend({
   },
 
   validate(value, options) {
-    const errorFormat = options.errorFormat || 'MMM Do, YYYY';
-    const format = options.format;
-    const precision = options.precision;
-    let { before, onOrBefore, after, onOrAfter } = options;
+    const errorFormat = getWithDefault(options, 'errorFormat', 'MMM Do, YYYY');
+    const format = get(options, 'format');
+    const precision = get(options, 'precision');
+    let { before, onOrBefore, after, onOrAfter } = getProperties(options, ['before', 'onOrBefore', 'after', 'onOrAfter']);
     let date;
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (get(options, 'allowBlank') && isEmpty(value)) {
       return true;
-    }  
+    }
 
     if (format) {
       date = this._parseDate(value, format, true);
@@ -84,7 +88,7 @@ export default Base.extend({
     if (before) {
       before = this._parseDate(before, format);
       if (!date.isBefore(before, precision)) {
-        options.before = before.format(errorFormat);
+        set(options, 'before', before.format(errorFormat));
         return this.createErrorMessage('before', value, options);
       }
     }
@@ -92,7 +96,7 @@ export default Base.extend({
     if (onOrBefore) {
       onOrBefore = this._parseDate(onOrBefore, format);
       if (!date.isSameOrBefore(onOrBefore, precision))  {
-        options.onOrBefore = onOrBefore.format(errorFormat);
+        set(options, 'onOrBefore', onOrBefore.format(errorFormat));
         return this.createErrorMessage('onOrBefore', value, options);
       }
     }
@@ -100,7 +104,7 @@ export default Base.extend({
     if (after) {
       after = this._parseDate(after, format);
       if (!date.isAfter(after, precision)) {
-        options.after = after.format(errorFormat);
+        set(options, 'after', after.format(errorFormat));
         return this.createErrorMessage('after', value, options);
       }
     }
@@ -108,7 +112,7 @@ export default Base.extend({
     if (onOrAfter) {
       onOrAfter = this._parseDate(onOrAfter, format);
       if (!date.isSameOrAfter(onOrAfter, precision)) {
-        options.onOrAfter = onOrAfter.format(errorFormat);
+        set(options, 'onOrAfter', onOrAfter.format(errorFormat));
         return this.createErrorMessage('onOrAfter', value, options);
       }
     }

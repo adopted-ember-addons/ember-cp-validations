@@ -77,7 +77,7 @@ const Alias = Base.extend({
 
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
-    const alias = typeof options === 'string' ? options : options.alias;
+    const alias = typeof options === 'string' ? options : get(options, 'alias');
     return [ `${alias}.messages.[]`, `${alias}.isTruelyValid` ];
   }
 });

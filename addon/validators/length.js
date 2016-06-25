@@ -48,7 +48,7 @@ export default Base.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    options.allowNone = isNone(options.allowNone) ? true : options.allowNone;
+    options.allowNone = isNone(get(options, 'allowNone')) ? true : get(options, 'allowNone');
 
     return this._super(options, defaultOptions, globalOptions);
   },
@@ -59,22 +59,22 @@ export default Base.extend({
     }
 
     if (isNone(value)) {
-      return options.allowNone ? true : this.createErrorMessage('invalid', value, options);
+      return get(options, 'allowNone') ? true : this.createErrorMessage('invalid', value, options);
     }
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (get(options, 'allowBlank') && isEmpty(value)) {
       return true;
     }
 
-    if (!isNone(options.is) && options.is !== get(value, 'length')) {
+    if (!isNone(get(options, 'is')) && get(options, 'is') !== get(value, 'length')) {
       return this.createErrorMessage('wrongLength', value, options);
     }
 
-    if (!isNone(options.min) && options.min > get(value, 'length')) {
+    if (!isNone(get(options, 'min')) && get(options, 'min') > get(value, 'length')) {
       return this.createErrorMessage('tooShort', value, options);
     }
 
-    if (!isNone(options.max) && options.max < get(value, 'length')) {
+    if (!isNone(get(options, 'max')) && get(options, 'max') < get(value, 'length')) {
       return this.createErrorMessage('tooLong', value, options);
     }
 
