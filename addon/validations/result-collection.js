@@ -98,8 +98,8 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Boolean}
    */
-  isValidating: computed('_errorContent.@each.isValidating', cycleBreaker(function () {
-    return !get(this, '_errorContent').isEvery('isValidating', false);
+  isValidating: computed('content.@each.isValidating', cycleBreaker(function () {
+    return !get(this, 'content').isEvery('isValidating', false);
   }, false)),
 
   /**
