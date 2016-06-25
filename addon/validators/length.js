@@ -61,19 +61,20 @@ export default Base.extend({
       return allowNone ? true : this.createErrorMessage('invalid', value, options);
     }
 
+    const length = get(value, 'length');
     if (allowBlank && isEmpty(value)) {
       return true;
     }
 
-    if (!isNone(is) && is !== get(value, 'length')) {
+    if (!isNone(is) && is !== length) {
       return this.createErrorMessage('wrongLength', value, options);
     }
 
-    if (!isNone(min) && min > get(value, 'length')) {
+    if (!isNone(min) && min > length) {
       return this.createErrorMessage('tooShort', value, options);
     }
 
-    if (!isNone(max) && max < get(value, 'length')) {
+    if (!isNone(max) && max < length) {
       return this.createErrorMessage('tooLong', value, options);
     }
 
