@@ -7,6 +7,7 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
+  get,
   typeOf,
   isEmpty
 } = Ember;
@@ -35,14 +36,14 @@ const {
  */
 export default Base.extend({
   validate(value, options) {
-    const array = options.in;
-    const range = options.range;
+    const array = get(options, 'in');
+    const range = get(options, 'range');
 
     if (isEmpty(Object.keys(options))) {
       return true;
     }
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (get(options, 'allowBlank') && isEmpty(value)) {
       return true;
     }
 

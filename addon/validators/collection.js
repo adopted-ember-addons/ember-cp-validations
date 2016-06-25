@@ -7,6 +7,7 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
+  get,
   isArray
 } = Ember;
 
@@ -72,7 +73,7 @@ const Collection = Base.extend({
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return (options === true || options.collection === true) ? [ `_model.${attribute}.[]` ] : [];
+    return (options === true || get(options, 'collection') === true) ? [ `_model.${attribute}.[]` ] : [];
   }
 });
 

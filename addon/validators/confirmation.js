@@ -35,7 +35,7 @@ const {
  */
 const Confirmation = Base.extend({
   validate(value, options, model) {
-    if (!isNone(options.on) && !isEqual(value, get(model, options.on))) {
+    if (!isNone(get(options, 'on')) && !isEqual(value, get(model, get(options, 'on')))) {
       return this.createErrorMessage('confirmation', value, options);
     }
 
@@ -45,7 +45,7 @@ const Confirmation = Base.extend({
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    return options.on ? [ `_model.${options.on}` ] : [];
+    return get(options, 'on') ? [ `_model.${options.on}` ] : [];
   }
 });
 

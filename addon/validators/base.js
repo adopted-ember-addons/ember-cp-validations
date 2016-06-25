@@ -10,6 +10,7 @@ import { unwrapString } from 'ember-cp-validations/utils/utils';
 
 const {
   get,
+  getWithDefault,
   set,
   isNone
 } = Ember;
@@ -115,7 +116,7 @@ const Base = Ember.Object.extend({
 
     // Overwrite the validator's value method if it exists in the options and remove it since
     // there is no need for it to be passed around
-    this.value = builtOptions.value || this.value;
+    this.value = getWithDefault(builtOptions, 'value', this.value);
     delete builtOptions.value;
 
     return builtOptions;
@@ -224,7 +225,7 @@ const Base = Ember.Object.extend({
    */
   createErrorMessage(type, value, options = {}) {
     const messages = this.get('errorMessages');
-    let message = unwrapString(options.message);
+    let message = unwrapString(get(options, 'message'));
 
     options.description = messages.getDescriptionFor(get(this, 'attribute'), options);
 
