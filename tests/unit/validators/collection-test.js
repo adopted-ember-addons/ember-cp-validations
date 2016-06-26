@@ -24,11 +24,11 @@ test('buildOptions', function(assert) {
 
   options = true;
   let builtOptions = validator.buildOptions(options, {});
-  assert.deepEqual(builtOptions, { collection: true });
+  assert.equal(builtOptions.get('collection'), true);
 
   options = { collection: true };
   builtOptions = validator.buildOptions(options, {});
-  assert.deepEqual(builtOptions, { collection: true });
+  assert.equal(builtOptions.get('collection'), true);
 });
 
 test('value is collection', function(assert) {

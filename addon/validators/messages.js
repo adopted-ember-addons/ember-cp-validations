@@ -56,7 +56,7 @@ export default Ember.Object.extend({
    * @return {String}
    */
   getDescriptionFor(attribute, options = {}) {
-    return options.description || get(this, 'defaultDescription');
+    return get(options, 'description') || get(this, 'defaultDescription');
   },
 
   /**
@@ -83,7 +83,7 @@ export default Ember.Object.extend({
     if (isNone(m) || typeof m !== 'string') {
       m = get(this, 'invalid');
     }
-    return m.replace(get(this, '_regex'), (s, attr) => context[attr]);
+    return m.replace(get(this, '_regex'), (s, attr) => get(context, attr));
   },
 
   /**

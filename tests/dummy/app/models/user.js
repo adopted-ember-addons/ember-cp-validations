@@ -7,6 +7,10 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
 
+const {
+  computed
+} = Ember;
+
 var attr = DS.attr;
 
 var Validations = buildValidations({
@@ -15,7 +19,7 @@ var Validations = buildValidations({
     validators: [
       validator('presence', true),
       validator('length', {
-        max: 15
+        min: computed.alias('model.minLength')
       })
     ]
   },
@@ -54,5 +58,7 @@ export default DS.Model.extend(Validations, {
   'username': attr('string'),
   'password': attr('string'),
   'email': attr('string'),
-  'details': DS.belongsTo('user-detail')
+  'details': DS.belongsTo('user-detail'),
+
+  minLength: 5
 });

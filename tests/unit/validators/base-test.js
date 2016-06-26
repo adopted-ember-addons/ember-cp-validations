@@ -32,7 +32,7 @@ test('buildOptions - merge all options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options, { foo: 'a', bar: 'b'});
+  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
 });
 
 test('buildOptions - does not overwrite options', function(assert) {
@@ -48,23 +48,7 @@ test('buildOptions - does not overwrite options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options, { foo: 'a', bar: 'b'});
-});
-
-test('processOptions - calls functions', function(assert) {
-  assert.expect(2);
-
-  options = {
-    foo() { return 'a'; },
-    message() {
-      return "has some sort of error";
-    }
-  };
-
-  validator.set('options', options);
-  options = validator.processOptions();
-  assert.equal(options.foo, 'a');
-  assert.equal(typeof options.message, 'function', 'message function should only be called by createErrorMessage');
+  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
 });
 
 test('createErrorMessage - message function', function(assert) {
@@ -97,7 +81,7 @@ test('value - default gets model value', function(assert) {
 });
 
 test('value - overwrite value method via options', function(assert) {
-  assert.expect(3);
+  assert.expect(2);
 
   validator.setProperties({
     model: Ember.Object.create({ foo: 'bar', bar: 'baz'}),
@@ -113,7 +97,6 @@ test('value - overwrite value method via options', function(assert) {
 
   assert.equal(validator.get('attribute'), 'foo');
   assert.equal(validator.getValue(), 'baz');
-  assert.deepEqual(validator.get('options'), {});
 });
 
 test('message - handles SafeString', function(assert) {

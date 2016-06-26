@@ -18,7 +18,6 @@ const {
   A: emberArray
 } = Ember;
 
-const assign = Ember.assign || Ember.merge;
 const A = emberArray();
 
 function callable(method) {
@@ -271,7 +270,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Object}
    */
-  options: computed('_contentValidators.[]', '_contentValidators.@each._cachedOptions', function () {
+  options: computed('_contentValidators.[]', '_contentValidators.[]', function () {
     return this._groupValidatorOptions();
   }),
 
@@ -322,18 +321,18 @@ export default Ember.Object.extend({
       }
 
       const type = get(v, '_type');
-      const vOpts = assign({}, get(v, '_cachedOptions'));
+      const vOpts = get(v, 'options');
 
-      if (options[type]) {
-        if (isArray(options[type])) {
-          options[type].push(vOpts);
+      if (options.get(type)) {
+        if (isArray(options.get(type))) {
+          options.get(type).pushObject(vOpts);
         } else {
-          options[type] = [options[type], vOpts];
+          options.set(type, [options.get(type), vOpts]);
         }
       } else {
-        options[type] = vOpts;
+        options.set(type, vOpts);
       }
       return options;
-    }, {});
+    }, Ember.Object.create());
   }
 });
