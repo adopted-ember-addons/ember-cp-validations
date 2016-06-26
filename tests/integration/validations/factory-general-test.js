@@ -266,13 +266,16 @@ test("global options", function(assert) {
 
   assert.ok(object.get('validations.attrs.firstName.isInvalid'));
 
-  var v = object.get('validations._validators.firstName.0');
-  assert.deepEqual(v.get('options'), {
+  var options = object.get('validations._validators.firstName.0.options');
+  var expected = {
     message: 'Global error message',
     description: 'Test field',
     allowNone: true,
     min: 1,
     max: 5
+  };
+  Object.keys(expected).map(function(key) {
+    assert.equal(options.get(key), expected[key], `key ${key} matches`);
   });
 });
 
@@ -297,9 +300,10 @@ test("debounced validations", function(assert) {
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator(Validators.presence, {
-      debounce() {
+      // MUST be volatile as it is not bound to any property
+      debounce: Ember.computed(function() {
         return initSetup ? 0 : 500; // Do not debounce on initial object creation
-      }
+      }).volatile()
     }),
   });
   var object = setupObject(this, Ember.Object.extend(Validations));
@@ -332,9 +336,9 @@ test("debounced validations should cleanup on object destroy", function(assert) 
     model.set('foo', 'bar');
     return Validators.presence(value, options, model, attr);
   }, {
-    debounce() {
+    debounce: Ember.computed(function() {
       return initSetup ? 0 : 500; // Do not debounce on initial object creation
-    }
+    }).volatile()
   });
 
   var Validations = buildValidations({
@@ -394,14 +398,13 @@ test("disabled validations - simple", function(assert) {
   assert.equal(object.get('validations.isValid'), true);
 });
 
-test("disabled validations - function with dependent key", function(assert) {
+test("disabled validations - computed properties with dependent key", function(assert) {
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator(Validators.presence, {
-      dependentKeys: ['validateLastName'],
-      disabled() {
+      disabled: Ember.computed('model.validateLastName', function() {
         return !this.get('model.validateLastName');
-      }
+      })
     })
   });
   var object = setupObject(this, Ember.Object.extend(Validations, {
@@ -475,7 +478,7 @@ test("attribute validation result options hash", function(assert) {
   assert.equal(options['function'][0].description, 'First Name');
 });
 
-test("attribute validation result options hash with functions", function(assert) {
+test("attribute validation result options hash with computed properties", function(assert) {
   assert.expect(5);
   this.register('validator:length', LengthValidator);
 
@@ -483,27 +486,26 @@ test("attribute validation result options hash with functions", function(assert)
     firstName: {
       validators: [
         validator('length', {
-          dependentKeys: ['max'],
           min: 1,
-          max(model) {
+          max: Ember.computed('model.max', function() {
             assert.ok(true);
-            return model.get('max');
-          }
+            return this.get('model.max');
+          })
         })
       ]
     }
   });
   var object = setupObject(this, Ember.Object.extend(Validations, { max: 5 }));
   var options = object.get('validations.attrs.firstName.options');
-  assert.equal(options.length.max, 5);
+  assert.equal(options.get('length.max'), 5);
 
-  run(() => object.set('max', 3));
-
-  options = object.get('validations.attrs.firstName.options');
-  assert.equal(options.length.max, 3);
+  object.set('max', 3);
 
   options = object.get('validations.attrs.firstName.options');
-  assert.equal(options.length.max, 3);
+  assert.equal(options.get('length.max'), 3);
+
+  options = object.get('validations.attrs.firstName.options');
+  assert.equal(options.get('length.max'), 3);
 });
 
 test("validations persist with inheritance", function(assert) {

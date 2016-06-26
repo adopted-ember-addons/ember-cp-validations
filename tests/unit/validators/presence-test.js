@@ -22,13 +22,11 @@ moduleFor('validator:presence', 'Unit | Validator | presence', {
 test('buildOptions', function(assert) {
   assert.expect(2);
 
-  options = true;
-  let builtOptions = validator.buildOptions(options, {});
-  assert.deepEqual(builtOptions, { presence: true });
+  let builtOptions = validator.buildOptions(true, {});
+  assert.equal(builtOptions.get('presence'), true);
 
-  options = { presence: true };
-  builtOptions = validator.buildOptions(options, {});
-  assert.deepEqual(builtOptions, { presence: true });
+  builtOptions = validator.buildOptions({ presence: true }, {});
+  assert.equal(builtOptions.get('presence'), true);
 });
 
 test('presence - value present', function(assert) {

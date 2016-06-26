@@ -55,6 +55,10 @@ export default Base.extend({
   },
 
   validate(value, options) {
+    if (isEmpty(Object.keys(options))) {
+      return true;
+    }
+
     const { allowNone, allowBlank, is, min, max } = getProperties(options, [ 'allowNone', 'allowBlank', 'is', 'min', 'max' ]);
 
     if (isNone(value)) {

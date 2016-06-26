@@ -74,14 +74,6 @@ const Base = Ember.Object.extend({
    */
   _type: null,
 
-  /**
-   * Cached processed options
-   * @property _cachedOptions
-   * @private
-   * @type {Object}
-   */
-  _cachedOptions: null,
-
   init() {
     this._super(...arguments);
     const globalOptions = get(this, 'globalOptions');
@@ -120,7 +112,7 @@ const Base = Ember.Object.extend({
     this.value = getWithDefault(builtOptions, 'value', get(this, 'value'));
     delete builtOptions.value;
 
-    const OptionsClass = Ember.Object.extend(builtOptions, {
+    const OptionsClass = Ember.Object.extend({
       model: computed(() => get(this, 'model')).readOnly(),
       attribute: computed(() => get(this, 'attribute')).readOnly(),
 
@@ -129,14 +121,19 @@ const Base = Ember.Object.extend({
           return OptionsClass.create();
         }
 
-        return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) => {
+        var opts = Ember.Object.create();
+        var appliedOpts = Object.keys(builtOptions).reduce((obj, o) => {
           obj[o] = get(this, o);
           return obj;
-        }, {}));
+        }, {});
+        opts.setProperties(appliedOpts);
+        return opts;
       }
     });
 
-    return Object.freeze(OptionsClass.create());
+    var optionsInstance = OptionsClass.create();
+    optionsInstance.setProperties(builtOptions);
+    return optionsInstance;
   },
 
   /**

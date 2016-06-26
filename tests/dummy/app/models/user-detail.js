@@ -22,9 +22,9 @@ var Validations = buildValidations({
       validator('presence', true),
       validator('date', {
         before: 'now',
-        after() {
-          return moment().subtract(120, 'years').format('M/D/YYYY');
-        },
+        after: Ember.computed('model.maxYearDistance', function() {
+          return moment().subtract(this.get('model.maxYearDistance'), 'years').format('M/D/YYYY');
+        }),
         format: 'M/D/YYYY',
         message: function(type, value, context) {
           if (type === 'before') {
@@ -58,5 +58,7 @@ export default DS.Model.extend(Validations, {
   "lastName": attr('string'),
   "dob": attr('date'),
   "phone": attr('string'),
-  "url": attr('string')
+  "url": attr('string'),
+
+  maxYearDistance: 120
 });
