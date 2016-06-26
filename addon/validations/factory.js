@@ -430,7 +430,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
 function getCPDependentKeysFor(attribute, validations, owner) {
   let dependentKeys = validations.map(validation => {
     const type = validation._type;
-    const options = validation.options;
+    const options = getWithDefault(validation, 'options', Ember.Object.create());
     const Validator = type === 'function' ? BaseValidator : lookupValidator(owner, type);
     const baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
     const dependents = Validator.getDependentsFor(attribute, options) || [];
@@ -445,8 +445,8 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     const cpDependents = Object.keys(options).reduce((arr, key) => {
       let option = options[key];
 
-      if(typeof option === 'object' && get(option, 'isDescriptor')) {
-        return arr.concat(get(option, '_dependentKeys').map(d => {
+      if(get(option, 'isDescriptor')) {
+        return arr.concat(getWithDefault(option, '_dependentKeys', []).map(d => {
           return d.split('.')[0] === 'model' ? '_' + d : d;
         }));
       }
