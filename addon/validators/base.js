@@ -135,7 +135,7 @@ const Base = Ember.Object.extend({
       }
     });
 
-    return OptionsClass.create();
+    return Object.freeze(OptionsClass.create());
   },
 
   /**
