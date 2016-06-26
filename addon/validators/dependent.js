@@ -7,7 +7,9 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
+  A,
   get,
+  getWithDefault,
   isNone,
   isEmpty
 } = Ember;
@@ -36,15 +38,15 @@ const Dependent = Base.extend({
       return true;
     }
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (get(options, 'allowBlank') && isEmpty(value)) {
       return true;
     }
 
-    if (isEmpty(options.on)) {
+    if (isEmpty(get(options, 'on'))) {
       return true;
     }
 
-    const dependentValidations = options.on.map(dependent => get(model, `validations.attrs.${dependent}`));
+    const dependentValidations = getWithDefault(options, 'on', A()).map(dependent => get(model, `validations.attrs.${dependent}`));
 
     if (!isEmpty(dependentValidations.filter(v => !get(v, 'isTruelyValid')))) {
       return this.createErrorMessage('invalid', value, options);
@@ -56,7 +58,7 @@ const Dependent = Base.extend({
 
 Dependent.reopenClass({
   getDependentsFor(attribute, options) {
-    const dependents = options.on;
+    const dependents = get(options, 'on');
 
     if (!isEmpty(dependents)) {
       return dependents.map(dependent => `${dependent}.isTruelyValid`);

@@ -7,6 +7,7 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
+  get,
   isEmpty
 } = Ember;
 
@@ -46,11 +47,11 @@ export default Base.extend({
     const numValue = Number(value);
     const optionKeys = Object.keys(options);
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (get(options, 'allowBlank') && isEmpty(value)) {
       return true;
     }
 
-    if (typeof value === 'string' && (isEmpty(value) || !options.allowString)) {
+    if (typeof value === 'string' && (isEmpty(value) || !get(options, 'allowString'))) {
       return this.createErrorMessage('notANumber', value, options);
     }
 
@@ -58,7 +59,7 @@ export default Base.extend({
       return this.createErrorMessage('notANumber', value, options);
     }
 
-    if (options.integer && !this.isInteger(numValue)) {
+    if (get(options, 'integer') && !this.isInteger(numValue)) {
       return this.createErrorMessage('notAnInteger', value, options);
     }
 

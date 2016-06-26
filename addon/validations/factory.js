@@ -342,7 +342,7 @@ function createCPValidationFor(attribute, validations, owner) {
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
     const validationResults = validators.map(validator => {
-      const options = validator.processOptions();
+      const options = get(validator, 'options').copy();
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
       let value;
@@ -441,8 +441,22 @@ function getCPDependentKeysFor(attribute, validations, owner) {
       getWithDefault(validation, 'globalOptions.dependentKeys', [])
     );
 
+    // Process dependentKeys from the CPs
+    const cpDependents = Object.keys(options).reduce((arr, key) => {
+      let option = options[key];
+
+      if(typeof option === 'object' && get(option, 'isDescriptor')) {
+        return arr.concat(get(option, '_dependentKeys').map(d => {
+          return d.split('.')[0] === 'model' ? '_' + d : d;
+        }));
+      }
+
+      return arr;
+    }, []);
+
     return baseDependents.concat(
       dependents,
+      cpDependents,
       specifiedDependents.map(d => `_model.${d}`)
     );
   });
@@ -465,7 +479,7 @@ function getCPDependentKeysFor(attribute, validations, owner) {
  * @param  {Function} resolve
  */
 function debouncedValidate(validator, model, attribute, resolve) {
-  const options = validator.processOptions();
+  const options = get(validator, 'options').copy();
   const value = validator.getValue();
 
   resolve(validator.validate(value, options, model, attribute));
