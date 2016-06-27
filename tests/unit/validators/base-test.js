@@ -51,6 +51,28 @@ test('buildOptions - does not overwrite options', function(assert) {
   assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
 });
 
+test('buildOptions - copy', function(assert) {
+  assert.expect(6);
+
+  options = validator.buildOptions({
+    foo: Ember.computed.alias('bar'),
+    bar: 'bar'
+  });
+
+  assert.ok(options instanceof Ember.Object);
+
+  let optionsCopy = options.copy();
+
+  assert.ok(optionsCopy instanceof Ember.Object);
+  assert.equal(optionsCopy.foo, 'bar');
+
+  optionsCopy = options.copy(true);
+
+  assert.ok(optionsCopy instanceof Ember.Object);
+  assert.ok(optionsCopy.foo.isDescriptor);
+  assert.equal(optionsCopy.get('foo'), 'bar');
+});
+
 test('createErrorMessage - message function', function(assert) {
   assert.expect(1);
 
