@@ -128,6 +128,9 @@ function buildValidations(validations = {}, globalOptions = {}) {
     validateSync() {
       return get(this, 'validations').validateSync(...arguments);
     },
+    validateAttribute() {
+      return get(this, 'validations').validateAttribute(...arguments);
+    },
     destroy() {
       this._super(...arguments);
       get(this, 'validations').destroy();
@@ -383,18 +386,14 @@ function validateAttribute(attribute, value, options = {}) {
     return validationReturnValueHandler(attribute, result, model, validator);
   });
 
-  const result = ValidationResultCollection.create({
+  const validations = ValidationResultCollection.create({
     attribute,
     content: flatten(validationResults)
   });
 
-  if(get(result, 'isAsync')) {
-    return get(result, '_promise').then(() => {
-      return result;
-    });
-  }
+  const result = { model, validations };
 
-  return result;
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
 }
 
 /**

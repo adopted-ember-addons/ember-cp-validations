@@ -756,3 +756,44 @@ test("multiple mixins", function(assert) {
   assert.equal(object.get('validations.attrs.lastName.isValid'), true);
   assert.equal(object.get('validations.isValid'), true);
 });
+
+test("validateAttribute - sync validations", function(assert) {
+  var Validations = buildValidations({
+    firstName: [
+      validator(Validators.presence),
+      validator(() => true)
+    ]
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Offir'
+  });
+
+  return object.validateAttribute('firstName', undefined).then(({
+    validations, model
+  }) => {
+    assert.equal(model.get('validations.isValid'), true);
+    assert.equal(validations.get('isValid'), false);
+    assert.equal(validations.get('isValidating'), false);
+    assert.equal(validations.get('message'), 'firstName should be present');
+  });
+});
+
+test("validateAttribute - async validations", function(assert) {
+  var Validations = buildValidations({
+    firstName: [
+      validator(() => Ember.RSVP.Promise.resolve('firstName is invalid')),
+      validator(() => Ember.RSVP.Promise.resolve('firstName is really invalid'))
+    ]
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Offir'
+  });
+
+  return object.validateAttribute('firstName', 'foo').then(({
+    validations, model
+  }) => {
+    assert.equal(validations.get('isValid'), false);
+    assert.equal(validations.get('isValidating'), false);
+    assert.equal(validations.get('message'), 'firstName is invalid');
+  });
+});
