@@ -434,7 +434,6 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     const Validator = type === 'function' ? BaseValidator : lookupValidator(owner, type);
     const baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
     const dependents = Validator.getDependentsFor(attribute, options) || [];
-    let cpDependents = [];
 
     const specifiedDependents = [].concat(
       getWithDefault(options, 'dependentKeys', []),
@@ -442,22 +441,12 @@ function getCPDependentKeysFor(attribute, validations, owner) {
       getWithDefault(validation, 'globalOptions.dependentKeys', [])
     );
 
-    // Process dependentKeys from the CPs
-    if(options && typeof options === 'object') {
-      cpDependents = Object.keys(options).reduce((arr, key) => {
-        let option = options[key];
-
-        if(typeof option === 'object' && option.isDescriptor) {
-          let dependentKeys = option._dependentKeys || [];
-
-          return arr.concat(dependentKeys.map(d => {
-            return d.split('.')[0] === 'model' ? '_' + d : d;
-          }));
-        }
-
-        return arr;
-      }, []);
-    }
+    // Extract dependentKeys from option CPs
+    const cpDependents = [].concat(
+      extractOptionsDependentKeys(options),
+      extractOptionsDependentKeys(get(validation, 'defaultOptions')),
+      extractOptionsDependentKeys(get(validation, 'globalOptions'))
+    );
 
     return baseDependents.concat(
       dependents,
@@ -470,6 +459,33 @@ function getCPDependentKeysFor(attribute, validations, owner) {
   dependentKeys.push(`_model.${attribute}`);
 
   return emberArray(dependentKeys).uniq();
+}
+
+/**
+ * Extract all dependentKeys from any property that is a CP
+ *
+ * @method extractOptionsDependentKeys
+ * @param  {Object} options
+ * @return {Array}  dependentKeys
+ */
+function extractOptionsDependentKeys(options) {
+  if(options && typeof options === 'object') {
+    return Object.keys(options).reduce((arr, key) => {
+      let option = options[key];
+
+      if(typeof option === 'object' && option.isDescriptor) {
+        let dependentKeys = option._dependentKeys || [];
+
+        return arr.concat(dependentKeys.map(d => {
+          return d.split('.')[0] === 'model' ? '_' + d : d;
+        }));
+      }
+
+      return arr;
+    }, []);
+  }
+
+  return [];
 }
 
 /**
