@@ -78,6 +78,9 @@ const Alias = Base.extend({
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
     const alias = typeof options === 'string' ? options : get(options, 'alias');
+
+    assert(`[ember-cp-validations] [validator:alias] [${attribute}] 'alias' must be a string`, typeof alias === 'string');
+
     return [ `${alias}.messages.[]`, `${alias}.isTruelyValid` ];
   }
 });

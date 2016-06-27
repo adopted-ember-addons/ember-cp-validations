@@ -439,19 +439,23 @@ function getCPDependentKeysFor(attribute, validations, owner) {
       getWithDefault(options, 'dependentKeys', []),
       getWithDefault(validation, 'defaultOptions.dependentKeys', []),
       getWithDefault(validation, 'globalOptions.dependentKeys', [])
-    );
+    ).map(d => {
+      return d.split('.')[0] === 'model' ? '_' + d : d;
+    });
 
     // Extract dependentKeys from option CPs
     const cpDependents = [].concat(
       extractOptionsDependentKeys(options),
       extractOptionsDependentKeys(get(validation, 'defaultOptions')),
       extractOptionsDependentKeys(get(validation, 'globalOptions'))
-    );
+    ).map(d => {
+      return d.split('.')[0] === 'model' ? '_' + d : d;
+    });
 
     return baseDependents.concat(
       dependents,
       cpDependents,
-      specifiedDependents.map(d => `_model.${d}`)
+      specifiedDependents
     );
   });
 
@@ -474,11 +478,7 @@ function extractOptionsDependentKeys(options) {
       let option = options[key];
 
       if(typeof option === 'object' && option.isDescriptor) {
-        let dependentKeys = option._dependentKeys || [];
-
-        return arr.concat(dependentKeys.map(d => {
-          return d.split('.')[0] === 'model' ? '_' + d : d;
-        }));
+        return arr.concat(option._dependentKeys || []);
       }
 
       return arr;

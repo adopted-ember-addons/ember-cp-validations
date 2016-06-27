@@ -66,7 +66,7 @@ test("custom dependent keys - simple", function(assert) {
       }
       return true;
     }, {
-      dependentKeys: ['firstName', 'lastName']
+      dependentKeys: ['model.firstName', 'model.lastName']
     })
   });
 
@@ -86,7 +86,7 @@ test("custom dependent keys - simple", function(assert) {
 test("custom dependent keys - default options", function(assert) {
   var Validations = buildValidations({
     fullName: {
-      dependentKeys: ['firstName'],
+      dependentKeys: ['model.firstName'],
       validators: [
         validator(function(value, options, model) {
           let firstName = model.get('firstName');
@@ -96,7 +96,7 @@ test("custom dependent keys - default options", function(assert) {
           }
           return true;
         }, {
-          dependentKeys: ['lastName']
+          dependentKeys: ['model.lastName']
         })
       ]
     }
@@ -118,7 +118,7 @@ test("custom dependent keys - default options", function(assert) {
 test("custom dependent keys - global options", function(assert) {
   var Validations = buildValidations({
     fullName: {
-      dependentKeys: ['firstName'],
+      dependentKeys: ['model.firstName'],
       validators: [
         validator(function(value, options, model) {
           let firstName = model.get('firstName');
@@ -129,12 +129,12 @@ test("custom dependent keys - global options", function(assert) {
           }
           return true;
         }, {
-          dependentKeys: ['lastName']
+          dependentKeys: ['model.lastName']
         })
       ]
     }
   }, {
-    dependentKeys: ['middleName']
+    dependentKeys: ['model.middleName']
   });
 
   var obj = setupObject(this, Ember.Object.extend(Validations));
@@ -165,7 +165,7 @@ test("custom dependent keys - nested object", function(assert) {
       }
       return true;
     }, {
-      dependentKeys: ['currPage', 'meta.pages.last']
+      dependentKeys: ['model.currPage', 'model.meta.pages.last']
     })
   });
 
@@ -203,7 +203,7 @@ test("custom dependent keys - array", function(assert) {
       }
       return true;
     }, {
-      dependentKeys: ['friends.[]']
+      dependentKeys: ['model.friends.[]']
     })
   });
 
@@ -242,7 +242,7 @@ test("custom dependent keys - array of objects", function(assert) {
       }
       return true;
     }, {
-      dependentKeys: ['friends.@each.name']
+      dependentKeys: ['model.friends.@each.name']
     })
   });
 

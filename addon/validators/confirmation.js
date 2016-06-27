@@ -50,7 +50,11 @@ const Confirmation = Base.extend({
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    return get(options, 'on') ? [ `_model.${get(options, 'on')}` ] : [];
+    const on = get(options, 'on');
+
+    assert(`[ember-cp-validations] [validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
+
+    return on ? [ `_model.${on}` ] : [];
   }
 });
 

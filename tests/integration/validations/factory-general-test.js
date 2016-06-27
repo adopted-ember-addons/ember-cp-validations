@@ -746,3 +746,48 @@ test("multiple mixins", function(assert) {
   assert.equal(object.get('validations.attrs.lastName.isValid'), true);
   assert.equal(object.get('validations.isValid'), true);
 });
+
+test("options CP changes trigger attribute revalidation", function(assert) {
+  this.register('validator:length', LengthValidator);
+  this.register('validator:presence', PresenceValidator);
+
+  var Validations = buildValidations({
+    firstName: {
+      description: computed.readOnly('model.description'),
+      validators: [
+        validator('length', {
+          min: computed.alias('model.minLength'),
+        })
+      ]
+    }
+  }, {
+    disabled: computed.not('model.enabled')
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations, {
+    enabled: true,
+    description: 'First Name',
+    minLength: 6,
+    firstName: 'Offir'
+  }));
+
+  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
+  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.firstName.message'), 'First Name is too short (minimum is 6 characters)');
+
+  object.setProperties({
+    description: 'Name',
+    minLength: 10
+  });
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.firstName.message'), 'Name is too short (minimum is 10 characters)');
+
+  object.set('enabled', false);
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be FALSE');
+});
