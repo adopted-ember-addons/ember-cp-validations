@@ -10,7 +10,9 @@ import Base from 'ember-cp-validations/validators/base';
 const {
   get,
   isNone,
-  isEmpty
+  isEmpty,
+  assert,
+  getProperties
 } = Ember;
 
 /**
@@ -71,28 +73,26 @@ export default Base.extend({
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     const regularExpressions = get(this, 'regularExpressions');
+    const { regex, type } = options;
 
-    if (options.type && !isNone(regularExpressions[get(options, 'type')]) && isNone(get(options, 'regex'))) {
-      options.regex = regularExpressions[get(options, 'type')];
+    if (type && !isNone(regularExpressions[type]) && isNone(regex)) {
+      options.regex = regularExpressions[type];
     }
 
     return this._super(options, defaultOptions, globalOptions);
   },
 
-  validate(value, options) {
-    if (isEmpty(Object.keys(options))) {
+  validate(value, options, model, attribute) {
+    const { regex, type, allowBlank } = getProperties(options, ['regex', 'type', 'allowBlank']);
+
+    assert(`[ember-cp-validations] [validator:format] [${attribute}] no options were passed in`, !isEmpty(Object.keys(options)));
+
+    if (allowBlank && isEmpty(value)) {
       return true;
     }
 
-    if (get(options, 'allowBlank') && isEmpty(value)) {
-      return true;
-    }
-
-    if (get(options, 'regex') && !get(options, 'regex').test(value)) {
-      if (get(options, 'type')) {
-        return this.createErrorMessage(get(options, 'type'), value, options);
-      }
-      return this.createErrorMessage('invalid', value, options);
+    if (regex && !regex.test(value)) {
+      return this.createErrorMessage(type || 'invalid', value, options);
     }
 
     return true;

@@ -34,8 +34,14 @@ moduleFor('validator:dependent', 'Unit | Validator | dependent', {
 
 test('no options', function(assert) {
   assert.expect(1);
-  message = Validator.validate(undefined, {});
-  assert.equal(message, true);
+
+  builtOptions = Validator.buildOptions({}).copy();
+
+  try {
+    message = Validator.validate(undefined, builtOptions);
+  } catch (e) {
+    assert.ok(true);
+  }
 });
 
 test('all empty attributes', function(assert) {

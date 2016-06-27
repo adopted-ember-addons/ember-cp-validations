@@ -22,9 +22,13 @@ moduleFor('validator:inclusion', 'Unit | Validator | inclusion', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  builtOptions = validator.buildOptions({});
-  message = validator.validate(undefined, builtOptions.copy());
-  assert.equal(message, true);
+  builtOptions = validator.buildOptions({}).copy();
+
+  try {
+    message = validator.validate(undefined, builtOptions);
+  } catch (e) {
+    assert.ok(true);
+  }
 });
 
 test('allow blank', function(assert) {

@@ -23,9 +23,12 @@ test('no options', function(assert) {
   assert.expect(1);
 
   builtOptions = validator.buildOptions({}).copy();
-
-  message = validator.validate(undefined, builtOptions);
-  assert.equal(message, true);
+  
+  try {
+    message = validator.validate(undefined, builtOptions);
+  } catch (e) {
+    assert.ok(true);
+  }
 });
 
 test('allow blank', function(assert) {

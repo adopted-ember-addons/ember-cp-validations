@@ -13,7 +13,6 @@ if (typeof moment === 'undefined') {
 }
 
 const {
-  get,
   getWithDefault,
   getProperties,
   isNone,
@@ -64,12 +63,11 @@ export default Base.extend({
 
   validate(value, options) {
     const errorFormat = getWithDefault(options, 'errorFormat', 'MMM Do, YYYY');
-    const format = get(options, 'format');
-    const precision = get(options, 'precision');
+    const { format, precision, allowBlank } = getProperties(options, ['format', 'precision', 'allowBlank']);
     let { before, onOrBefore, after, onOrAfter } = getProperties(options, ['before', 'onOrBefore', 'after', 'onOrAfter']);
     let date;
 
-    if (get(options, 'allowBlank') && isEmpty(value)) {
+    if (allowBlank && isEmpty(value)) {
       return true;
     }
 

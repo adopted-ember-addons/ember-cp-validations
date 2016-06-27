@@ -24,7 +24,7 @@ test('buildOptions', function(assert) {
 
   options = { type: 'email' };
   builtOptions = validator.buildOptions(options, {}).copy();
-  
+
   assert.equal(builtOptions.get('type'), 'email');
   assert.ok(builtOptions.get('regex'));
 });
@@ -32,8 +32,13 @@ test('buildOptions', function(assert) {
 test('no options', function(assert) {
   assert.expect(1);
 
-  message = validator.validate(undefined, {});
-  assert.equal(message, true);
+  builtOptions = validator.buildOptions({}).copy();
+
+  try {
+    message = validator.validate(undefined, builtOptions);
+  } catch (e) {
+    assert.ok(true);
+  }
 });
 
 test('allow blank', function(assert) {

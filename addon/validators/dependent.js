@@ -10,6 +10,8 @@ const {
   A,
   get,
   getWithDefault,
+  getProperties,
+  assert,
   isNone,
   isEmpty
 } = Ember;
@@ -33,16 +35,16 @@ const {
  *  @extends Base
  */
 const Dependent = Base.extend({
-  validate(value, options, model) {
-    if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
+  validate(value, options, model, attribute) {
+    const { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
+
+    assert(`[ember-cp-validations] [validator:dependent] [${attribute}] option 'on' is required`, !isEmpty(on));
+
+    if (isNone(model)) {
       return true;
     }
 
-    if (get(options, 'allowBlank') && isEmpty(value)) {
-      return true;
-    }
-
-    if (isEmpty(get(options, 'on'))) {
+    if (allowBlank && isEmpty(value)) {
       return true;
     }
 

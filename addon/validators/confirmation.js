@@ -8,8 +8,9 @@ import Base from 'ember-cp-validations/validators/base';
 
 const {
   get,
+  assert,
   isEqual,
-  isNone
+  isEmpty,
 } = Ember;
 
 /**
@@ -34,8 +35,12 @@ const {
  *  @extends Base
  */
 const Confirmation = Base.extend({
-  validate(value, options, model) {
-    if (!isNone(get(options, 'on')) && !isEqual(value, get(model, get(options, 'on')))) {
+  validate(value, options, model, attribute) {
+    const on = get(options, 'on');
+
+    assert(`[ember-cp-validations] [validator:confirmation] [${attribute}] option 'on' is required`, !isEmpty(on));
+
+    if (!isEqual(value, get(model, on))) {
       return this.createErrorMessage('confirmation', value, options);
     }
 

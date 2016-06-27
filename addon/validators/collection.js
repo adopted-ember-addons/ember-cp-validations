@@ -59,11 +59,13 @@ const Collection = Base.extend({
   },
 
   validate(value, options) {
-    if (get(options, 'collection') === true && !isArray(value)) {
+    const isCollection = get(options, 'collection');
+
+    if (isCollection === true && !isArray(value)) {
       return this.createErrorMessage('collection', value, options);
     }
 
-    if (get(options, 'collection') === false && isArray(value)) {
+    if (isCollection === false && isArray(value)) {
       return this.createErrorMessage('singular', value, options);
     }
 

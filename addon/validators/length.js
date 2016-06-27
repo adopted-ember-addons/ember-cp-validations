@@ -8,6 +8,7 @@ import Base from 'ember-cp-validations/validators/base';
 
 const {
   get,
+  assert,
   isNone,
   isEmpty,
   getProperties
@@ -54,8 +55,10 @@ export default Base.extend({
     return this._super(options, defaultOptions, globalOptions);
   },
 
-  validate(value, options) {
+  validate(value, options, model, attribute) {
     const { allowNone, allowBlank, is, min, max } = getProperties(options, [ 'allowNone', 'allowBlank', 'is', 'min', 'max' ]);
+
+    assert(`[ember-cp-validations] [validator:length] [${attribute}] no options were passed in`, !isEmpty(Object.keys(options)));
 
     if (isNone(value)) {
       return allowNone ? true : this.createErrorMessage('invalid', value, options);
