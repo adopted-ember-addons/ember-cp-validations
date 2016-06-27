@@ -270,7 +270,7 @@ export default Ember.Object.extend({
    * @readOnly
    * @type {Ember.ComputedProperty | Object}
    */
-  options: computed('_contentValidators.[]', '_contentValidators.@each._cachedOptions', function () {
+  options: computed('_contentValidators.[]', '_contentValidators.@each.options', function () {
     return this._groupValidatorOptions();
   }),
 
