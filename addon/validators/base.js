@@ -127,9 +127,7 @@ const Base = Ember.Object.extend({
       }
     });
 
-    // Options object should be frozen since it should never be modified.
-    // Any modifications should be done on a copy
-    return Object.freeze(OptionsClass.create());
+    return OptionsClass.create();
   },
 
   /**
