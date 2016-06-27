@@ -61,13 +61,13 @@ test('valid input date format', function(assert) {
   assert.expect(2);
 
   options = {
-    format: 'M/D/YYYY'
+    format: 'DD/M/YYYY'
   };
 
-  message = validator.validate('1/1/15', assign({}, options));
-  assert.equal(message, 'This field must be in the format of M/D/YYYY');
+  message = validator.validate('27/3/15', assign({}, options));
+  assert.equal(message, 'This field must be in the format of DD/M/YYYY');
 
-  message = validator.validate('1/1/2015', assign({}, options));
+  message = validator.validate('27/3/2015', assign({}, options));
   assert.equal(message, true);
 });
 
