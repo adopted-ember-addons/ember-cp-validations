@@ -75,25 +75,3 @@ HasMany.reopenClass({
 });
 
 export default HasMany;
-
-/**
-const requiredAttributes = {
-  _validator: this,
-  model,
-  attribute
-};
-
-if (canInvoke(value, 'then')) {
-  return value.then(models => {
-    if(model) {
-      return models.map(m => Result.create(requiredAttributes, { _validations: m.get('validations') }));
-    }
-
-    return true;
-  });
-}
-return value.map(m => Result.create(requiredAttributes, { _validations: m.get('validations') }));
-}
-
-return true;
- */
