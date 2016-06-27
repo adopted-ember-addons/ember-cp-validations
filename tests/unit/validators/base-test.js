@@ -51,22 +51,6 @@ test('buildOptions - does not overwrite options', function(assert) {
   assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
 });
 
-test('buildOptions - returned options are frozen', function(assert) {
-  assert.expect(1);
-
-  options = {
-    foo: 'a'
-  };
-
-  options = validator.buildOptions(options);
-
-  try {
-    options.set('foo', 'bar');
-  } catch (e) {
-    assert.ok(true);
-  }
-});
-
 test('createErrorMessage - message function', function(assert) {
   assert.expect(1);
 
