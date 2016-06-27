@@ -756,3 +756,49 @@ test("multiple mixins", function(assert) {
   assert.equal(object.get('validations.attrs.lastName.isValid'), true);
   assert.equal(object.get('validations.isValid'), true);
 });
+
+test("warning validators api", function(assert) {
+  this.register('validator:length', LengthValidator);
+  this.register('validator:presence', PresenceValidator);
+
+  var Validations = buildValidations({
+    password: {
+      description: 'Password',
+      validators: [
+        validator('presence', {
+          presence: true,
+          isWarning: true,
+          message: '{description} should not be empty'
+        }),
+        validator('length', {
+          min: 4,
+          isWarning: true,
+          message: '{description} is weak'
+        }),
+        validator('length', {
+          min: 1,
+          max: 10
+        })
+      ]
+    }
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    password: ''
+  });
+
+  assert.equal(object.get('validations.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.warnings.length'), 2);
+  assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password should not be empty');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 1 characters)');
+
+  object.set('password', 'wat');
+
+  assert.equal(object.get('validations.isValid'), true);
+  assert.equal(object.get('validations.attrs.password.isValid'), true);
+  assert.equal(object.get('validations.attrs.password.warnings.length'), 1);
+  assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password is weak');
+
+
+});

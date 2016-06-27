@@ -393,7 +393,23 @@ function createTopLevelPropsMixin(validatableAttrs) {
     }).readOnly(),
 
     message: computed('messages.[]', cycleBreaker(function () {
-      return get(this, 'messages.0');
+      return get(this, 'messages.firstObject');
+    })).readOnly(),
+
+    warningMessages: computed(...validatableAttrs.map(attr => `attrs.${attr}.warningMessages`), function () {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warningMessages`)))).compact();
+    }).readOnly(),
+
+    warningMessage: computed('warningMessages.[]', cycleBreaker(function () {
+      return get(this, 'warningMessages.firstObject');
+    })).readOnly(),
+
+    warnings: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.warnings`), function () {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warnings`)))).compact();
+    }).readOnly(),
+
+    warning: computed('warning.[]', cycleBreaker(function () {
+      return get(this, 'warning.firstObject');
     })).readOnly(),
 
     errors: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.errors`), function () {
@@ -401,7 +417,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     }).readOnly(),
 
     error: computed('errors.[]', cycleBreaker(function () {
-      return get(this, 'errors.0');
+      return get(this, 'errors.firstObject');
     })).readOnly(),
 
     _promise: computed(...validatableAttrs.map(attr => `attrs.${attr}._promise`), function () {

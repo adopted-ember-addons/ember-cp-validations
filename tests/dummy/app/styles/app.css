@@ -264,10 +264,18 @@ body {
   font-size: 12px;
 }
 
-.validated-input .input-error .error {
+.validated-input .input-error .error,
+.validated-input .input-error .warning {
   padding: 8px 5px 0 0;
-  color: rgb(255, 65, 31);
   text-align: left;
+}
+
+.validated-input .input-error .error {
+  color: rgb(255, 65, 31);
+}
+
+.validated-input .input-error .warning {
+  color: rgb(255, 165, 31);
 }
 
 .demo a.show-code {
