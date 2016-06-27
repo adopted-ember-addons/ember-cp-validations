@@ -434,6 +434,7 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     const Validator = type === 'function' ? BaseValidator : lookupValidator(owner, type);
     const baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
     const dependents = Validator.getDependentsFor(attribute, options) || [];
+    let cpDependents = [];
 
     const specifiedDependents = [].concat(
       getWithDefault(options, 'dependentKeys', []),
@@ -442,19 +443,21 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     );
 
     // Process dependentKeys from the CPs
-    const cpDependents = Object.keys(options).reduce((arr, key) => {
-      let option = options[key];
+    if(options && typeof options === 'object') {
+      cpDependents = Object.keys(options).reduce((arr, key) => {
+        let option = options[key];
 
-      if(typeof option === 'object' && option.isDescriptor) {
-        let dependentKeys = option._dependentKeys || [];
+        if(typeof option === 'object' && option.isDescriptor) {
+          let dependentKeys = option._dependentKeys || [];
 
-        return arr.concat(dependentKeys.map(d => {
-          return d.split('.')[0] === 'model' ? '_' + d : d;
-        }));
-      }
+          return arr.concat(dependentKeys.map(d => {
+            return d.split('.')[0] === 'model' ? '_' + d : d;
+          }));
+        }
 
-      return arr;
-    }, []);
+        return arr;
+      }, []);
+    }
 
     return baseDependents.concat(
       dependents,
