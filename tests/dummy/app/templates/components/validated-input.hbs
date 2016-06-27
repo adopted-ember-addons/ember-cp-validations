@@ -5,16 +5,16 @@
   {{/if}}
 
   <div class="input-error">
-      {{#if showErrorMessage}}
-          <div class="error">
-              {{get (v-get model valuePath 'error') 'message'}}
-          </div>
-      {{/if}}
+    {{#if showErrorMessage}}
+      <div class="error">
+        {{v-get model valuePath 'message'}}
+      </div>
+    {{/if}}
 
-      {{#if showWarningMessage}}
-        <div class="warning">
-            {{get (v-get model valuePath 'warning') 'message'}}
-        </div>
-      {{/if}}
+    {{#if showWarningMessage}}
+      <div class="warning">
+        {{v-get model valuePath 'warningMessage'}}
+      </div>
+    {{/if}}
   </div>
 </div>

@@ -28,7 +28,7 @@ const {
  * @private
  */
 
-export default Ember.Object.extend({
+const Result = Ember.Object.extend({
 
   /**
    * @property model
@@ -59,79 +59,79 @@ export default Ember.Object.extend({
   _validator: null,
 
   /**
+   * @property isWarning
+   * @readOnly
+   * @type {Boolean}
+   */
+  isWarning: readOnly('_validator.isWarning'),
+
+  /**
    * @property isValid
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Boolean}
    */
   isValid: readOnly('_validations.isValid'),
 
   /**
    * @property isInvalid
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Boolean}
    */
   isInvalid: readOnly('_validations.isInvalid'),
 
   /**
    * @property isValidating
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Boolean}
    */
   isValidating: readOnly('_validations.isValidating'),
 
   /**
    * @property isTruelyValid
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Boolean}
    */
   isTruelyValid: readOnly('_validations.isTruelyValid'),
 
   /**
    * @property isAsync
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Boolean}
    */
   isAsync: readOnly('_validations.isAsync'),
 
   /**
    * @property isDirty
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Boolean}
    */
   isDirty: readOnly('_validations.isDirty'),
 
   /**
-   * @property isWarning
-   * @readOnly
-   * @type {Ember.ComputedProperty}
-   */
-  isWarning: readOnly('_validations.isWarning'),
-
-  /**
    * @property message
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {String}
    */
   message: readOnly('_validations.message'),
 
   /**
    * @property messages
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Array}
    */
   messages: readOnly('_validations.messages'),
 
   /**
    * @property error
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Object}
    */
   error: readOnly('_validations.error'),
 
   /**
    * @property errors
    * @readOnly
-   * @type {Ember.ComputedProperty}
+   * @type {Array}
    */
   errors: readOnly('_validations.errors'),
 
@@ -168,6 +168,8 @@ export default Ember.Object.extend({
    */
   update(result) {
     const validations = get(this, '_validations');
+    const validator = get(this, '_validator');
+    const { model, attribute } = getProperties(this, ['model', 'attribute']);
 
     if (isNone(result)) {
       this.update(false);
@@ -178,8 +180,13 @@ export default Ember.Object.extend({
       set(this, '_validations', result);
     } else if (isArray(result)) {
       const validationResultsCollection = ValidationResultCollection.create({
-        attribute: get(this, 'attribute'),
-        content: result
+        attribute,
+        content: result.map(r => Result.create({
+          attribute,
+          model,
+          _validator: validator,
+          _validations: r
+        }))
       });
       set(this, '_validations', validationResultsCollection);
     } else if (typeof result === 'string') {
@@ -214,3 +221,5 @@ export default Ember.Object.extend({
     });
   }
 });
+
+export default Result;

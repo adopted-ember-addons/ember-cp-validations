@@ -32,7 +32,7 @@ var Validations = buildValidations({
         message: '{description} must include at least one upper case letter, one lower case letter, and a number'
       }),
       validator('length', {
-        warning: true,
+        isWarning: true,
         min: 6,
         message: 'What kind of weak password is that?'
       })

@@ -6,6 +6,7 @@
 import Ember from 'ember';
 
 const {
+  isEmpty,
   computed,
   defineProperty,
 } = Ember;
@@ -38,7 +39,7 @@ export default Ember.Component.extend({
     return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
   }),
 
-  showWarningMessage: computed('validation.isDirty', 'isValid', 'didValidate', function() {
-    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isValid');
+  showWarningMessage: computed('validation.isDirty', 'validation.warnings.[]', 'isValid', 'didValidate', function() {
+    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isValid') && !isEmpty(this.get('validation.warnings'));
   })
 });

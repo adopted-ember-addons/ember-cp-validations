@@ -69,7 +69,7 @@ const Base = Ember.Object.extend({
    * @property isWarning
    * @type {Boolean}
    */
-  isWarning: computed.bool('_cachedOptions.warning').readOnly(),
+  isWarning: computed.bool('_cachedOptions.isWarning').readOnly(),
 
   /**
    * Validator type
