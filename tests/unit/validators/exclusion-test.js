@@ -9,7 +9,7 @@ import {
 }
 from 'ember-qunit';
 
-var options, validator, message;
+var options, builtOptions, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:exclusion', 'Unit | Validator | exclusion', {
@@ -22,7 +22,9 @@ moduleFor('validator:exclusion', 'Unit | Validator | exclusion', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  message = validator.validate(undefined, {});
+  builtOptions = validator.buildOptions({}).copy();
+
+  message = validator.validate(undefined, builtOptions);
   assert.equal(message, true);
 });
 
@@ -33,10 +35,13 @@ test('allow blank', function(assert) {
     allowBlank: true,
     "in": ["foo", "bar", "baz"]
   };
-  message = validator.validate('', options);
+
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('', builtOptions.copy());
   assert.equal(message, true);
 
-  message = validator.validate('foo', options);
+  message = validator.validate('foo', builtOptions.copy());
   assert.equal(message, 'This field is reserved');
 });
 
@@ -47,17 +52,18 @@ test('not in array', function(assert) {
     "in": ["foo", "bar", "baz"]
   };
 
+  builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('foo', options);
+  message = validator.validate('foo', builtOptions.copy());
   assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('bar', options);
+  message = validator.validate('bar', builtOptions.copy());
   assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('baz', options);
+  message = validator.validate('baz', builtOptions.copy());
   assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('test', options);
+  message = validator.validate('test', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -68,19 +74,21 @@ test('not in range', function(assert) {
     range: [1, 10]
   };
 
-  message = validator.validate(1, options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate(1, builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate(5, options);
+  message = validator.validate(5, builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate(10, options);
+  message = validator.validate(10, builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate(0, options);
+  message = validator.validate(0, builtOptions.copy());
   assert.equal(message, true);
 
-  message = validator.validate(100, options);
+  message = validator.validate(100, builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -91,16 +99,18 @@ test('range type check - number', function(assert) {
     range: [1, 10]
   };
 
-  message = validator.validate(1, options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate(1, builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate(5, options);
+  message = validator.validate(5, builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate('1', options);
+  message = validator.validate('1', builtOptions.copy());
   assert.equal(message, true);
 
-  message = validator.validate('5', options);
+  message = validator.validate('5', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -111,15 +121,17 @@ test('range type check - string', function(assert) {
     range: ['a', 'z']
   };
 
-  message = validator.validate('a', options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('a', builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate('z', options);
+  message = validator.validate('z', builtOptions.copy());
   assert.equal(message, "This field is reserved");
 
-  message = validator.validate(97, options);
+  message = validator.validate(97, builtOptions.copy());
   assert.equal(message, true);
 
-  message = validator.validate('zzz', options);
+  message = validator.validate('zzz', builtOptions.copy());
   assert.equal(message, true);
 });

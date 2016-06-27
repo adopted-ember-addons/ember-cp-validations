@@ -9,7 +9,7 @@ import {
 }
 from 'ember-qunit';
 
-var options, validator, message;
+var options, builtOptions, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:presence', 'Unit | Validator | presence', {
@@ -23,19 +23,22 @@ test('buildOptions', function(assert) {
   assert.expect(2);
 
   options = true;
-  let builtOptions = validator.buildOptions(options, {});
-  assert.deepEqual(builtOptions, { presence: true });
+  builtOptions = validator.buildOptions(options, {});
+  assert.equal(builtOptions.get('presence'), true);
 
   options = { presence: true };
   builtOptions = validator.buildOptions(options, {});
-  assert.deepEqual(builtOptions, { presence: true });
+  assert.equal(builtOptions.get('presence'), true);
 });
 
 test('presence - value present', function(assert) {
   assert.expect(1);
 
   options = { presence: true };
-  message = validator.validate('value', options);
+
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('value', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -43,7 +46,10 @@ test('presence - value blank', function(assert) {
   assert.expect(1);
 
   options = { presence: true };
-  message = validator.validate(' ', options);
+
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate(' ', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -51,7 +57,10 @@ test('presence with ignoreBlank - value blank', function(assert) {
   assert.expect(1);
 
   options = { presence: true, ignoreBlank: true };
-  message = validator.validate(' ', options);
+
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate(' ', builtOptions.copy());
   assert.equal(message, "This field can't be blank");
 });
 
@@ -59,7 +68,9 @@ test('presence - value not present', function(assert) {
   assert.expect(1);
 
   options = { presence: true };
-  message = validator.validate(undefined, options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate(undefined, builtOptions.copy());
   assert.equal(message, "This field can't be blank");
 });
 
@@ -67,7 +78,9 @@ test('absence - value present', function(assert) {
   assert.expect(1);
 
   options = { presence: false };
-  message = validator.validate('value', options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('value', builtOptions.copy());
   assert.equal(message, "This field must be blank");
 });
 
@@ -75,7 +88,8 @@ test('absence - value not present', function(assert) {
   assert.expect(1);
 
   options = { presence: false };
+  builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(undefined, options);
+  message = validator.validate(undefined, builtOptions.copy());
   assert.equal(message, true);
 });

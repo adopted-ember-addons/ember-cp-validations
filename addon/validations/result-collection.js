@@ -18,7 +18,6 @@ const {
   A: emberArray
 } = Ember;
 
-const assign = Ember.assign || Ember.merge;
 const A = emberArray();
 
 function callable(method) {
@@ -314,15 +313,13 @@ export default Ember.Object.extend({
    * @private
    */
   _groupValidatorOptions() {
-    const validators = get(this, 'content').getEach('_validator');
-
-    return validators.reduce((options, v) => {
+    return get(this, '_contentValidators').reduce((options, v) => {
       if (isNone(v) || isNone(get(v, '_type'))) {
         return options;
       }
 
       const type = get(v, '_type');
-      const vOpts = assign({}, get(v, '_cachedOptions'));
+      const vOpts = get(v, 'options').copy();
 
       if (options[type]) {
         if (isArray(options[type])) {

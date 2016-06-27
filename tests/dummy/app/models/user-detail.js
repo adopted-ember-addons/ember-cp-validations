@@ -11,6 +11,10 @@ import {
 }
 from 'ember-cp-validations';
 
+const {
+  computed
+} = Ember;
+
 var attr = DS.attr;
 
 var Validations = buildValidations({
@@ -22,9 +26,9 @@ var Validations = buildValidations({
       validator('presence', true),
       validator('date', {
         before: 'now',
-        after() {
+        after: computed(function() {
           return moment().subtract(120, 'years').format('M/D/YYYY');
-        },
+        }).volatile(),
         format: 'M/D/YYYY',
         message: function(type, value, context) {
           if (type === 'before') {

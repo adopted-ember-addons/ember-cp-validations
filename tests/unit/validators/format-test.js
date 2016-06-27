@@ -9,7 +9,7 @@ import {
 }
 from 'ember-qunit';
 
-var options, validator, message;
+var options, builtOptions, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:format', 'Unit | Validator | format', {
@@ -23,9 +23,10 @@ test('buildOptions', function(assert) {
   assert.expect(2);
 
   options = { type: 'email' };
-  let builtOptions = validator.buildOptions(options, {});
-  assert.equal(builtOptions.type, 'email');
-  assert.ok(builtOptions.regex);
+  builtOptions = validator.buildOptions(options, {}).copy();
+  
+  assert.equal(builtOptions.get('type'), 'email');
+  assert.ok(builtOptions.get('regex'));
 });
 
 test('no options', function(assert) {
@@ -42,7 +43,7 @@ test('allow blank', function(assert) {
     allowBlank: true,
     type: 'email'
   };
-  options = validator.buildOptions(options, {});
+  options = validator.buildOptions(options, {}).copy();
 
   message = validator.validate(undefined, options);
   assert.equal(message, true);
@@ -58,7 +59,7 @@ test('email', function(assert) {
     type: 'email'
   };
 
-  options = validator.buildOptions(options, {});
+  options = validator.buildOptions(options, {}).copy();
 
   message = validator.validate('email', options);
   assert.equal(message, 'This field must be a valid email address');
@@ -77,7 +78,7 @@ test('phone', function(assert) {
     type: 'phone'
   };
 
-  options = validator.buildOptions(options, {});
+  options = validator.buildOptions(options, {}).copy();
 
   message = validator.validate('123', options);
   assert.equal(message, 'This field must be a valid phone number');
@@ -93,7 +94,7 @@ test('url', function(assert) {
     type: 'url'
   };
 
-  options = validator.buildOptions(options, {});
+  options = validator.buildOptions(options, {}).copy();
 
   message = validator.validate('yahoo', options);
   assert.equal(message, 'This field must be a valid url');
@@ -109,7 +110,7 @@ test('custom', function(assert) {
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
   };
 
-  options = validator.buildOptions(options, {});
+  options = validator.buildOptions(options, {}).copy();
 
   message = validator.validate('password', options);
   assert.equal(message, 'This field is invalid');

@@ -32,7 +32,7 @@ test('buildOptions - merge all options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options, { foo: 'a', bar: 'b'});
+  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
 });
 
 test('buildOptions - does not overwrite options', function(assert) {
@@ -48,23 +48,23 @@ test('buildOptions - does not overwrite options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options, { foo: 'a', bar: 'b'});
+  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
 });
 
-test('processOptions - calls functions', function(assert) {
-  assert.expect(2);
+test('buildOptions - returned options are frozen', function(assert) {
+  assert.expect(1);
 
   options = {
-    foo() { return 'a'; },
-    message() {
-      return "has some sort of error";
-    }
+    foo: 'a'
   };
 
-  validator.set('options', options);
-  options = validator.processOptions();
-  assert.equal(options.foo, 'a');
-  assert.equal(typeof options.message, 'function', 'message function should only be called by createErrorMessage');
+  options = validator.buildOptions(options);
+
+  try {
+    options.set('foo', 'bar');
+  } catch (e) {
+    assert.ok(true);
+  }
 });
 
 test('createErrorMessage - message function', function(assert) {
@@ -113,7 +113,7 @@ test('value - overwrite value method via options', function(assert) {
 
   assert.equal(validator.get('attribute'), 'foo');
   assert.equal(validator.getValue(), 'baz');
-  assert.deepEqual(validator.get('options'), {});
+  assert.notOk(validator.get('options.value'));
 });
 
 test('message - handles SafeString', function(assert) {

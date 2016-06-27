@@ -14,7 +14,7 @@ const {
   run
 } = Ember;
 
-var Validator, message, model, options;
+var Validator, message, model, options, builtOptions;
 
 var Validations = buildValidations({
   firstName: validator('presence', true),
@@ -42,12 +42,14 @@ test('all empty attributes', function(assert) {
   assert.expect(5);
 
   options = defaultOptions;
+  builtOptions = Validator.buildOptions(options);
+
   model = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), false);
 
-  message = Validator.validate(undefined, options, model);
+  message = Validator.validate(undefined, builtOptions.copy(), model);
 
   assert.equal(message, "This field is invalid");
   assert.equal(get(model, 'validations.messages.length'), 2);
@@ -58,6 +60,8 @@ test('one dependent error', function(assert) {
   assert.expect(5);
 
   options = defaultOptions;
+  builtOptions = Validator.buildOptions(options);
+
   model = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
   });
@@ -65,7 +69,7 @@ test('one dependent error', function(assert) {
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), true);
 
-  message = Validator.validate(undefined, options, model);
+  message = Validator.validate(undefined, builtOptions.copy(), model);
 
   assert.equal(message, "This field is invalid");
   assert.equal(get(model, 'validations.messages.length'), 1);
@@ -75,6 +79,7 @@ test('one dependent error', function(assert) {
 test('no dependent errors', function(assert) {
   assert.expect(5);
   options = defaultOptions;
+  builtOptions = Validator.buildOptions(options);
 
   model = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir',
@@ -84,7 +89,7 @@ test('no dependent errors', function(assert) {
   assert.equal(get(model, 'validations.isValid'), true);
   assert.equal(get(model, 'validations.isDirty'), true);
 
-  message = Validator.validate(undefined, options, model);
+  message = Validator.validate(undefined, builtOptions.copy(), model);
 
   assert.equal(message, true);
   assert.equal(get(model, 'validations.messages.length'), 0);

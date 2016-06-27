@@ -73,14 +73,6 @@ const Base = Ember.Object.extend({
    */
   _type: null,
 
-  /**
-   * Cached processed options
-   * @property _cachedOptions
-   * @private
-   * @type {Object}
-   */
-  _cachedOptions: null,
-
   init() {
     this._super(...arguments);
     const globalOptions = get(this, 'globalOptions');
@@ -135,6 +127,8 @@ const Base = Ember.Object.extend({
       }
     });
 
+    // Options object should be frozen since it should never be modified.
+    // Any modifications should be done on a copy
     return Object.freeze(OptionsClass.create());
   },
 

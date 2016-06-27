@@ -445,8 +445,10 @@ function getCPDependentKeysFor(attribute, validations, owner) {
     const cpDependents = Object.keys(options).reduce((arr, key) => {
       let option = options[key];
 
-      if(typeof option === 'object' && get(option, 'isDescriptor')) {
-        return arr.concat(get(option, '_dependentKeys').map(d => {
+      if(typeof option === 'object' && option.isDescriptor) {
+        let dependentKeys = option._dependentKeys || [];
+
+        return arr.concat(dependentKeys.map(d => {
           return d.split('.')[0] === 'model' ? '_' + d : d;
         }));
       }
