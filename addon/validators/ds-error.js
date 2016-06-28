@@ -5,9 +5,11 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-const DS = self.DS;
+import { getEmberData } from 'ember-cp-validations/utils/utils';
 
-if (typeof self.DS === 'undefined') {
+const DS = getEmberData();
+
+if (!DS) {
   throw new Error('Ember-Data is required to use the DS Error validator.');
 }
 
