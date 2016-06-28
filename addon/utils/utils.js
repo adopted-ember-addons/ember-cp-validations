@@ -4,9 +4,14 @@
  */
 
 import Ember from 'ember';
+import require from 'require';
 
 export function hasEmberData() {
-  return typeof self.DS !== 'undefined';
+  return require.has('ember-data');
+}
+
+export function getEmberData() {
+  return hasEmberData() ? require('ember-data')['default'] : undefined;
 }
 
 export function unwrapString(input) {

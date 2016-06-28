@@ -5,7 +5,9 @@
 
 import Ember from 'ember';
 import ValidationError from './error';
-import { hasEmberData } from '../utils/utils';
+import { getEmberData } from '../utils/utils';
+
+const DS = getEmberData();
 
 const {
   get,
@@ -53,7 +55,7 @@ export default Ember.Object.extend({
     const attrValue = get(this, 'attrValue');
 
     // Check default model values
-    if (hasEmberData() && model instanceof self.DS.Model && canInvoke(model, 'eachAttribute')) {
+    if (DS && model instanceof DS.Model && canInvoke(model, 'eachAttribute')) {
       const attrMeta = model.get('constructor.attributes').get(attribute);
 
       if (attrMeta) {
