@@ -1,71 +1,74 @@
-<a href="https://github.com/offirgolan/ember-cp-validations"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+<div class="form">
+  {{#unless isRegistered}}
+    <div class="register" style="display: block;">
+      <h2>Create an Account</h2>
 
-<div class="demo">
-    <div class="info">
-        <img src="images/ember-logo.png" alt="Ember" width="250px">
-      <h1>CP Validations</h1>
-    </div>
-    <div class="form">
-        {{#unless isRegistered}}
-      <div class="register" style="display: block;">
-        <h2>Create an Account</h2>
-
-        {{#if showAlert}}
-            <div class="alert">
-              <div class="fa fa-times icon-remove" {{action 'dismissAlert'}}></div>
-              Please fix all the errors below before continuing.
-            </div>
-        {{/if}}
-        <form>
-            <div class="section">
-              <div class="section-info left">
-                  These form inputs are bound to the <strong>User</strong> model which is created in the route's model hook. Each one of these fields has validations to make sure we we recieve the data we want.
-              </div>
-              {{validated-input model=model valuePath='username' placeholder='Username'}}
-              {{validated-input type='password' model=model valuePath='password' placeholder='Password'}}
-              {{validated-input model=model valuePath='email' placeholder='Email'}}
-              {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email'}}
-            </div>
-
-            <h4> About Me</h4>
-
-            <div class="section">
-              <div class="section-info right">
-                  We have a secondary model, <strong>User Details</strong>, which holds extra information about our user. This model is part of the <strong>User</strong> model via a belongsTo relationship.
-              </div>
-              {{validated-input model=model.details valuePath='firstName' placeholder='First Name'}}
-              {{validated-input model=model.details valuePath='lastName' placeholder='Last Name'}}
-              {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth'}}
-              {{validated-input model=model.details valuePath='phone' placeholder='Phone #'}}
-              {{validated-input model=model.details valuePath='url' placeholder='URL'}}
-            </div>
-            <div class="section">
-              <div class="section-info left last">
-                  On submit, a manual validation is run which will validate both the <strong>User</strong> and  <strong>User Details</strong> models. If both are valid, then the user can continue to the next screen.
-              </div>
-              <button id="signup" {{action 'submit'}}>Sign Up</button>
-            </div>
-        </form>
-      </div>
-      {{else}}
-        <div class="registered" style="display: block;">
-            <img class="tomster" src="images/tomsterzilla.jpeg" alt="">
-            <div class="fa fa-check-circle icon-success"></div>
-            <h2 class="success">Success</h2>
+      {{#if showAlert}}
+        <div class="alert">
+          <div class="fa fa-times icon-remove" {{action 'dismissAlert'}}></div>
+          Please fix all the errors below before continuing.
         </div>
-      {{/unless}}
-      <footer>
-        {{#unless isRegistered}}
-          <a class="show-code bottom" {{action 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
-        {{else}}
-          <a href="http://offirgolan.github.io/ember-cp-validations/docs">Need Help?</a>
-        {{/unless}}
-      </footer>
+      {{/if}}
+      <form>
+        <div class="section">
+          {{#unless showCode}}
+            <div class="section-info left">
+              These form inputs are bound to the <strong>User</strong> model which is created in the route's model hook. Each one of these fields has validations to make sure we we recieve the data we want.
+            </div>
+          {{/unless}}
+
+          {{validated-input model=model valuePath='username' placeholder='Username'}} {{validated-input type='password' model=model valuePath='password' placeholder='Password'}} {{validated-input model=model valuePath='email' placeholder='Email'}} {{validated-input
+          model=model valuePath='emailConfirmation' placeholder='Verify Email'}}
+        </div>
+
+        <h4> About Me</h4>
+
+        <div class="section">
+          {{#unless showCode}}
+            <div class="section-info right">
+              We have a secondary model, <strong>User Details</strong>, which holds extra information about our user. This model is part of the <strong>User</strong> model via a belongsTo relationship.
+            </div>
+          {{/unless}}
+
+          {{validated-input model=model.details valuePath='firstName' placeholder='First Name'}} {{validated-input model=model.details valuePath='lastName' placeholder='Last Name'}} {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth'}}
+          {{validated-input model=model.details valuePath='phone' placeholder='Phone #'}} {{validated-input model=model.details valuePath='url' placeholder='URL'}}
+        </div>
+        <div class="section">
+          {{#unless showCode}}
+            <div class="section-info left last">
+              On submit, a manual validation is run which will validate both the <strong>User</strong> and <strong>User Details</strong> models. If both are valid, then the user can continue to the next screen.
+            </div>
+          {{/unless}}
+          <button id="signup" {{action 'submit'}}>Sign Up</button>
+        </div>
+      </form>
     </div>
+    {{else}}
+      <div class="registered" style="display: block;">
+        <img class="tomster" src="images/tomsterzilla.jpeg" alt="">
+        <div class="fa fa-check-circle icon-success"></div>
+        <h2 class="success">Success</h2>
+      </div>
+  {{/unless}}
+  <footer>
+     <a class="show-code bottom" {{action 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
+  </footer>
 </div>
 
-<div class="section-info bottom code {{if showCode 'show'}}">
-  <pre class="prettyprint">
-// models/user.js<br/><br/>import Ember from 'ember';<br/>import DS from 'ember-data';<br/>import { validator, buildValidations } from 'ember-cp-validations';<br/><br/>var attr = DS.attr;<br/><br/>var Validations = buildValidations({<br/>  username: {<br/>    debounce: 500,<br/>    validators: [<br/>      validator('presence', true),<br/>      validator('length', {<br/>        max: 15<br/>      })<br/>    ]<br/>  },<br/>  password: {<br/>    description: 'Password',<br/>    debounce: 500,<br/>    validators: [<br/>      validator('presence', true),<br/>      validator('length', {<br/>        min: 4,<br/>        max: 8<br/>      }),<br/>      validator('format', {<br/>        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,<br/>        message: '{description} must include at least...'<br/>      })<br/>    ]<br/>  },<br/>  email: {<br/>    debounce: 500,<br/>    validators: [<br/>      validator('presence', true),<br/>      validator('format', {<br/>        type: 'email'<br/>      })<br/>    ]<br/>  },<br/>  emailConfirmation: validator('confirmation', {<br/>    on: 'email',<br/>    message: 'Email addresses do not match',<br/>    debounce: 500<br/>  }),<br/>  details: validator('belongs-to')<br/>});<br/><br/>export default DS.Model.extend(Validations, {<br/>  'username': attr('string'),<br/>  'password': attr('string'),<br/>  'email': attr('string'),<br/>  'details': DS.belongsTo('user-detail')<br/>});
-  </pre>
+
+<div class="snippet-container {{if showCode 'show'}}">
+   <ul class="nav nav-tabs" role="tablist">
+     <li role="presentation" class="active"><a href="#user-model" aria-controls="user-model" role="tab" data-toggle="tab">models/user.js</a></li>
+     <li role="presentation"><a href="#user-detail-model" aria-controls="user-detail-model" role="tab" data-toggle="tab">model/user-detail.js</a></li>
+     {{!-- <li role="presentation"><a href="#template" aria-controls="template" role="tab" data-toggle="tab">template.hbs</a></li>
+     <li role="presentation"><a href="#user-avatar" aria-controls="user-avatar" role="tab" data-toggle="tab">user-avatar.hbs</a></li>
+     <li role="presentation"><a href="#table-loader" aria-controls="table-loader" role="tab" data-toggle="tab">table-loader.hbs</a></li> --}}
+   </ul>
+   <div class="tab-content">
+     <div role="tabpanel" class="tab-pane fade in active" id="user-model">{{code-snippet name="user-model.js"}}</div>
+     <div role="tabpanel" class="tab-pane fade" id="user-detail-model">{{code-snippet name="user-detail-model.js"}}</div>
+     {{!-- <div role="tabpanel" class="tab-pane fade" id="template">{{code-snippet name="simple-table.hbs"}}</div>
+     <div role="tabpanel" class="tab-pane fade" id="user-avatar">{{code-snippet name="user-avatar.hbs"}}</div>
+     <div role="tabpanel" class="tab-pane fade" id="table-loader">{{code-snippet name="table-loader.hbs"}}</div> --}}
+   </div>
 </div>

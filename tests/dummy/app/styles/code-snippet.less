@@ -1,0 +1,50 @@
+@background-color: white;
+
+.snippet-container {
+  background: @background-color;
+  align-self: flex-start;
+  overflow: auto;
+  width: 0;
+  min-height: 400px;
+  margin: auto 0;
+  -webkit-transition: width 1s ease;
+  -moz-transition: width 1s ease;
+  -o-transition: width 1s ease;
+  transition: width 1s ease;
+  border-radius: 3px;
+
+  &.show {
+    width: 600px;
+    padding: 15px 10px;
+    margin-left: -5px;
+    // border-right: 3px solid @accent-color;
+    box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .nav-tabs {
+    li > a {
+      color: #8A8A8A;
+      border-radius: 2px 2px 0 0;
+      font-size: 12px;
+    }
+    li.active > a {
+      background-color: @background-color;
+      color: #696969;
+    }
+  }
+  .tab-content {
+    background-color: @background-color;
+    max-height: 600px;
+    overflow: auto;
+
+    > .active {
+      padding: 15px 15px 0;
+    }
+  }
+  pre {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: @background-color;
+  }
+}

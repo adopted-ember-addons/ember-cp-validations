@@ -3,6 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+ // BEGIN-SNIPPET user-model
 import Ember from 'ember';
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -67,3 +68,4 @@ export default DS.Model.extend(Validations, {
 
   minLength: 5
 });
+// END-SNIPPET

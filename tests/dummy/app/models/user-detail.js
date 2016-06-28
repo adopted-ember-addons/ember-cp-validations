@@ -3,6 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+ // BEGIN-SNIPPET user-detail-model
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
@@ -64,3 +65,4 @@ export default DS.Model.extend(Validations, {
   "phone": attr('string'),
   "url": attr('string')
 });
+// END-SNIPPET
