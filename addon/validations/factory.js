@@ -128,6 +128,9 @@ function buildValidations(validations = {}, globalOptions = {}) {
     validateSync() {
       return get(this, 'validations').validateSync(...arguments);
     },
+    validateAttribute() {
+      return get(this, 'validations').validateAttribute(...arguments);
+    },
     destroy() {
       this._super(...arguments);
       get(this, 'validations').destroy();
@@ -234,6 +237,7 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
 
     validate,
     validateSync,
+    validateAttribute,
 
     init() {
       this._super(...arguments);
@@ -368,6 +372,28 @@ function createCPValidationFor(attribute, validations, owner) {
       content: flatten(validationResults)
     });
   })).readOnly();
+}
+
+function validateAttribute(attribute, value, options = {}) {
+  const model = get(this, 'model');
+  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+
+  const validationResults = validators.map(validator => {
+    const opts = merge(validator.processOptions(), options);
+    const disabled = getWithDefault(opts, 'disabled', false);
+    let result = disabled ? true : validator.validate(value, opts, model, attribute);
+
+    return validationReturnValueHandler(attribute, result, model, validator);
+  });
+
+  const validations = ValidationResultCollection.create({
+    attribute,
+    content: flatten(validationResults)
+  });
+
+  const result = { model, validations };
+
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
 }
 
 /**

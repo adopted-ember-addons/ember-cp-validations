@@ -211,8 +211,14 @@ const Result = Ember.Object.extend({
 
     set(validations, 'isValidating', true);
     get(this, '_promise').then(
-      result => this.update(result),
-      result => this.update(result)
+      result => {
+        set(validations, 'isValidating', false);
+        return this.update(result);
+      },
+      result => {
+        set(validations, 'isValidating', false);
+        return this.update(result);
+      }
     ).catch(reason => {
       // TODO: send into error state
       throw reason;
