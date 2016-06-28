@@ -7,7 +7,8 @@ import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
 
 const {
-  run
+  run,
+  computed
 } = Ember;
 
 const Validators = {
@@ -267,7 +268,7 @@ test("global options", function(assert) {
   assert.ok(object.get('validations.attrs.firstName.isInvalid'));
 
   var v = object.get('validations._validators.firstName.0');
-  assert.deepEqual(v.get('options'), {
+  assert.deepEqual(v.get('options').getProperties(['message', 'description', 'allowNone', 'min', 'max']), {
     message: 'Global error message',
     description: 'Test field',
     allowNone: true,
@@ -297,9 +298,9 @@ test("debounced validations", function(assert) {
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator(Validators.presence, {
-      debounce() {
+      debounce: computed(function() {
         return initSetup ? 0 : 500; // Do not debounce on initial object creation
-      }
+      }).volatile()
     }),
   });
   var object = setupObject(this, Ember.Object.extend(Validations));
@@ -332,9 +333,9 @@ test("debounced validations should cleanup on object destroy", function(assert) 
     model.set('foo', 'bar');
     return Validators.presence(value, options, model, attr);
   }, {
-    debounce() {
-      return initSetup ? 0 : 500; // Do not debounce on initial object creation
-    }
+    debounce: computed(function() {
+      return initSetup ? 0 : 500;
+    }).volatile()
   });
 
   var Validations = buildValidations({
@@ -394,14 +395,11 @@ test("disabled validations - simple", function(assert) {
   assert.equal(object.get('validations.isValid'), true);
 });
 
-test("disabled validations - function with dependent key", function(assert) {
+test("disabled validations - cp with dependent key", function(assert) {
   var Validations = buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator(Validators.presence, {
-      dependentKeys: ['validateLastName'],
-      disabled() {
-        return !this.get('model.validateLastName');
-      }
+      disabled: computed.not('model.validateLastName')
     })
   });
   var object = setupObject(this, Ember.Object.extend(Validations, {
@@ -475,20 +473,15 @@ test("attribute validation result options hash", function(assert) {
   assert.equal(options['function'][0].description, 'First Name');
 });
 
-test("attribute validation result options hash with functions", function(assert) {
-  assert.expect(5);
+test("attribute validation result options hash with cps", function(assert) {
   this.register('validator:length', LengthValidator);
 
   var Validations = buildValidations({
     firstName: {
       validators: [
         validator('length', {
-          dependentKeys: ['max'],
           min: 1,
-          max(model) {
-            assert.ok(true);
-            return model.get('max');
-          }
+          max: computed.readOnly('model.max')
         })
       ]
     }
@@ -498,9 +491,6 @@ test("attribute validation result options hash with functions", function(assert)
   assert.equal(options.length.max, 5);
 
   run(() => object.set('max', 3));
-
-  options = object.get('validations.attrs.firstName.options');
-  assert.equal(options.length.max, 3);
 
   options = object.get('validations.attrs.firstName.options');
   assert.equal(options.length.max, 3);
@@ -840,4 +830,48 @@ test("warning validators api", function(assert) {
   assert.equal(object.get('validations.attrs.password.isValid'), true);
   assert.equal(object.get('validations.attrs.password.warnings.length'), 1);
   assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password is weak');
+});
+
+test("options CP changes trigger attribute revalidation", function(assert) {
+  this.register('validator:length', LengthValidator);
+
+  var Validations = buildValidations({
+    firstName: {
+      description: computed.readOnly('model.description'),
+      validators: [
+        validator('length', {
+          min: computed.alias('model.minLength'),
+        })
+      ]
+    }
+  }, {
+    disabled: computed.not('model.enabled')
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations, {
+    enabled: true,
+    description: 'First Name',
+    minLength: 6,
+    firstName: 'Offir'
+  }));
+
+  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
+  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.firstName.message'), 'First Name is too short (minimum is 6 characters)');
+
+  object.setProperties({
+    description: 'Name',
+    minLength: 10
+  });
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+  assert.equal(object.get('validations.attrs.firstName.message'), 'Name is too short (minimum is 10 characters)');
+
+  object.set('enabled', false);
+
+  assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+  assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be FALSE');
 });

@@ -7,6 +7,7 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
+  get,
   isArray
 } = Ember;
 
@@ -58,11 +59,13 @@ const Collection = Base.extend({
   },
 
   validate(value, options) {
-    if (options.collection === true && !isArray(value)) {
+    const isCollection = get(options, 'collection');
+
+    if (isCollection === true && !isArray(value)) {
       return this.createErrorMessage('collection', value, options);
     }
 
-    if (options.collection === false && isArray(value)) {
+    if (isCollection === false && isArray(value)) {
       return this.createErrorMessage('singular', value, options);
     }
 
@@ -72,7 +75,7 @@ const Collection = Base.extend({
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return (options === true || options.collection === true) ? [ `_model.${attribute}.[]` ] : [];
+    return (options === true || get(options, 'collection') === true) ? [ `_model.${attribute}.[]` ] : [];
   }
 });
 

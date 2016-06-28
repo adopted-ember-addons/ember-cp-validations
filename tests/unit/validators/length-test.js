@@ -9,7 +9,7 @@ import {
 }
 from 'ember-qunit';
 
-var options, validator, message;
+var options, builtOptions, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:length', 'Unit | Validator | length', {
@@ -22,7 +22,9 @@ moduleFor('validator:length', 'Unit | Validator | length', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  message = validator.validate(undefined, {});
+  builtOptions = validator.buildOptions({});
+
+  message = validator.validate(undefined, builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -34,10 +36,12 @@ test('allow blank', function(assert) {
     min: 5
   };
 
-  message = validator.validate('', options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('', builtOptions.copy());
   assert.equal(message, true);
 
-  message = validator.validate('test', options);
+  message = validator.validate('test', builtOptions.copy());
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 });
 
@@ -48,12 +52,15 @@ test('allow none', function(assert) {
     // default allowNone should be true
   };
 
-  message = validator.validate(undefined, options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate(undefined, builtOptions.copy());
   assert.equal(message, true);
 
   options.allowNone = false;
+  builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(null, options);
+  message = validator.validate(null, builtOptions.copy());
   assert.equal(message, 'This field is invalid');
 });
 
@@ -64,10 +71,12 @@ test('is', function(assert) {
     is: 4
   };
 
-  message = validator.validate('testing', options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('testing', builtOptions.copy());
   assert.equal(message, 'This field is the wrong length (should be 4 characters)');
 
-  message = validator.validate('test', options);
+  message = validator.validate('test', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -78,10 +87,12 @@ test('min', function(assert) {
     min: 5
   };
 
-  message = validator.validate('test', options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('test', builtOptions.copy());
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 
-  message = validator.validate('testing', options);
+  message = validator.validate('testing', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -92,10 +103,12 @@ test('max', function(assert) {
     max: 5
   };
 
-  message = validator.validate('testing', options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate('testing', builtOptions.copy());
   assert.equal(message, 'This field is too long (maximum is 5 characters)');
 
-  message = validator.validate('test', options);
+  message = validator.validate('test', builtOptions.copy());
   assert.equal(message, true);
 });
 
@@ -106,9 +119,11 @@ test('array', function(assert) {
     min: 1
   };
 
-  message = validator.validate([], options);
+  builtOptions = validator.buildOptions(options);
+
+  message = validator.validate([], builtOptions.copy());
   assert.equal(message, 'This field is too short (minimum is 1 characters)');
 
-  message = validator.validate([1], options);
+  message = validator.validate([1], builtOptions.copy());
   assert.equal(message, true);
 });

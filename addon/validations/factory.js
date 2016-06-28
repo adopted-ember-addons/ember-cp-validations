@@ -346,7 +346,7 @@ function createCPValidationFor(attribute, validations, owner) {
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
     const validationResults = validators.map(validator => {
-      const options = validator.processOptions();
+      const options = get(validator, 'options').copy();
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
       let value;
@@ -372,28 +372,6 @@ function createCPValidationFor(attribute, validations, owner) {
       content: flatten(validationResults)
     });
   })).readOnly();
-}
-
-function validateAttribute(attribute, value, options = {}) {
-  const model = get(this, 'model');
-  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-
-  const validationResults = validators.map(validator => {
-    const opts = merge(validator.processOptions(), options);
-    const disabled = getWithDefault(opts, 'disabled', false);
-    let result = disabled ? true : validator.validate(value, opts, model, attribute);
-
-    return validationReturnValueHandler(attribute, result, model, validator);
-  });
-
-  const validations = ValidationResultCollection.create({
-    attribute,
-    content: flatten(validationResults)
-  });
-
-  const result = { model, validations };
-
-  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
 }
 
 /**
@@ -481,11 +459,23 @@ function getCPDependentKeysFor(attribute, validations, owner) {
       getWithDefault(options, 'dependentKeys', []),
       getWithDefault(validation, 'defaultOptions.dependentKeys', []),
       getWithDefault(validation, 'globalOptions.dependentKeys', [])
-    );
+    ).map(d => {
+      return d.split('.')[0] === 'model' ? '_' + d : d;
+    });
+
+    // Extract dependentKeys from option CPs
+    const cpDependents = [].concat(
+      extractOptionsDependentKeys(options),
+      extractOptionsDependentKeys(get(validation, 'defaultOptions')),
+      extractOptionsDependentKeys(get(validation, 'globalOptions'))
+    ).map(d => {
+      return d.split('.')[0] === 'model' ? '_' + d : d;
+    });
 
     return baseDependents.concat(
       dependents,
-      specifiedDependents.map(d => `_model.${d}`)
+      cpDependents,
+      specifiedDependents
     );
   });
 
@@ -493,6 +483,29 @@ function getCPDependentKeysFor(attribute, validations, owner) {
   dependentKeys.push(`_model.${attribute}`);
 
   return emberArray(dependentKeys).uniq();
+}
+
+/**
+ * Extract all dependentKeys from any property that is a CP
+ *
+ * @method extractOptionsDependentKeys
+ * @param  {Object} options
+ * @return {Array}  dependentKeys
+ */
+function extractOptionsDependentKeys(options) {
+  if(options && typeof options === 'object') {
+    return Object.keys(options).reduce((arr, key) => {
+      let option = options[key];
+
+      if(typeof option === 'object' && option.isDescriptor) {
+        return arr.concat(option._dependentKeys || []);
+      }
+
+      return arr;
+    }, []);
+  }
+
+  return [];
 }
 
 /**
@@ -507,7 +520,7 @@ function getCPDependentKeysFor(attribute, validations, owner) {
  * @param  {Function} resolve
  */
 function debouncedValidate(validator, model, attribute, resolve) {
-  const options = validator.processOptions();
+  const options = get(validator, 'options').copy();
   const value = validator.getValue();
 
   resolve(validator.validate(value, options, model, attribute));
@@ -699,6 +712,35 @@ function validate(options = {}, async = true) {
   }
 
   return resultObject;
+}
+
+/**
+ * @method validateAttribute
+ * @param  {String}   attribute
+ * @param  {Unknown}  value
+ * @return {Promise}
+ * @async
+ */
+function validateAttribute(attribute, value) {
+  const model = get(this, 'model');
+  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+
+  const validationResults = validators.map(validator => {
+    const opts = get(validator, 'options').copy();
+    const disabled = getWithDefault(opts, 'disabled', false);
+    let result = disabled ? true : validator.validate(value, opts, model, attribute);
+
+    return validationReturnValueHandler(attribute, result, model, validator);
+  });
+
+  const validations = ValidationResultCollection.create({
+    attribute,
+    content: flatten(validationResults)
+  });
+
+  const result = { model, validations };
+
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
 }
 
 /**

@@ -9,7 +9,7 @@ import {
 }
 from 'ember-qunit';
 
-var model, options, validator, message;
+var model, options, builtOptions, validator, message;
 var set = Ember.set;
 
 moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
@@ -23,15 +23,17 @@ test('attribute', function(assert) {
   assert.expect(2);
 
   options = { on: 'email' };
+  builtOptions = validator.buildOptions(options);
+
   model = Ember.Object.create({
     'email': 'foo@yahoo.com'
   });
 
-  message = validator.validate('bar@yahoo.com', options, model);
+  message = validator.validate('bar@yahoo.com', builtOptions.copy(), model);
   assert.equal(message, "This field doesn't match email");
 
   model.set('emailConfirmation', 'foo@yahoo.com');
 
-  message = validator.validate('foo@yahoo.com', options, model);
+  message = validator.validate('foo@yahoo.com', builtOptions.copy(), model);
   assert.equal(message, true);
 });

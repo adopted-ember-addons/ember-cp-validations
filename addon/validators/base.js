@@ -69,7 +69,7 @@ const Base = Ember.Object.extend({
    * @property isWarning
    * @type {Boolean}
    */
-  isWarning: computed.bool('_cachedOptions.isWarning').readOnly(),
+  isWarning: computed.bool('options.isWarning').readOnly(),
 
   /**
    * Validator type
@@ -78,14 +78,6 @@ const Base = Ember.Object.extend({
    * @type {String}
    */
   _type: null,
-
-  /**
-   * Cached processed options
-   * @property _cachedOptions
-   * @private
-   * @type {Object}
-   */
-  _cachedOptions: null,
 
   init() {
     this._super(...arguments);
@@ -125,32 +117,23 @@ const Base = Ember.Object.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    return builtOptions;
-  },
+    const OptionsClass = Ember.Object.extend(builtOptions, {
+      model: computed(() => get(this, 'model')).readOnly(),
+      attribute: computed(() => get(this, 'attribute')).readOnly(),
 
-  /**
-   * Creates a new object and calls any option property that is a function with the validator context.
-   * This method is called right before `validate` and the returned object gets passed into the validate method as its options
-   * @method processOptions
-   * @return {Object}
-   */
-  processOptions() {
-    const options = assign({}, get(this, 'options') || {});
-    const model = get(this, 'model');
-    const attribute = get(this, 'attribute');
+      copy(deep) {
+        if(deep) {
+          return OptionsClass.create();
+        }
 
-    Object.keys(options).forEach(key => {
-      const option = options[key];
-
-      if (typeof option === 'function' && key !== 'message') {
-        options[key] = option.call(this, model, attribute);
+        return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) => {
+          obj[o] = get(this, o);
+          return obj;
+        }, {}));
       }
     });
 
-    // Cache the options so it can be accessed without triggering this method again
-    set(this, '_cachedOptions', assign({}, options));
-
-    return options;
+    return OptionsClass.create();
   },
 
   /**
@@ -208,8 +191,8 @@ const Base = Ember.Object.extend({
    * validate(value, options) {
    *   var exists = false;
    *
-   *   options.description = 'Username';
-   *   options.username = value;
+   *   get(options, 'description') = 'Username';
+   *   get(options, 'username') = value;
    *
    *   // check with server if username exists...
    *
@@ -231,9 +214,9 @@ const Base = Ember.Object.extend({
    */
   createErrorMessage(type, value, options = {}) {
     const messages = this.get('errorMessages');
-    let message = unwrapString(options.message);
+    let message = unwrapString(get(options, 'message'));
 
-    options.description = messages.getDescriptionFor(get(this, 'attribute'), options);
+    set(options, 'description', messages.getDescriptionFor(get(this, 'attribute'), options));
 
     if (message) {
       if (typeof message === 'string') {
@@ -319,7 +302,7 @@ export default Base;
  *         let message = `The username '${value}' already exists.`;
  *         let meta = user.get('meta');
  *
- *         if(options.showSuggestions && meta && meta.suggestions) {
+ *         if(get(options, 'showSuggestions') && meta && meta.suggestions) {
  *           message += "What about one of the these: " + meta.suggestions.join(', ');
  *         }
  *         return message;
@@ -423,7 +406,7 @@ export default Base;
  * ```javascript
  * // Example
  * validator(function(value, options, model, attribute) {
- *   return value === options.username ? true : `must be ${options.username}`;
+ *   return value === get(options, 'username') ? true : `must be ${get(options, 'username')}`;
  * } , {
  *   username: 'John' // Any options can be passed here
  * })

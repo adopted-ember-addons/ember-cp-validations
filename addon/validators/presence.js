@@ -8,8 +8,10 @@ import Base from 'ember-cp-validations/validators/base';
 
 const {
   get,
+  assert,
   isEmpty,
-  isPresent
+  isPresent,
+  getProperties
 } = Ember;
 
 /**
@@ -67,8 +69,10 @@ export default Base.extend({
     return this._super(opts, defaultOptions, globalOptions);
   },
 
-  validate(value, options) {
-    const { presence, ignoreBlank } = options;
+  validate(value, options, model, attribute) {
+    const { presence, ignoreBlank } = getProperties(options, ['presence', 'ignoreBlank']);
+
+    assert(`[ember-cp-validations] [validator:presence] [${attribute}] option 'presence' is required`, !isEmpty(presence));
 
     if (presence === true && !this._isPresent(value, ignoreBlank)) {
       return this.createErrorMessage('blank', value, options);

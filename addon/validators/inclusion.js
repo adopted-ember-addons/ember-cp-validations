@@ -7,8 +7,11 @@ import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
 
 const {
+  get,
   typeOf,
-  isEmpty
+  assert,
+  isEmpty,
+  getProperties
 } = Ember;
 
 /**
@@ -50,15 +53,13 @@ const {
  *  @extends Base
  */
 export default Base.extend({
-  validate(value, options) {
-    const array = options.in;
-    const range = options.range;
+  validate(value, options, model, attribute) {
+    const array = get(options, 'in');
+    const { range, allowBlank } = getProperties(options, ['range', 'allowBlank']);
 
-    if (isEmpty(Object.keys(options))) {
-      return true;
-    }
+    assert(`[ember-cp-validations] [validator:inclusion] [${attribute}] no options were passed in`, !isEmpty(Object.keys(options)));
 
-    if (options.allowBlank && isEmpty(value)) {
+    if (allowBlank && isEmpty(value)) {
       return true;
     }
 
