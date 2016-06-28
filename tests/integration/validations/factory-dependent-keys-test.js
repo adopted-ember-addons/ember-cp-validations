@@ -56,6 +56,30 @@ test("ds-error validator creates correct dependent keys", function(assert) {
   assert.equal(obj.get('validations.attrs.username.message'), 'Username is not unique');
 });
 
+test("nested ds-error validator creates correct dependent keys", function(assert) {
+  this.register('validator:ds-error', DSErrorValidator);
+  this.register('validator:length', LengthValidator);
+
+  var DSErrorValidations = buildValidations({
+    'model.username': validator('ds-error')
+  });
+
+  var obj = setupObject(this, Ember.Object.extend(DSErrorValidations), {
+    model: Ember.Object.create({
+      errors: DS.Errors.create(),
+      username: ''
+    })
+  });
+
+  assert.equal(obj.get('validations.attrs.model.username.isValid'), true);
+
+  obj.get('model.errors').add('username', 'Username is not unique');
+
+  assert.equal(obj.get('validations.attrs.model.username.isValid'), false);
+  assert.equal(obj.get('validations.attrs.model.username.message'), 'Username is not unique');
+});
+
+
 test("custom dependent keys - simple", function(assert) {
   var Validations = buildValidations({
     fullName: validator(function(value, options, model) {
