@@ -1,24 +1,25 @@
-@background-color: white;
+@background-color: #fdfdfd;
 
 .snippet-container {
   background: @background-color;
   align-self: flex-start;
   overflow: auto;
   width: 0;
-  min-height: 400px;
+  height: 670px;
   margin: auto 0;
   -webkit-transition: width 1s ease;
   -moz-transition: width 1s ease;
   -o-transition: width 1s ease;
   transition: width 1s ease;
   border-radius: 3px;
+  padding: 15px 10px;
+  margin-left: -20px;
+  z-index: 0;
 
   &.show {
     width: 600px;
-    padding: 15px 10px;
-    margin-left: -5px;
-    // border-right: 3px solid @accent-color;
-    box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.15);
+    margin-left: -2px;
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.15);
   }
 
   .nav-tabs {

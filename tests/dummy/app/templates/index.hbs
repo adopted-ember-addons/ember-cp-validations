@@ -1,6 +1,6 @@
 <div class="form">
   {{#unless isRegistered}}
-    <div class="register" style="display: block;">
+    <div class="register">
       <h2>Create an Account</h2>
 
       {{#if showAlert}}
@@ -44,31 +44,34 @@
       </form>
     </div>
     {{else}}
-      <div class="registered" style="display: block;">
-        <img class="tomster" src="images/tomsterzilla.jpeg" alt="">
+      <div class="registered">
+        {{!-- <img class="tomster" src="images/tomsterzilla.jpeg" alt=""> --}}
         <div class="fa fa-check-circle icon-success"></div>
         <h2 class="success">Success</h2>
       </div>
   {{/unless}}
   <footer>
-     <a class="show-code bottom" {{action 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
+    {{#unless isRegistered}}
+      <a class="show-code bottom" {{action 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
+    {{else}}
+      <a class="show-code bottom" {{action 'reset'}}>Reset Form</a>
+    {{/unless}}
   </footer>
 </div>
 
-
-<div class="snippet-container {{if showCode 'show'}}">
+{{#unless isRegistered}}
+  <div class="snippet-container {{if showCode 'show'}}">
    <ul class="nav nav-tabs" role="tablist">
      <li role="presentation" class="active"><a href="#user-model" aria-controls="user-model" role="tab" data-toggle="tab">models/user.js</a></li>
      <li role="presentation"><a href="#user-detail-model" aria-controls="user-detail-model" role="tab" data-toggle="tab">model/user-detail.js</a></li>
-     {{!-- <li role="presentation"><a href="#template" aria-controls="template" role="tab" data-toggle="tab">template.hbs</a></li>
-     <li role="presentation"><a href="#user-avatar" aria-controls="user-avatar" role="tab" data-toggle="tab">user-avatar.hbs</a></li>
-     <li role="presentation"><a href="#table-loader" aria-controls="table-loader" role="tab" data-toggle="tab">table-loader.hbs</a></li> --}}
+     <li role="presentation"><a href="#validated-input-js" aria-controls="validated-input-js" role="tab" data-toggle="tab">validated-input.js</a></li>
+     <li role="presentation"><a href="#validated-input-hbs" aria-controls="validated-input-hbs" role="tab" data-toggle="tab">validated-input.hbs</a></li>
    </ul>
    <div class="tab-content">
      <div role="tabpanel" class="tab-pane fade in active" id="user-model">{{code-snippet name="user-model.js"}}</div>
      <div role="tabpanel" class="tab-pane fade" id="user-detail-model">{{code-snippet name="user-detail-model.js"}}</div>
-     {{!-- <div role="tabpanel" class="tab-pane fade" id="template">{{code-snippet name="simple-table.hbs"}}</div>
-     <div role="tabpanel" class="tab-pane fade" id="user-avatar">{{code-snippet name="user-avatar.hbs"}}</div>
-     <div role="tabpanel" class="tab-pane fade" id="table-loader">{{code-snippet name="table-loader.hbs"}}</div> --}}
+     <div role="tabpanel" class="tab-pane fade" id="validated-input-js">{{code-snippet name="validated-input.js"}}</div>
+     <div role="tabpanel" class="tab-pane fade" id="validated-input-hbs">{{code-snippet name="validated-input.hbs"}}</div>
    </div>
 </div>
+{{/unless}}

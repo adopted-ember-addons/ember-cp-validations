@@ -39,6 +39,15 @@ export default Ember.Controller.extend({
 
     dismissAlert() {
       this.set('showAlert', false);
+    },
+
+    reset() {
+      this.setProperties({
+        showAlert: false,
+        isRegistered: false,
+        showCode: false,
+        didValidate: false
+      });
     }
   }
 });

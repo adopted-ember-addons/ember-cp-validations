@@ -6,9 +6,10 @@
   padding: 40px;
   border-top: 5px solid @accent-color;
   border-radius: 3px;
-  box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.15);
   flex: 0;
-  align-self: flex-start;
+  z-index: 5;
+  align-self: center;
 }
 
 .form input {
@@ -47,9 +48,16 @@
   border-color: rgb(31, 187, 20);
 }
 
-.form input:focus {
-  outline: none;
+.has-success .form-control {
+  border-color: #d9d9d9;
+}
+
+input.form-control:focus {
   color: #333333;
+  border-color: #b9b9b9;
+  outline: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 .form h2 {

@@ -8,11 +8,8 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
 
-const {
-  computed
-} = Ember;
-
-var attr = DS.attr;
+const { computed } = Ember;
+const { attr } = DS;
 
 var Validations = buildValidations({
   username: {

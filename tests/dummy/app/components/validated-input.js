@@ -3,6 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+// BEGIN-SNIPPET validated-input
 import Ember from 'ember';
 
 const {
@@ -43,3 +44,4 @@ export default Ember.Component.extend({
     return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isValid') && !isEmpty(this.get('validation.warnings'));
   })
 });
+// END-SNIPPET
