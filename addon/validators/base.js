@@ -66,6 +66,12 @@ const Base = Ember.Object.extend({
   errorMessages: null,
 
   /**
+   * @property isWarning
+   * @type {Boolean}
+   */
+  isWarning: computed.bool('_cachedOptions.isWarning').readOnly(),
+
+  /**
    * Validator type
    * @property _type
    * @private

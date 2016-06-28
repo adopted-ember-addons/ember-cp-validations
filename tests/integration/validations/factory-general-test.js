@@ -747,9 +747,93 @@ test("multiple mixins", function(assert) {
   assert.equal(object.get('validations.isValid'), true);
 });
 
-test("options CP changes trigger attribute revalidation", function(assert) {
+test("validateAttribute - sync validations", function(assert) {
+  var Validations = buildValidations({
+    firstName: [
+      validator(Validators.presence),
+      validator(() => true)
+    ]
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Offir'
+  });
+
+  return object.validateAttribute('firstName', undefined).then(({
+    validations, model
+  }) => {
+    assert.equal(model.get('validations.isValid'), true);
+    assert.equal(validations.get('isValid'), false);
+    assert.equal(validations.get('isValidating'), false);
+    assert.equal(validations.get('message'), 'firstName should be present');
+  });
+});
+
+test("validateAttribute - async validations", function(assert) {
+  var Validations = buildValidations({
+    firstName: [
+      validator(() => Ember.RSVP.Promise.resolve('firstName is invalid')),
+      validator(() => Ember.RSVP.Promise.resolve('firstName is really invalid'))
+    ]
+  });
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Offir'
+  });
+
+  return object.validateAttribute('firstName', 'foo').then(({
+    validations, model
+  }) => {
+    assert.equal(validations.get('isValid'), false);
+    assert.equal(validations.get('isValidating'), false);
+    assert.equal(validations.get('message'), 'firstName is invalid');
+  });
+});
+
+test("warning validators api", function(assert) {
   this.register('validator:length', LengthValidator);
   this.register('validator:presence', PresenceValidator);
+
+  var Validations = buildValidations({
+    password: {
+      description: 'Password',
+      validators: [
+        validator('presence', {
+          presence: true,
+          isWarning: true,
+          message: '{description} should not be empty'
+        }),
+        validator('length', {
+          min: 4,
+          isWarning: true,
+          message: '{description} is weak'
+        }),
+        validator('length', {
+          min: 1,
+          max: 10
+        })
+      ]
+    }
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations), {
+    password: ''
+  });
+
+  assert.equal(object.get('validations.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.warnings.length'), 2);
+  assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password should not be empty');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 1 characters)');
+
+  object.set('password', 'wat');
+
+  assert.equal(object.get('validations.isValid'), true);
+  assert.equal(object.get('validations.attrs.password.isValid'), true);
+  assert.equal(object.get('validations.attrs.password.warnings.length'), 1);
+  assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password is weak');
+});
+
+test("options CP changes trigger attribute revalidation", function(assert) {
+  this.register('validator:length', LengthValidator);
 
   var Validations = buildValidations({
     firstName: {

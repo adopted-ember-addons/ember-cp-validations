@@ -128,6 +128,9 @@ function buildValidations(validations = {}, globalOptions = {}) {
     validateSync() {
       return get(this, 'validations').validateSync(...arguments);
     },
+    validateAttribute() {
+      return get(this, 'validations').validateAttribute(...arguments);
+    },
     destroy() {
       this._super(...arguments);
       get(this, 'validations').destroy();
@@ -234,6 +237,7 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
 
     validate,
     validateSync,
+    validateAttribute,
 
     init() {
       this._super(...arguments);
@@ -370,6 +374,28 @@ function createCPValidationFor(attribute, validations, owner) {
   })).readOnly();
 }
 
+function validateAttribute(attribute, value, options = {}) {
+  const model = get(this, 'model');
+  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+
+  const validationResults = validators.map(validator => {
+    const opts = merge(validator.processOptions(), options);
+    const disabled = getWithDefault(opts, 'disabled', false);
+    let result = disabled ? true : validator.validate(value, opts, model, attribute);
+
+    return validationReturnValueHandler(attribute, result, model, validator);
+  });
+
+  const validations = ValidationResultCollection.create({
+    attribute,
+    content: flatten(validationResults)
+  });
+
+  const result = { model, validations };
+
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
+}
+
 /**
  * Create a mixin that will have all the top level CPs under the validations object.
  * These are computed collections on different properties of each attribute validations CP
@@ -393,7 +419,23 @@ function createTopLevelPropsMixin(validatableAttrs) {
     }).readOnly(),
 
     message: computed('messages.[]', cycleBreaker(function () {
-      return get(this, 'messages.0');
+      return get(this, 'messages.firstObject');
+    })).readOnly(),
+
+    warningMessages: computed(...validatableAttrs.map(attr => `attrs.${attr}.warningMessages`), function () {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warningMessages`)))).compact();
+    }).readOnly(),
+
+    warningMessage: computed('warningMessages.[]', cycleBreaker(function () {
+      return get(this, 'warningMessages.firstObject');
+    })).readOnly(),
+
+    warnings: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.warnings`), function () {
+      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warnings`)))).compact();
+    }).readOnly(),
+
+    warning: computed('warning.[]', cycleBreaker(function () {
+      return get(this, 'warning.firstObject');
     })).readOnly(),
 
     errors: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.errors`), function () {
@@ -401,7 +443,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     }).readOnly(),
 
     error: computed('errors.[]', cycleBreaker(function () {
-      return get(this, 'errors.0');
+      return get(this, 'errors.firstObject');
     })).readOnly(),
 
     _promise: computed(...validatableAttrs.map(attr => `attrs.${attr}._promise`), function () {
