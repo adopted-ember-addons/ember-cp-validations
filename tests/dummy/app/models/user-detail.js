@@ -3,19 +3,14 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+ // BEGIN-SNIPPET user-detail-model
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-const {
-  computed
-} = Ember;
-
-var attr = DS.attr;
+const { computed } = Ember;
+const { attr } = DS;
 
 var Validations = buildValidations({
   firstName: validator('presence', true),
@@ -64,3 +59,4 @@ export default DS.Model.extend(Validations, {
   "phone": attr('string'),
   "url": attr('string')
 });
+// END-SNIPPET

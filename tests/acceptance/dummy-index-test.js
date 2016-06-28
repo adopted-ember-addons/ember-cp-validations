@@ -29,8 +29,8 @@ test("Page Loads", function(assert) {
   assert.expect(2);
   visit('/');
   andThen(function() {
-    assert.equal(find('.demo .info h1').text(), "CP Validations");
-    assert.equal(find('.demo .form .register h2').text(), "Create an Account");
+    assert.equal(find('a.navbar-brand').text().trim(), "CP Validations");
+    assert.equal(find('.form .register h2').text(), "Create an Account");
   });
 });
 
@@ -43,11 +43,22 @@ test("Helper tooltips", function(assert) {
   });
 });
 
+test("Invalid form submit", function(assert) {
+  visit('/');
+  andThen(function() {
+    click('#signup');
+  });
+
+  andThen(function() {
+    assert.equal(find('.form .alert').text().trim(), 'Please fix all the errors below before continuing.');
+  });
+});
+
 test("Valid form submit", function(assert) {
   visit('/');
   andThen(function() {
     Object.keys(validInputValues).forEach((input) => {
-      let $input = find(`.demo .validated-input input[name="${input}"]`);
+      let $input = find(`.validated-input input[name="${input}"]`);
       assert.ok($input, `${input} found`);
       fillIn($input, validInputValues[input]);
       assert.ok($input.parent('.validated-input.has-success'), `${input} success`);
@@ -66,7 +77,7 @@ test("Invalid to valid email", function(assert) {
   visit('/');
   var $input;
   andThen(function() {
-    $input = find('.demo .validated-input input[name="email"]');
+    $input = find('.validated-input input[name="email"]');
     assert.ok($input);
     fillIn($input, 'invalid-email');
   });
@@ -79,4 +90,3 @@ test("Invalid to valid email", function(assert) {
     assert.ok($input.parent('.validated-input.has-success'));
   });
 });
-

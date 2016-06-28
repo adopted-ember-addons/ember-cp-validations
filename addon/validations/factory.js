@@ -384,6 +384,7 @@ function createCPValidationFor(attribute, validations, owner) {
  */
 function createTopLevelPropsMixin(validatableAttrs) {
   return Ember.Mixin.create({
+    isWarning: and(...validatableAttrs.map(attr => `attrs.${attr}.isWarning`)).readOnly(),
     isValid: and(...validatableAttrs.map(attr => `attrs.${attr}.isValid`)).readOnly(),
     isValidating: or(...validatableAttrs.map(attr => `attrs.${attr}.isValidating`)).readOnly(),
     isDirty: or(...validatableAttrs.map(attr => `attrs.${attr}.isDirty`)).readOnly(),

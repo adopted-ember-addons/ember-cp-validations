@@ -57,6 +57,22 @@ export default Ember.Object.extend({
   /**
    * ```javascript
    * // Examples
+   * get(user, 'validations.isWarning')
+   * get(user, 'validations.attrs.username.isWarning')
+   * ```
+   *
+   * @property isWarning
+   * @default false
+   * @readOnly
+   * @type {Boolean}
+   */
+  isWarning: computed('content.@each.isWarning', cycleBreaker(function () {
+    return get(this, 'content').isEvery('isWarning', true);
+  }, false)).readOnly(),
+
+  /**
+   * ```javascript
+   * // Examples
    * get(user, 'validations.isInvalid')
    * get(user, 'validations.attrs.username.isInvalid')
    * ```

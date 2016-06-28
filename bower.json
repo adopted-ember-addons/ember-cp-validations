@@ -5,7 +5,8 @@
     "ember-cli-shims": "0.1.1",
     "ember-cli-test-loader": "0.2.2",
     "moment": ">= 2.8.0",
-    "moment-timezone": ">= 0.1.0"
+    "moment-timezone": ">= 0.1.0",
+    "font-awesome": "~4.5.0"
   },
   "devDependencies": {
     "blanket": "5e94fc30f2e694bb5c3718ddcbf60d467f4b4d26",
