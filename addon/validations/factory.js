@@ -374,28 +374,6 @@ function createCPValidationFor(attribute, validations, owner) {
   })).readOnly();
 }
 
-function validateAttribute(attribute, value, options = {}) {
-  const model = get(this, 'model');
-  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-
-  const validationResults = validators.map(validator => {
-    const opts = merge(validator.processOptions(), options);
-    const disabled = getWithDefault(opts, 'disabled', false);
-    let result = disabled ? true : validator.validate(value, opts, model, attribute);
-
-    return validationReturnValueHandler(attribute, result, model, validator);
-  });
-
-  const validations = ValidationResultCollection.create({
-    attribute,
-    content: flatten(validationResults)
-  });
-
-  const result = { model, validations };
-
-  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
-}
-
 /**
  * Create a mixin that will have all the top level CPs under the validations object.
  * These are computed collections on different properties of each attribute validations CP
@@ -734,6 +712,35 @@ function validate(options = {}, async = true) {
   }
 
   return resultObject;
+}
+
+/**
+ * @method validateAttribute
+ * @param  {String}   attribute
+ * @param  {Unknown}  value
+ * @return {Promise}
+ * @async
+ */
+function validateAttribute(attribute, value) {
+  const model = get(this, 'model');
+  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+
+  const validationResults = validators.map(validator => {
+    const opts = get(validator, 'options').copy();
+    const disabled = getWithDefault(opts, 'disabled', false);
+    let result = disabled ? true : validator.validate(value, opts, model, attribute);
+
+    return validationReturnValueHandler(attribute, result, model, validator);
+  });
+
+  const validations = ValidationResultCollection.create({
+    attribute,
+    content: flatten(validationResults)
+  });
+
+  const result = { model, validations };
+
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
 }
 
 /**
