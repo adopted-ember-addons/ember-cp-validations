@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## v3.0.0-beta.0
+
+- [#226](https://github.com/offirgolan/ember-cp-validations/pull/226) [Feature] Warning Validators
+- [#232](https://github.com/offirgolan/ember-cp-validations/pull/232) [Feature] Computed Options (special thanks to [@xcambar](https://github.com/xcambar))
+- [#239](https://github.com/offirgolan/ember-cp-validations/pull/239) [Bug Fix] Use Require for Checking Ember Data
+- [#240](https://github.com/offirgolan/ember-cp-validations/pull/240) [Bug Fix] DS Error Validator + Nested Keys
+
 ## v2.9.3
 - [#211](https://github.com/offirgolan/ember-cp-validations/pull/211) Fix regression from last patch by exposing `allowNone` which defaults to __true__ in length validator
 
