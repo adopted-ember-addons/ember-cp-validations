@@ -85,7 +85,10 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://offirgolan.github.io/ember-cp-validations"
+    "demoURL": "http://offirgolan.github.io/ember-cp-validations",
+    "versionCompatibility": {
+      "ember": ">=1.11"
+    }
   },
   "homepage": "https://github.com/offirgolan/ember-cp-validations"
 }
