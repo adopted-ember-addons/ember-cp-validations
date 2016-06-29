@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -115,8 +115,10 @@ import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
   get,
+  assert,
   isEmpty,
-  isPresent
+  isPresent,
+  getProperties
 } = Ember;
 
 /**
@@ -174,8 +176,10 @@ export default Base.extend({
     return this._super(opts, defaultOptions, globalOptions);
   },
 
-  validate(value, options) {
-    const { presence, ignoreBlank } = options;
+  validate(value, options, model, attribute) {
+    const { presence, ignoreBlank } = getProperties(options, [&#x27;presence&#x27;, &#x27;ignoreBlank&#x27;]);
+
+    assert(&#x60;[ember-cp-validations] [validator:presence] [${attribute}] option &#x27;presence&#x27; is required&#x60;, !isEmpty(presence));
 
     if (presence === true &amp;&amp; !this._isPresent(value, ignoreBlank)) {
       return this.createErrorMessage(&#x27;blank&#x27;, value, options);

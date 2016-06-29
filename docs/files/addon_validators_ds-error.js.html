@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -112,9 +112,11 @@
 
 import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
-const DS = self.DS;
+import { getEmberData } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
-if (typeof self.DS === &#x27;undefined&#x27;) {
+const DS = getEmberData();
+
+if (!DS) {
   throw new Error(&#x27;Ember-Data is required to use the DS Error validator.&#x27;);
 }
 
@@ -138,10 +140,12 @@ const {
  */
 const DSError = Base.extend({
   validate(value, options, model, attribute) {
-    const errors = get(model, &#x27;errors&#x27;);
+    let { path, key } = getPathAndKey(attribute);
 
-    if (!isNone(errors) &amp;&amp; errors instanceof DS.Errors &amp;&amp; errors.has(attribute)) {
-      return get(errors.errorsFor(attribute), &#x27;lastObject.message&#x27;);
+    const errors = get(model, path);
+
+    if (!isNone(errors) &amp;&amp; errors instanceof DS.Errors &amp;&amp; errors.has(key)) {
+      return get(errors.errorsFor(key), &#x27;lastObject.message&#x27;);
     }
 
     return true;
@@ -150,9 +154,20 @@ const DSError = Base.extend({
 
 DSError.reopenClass({
   getDependentsFor(attribute) {
-    return [ &#x60;_model.errors.${attribute}.[]&#x60; ];
+    let { path, key } = getPathAndKey(attribute);
+
+    return [ &#x60;_model.${path}.${key}.[]&#x60; ];
   }
 });
+
+function getPathAndKey(attribute) {
+  let path = attribute.split(&#x27;.&#x27;);
+  let key = path.pop();
+
+  path.push(&#x27;errors&#x27;);
+
+  return { path: path.join(&#x27;.&#x27;), key };
+}
 
 export default DSError;
 

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validators_exclusion.js.html#l14"><code>addon&#x2F;validators&#x2F;exclusion.js:14</code></a>
+            Defined in: <a href="../files/addon_validators_exclusion.js.html#l17"><code>addon&#x2F;validators&#x2F;exclusion.js:17</code></a>
         </div>
 </div>
 
@@ -157,10 +157,6 @@ validator('exclusion', {
 
                             </li>
                             <li class="index-item method inherited">
-                                <a href="#method_processOptions">processOptions</a>
-
-                            </li>
-                            <li class="index-item method inherited">
                                 <a href="#method_validate">validate</a>
 
                             </li>
@@ -193,6 +189,10 @@ validator('exclusion', {
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_globalOptions">globalOptions</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_isWarning">isWarning</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -243,7 +243,7 @@ validator('exclusion', {
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_buildOptions">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l95"><code>addon&#x2F;validators&#x2F;base.js:95</code></a>
+		<a href="../files/addon_validators_base.js.html#l102"><code>addon&#x2F;validators&#x2F;base.js:102</code></a>
 		</p>
 
 
@@ -323,7 +323,7 @@ The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l182"><code>addon&#x2F;validators&#x2F;base.js:182</code></a>
+		<a href="../files/addon_validators_base.js.html#l183"><code>addon&#x2F;validators&#x2F;base.js:183</code></a>
 		</p>
 
 
@@ -337,8 +337,8 @@ we can use this method to generate our error message.</p>
 <pre class="code prettyprint"><code class="language-javascript">validate(value, options) {
   var exists = false;
 
-  options.description = 'Username';
-  options.username = value;
+  get(options, 'description') = 'Username';
+  get(options, 'username') = value;
 
   // check with server if username exists...
 
@@ -417,7 +417,7 @@ we can use this method to generate our error message.</p>
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_getValue">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l152"><code>addon&#x2F;validators&#x2F;base.js:152</code></a>
+		<a href="../files/addon_validators_base.js.html#l153"><code>addon&#x2F;validators&#x2F;base.js:153</code></a>
 		</p>
 
 
@@ -435,46 +435,6 @@ we can use this method to generate our error message.</p>
 						<span class="type">Unknown</span>:
 					<p>value</p>
 
-			</div>
-		</div>
-
-</div>
-<div id="method_processOptions" class="method item inherited">
-	<span class="method-signature">
-	<span class="name"><code>processOptions</code></span>
-
-		<span class="paren">()</span>
-		<span class="returns-inline">
-			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-		</span>
-	</span>
-
-
-
-
-
-
-
-	<div class="meta">
-				<p>Inherited from
-				<a href="../classes/Base.html#method_processOptions">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l116"><code>addon&#x2F;validators&#x2F;base.js:116</code></a>
-		</p>
-
-
-
-	</div>
-
-	<div class="description"><p>Creates a new object and calls any option property that is a function with the validator context.
-This method is called right before <code>validate</code> and the returned object gets passed into the validate method as its options</p>
-</div>
-
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 			</div>
 		</div>
 
@@ -513,7 +473,7 @@ This method is called right before <code>validate</code> and the returned object
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_validate">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l163"><code>addon&#x2F;validators&#x2F;base.js:163</code></a>
+		<a href="../files/addon_validators_base.js.html#l164"><code>addon&#x2F;validators&#x2F;base.js:164</code></a>
 		</p>
 
 
@@ -611,7 +571,7 @@ Within the validator object, you will have access to the following properties:</
 	<div class="meta">
 				<p>Inherited from
 				<a href="../classes/Base.html#method_value">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l138"><code>addon&#x2F;validators&#x2F;base.js:138</code></a>
+		<a href="../files/addon_validators_base.js.html#l139"><code>addon&#x2F;validators&#x2F;base.js:139</code></a>
 		</p>
 
 
@@ -672,7 +632,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property__type">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l67"><code>addon&#x2F;validators&#x2F;base.js:67</code></a>
+        <a href="../files/addon_validators_base.js.html#l74"><code>addon&#x2F;validators&#x2F;base.js:74</code></a>
         </p>
 
 
@@ -697,7 +657,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property_attribute">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l53"><code>addon&#x2F;validators&#x2F;base.js:53</code></a>
+        <a href="../files/addon_validators_base.js.html#l54"><code>addon&#x2F;validators&#x2F;base.js:54</code></a>
         </p>
 
 
@@ -722,7 +682,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property_defaultOptions">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l32"><code>addon&#x2F;validators&#x2F;base.js:32</code></a>
+        <a href="../files/addon_validators_base.js.html#l33"><code>addon&#x2F;validators&#x2F;base.js:33</code></a>
         </p>
 
 
@@ -747,7 +707,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property_errorMessages">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l60"><code>addon&#x2F;validators&#x2F;base.js:60</code></a>
+        <a href="../files/addon_validators_base.js.html#l61"><code>addon&#x2F;validators&#x2F;base.js:61</code></a>
         </p>
 
 
@@ -772,7 +732,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property_globalOptions">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l39"><code>addon&#x2F;validators&#x2F;base.js:39</code></a>
+        <a href="../files/addon_validators_base.js.html#l40"><code>addon&#x2F;validators&#x2F;base.js:40</code></a>
         </p>
 
 
@@ -781,6 +741,30 @@ gets passed into the validate method.</p>
     <div class="description">
         <p>Global validation options for this model</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_isWarning" class="property item inherited">
+    <h3 class="name"><code>isWarning</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Base.html#property_isWarning">Base</a>:
+        <a href="../files/addon_validators_base.js.html#l68"><code>addon&#x2F;validators&#x2F;base.js:68</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -797,7 +781,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property_model">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l46"><code>addon&#x2F;validators&#x2F;base.js:46</code></a>
+        <a href="../files/addon_validators_base.js.html#l47"><code>addon&#x2F;validators&#x2F;base.js:47</code></a>
         </p>
 
 
@@ -822,7 +806,7 @@ gets passed into the validate method.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Base.html#property_options">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l25"><code>addon&#x2F;validators&#x2F;base.js:25</code></a>
+        <a href="../files/addon_validators_base.js.html#l26"><code>addon&#x2F;validators&#x2F;base.js:26</code></a>
         </p>
 
 

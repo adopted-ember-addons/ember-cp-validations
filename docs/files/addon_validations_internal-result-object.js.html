@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -112,7 +112,9 @@
 
 import Ember from &#x27;ember&#x27;;
 import ValidationError from &#x27;./error&#x27;;
-import { hasEmberData } from &#x27;../utils/utils&#x27;;
+import { getEmberData } from &#x27;../utils/utils&#x27;;
+
+const DS = getEmberData();
 
 const {
   get,
@@ -137,6 +139,7 @@ export default Ember.Object.extend({
 
   attrValue: null,
   _promise: null,
+  _validator: null,
 
   init() {
     this._super(...arguments);
@@ -160,7 +163,7 @@ export default Ember.Object.extend({
     const attrValue = get(this, &#x27;attrValue&#x27;);
 
     // Check default model values
-    if (hasEmberData() &amp;&amp; model instanceof self.DS.Model &amp;&amp; canInvoke(model, &#x27;eachAttribute&#x27;)) {
+    if (DS &amp;&amp; model instanceof DS.Model &amp;&amp; canInvoke(model, &#x27;eachAttribute&#x27;)) {
       const attrMeta = model.get(&#x27;constructor.attributes&#x27;).get(attribute);
 
       if (attrMeta) {

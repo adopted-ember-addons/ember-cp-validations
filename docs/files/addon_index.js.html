@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -263,7 +263,7 @@ import Validator from &#x27;./validations/validator&#x27;;
  *       min: 1,
  *       description: &#x27;Username&#x27;
  *     }),
- *     validator(&#x27;no-whitespace-around&#x27;, {
+ *     validator(&#x27;my-custom-validator&#x27;, {
  *       description: &#x27;A username&#x27;
  *     })
  *   ]
@@ -281,7 +281,7 @@ import Validator from &#x27;./validations/validator&#x27;;
  *       validator(&#x27;length&#x27;, {
  *         min: 1
  *       }),
- *       validator(&#x27;no-whitespace-around&#x27;, {
+ *       validator(&#x27;my-custom-validator&#x27;, {
  *         description: &#x27;A username&#x27;
  *       })
  *     ]
@@ -289,7 +289,7 @@ import Validator from &#x27;./validations/validator&#x27;;
  * });
  * &#x60;&#x60;&#x60;
  *
- * In the above example, all the validators for username will have a description of &#x60;Username&#x60; except that of the &#x60;no-whitespace-around&#x60; validator which will be &#x60;A username&#x60;.
+ * In the above example, all the validators for username will have a description of &#x60;Username&#x60; except that of the &#x60;my-custom-validator&#x60; validator which will be &#x60;A username&#x60;.
  *
  * &lt;h3 id=&quot;globalOptions&quot;&gt;Global Options&lt;/h3&gt;
  *
@@ -331,26 +331,22 @@ import Validator from &#x27;./validations/validator&#x27;;
  * This rule does not apply to &#x60;dependentKeys&#x60;, instead they all are merged. In the example above, __firstName__&#x27;s dependentKeys will be
  * &#x60;[&#x27;i18n.locale&#x27;, &#x27;disableValidations&#x27;, &#x27;foo&#x27;, &#x27;bar&#x27;]&#x60;
  *
- * &lt;h3 id=&quot;optionsAsFunctions&quot;&gt;Options as Functions&lt;/h3&gt;
+ * &lt;h3 id=&quot;computedOptions&quot;&gt;Computed Options&lt;/h3&gt;
  *
- * All options can be functions which are processed lazily before validate is called. These functions are passed the &#x60;model&#x60; and &#x60;attribute&#x60; that is associated with
- * the validator while also given that as their context, giving you access to all its properties.
+ * All options can also be Computed Properties. These CPs have access to the &#x60;model&#x60; and &#x60;attribute&#x60; that is associated with the validator.
  *
- * Please note that the &#x60;message&#x60; option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
+ * Please note that the &#x60;message&#x60; option of a validator can also be a function with [the following signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
  * &#x60;&#x60;&#x60;javascript
  * const Validations = buildValidations({
- *   dob: validator(&#x27;date&#x27;, {
- *     description: &#x27;Date of Birth&#x27;,
- *     format(model, attribute) {
- *       return model.get(&#x27;meta.date.format&#x27;);
- *     },
- *     before(model, attribute) {
- *       return moment();
- *     },
- *     after(model, attribute) {
- *       return moment().subtract(120, &#x27;years&#x27;);
- *     }
+ *   username: validator(&#x27;length&#x27;, {
+ *     disabled: Ember.computed.not(&#x27;model.meta.username.isEnabled&#x27;),
+ *     min: Ember.computed.readOnly(&#x27;model.meta.username.minLength&#x27;),
+ *     max: Ember.computed.readOnly(&#x27;model.meta.username.maxLength&#x27;),
+ *     description: Ember.computed(function() {
+ *       // CPs have access to the &#x60;model&#x60; and &#x60;attribute&#x60;
+ *       return this.get(&#x27;model&#x27;).generateDescription(this.get(&#x27;attribute&#x27;));
+ *     }).volatile() // Disable caching and force recompute on every get call
  *   })
  * });
  * &#x60;&#x60;&#x60;

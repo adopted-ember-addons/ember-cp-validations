@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -120,8 +120,11 @@ if (typeof moment === &#x27;undefined&#x27;) {
 }
 
 const {
+  getWithDefault,
+  getProperties,
   isNone,
-  isEmpty
+  isEmpty,
+  set
 } = Ember;
 
 /**
@@ -166,19 +169,13 @@ export default Base.extend({
   },
 
   validate(value, options) {
-    const errorFormat = options.errorFormat || &#x27;MMM Do, YYYY&#x27;;
-    const format = options.format;
-    const precision = options.precision;
-    let { before, onOrBefore, after, onOrAfter } = options;
+    const errorFormat = getWithDefault(options, &#x27;errorFormat&#x27;, &#x27;MMM Do, YYYY&#x27;);
+    const { format, precision, allowBlank } = getProperties(options, [&#x27;format&#x27;, &#x27;precision&#x27;, &#x27;allowBlank&#x27;]);
+    let { before, onOrBefore, after, onOrAfter } = getProperties(options, [&#x27;before&#x27;, &#x27;onOrBefore&#x27;, &#x27;after&#x27;, &#x27;onOrAfter&#x27;]);
+    let date;
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+    if (allowBlank &amp;&amp; isEmpty(value)) {
       return true;
-    }
-
-    let date = this._parseDate(value);
-
-    if (!date.isValid()) {
-      return this.createErrorMessage(&#x27;date&#x27;, value, options);
     }
 
     if (format) {
@@ -186,12 +183,17 @@ export default Base.extend({
       if (!date.isValid()) {
         return this.createErrorMessage(&#x27;wrongDateFormat&#x27;, value, options);
       }
+    } else {
+      date = this._parseDate(value);
+      if (!date.isValid()) {
+        return this.createErrorMessage(&#x27;date&#x27;, value, options);
+      }
     }
 
     if (before) {
       before = this._parseDate(before, format);
       if (!date.isBefore(before, precision)) {
-        options.before = before.format(errorFormat);
+        set(options, &#x27;before&#x27;, before.format(errorFormat));
         return this.createErrorMessage(&#x27;before&#x27;, value, options);
       }
     }
@@ -199,7 +201,7 @@ export default Base.extend({
     if (onOrBefore) {
       onOrBefore = this._parseDate(onOrBefore, format);
       if (!date.isSameOrBefore(onOrBefore, precision))  {
-        options.onOrBefore = onOrBefore.format(errorFormat);
+        set(options, &#x27;onOrBefore&#x27;, onOrBefore.format(errorFormat));
         return this.createErrorMessage(&#x27;onOrBefore&#x27;, value, options);
       }
     }
@@ -207,7 +209,7 @@ export default Base.extend({
     if (after) {
       after = this._parseDate(after, format);
       if (!date.isAfter(after, precision)) {
-        options.after = after.format(errorFormat);
+        set(options, &#x27;after&#x27;, after.format(errorFormat));
         return this.createErrorMessage(&#x27;after&#x27;, value, options);
       }
     }
@@ -215,7 +217,7 @@ export default Base.extend({
     if (onOrAfter) {
       onOrAfter = this._parseDate(onOrAfter, format);
       if (!date.isSameOrAfter(onOrAfter, precision)) {
-        options.onOrAfter = onOrAfter.format(errorFormat);
+        set(options, &#x27;onOrAfter&#x27;, onOrAfter.format(errorFormat));
         return this.createErrorMessage(&#x27;onOrAfter&#x27;, value, options);
       }
     }

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -111,9 +111,14 @@
  */
 
 import Ember from &#x27;ember&#x27;;
+import require from &#x27;require&#x27;;
 
 export function hasEmberData() {
-  return typeof self.DS !== &#x27;undefined&#x27;;
+  return require.has(&#x27;ember-data&#x27;);
+}
+
+export function getEmberData() {
+  return hasEmberData() ? require(&#x27;ember-data&#x27;)[&#x27;default&#x27;] : undefined;
 }
 
 export function unwrapString(input) {

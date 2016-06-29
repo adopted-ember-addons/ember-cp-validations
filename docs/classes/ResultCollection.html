@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -124,6 +124,10 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method private">
+                                <a href="#method__computeErrorCollection">_computeErrorCollection</a>
+
+                            </li>
+                            <li class="index-item method private">
                                 <a href="#method__groupValidatorOptions">_groupValidatorOptions</a>
 
                             </li>
@@ -135,7 +139,19 @@
 
                     <ul class="index-list properties">
                             <li class="index-item property private">
+                                <a href="#property__contentValidators">_contentValidators</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__errorContent">_errorContent</a>
+
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property__promise">_promise</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__warningContent">_warningContent</a>
 
                             </li>
                             <li class="index-item property">
@@ -179,6 +195,10 @@
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_isWarning">isWarning</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_message">message</a>
 
                             </li>
@@ -194,6 +214,22 @@
                                 <a href="#property_value">value</a>
 
                             </li>
+                            <li class="index-item property">
+                                <a href="#property_warning">warning</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_warningMessage">warningMessage</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_warningMessages">warningMessages</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_warnings">warnings</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -203,6 +239,44 @@
             <div id="methods" class="page-section">
                 <h2 class="off-left">Methods</h2>
                 <div class="item-list">
+<div id="method__computeErrorCollection" class="method item private">
+	<span class="method-signature">
+	<span class="name"><code>_computeErrorCollection</code></span>
+
+		<span class="paren">()</span>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+		</span>
+	</span>
+
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_validations_result-collection.js.html#l398"><code>addon&#x2F;validations&#x2F;result-collection.js:398</code></a>
+		</p>
+
+
+
+	</div>
+
+
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+			</div>
+		</div>
+
+</div>
 <div id="method__groupValidatorOptions" class="method item private">
 	<span class="method-signature">
 	<span class="name"><code>_groupValidatorOptions</code></span>
@@ -223,7 +297,7 @@
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="../files/addon_validations_result-collection.js.html#l300"><code>addon&#x2F;validations&#x2F;result-collection.js:300</code></a>
+		<a href="../files/addon_validations_result-collection.js.html#l417"><code>addon&#x2F;validations&#x2F;result-collection.js:417</code></a>
 		</p>
 
 
@@ -250,9 +324,9 @@ If there is more than 1 of a type, it groups it into an array of option objects.
             <div id="properties" class="page-section">
                 <h2 class="off-left">Properties</h2>
                 <div class="item-list">
-<div id="property__promise" class="property item private">
-    <h3 class="name"><code>_promise</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+<div id="property__contentValidators" class="property item private">
+    <h3 class="name"><code>_contentValidators</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
 
 
         <span class="flag private">private</span>
@@ -262,7 +336,82 @@ If there is more than 1 of a type, it groups it into an array of option objects.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l277"><code>addon&#x2F;validations&#x2F;result-collection.js:277</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l377"><code>addon&#x2F;validations&#x2F;result-collection.js:377</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__errorContent" class="property item private">
+    <h3 class="name"><code>_errorContent</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l384"><code>addon&#x2F;validations&#x2F;result-collection.js:384</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__promise" class="property item private">
+    <h3 class="name"><code>_promise</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l363"><code>addon&#x2F;validations&#x2F;result-collection.js:363</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__warningContent" class="property item private">
+    <h3 class="name"><code>_warningContent</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l391"><code>addon&#x2F;validations&#x2F;result-collection.js:391</code></a>
         </p>
 
 
@@ -327,7 +476,7 @@ If there is more than 1 of a type, it groups it into an array of option objects.
 </div>
 <div id="property_error" class="property item">
     <h3 class="name"><code>error</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="../classes/Error.html" class="crosslink">Error</a></span>
+    <span class="type"><a href="../classes/Error.html" class="crosslink">Error</a></span>
 
 
 
@@ -336,7 +485,7 @@ If there is more than 1 of a type, it groups it into an array of option objects.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l224"><code>addon&#x2F;validations&#x2F;result-collection.js:224</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l301"><code>addon&#x2F;validations&#x2F;result-collection.js:301</code></a>
         </p>
 
 
@@ -356,7 +505,7 @@ get(user, 'validations.attrs.username.error')
 </div>
 <div id="property_errors" class="property item">
     <h3 class="name"><code>errors</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
 
 
 
@@ -365,7 +514,7 @@ get(user, 'validations.attrs.username.error')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l196"><code>addon&#x2F;validations&#x2F;result-collection.js:196</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l283"><code>addon&#x2F;validations&#x2F;result-collection.js:283</code></a>
         </p>
 
 
@@ -386,7 +535,7 @@ get(user, 'validations.attrs.username.errors')
 </div>
 <div id="property_isAsync" class="property item">
     <h3 class="name"><code>isAsync</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -395,7 +544,7 @@ get(user, 'validations.attrs.username.errors')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l142"><code>addon&#x2F;validations&#x2F;result-collection.js:142</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l158"><code>addon&#x2F;validations&#x2F;result-collection.js:158</code></a>
         </p>
 
 
@@ -416,7 +565,7 @@ get(user, 'validations.attrs.username.isAsync')
 </div>
 <div id="property_isDirty" class="property item">
     <h3 class="name"><code>isDirty</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -425,7 +574,7 @@ get(user, 'validations.attrs.username.isAsync')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l122"><code>addon&#x2F;validations&#x2F;result-collection.js:122</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l138"><code>addon&#x2F;validations&#x2F;result-collection.js:138</code></a>
         </p>
 
 
@@ -448,7 +597,7 @@ get(user, 'validations.attrs.username.isDirty')
 </div>
 <div id="property_isInvalid" class="property item">
     <h3 class="name"><code>isInvalid</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -457,7 +606,7 @@ get(user, 'validations.attrs.username.isDirty')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l57"><code>addon&#x2F;validations&#x2F;result-collection.js:57</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l73"><code>addon&#x2F;validations&#x2F;result-collection.js:73</code></a>
         </p>
 
 
@@ -476,7 +625,7 @@ get(user, 'validations.attrs.username.isInvalid')
 </div>
 <div id="property_isTruelyValid" class="property item">
     <h3 class="name"><code>isTruelyValid</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -485,7 +634,7 @@ get(user, 'validations.attrs.username.isInvalid')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l104"><code>addon&#x2F;validations&#x2F;result-collection.js:104</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l120"><code>addon&#x2F;validations&#x2F;result-collection.js:120</code></a>
         </p>
 
 
@@ -506,7 +655,7 @@ get(user, 'validations.attrs.username.isTruelyValid')
 </div>
 <div id="property_isValid" class="property item">
     <h3 class="name"><code>isValid</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -515,7 +664,7 @@ get(user, 'validations.attrs.username.isTruelyValid')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l70"><code>addon&#x2F;validations&#x2F;result-collection.js:70</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l86"><code>addon&#x2F;validations&#x2F;result-collection.js:86</code></a>
         </p>
 
 
@@ -535,7 +684,7 @@ get(user, 'validations.attrs.username.isValid')
 </div>
 <div id="property_isValidating" class="property item">
     <h3 class="name"><code>isValidating</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -544,7 +693,7 @@ get(user, 'validations.attrs.username.isValid')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l86"><code>addon&#x2F;validations&#x2F;result-collection.js:86</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l102"><code>addon&#x2F;validations&#x2F;result-collection.js:102</code></a>
         </p>
 
 
@@ -563,9 +712,9 @@ get(user, 'validations.attrs.username.isValidating')
 
 
 </div>
-<div id="property_message" class="property item">
-    <h3 class="name"><code>message</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+<div id="property_isWarning" class="property item">
+    <h3 class="name"><code>isWarning</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
@@ -574,7 +723,36 @@ get(user, 'validations.attrs.username.isValidating')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l179"><code>addon&#x2F;validations&#x2F;result-collection.js:179</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l57"><code>addon&#x2F;validations&#x2F;result-collection.js:57</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <pre class="code prettyprint"><code class="language-javascript">// Examples
+get(user, 'validations.isWarning')
+get(user, 'validations.attrs.username.isWarning')
+</code></pre>
+
+    </div>
+
+        <p><br><strong>Default:</strong> false</p>
+
+
+</div>
+<div id="property_message" class="property item">
+    <h3 class="name"><code>message</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l195"><code>addon&#x2F;validations&#x2F;result-collection.js:195</code></a>
         </p>
 
 
@@ -594,7 +772,7 @@ get(user, 'validations.attrs.username.message')
 </div>
 <div id="property_messages" class="property item">
     <h3 class="name"><code>messages</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
 
 
 
@@ -603,7 +781,7 @@ get(user, 'validations.attrs.username.message')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l160"><code>addon&#x2F;validations&#x2F;result-collection.js:160</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l176"><code>addon&#x2F;validations&#x2F;result-collection.js:176</code></a>
         </p>
 
 
@@ -623,7 +801,7 @@ get(user, 'validations.attrs.username.messages')
 </div>
 <div id="property_options" class="property item">
     <h3 class="name"><code>options</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
 
@@ -632,7 +810,7 @@ get(user, 'validations.attrs.username.messages')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l241"><code>addon&#x2F;validations&#x2F;result-collection.js:241</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l318"><code>addon&#x2F;validations&#x2F;result-collection.js:318</code></a>
         </p>
 
 
@@ -667,7 +845,7 @@ get(user, 'validations.attrs.username.messages')
 </div>
 <div id="property_value" class="property item private">
     <h3 class="name"><code>value</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
+    <span class="type"><a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
 
 
         <span class="flag private">private</span>
@@ -677,7 +855,7 @@ get(user, 'validations.attrs.username.messages')
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l291"><code>addon&#x2F;validations&#x2F;result-collection.js:291</code></a>
+        <a href="../files/addon_validations_result-collection.js.html#l354"><code>addon&#x2F;validations&#x2F;result-collection.js:354</code></a>
         </p>
 
 
@@ -685,6 +863,123 @@ get(user, 'validations.attrs.username.messages')
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_warning" class="property item">
+    <h3 class="name"><code>warning</code></h3>
+    <span class="type"><a href="../classes/Error.html" class="crosslink">Error</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l266"><code>addon&#x2F;validations&#x2F;result-collection.js:266</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An alias to the first Warning in the warnings collection.</p>
+<pre class="code prettyprint"><code class="language-javascript">// Example
+get(user, 'validations.warning')
+get(user, 'validations.attrs.username.warning')
+</code></pre>
+
+    </div>
+
+
+
+</div>
+<div id="property_warningMessage" class="property item">
+    <h3 class="name"><code>warningMessage</code></h3>
+    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l231"><code>addon&#x2F;validations&#x2F;result-collection.js:231</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An alias to the first message in the warningMessages collection.</p>
+<pre class="code prettyprint"><code class="language-javascript">// Example
+get(user, 'validations.warningMessage')
+get(user, 'validations.attrs.username.warningMessage')
+</code></pre>
+
+    </div>
+
+
+
+</div>
+<div id="property_warningMessages" class="property item">
+    <h3 class="name"><code>warningMessages</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l212"><code>addon&#x2F;validations&#x2F;result-collection.js:212</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A collection of all warning messages on the object in question</p>
+<pre class="code prettyprint"><code class="language-javascript">// Examples
+get(user, 'validations.warningMessages')
+get(user, 'validations.attrs.username.warningMessages')
+</code></pre>
+
+    </div>
+
+
+
+</div>
+<div id="property_warnings" class="property item">
+    <h3 class="name"><code>warnings</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_validations_result-collection.js.html#l248"><code>addon&#x2F;validations&#x2F;result-collection.js:248</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A collection of all <a href="../classes/Error.html" class="crosslink">Warnings</a> on the object in question.
+Each warning object includes the warning message and it's associated attribute name.</p>
+<pre class="code prettyprint"><code class="language-javascript">// Example
+get(user, 'validations.warnings')
+get(user, 'validations.attrs.username.warnings')
+</code></pre>
+
     </div>
 
 

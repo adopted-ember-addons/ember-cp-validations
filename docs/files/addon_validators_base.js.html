@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -118,7 +118,8 @@ import { unwrapString } from &#x27;ember-cp-validations/utils/utils&#x27;;
 const {
   get,
   set,
-  isNone
+  isNone,
+  computed
 } = Ember;
 
 const assign = Ember.assign || Ember.merge;
@@ -172,6 +173,12 @@ const Base = Ember.Object.extend({
   errorMessages: null,
 
   /**
+   * @property isWarning
+   * @type {Boolean}
+   */
+  isWarning: computed.bool(&#x27;options.isWarning&#x27;).readOnly(),
+
+  /**
    * Validator type
    * @property _type
    * @private
@@ -217,29 +224,23 @@ const Base = Ember.Object.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    return builtOptions;
-  },
+    const OptionsClass = Ember.Object.extend(builtOptions, {
+      model: computed(() =&gt; get(this, &#x27;model&#x27;)).readOnly(),
+      attribute: computed(() =&gt; get(this, &#x27;attribute&#x27;)).readOnly(),
 
-  /**
-   * Creates a new object and calls any option property that is a function with the validator context.
-   * This method is called right before &#x60;validate&#x60; and the returned object gets passed into the validate method as its options
-   * @method processOptions
-   * @return {Object}
-   */
-  processOptions() {
-    const options = assign({}, get(this, &#x27;options&#x27;) || {});
-    const model = get(this, &#x27;model&#x27;);
-    const attribute = get(this, &#x27;attribute&#x27;);
+      copy(deep) {
+        if(deep) {
+          return OptionsClass.create();
+        }
 
-    Object.keys(options).forEach(key =&gt; {
-      const option = options[key];
-
-      if (typeof option === &#x27;function&#x27; &amp;&amp; key !== &#x27;message&#x27;) {
-        options[key] = option.call(this, model, attribute);
+        return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) =&gt; {
+          obj[o] = get(this, o);
+          return obj;
+        }, {}));
       }
     });
 
-    return options;
+    return OptionsClass.create();
   },
 
   /**
@@ -297,8 +298,8 @@ const Base = Ember.Object.extend({
    * validate(value, options) {
    *   var exists = false;
    *
-   *   options.description = &#x27;Username&#x27;;
-   *   options.username = value;
+   *   get(options, &#x27;description&#x27;) = &#x27;Username&#x27;;
+   *   get(options, &#x27;username&#x27;) = value;
    *
    *   // check with server if username exists...
    *
@@ -320,9 +321,9 @@ const Base = Ember.Object.extend({
    */
   createErrorMessage(type, value, options = {}) {
     const messages = this.get(&#x27;errorMessages&#x27;);
-    let message = unwrapString(options.message);
+    let message = unwrapString(get(options, &#x27;message&#x27;));
 
-    options.description = messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options);
+    set(options, &#x27;description&#x27;, messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options));
 
     if (message) {
       if (typeof message === &#x27;string&#x27;) {
@@ -408,7 +409,7 @@ export default Base;
  *         let message = &#x60;The username &#x27;${value}&#x27; already exists.&#x60;;
  *         let meta = user.get(&#x27;meta&#x27;);
  *
- *         if(options.showSuggestions &amp;&amp; meta &amp;&amp; meta.suggestions) {
+ *         if(get(options, &#x27;showSuggestions&#x27;) &amp;&amp; meta &amp;&amp; meta.suggestions) {
  *           message += &quot;What about one of the these: &quot; + meta.suggestions.join(&#x27;, &#x27;);
  *         }
  *         return message;
@@ -512,7 +513,7 @@ export default Base;
  * &#x60;&#x60;&#x60;javascript
  * // Example
  * validator(function(value, options, model, attribute) {
- *   return value === options.username ? true : &#x60;must be ${options.username}&#x60;;
+ *   return value === get(options, &#x27;username&#x27;) ? true : &#x60;must be ${get(options, &#x27;username&#x27;)}&#x60;;
  * } , {
  *   username: &#x27;John&#x27; // Any options can be passed here
  * })

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -163,7 +163,7 @@ export default Ember.Object.extend({
    * @return {String}
    */
   getDescriptionFor(attribute, options = {}) {
-    return options.description || get(this, &#x27;defaultDescription&#x27;);
+    return get(options, &#x27;description&#x27;) || get(this, &#x27;defaultDescription&#x27;);
   },
 
   /**
@@ -190,7 +190,7 @@ export default Ember.Object.extend({
     if (isNone(m) || typeof m !== &#x27;string&#x27;) {
       m = get(this, &#x27;invalid&#x27;);
     }
-    return m.replace(get(this, &#x27;_regex&#x27;), (s, attr) =&gt; context[attr]);
+    return m.replace(get(this, &#x27;_regex&#x27;), (s, attr) =&gt; get(context, attr));
   },
 
   /**

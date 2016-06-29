@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -153,8 +153,10 @@ const {
  *
  * Although validations are lazily computed, there are times where we might want to force all or
  * specific validations to happen. For this reason we have exposed two methods:
+ *
  * - {{#crossLink &quot;Factory/validateSync:method&quot;}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink &quot;Factory/validate:method&quot;}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
+ * - {{#crossLink &quot;Factory/validateAttribute:method&quot;}}{{/crossLink}}: A functional approach to valididating an attribute without changing its state
  *
  * ## Inspecting Validations
  *
@@ -193,6 +195,7 @@ const {
 
 /**
  * Top level method that will ultimately return a mixin with all CP validations
+ *
  * @method  buildValidations
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
@@ -235,6 +238,9 @@ function buildValidations(validations = {}, globalOptions = {}) {
     validateSync() {
       return get(this, &#x27;validations&#x27;).validateSync(...arguments);
     },
+    validateAttribute() {
+      return get(this, &#x27;validations&#x27;).validateAttribute(...arguments);
+    },
     destroy() {
       this._super(...arguments);
       get(this, &#x27;validations&#x27;).destroy();
@@ -248,7 +254,9 @@ function buildValidations(validations = {}, globalOptions = {}) {
  *   description: &#x27;Username&#x27;,
  *   validators: [...]
  * }
+ *
  * This method generate the default options pojo, applies it to each validation rule, and flattens the object
+ *
  * @method normalizeOptions
  * @private
  * @param  {Object} validations
@@ -341,6 +349,7 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
 
     validate,
     validateSync,
+    validateAttribute,
 
     init() {
       this._super(...arguments);
@@ -435,6 +444,7 @@ function createAttrsClass(validatableAttributes, validationRules, owner) {
 
 /**
  * CP generator for the given attribute
+ *
  * @method createCPValidationFor
  * @private
  * @param  {String} attribute
@@ -449,7 +459,7 @@ function createCPValidationFor(attribute, validations, owner) {
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
     const validationResults = validators.map(validator =&gt; {
-      const options = validator.processOptions();
+      const options = get(validator, &#x27;options&#x27;).copy();
       const debounce = getWithDefault(options, &#x27;debounce&#x27;, 0);
       const disabled = getWithDefault(options, &#x27;disabled&#x27;, false);
       let value;
@@ -487,6 +497,7 @@ function createCPValidationFor(attribute, validations, owner) {
  */
 function createTopLevelPropsMixin(validatableAttrs) {
   return Ember.Mixin.create({
+    isWarning: and(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.isWarning&#x60;)).readOnly(),
     isValid: and(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.isValid&#x60;)).readOnly(),
     isValidating: or(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.isValidating&#x60;)).readOnly(),
     isDirty: or(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.isDirty&#x60;)).readOnly(),
@@ -500,7 +511,23 @@ function createTopLevelPropsMixin(validatableAttrs) {
     }).readOnly(),
 
     message: computed(&#x27;messages.[]&#x27;, cycleBreaker(function () {
-      return get(this, &#x27;messages.0&#x27;);
+      return get(this, &#x27;messages.firstObject&#x27;);
+    })).readOnly(),
+
+    warningMessages: computed(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.warningMessages&#x60;), function () {
+      return emberArray(flatten(validatableAttrs.map(attr =&gt; get(this, &#x60;attrs.${attr}.warningMessages&#x60;)))).compact();
+    }).readOnly(),
+
+    warningMessage: computed(&#x27;warningMessages.[]&#x27;, cycleBreaker(function () {
+      return get(this, &#x27;warningMessages.firstObject&#x27;);
+    })).readOnly(),
+
+    warnings: computed(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.@each.warnings&#x60;), function () {
+      return emberArray(flatten(validatableAttrs.map(attr =&gt; get(this, &#x60;attrs.${attr}.warnings&#x60;)))).compact();
+    }).readOnly(),
+
+    warning: computed(&#x27;warning.[]&#x27;, cycleBreaker(function () {
+      return get(this, &#x27;warning.firstObject&#x27;);
     })).readOnly(),
 
     errors: computed(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}.@each.errors&#x60;), function () {
@@ -508,7 +535,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     }).readOnly(),
 
     error: computed(&#x27;errors.[]&#x27;, cycleBreaker(function () {
-      return get(this, &#x27;errors.0&#x27;);
+      return get(this, &#x27;errors.firstObject&#x27;);
     })).readOnly(),
 
     _promise: computed(...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}._promise&#x60;), function () {
@@ -528,6 +555,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
 
 /**
  * CP dependency generator for a give attribute depending on its relationships
+ *
  * @method getCPDependentKeysFor
  * @private
  * @param  {String} attribute
@@ -546,11 +574,23 @@ function getCPDependentKeysFor(attribute, validations, owner) {
       getWithDefault(options, &#x27;dependentKeys&#x27;, []),
       getWithDefault(validation, &#x27;defaultOptions.dependentKeys&#x27;, []),
       getWithDefault(validation, &#x27;globalOptions.dependentKeys&#x27;, [])
-    );
+    ).map(d =&gt; {
+      return d.split(&#x27;.&#x27;)[0] === &#x27;model&#x27; ? &#x27;_&#x27; + d : d;
+    });
+
+    // Extract dependentKeys from option CPs
+    const cpDependents = [].concat(
+      extractOptionsDependentKeys(options),
+      extractOptionsDependentKeys(get(validation, &#x27;defaultOptions&#x27;)),
+      extractOptionsDependentKeys(get(validation, &#x27;globalOptions&#x27;))
+    ).map(d =&gt; {
+      return d.split(&#x27;.&#x27;)[0] === &#x27;model&#x27; ? &#x27;_&#x27; + d : d;
+    });
 
     return baseDependents.concat(
       dependents,
-      specifiedDependents.map(d =&gt; &#x60;_model.${d}&#x60;)
+      cpDependents,
+      specifiedDependents
     );
   });
 
@@ -561,7 +601,31 @@ function getCPDependentKeysFor(attribute, validations, owner) {
 }
 
 /**
+ * Extract all dependentKeys from any property that is a CP
+ *
+ * @method extractOptionsDependentKeys
+ * @param  {Object} options
+ * @return {Array}  dependentKeys
+ */
+function extractOptionsDependentKeys(options) {
+  if(options &amp;&amp; typeof options === &#x27;object&#x27;) {
+    return Object.keys(options).reduce((arr, key) =&gt; {
+      let option = options[key];
+
+      if(typeof option === &#x27;object&#x27; &amp;&amp; option.isDescriptor) {
+        return arr.concat(option._dependentKeys || []);
+      }
+
+      return arr;
+    }, []);
+  }
+
+  return [];
+}
+
+/**
  * Debounce handler for running a validation for the specified options
+ *
  * @method debouncedValidate
  * @private
  * @param  {Validator} validator
@@ -572,7 +636,7 @@ function getCPDependentKeysFor(attribute, validations, owner) {
  * @param  {Function} resolve
  */
 function debouncedValidate(validator, model, attribute, resolve) {
-  const options = validator.processOptions();
+  const options = get(validator, &#x27;options&#x27;).copy();
   const value = validator.getValue();
 
   resolve(validator.validate(value, options, model, attribute));
@@ -580,6 +644,7 @@ function debouncedValidate(validator, model, attribute, resolve) {
 
 /**
  * A handler used to create ValidationResult object from values returned from a validator
+ *
  * @method validationReturnValueHandler
  * @private
  * @param  {String} attribute
@@ -611,6 +676,7 @@ function validationReturnValueHandler(attribute, value, model, validator) {
 
 /**
  * Get validators for the give attribute. If they are not in the cache, then create them.
+ *
  * @method getValidatorsFor
  * @private
  * @param  {String} attribute
@@ -629,6 +695,7 @@ function getValidatorsFor(attribute, model) {
 
 /**
  * Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.
+ *
  * @method getValidatorCacheFor
  * @private
  * @param  {String} attribute
@@ -647,6 +714,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
 
 /**
  * Create validators for the give attribute and store them in a cache
+ *
  * @method createValidatorsFor
  * @private
  * @param  {String} attribute
@@ -687,6 +755,7 @@ function createValidatorsFor(attribute, model) {
 
 /**
  * Lookup a validators of a specific type on the owner
+ *
  * @method lookupValidator
  * @throws {Error} Validator not found
  * @private
@@ -767,6 +836,46 @@ function validate(options = {}, async = true) {
 }
 
 /**
+ * A functional approach to check if a given attribute on a model is valid independently of the
+ * model attribute&#x27;s validations. This method will always return a promise which will then resolve
+ * to a {{#crossLink &quot;ResultCollection&quot;}}{{/crossLink}}.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * model.validateAttribute(&#x27;username&#x27;, &#x27;offirgolan&#x27;).then(({ m, validations }) =&gt; {
+ *   validations.get(&#x27;isValid&#x27;); // true or false
+ *   validations.get(&#x27;isValidating&#x27;); // false
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * @method validateAttribute
+ * @param  {String}   attribute
+ * @param  {Unknown}  value
+ * @return {Promise}
+ * @async
+ */
+function validateAttribute(attribute, value) {
+  const model = get(this, &#x27;model&#x27;);
+  const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+
+  const validationResults = validators.map(validator =&gt; {
+    const opts = get(validator, &#x27;options&#x27;).copy();
+    const disabled = getWithDefault(opts, &#x27;disabled&#x27;, false);
+    let result = disabled ? true : validator.validate(value, opts, model, attribute);
+
+    return validationReturnValueHandler(attribute, result, model, validator);
+  });
+
+  const validations = ValidationResultCollection.create({
+    attribute,
+    content: flatten(validationResults)
+  });
+
+  const result = { model, validations };
+
+  return Promise.resolve(get(validations, &#x27;isAsync&#x27;) ? get(validations, &#x27;_promise&#x27;).then(() =&gt; result) : result );
+}
+
+/**
  * ### Options
  * - &#x60;on&#x60; (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute
  * - &#x60;excludes&#x60; (**Array**): Exclude validation on the given attributes
@@ -775,6 +884,7 @@ function validate(options = {}, async = true) {
  * const { m, validations } = model.validateSync();
  * validations.get(&#x27;isValid&#x27;) // true or false
  * &#x60;&#x60;&#x60;
+ *
  * @method validateSync
  * @param  {Object}  options
  * @return {Object}

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -114,8 +114,11 @@ import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
+  get,
   typeOf,
-  isEmpty
+  isEmpty,
+  assert,
+  getProperties
 } = Ember;
 
 /**
@@ -141,15 +144,13 @@ const {
  *  @extends Base
  */
 export default Base.extend({
-  validate(value, options) {
-    const array = options.in;
-    const range = options.range;
+  validate(value, options, model, attribute) {
+    const array = get(options, &#x27;in&#x27;);
+    const { range, allowBlank } = getProperties(options, [&#x27;range&#x27;, &#x27;allowBlank&#x27;]);
 
-    if (isEmpty(Object.keys(options))) {
-      return true;
-    }
+    assert(&#x60;[ember-cp-validations] [validator:exclusion] [${attribute}] no options were passed in&#x60;, !isEmpty(Object.keys(options)));
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+    if (allowBlank &amp;&amp; isEmpty(value)) {
       return true;
     }
 

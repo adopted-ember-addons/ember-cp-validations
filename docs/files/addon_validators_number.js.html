@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -114,7 +114,9 @@ import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
-  isEmpty
+  get,
+  isEmpty,
+  getProperties
 } = Ember;
 
 /**
@@ -152,12 +154,13 @@ export default Base.extend({
   validate(value, options) {
     const numValue = Number(value);
     const optionKeys = Object.keys(options);
+    const { allowBlank, allowString, integer } = getProperties(options, [&#x27;allowBlank&#x27;, &#x27;allowString&#x27;, &#x27;integer&#x27;]);
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+    if (allowBlank &amp;&amp; isEmpty(value)) {
       return true;
     }
 
-    if (typeof value === &#x27;string&#x27; &amp;&amp; (isEmpty(value) || !options.allowString)) {
+    if (typeof value === &#x27;string&#x27; &amp;&amp; (isEmpty(value) || !allowString)) {
       return this.createErrorMessage(&#x27;notANumber&#x27;, value, options);
     }
 
@@ -165,7 +168,7 @@ export default Base.extend({
       return this.createErrorMessage(&#x27;notANumber&#x27;, value, options);
     }
 
-    if (options.integer &amp;&amp; !this.isInteger(numValue)) {
+    if (integer &amp;&amp; !this.isInteger(numValue)) {
       return this.createErrorMessage(&#x27;notAnInteger&#x27;, value, options);
     }
 
@@ -182,7 +185,7 @@ export default Base.extend({
   },
 
   _validateType(type, options, value) {
-    const expected = options[type];
+    const expected = get(options, type);
     const actual = value;
 
     if (type === &#x27;is&#x27; &amp;&amp; actual !== expected) {

@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -114,6 +114,7 @@ import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
+  get,
   isArray
 } = Ember;
 
@@ -165,11 +166,13 @@ const Collection = Base.extend({
   },
 
   validate(value, options) {
-    if (options.collection === true &amp;&amp; !isArray(value)) {
+    const isCollection = get(options, &#x27;collection&#x27;);
+
+    if (isCollection === true &amp;&amp; !isArray(value)) {
       return this.createErrorMessage(&#x27;collection&#x27;, value, options);
     }
 
-    if (options.collection === false &amp;&amp; isArray(value)) {
+    if (isCollection === false &amp;&amp; isArray(value)) {
       return this.createErrorMessage(&#x27;singular&#x27;, value, options);
     }
 
@@ -179,7 +182,7 @@ const Collection = Base.extend({
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return (options === true || options.collection === true) ? [ &#x60;_model.${attribute}.[]&#x60; ] : [];
+    return (options === true || get(options, &#x27;collection&#x27;) === true) ? [ &#x60;_model.${attribute}.[]&#x60; ] : [];
   }
 });
 

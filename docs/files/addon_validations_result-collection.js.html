@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -164,15 +164,31 @@ export default Ember.Object.extend({
   /**
    * &#x60;&#x60;&#x60;javascript
    * // Examples
+   * get(user, &#x27;validations.isWarning&#x27;)
+   * get(user, &#x27;validations.attrs.username.isWarning&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @property isWarning
+   * @default false
+   * @readOnly
+   * @type {Boolean}
+   */
+  isWarning: computed(&#x27;content.@each.isWarning&#x27;, cycleBreaker(function () {
+    return get(this, &#x27;content&#x27;).isEvery(&#x27;isWarning&#x27;, true);
+  }, false)).readOnly(),
+
+  /**
+   * &#x60;&#x60;&#x60;javascript
+   * // Examples
    * get(user, &#x27;validations.isInvalid&#x27;)
    * get(user, &#x27;validations.attrs.username.isInvalid&#x27;)
    * &#x60;&#x60;&#x60;
    *
    * @property isInvalid
    * @readOnly
-   * @type {Ember.ComputedProperty | Boolean}
+   * @type {Boolean}
    */
-  isInvalid: computed.not(&#x27;isValid&#x27;),
+  isInvalid: computed.not(&#x27;isValid&#x27;).readOnly(),
 
   /**
    * &#x60;&#x60;&#x60;javascript
@@ -184,11 +200,11 @@ export default Ember.Object.extend({
    * @property isValid
    * @default true
    * @readOnly
-   * @type {Ember.ComputedProperty | Boolean}
+   * @type {Boolean}
    */
-  isValid: computed(&#x27;content.@each.isValid&#x27;, cycleBreaker(function () {
-    return get(this, &#x27;content&#x27;).isEvery(&#x27;isValid&#x27;, true);
-  }, true)),
+  isValid: computed(&#x27;_errorContent.@each.isValid&#x27;, cycleBreaker(function () {
+    return get(this, &#x27;_errorContent&#x27;).isEvery(&#x27;isValid&#x27;, true);
+  }, true)).readOnly(),
 
   /**
    * This property is toggled only if there is an async validation
@@ -202,11 +218,11 @@ export default Ember.Object.extend({
    * @property isValidating
    * @default false
    * @readOnly
-   * @type {Ember.ComputedProperty | Boolean}
+   * @type {Boolean}
    */
   isValidating: computed(&#x27;content.@each.isValidating&#x27;, cycleBreaker(function () {
     return !get(this, &#x27;content&#x27;).isEvery(&#x27;isValidating&#x27;, false);
-  }, false)),
+  }, false)).readOnly(),
 
   /**
    * Will be true only if isValid is &#x60;true&#x60; and isValidating is &#x60;false&#x60;
@@ -220,11 +236,11 @@ export default Ember.Object.extend({
    * @property isTruelyValid
    * @default true
    * @readOnly
-   * @type {Ember.ComputedProperty | Boolean}
+   * @type {Boolean}
    */
-  isTruelyValid: computed(&#x27;content.@each.isTruelyValid&#x27;, cycleBreaker(function () {
-    return get(this, &#x27;content&#x27;).isEvery(&#x27;isTruelyValid&#x27;, true);
-  }, true)),
+  isTruelyValid: computed(&#x27;_errorContent.@each.isTruelyValid&#x27;, cycleBreaker(function () {
+    return get(this, &#x27;_errorContent&#x27;).isEvery(&#x27;isTruelyValid&#x27;, true);
+  }, true)).readOnly(),
 
   /**
    * Will be true is the attribute in question is not &#x60;null&#x60; or &#x60;undefined&#x60;. If the object being
@@ -240,11 +256,11 @@ export default Ember.Object.extend({
    * @property isDirty
    * @default false
    * @readOnly
-   * @type {Ember.ComputedProperty | Boolean}
+   * @type {Boolean}
    */
-  isDirty: computed(&#x27;content.@each.isDirty&#x27;, cycleBreaker(function () {
-    return !get(this, &#x27;content&#x27;).isEvery(&#x27;isDirty&#x27;, false);
-  }, false)),
+  isDirty: computed(&#x27;_errorContent.@each.isDirty&#x27;, cycleBreaker(function () {
+    return !get(this, &#x27;_errorContent&#x27;).isEvery(&#x27;isDirty&#x27;, false);
+  }, false)).readOnly(),
 
   /**
    * Will be &#x60;true&#x60; only if a validation returns a promise
@@ -258,11 +274,11 @@ export default Ember.Object.extend({
    * @property isAsync
    * @default false
    * @readOnly
-   * @type {Ember.ComputedProperty | Boolean}
+   * @type {Boolean}
    */
   isAsync: computed(&#x27;content.@each.isAsync&#x27;, cycleBreaker(function () {
     return !get(this, &#x27;content&#x27;).isEvery(&#x27;isAsync&#x27;, false);
-  }, false)),
+  }, false)).readOnly(),
 
   /**
    * A collection of all error messages on the object in question
@@ -275,13 +291,13 @@ export default Ember.Object.extend({
    *
    * @property messages
    * @readOnly
-   * @type {Ember.ComputedProperty | Array}
+   * @type {Array}
    */
-  messages: computed(&#x27;content.@each.messages&#x27;, cycleBreaker(function () {
-    const messages = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;messages&#x27;));
+  messages: computed(&#x27;_errorContent.@each.messages&#x27;, cycleBreaker(function () {
+    const messages = flatten(get(this, &#x27;_errorContent&#x27;).getEach(&#x27;messages&#x27;));
 
     return uniq(compact(messages));
-  })),
+  })).readOnly(),
 
   /**
    * An alias to the first message in the messages collection.
@@ -294,11 +310,82 @@ export default Ember.Object.extend({
    *
    * @property message
    * @readOnly
-   * @type {Ember.ComputedProperty | String}
+   * @type {String}
    */
   message: computed(&#x27;messages.[]&#x27;, cycleBreaker(function () {
-    return get(this, &#x27;messages.0&#x27;);
-  })),
+    return get(this, &#x27;messages.firstObject&#x27;);
+  })).readOnly(),
+
+  /**
+   * A collection of all warning messages on the object in question
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * // Examples
+   * get(user, &#x27;validations.warningMessages&#x27;)
+   * get(user, &#x27;validations.attrs.username.warningMessages&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @property warningMessages
+   * @readOnly
+   * @type {Array}
+   */
+  warningMessages: computed(&#x27;_warningContent.@each.messages&#x27;, cycleBreaker(function () {
+    const messages = flatten(get(this, &#x27;_warningContent&#x27;).getEach(&#x27;messages&#x27;));
+
+    return uniq(compact(messages));
+  })).readOnly(),
+
+  /**
+   * An alias to the first message in the warningMessages collection.
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * // Example
+   * get(user, &#x27;validations.warningMessage&#x27;)
+   * get(user, &#x27;validations.attrs.username.warningMessage&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @property warningMessage
+   * @readOnly
+   * @type {String}
+   */
+  warningMessage: computed(&#x27;warningMessages.[]&#x27;, cycleBreaker(function () {
+    return get(this, &#x27;warningMessages.firstObject&#x27;);
+  })).readOnly(),
+
+  /**
+   * A collection of all {{#crossLink &quot;Error&quot;}}Warnings{{/crossLink}} on the object in question.
+   * Each warning object includes the warning message and it&#x27;s associated attribute name.
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * // Example
+   * get(user, &#x27;validations.warnings&#x27;)
+   * get(user, &#x27;validations.attrs.username.warnings&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @property warnings
+   * @readOnly
+   * @type {Array}
+   */
+  warnings: computed(&#x27;attribute&#x27;, &#x27;_warningContent.@each.errors&#x27;, cycleBreaker(function () {
+    return this._computeErrorCollection(get(this, &#x27;_warningContent&#x27;));
+  })).readOnly(),
+
+  /**
+   * An alias to the first {{#crossLink &quot;Warning&quot;}}{{/crossLink}} in the warnings collection.
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * // Example
+   * get(user, &#x27;validations.warning&#x27;)
+   * get(user, &#x27;validations.attrs.username.warning&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @property warning
+   * @readOnly
+   * @type {Error}
+   */
+  warning: computed(&#x27;warnings.[]&#x27;, cycleBreaker(function () {
+    return get(this, &#x27;warnings.firstObject&#x27;);
+  })).readOnly(),
 
   /**
    * A collection of all {{#crossLink &quot;Error&quot;}}Errors{{/crossLink}} on the object in question.
@@ -312,21 +399,11 @@ export default Ember.Object.extend({
    *
    * @property errors
    * @readOnly
-   * @type {Ember.ComputedProperty | Array}
+   * @type {Array}
    */
-  errors: computed(&#x27;attribute&#x27;, &#x27;content.@each.errors&#x27;, cycleBreaker(function () {
-    const attribute = get(this, &#x27;attribute&#x27;);
-    let errors = flatten(get(this, &#x27;content&#x27;).getEach(&#x27;errors&#x27;));
-
-    errors = uniq(compact(errors));
-    errors.forEach(e =&gt; {
-      if(e.get(&#x27;attribute&#x27;) !== attribute) {
-        e.set(&#x27;parentAttribute&#x27;, attribute);
-      }
-    });
-
-    return errors;
-  })),
+  errors: computed(&#x27;attribute&#x27;, &#x27;_errorContent.@each.errors&#x27;, cycleBreaker(function () {
+    return this._computeErrorCollection(get(this, &#x27;_errorContent&#x27;));
+  })).readOnly(),
 
   /**
    * An alias to the first {{#crossLink &quot;Error&quot;}}{{/crossLink}} in the errors collection.
@@ -339,11 +416,11 @@ export default Ember.Object.extend({
    *
    * @property error
    * @readOnly
-   * @type {Ember.ComputedProperty | Error}
+   * @type {Error}
    */
   error: computed(&#x27;errors.[]&#x27;, cycleBreaker(function () {
-    return get(this, &#x27;errors.0&#x27;);
-  })),
+    return get(this, &#x27;errors.firstObject&#x27;);
+  })).readOnly(),
 
   /**
    * All built options of the validators associated with the results in this collection grouped by validator type
@@ -375,17 +452,26 @@ export default Ember.Object.extend({
    *
    * @property options
    * @readOnly
-   * @type {Ember.ComputedProperty | Object}
+   * @type {Object}
    */
-  options: computed(&#x27;content.[]&#x27;, function () {
+  options: computed(&#x27;_contentValidators.[]&#x27;, &#x27;_contentValidators.@each.options&#x27;, function () {
     return this._groupValidatorOptions();
-  }),
+  }).readOnly(),
+
+  /**
+   * @property value
+   * @type {ResultCollection | Promise}
+   * @private
+   */
+  value: computed(&#x27;isAsync&#x27;, cycleBreaker(function () {
+    return get(this, &#x27;isAsync&#x27;) ? get(this, &#x27;_promise&#x27;) : this;
+  })).readOnly(),
 
   /**
    * @property _promise
    * @async
    * @private
-   * @type {Ember.ComputedProperty | Promise}
+   * @type {Promise}
    */
   _promise: computed(&#x27;content.@each._promise&#x27;, cycleBreaker(function () {
     const promises = get(this, &#x27;content&#x27;).getEach(&#x27;_promise&#x27;);
@@ -393,16 +479,47 @@ export default Ember.Object.extend({
     if (!isEmpty(promises)) {
       return RSVP.all(compact(flatten(promises)));
     }
-  })),
+  })).readOnly(),
 
   /**
-   * @property value
-   * @type {Ember.ComputedProperty}
+   * @property _contentValidators
+   * @type {Array}
    * @private
    */
-  value: computed(&#x27;isAsync&#x27;, cycleBreaker(function () {
-    return get(this, &#x27;isAsync&#x27;) ? get(this, &#x27;_promise&#x27;) : this;
-  })),
+  _contentValidators: computed.mapBy(&#x27;_errorContent&#x27;, &#x27;_validator&#x27;).readOnly(),
+
+  /**
+   * @property _errorContent
+   * @type {Array}
+   * @private
+   */
+  _errorContent: computed.filterBy(&#x27;content&#x27;, &#x27;isWarning&#x27;, false).readOnly(),
+
+  /**
+   * @property _warningContent
+   * @type {Array}
+   * @private
+   */
+  _warningContent: computed.filterBy(&#x27;content&#x27;, &#x27;isWarning&#x27;, true).readOnly(),
+
+  /**
+   * @method  _computeErrorCollection
+   * @return  {Object}
+   * @private
+   */
+  _computeErrorCollection(content) {
+    const attribute = get(this, &#x27;attribute&#x27;);
+    let errors = flatten(content.getEach(&#x27;errors&#x27;));
+
+    errors = uniq(compact(errors));
+    errors.forEach(e =&gt; {
+      if(e.get(&#x27;attribute&#x27;) !== attribute) {
+        e.set(&#x27;parentAttribute&#x27;, attribute);
+      }
+    });
+
+    return errors;
+  },
 
   /**
    * Used by the &#x60;options&#x60; property to create a hash from the &#x60;content&#x60; that is grouped by validator type.
@@ -413,15 +530,13 @@ export default Ember.Object.extend({
    * @private
    */
   _groupValidatorOptions() {
-    const validators = get(this, &#x27;content&#x27;).getEach(&#x27;_validator&#x27;);
-
-    return validators.reduce((options, v) =&gt; {
+    return get(this, &#x27;_contentValidators&#x27;).reduce((options, v) =&gt; {
       if (isNone(v) || isNone(get(v, &#x27;_type&#x27;))) {
         return options;
       }
 
       const type = get(v, &#x27;_type&#x27;);
-      const vOpts = get(v, &#x27;options&#x27;);
+      const vOpts = get(v, &#x27;options&#x27;).copy();
 
       if (options[type]) {
         if (isArray(options[type])) {

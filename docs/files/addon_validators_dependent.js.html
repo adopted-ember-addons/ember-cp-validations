@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -114,9 +114,14 @@ import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
+  A,
   get,
+  getWithDefault,
+  getProperties,
+  assert,
   isNone,
-  isEmpty
+  isEmpty,
+  isArray
 } = Ember;
 
 /**
@@ -138,20 +143,20 @@ const {
  *  @extends Base
  */
 const Dependent = Base.extend({
-  validate(value, options, model) {
-    if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
+  validate(value, options, model, attribute) {
+    const { on, allowBlank } = getProperties(options, [&#x27;on&#x27;, &#x27;allowBlank&#x27;]);
+
+    assert(&#x60;[ember-cp-validations] [validator:dependent] [${attribute}] option &#x27;on&#x27; is required&#x60;, !isEmpty(on));
+
+    if (isNone(model)) {
       return true;
     }
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
+    if (allowBlank &amp;&amp; isEmpty(value)) {
       return true;
     }
 
-    if (isEmpty(options.on)) {
-      return true;
-    }
-
-    const dependentValidations = options.on.map(dependent =&gt; get(model, &#x60;validations.attrs.${dependent}&#x60;));
+    const dependentValidations = getWithDefault(options, &#x27;on&#x27;, A()).map(dependent =&gt; get(model, &#x60;validations.attrs.${dependent}&#x60;));
 
     if (!isEmpty(dependentValidations.filter(v =&gt; !get(v, &#x27;isTruelyValid&#x27;)))) {
       return this.createErrorMessage(&#x27;invalid&#x27;, value, options);
@@ -163,7 +168,9 @@ const Dependent = Base.extend({
 
 Dependent.reopenClass({
   getDependentsFor(attribute, options) {
-    const dependents = options.on;
+    const dependents = get(options, &#x27;on&#x27;);
+
+    assert(&#x60;[ember-cp-validations] [validator:dependent] [${attribute}] &#x27;on&#x27; must be an array&#x60;, isArray(dependents));
 
     if (!isEmpty(dependents)) {
       return dependents.map(dependent =&gt; &#x60;${dependent}.isTruelyValid&#x60;);

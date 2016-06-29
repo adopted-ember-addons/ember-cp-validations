@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -115,7 +115,9 @@ import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
   get,
-  isEmpty
+  assert,
+  isEmpty,
+  getProperties
 } = Ember;
 
 /**
@@ -169,12 +171,10 @@ const Alias = Base.extend({
     return this._super(opts, defaultOptions, globalOptions);
   },
 
-  validate(value, options, model) {
-    const { alias, firstMessageOnly } = options;
+  validate(value, options, model, attribute) {
+    const { alias, firstMessageOnly } = getProperties(options, [&#x27;alias&#x27;, &#x27;firstMessageOnly&#x27;]);
 
-    if(isEmpty(alias)) {
-      return true;
-    }
+    assert(&#x60;[ember-cp-validations] [validator:alias] [${attribute}] option &#x27;alias&#x27; is required&#x60;, !isEmpty(alias));
 
     const aliasValidation = get(model, &#x60;validations.attrs.${alias}&#x60;);
 
@@ -184,7 +184,10 @@ const Alias = Base.extend({
 
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
-    const alias = typeof options === &#x27;string&#x27; ? options : options.alias;
+    const alias = typeof options === &#x27;string&#x27; ? options : get(options, &#x27;alias&#x27;);
+
+    assert(&#x60;[ember-cp-validations] [validator:alias] [${attribute}] &#x27;alias&#x27; must be a string&#x60;, typeof alias === &#x27;string&#x27;);
+
     return [ &#x60;${alias}.messages.[]&#x60;, &#x60;${alias}.isTruelyValid&#x60; ];
   }
 });

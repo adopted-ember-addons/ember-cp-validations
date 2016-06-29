@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -105,6 +105,7 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
+
 /**
  * Copyright 2016, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
@@ -116,7 +117,9 @@ import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 const {
   get,
   isNone,
-  isEmpty
+  isEmpty,
+  assert,
+  getProperties
 } = Ember;
 
 /**
@@ -177,28 +180,26 @@ export default Base.extend({
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     const regularExpressions = get(this, &#x27;regularExpressions&#x27;);
+    const { regex, type } = options;
 
-    if (options.type &amp;&amp; !isNone(regularExpressions[options.type]) &amp;&amp; isNone(options.regex)) {
-      options.regex = regularExpressions[options.type];
+    if (type &amp;&amp; !isNone(regularExpressions[type]) &amp;&amp; isNone(regex)) {
+      options.regex = regularExpressions[type];
     }
 
     return this._super(options, defaultOptions, globalOptions);
   },
 
-  validate(value, options) {
-    if (isEmpty(Object.keys(options))) {
+  validate(value, options, model, attribute) {
+    const { regex, type, allowBlank } = getProperties(options, [&#x27;regex&#x27;, &#x27;type&#x27;, &#x27;allowBlank&#x27;]);
+
+    assert(&#x60;[ember-cp-validations] [validator:format] [${attribute}] no options were passed in&#x60;, !isEmpty(Object.keys(options)));
+
+    if (allowBlank &amp;&amp; isEmpty(value)) {
       return true;
     }
 
-    if (options.allowBlank &amp;&amp; isEmpty(value)) {
-      return true;
-    }
-
-    if (options.regex &amp;&amp; !options.regex.test(value)) {
-      if (options.type) {
-        return this.createErrorMessage(options.type, value, options);
-      }
-      return this.createErrorMessage(&#x27;invalid&#x27;, value, options);
+    if (regex &amp;&amp; !regex.test(value)) {
+      return this.createErrorMessage(type || &#x27;invalid&#x27;, value, options);
     }
 
     return true;

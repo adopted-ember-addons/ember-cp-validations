@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -120,6 +120,7 @@ specific validations to happen. For this reason we have exposed two methods:</p>
 <ul>
 <li><a href="../classes/Factory.html#method_validateSync" class="crosslink">validateSync</a>: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous</li>
 <li><a href="../classes/Factory.html#method_validate" class="crosslink">validate</a>: Will always return a promise and should be used if asynchronous validations are present</li>
+<li><a href="../classes/Factory.html#method_validateAttribute" class="crosslink">validateAttribute</a>: A functional approach to valididating an attribute without changing its state</li>
 </ul>
 <h2>Inspecting Validations</h2>
 <p>All validations can be accessed via the <code>validations</code> object created on your model/object.

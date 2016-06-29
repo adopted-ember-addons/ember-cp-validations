@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -115,8 +115,9 @@ import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
   get,
+  assert,
   isEqual,
-  isNone
+  isEmpty,
 } = Ember;
 
 /**
@@ -141,8 +142,12 @@ const {
  *  @extends Base
  */
 const Confirmation = Base.extend({
-  validate(value, options, model) {
-    if (!isNone(options.on) &amp;&amp; !isEqual(value, get(model, options.on))) {
+  validate(value, options, model, attribute) {
+    const on = get(options, &#x27;on&#x27;);
+
+    assert(&#x60;[ember-cp-validations] [validator:confirmation] [${attribute}] option &#x27;on&#x27; is required&#x60;, !isEmpty(on));
+
+    if (!isEqual(value, get(model, on))) {
       return this.createErrorMessage(&#x27;confirmation&#x27;, value, options);
     }
 
@@ -152,7 +157,11 @@ const Confirmation = Base.extend({
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    return options.on ? [ &#x60;_model.${options.on}&#x60; ] : [];
+    const on = get(options, &#x27;on&#x27;);
+
+    assert(&#x60;[ember-cp-validations] [validator:confirmation] [${attribute}] &#x27;on&#x27; must be a string&#x60;, typeof on === &#x27;string&#x27;);
+
+    return on ? [ &#x60;_model.${on}&#x60; ] : [];
   }
 });
 

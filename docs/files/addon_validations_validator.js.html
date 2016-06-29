@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">2.9.3.500f85ac</p>
+                <p class="version pull-right">v3.0.0-beta.0</p>
               </div>
             </div>
         </div>
@@ -132,24 +132,26 @@ const {
  * &#x60;&#x60;&#x60;
  *
  * &lt;h3 id=&quot;dependentKeys&quot;&gt;dependentKeys&lt;/h3&gt;
+ *
  * A list of other model specific dependents for you validator.
  *
  * &#x60;&#x60;&#x60;javascript
  * // Examples
  * validator(&#x27;has-friends&#x27;, {
- *   dependentKeys: [&#x27;friends.[]&#x27;]
+ *   dependentKeys: [&#x27;model.friends.[]&#x27;]
  * })
  * validator(&#x27;has-valid-friends&#x27;, {
- *   dependentKeys: [&#x27;friends.@each.username&#x27;]
+ *   dependentKeys: [&#x27;model.friends.@each.username&#x27;]
  * })
  * validator(&#x27;x-validator&#x27;, {
- *   dependentKeys: [&#x27;username&#x27;, &#x27;email&#x27;, &#x27;meta.foo.bar&#x27;]
+ *   dependentKeys: [&#x27;model.username&#x27;, &#x27;model.email&#x27;, &#x27;model.meta.foo.bar&#x27;]
  * })
  * &#x60;&#x60;&#x60;
  *
  * &lt;h3 id=&quot;disabled&quot;&gt;disabled&lt;/h3&gt;
  * If set to &#x60;true&#x60;, disables the given validator. This option would usually go hand-in-hand
- * with {{#crossLinkModule &#x27;Advanced Usage&#x27;}}options as functions{{/crossLinkModule}} and &#x60;dependentKeys&#x60;. Defaults to &#x60;false&#x60;.
+ * with {{#crossLinkModule &#x27;Advanced Usage&#x27;}}options as functions{{/crossLinkModule}} and &#x60;dependentKeys&#x60;.
+ * Defaults to &#x60;false&#x60;.
  *
  * &#x60;&#x60;&#x60;js
  * // Examples
@@ -167,7 +169,9 @@ const {
  * &#x60;&#x60;&#x60;
  *
  * &lt;h3 id=&quot;debounce&quot;&gt;debounce&lt;/h3&gt;
- * Debounces the validation with the given time in &#x60;milliseconds&#x60;. All debounced validations will be handled asynchronously (wrapped in a promise).
+ *
+ * Debounces the validation with the given time in &#x60;milliseconds&#x60;. All debounced validations will
+ * be handled asynchronously (wrapped in a promise).
  *
  * &#x60;&#x60;&#x60;javascript
  * // Examples
@@ -179,7 +183,24 @@ const {
  * })
  * &#x60;&#x60;&#x60;
  *
+ * &lt;h3 id=&quot;isWarning&quot;&gt;isWarning&lt;/h3&gt;
+ *
+ * Any validator can be declared as a warning validator by setting &#x60;isWarning&#x60; to true. These validators will act as
+ * assertions that when return a message, will be placed under &#x60;warnings&#x60; and &#x60;warningMessages&#x60; collections. What this means,
+ * is that these validators will not have any affect on the valid state of the attribute allowing you to display warning messages
+ * even when the attribute is valid.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * validator(&#x27;length&#x27;, {
+ *   isWarning: true,
+ *   min: 6,
+ *   message: &#x27;Password is weak&#x27;
+ * })
+ * &#x60;&#x60;&#x60;
+ *
  * &lt;h3 id=&quot;value&quot;&gt;value&lt;/h3&gt;
+ *
  * Used to retrieve the value to validate. This will overwrite the validator&#x27;s default &#x60;value&#x60; method.
  * By default this returns &#x60;model[attribute]&#x60;. If you are dependent on other model attributes, you will
  * need to add them as &#x60;dependentKeys&#x60;.
@@ -202,7 +223,9 @@ const {
  * &#x60;&#x60;&#x60;
  *
  * &lt;h3 id=&quot;message&quot;&gt;message&lt;/h3&gt;
- * This option can take two forms. It can either be a &#x60;string&#x60; or a &#x60;function&#x60;. If a string is used, then it will overwrite all error message types for the specified validator.
+ *
+ * This option can take two forms. It can either be a &#x60;string&#x60; or a &#x60;function&#x60;.
+ * If a string is used, then it will overwrite all error message types for the specified validator.
  *
  * &#x60;&#x60;&#x60;javascript
  * // Example: String
@@ -233,9 +256,11 @@ const {
  * - &#x60;value&#x60;: The current value being evaluated
  * - &#x60;context&#x60; (**Object**): Context for string replacement
  *
- * The return value must be a &#x60;string&#x60;. If nothing is returned (&#x60;undefined&#x60;), defaults to the default error message of the specified type.
+ * The return value must be a &#x60;string&#x60;. If nothing is returned (&#x60;undefined&#x60;),
+ * defaults to the default error message of the specified type.
  *
- * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
+ * Within this function, the context is set to that of the current validator.
+ * This gives you access to the model, defaultMessages, options and more.
  *
  *
  * @module Validators
