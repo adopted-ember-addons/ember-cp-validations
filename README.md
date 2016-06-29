@@ -1,4 +1,4 @@
-# Ember CP Validations #
+# Ember CP Validations
 
 [![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg)](https://travis-ci.org/offirgolan/ember-cp-validations)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
@@ -10,44 +10,54 @@
 
 A Ruby on Rails inspired model validation framework that is completely and utterly computed property based.
 
-## Features ##
+## Features
 
 __No observers were used nor harmed while developing and testing this addon.__
 
-* Lazily computed validations
-* Ruby on rails inspired validators
-* Support for both Ember Data Models and Objects
-* Synchronous and asynchronous support for both validators and validations
-* Dirty tracking
-* Support for nested models via `belongsTo` and `hasMany` relationships
-* Support for nested objects
-* Easily integrated with Ember Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
-* No observers. Seriously... there are none. Like absolutely zero....
-* Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
-* Custom validators
-* Ember CLI generator to create custom validators with a unit test
-* Debounceable validations
-* I18n support
+- Lazily computed validations
+- Ruby on rails inspired validators
+- Support for both Ember Data Models and Objects
+- Synchronous and asynchronous support for both validators and validations
+- Dirty tracking
+- Support for nested models via `belongsTo` and `hasMany` relationships
+- Support for nested objects
+- Easily integrated with Ember Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
+- No observers. Seriously... there are none. Like absolutely zero....
+- Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
+- Custom validators
+- Ember CLI generator to create custom validators with a unit test
+- Debounceable validations
+- Warning validations
+- I18n support
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
-## Installation ##
+## Installation
+
 ```shell
 ember install ember-cp-validations
 ```
 
-## Helpful Links ##
+## Upgrading to 3.x
 
-- ### [Live Demo](http://offirgolan.github.io/ember-cp-validations) ###
+If you are upgrading from 2.x to 3.x, please checkout the [upgrading documentation](UPGRADING.md);
 
-- ### [Documentation](http://offirgolan.github.io/ember-cp-validations/docs) ###
+## Helpful Links
 
-- ### [Changelog](CHANGELOG.md) ###
+- ### [Live Demo](http://offirgolan.github.io/ember-cp-validations)
 
-## Looking for help? ##
+- ### Documentation
+  - #### [2.x Docs](https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/modules/Home.html)
+  - #### [3.x Docs](http://offirgolan.github.io/ember-cp-validations/docs)
+
+- ### [Changelog](CHANGELOG.md)
+
+## Looking for help?
+
 If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
 
 ## Basic Usage - Models
+
 The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
 
 ```javascript
@@ -97,6 +107,7 @@ export default DS.Model.extend(Validations, {
 ```
 
 ## Basic Usage - Objects
+
 You can also use the generated `Validations` mixin on any `Ember.Object` or child
 of `Ember.Object`, like `Ember.Component`. For example:
 
@@ -164,7 +175,7 @@ export default Ember.Route.extend({
 
 ## Advanced Usage
 
-**Default Options**
+#### Default Options
 
 Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
 
@@ -181,7 +192,7 @@ const Validations = buildValidations({
       min: 1,
       description: 'Username'
     }),
-    validator('no-whitespace-around', {
+    validator('my-custom-validator', {
       description: 'A username'
     })
   ]
@@ -199,7 +210,7 @@ const Validations = buildValidations({
       validator('length', {
         min: 1
       }),
-      validator('no-whitespace-around', {
+      validator('my-custom-validator', {
         description: 'A username'
       })
     ]
@@ -207,32 +218,29 @@ const Validations = buildValidations({
 });
 ```
 
-In the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.
+In the above example, all the validators for username will have a description of `Username` except that of the `my-custom-validator` validator which will be `A username`.
 
-**Options as Functions**
+#### Computed Options
 
-All options can be functions which are processed lazily before validate is called. These functions are passed the `model` and `attribute` that is associated with the validator while also given that as their context, giving you access to all its properties.
+All options can also be Computed Properties. These CPs have access to the `model` and `attribute` that is associated with the validator.
 
-Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
+Please note that the `message` option of a validator can also be a function with [the following signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
 
 ```javascript
 const Validations = buildValidations({
-  dob: validator('date', {
-    description: 'Date of Birth',
-    format(model, attribute) {
-      return this.get('model.meta.date.format');
-    },
-    before(model, attribute) {
-      return moment();
-    },
-    after(model, attribute) {
-      return moment().subtract(120, 'years');
-    }
+  username: validator('length', {
+    disabled: Ember.computed.not('model.meta.username.isEnabled'),
+    min: Ember.computed.readOnly('model.meta.username.minLength'),
+    max: Ember.computed.readOnly('model.meta.username.maxLength'),
+    description: Ember.computed(function() {
+      // CPs have access to the `model` and `attribute`
+      return this.get('model').generateDescription(this.get('attribute'));
+    }).volatile() // Disable caching and force recompute on every get call
   })
 });
 ```
 
-**Nested Keys**
+#### Nested Keys
 
 When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.
 

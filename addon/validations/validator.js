@@ -25,24 +25,26 @@ const {
  * ```
  *
  * <h3 id="dependentKeys">dependentKeys</h3>
+ *
  * A list of other model specific dependents for you validator.
  *
  * ```javascript
  * // Examples
  * validator('has-friends', {
- *   dependentKeys: ['friends.[]']
+ *   dependentKeys: ['model.friends.[]']
  * })
  * validator('has-valid-friends', {
- *   dependentKeys: ['friends.@each.username']
+ *   dependentKeys: ['model.friends.@each.username']
  * })
  * validator('x-validator', {
- *   dependentKeys: ['username', 'email', 'meta.foo.bar']
+ *   dependentKeys: ['model.username', 'model.email', 'model.meta.foo.bar']
  * })
  * ```
  *
  * <h3 id="disabled">disabled</h3>
  * If set to `true`, disables the given validator. This option would usually go hand-in-hand
- * with {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`. Defaults to `false`.
+ * with {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`.
+ * Defaults to `false`.
  *
  * ```js
  * // Examples
@@ -60,7 +62,9 @@ const {
  * ```
  *
  * <h3 id="debounce">debounce</h3>
- * Debounces the validation with the given time in `milliseconds`. All debounced validations will be handled asynchronously (wrapped in a promise).
+ *
+ * Debounces the validation with the given time in `milliseconds`. All debounced validations will
+ * be handled asynchronously (wrapped in a promise).
  *
  * ```javascript
  * // Examples
@@ -72,7 +76,24 @@ const {
  * })
  * ```
  *
+ * <h3 id="isWarning">isWarning</h3>
+ *
+ * Any validator can be declared as a warning validator by setting `isWarning` to true. These validators will act as
+ * assertions that when return a message, will be placed under `warnings` and `warningMessages` collections. What this means,
+ * is that these validators will not have any affect on the valid state of the attribute allowing you to display warning messages
+ * even when the attribute is valid.
+ *
+ * ```javascript
+ * // Examples
+ * validator('length', {
+ *   isWarning: true,
+ *   min: 6,
+ *   message: 'Password is weak'
+ * })
+ * ```
+ *
  * <h3 id="value">value</h3>
+ *
  * Used to retrieve the value to validate. This will overwrite the validator's default `value` method.
  * By default this returns `model[attribute]`. If you are dependent on other model attributes, you will
  * need to add them as `dependentKeys`.
@@ -95,7 +116,9 @@ const {
  * ```
  *
  * <h3 id="message">message</h3>
- * This option can take two forms. It can either be a `string` or a `function`. If a string is used, then it will overwrite all error message types for the specified validator.
+ *
+ * This option can take two forms. It can either be a `string` or a `function`.
+ * If a string is used, then it will overwrite all error message types for the specified validator.
  *
  * ```javascript
  * // Example: String
@@ -126,9 +149,11 @@ const {
  * - `value`: The current value being evaluated
  * - `context` (**Object**): Context for string replacement
  *
- * The return value must be a `string`. If nothing is returned (`undefined`), defaults to the default error message of the specified type.
+ * The return value must be a `string`. If nothing is returned (`undefined`),
+ * defaults to the default error message of the specified type.
  *
- * Within this function, the context is set to that of the current validator. This gives you access to the model, defaultMessages, options and more.
+ * Within this function, the context is set to that of the current validator.
+ * This gives you access to the model, defaultMessages, options and more.
  *
  *
  * @module Validators
