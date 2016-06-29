@@ -53,10 +53,10 @@ var Validations = buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
-  "firstName": attr('string'),
-  "lastName": attr('string'),
-  "dob": attr('date'),
-  "phone": attr('string'),
-  "url": attr('string')
+  firstName: attr('string'),
+  lastName: attr('string'),
+  dob: attr('date'),
+  phone: attr('string'),
+  url: attr('string')
 });
 // END-SNIPPET
