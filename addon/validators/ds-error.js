@@ -33,10 +33,12 @@ const {
  */
 const DSError = Base.extend({
   validate(value, options, model, attribute) {
-    const errors = get(model, 'errors');
+    let { path, key } = getPathAndKey(attribute);
 
-    if (!isNone(errors) && errors instanceof DS.Errors && errors.has(attribute)) {
-      return get(errors.errorsFor(attribute), 'lastObject.message');
+    const errors = get(model, path);
+
+    if (!isNone(errors) && errors instanceof DS.Errors && errors.has(key)) {
+      return get(errors.errorsFor(key), 'lastObject.message');
     }
 
     return true;
@@ -45,8 +47,19 @@ const DSError = Base.extend({
 
 DSError.reopenClass({
   getDependentsFor(attribute) {
-    return [ `_model.errors.${attribute}.[]` ];
+    let { path, key } = getPathAndKey(attribute);
+
+    return [ `_model.${path}.${key}.[]` ];
   }
 });
+
+function getPathAndKey(attribute) {
+  let path = attribute.split('.');
+  let key = path.pop();
+
+  path.push('errors');
+
+  return { path: path.join('.'), key };
+}
 
 export default DSError;
