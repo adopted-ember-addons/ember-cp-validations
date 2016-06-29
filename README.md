@@ -47,8 +47,8 @@ If you are upgrading from 2.x to 3.x, please checkout the [upgrading documentati
 - ### [Live Demo](http://offirgolan.github.io/ember-cp-validations)
 
 - ### Documentation
-  - #### [2.x Docs](https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/modules/Home.html)
-  - #### [3.x Docs](http://offirgolan.github.io/ember-cp-validations/docs)
+  - [3.x](http://offirgolan.github.io/ember-cp-validations/docs)
+  - [2.x](https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/modules/Home.html)
 
 - ### [Changelog](CHANGELOG.md)
 
