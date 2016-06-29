@@ -17,7 +17,8 @@ var Validations = buildValidations({
     validators: [
       validator('presence', true),
       validator('length', {
-        min: computed.alias('model.minLength')
+        min: 5,
+        max: 15
       })
     ]
   },
@@ -58,11 +59,9 @@ var Validations = buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
-  'username': attr('string'),
-  'password': attr('string'),
-  'email': attr('string'),
-  'details': DS.belongsTo('user-detail'),
-
-  minLength: 5
+  username: attr('string'),
+  password: attr('string'),
+  email: attr('string'),
+  details: DS.belongsTo('user-detail')
 });
 // END-SNIPPET

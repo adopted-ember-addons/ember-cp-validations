@@ -156,7 +156,7 @@ import Validator from './validations/validator';
  *       min: 1,
  *       description: 'Username'
  *     }),
- *     validator('no-whitespace-around', {
+ *     validator('my-custom-validator', {
  *       description: 'A username'
  *     })
  *   ]
@@ -174,7 +174,7 @@ import Validator from './validations/validator';
  *       validator('length', {
  *         min: 1
  *       }),
- *       validator('no-whitespace-around', {
+ *       validator('my-custom-validator', {
  *         description: 'A username'
  *       })
  *     ]
@@ -182,7 +182,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * In the above example, all the validators for username will have a description of `Username` except that of the `no-whitespace-around` validator which will be `A username`.
+ * In the above example, all the validators for username will have a description of `Username` except that of the `my-custom-validator` validator which will be `A username`.
  *
  * <h3 id="globalOptions">Global Options</h3>
  *
@@ -224,26 +224,22 @@ import Validator from './validations/validator';
  * This rule does not apply to `dependentKeys`, instead they all are merged. In the example above, __firstName__'s dependentKeys will be
  * `['i18n.locale', 'disableValidations', 'foo', 'bar']`
  *
- * <h3 id="optionsAsFunctions">Options as Functions</h3>
+ * <h3 id="computedOptions">Computed Options</h3>
  *
- * All options can be functions which are processed lazily before validate is called. These functions are passed the `model` and `attribute` that is associated with
- * the validator while also given that as their context, giving you access to all its properties.
+ * All options can also be Computed Properties. These CPs have access to the `model` and `attribute` that is associated with the validator.
  *
- * Please note that the `message` option of a validator has its [own signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
+ * Please note that the `message` option of a validator can also be a function with [the following signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
  * ```javascript
  * const Validations = buildValidations({
- *   dob: validator('date', {
- *     description: 'Date of Birth',
- *     format(model, attribute) {
- *       return model.get('meta.date.format');
- *     },
- *     before(model, attribute) {
- *       return moment();
- *     },
- *     after(model, attribute) {
- *       return moment().subtract(120, 'years');
- *     }
+ *   username: validator('length', {
+ *     disabled: Ember.computed.not('model.meta.username.isEnabled'),
+ *     min: Ember.computed.readOnly('model.meta.username.minLength'),
+ *     max: Ember.computed.readOnly('model.meta.username.maxLength'),
+ *     description: Ember.computed(function() {
+ *       // CPs have access to the `model` and `attribute`
+ *       return this.get('model').generateDescription(this.get('attribute'));
+ *     }).volatile() // Disable caching and force recompute on every get call
  *   })
  * });
  * ```

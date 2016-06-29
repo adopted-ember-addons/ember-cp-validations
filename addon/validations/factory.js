@@ -46,8 +46,10 @@ const {
  *
  * Although validations are lazily computed, there are times where we might want to force all or
  * specific validations to happen. For this reason we have exposed two methods:
+ *
  * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
+ * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to valididating an attribute without changing its state
  *
  * ## Inspecting Validations
  *
@@ -86,6 +88,7 @@ const {
 
 /**
  * Top level method that will ultimately return a mixin with all CP validations
+ *
  * @method  buildValidations
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
@@ -144,7 +147,9 @@ function buildValidations(validations = {}, globalOptions = {}) {
  *   description: 'Username',
  *   validators: [...]
  * }
+ *
  * This method generate the default options pojo, applies it to each validation rule, and flattens the object
+ *
  * @method normalizeOptions
  * @private
  * @param  {Object} validations
@@ -332,6 +337,7 @@ function createAttrsClass(validatableAttributes, validationRules, owner) {
 
 /**
  * CP generator for the given attribute
+ *
  * @method createCPValidationFor
  * @private
  * @param  {String} attribute
@@ -442,6 +448,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
 
 /**
  * CP dependency generator for a give attribute depending on its relationships
+ *
  * @method getCPDependentKeysFor
  * @private
  * @param  {String} attribute
@@ -511,6 +518,7 @@ function extractOptionsDependentKeys(options) {
 
 /**
  * Debounce handler for running a validation for the specified options
+ *
  * @method debouncedValidate
  * @private
  * @param  {Validator} validator
@@ -529,6 +537,7 @@ function debouncedValidate(validator, model, attribute, resolve) {
 
 /**
  * A handler used to create ValidationResult object from values returned from a validator
+ *
  * @method validationReturnValueHandler
  * @private
  * @param  {String} attribute
@@ -560,6 +569,7 @@ function validationReturnValueHandler(attribute, value, model, validator) {
 
 /**
  * Get validators for the give attribute. If they are not in the cache, then create them.
+ *
  * @method getValidatorsFor
  * @private
  * @param  {String} attribute
@@ -578,6 +588,7 @@ function getValidatorsFor(attribute, model) {
 
 /**
  * Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.
+ *
  * @method getValidatorCacheFor
  * @private
  * @param  {String} attribute
@@ -596,6 +607,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
 
 /**
  * Create validators for the give attribute and store them in a cache
+ *
  * @method createValidatorsFor
  * @private
  * @param  {String} attribute
@@ -636,6 +648,7 @@ function createValidatorsFor(attribute, model) {
 
 /**
  * Lookup a validators of a specific type on the owner
+ *
  * @method lookupValidator
  * @throws {Error} Validator not found
  * @private
@@ -716,6 +729,17 @@ function validate(options = {}, async = true) {
 }
 
 /**
+ * A functional approach to check if a given attribute on a model is valid independently of the
+ * model attribute's validations. This method will always return a promise which will then resolve
+ * to a {{#crossLink "ResultCollection"}}{{/crossLink}}.
+ *
+ * ```javascript
+ * model.validateAttribute('username', 'offirgolan').then(({ m, validations }) => {
+ *   validations.get('isValid'); // true or false
+ *   validations.get('isValidating'); // false
+ * });
+ * ```
+ *
  * @method validateAttribute
  * @param  {String}   attribute
  * @param  {Unknown}  value
@@ -753,6 +777,7 @@ function validateAttribute(attribute, value) {
  * const { m, validations } = model.validateSync();
  * validations.get('isValid') // true or false
  * ```
+ *
  * @method validateSync
  * @param  {Object}  options
  * @return {Object}
