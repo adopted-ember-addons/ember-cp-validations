@@ -20,9 +20,9 @@ addons:
       - google-chrome-stable
 
 env:
-  - EMBER_TRY_CONFIG=ember-1.x
-  - EMBER_TRY_CONFIG=ember-2.x
-  - EMBER_TRY_CONFIG=ember-channels
+  - EMBER_TRY_SCENARIO=ember-1.x
+  - EMBER_TRY_SCENARIO=ember-2.x
+  - EMBER_TRY_SCENARIO=ember-channels
 
 matrix:
   fast_finish: true
@@ -40,7 +40,7 @@ install:
   - bower install
 
 script:
-  - ember try:each --config-path=config/scenarios/$EMBER_TRY_CONFIG.js
+  - ember try:each --config-path="config/scenarios/$EMBER_TRY_SCENARIO.js"
 
 after_script:
   - codeclimate-test-reporter < lcov.dat

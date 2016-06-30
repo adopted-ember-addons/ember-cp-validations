@@ -4,8 +4,8 @@
  */
 /*jshint node:true*/
 module.exports = {
-  command: 'ember test --reporter tap',
-
+  command: 'ember test --reporter=dot',
+  bowerOptions: ['-q'],
   npmOptions: ['--loglevel=silent'],
 
   scenarios: [{
