@@ -47,5 +47,10 @@ module.exports = {
 
   _legacySrcPathOverride: function(file) {
     return path.resolve(this._filesPath(), file);
-  }
+  },
+
+  // workaround https://github.com/ember-cli/ember-cli/issues/5481
+  supportsAddon: function() {
+    return false;
+  },
 };
