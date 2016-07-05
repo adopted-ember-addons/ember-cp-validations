@@ -58,7 +58,37 @@ test('allow blank', function(assert) {
 });
 
 test('email', function(assert) {
-  assert.expect(3);
+  const validAddresses = [
+    'email@domain.com',
+    'firstname.lastname@domain.com',
+    'email@subdomain.domain.com',
+    'firstname+lastname@domain.com',
+    '1234567890@domain.com',
+    'email@domain-one.com',
+    '_______@domain.com',
+    'email@domain.name',
+    'email@domain.co.jp',
+    'firstname-lastname@domain.com',
+    'EMAIL@DOMAIN.COM'
+  ];
+  const invalidAddresses = [
+    'plainaddress',
+    '#@%^%#$@#$@#.com',
+    '@domain.com',
+    'Joe Smith <email@domain.com>',
+    'email.domain.com',
+    'email@domain@domain.com',
+    '.email@domain.com',
+    'email.@domain.com',
+    'email..email@domain.com',
+    'あいうえお@domain.com',
+    'email@domain.com (Joe Smith)',
+    'email@domain',
+    'email@-domain.com',
+    'email@domain..com'
+  ];
+
+  assert.expect(validAddresses.length + invalidAddresses.length);
 
   options = {
     type: 'email'
@@ -66,14 +96,8 @@ test('email', function(assert) {
 
   options = validator.buildOptions(options, {}).copy();
 
-  message = validator.validate('email', options);
-  assert.equal(message, 'This field must be a valid email address');
-
-  message = validator.validate('email@yahoo.com', options);
-  assert.equal(message, true);
-
-  message = validator.validate('email+example@yahoo.com', options);
-  assert.equal(message, true);
+  validAddresses.forEach((email) => assert.equal(validator.validate(email, options), true, `validation of ${email} must succeed`));
+  invalidAddresses.forEach((email) => assert.equal(validator.validate(email, options), 'This field must be a valid email address', `validation of ${email} must fail`));
 });
 
 test('phone', function(assert) {
