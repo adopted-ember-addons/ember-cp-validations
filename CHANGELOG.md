@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.0.0-beta.2
+
+- [#252](https://github.com/offirgolan/ember-cp-validations/pull/252) Fix require module
+
 ## v3.0.0-beta.1
 
 - [#241](https://github.com/offirgolan/ember-cp-validations/pull/241) Fix blueprint warning
