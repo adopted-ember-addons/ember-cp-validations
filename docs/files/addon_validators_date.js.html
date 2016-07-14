@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">3.0.0-beta.1.459c0e88</p>
+                <p class="version pull-right">v3.0.0-beta.2</p>
               </div>
             </div>
         </div>
@@ -112,9 +112,11 @@
 
 import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
-const moment = (self.requirejs.entries.moment || self.requirejs.entries[&#x27;moment/index&#x27;]) &amp;&amp; self.require(&#x27;moment&#x27;).default;
+import { requireModule } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
-if (typeof moment === &#x27;undefined&#x27;) {
+const moment = requireModule(&#x27;moment&#x27;);
+
+if (!moment) {
   throw new Error(&#x27;MomentJS is required to use the Date validator. The easiest way to install moment.js is to install ember-moment.\n&#x27; +
     &#x27;Installation instructions and documentation can be found at https://github.com/stefanpenner/ember-moment&#x27;);
 }

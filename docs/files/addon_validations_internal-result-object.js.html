@@ -68,7 +68,7 @@
             
               <div class="footer">
                 <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">3.0.0-beta.1.459c0e88</p>
+                <p class="version pull-right">v3.0.0-beta.2</p>
               </div>
             </div>
         </div>
@@ -112,9 +112,9 @@
 
 import Ember from &#x27;ember&#x27;;
 import ValidationError from &#x27;./error&#x27;;
-import { getEmberData } from &#x27;../utils/utils&#x27;;
+import { requireModule } from &#x27;../utils/utils&#x27;;
 
-const DS = getEmberData();
+const DS = requireModule(&#x27;ember-data&#x27;);
 
 const {
   get,

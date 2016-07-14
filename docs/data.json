@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "3.0.0-beta.1.459c0e88"
+        "version": "v3.0.0-beta.2"
     },
     "files": {
         "addon/utils/assign.js": {
@@ -575,7 +575,7 @@
             "module": "Validators",
             "namespace": "",
             "file": "addon/validators/date.js",
-            "line": 23,
+            "line": 25,
             "description": "Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.\n\n-*Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `before` (**String**): The specified date must be before this date\n- `onOrBefore` (**String**): The specified date must be on or before this date\n- `after` (**String**): The specified date must be after this date\n- `onOrAfter` (**String**): The specified date must be on or after this date\n- `precision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.\n- `format` (**String**): Input value date format\n- `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`\n\n```javascript\n// Example\nvalidator('date', {\n    after: 'now',\n    before: '1/1/2020',\n    precision: 'day',\n    format: 'M/D/YYY',\n    errorFormat: 'M/D/YYY'\n})\n// If before, onOrBefore, after, or onOrAfter is set to 'now', the value given to the validator will be tested against the current date and time.\n```",
             "extends": "Base"
         },
