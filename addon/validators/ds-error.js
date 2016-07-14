@@ -5,9 +5,9 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-import { getEmberData } from 'ember-cp-validations/utils/utils';
+import { requireModule } from 'ember-cp-validations/utils/utils';
 
-const DS = getEmberData();
+const DS = requireModule('ember-data');
 
 if (!DS) {
   throw new Error('Ember-Data is required to use the DS Error validator.');
