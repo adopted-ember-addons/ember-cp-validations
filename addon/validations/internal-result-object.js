@@ -5,9 +5,9 @@
 
 import Ember from 'ember';
 import ValidationError from './error';
-import { getEmberData } from '../utils/utils';
+import { requireModule } from '../utils/utils';
 
-const DS = getEmberData();
+const DS = requireModule('ember-data');
 
 const {
   get,
