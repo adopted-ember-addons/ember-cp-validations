@@ -82,7 +82,8 @@
     "ember-cli-version-checker": "^1.1.4",
     "ember-getowner-polyfill": "^1.0.1",
     "exists-sync": "0.0.3",
-    "walk-sync": "^0.2.0"
+    "walk-sync": "^0.2.0",
+    "ember-get-helper": "^1.0.4"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
