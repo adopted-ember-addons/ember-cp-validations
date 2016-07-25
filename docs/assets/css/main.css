@@ -423,7 +423,7 @@ h2, h3, h4, h5, h6 {
 }
 
 /* Class/module metadata such as "Uses", "Extends", "Defined in", etc. */
-.apidocs .meta {
+/*.apidocs .meta {
     background: #f9f9f9;
     border-color: #efefef;
     color: #555;
@@ -431,7 +431,7 @@ h2, h3, h4, h5, h6 {
     padding: 3px 6px;
 }
 
-.apidocs .meta p { margin: 0; }
+.apidocs .meta p { margin: 0; }*/
 
 /* Deprecation warning. */
 .apidocs .box.deprecated,

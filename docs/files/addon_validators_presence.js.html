@@ -3,104 +3,137 @@
 <head>
     <meta charset="utf-8">
     <title>addon/validators/presence.js - Ember CP Validations</title>
+    <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
     <link rel="stylesheet" href="../assets/css/custom.css">
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/theme.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700' rel='stylesheet' type='text/css'>
+    
 </head>
 <body>
-    <div class="row">
-        <div class="sidebar-container">
-            <div id="sidebar">
-              <div class="header">
-                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
-                  <a href="../">Ember CP Validations</a>
-                </h1>
-                <form class="navbar-form">
-                    <input type="search" class="search-query" placeholder="Search classes/modules...">
-                </form>
-              </div>
-              <ul class="main-nav">
-                <li class="section">Modules</li>
-                   <li  >
-                     <a href="../modules/Home.html">Home</a>
-                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                   </li>
-                   <li  >
-                     <a href="../modules/Templating.html">Templating</a>
-                   </li>
-                   <li  >
-                     <a href="../modules/Validations.html">Validations</a>
-                   </li>
-                   <li  >
-                     <a href="../modules/Validators.html">Validators</a>
-                   </li>
-            
-                <li class="section">Classes</li>
-                    <li ><a  href="../classes/Alias.html">Alias</a></li>
-                    <li ><a  href="../classes/Base.html">Base</a></li>
-                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
-                    <li ><a  href="../classes/Collection.html">Collection</a></li>
-                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
-                    <li ><a  href="../classes/Custom.html">Custom</a></li>
-                    <li ><a  href="../classes/Date.html">Date</a></li>
-                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
-                    <li ><a  href="../classes/DS Error.html">DS Error</a></li>
-                    <li ><a  href="../classes/Error.html">Error</a></li>
-                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
-                    <li ><a  href="../classes/Factory.html">Factory</a></li>
-                    <li ><a  href="../classes/Format.html">Format</a></li>
-                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
-                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
-                    <li ><a  href="../classes/Inline.html">Inline</a></li>
-                    <li ><a  href="../classes/Length.html">Length</a></li>
-                    <li ><a  href="../classes/Messages.html">Messages</a></li>
-                    <li ><a  href="../classes/Number.html">Number</a></li>
-                    <li ><a  href="../classes/Presence.html">Presence</a></li>
-                    <li ><a  href="../classes/Result.html">Result</a></li>
-                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
-              </ul>
-            
-              <div class="footer">
-                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v3.0.0-beta.2</p>
-              </div>
-            </div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/ember-logo.png" alt="">
+            <span>CP Validations</span>
+          </a>
         </div>
-        <div class="content-container">
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <form id="options-form" class="form-inline pull-right">
-                            Show:
-                            <label for="api-show-inherited" class="checkbox">
-                                <input type="checkbox" id="api-show-inherited" checked>
-                                Inherited
-                            </label>
-                    
-                            <label for="api-show-protected" class="checkbox">
-                                <input type="checkbox" id="api-show-protected">
-                                Protected
-                            </label>
-                    
-                            <label for="api-show-private" class="checkbox">
-                                <input type="checkbox" id="api-show-private">
-                                Private
-                            </label>
-                            <label for="api-show-deprecated" class="checkbox">
-                                <input type="checkbox" id="api-show-deprecated">
-                                Deprecated
-                            </label>
-                    
-                        </form>
-                    
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.3" target="_blank">
+                                  Tag: v3.0.0-beta.3
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li >
+                                            <a href="../modules/Home.html">Home</a>
+                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Templating.html">Templating</a>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Validations.html">Validations</a>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Validators.html">Validators</a>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li ><a href="../classes/Alias.html">Alias</a></li>
+                                    <li ><a href="../classes/Base.html">Base</a></li>
+                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
+                                    <li ><a href="../classes/Collection.html">Collection</a></li>
+                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
+                                    <li ><a href="../classes/Custom.html">Custom</a></li>
+                                    <li ><a href="../classes/Date.html">Date</a></li>
+                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
+                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
+                                    <li ><a href="../classes/Error.html">Error</a></li>
+                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
+                                    <li ><a href="../classes/Factory.html">Factory</a></li>
+                                    <li ><a href="../classes/Format.html">Format</a></li>
+                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
+                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
+                                    <li ><a href="../classes/Inline.html">Inline</a></li>
+                                    <li ><a href="../classes/Length.html">Length</a></li>
+                                    <li ><a href="../classes/Messages.html">Messages</a></li>
+                                    <li ><a href="../classes/Number.html">Number</a></li>
+                                    <li ><a href="../classes/Presence.html">Presence</a></li>
+                                    <li ><a href="../classes/Result.html">Result</a></li>
+                                    <li ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
 <div class="page-header">
-    <h1>addon/validators/presence.js <small>File</small></h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i> addon/validators/presence.js File</h1>
 </div>
 
 <div class="file">
@@ -210,6 +243,7 @@ export default Base.extend({
 
     </pre>
 </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +251,8 @@ export default Base.extend({
     </div>
     <script src="../assets/vendor/prettify/prettify-min.js"></script>
     <script>prettyPrint();</script>
-    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>

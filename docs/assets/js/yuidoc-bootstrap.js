@@ -18,6 +18,10 @@ $(function() {
             var optionsArr = JSON.parse(localStorage.options),
                 optionsForm = $('#options-form');
 
+            if(!optionsForm.length) {
+                return;
+            }
+
             for(var i=0;i<optionsArr.length;i++){
                 var box = optionsForm.find('input:checkbox').eq(i);
                 box.prop('checked', optionsArr[i]);
@@ -27,33 +31,19 @@ $(function() {
     }
 
     function setUpWidgets() {
-        var sideSource = [], navbarSource = [], sidebarSearch, navbarSearch;
+        var source = [];
+        var sidebarSearch;
 
-        $('#sidebar li a').each(function(index, elem) {
-            sideSource.push($(elem).text());
+        $('#sidebar .panel-body ol > li > a').each(function(index, elem) {
+            source.push($(elem).text().trim());
         });
+
         sidebarSearch = $('#sidebar input[type="search"]');
-        sidebarSearch.typeahead({
-            source: sideSource,
-            updater : function(item) {
-                $('#sidebar > ul li a:contains(' + item + ')')[0].click();
-                return item;
-            }
-        });
-
-        $('#sidebar li a').each(function(index, elem) {
-            var $el = $(elem),
-                type = 'classes/';
-            navbarSource.push(type + $el.text());
-        });
-        navbarSearch = $('.navbar input');
-        navbarSearch.typeahead({
-            source : navbarSource,
-            updater : function(item) {
-                var type = item.split('/')[0], name = item.split('/')[1],
-                    $parent = $('#sidebar #' + type);
-                $parent.find('a:contains(' + name + ')')[0].click();
-                return item;
+        sidebarSearch.autocomplete({
+            source: source,
+            position: { my : "left top", at: "right top" },
+            select : function(event, ui) {
+                $('#sidebar > li a:contains(' + ui.item.label + ')')[0].click();
             }
         });
     }
@@ -107,13 +97,16 @@ $(function() {
         }
 
         if (hash.match(/^#method_/)) {
-            tabToActivate = '#methods';
+            tabToActivate = '#tab_methods';
         }
         else if (hash.match(/^#property_/)) {
-            tabToActivate = '#properties';
+            tabToActivate = '#tab_properties';
         }
         else if (hash.match(/^#event_/)) {
-            tabToActivate = '#event';
+            tabToActivate = '#tab_event';
+        }
+        else if (hash.match(/^#attr_/)) {
+            tabToActivate = '#tab_attr';
         }
         else if (hash.match(/#l\d+/)) {
             var lineNumber = /#l(\d+)/.exec(hash)[1];
@@ -126,7 +119,7 @@ $(function() {
             $tabToActivate.trigger('click', { ignore: true });
         }
 
-        if ($scroll.length) {
+        if ($scroll.length && !hash.match(/^#tab_/)) {
             scrollToAnchor($scroll);
         }
     }

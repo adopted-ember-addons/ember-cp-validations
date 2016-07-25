@@ -3,113 +3,150 @@
 <head>
     <meta charset="utf-8">
     <title>ResultCollection - Ember CP Validations</title>
+    <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
     <link rel="stylesheet" href="../assets/css/custom.css">
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/theme.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700' rel='stylesheet' type='text/css'>
+    
 </head>
 <body>
-    <div class="row">
-        <div class="sidebar-container">
-            <div id="sidebar">
-              <div class="header">
-                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
-                  <a href="../">Ember CP Validations</a>
-                </h1>
-                <form class="navbar-form">
-                    <input type="search" class="search-query" placeholder="Search classes/modules...">
-                </form>
-              </div>
-              <ul class="main-nav">
-                <li class="section">Modules</li>
-                   <li  >
-                     <a href="../modules/Home.html">Home</a>
-                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                   </li>
-                   <li  >
-                     <a href="../modules/Templating.html">Templating</a>
-                   </li>
-                   <li  >
-                     <a href="../modules/Validations.html">Validations</a>
-                   </li>
-                   <li  >
-                     <a href="../modules/Validators.html">Validators</a>
-                   </li>
-            
-                <li class="section">Classes</li>
-                    <li ><a  href="../classes/Alias.html">Alias</a></li>
-                    <li ><a  href="../classes/Base.html">Base</a></li>
-                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
-                    <li ><a  href="../classes/Collection.html">Collection</a></li>
-                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
-                    <li ><a  href="../classes/Custom.html">Custom</a></li>
-                    <li ><a  href="../classes/Date.html">Date</a></li>
-                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
-                    <li ><a  href="../classes/DS Error.html">DS Error</a></li>
-                    <li ><a  href="../classes/Error.html">Error</a></li>
-                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
-                    <li ><a  href="../classes/Factory.html">Factory</a></li>
-                    <li ><a  href="../classes/Format.html">Format</a></li>
-                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
-                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
-                    <li ><a  href="../classes/Inline.html">Inline</a></li>
-                    <li ><a  href="../classes/Length.html">Length</a></li>
-                    <li ><a  href="../classes/Messages.html">Messages</a></li>
-                    <li ><a  href="../classes/Number.html">Number</a></li>
-                    <li ><a  href="../classes/Presence.html">Presence</a></li>
-                    <li ><a  href="../classes/Result.html">Result</a></li>
-                    <li  class="active"><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
-              </ul>
-            
-              <div class="footer">
-                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v3.0.0-beta.2</p>
-              </div>
-            </div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/ember-logo.png" alt="">
+            <span>CP Validations</span>
+          </a>
         </div>
-        <div class="content-container">
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <form id="options-form" class="form-inline pull-right">
-                            Show:
-                            <label for="api-show-inherited" class="checkbox">
-                                <input type="checkbox" id="api-show-inherited" checked>
-                                Inherited
-                            </label>
-                    
-                            <label for="api-show-protected" class="checkbox">
-                                <input type="checkbox" id="api-show-protected">
-                                Protected
-                            </label>
-                    
-                            <label for="api-show-private" class="checkbox">
-                                <input type="checkbox" id="api-show-private">
-                                Private
-                            </label>
-                            <label for="api-show-deprecated" class="checkbox">
-                                <input type="checkbox" id="api-show-deprecated">
-                                Deprecated
-                            </label>
-                    
-                        </form>
-                    
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.3" target="_blank">
+                                  Tag: v3.0.0-beta.3
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li >
+                                            <a href="../modules/Home.html">Home</a>
+                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Templating.html">Templating</a>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Validations.html">Validations</a>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Validators.html">Validators</a>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li ><a href="../classes/Alias.html">Alias</a></li>
+                                    <li ><a href="../classes/Base.html">Base</a></li>
+                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
+                                    <li ><a href="../classes/Collection.html">Collection</a></li>
+                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
+                                    <li ><a href="../classes/Custom.html">Custom</a></li>
+                                    <li ><a href="../classes/Date.html">Date</a></li>
+                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
+                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
+                                    <li ><a href="../classes/Error.html">Error</a></li>
+                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
+                                    <li ><a href="../classes/Factory.html">Factory</a></li>
+                                    <li ><a href="../classes/Format.html">Format</a></li>
+                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
+                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
+                                    <li ><a href="../classes/Inline.html">Inline</a></li>
+                                    <li ><a href="../classes/Length.html">Length</a></li>
+                                    <li ><a href="../classes/Messages.html">Messages</a></li>
+                                    <li ><a href="../classes/Number.html">Number</a></li>
+                                    <li ><a href="../classes/Presence.html">Presence</a></li>
+                                    <li ><a href="../classes/Result.html">Result</a></li>
+                                    <li  class="active" ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
 <div class="page-header">
-    <h1>ResultCollection</h1>
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> ResultCollection Class
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L32" target="_blank">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+    </h1>
 </div>
-<div class="well well-small">
+<div class="content-meta">
 
 
             Module: <a href="../modules/Validations.html">Validations</a>
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validations_result-collection.js.html#l32"><code>addon&#x2F;validations&#x2F;result-collection.js:32</code></a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L32">addon/validations/result-collection.js:32</a>
         </div>
 </div>
 
@@ -118,879 +155,915 @@
 
 <div>
     <div class="page-section">
-        <div id="index">
-                <div class="index-section methods">
-                    <h3>Methods</h3>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
+            <li role="presentation"><a href="#tab_methods" aria-controls="tab_methods" role="tab" data-toggle="tab">Methods</a></li>
 
-                    <ul class="index-list methods">
-                            <li class="index-item method private">
-                                <a href="#method__computeErrorCollection">_computeErrorCollection</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method__groupValidatorOptions">_groupValidatorOptions</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property private">
-                                <a href="#property__contentValidators">_contentValidators</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__errorContent">_errorContent</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__promise">_promise</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__warningContent">_warningContent</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_attribute">attribute</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_content">content</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_error">error</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_errors">errors</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isAsync">isAsync</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isDirty">isDirty</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isInvalid">isInvalid</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isTruelyValid">isTruelyValid</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isValid">isValid</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isValidating">isValidating</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isWarning">isWarning</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_message">message</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_messages">messages</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_options">options</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_value">value</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_warning">warning</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_warningMessage">warningMessage</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_warningMessages">warningMessages</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_warnings">warnings</a>
-
-                            </li>
-                    </ul>
-                </div>
+            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
 
 
-        </div>
+        </ul>
 
-            <div id="methods" class="page-section">
-                <h2 class="off-left">Methods</h2>
-                <div class="item-list">
-<div id="method__computeErrorCollection" class="method item private">
-	<span class="method-signature">
-	<span class="name"><code>_computeErrorCollection</code></span>
+        <!-- Tab panes -->
+        <div class="tab-content">
 
-		<span class="paren">()</span>
-		<span class="returns-inline">
-			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-		</span>
-	</span>
+              <form id="options-form" class="form-inline">
+                  Show:
+                  <label for="api-show-inherited" class="checkbox">
+                      <input type="checkbox" id="api-show-inherited" checked>
+                      Inherited
+                  </label>
+          
+                  <label for="api-show-protected" class="checkbox">
+                      <input type="checkbox" id="api-show-protected">
+                      Protected
+                  </label>
+          
+                  <label for="api-show-private" class="checkbox">
+                      <input type="checkbox" id="api-show-private">
+                      Private
+                  </label>
+                  <label for="api-show-deprecated" class="checkbox">
+                      <input type="checkbox" id="api-show-deprecated">
+                      Deprecated
+                  </label>
+          
+              </form>
+
+          <div id="tab_index" role="tabpanel" class="tab-pane active" >
+                  <div class="index-section methods">
+                      <h3>Methods</h3>
+
+                      <ul class="index-list methods">
+                              <li class="index-item method private">
+                                  <a href="#method__computeErrorCollection">_computeErrorCollection</a>
+
+                              </li>
+                              <li class="index-item method private">
+                                  <a href="#method__groupValidatorOptions">_groupValidatorOptions</a>
+
+                              </li>
+                      </ul>
+                  </div>
+
+                  <div class="index-section properties">
+                      <h3>Properties</h3>
+
+                      <ul class="index-list properties">
+                              <li class="index-item property private">
+                                  <a href="#property__contentValidators">_contentValidators</a>
+
+                              </li>
+                              <li class="index-item property private">
+                                  <a href="#property__errorContent">_errorContent</a>
+
+                              </li>
+                              <li class="index-item property private">
+                                  <a href="#property__promise">_promise</a>
+
+                              </li>
+                              <li class="index-item property private">
+                                  <a href="#property__warningContent">_warningContent</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_attribute">attribute</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_content">content</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_error">error</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_errors">errors</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isAsync">isAsync</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isDirty">isDirty</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isInvalid">isInvalid</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isTruelyValid">isTruelyValid</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isValid">isValid</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isValidating">isValidating</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_isWarning">isWarning</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_message">message</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_messages">messages</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_options">options</a>
+
+                              </li>
+                              <li class="index-item property private">
+                                  <a href="#property_value">value</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_warning">warning</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_warningMessage">warningMessage</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_warningMessages">warningMessages</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_warnings">warnings</a>
+
+                              </li>
+                      </ul>
+                  </div>
 
 
+          </div>
 
-		<span class="flag private">private</span>
+              <div id="tab_methods" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  <div id="method__computeErrorCollection" class="method item private">
+  	<span class="method-signature">
+  	<span class="name">_computeErrorCollection</span>
+  
+  		<span class="paren">()</span>
+  		<span class="returns-inline">
+  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  		<span class="flag private">private</span>
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>
+  				Defined in
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L398">addon/validations/result-collection.js:398</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  			</div>
+  		</div>
+  
+  </div>
+  <div id="method__groupValidatorOptions" class="method item private">
+  	<span class="method-signature">
+  	<span class="name">_groupValidatorOptions</span>
+  
+  		<span class="paren">()</span>
+  		<span class="returns-inline">
+  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  		<span class="flag private">private</span>
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>
+  				Defined in
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L417">addon/validations/result-collection.js:417</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Used by the <code>options</code> property to create a hash from the <code>content</code> that is grouped by validator type.
+  If there is more than 1 of a type, it groups it into an array of option objects.</p>
+  </div>
+  
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  			</div>
+  		</div>
+  
+  </div>
+                  </div>
+              </div>
+
+              <div id="tab_properties" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  <div id="property__contentValidators" class="property item private">
+      <h3 class="name">_contentValidators</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L377">addon/validations/result-collection.js:377</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          
+      </div>
+  
+  
+  
+  </div>
+  <div id="property__errorContent" class="property item private">
+      <h3 class="name">_errorContent</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L384">addon/validations/result-collection.js:384</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          
+      </div>
+  
+  
+  
+  </div>
+  <div id="property__promise" class="property item private">
+      <h3 class="name">_promise</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L363">addon/validations/result-collection.js:363</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          
+      </div>
+  
+  
+  
+  </div>
+  <div id="property__warningContent" class="property item private">
+      <h3 class="name">_warningContent</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L391">addon/validations/result-collection.js:391</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_attribute" class="property item">
+      <h3 class="name">attribute</h3>
+      <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L45">addon/validations/result-collection.js:45</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>The attribute that this collection belongs to</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_content" class="property item">
+      <h3 class="name">content</h3>
+      <span class="type"><a href="http://emberjs.com/api/classes/Ember.Array.html" class="crosslink external" target="_blank">Ember.Array</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L38">addon/validations/result-collection.js:38</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>A set of all validator <a href="../classes/Result.html" class="crosslink">Result</a> objects for this specific attribute</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_error" class="property item">
+      <h3 class="name">error</h3>
+      <span class="type"><a href="../classes/Error.html" class="crosslink">Error</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L301">addon/validations/result-collection.js:301</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>An alias to the first <a href="../classes/Error.html" class="crosslink">Error</a> in the errors collection.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Example
+  get(user, 'validations.error')
+  get(user, 'validations.attrs.username.error')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_errors" class="property item">
+      <h3 class="name">errors</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L283">addon/validations/result-collection.js:283</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>A collection of all <a href="../classes/Error.html" class="crosslink">Errors</a> on the object in question.
+  Each error object includes the error message and it's associated attribute name.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Example
+  get(user, 'validations.errors')
+  get(user, 'validations.attrs.username.errors')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_isAsync" class="property item">
+      <h3 class="name">isAsync</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L158">addon/validations/result-collection.js:158</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Will be <code>true</code> only if a validation returns a promise</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.isAsync')
+  get(user, 'validations.attrs.username.isAsync')
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  <div id="property_isDirty" class="property item">
+      <h3 class="name">isDirty</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L138">addon/validations/result-collection.js:138</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Will be true is the attribute in question is not <code>null</code> or <code>undefined</code>. If the object being
+  validated is an Ember Data Model and you have a <code>defaultValue</code> specified, then it will use that for comparison.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Examples
+  // 'username' : DS.attr('string', { defaultValue: 'johndoe' })
+  get(user, 'validations.isDirty')
+  get(user, 'validations.attrs.username.isDirty')
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  <div id="property_isInvalid" class="property item">
+      <h3 class="name">isInvalid</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L73">addon/validations/result-collection.js:73</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.isInvalid')
+  get(user, 'validations.attrs.username.isInvalid')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_isTruelyValid" class="property item">
+      <h3 class="name">isTruelyValid</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L120">addon/validations/result-collection.js:120</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Will be true only if isValid is <code>true</code> and isValidating is <code>false</code></p>
+  <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.isTruelyValid')
+  get(user, 'validations.attrs.username.isTruelyValid')
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> true</p>
+  
+  
+  </div>
+  <div id="property_isValid" class="property item">
+      <h3 class="name">isValid</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L86">addon/validations/result-collection.js:86</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.isValid')
+  get(user, 'validations.attrs.username.isValid')
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> true</p>
+  
+  
+  </div>
+  <div id="property_isValidating" class="property item">
+      <h3 class="name">isValidating</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L102">addon/validations/result-collection.js:102</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>This property is toggled only if there is an async validation</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.isValidating')
+  get(user, 'validations.attrs.username.isValidating')
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  <div id="property_isWarning" class="property item">
+      <h3 class="name">isWarning</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L57">addon/validations/result-collection.js:57</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.isWarning')
+  get(user, 'validations.attrs.username.isWarning')
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  <div id="property_message" class="property item">
+      <h3 class="name">message</h3>
+      <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L195">addon/validations/result-collection.js:195</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>An alias to the first message in the messages collection.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Example
+  get(user, 'validations.message')
+  get(user, 'validations.attrs.username.message')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_messages" class="property item">
+      <h3 class="name">messages</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L176">addon/validations/result-collection.js:176</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>A collection of all error messages on the object in question</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.messages')
+  get(user, 'validations.attrs.username.messages')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_options" class="property item">
+      <h3 class="name">options</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L318">addon/validations/result-collection.js:318</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>All built options of the validators associated with the results in this collection grouped by validator type</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Given the following validators
+  {
+    username: [
+      validator('presence', true),
+      validator('length', { max: 15 }),
+      validator('format', { regex: /foo/ }),
+      validator('format', { regex: /bar/ }),
+    ]
+  }
+  </code></pre>
+  <pre class="code prettyprint"><code class="language-js">get(user, 'validations.attrs.username.options')
+  </code></pre>
+  <p>The above will return the following</p>
+  <pre class="code prettyprint"><code class="language-js">{
+    'presence': { presence: true},
+    'length': { max: 15 },
+    'regex': [{ regex: /foo/ }, { regex: /bar/ }]
+  }
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_value" class="property item private">
+      <h3 class="name">value</h3>
+      <span class="type"><a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L354">addon/validations/result-collection.js:354</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_warning" class="property item">
+      <h3 class="name">warning</h3>
+      <span class="type"><a href="../classes/Error.html" class="crosslink">Error</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L266">addon/validations/result-collection.js:266</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>An alias to the first Warning in the warnings collection.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Example
+  get(user, 'validations.warning')
+  get(user, 'validations.attrs.username.warning')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_warningMessage" class="property item">
+      <h3 class="name">warningMessage</h3>
+      <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L231">addon/validations/result-collection.js:231</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>An alias to the first message in the warningMessages collection.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Example
+  get(user, 'validations.warningMessage')
+  get(user, 'validations.attrs.username.warningMessage')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_warningMessages" class="property item">
+      <h3 class="name">warningMessages</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L212">addon/validations/result-collection.js:212</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>A collection of all warning messages on the object in question</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Examples
+  get(user, 'validations.warningMessages')
+  get(user, 'validations.attrs.username.warningMessages')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_warnings" class="property item">
+      <h3 class="name">warnings</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validations/result-collection.js#L248">addon/validations/result-collection.js:248</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>A collection of all <a href="../classes/Error.html" class="crosslink">Warnings</a> on the object in question.
+  Each warning object includes the warning message and it's associated attribute name.</p>
+  <pre class="code prettyprint"><code class="language-javascript">// Example
+  get(user, 'validations.warnings')
+  get(user, 'validations.attrs.username.warnings')
+  </code></pre>
+  
+      </div>
+  
+  
+  
+  </div>
+                  </div>
+              </div>
 
 
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="../files/addon_validations_result-collection.js.html#l398"><code>addon&#x2F;validations&#x2F;result-collection.js:398</code></a>
-		</p>
-
-
-
-	</div>
-
-
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-			</div>
-		</div>
-
+      </div>
+    </div>
 </div>
-<div id="method__groupValidatorOptions" class="method item private">
-	<span class="method-signature">
-	<span class="name"><code>_groupValidatorOptions</code></span>
-
-		<span class="paren">()</span>
-		<span class="returns-inline">
-			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-		</span>
-	</span>
-
-
-
-		<span class="flag private">private</span>
-
-
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="../files/addon_validations_result-collection.js.html#l417"><code>addon&#x2F;validations&#x2F;result-collection.js:417</code></a>
-		</p>
-
-
-
-	</div>
-
-	<div class="description"><p>Used by the <code>options</code> property to create a hash from the <code>content</code> that is grouped by validator type.
-If there is more than 1 of a type, it groups it into an array of option objects.</p>
-</div>
-
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-			</div>
-		</div>
-
-</div>
-                </div>
-            </div>
-
-            <div id="properties" class="page-section">
-                <h2 class="off-left">Properties</h2>
-                <div class="item-list">
-<div id="property__contentValidators" class="property item private">
-    <h3 class="name"><code>_contentValidators</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l377"><code>addon&#x2F;validations&#x2F;result-collection.js:377</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__errorContent" class="property item private">
-    <h3 class="name"><code>_errorContent</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l384"><code>addon&#x2F;validations&#x2F;result-collection.js:384</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__promise" class="property item private">
-    <h3 class="name"><code>_promise</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l363"><code>addon&#x2F;validations&#x2F;result-collection.js:363</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__warningContent" class="property item private">
-    <h3 class="name"><code>_warningContent</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l391"><code>addon&#x2F;validations&#x2F;result-collection.js:391</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_attribute" class="property item">
-    <h3 class="name"><code>attribute</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l45"><code>addon&#x2F;validations&#x2F;result-collection.js:45</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The attribute that this collection belongs to</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_content" class="property item">
-    <h3 class="name"><code>content</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/Ember.Array.html" class="crosslink external" target="_blank">Ember.Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l38"><code>addon&#x2F;validations&#x2F;result-collection.js:38</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A set of all validator <a href="../classes/Result.html" class="crosslink">Result</a> objects for this specific attribute</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_error" class="property item">
-    <h3 class="name"><code>error</code></h3>
-    <span class="type"><a href="../classes/Error.html" class="crosslink">Error</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l301"><code>addon&#x2F;validations&#x2F;result-collection.js:301</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>An alias to the first <a href="../classes/Error.html" class="crosslink">Error</a> in the errors collection.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-get(user, 'validations.error')
-get(user, 'validations.attrs.username.error')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_errors" class="property item">
-    <h3 class="name"><code>errors</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l283"><code>addon&#x2F;validations&#x2F;result-collection.js:283</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A collection of all <a href="../classes/Error.html" class="crosslink">Errors</a> on the object in question.
-Each error object includes the error message and it's associated attribute name.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-get(user, 'validations.errors')
-get(user, 'validations.attrs.username.errors')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_isAsync" class="property item">
-    <h3 class="name"><code>isAsync</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l158"><code>addon&#x2F;validations&#x2F;result-collection.js:158</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Will be <code>true</code> only if a validation returns a promise</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.isAsync')
-get(user, 'validations.attrs.username.isAsync')
-</code></pre>
-
-    </div>
-
-        <p><br><strong>Default:</strong> false</p>
-
-
-</div>
-<div id="property_isDirty" class="property item">
-    <h3 class="name"><code>isDirty</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l138"><code>addon&#x2F;validations&#x2F;result-collection.js:138</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Will be true is the attribute in question is not <code>null</code> or <code>undefined</code>. If the object being
-validated is an Ember Data Model and you have a <code>defaultValue</code> specified, then it will use that for comparison.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-// 'username' : DS.attr('string', { defaultValue: 'johndoe' })
-get(user, 'validations.isDirty')
-get(user, 'validations.attrs.username.isDirty')
-</code></pre>
-
-    </div>
-
-        <p><br><strong>Default:</strong> false</p>
-
-
-</div>
-<div id="property_isInvalid" class="property item">
-    <h3 class="name"><code>isInvalid</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l73"><code>addon&#x2F;validations&#x2F;result-collection.js:73</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.isInvalid')
-get(user, 'validations.attrs.username.isInvalid')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_isTruelyValid" class="property item">
-    <h3 class="name"><code>isTruelyValid</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l120"><code>addon&#x2F;validations&#x2F;result-collection.js:120</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Will be true only if isValid is <code>true</code> and isValidating is <code>false</code></p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.isTruelyValid')
-get(user, 'validations.attrs.username.isTruelyValid')
-</code></pre>
-
-    </div>
-
-        <p><br><strong>Default:</strong> true</p>
-
-
-</div>
-<div id="property_isValid" class="property item">
-    <h3 class="name"><code>isValid</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l86"><code>addon&#x2F;validations&#x2F;result-collection.js:86</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.isValid')
-get(user, 'validations.attrs.username.isValid')
-</code></pre>
-
-    </div>
-
-        <p><br><strong>Default:</strong> true</p>
-
-
-</div>
-<div id="property_isValidating" class="property item">
-    <h3 class="name"><code>isValidating</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l102"><code>addon&#x2F;validations&#x2F;result-collection.js:102</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>This property is toggled only if there is an async validation</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.isValidating')
-get(user, 'validations.attrs.username.isValidating')
-</code></pre>
-
-    </div>
-
-        <p><br><strong>Default:</strong> false</p>
-
-
-</div>
-<div id="property_isWarning" class="property item">
-    <h3 class="name"><code>isWarning</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l57"><code>addon&#x2F;validations&#x2F;result-collection.js:57</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.isWarning')
-get(user, 'validations.attrs.username.isWarning')
-</code></pre>
-
-    </div>
-
-        <p><br><strong>Default:</strong> false</p>
-
-
-</div>
-<div id="property_message" class="property item">
-    <h3 class="name"><code>message</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l195"><code>addon&#x2F;validations&#x2F;result-collection.js:195</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>An alias to the first message in the messages collection.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-get(user, 'validations.message')
-get(user, 'validations.attrs.username.message')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_messages" class="property item">
-    <h3 class="name"><code>messages</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l176"><code>addon&#x2F;validations&#x2F;result-collection.js:176</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A collection of all error messages on the object in question</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.messages')
-get(user, 'validations.attrs.username.messages')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_options" class="property item">
-    <h3 class="name"><code>options</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l318"><code>addon&#x2F;validations&#x2F;result-collection.js:318</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>All built options of the validators associated with the results in this collection grouped by validator type</p>
-<pre class="code prettyprint"><code class="language-javascript">// Given the following validators
-{
-  username: [
-    validator('presence', true),
-    validator('length', { max: 15 }),
-    validator('format', { regex: /foo/ }),
-    validator('format', { regex: /bar/ }),
-  ]
-}
-</code></pre>
-<pre class="code prettyprint"><code class="language-js">get(user, 'validations.attrs.username.options')
-</code></pre>
-<p>The above will return the following</p>
-<pre class="code prettyprint"><code class="language-js">{
-  'presence': { presence: true},
-  'length': { max: 15 },
-  'regex': [{ regex: /foo/ }, { regex: /bar/ }]
-}
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_value" class="property item private">
-    <h3 class="name"><code>value</code></h3>
-    <span class="type"><a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l354"><code>addon&#x2F;validations&#x2F;result-collection.js:354</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_warning" class="property item">
-    <h3 class="name"><code>warning</code></h3>
-    <span class="type"><a href="../classes/Error.html" class="crosslink">Error</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l266"><code>addon&#x2F;validations&#x2F;result-collection.js:266</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>An alias to the first Warning in the warnings collection.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-get(user, 'validations.warning')
-get(user, 'validations.attrs.username.warning')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_warningMessage" class="property item">
-    <h3 class="name"><code>warningMessage</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l231"><code>addon&#x2F;validations&#x2F;result-collection.js:231</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>An alias to the first message in the warningMessages collection.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-get(user, 'validations.warningMessage')
-get(user, 'validations.attrs.username.warningMessage')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_warningMessages" class="property item">
-    <h3 class="name"><code>warningMessages</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l212"><code>addon&#x2F;validations&#x2F;result-collection.js:212</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A collection of all warning messages on the object in question</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-get(user, 'validations.warningMessages')
-get(user, 'validations.attrs.username.warningMessages')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-<div id="property_warnings" class="property item">
-    <h3 class="name"><code>warnings</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_validations_result-collection.js.html#l248"><code>addon&#x2F;validations&#x2F;result-collection.js:248</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A collection of all <a href="../classes/Error.html" class="crosslink">Warnings</a> on the object in question.
-Each warning object includes the warning message and it's associated attribute name.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-get(user, 'validations.warnings')
-get(user, 'validations.attrs.username.warnings')
-</code></pre>
-
-    </div>
-
-
-
-</div>
-                </div>
-            </div>
-
-
-    </div>
-</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -998,7 +1071,8 @@ get(user, 'validations.attrs.username.warnings')
     </div>
     <script src="../assets/vendor/prettify/prettify-min.js"></script>
     <script>prettyPrint();</script>
-    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>

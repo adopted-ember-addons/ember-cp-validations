@@ -3,116 +3,153 @@
 <head>
     <meta charset="utf-8">
     <title>Length - Ember CP Validations</title>
+    <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
     <link rel="stylesheet" href="../assets/css/custom.css">
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/theme.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700' rel='stylesheet' type='text/css'>
+    
 </head>
 <body>
-    <div class="row">
-        <div class="sidebar-container">
-            <div id="sidebar">
-              <div class="header">
-                <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
-                  <a href="../">Ember CP Validations</a>
-                </h1>
-                <form class="navbar-form">
-                    <input type="search" class="search-query" placeholder="Search classes/modules...">
-                </form>
-              </div>
-              <ul class="main-nav">
-                <li class="section">Modules</li>
-                   <li  >
-                     <a href="../modules/Home.html">Home</a>
-                        <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                        <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                        <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                   </li>
-                   <li  >
-                     <a href="../modules/Templating.html">Templating</a>
-                   </li>
-                   <li  >
-                     <a href="../modules/Validations.html">Validations</a>
-                   </li>
-                   <li  >
-                     <a href="../modules/Validators.html">Validators</a>
-                   </li>
-            
-                <li class="section">Classes</li>
-                    <li ><a  href="../classes/Alias.html">Alias</a></li>
-                    <li ><a  href="../classes/Base.html">Base</a></li>
-                    <li ><a  href="../classes/Belongs To.html">Belongs To</a></li>
-                    <li ><a  href="../classes/Collection.html">Collection</a></li>
-                    <li ><a  href="../classes/Confirmation.html">Confirmation</a></li>
-                    <li ><a  href="../classes/Custom.html">Custom</a></li>
-                    <li ><a  href="../classes/Date.html">Date</a></li>
-                    <li ><a  href="../classes/Dependent.html">Dependent</a></li>
-                    <li ><a  href="../classes/DS Error.html">DS Error</a></li>
-                    <li ><a  href="../classes/Error.html">Error</a></li>
-                    <li ><a  href="../classes/Exclusion.html">Exclusion</a></li>
-                    <li ><a  href="../classes/Factory.html">Factory</a></li>
-                    <li ><a  href="../classes/Format.html">Format</a></li>
-                    <li ><a  href="../classes/Has Many.html">Has Many</a></li>
-                    <li ><a  href="../classes/Inclusion.html">Inclusion</a></li>
-                    <li ><a  href="../classes/Inline.html">Inline</a></li>
-                    <li  class="active"><a  href="../classes/Length.html">Length</a></li>
-                    <li ><a  href="../classes/Messages.html">Messages</a></li>
-                    <li ><a  href="../classes/Number.html">Number</a></li>
-                    <li ><a  href="../classes/Presence.html">Presence</a></li>
-                    <li ><a  href="../classes/Result.html">Result</a></li>
-                    <li ><a  href="../classes/ResultCollection.html">ResultCollection</a></li>
-              </ul>
-            
-              <div class="footer">
-                <a href="https://github.com/offirgolan/ember-cp-validations" class="github">GitHub</a>
-                <p class="version pull-right">v3.0.0-beta.2</p>
-              </div>
-            </div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/ember-logo.png" alt="">
+            <span>CP Validations</span>
+          </a>
         </div>
-        <div class="content-container">
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <form id="options-form" class="form-inline pull-right">
-                            Show:
-                            <label for="api-show-inherited" class="checkbox">
-                                <input type="checkbox" id="api-show-inherited" checked>
-                                Inherited
-                            </label>
-                    
-                            <label for="api-show-protected" class="checkbox">
-                                <input type="checkbox" id="api-show-protected">
-                                Protected
-                            </label>
-                    
-                            <label for="api-show-private" class="checkbox">
-                                <input type="checkbox" id="api-show-private">
-                                Private
-                            </label>
-                            <label for="api-show-deprecated" class="checkbox">
-                                <input type="checkbox" id="api-show-deprecated">
-                                Deprecated
-                            </label>
-                    
-                        </form>
-                    
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.3" target="_blank">
+                                  Tag: v3.0.0-beta.3
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li >
+                                            <a href="../modules/Home.html">Home</a>
+                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
+                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
+                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Templating.html">Templating</a>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Validations.html">Validations</a>
+                                        </li>
+                                        <li >
+                                            <a href="../modules/Validators.html">Validators</a>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li ><a href="../classes/Alias.html">Alias</a></li>
+                                    <li ><a href="../classes/Base.html">Base</a></li>
+                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
+                                    <li ><a href="../classes/Collection.html">Collection</a></li>
+                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
+                                    <li ><a href="../classes/Custom.html">Custom</a></li>
+                                    <li ><a href="../classes/Date.html">Date</a></li>
+                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
+                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
+                                    <li ><a href="../classes/Error.html">Error</a></li>
+                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
+                                    <li ><a href="../classes/Factory.html">Factory</a></li>
+                                    <li ><a href="../classes/Format.html">Format</a></li>
+                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
+                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
+                                    <li ><a href="../classes/Inline.html">Inline</a></li>
+                                    <li  class="active" ><a href="../classes/Length.html">Length</a></li>
+                                    <li ><a href="../classes/Messages.html">Messages</a></li>
+                                    <li ><a href="../classes/Number.html">Number</a></li>
+                                    <li ><a href="../classes/Presence.html">Presence</a></li>
+                                    <li ><a href="../classes/Result.html">Result</a></li>
+                                    <li ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
 <div class="page-header">
-    <h1>Length</h1>
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Length Class
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/length.js#L17" target="_blank">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+    </h1>
 </div>
-<div class="well well-small">
+<div class="content-meta">
 
         <div class="extends">
-            Extends <a href="../classes/Base.html" class="crosslink">Base</a>
+            Extends: <a href="../classes/Base.html" class="crosslink">Base</a>
         </div>
 
             Module: <a href="../modules/Validators.html">Validators</a>
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_validators_length.js.html#l17"><code>addon&#x2F;validators&#x2F;length.js:17</code></a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/length.js#L17">addon/validators/length.js:17</a>
         </div>
 </div>
 
@@ -142,694 +179,730 @@ validator('length', {
 
 <div>
     <div class="page-section">
-        <div id="index">
-                <div class="index-section methods">
-                    <h3>Methods</h3>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
+            <li role="presentation"><a href="#tab_methods" aria-controls="tab_methods" role="tab" data-toggle="tab">Methods</a></li>
 
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
-                                <a href="#method_buildOptions">buildOptions</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_createErrorMessage">createErrorMessage</a>
-
-                            </li>
-                            <li class="index-item method private inherited">
-                                <a href="#method_getValue">getValue</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_validate">validate</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_value">value</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property private inherited">
-                                <a href="#property__type">_type</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_attribute">attribute</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_defaultOptions">defaultOptions</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_errorMessages">errorMessages</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_globalOptions">globalOptions</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_isWarning">isWarning</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_model">model</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_options">options</a>
-
-                            </li>
-                    </ul>
-                </div>
+            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
 
 
-        </div>
+        </ul>
 
-            <div id="methods" class="page-section">
-                <h2 class="off-left">Methods</h2>
-                <div class="item-list">
-<div id="method_buildOptions" class="method item">
-	<span class="method-signature">
-	<span class="name"><code>buildOptions</code></span>
+        <!-- Tab panes -->
+        <div class="tab-content">
 
-		<div class="args">
-			<span class="paren">(</span><ul class="args-list inline commas">
-				<li class="arg">
-						<code>options</code>
-				</li>
-				<li class="arg">
-						<code>defaultOptions</code>
-				</li>
-				<li class="arg">
-						<code>globalOptions</code>
-				</li>
-			</ul><span class="paren">)</span>
-		</div>
-		<span class="returns-inline">
-			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-		</span>
-	</span>
+              <form id="options-form" class="form-inline">
+                  Show:
+                  <label for="api-show-inherited" class="checkbox">
+                      <input type="checkbox" id="api-show-inherited" checked>
+                      Inherited
+                  </label>
+          
+                  <label for="api-show-protected" class="checkbox">
+                      <input type="checkbox" id="api-show-protected">
+                      Protected
+                  </label>
+          
+                  <label for="api-show-private" class="checkbox">
+                      <input type="checkbox" id="api-show-private">
+                      Private
+                  </label>
+                  <label for="api-show-deprecated" class="checkbox">
+                      <input type="checkbox" id="api-show-deprecated">
+                      Deprecated
+                  </label>
+          
+              </form>
 
+          <div id="tab_index" role="tabpanel" class="tab-pane active" >
+                  <div class="index-section methods">
+                      <h3>Methods</h3>
 
+                      <ul class="index-list methods extends">
+                              <li class="index-item method inherited">
+                                  <a href="#method_buildOptions">buildOptions</a>
 
+                              </li>
+                              <li class="index-item method inherited">
+                                  <a href="#method_createErrorMessage">createErrorMessage</a>
 
+                              </li>
+                              <li class="index-item method private inherited">
+                                  <a href="#method_getValue">getValue</a>
 
+                              </li>
+                              <li class="index-item method inherited">
+                                  <a href="#method_validate">validate</a>
 
+                              </li>
+                              <li class="index-item method inherited">
+                                  <a href="#method_value">value</a>
 
-	<div class="meta">
-			<p>Inherited from
-			<a href="../classes/Base.html#method_buildOptions">
-				Base
-			</a>
-			but overwritten in
-		<a href="../files/addon_validators_length.js.html#l43"><code>addon&#x2F;validators&#x2F;length.js:43</code></a>
-		</p>
+                              </li>
+                      </ul>
+                  </div>
 
+                  <div class="index-section properties">
+                      <h3>Properties</h3>
 
+                      <ul class="index-list properties extends">
+                              <li class="index-item property private inherited">
+                                  <a href="#property__type">_type</a>
 
-	</div>
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_attribute">attribute</a>
 
-	<div class="description"><p>Default allowNone to true</p>
-</div>
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_defaultOptions">defaultOptions</a>
 
-		<div class="params">
-			<h4>Parameters:</h4>
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_errorMessages">errorMessages</a>
 
-			<ul class="params-list">
-				<li class="param">
-						<code class="param-name">options</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_globalOptions">globalOptions</a>
 
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_isWarning">isWarning</a>
 
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_model">model</a>
 
-				</li>
-				<li class="param">
-						<code class="param-name">defaultOptions</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_options">options</a>
 
-
-
-				</li>
-				<li class="param">
-						<code class="param-name">globalOptions</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-				</li>
-			</ul>
-		</div>
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-			</div>
-		</div>
-
-</div>
-<div id="method_createErrorMessage" class="method item inherited">
-	<span class="method-signature">
-	<span class="name"><code>createErrorMessage</code></span>
-
-		<div class="args">
-			<span class="paren">(</span><ul class="args-list inline commas">
-				<li class="arg">
-						<code>type</code>
-				</li>
-				<li class="arg">
-						<code>value</code>
-				</li>
-				<li class="arg">
-						<code>options</code>
-				</li>
-			</ul><span class="paren">)</span>
-		</div>
-		<span class="returns-inline">
-			<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-		</span>
-	</span>
+                              </li>
+                      </ul>
+                  </div>
 
 
+          </div>
 
-
-
-
-
-	<div class="meta">
-				<p>Inherited from
-				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l183"><code>addon&#x2F;validators&#x2F;base.js:183</code></a>
-		</p>
-
-
-
-	</div>
-
-	<div class="description"><p>Used by all pre-defined validators to build an error message that is present
-in <code>validators/message</code> or declared in your i18n solution.</p>
-<p>If we extended our default messages to include <code>uniqueUsername: '{username} already exists'</code>,
-we can use this method to generate our error message.</p>
-<pre class="code prettyprint"><code class="language-javascript">validate(value, options) {
-  var exists = false;
-
-  get(options, 'description') = 'Username';
-  get(options, 'username') = value;
-
-  // check with server if username exists...
-
-  if(exists) {
-    return this.createErrorMessage('uniqueUsername', value, options);
+              <div id="tab_methods" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  <div id="method_buildOptions" class="method item">
+  	<span class="method-signature">
+  	<span class="name">buildOptions</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>options</code>
+  				</li>
+  				<li class="arg">
+  						<code>defaultOptions</code>
+  				</li>
+  				<li class="arg">
+  						<code>globalOptions</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  			<p>Inherited from
+  			<a href="../classes/Base.html#method_buildOptions">
+  				Base
+  			</a>
+  			but overwritten in
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/length.js#L43">addon/validators/length.js:43</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Default allowNone to true</p>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">options</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">defaultOptions</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">globalOptions</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  			</div>
+  		</div>
+  
+  </div>
+  <div id="method_createErrorMessage" class="method item inherited">
+  	<span class="method-signature">
+  	<span class="name">createErrorMessage</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>type</code>
+  				</li>
+  				<li class="arg">
+  						<code>value</code>
+  				</li>
+  				<li class="arg">
+  						<code>options</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>Inherited from
+  				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L183">addon/validators/base.js:183</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Used by all pre-defined validators to build an error message that is present
+  in <code>validators/message</code> or declared in your i18n solution.</p>
+  <p>If we extended our default messages to include <code>uniqueUsername: '{username} already exists'</code>,
+  we can use this method to generate our error message.</p>
+  <pre class="code prettyprint"><code class="language-javascript">validate(value, options) {
+    var exists = false;
+  
+    get(options, 'description') = 'Username';
+    get(options, 'username') = value;
+  
+    // check with server if username exists...
+  
+    if(exists) {
+      return this.createErrorMessage('uniqueUsername', value, options);
+    }
+  
+    return true;
   }
-
-  return true;
-}
-</code></pre>
-<p>If we input <code>johndoe</code> and that username already exists, the returned message would be <code>'johndoe already exists'</code>.</p>
-</div>
-
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				<li class="param">
-						<code class="param-name">type</code>
-						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-					<div class="param-description"><p>The type of message template to use</p>
-</div>
-
-				</li>
-				<li class="param">
-						<code class="param-name">value</code>
-						<span class="type">Unknown</span>
-
-
-					<div class="param-description"><p>Current value being evaluated</p>
-</div>
-
-				</li>
-				<li class="param">
-						<code class="param-name">options</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-					<div class="param-description"><p>Validator built and processed options (used as the message string context)</p>
-</div>
-
-				</li>
-			</ul>
-		</div>
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>:
-					<p>The generated message</p>
-
-			</div>
-		</div>
-
-</div>
-<div id="method_getValue" class="method item private inherited">
-	<span class="method-signature">
-	<span class="name"><code>getValue</code></span>
-
-		<span class="paren">()</span>
-		<span class="returns-inline">
-			<span class="type">Unknown</span>
-		</span>
-	</span>
-
-
-
-		<span class="flag private">private</span>
-
-
-
-
-	<div class="meta">
-				<p>Inherited from
-				<a href="../classes/Base.html#method_getValue">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l153"><code>addon&#x2F;validators&#x2F;base.js:153</code></a>
-		</p>
-
-
-
-	</div>
-
-	<div class="description"><p>Wrapper method to <code>value</code> that passes the necessary parameters</p>
-</div>
-
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-						<span class="type">Unknown</span>:
-					<p>value</p>
-
-			</div>
-		</div>
-
-</div>
-<div id="method_validate" class="method item inherited">
-	<span class="method-signature">
-	<span class="name"><code>validate</code></span>
-
-		<div class="args">
-			<span class="paren">(</span><ul class="args-list inline commas">
-				<li class="arg">
-						<code>value</code>
-				</li>
-				<li class="arg">
-						<code>options</code>
-				</li>
-				<li class="arg">
-						<code>model</code>
-				</li>
-				<li class="arg">
-						<code>attribute</code>
-				</li>
-			</ul><span class="paren">)</span>
-		</div>
-		<span class="returns-inline">
-			<span class="type"></span>
-		</span>
-	</span>
-
-
-
-
-
-
-
-	<div class="meta">
-				<p>Inherited from
-				<a href="../classes/Base.html#method_validate">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l164"><code>addon&#x2F;validators&#x2F;base.js:164</code></a>
-		</p>
-
-
-
-	</div>
-
-	<div class="description"><p>The validate method is where all of your logic should go.
-It will get passed in the current value of the attribute this validator is attached to.
-Within the validator object, you will have access to the following properties:</p>
-</div>
-
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				<li class="param">
-						<code class="param-name">value</code>
-						<span class="type">Unknown</span>
-
-
-					<div class="param-description"><p>The current value of the attribute</p>
-</div>
-
-				</li>
-				<li class="param">
-						<code class="param-name">options</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-					<div class="param-description"><p>The built and processed options</p>
-</div>
-
-				</li>
-				<li class="param">
-						<code class="param-name">model</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-					<div class="param-description"><p>The current model being evaluated</p>
-</div>
-
-				</li>
-				<li class="param">
-						<code class="param-name">attribute</code>
-						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-					<div class="param-description"><p>The current attribute being evaluated</p>
-</div>
-
-				</li>
-			</ul>
-		</div>
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-					<p>One of the following types:</p>
-<ul>
-<li><code>Boolean</code>:  <code>true</code> if the current value passed the validation</li>
-<li><code>String</code>: The error message</li>
-<li><code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</li>
-</ul>
-
-			</div>
-		</div>
-
-</div>
-<div id="method_value" class="method item inherited">
-	<span class="method-signature">
-	<span class="name"><code>value</code></span>
-
-		<div class="args">
-			<span class="paren">(</span><ul class="args-list inline commas">
-				<li class="arg">
-						<code>model</code>
-				</li>
-				<li class="arg">
-						<code>attribute</code>
-				</li>
-			</ul><span class="paren">)</span>
-		</div>
-		<span class="returns-inline">
-			<span class="type"></span>
-		</span>
-	</span>
-
-
-
-
-
-
-
-	<div class="meta">
-				<p>Inherited from
-				<a href="../classes/Base.html#method_value">Base</a>:
-		<a href="../files/addon_validators_base.js.html#l139"><code>addon&#x2F;validators&#x2F;base.js:139</code></a>
-		</p>
-
-
-
-	</div>
-
-	<div class="description"><p>Used to retrieve the value to validate.
-This method gets called right before <code>validate</code> and the returned value
-gets passed into the validate method.</p>
-</div>
-
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				<li class="param">
-						<code class="param-name">model</code>
-						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-				</li>
-				<li class="param">
-						<code class="param-name">attribute</code>
-						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-				</li>
-			</ul>
-		</div>
-
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-					<p>The current value of <code>model[attribute]</code></p>
-
-			</div>
-		</div>
-
-</div>
-                </div>
-            </div>
-
-            <div id="properties" class="page-section">
-                <h2 class="off-left">Properties</h2>
-                <div class="item-list">
-<div id="property__type" class="property item private inherited">
-    <h3 class="name"><code>_type</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property__type">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l74"><code>addon&#x2F;validators&#x2F;base.js:74</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Validator type</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_attribute" class="property item inherited">
-    <h3 class="name"><code>attribute</code></h3>
-    <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_attribute">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l54"><code>addon&#x2F;validators&#x2F;base.js:54</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Attributed name of the model this validator is attached to</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_defaultOptions" class="property item inherited">
-    <h3 class="name"><code>defaultOptions</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_defaultOptions">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l33"><code>addon&#x2F;validators&#x2F;base.js:33</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Default validation options for this specific attribute</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_errorMessages" class="property item inherited">
-    <h3 class="name"><code>errorMessages</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_errorMessages">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l61"><code>addon&#x2F;validators&#x2F;base.js:61</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Error message object. Populated by validators/messages</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_globalOptions" class="property item inherited">
-    <h3 class="name"><code>globalOptions</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_globalOptions">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l40"><code>addon&#x2F;validators&#x2F;base.js:40</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Global validation options for this model</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_isWarning" class="property item inherited">
-    <h3 class="name"><code>isWarning</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_isWarning">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l68"><code>addon&#x2F;validators&#x2F;base.js:68</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_model" class="property item inherited">
-    <h3 class="name"><code>model</code></h3>
-    <span class="type">Model</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_model">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l47"><code>addon&#x2F;validators&#x2F;base.js:47</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Model instance</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_options" class="property item inherited">
-    <h3 class="name"><code>options</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Base.html#property_options">Base</a>:
-        <a href="../files/addon_validators_base.js.html#l26"><code>addon&#x2F;validators&#x2F;base.js:26</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Options passed in to the validator when defined in the model</p>
-
-    </div>
-
-
-
-</div>
-                </div>
-            </div>
-
-
+  </code></pre>
+  <p>If we input <code>johndoe</code> and that username already exists, the returned message would be <code>'johndoe already exists'</code>.</p>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">type</code>
+  						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  					<div class="param-description"><p>The type of message template to use</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">value</code>
+  						<span class="type">Unknown</span>
+  
+  
+  					<div class="param-description"><p>Current value being evaluated</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">options</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  					<div class="param-description"><p>Validator built and processed options (used as the message string context)</p>
+  </div>
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>:
+  					<p>The generated message</p>
+  
+  			</div>
+  		</div>
+  
+  </div>
+  <div id="method_getValue" class="method item private inherited">
+  	<span class="method-signature">
+  	<span class="name">getValue</span>
+  
+  		<span class="paren">()</span>
+  		<span class="returns-inline">
+  			<span class="type">Unknown</span>
+  		</span>
+  	</span>
+  
+  
+  
+  		<span class="flag private">private</span>
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>Inherited from
+  				<a href="../classes/Base.html#method_getValue">Base</a>:
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L153">addon/validators/base.js:153</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Wrapper method to <code>value</code> that passes the necessary parameters</p>
+  </div>
+  
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type">Unknown</span>:
+  					<p>value</p>
+  
+  			</div>
+  		</div>
+  
+  </div>
+  <div id="method_validate" class="method item inherited">
+  	<span class="method-signature">
+  	<span class="name">validate</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>value</code>
+  				</li>
+  				<li class="arg">
+  						<code>options</code>
+  				</li>
+  				<li class="arg">
+  						<code>model</code>
+  				</li>
+  				<li class="arg">
+  						<code>attribute</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"></span>
+  		</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>Inherited from
+  				<a href="../classes/Base.html#method_validate">Base</a>:
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L164">addon/validators/base.js:164</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>The validate method is where all of your logic should go.
+  It will get passed in the current value of the attribute this validator is attached to.
+  Within the validator object, you will have access to the following properties:</p>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">value</code>
+  						<span class="type">Unknown</span>
+  
+  
+  					<div class="param-description"><p>The current value of the attribute</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">options</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  					<div class="param-description"><p>The built and processed options</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">model</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  					<div class="param-description"><p>The current model being evaluated</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">attribute</code>
+  						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  					<div class="param-description"><p>The current attribute being evaluated</p>
+  </div>
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  					<p>One of the following types:</p>
+  <ul>
+  <li><code>Boolean</code>:  <code>true</code> if the current value passed the validation</li>
+  <li><code>String</code>: The error message</li>
+  <li><code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</li>
+  </ul>
+  
+  			</div>
+  		</div>
+  
+  </div>
+  <div id="method_value" class="method item inherited">
+  	<span class="method-signature">
+  	<span class="name">value</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>model</code>
+  				</li>
+  				<li class="arg">
+  						<code>attribute</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"></span>
+  		</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>Inherited from
+  				<a href="../classes/Base.html#method_value">Base</a>:
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L139">addon/validators/base.js:139</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Used to retrieve the value to validate.
+  This method gets called right before <code>validate</code> and the returned value
+  gets passed into the validate method.</p>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">model</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">attribute</code>
+  						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  					<p>The current value of <code>model[attribute]</code></p>
+  
+  			</div>
+  		</div>
+  
+  </div>
+                  </div>
+              </div>
+
+              <div id="tab_properties" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  <div id="property__type" class="property item private inherited">
+      <h3 class="name">_type</h3>
+      <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property__type">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L74">addon/validators/base.js:74</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Validator type</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_attribute" class="property item inherited">
+      <h3 class="name">attribute</h3>
+      <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_attribute">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L54">addon/validators/base.js:54</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Attributed name of the model this validator is attached to</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_defaultOptions" class="property item inherited">
+      <h3 class="name">defaultOptions</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_defaultOptions">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L33">addon/validators/base.js:33</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Default validation options for this specific attribute</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_errorMessages" class="property item inherited">
+      <h3 class="name">errorMessages</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_errorMessages">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L61">addon/validators/base.js:61</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Error message object. Populated by validators/messages</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_globalOptions" class="property item inherited">
+      <h3 class="name">globalOptions</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_globalOptions">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L40">addon/validators/base.js:40</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Global validation options for this model</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_isWarning" class="property item inherited">
+      <h3 class="name">isWarning</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_isWarning">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L68">addon/validators/base.js:68</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_model" class="property item inherited">
+      <h3 class="name">model</h3>
+      <span class="type">Model</span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_model">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L47">addon/validators/base.js:47</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Model instance</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  <div id="property_options" class="property item inherited">
+      <h3 class="name">options</h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property_options">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.3/addon/validators/base.js#L26">addon/validators/base.js:26</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Options passed in to the validator when defined in the model</p>
+  
+      </div>
+  
+  
+  
+  </div>
+                  </div>
+              </div>
+
+
+      </div>
     </div>
 </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -837,7 +910,8 @@ gets passed into the validate method.</p>
     </div>
     <script src="../assets/vendor/prettify/prettify-min.js"></script>
     <script>prettyPrint();</script>
-    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>
