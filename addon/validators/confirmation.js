@@ -54,7 +54,7 @@ Confirmation.reopenClass({
 
     assert(`[ember-cp-validations] [validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
 
-    return on ? [ `_model.${on}` ] : [];
+    return on ? [ `model.${on}` ] : [];
   }
 });
 
