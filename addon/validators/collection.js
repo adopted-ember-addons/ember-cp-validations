@@ -75,7 +75,7 @@ const Collection = Base.extend({
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return (options === true || get(options, 'collection') === true) ? [ `_model.${attribute}.[]` ] : [];
+    return (options === true || get(options, 'collection') === true) ? [ `model.${attribute}.[]` ] : [];
   }
 });
 

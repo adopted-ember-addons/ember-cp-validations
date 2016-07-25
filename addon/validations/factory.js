@@ -467,24 +467,22 @@ function getCPDependentKeysFor(attribute, validations, owner) {
       getWithDefault(options, 'dependentKeys', []),
       getWithDefault(validation, 'defaultOptions.dependentKeys', []),
       getWithDefault(validation, 'globalOptions.dependentKeys', [])
-    ).map(d => {
-      return d.split('.')[0] === 'model' ? '_' + d : d;
-    });
+    );
 
     // Extract dependentKeys from option CPs
     const cpDependents = [].concat(
       extractOptionsDependentKeys(options),
       extractOptionsDependentKeys(get(validation, 'defaultOptions')),
       extractOptionsDependentKeys(get(validation, 'globalOptions'))
-    ).map(d => {
-      return d.split('.')[0] === 'model' ? '_' + d : d;
-    });
+    );
 
     return baseDependents.concat(
       dependents,
       cpDependents,
       specifiedDependents
-    );
+    ).map(d => {
+      return d.split('.')[0] === 'model' ? '_' + d : d;
+    });
   });
 
   dependentKeys = flatten(dependentKeys);

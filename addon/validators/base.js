@@ -341,8 +341,8 @@ export default Base;
  *
  * All dependent keys are in reference to the model's `validations.attrs` object. So when you return `['username']`,
  * it will add a dependent to `model.validations.attrs.username`. If you want to add a dependent on the model, your
- * key needs to be prefixed with `_model`. So when you return `['_model.username']`, it will add a dependent to `model.username`.
- * This means that if you have a dependent on a service, that service must be injected into the model since returning `['_model.myService.someProperty']`
+ * key needs to be prefixed with `model`. So when you return `['model.username']`, it will add a dependent to `model.username` instead of `model.validations.attrs.username`.
+ * This means that if you have a dependent on a service, that service must be injected into the model since returning `['model.myService.someProperty']`
  * will be interpreted as `model.myService.someProperty`.
  *
  * ## Usage

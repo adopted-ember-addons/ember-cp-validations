@@ -49,7 +49,7 @@ DSError.reopenClass({
   getDependentsFor(attribute) {
     let { path, key } = getPathAndKey(attribute);
 
-    return [ `_model.${path}.${key}.[]` ];
+    return [ `model.${path}.${key}.[]` ];
   }
 });
 
