@@ -292,6 +292,20 @@ test("custom messages object", function(assert) {
   assert.equal(object.get('validations.attrs.firstName.message'), 'Test error message');
 });
 
+test("null message object", function(assert) {
+  this.register('validator:messages', DefaultMessages);
+  var Validations = buildValidations({
+    firstName: validator('presence', {
+      presence: true,
+      message: null
+    })
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(object.get('validations.attrs.firstName.message'), 'This field can\'t be blank');
+});
+
 test("debounced validations", function(assert) {
   var done = assert.async();
   var initSetup = true;
