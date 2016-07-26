@@ -503,7 +503,7 @@ function extractOptionsDependentKeys(options) {
     return Object.keys(options).reduce((arr, key) => {
       let option = options[key];
 
-      if(typeof option === 'object' && option.isDescriptor) {
+      if(option && typeof option === 'object' && option.isDescriptor) {
         return arr.concat(option._dependentKeys || []);
       }
 
