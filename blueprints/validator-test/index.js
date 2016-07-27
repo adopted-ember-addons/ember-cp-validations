@@ -7,6 +7,10 @@ module.exports = {
   description: 'Generates a validator unit test',
 
   init: function() {
+    if(this._super.init) {
+      this._super.init.apply(this, arguments);
+    }
+
     if (!this.filesPath) {
       this.files = this._legacyEmberCLIFilesOverride;
       this.srcPath = this._legacySrcPathOverride;
