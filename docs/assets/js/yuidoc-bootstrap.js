@@ -103,10 +103,10 @@ $(function() {
             tabToActivate = '#tab_properties';
         }
         else if (hash.match(/^#event_/)) {
-            tabToActivate = '#tab_event';
+            tabToActivate = '#tab_events';
         }
         else if (hash.match(/^#attr_/)) {
-            tabToActivate = '#tab_attr';
+            tabToActivate = '#tab_attrs';
         }
         else if (hash.match(/#l\d+/)) {
             var lineNumber = /#l(\d+)/.exec(hash)[1];
