@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## v3.0.0-beta.4
+
+- [#266](https://github.com/offirgolan/ember-cp-validations/pull/266) Check for null in extractOptionsDependentKeys [@xcambar](https://github.com/xcambar)
+- [#272](https://github.com/offirgolan/ember-cp-validations/pull/272) Fix ember-cli deprecation warning
+
 ## v3.0.0-beta.3
 
 - [#262](https://github.com/offirgolan/ember-cp-validations/pull/262) Use `model` instead of `_model` when declaring custom dependents
