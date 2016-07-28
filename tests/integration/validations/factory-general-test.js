@@ -13,7 +13,6 @@ const {
 
 const Validators = {
   presence(value, options, model, attr) {
-    var isValid = !Ember.isNone(value);
     if (Ember.isNone(value)) {
       return `${attr} should be present`;
     }
@@ -204,7 +203,7 @@ test("basic sync validation returns null", function(assert) {
 test("shallow isAsync test", function(assert) {
   var Validations = buildValidations({
     firstName: validator(function() {
-      return new Ember.RSVP.Promise((resolve, reject) => {
+      return new Ember.RSVP.Promise((resolve) => {
         resolve(true);
       });
     })
@@ -216,7 +215,7 @@ test("shallow isAsync test", function(assert) {
   assert.equal(Ember.canInvoke(obj.get('validations.attrs.firstName.value'), 'then'), true);
 
   return obj.validate().then(({
-    model, validations
+    model
   }) => {
     assert.equal(model.get('validations.isValid'), true);
   });
@@ -716,7 +715,7 @@ test("call super in validations class with no super property", function(assert) 
     actions: {
       foo() {
         assert.ok(true);
-        const validations = this.get('validations');
+        const validations = this.get('validations'); // jshint ignore:line
       }
     }
   }));
@@ -794,7 +793,7 @@ test("validateAttribute - async validations", function(assert) {
   });
 
   return object.validateAttribute('firstName', 'foo').then(({
-    validations, model
+    validations
   }) => {
     assert.equal(validations.get('isValid'), false);
     assert.equal(validations.get('isValidating'), false);

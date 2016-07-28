@@ -10,7 +10,6 @@ import {
 from 'ember-qunit';
 
 var model, options, builtOptions, validator, message;
-var set = Ember.set;
 
 moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
   needs: ['validator:messages'],

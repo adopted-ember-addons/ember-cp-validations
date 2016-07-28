@@ -3,14 +3,12 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import {
   moduleFor, test
 }
 from 'ember-qunit';
 
 var options, builtOptions, validator, message;
-var set = Ember.set;
 
 moduleFor('validator:format', 'Unit | Validator | format', {
   needs: ['validator:messages'],

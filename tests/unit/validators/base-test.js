@@ -11,7 +11,6 @@ import {
 from 'ember-qunit';
 
 var defaultOptions, options, validator, message;
-var set = Ember.set;
 
 moduleFor('validator:length', 'Unit | Validator | base', {
   needs: ['validator:messages'],
