@@ -9,8 +9,11 @@ const {
 } = Ember;
 
 /**
- * ## Common Options
- *
+ * @module Validators
+ * @main Validators
+ */
+
+/**
  * <h3 id="description">description</h3>
  * A descriptor for your attribute used in the error message strings. Defaults to `This field'`.
  * You can overwrite this value in your `validators/messages.js` file by changing the `defaultDescription` property.
@@ -157,7 +160,7 @@ const {
  *
  *
  * @module Validators
- * @main Validators
+ * @submodule Common Options
  */
 
 export default function (arg1, options) {

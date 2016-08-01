@@ -21,7 +21,7 @@ import Validator from './validations/validator';
  * ## Looking for help?
  * If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
  *
- * @module Home
+ * @module Usage
  */
 
 /**
@@ -134,8 +134,8 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * @module Home
- * @submodule Basic Usage
+ * @module Usage
+ * @submodule Basic
  */
 
 /**
@@ -272,8 +272,8 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * @module Home
- * @submodule Advanced Usage
+ * @module Usage
+ * @submodule Advanced
  */
 
 /**
@@ -289,7 +289,7 @@ import Validator from './validations/validator';
  *  ember install ember-i18n-cp-validations
  * ```
  *
- * @module Home
+ * @module Usage
  * @submodule I18n Solutions
  */
 

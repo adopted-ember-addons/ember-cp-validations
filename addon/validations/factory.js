@@ -45,14 +45,17 @@ const {
  * ## Running Manual Validations
  *
  * Although validations are lazily computed, there are times where we might want to force all or
- * specific validations to happen. For this reason we have exposed two methods:
+ * specific validations to happen. For this reason we have exposed three methods:
  *
  * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
  * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to valididating an attribute without changing its state
  *
- * ## Inspecting Validations
- *
+ * @module Validations
+ * @main Validations
+ */
+
+/**
  * All validations can be accessed via the `validations` object created on your model/object.
  * Each attribute also has its own validation which has the same properties.
  * An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink "ResultCollection"}}{{/crossLink}}.
@@ -80,9 +83,12 @@ const {
  * model.get('validations.attrs.email.messages');
  * // etc...
  * ```
- *
  * @module Validations
- * @main Validations
+ * @submodule Accessing Validations
+ */
+
+/**
+ * @module Validations
  * @class Factory
  */
 
