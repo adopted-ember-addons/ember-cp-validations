@@ -14,7 +14,8 @@ const {
  */
 
 /**
- * <h3 id="description">description</h3>
+ * ### description
+ *
  * A descriptor for your attribute used in the error message strings. Defaults to `This field'`.
  * You can overwrite this value in your `validators/messages.js` file by changing the `defaultDescription` property.
  *
@@ -27,7 +28,7 @@ const {
  * // 'Date of birth can't be blank'
  * ```
  *
- * <h3 id="dependentKeys">dependentKeys</h3>
+ * ### dependentKeys
  *
  * A list of other model specific dependents for you validator.
  *
@@ -44,7 +45,8 @@ const {
  * })
  * ```
  *
- * <h3 id="disabled">disabled</h3>
+ * ### disabled
+ *
  * If set to `true`, disables the given validator. This option would usually go hand-in-hand
  * with {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`.
  * Defaults to `false`.
@@ -64,7 +66,7 @@ const {
  * })
  * ```
  *
- * <h3 id="debounce">debounce</h3>
+ * ### debounce
  *
  * Debounces the validation with the given time in `milliseconds`. All debounced validations will
  * be handled asynchronously (wrapped in a promise).
@@ -79,7 +81,7 @@ const {
  * })
  * ```
  *
- * <h3 id="isWarning">isWarning</h3>
+ * ### isWarning
  *
  * Any validator can be declared as a warning validator by setting `isWarning` to true. These validators will act as
  * assertions that when return a message, will be placed under `warnings` and `warningMessages` collections. What this means,
@@ -95,7 +97,7 @@ const {
  * })
  * ```
  *
- * <h3 id="value">value</h3>
+ * ### value
  *
  * Used to retrieve the value to validate. This will overwrite the validator's default `value` method.
  * By default this returns `model[attribute]`. If you are dependent on other model attributes, you will
@@ -118,7 +120,7 @@ const {
  * })
  * ```
  *
- * <h3 id="message">message</h3>
+ * ### message
  *
  * This option can take two forms. It can either be a `string` or a `function`.
  * If a string is used, then it will overwrite all error message types for the specified validator.
