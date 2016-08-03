@@ -59,6 +59,23 @@ const Result = Ember.Object.extend({
   _validator: null,
 
   /**
+   * Determines if the _validations object is readOnly.
+   *
+   * This is needed because ResultCollections and global validation objects control their own
+   * state via CPs
+   *
+   * @property _isReadOnly
+   * @private
+   * @readOnly
+   * @type {Boolean}
+   */
+  _isReadOnly: computed('_validations', function() {
+    const validations = get(this, '_validations');
+
+    return (validations instanceof ValidationResultCollection) || get(validations, 'isValidations');
+  }).readOnly(),
+
+  /**
    * @property isWarning
    * @readOnly
    * @type {Boolean}
@@ -148,7 +165,7 @@ const Result = Ember.Object.extend({
   init() {
     this._super(...arguments);
 
-    if (get(this, 'isAsync')) {
+    if (get(this, 'isAsync') && !get(this, '_isReadOnly')) {
       this._handlePromise();
     }
   },
@@ -180,7 +197,6 @@ const Result = Ember.Object.extend({
       set(this, '_validations', result);
     } else if (isArray(result)) {
       const validationResultsCollection = ValidationResultCollection.create({
-        isValidations: true,
         attribute,
         content: result.map(r => Result.create({
           attribute,
@@ -190,23 +206,17 @@ const Result = Ember.Object.extend({
         }))
       });
       set(this, '_validations', validationResultsCollection);
-    } else if (typeof result === 'string') {
-      setProperties(validations, {
-        message: result,
-        isValid: false
-      });
-    } else if (typeof result === 'boolean') {
-      set(validations, 'isValid', result);
-    } else if (typeof result === 'object') {
-      setProperties(validations, result);
-    }
-  },
-
-  _setIsValidating(value) {
-    const validations = get(this, '_validations');
-
-    if(!get(validations, 'isValidations')) {
-      set(validations, 'isValidating', value);
+    } else if (!get(this, '_isReadOnly')) {
+      if (typeof result === 'string') {
+        setProperties(validations, {
+          message: result,
+          isValid: false
+        });
+      } else if (typeof result === 'boolean') {
+        set(validations, 'isValid', result);
+      } else if (typeof result === 'object') {
+        setProperties(validations, result);
+      }
     }
   },
 
@@ -218,22 +228,22 @@ const Result = Ember.Object.extend({
   _handlePromise() {
     const validations = get(this, '_validations');
 
-    this._setIsValidating(true);
+    set(validations, 'isValidating', true);
 
-    get(validations, '_promise').then(
+    get(this, '_promise').then(
       result => {
-        this._setIsValidating(false);
+        set(validations, 'isValidating', false);
         return this.update(result);
       },
       result => {
-        this._setIsValidating(false);
+        set(validations, 'isValidating', false);
         return this.update(result);
       }
     ).catch(reason => {
       // TODO: send into error state
       throw reason;
     }).finally(() => {
-      this._setIsValidating(false);
+      set(validations, 'isValidating', false);
     });
   }
 });

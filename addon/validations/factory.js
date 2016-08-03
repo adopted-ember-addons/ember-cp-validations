@@ -447,7 +447,8 @@ function createTopLevelPropsMixin(validatableAttrs) {
           promises.push(get(validation, '_promise'));
         }
       });
-      return RSVP.Promise.all(flatten(promises));
+      
+      return RSVP.allSettled(flatten(promises));
     }).readOnly()
   });
 }
@@ -724,9 +725,9 @@ function validate(options = {}, async = true) {
 
   if (async) {
     if (get(validationResultsCollection, 'isAsync')) {
-      resultObject.promise = get(validationResultsCollection, 'value');
+      return get(validationResultsCollection, '_promise').then(() => resultObject);
     }
-    return RSVP.hash(resultObject);
+    return Promise.resolve(resultObject);
   }
 
   return resultObject;
