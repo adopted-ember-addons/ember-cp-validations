@@ -180,6 +180,7 @@ const Result = Ember.Object.extend({
       set(this, '_validations', result);
     } else if (isArray(result)) {
       const validationResultsCollection = ValidationResultCollection.create({
+        isValidations: true,
         attribute,
         content: result.map(r => Result.create({
           attribute,
@@ -201,6 +202,14 @@ const Result = Ember.Object.extend({
     }
   },
 
+  _setIsValidating(value) {
+    const validations = get(this, '_validations');
+
+    if(!get(validations, 'isValidations')) {
+      set(validations, 'isValidating', value);
+    }
+  },
+
   /**
    * Promise handler
    * @method  _handlePromise
@@ -209,21 +218,22 @@ const Result = Ember.Object.extend({
   _handlePromise() {
     const validations = get(this, '_validations');
 
-    set(validations, 'isValidating', true);
-    get(this, '_promise').then(
+    this._setIsValidating(true);
+
+    get(validations, '_promise').then(
       result => {
-        set(validations, 'isValidating', false);
+        this._setIsValidating(false);
         return this.update(result);
       },
       result => {
-        set(validations, 'isValidating', false);
+        this._setIsValidating(false);
         return this.update(result);
       }
     ).catch(reason => {
       // TODO: send into error state
       throw reason;
     }).finally(() => {
-      set(validations, 'isValidating', false);
+      this._setIsValidating(false);
     });
   }
 });
