@@ -447,7 +447,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
           promises.push(get(validation, '_promise'));
         }
       });
-      
+
       return RSVP.allSettled(flatten(promises));
     }).readOnly()
   });
@@ -714,18 +714,18 @@ function validate(options = {}, async = true) {
     return v;
   }, []);
 
-  const validationResultsCollection = ValidationResultCollection.create({
+  const resultCollection = ValidationResultCollection.create({
     content: validationResults
   });
 
   const resultObject = {
     model,
-    validations: validationResultsCollection
+    validations: resultCollection
   };
 
   if (async) {
-    if (get(validationResultsCollection, 'isAsync')) {
-      return get(validationResultsCollection, '_promise').then(() => resultObject);
+    if (get(resultCollection, 'isAsync')) {
+      return RSVP.allSettled(makeArray(get(resultCollection, '_promise'))).then(() => resultObject);
     }
     return Promise.resolve(resultObject);
   }
