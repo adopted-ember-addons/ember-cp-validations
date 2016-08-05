@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.0.0-beta.5
+
+- [#294](https://github.com/offirgolan/ember-cp-validations/pull/294) [BUGFIX] Validate promise resolves even when validations are still validating
+
 ## v3.0.0-beta.4
 
 - [#266](https://github.com/offirgolan/ember-cp-validations/pull/266) Check for null in extractOptionsDependentKeys [@xcambar](https://github.com/xcambar)
