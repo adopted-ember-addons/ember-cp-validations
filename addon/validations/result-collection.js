@@ -367,10 +367,11 @@ export default Ember.Object.extend({
    * @type {Promise}
    */
   _promise: computed('content.@each._promise', cycleBreaker(function () {
-    const promises = get(this, 'content').getEach('_promise');
+    let promises = get(this, 'content').getEach('_promise');
+    promises = compact(flatten(promises));
 
     if (!isEmpty(promises)) {
-      return RSVP.all(compact(flatten(promises)));
+      return RSVP.allSettled(promises);
     }
   })).readOnly(),
 
