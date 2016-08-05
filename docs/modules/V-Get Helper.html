@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>I18n Solutions - Ember CP Validations</title>
+    <title>V-Get Helper - Ember CP Validations</title>
     <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -182,8 +182,8 @@
 
 
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> I18n Solutions Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/index.js#L279" target="_blank">
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> V-Get Helper Module
+              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/htmlbars-plugins/v-get.js#L6" target="_blank">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
     </h1>
@@ -193,18 +193,45 @@
 
 
         <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/index.js#L279">addon/index.js:279</a>
+            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/htmlbars-plugins/v-get.js#L6">htmlbars-plugins/v-get.js:6</a>
         </div>
 
 </div>
 
 
 <div class="module-description page-section">
-    <h2><a href="https://github.com/jasonmit/ember-intl-cp-validations"><strong>Ember-Intl</strong></a></h2>
-<pre class="code prettyprint"><code class="language-bash">ember install ember-intl-cp-validations
+    <p>Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error <code>message</code> for the <code>username</code> attribute, it would look something like this:</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{model.validations.attrs.username.message}}
 </code></pre>
-<h2><a href="https://github.com/jasonmit/ember-i18n-cp-validations"><strong>Ember-I18n</strong></a></h2>
-<pre class="code prettyprint"><code class="language-bash"> ember install ember-i18n-cp-validations
+<h2>The V-Get Helper</h2>
+<p>To bypass such long pathing, you can use the <code>v-get</code> helper.</p>
+<p><em><strong>Notice</strong>: Ember v1.13.0 is not supported due to a bug. Please use Ember v1.13.1 and higher or Ember v1.12.* and lower</em></p>
+<p><strong>Access global model properties</strong></p>
+<pre class="code prettyprint"><code class="language-handlebars">{{v-get model 'isValid'}}
+</code></pre>
+<p><strong>Access attribute specific properties</strong></p>
+<pre class="code prettyprint"><code class="language-handlebars">{{v-get model 'username' 'message'}}
+</code></pre>
+<p><strong>Access model relationship validations</strong></p>
+<p>Say we have a <code>user</code> model with a <code>details</code> attribute that is a belongsTo relationship, to access validations on the <code>details</code> attribute/model we can access it as such.</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{v-get model.details 'isValid'}}
+{{v-get model.details 'firstName' 'message'}}
+</code></pre>
+<p>What's awesome about this is that you can pass in bound properties!</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{v-get model attr prop}}
+{{v-get model prop}}
+</code></pre>
+<p>Here is a more extensive example:</p>
+<pre class="code prettyprint"><code class="language-handlebars">&lt;form&gt;
+  {{input value=model.username placeholder="Username"}}
+  {{#if (v-get model 'username' 'isInvalid')}}
+    &lt;div class="error"&gt;
+      {{v-get model 'username' 'message'}}
+    &lt;/div&gt;
+  {{/if}}
+
+  &lt;button type="submit" disabled={{v-get model 'isInvalid'}}&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
 </code></pre>
 
 </div>

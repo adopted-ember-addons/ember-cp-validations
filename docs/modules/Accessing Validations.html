@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>I18n Solutions - Ember CP Validations</title>
+    <title>Accessing Validations - Ember CP Validations</title>
     <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -182,8 +182,8 @@
 
 
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> I18n Solutions Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/index.js#L279" target="_blank">
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Accessing Validations Module
+              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L58" target="_blank">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
     </h1>
@@ -193,18 +193,31 @@
 
 
         <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/index.js#L279">addon/index.js:279</a>
+            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L58">addon/validations/factory.js:58</a>
         </div>
 
 </div>
 
 
 <div class="module-description page-section">
-    <h2><a href="https://github.com/jasonmit/ember-intl-cp-validations"><strong>Ember-Intl</strong></a></h2>
-<pre class="code prettyprint"><code class="language-bash">ember install ember-intl-cp-validations
+    <p>All validations can be accessed via the <code>validations</code> object created on your model/object.
+Each attribute also has its own validation which has the same properties.
+An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+<h3>Global Validations</h3>
+<p>Global validations exist on the <code>validations</code> object that resides on the object that is being validated.
+To see all possible properties, please checkout the docs for <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
+<pre class="code prettyprint"><code class="language-js">model.get('validations.isValid');
+model.get('validations.errors');
+model.get('validations.messages');
+// etc...
 </code></pre>
-<h2><a href="https://github.com/jasonmit/ember-i18n-cp-validations"><strong>Ember-I18n</strong></a></h2>
-<pre class="code prettyprint"><code class="language-bash"> ember install ember-i18n-cp-validations
+<h3>Attribute Validations</h3>
+<p>The <code>validations</code> object also contains an <code>attrs</code> object which holds a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>
+for each attribute specified in your validation rules.</p>
+<pre class="code prettyprint"><code class="language-js">model.get('validations.attrs.username.isValid');
+model.get('validations.attrs.password.errors');
+model.get('validations.attrs.email.messages');
+// etc...
 </code></pre>
 
 </div>

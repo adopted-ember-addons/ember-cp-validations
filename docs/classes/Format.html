@@ -31,7 +31,7 @@
         </div>
       </div>
     </nav>
-    <div class="row">
+    <div id="main-wrapper" class="row">
         <div id="content-wrapper">
             <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
                 <li class="panel panel-default">
@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.4" target="_blank">
-                                  Tag: v3.0.0-beta.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
+                                  Tag: v3.0.0-beta.5
                                 </a>
                             </h4>
                         </div>
@@ -70,20 +70,23 @@
                     <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
                         <div class="panel-body">
                                 <ol>
-                                        <li >
-                                            <a href="../modules/Home.html">Home</a>
-                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                                        </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Templating.html">Templating</a>
+                                                    <li class="sub"><a href="../modules/V-Get Helper.html">V-Get Helper</a></li>
                                         </li>
-                                        <li >
+                                        <li>
+                                            <a href="../modules/Usage.html">Usage</a>
+                                                    <li class="sub"><a href="../modules/Basic.html">Basic</a></li>
+                                                    <li class="sub"><a href="../modules/Advanced.html">Advanced</a></li>
+                                                    <li class="sub"><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li>
                                             <a href="../modules/Validations.html">Validations</a>
+                                                    <li class="sub"><a href="../modules/Accessing Validations.html">Accessing Validations</a></li>
                                         </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Validators.html">Validators</a>
+                                                    <li class="sub"><a href="../modules/Common Options.html">Common Options</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -101,28 +104,72 @@
                     <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
                         <div class="panel-body">
                             <ol>
-                                    <li ><a href="../classes/Alias.html">Alias</a></li>
-                                    <li ><a href="../classes/Base.html">Base</a></li>
-                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
-                                    <li ><a href="../classes/Collection.html">Collection</a></li>
-                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
-                                    <li ><a href="../classes/Custom.html">Custom</a></li>
-                                    <li ><a href="../classes/Date.html">Date</a></li>
-                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
-                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
-                                    <li ><a href="../classes/Error.html">Error</a></li>
-                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
-                                    <li ><a href="../classes/Factory.html">Factory</a></li>
-                                    <li  class="active" ><a href="../classes/Format.html">Format</a></li>
-                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
-                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
-                                    <li ><a href="../classes/Inline.html">Inline</a></li>
-                                    <li ><a href="../classes/Length.html">Length</a></li>
-                                    <li ><a href="../classes/Messages.html">Messages</a></li>
-                                    <li ><a href="../classes/Number.html">Number</a></li>
-                                    <li ><a href="../classes/Presence.html">Presence</a></li>
-                                    <li ><a href="../classes/Result.html">Result</a></li>
-                                    <li ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                                    <li>
+                                        <a href="../classes/Alias.html">Alias</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Base.html">Base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Belongs To.html">Belongs To</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Collection.html">Collection</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Confirmation.html">Confirmation</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Custom.html">Custom</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Date.html">Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Dependent.html">Dependent</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/DS Error.html">DS Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Error.html">Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Exclusion.html">Exclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Factory.html">Factory</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Format.html">Format</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Has Many.html">Has Many</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inclusion.html">Inclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inline.html">Inline</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Length.html">Length</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Messages.html">Messages</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Number.html">Number</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Presence.html">Presence</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Result.html">Result</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/ResultCollection.html">ResultCollection</a>
+                                    </li>
                             </ol>
                         </div>
                     </div>
@@ -132,13 +179,17 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
+
+
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Format Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/format.js#L18" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/format.js#L18" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
 </div>
+
+
 <div class="content-meta">
 
         <div class="extends">
@@ -149,13 +200,13 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/format.js#L18">addon/validators/format.js:18</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/format.js#L18">addon/validators/format.js:18</a>
         </div>
 </div>
 
 
 
-  <div class="yuidoc-class-description">
+  <div class="class-description">
   <p>Validate over a predefined or custom regular expression.</p>
 <h4>Options</h4>
 <ul>
@@ -302,7 +353,10 @@ validator('format', {
                   <div class="item-list">
   <div id="method_buildOptions" class="method item">
   	<span class="method-signature">
-  	<span class="name">buildOptions</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_buildOptions"></a>
+  		buildOptions
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -334,7 +388,7 @@ validator('format', {
   				Base
   			</a>
   			but overwritten in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/format.js#L65">addon/validators/format.js:65</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/format.js#L65">addon/validators/format.js:65</a>
   		</p>
   
   
@@ -383,7 +437,10 @@ validator('format', {
   </div>
   <div id="method_createErrorMessage" class="method item inherited">
   	<span class="method-signature">
-  	<span class="name">createErrorMessage</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_createErrorMessage"></a>
+  		createErrorMessage
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -412,7 +469,7 @@ validator('format', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L183">addon/validators/base.js:183</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L183">addon/validators/base.js:183</a>
   		</p>
   
   
@@ -488,7 +545,10 @@ validator('format', {
   </div>
   <div id="method_getValue" class="method item private inherited">
   	<span class="method-signature">
-  	<span class="name">getValue</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_getValue"></a>
+  		getValue
+  	</span>
   
   		<span class="paren">()</span>
   		<span class="returns-inline">
@@ -506,7 +566,7 @@ validator('format', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_getValue">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L153">addon/validators/base.js:153</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L153">addon/validators/base.js:153</a>
   		</p>
   
   
@@ -530,7 +590,10 @@ validator('format', {
   </div>
   <div id="method_validate" class="method item inherited">
   	<span class="method-signature">
-  	<span class="name">validate</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_validate"></a>
+  		validate
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -562,7 +625,7 @@ validator('format', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_validate">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L164">addon/validators/base.js:164</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L164">addon/validators/base.js:164</a>
   		</p>
   
   
@@ -634,7 +697,10 @@ validator('format', {
   </div>
   <div id="method_value" class="method item inherited">
   	<span class="method-signature">
-  	<span class="name">value</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_value"></a>
+  		value
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -660,7 +726,7 @@ validator('format', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_value">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L139">addon/validators/base.js:139</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L139">addon/validators/base.js:139</a>
   		</p>
   
   
@@ -709,7 +775,10 @@ validator('format', {
               <div id="tab_properties" role="tabpanel" class="tab-pane">
                   <div class="item-list">
   <div id="property__type" class="property item private inherited">
-      <h3 class="name">_type</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property__type"></a>
+          _type
+      </h3>
       <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
   
   
@@ -720,7 +789,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property__type">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L74">addon/validators/base.js:74</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L74">addon/validators/base.js:74</a>
           </p>
   
   
@@ -735,7 +804,10 @@ validator('format', {
   
   </div>
   <div id="property_attribute" class="property item inherited">
-      <h3 class="name">attribute</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_attribute"></a>
+          attribute
+      </h3>
       <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
   
   
@@ -745,7 +817,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_attribute">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L54">addon/validators/base.js:54</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L54">addon/validators/base.js:54</a>
           </p>
   
   
@@ -760,7 +832,10 @@ validator('format', {
   
   </div>
   <div id="property_defaultOptions" class="property item inherited">
-      <h3 class="name">defaultOptions</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_defaultOptions"></a>
+          defaultOptions
+      </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
@@ -770,7 +845,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_defaultOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L33">addon/validators/base.js:33</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L33">addon/validators/base.js:33</a>
           </p>
   
   
@@ -785,7 +860,10 @@ validator('format', {
   
   </div>
   <div id="property_errorMessages" class="property item inherited">
-      <h3 class="name">errorMessages</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_errorMessages"></a>
+          errorMessages
+      </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
@@ -795,7 +873,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_errorMessages">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L61">addon/validators/base.js:61</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L61">addon/validators/base.js:61</a>
           </p>
   
   
@@ -810,7 +888,10 @@ validator('format', {
   
   </div>
   <div id="property_globalOptions" class="property item inherited">
-      <h3 class="name">globalOptions</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_globalOptions"></a>
+          globalOptions
+      </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
@@ -820,7 +901,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_globalOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L40">addon/validators/base.js:40</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L40">addon/validators/base.js:40</a>
           </p>
   
   
@@ -835,7 +916,10 @@ validator('format', {
   
   </div>
   <div id="property_isWarning" class="property item inherited">
-      <h3 class="name">isWarning</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_isWarning"></a>
+          isWarning
+      </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
   
   
@@ -845,7 +929,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_isWarning">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L68">addon/validators/base.js:68</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L68">addon/validators/base.js:68</a>
           </p>
   
   
@@ -859,7 +943,10 @@ validator('format', {
   
   </div>
   <div id="property_model" class="property item inherited">
-      <h3 class="name">model</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_model"></a>
+          model
+      </h3>
       <span class="type">Model</span>
   
   
@@ -869,7 +956,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_model">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L47">addon/validators/base.js:47</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L47">addon/validators/base.js:47</a>
           </p>
   
   
@@ -884,7 +971,10 @@ validator('format', {
   
   </div>
   <div id="property_options" class="property item inherited">
-      <h3 class="name">options</h3>
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_options"></a>
+          options
+      </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
@@ -894,7 +984,7 @@ validator('format', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_options">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/base.js#L26">addon/validators/base.js:26</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/base.js#L26">addon/validators/base.js:26</a>
           </p>
   
   
@@ -926,6 +1016,7 @@ validator('format', {
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>
 </html>

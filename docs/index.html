@@ -31,7 +31,7 @@
         </div>
       </div>
     </nav>
-    <div class="row">
+    <div id="main-wrapper" class="row">
         <div id="content-wrapper">
             <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
                 <li class="panel panel-default">
@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.4" target="_blank">
-                                  Tag: v3.0.0-beta.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
+                                  Tag: v3.0.0-beta.5
                                 </a>
                             </h4>
                         </div>
@@ -70,20 +70,23 @@
                     <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
                         <div class="panel-body">
                                 <ol>
-                                        <li >
-                                            <a href="./modules/Home.html">Home</a>
-                                                    <li class="sub "><a href="./modules/Basic Usage.html">Basic Usage</a></li>
-                                                    <li class="sub "><a href="./modules/Advanced Usage.html">Advanced Usage</a></li>
-                                                    <li class="sub "><a href="./modules/I18n Solutions.html">I18n Solutions</a></li>
-                                        </li>
-                                        <li >
+                                        <li>
                                             <a href="./modules/Templating.html">Templating</a>
+                                                    <li class="sub"><a href="./modules/V-Get Helper.html">V-Get Helper</a></li>
                                         </li>
-                                        <li >
+                                        <li>
+                                            <a href="./modules/Usage.html">Usage</a>
+                                                    <li class="sub"><a href="./modules/Basic.html">Basic</a></li>
+                                                    <li class="sub"><a href="./modules/Advanced.html">Advanced</a></li>
+                                                    <li class="sub"><a href="./modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li>
                                             <a href="./modules/Validations.html">Validations</a>
+                                                    <li class="sub"><a href="./modules/Accessing Validations.html">Accessing Validations</a></li>
                                         </li>
-                                        <li >
+                                        <li>
                                             <a href="./modules/Validators.html">Validators</a>
+                                                    <li class="sub"><a href="./modules/Common Options.html">Common Options</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -101,28 +104,72 @@
                     <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
                         <div class="panel-body">
                             <ol>
-                                    <li ><a href="./classes/Alias.html">Alias</a></li>
-                                    <li ><a href="./classes/Base.html">Base</a></li>
-                                    <li ><a href="./classes/Belongs To.html">Belongs To</a></li>
-                                    <li ><a href="./classes/Collection.html">Collection</a></li>
-                                    <li ><a href="./classes/Confirmation.html">Confirmation</a></li>
-                                    <li ><a href="./classes/Custom.html">Custom</a></li>
-                                    <li ><a href="./classes/Date.html">Date</a></li>
-                                    <li ><a href="./classes/Dependent.html">Dependent</a></li>
-                                    <li ><a href="./classes/DS Error.html">DS Error</a></li>
-                                    <li ><a href="./classes/Error.html">Error</a></li>
-                                    <li ><a href="./classes/Exclusion.html">Exclusion</a></li>
-                                    <li ><a href="./classes/Factory.html">Factory</a></li>
-                                    <li ><a href="./classes/Format.html">Format</a></li>
-                                    <li ><a href="./classes/Has Many.html">Has Many</a></li>
-                                    <li ><a href="./classes/Inclusion.html">Inclusion</a></li>
-                                    <li ><a href="./classes/Inline.html">Inline</a></li>
-                                    <li ><a href="./classes/Length.html">Length</a></li>
-                                    <li ><a href="./classes/Messages.html">Messages</a></li>
-                                    <li ><a href="./classes/Number.html">Number</a></li>
-                                    <li ><a href="./classes/Presence.html">Presence</a></li>
-                                    <li ><a href="./classes/Result.html">Result</a></li>
-                                    <li ><a href="./classes/ResultCollection.html">ResultCollection</a></li>
+                                    <li>
+                                        <a href="./classes/Alias.html">Alias</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Base.html">Base</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Belongs To.html">Belongs To</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Collection.html">Collection</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Confirmation.html">Confirmation</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Custom.html">Custom</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Date.html">Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Dependent.html">Dependent</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/DS Error.html">DS Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Error.html">Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Exclusion.html">Exclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Factory.html">Factory</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Format.html">Format</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Has Many.html">Has Many</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Inclusion.html">Inclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Inline.html">Inline</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Length.html">Length</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Messages.html">Messages</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Number.html">Number</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Presence.html">Presence</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/Result.html">Result</a>
+                                    </li>
+                                    <li>
+                                        <a href="./classes/ResultCollection.html">ResultCollection</a>
+                                    </li>
                             </ol>
                         </div>
                     </div>
@@ -168,6 +215,7 @@
     <script src="./assets/vendor/jquery/jquery.min.js"></script>
     <script src="./assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="./assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="./assets/vendor/github-slugger/slugger.js"></script>
     <script src="./assets/js/yuidoc-bootstrap.js"></script>
 </body>
 </html>

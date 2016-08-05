@@ -31,7 +31,7 @@
         </div>
       </div>
     </nav>
-    <div class="row">
+    <div id="main-wrapper" class="row">
         <div id="content-wrapper">
             <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
                 <li class="panel panel-default">
@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.4" target="_blank">
-                                  Tag: v3.0.0-beta.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
+                                  Tag: v3.0.0-beta.5
                                 </a>
                             </h4>
                         </div>
@@ -70,20 +70,23 @@
                     <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
                         <div class="panel-body">
                                 <ol>
-                                        <li >
-                                            <a href="../modules/Home.html">Home</a>
-                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                                        </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Templating.html">Templating</a>
+                                                    <li class="sub"><a href="../modules/V-Get Helper.html">V-Get Helper</a></li>
                                         </li>
-                                        <li >
+                                        <li>
+                                            <a href="../modules/Usage.html">Usage</a>
+                                                    <li class="sub"><a href="../modules/Basic.html">Basic</a></li>
+                                                    <li class="sub"><a href="../modules/Advanced.html">Advanced</a></li>
+                                                    <li class="sub"><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li>
                                             <a href="../modules/Validations.html">Validations</a>
+                                                    <li class="sub"><a href="../modules/Accessing Validations.html">Accessing Validations</a></li>
                                         </li>
-                                        <li  class="active" >
+                                        <li>
                                             <a href="../modules/Validators.html">Validators</a>
+                                                    <li class="sub"><a href="../modules/Common Options.html">Common Options</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -101,28 +104,72 @@
                     <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
                         <div class="panel-body">
                             <ol>
-                                    <li ><a href="../classes/Alias.html">Alias</a></li>
-                                    <li ><a href="../classes/Base.html">Base</a></li>
-                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
-                                    <li ><a href="../classes/Collection.html">Collection</a></li>
-                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
-                                    <li ><a href="../classes/Custom.html">Custom</a></li>
-                                    <li ><a href="../classes/Date.html">Date</a></li>
-                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
-                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
-                                    <li ><a href="../classes/Error.html">Error</a></li>
-                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
-                                    <li ><a href="../classes/Factory.html">Factory</a></li>
-                                    <li ><a href="../classes/Format.html">Format</a></li>
-                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
-                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
-                                    <li ><a href="../classes/Inline.html">Inline</a></li>
-                                    <li ><a href="../classes/Length.html">Length</a></li>
-                                    <li ><a href="../classes/Messages.html">Messages</a></li>
-                                    <li ><a href="../classes/Number.html">Number</a></li>
-                                    <li ><a href="../classes/Presence.html">Presence</a></li>
-                                    <li ><a href="../classes/Result.html">Result</a></li>
-                                    <li ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                                    <li>
+                                        <a href="../classes/Alias.html">Alias</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Base.html">Base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Belongs To.html">Belongs To</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Collection.html">Collection</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Confirmation.html">Confirmation</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Custom.html">Custom</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Date.html">Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Dependent.html">Dependent</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/DS Error.html">DS Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Error.html">Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Exclusion.html">Exclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Factory.html">Factory</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Format.html">Format</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Has Many.html">Has Many</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inclusion.html">Inclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inline.html">Inline</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Length.html">Length</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Messages.html">Messages</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Number.html">Number</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Presence.html">Presence</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Result.html">Result</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/ResultCollection.html">ResultCollection</a>
+                                    </li>
                             </ol>
                         </div>
                     </div>
@@ -132,9 +179,11 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
+
+
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Validators Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/presence.js#L17" target="_blank">
+              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/presence.js#L17" target="_blank">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
     </h1>
@@ -144,135 +193,20 @@
 
 
         <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validators/presence.js#L17">addon/validators/presence.js:17</a>
+            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validators/presence.js#L17">addon/validators/presence.js:17</a>
         </div>
 
 </div>
 
 
-<div class="moduledesc page-section">
-    <h2>Common Options</h2>
-<p><h3 id="description">description</h3>
-A descriptor for your attribute used in the error message strings. Defaults to <code>This field'</code>.
-You can overwrite this value in your <code>validators/messages.js</code> file by changing the <code>defaultDescription</code> property.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('date', {
-  description: 'Date of birth'
-})
-// If validation is run and the attribute is empty, the error returned will be:
-// 'Date of birth can't be blank'
-</code></pre>
-<p><h3 id="dependentKeys">dependentKeys</h3></p>
-<p>A list of other model specific dependents for you validator.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('has-friends', {
-  dependentKeys: ['model.friends.[]']
-})
-validator('has-valid-friends', {
-  dependentKeys: ['model.friends.@each.username']
-})
-validator('x-validator', {
-  dependentKeys: ['model.username', 'model.email', 'model.meta.foo.bar']
-})
-</code></pre>
-<p><h3 id="disabled">disabled</h3>
-If set to <code>true</code>, disables the given validator. This option would usually go hand-in-hand
-with <a href="../modules/Advanced Usage.html">options as functions</a> and <code>dependentKeys</code>.
-Defaults to <code>false</code>.</p>
-<pre class="code prettyprint"><code class="language-js">// Examples
-validator('presence', {
-  presence: true,
-  disabled: true
-})
-validator('presence', {
-  presence: true,
-  dependentKeys: ['shouldValidate'],
-  disabled(model, attribute) {
-    return !model.get('shouldValidate');
-  }
-})
-</code></pre>
-<p><h3 id="debounce">debounce</h3></p>
-<p>Debounces the validation with the given time in <code>milliseconds</code>. All debounced validations will
-be handled asynchronously (wrapped in a promise).</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('length', {
-  debounce: 500
-})
-validator('x-validator', {
-  debounce: 250
-})
-</code></pre>
-<p><h3 id="isWarning">isWarning</h3></p>
-<p>Any validator can be declared as a warning validator by setting <code>isWarning</code> to true. These validators will act as
-assertions that when return a message, will be placed under <code>warnings</code> and <code>warningMessages</code> collections. What this means,
-is that these validators will not have any affect on the valid state of the attribute allowing you to display warning messages
-even when the attribute is valid.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('length', {
-  isWarning: true,
-  min: 6,
-  message: 'Password is weak'
-})
-</code></pre>
-<p><h3 id="value">value</h3></p>
-<p>Used to retrieve the value to validate. This will overwrite the validator's default <code>value</code> method.
-By default this returns <code>model[attribute]</code>. If you are dependent on other model attributes, you will
-need to add them as <code>dependentKeys</code>.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('date', {
-  value(model, attribute) {
-    // Format the orignal value before passing it into the validator
-    return moment().utc(model.get(attribute)).format('DD/MM/YYY');
-  }
-})
-validator('number', {
-     dependentKeys: ['someOtherAttr'],
-  value(model, attribute) {
-    // Validate a value that is not the current attribute
-    return this.get('model').get('someOtherAttr');
-  }
-})
-</code></pre>
-<p><h3 id="message">message</h3></p>
-<p>This option can take two forms. It can either be a <code>string</code> or a <code>function</code>.
-If a string is used, then it will overwrite all error message types for the specified validator.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example: String
-validator('confirmation', {
-  message: 'Email does not match {attribute}. What are you even thinking?!'
-})
-</code></pre>
-<p>We can pass a <code>function</code> into our message option for even more customization capabilities.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example: Function
-validator('date', {
-  message: function(type, options, value, context) {
-    if (type === 'before') {
-      return '{description} should really be before {date}';
-    }
-    if (type === 'after') {
-      return '{description} should really be after {date}';
-    }
-  }
-})
-</code></pre>
-<p>The message function is given the following arguments:</p>
-<ul>
-<li><code>type</code> (<strong>String</strong>): The error message type</li>
-<li><code>options</code> (<strong>Object</strong>): The validator options that were defined in the model</li>
-<li><code>value</code>: The current value being evaluated</li>
-<li><code>context</code> (<strong>Object</strong>): Context for string replacement</li>
-</ul>
-<p>The return value must be a <code>string</code>. If nothing is returned (<code>undefined</code>),
-defaults to the default error message of the specified type.</p>
-<p>Within this function, the context is set to that of the current validator.
-This gives you access to the model, defaultMessages, options and more.</p>
-
+<div class="module-description page-section">
+    
 </div>
 
 
     <div class="yui3-g footer">
             <div class="yui3-u-1-2">
-                    <p>This module provides the following classes:</p>
+                    <h3>Classes</h3>
 
                     <ul class="module-classes">
                         <li class="module-class">
@@ -368,6 +302,17 @@ This gives you access to the model, defaultMessages, options and more.</p>
                     </ul>
             </div>
 
+            <div class="yui3-u-1-2">
+                    <h3>Submodules</h3>
+
+                    <ul class="module-submodules">
+                        <li class="module-submodule">
+                            <a href="../modules/Common Options.html">
+                                Common Options
+                            </a>
+                        </li>
+                    </ul>
+            </div>
 
     </div>
                         </div>
@@ -381,6 +326,7 @@ This gives you access to the model, defaultMessages, options and more.</p>
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>
 </html>

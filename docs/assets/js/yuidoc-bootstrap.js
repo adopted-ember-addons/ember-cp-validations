@@ -30,6 +30,23 @@ $(function() {
         }
     }
 
+    function setupActiveSidebarLink() {
+        var pathname = window.location.pathname;
+
+        if(pathname) {
+            var pathArr = pathname.split('/');
+            var path = decodeURIComponent(pathArr.slice(pathArr.length - 2, pathArr.length).join('/')); // modules/My Module.html
+
+            $('#sidebar li > a').each(function(i) {
+                var a = $(this);
+
+                if(a.attr('href').indexOf(path) > -1) {
+                    a.parent('li').addClass('active');
+                }
+            });
+        }
+    }
+
     function setUpWidgets() {
         var source = [];
         var sidebarSearch;
@@ -45,6 +62,19 @@ $(function() {
             select : function(event, ui) {
                 $('#sidebar > li a:contains(' + ui.item.label + ')')[0].click();
             }
+        });
+    }
+
+    function setupHeaderAnchors() {
+        var slugger = new GithubSlugger();
+
+        $('h1, h2, h3, h4, h5, h6', '.module-description, .class-description').each(function() {
+            var $element = $(this);
+            var id = slugger.slug($element.text());
+
+            $element.attr('id', id);
+            $element.addClass('anchorable-toc');
+            $element.prepend('<a class="fa fa-link toc-anchor" href="#' + id + '"></a>');
         });
     }
 
@@ -231,9 +261,12 @@ $(function() {
     //  Immediate function calls
     // ************************************************************************* //
 
+    setupHeaderAnchors();
     setUpOptionsCheckboxes();
+    setupActiveSidebarLink();
     setUpWidgets();
     setUpHashChange();
+
     if (window.location.hash) {
         moveToWindowHash();
     }

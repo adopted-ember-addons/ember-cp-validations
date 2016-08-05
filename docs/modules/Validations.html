@@ -31,7 +31,7 @@
         </div>
       </div>
     </nav>
-    <div class="row">
+    <div id="main-wrapper" class="row">
         <div id="content-wrapper">
             <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
                 <li class="panel panel-default">
@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.4" target="_blank">
-                                  Tag: v3.0.0-beta.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
+                                  Tag: v3.0.0-beta.5
                                 </a>
                             </h4>
                         </div>
@@ -70,20 +70,23 @@
                     <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
                         <div class="panel-body">
                                 <ol>
-                                        <li >
-                                            <a href="../modules/Home.html">Home</a>
-                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                                        </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Templating.html">Templating</a>
+                                                    <li class="sub"><a href="../modules/V-Get Helper.html">V-Get Helper</a></li>
                                         </li>
-                                        <li  class="active" >
+                                        <li>
+                                            <a href="../modules/Usage.html">Usage</a>
+                                                    <li class="sub"><a href="../modules/Basic.html">Basic</a></li>
+                                                    <li class="sub"><a href="../modules/Advanced.html">Advanced</a></li>
+                                                    <li class="sub"><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li>
                                             <a href="../modules/Validations.html">Validations</a>
+                                                    <li class="sub"><a href="../modules/Accessing Validations.html">Accessing Validations</a></li>
                                         </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Validators.html">Validators</a>
+                                                    <li class="sub"><a href="../modules/Common Options.html">Common Options</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -101,28 +104,72 @@
                     <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
                         <div class="panel-body">
                             <ol>
-                                    <li ><a href="../classes/Alias.html">Alias</a></li>
-                                    <li ><a href="../classes/Base.html">Base</a></li>
-                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
-                                    <li ><a href="../classes/Collection.html">Collection</a></li>
-                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
-                                    <li ><a href="../classes/Custom.html">Custom</a></li>
-                                    <li ><a href="../classes/Date.html">Date</a></li>
-                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
-                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
-                                    <li ><a href="../classes/Error.html">Error</a></li>
-                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
-                                    <li ><a href="../classes/Factory.html">Factory</a></li>
-                                    <li ><a href="../classes/Format.html">Format</a></li>
-                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
-                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
-                                    <li ><a href="../classes/Inline.html">Inline</a></li>
-                                    <li ><a href="../classes/Length.html">Length</a></li>
-                                    <li ><a href="../classes/Messages.html">Messages</a></li>
-                                    <li ><a href="../classes/Number.html">Number</a></li>
-                                    <li ><a href="../classes/Presence.html">Presence</a></li>
-                                    <li ><a href="../classes/Result.html">Result</a></li>
-                                    <li ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                                    <li>
+                                        <a href="../classes/Alias.html">Alias</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Base.html">Base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Belongs To.html">Belongs To</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Collection.html">Collection</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Confirmation.html">Confirmation</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Custom.html">Custom</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Date.html">Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Dependent.html">Dependent</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/DS Error.html">DS Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Error.html">Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Exclusion.html">Exclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Factory.html">Factory</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Format.html">Format</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Has Many.html">Has Many</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inclusion.html">Inclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inline.html">Inline</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Length.html">Length</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Messages.html">Messages</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Number.html">Number</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Presence.html">Presence</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Result.html">Result</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/ResultCollection.html">ResultCollection</a>
+                                    </li>
                             </ol>
                         </div>
                     </div>
@@ -132,9 +179,11 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
+
+
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Validations Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/result.js#L24" target="_blank">
+              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result.js#L24" target="_blank">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
     </h1>
@@ -144,48 +193,28 @@
 
 
         <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/result.js#L24">addon/validations/result.js:24</a>
+            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result.js#L24">addon/validations/result.js:24</a>
         </div>
 
 </div>
 
 
-<div class="moduledesc page-section">
+<div class="module-description page-section">
     <h2>Running Manual Validations</h2>
 <p>Although validations are lazily computed, there are times where we might want to force all or
-specific validations to happen. For this reason we have exposed two methods:</p>
+specific validations to happen. For this reason we have exposed three methods:</p>
 <ul>
 <li><a href="../classes/Factory.html#method_validateSync" class="crosslink">validateSync</a>: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous</li>
 <li><a href="../classes/Factory.html#method_validate" class="crosslink">validate</a>: Will always return a promise and should be used if asynchronous validations are present</li>
 <li><a href="../classes/Factory.html#method_validateAttribute" class="crosslink">validateAttribute</a>: A functional approach to valididating an attribute without changing its state</li>
 </ul>
-<h2>Inspecting Validations</h2>
-<p>All validations can be accessed via the <code>validations</code> object created on your model/object.
-Each attribute also has its own validation which has the same properties.
-An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
-<h3>Global Validations</h3>
-<p>Global validations exist on the <code>validations</code> object that resides on the object that is being validated.
-To see all possible properties, please checkout the docs for <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
-<pre class="code prettyprint"><code class="language-js">model.get('validations.isValid');
-model.get('validations.errors');
-model.get('validations.messages');
-// etc...
-</code></pre>
-<h3>Attribute Validations</h3>
-<p>The <code>validations</code> object also contains an <code>attrs</code> object which holds a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>
-for each attribute specified in your validation rules.</p>
-<pre class="code prettyprint"><code class="language-js">model.get('validations.attrs.username.isValid');
-model.get('validations.attrs.password.errors');
-model.get('validations.attrs.email.messages');
-// etc...
-</code></pre>
 
 </div>
 
 
     <div class="yui3-g footer">
             <div class="yui3-u-1-2">
-                    <p>This module provides the following classes:</p>
+                    <h3>Classes</h3>
 
                     <ul class="module-classes">
                         <li class="module-class">
@@ -211,6 +240,17 @@ model.get('validations.attrs.email.messages');
                     </ul>
             </div>
 
+            <div class="yui3-u-1-2">
+                    <h3>Submodules</h3>
+
+                    <ul class="module-submodules">
+                        <li class="module-submodule">
+                            <a href="../modules/Accessing Validations.html">
+                                Accessing Validations
+                            </a>
+                        </li>
+                    </ul>
+            </div>
 
     </div>
                         </div>
@@ -224,6 +264,7 @@ model.get('validations.attrs.email.messages');
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>
 </html>

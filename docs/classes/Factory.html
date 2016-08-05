@@ -31,7 +31,7 @@
         </div>
       </div>
     </nav>
-    <div class="row">
+    <div id="main-wrapper" class="row">
         <div id="content-wrapper">
             <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
                 <li class="panel panel-default">
@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.4" target="_blank">
-                                  Tag: v3.0.0-beta.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
+                                  Tag: v3.0.0-beta.5
                                 </a>
                             </h4>
                         </div>
@@ -70,20 +70,23 @@
                     <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
                         <div class="panel-body">
                                 <ol>
-                                        <li >
-                                            <a href="../modules/Home.html">Home</a>
-                                                    <li class="sub "><a href="../modules/Basic Usage.html">Basic Usage</a></li>
-                                                    <li class="sub "><a href="../modules/Advanced Usage.html">Advanced Usage</a></li>
-                                                    <li class="sub "><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
-                                        </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Templating.html">Templating</a>
+                                                    <li class="sub"><a href="../modules/V-Get Helper.html">V-Get Helper</a></li>
                                         </li>
-                                        <li >
+                                        <li>
+                                            <a href="../modules/Usage.html">Usage</a>
+                                                    <li class="sub"><a href="../modules/Basic.html">Basic</a></li>
+                                                    <li class="sub"><a href="../modules/Advanced.html">Advanced</a></li>
+                                                    <li class="sub"><a href="../modules/I18n Solutions.html">I18n Solutions</a></li>
+                                        </li>
+                                        <li>
                                             <a href="../modules/Validations.html">Validations</a>
+                                                    <li class="sub"><a href="../modules/Accessing Validations.html">Accessing Validations</a></li>
                                         </li>
-                                        <li >
+                                        <li>
                                             <a href="../modules/Validators.html">Validators</a>
+                                                    <li class="sub"><a href="../modules/Common Options.html">Common Options</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -101,28 +104,72 @@
                     <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
                         <div class="panel-body">
                             <ol>
-                                    <li ><a href="../classes/Alias.html">Alias</a></li>
-                                    <li ><a href="../classes/Base.html">Base</a></li>
-                                    <li ><a href="../classes/Belongs To.html">Belongs To</a></li>
-                                    <li ><a href="../classes/Collection.html">Collection</a></li>
-                                    <li ><a href="../classes/Confirmation.html">Confirmation</a></li>
-                                    <li ><a href="../classes/Custom.html">Custom</a></li>
-                                    <li ><a href="../classes/Date.html">Date</a></li>
-                                    <li ><a href="../classes/Dependent.html">Dependent</a></li>
-                                    <li ><a href="../classes/DS Error.html">DS Error</a></li>
-                                    <li ><a href="../classes/Error.html">Error</a></li>
-                                    <li ><a href="../classes/Exclusion.html">Exclusion</a></li>
-                                    <li  class="active" ><a href="../classes/Factory.html">Factory</a></li>
-                                    <li ><a href="../classes/Format.html">Format</a></li>
-                                    <li ><a href="../classes/Has Many.html">Has Many</a></li>
-                                    <li ><a href="../classes/Inclusion.html">Inclusion</a></li>
-                                    <li ><a href="../classes/Inline.html">Inline</a></li>
-                                    <li ><a href="../classes/Length.html">Length</a></li>
-                                    <li ><a href="../classes/Messages.html">Messages</a></li>
-                                    <li ><a href="../classes/Number.html">Number</a></li>
-                                    <li ><a href="../classes/Presence.html">Presence</a></li>
-                                    <li ><a href="../classes/Result.html">Result</a></li>
-                                    <li ><a href="../classes/ResultCollection.html">ResultCollection</a></li>
+                                    <li>
+                                        <a href="../classes/Alias.html">Alias</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Base.html">Base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Belongs To.html">Belongs To</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Collection.html">Collection</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Confirmation.html">Confirmation</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Custom.html">Custom</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Date.html">Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Dependent.html">Dependent</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/DS Error.html">DS Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Error.html">Error</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Exclusion.html">Exclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Factory.html">Factory</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Format.html">Format</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Has Many.html">Has Many</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inclusion.html">Inclusion</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Inline.html">Inline</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Length.html">Length</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Messages.html">Messages</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Number.html">Number</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Presence.html">Presence</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/Result.html">Result</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/ResultCollection.html">ResultCollection</a>
+                                    </li>
                             </ol>
                         </div>
                     </div>
@@ -132,13 +179,17 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
+
+
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Factory Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L44" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L90" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
 </div>
+
+
 <div class="content-meta">
 
 
@@ -146,43 +197,12 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L44">addon/validations/factory.js:44</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L90">addon/validations/factory.js:90</a>
         </div>
 </div>
 
 
 
-  <div class="yuidoc-class-description">
-  <h2>Running Manual Validations</h2>
-<p>Although validations are lazily computed, there are times where we might want to force all or
-specific validations to happen. For this reason we have exposed two methods:</p>
-<ul>
-<li><a href="../classes/Factory.html#method_validateSync" class="crosslink">validateSync</a>: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous</li>
-<li><a href="../classes/Factory.html#method_validate" class="crosslink">validate</a>: Will always return a promise and should be used if asynchronous validations are present</li>
-<li><a href="../classes/Factory.html#method_validateAttribute" class="crosslink">validateAttribute</a>: A functional approach to valididating an attribute without changing its state</li>
-</ul>
-<h2>Inspecting Validations</h2>
-<p>All validations can be accessed via the <code>validations</code> object created on your model/object.
-Each attribute also has its own validation which has the same properties.
-An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
-<h3>Global Validations</h3>
-<p>Global validations exist on the <code>validations</code> object that resides on the object that is being validated.
-To see all possible properties, please checkout the docs for <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
-<pre class="code prettyprint"><code class="language-js">model.get('validations.isValid');
-model.get('validations.errors');
-model.get('validations.messages');
-// etc...
-</code></pre>
-<h3>Attribute Validations</h3>
-<p>The <code>validations</code> object also contains an <code>attrs</code> object which holds a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>
-for each attribute specified in your validation rules.</p>
-<pre class="code prettyprint"><code class="language-js">model.get('validations.attrs.username.isValid');
-model.get('validations.attrs.password.errors');
-model.get('validations.attrs.email.messages');
-// etc...
-</code></pre>
-
-  </div>
 
 <div>
     <div class="page-section">
@@ -305,7 +325,10 @@ model.get('validations.attrs.email.messages');
                   <div class="item-list">
   <div id="method_buildValidations" class="method item">
   	<span class="method-signature">
-  	<span class="name">buildValidations</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_buildValidations"></a>
+  		buildValidations
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -328,7 +351,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L89">addon/validations/factory.js:89</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L95">addon/validations/factory.js:95</a>
   		</p>
   
   
@@ -365,7 +388,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_createAttrsClass" class="method item private">
   	<span class="method-signature">
-  	<span class="name">createAttrsClass</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_createAttrsClass"></a>
+  		createAttrsClass
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -395,7 +421,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L285">addon/validations/factory.js:285</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L291">addon/validations/factory.js:291</a>
   		</p>
   
   
@@ -447,7 +473,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_createCPValidationFor" class="method item private">
   	<span class="method-signature">
-  	<span class="name">createCPValidationFor</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_createCPValidationFor"></a>
+  		createCPValidationFor
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -474,7 +503,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L338">addon/validations/factory.js:338</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L344">addon/validations/factory.js:344</a>
   		</p>
   
   
@@ -518,7 +547,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_createTopLevelPropsMixin" class="method item private">
   	<span class="method-signature">
-  	<span class="name">createTopLevelPropsMixin</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_createTopLevelPropsMixin"></a>
+  		createTopLevelPropsMixin
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -539,7 +571,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L383">addon/validations/factory.js:383</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L389">addon/validations/factory.js:389</a>
   		</p>
   
   
@@ -568,7 +600,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_createValidationsClass" class="method item private">
   	<span class="method-signature">
-  	<span class="name">createValidationsClass</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_createValidationsClass"></a>
+  		createValidationsClass
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -598,7 +633,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L186">addon/validations/factory.js:186</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L192">addon/validations/factory.js:192</a>
   		</p>
   
   
@@ -653,7 +688,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_createValidatorsFor" class="method item private">
   	<span class="method-signature">
-  	<span class="name">createValidatorsFor</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_createValidatorsFor"></a>
+  		createValidatorsFor
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -680,7 +718,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L606">addon/validations/factory.js:606</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L613">addon/validations/factory.js:613</a>
   		</p>
   
   
@@ -722,7 +760,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_debouncedValidate" class="method item private">
   	<span class="method-signature">
-  	<span class="name">debouncedValidate</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_debouncedValidate"></a>
+  		debouncedValidate
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -758,7 +799,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L517">addon/validations/factory.js:517</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L524">addon/validations/factory.js:524</a>
   		</p>
   
   
@@ -821,7 +862,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_extractOptionsDependentKeys" class="method item">
   	<span class="method-signature">
-  	<span class="name">extractOptionsDependentKeys</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_extractOptionsDependentKeys"></a>
+  		extractOptionsDependentKeys
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -844,7 +888,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L494">addon/validations/factory.js:494</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L501">addon/validations/factory.js:501</a>
   		</p>
   
   
@@ -881,7 +925,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_getCPDependentKeysFor" class="method item private">
   	<span class="method-signature">
-  	<span class="name">getCPDependentKeysFor</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_getCPDependentKeysFor"></a>
+  		getCPDependentKeysFor
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -908,7 +955,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L449">addon/validations/factory.js:449</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L456">addon/validations/factory.js:456</a>
   		</p>
   
   
@@ -952,7 +999,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_getValidatorCacheFor" class="method item private">
   	<span class="method-signature">
-  	<span class="name">getValidatorCacheFor</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_getValidatorCacheFor"></a>
+  		getValidatorCacheFor
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -979,7 +1029,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L587">addon/validations/factory.js:587</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L594">addon/validations/factory.js:594</a>
   		</p>
   
   
@@ -1021,7 +1071,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_getValidatorsFor" class="method item private">
   	<span class="method-signature">
-  	<span class="name">getValidatorsFor</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_getValidatorsFor"></a>
+  		getValidatorsFor
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1048,7 +1101,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L568">addon/validations/factory.js:568</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L575">addon/validations/factory.js:575</a>
   		</p>
   
   
@@ -1090,7 +1143,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_lookupValidator" class="method item private">
   	<span class="method-signature">
-  	<span class="name">lookupValidator</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_lookupValidator"></a>
+  		lookupValidator
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1117,7 +1173,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L647">addon/validations/factory.js:647</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L654">addon/validations/factory.js:654</a>
   		</p>
   
   
@@ -1161,7 +1217,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_normalizeOptions" class="method item private">
   	<span class="method-signature">
-  	<span class="name">normalizeOptions</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_normalizeOptions"></a>
+  		normalizeOptions
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1185,7 +1244,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L144">addon/validations/factory.js:144</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L150">addon/validations/factory.js:150</a>
   		</p>
   
   
@@ -1224,7 +1283,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_validate" class="method item">
   	<span class="method-signature">
-  	<span class="name">validate</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_validate"></a>
+  		validate
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1250,7 +1312,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L666">addon/validations/factory.js:666</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L673">addon/validations/factory.js:673</a>
   		</p>
   
   
@@ -1309,7 +1371,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_validateAttribute" class="method item">
   	<span class="method-signature">
-  	<span class="name">validateAttribute</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_validateAttribute"></a>
+  		validateAttribute
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1336,7 +1401,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L729">addon/validations/factory.js:729</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L736">addon/validations/factory.js:736</a>
   		</p>
   
   
@@ -1385,7 +1450,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_validateSync" class="method item">
   	<span class="method-signature">
-  	<span class="name">validateSync</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_validateSync"></a>
+  		validateSync
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1408,7 +1476,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L769">addon/validations/factory.js:769</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L776">addon/validations/factory.js:776</a>
   		</p>
   
   
@@ -1450,7 +1518,10 @@ model.get('validations.attrs.email.messages');
   </div>
   <div id="method_validationReturnValueHandler" class="method item private">
   	<span class="method-signature">
-  	<span class="name">validationReturnValueHandler</span>
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_validationReturnValueHandler"></a>
+  		validationReturnValueHandler
+  	</span>
   
   		<div class="args">
   			<span class="paren">(</span><ul class="args-list inline commas">
@@ -1480,7 +1551,7 @@ model.get('validations.attrs.email.messages');
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.4/addon/validations/factory.js#L536">addon/validations/factory.js:536</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L543">addon/validations/factory.js:543</a>
   		</p>
   
   
@@ -1546,6 +1617,7 @@ model.get('validations.attrs.email.messages');
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
     <script src="../assets/js/yuidoc-bootstrap.js"></script>
 </body>
 </html>
