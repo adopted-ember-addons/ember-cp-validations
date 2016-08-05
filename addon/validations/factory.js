@@ -447,7 +447,8 @@ function createTopLevelPropsMixin(validatableAttrs) {
           promises.push(get(validation, '_promise'));
         }
       });
-      return RSVP.Promise.all(flatten(promises));
+
+      return RSVP.allSettled(flatten(promises));
     }).readOnly()
   });
 }
@@ -713,20 +714,20 @@ function validate(options = {}, async = true) {
     return v;
   }, []);
 
-  const validationResultsCollection = ValidationResultCollection.create({
+  const resultCollection = ValidationResultCollection.create({
     content: validationResults
   });
 
   const resultObject = {
     model,
-    validations: validationResultsCollection
+    validations: resultCollection
   };
 
   if (async) {
-    if (get(validationResultsCollection, 'isAsync')) {
-      resultObject.promise = get(validationResultsCollection, 'value');
+    if (get(resultCollection, 'isAsync')) {
+      return RSVP.allSettled(makeArray(get(resultCollection, '_promise'))).then(() => resultObject);
     }
-    return RSVP.hash(resultObject);
+    return Promise.resolve(resultObject);
   }
 
   return resultObject;
