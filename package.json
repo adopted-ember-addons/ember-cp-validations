@@ -65,7 +65,7 @@
     "ember-moment": "6.1.0",
     "ember-resolver": "^2.0.3",
     "ember-truth-helpers": "1.2.0",
-    "loader.js": "^4.0.1",
+    "loader.js": "^4.0.11",
     "moment": "2.14.1",
     "moment-timezone": "0.5.5",
     "yuidoc-ember-theme": "^1.2.1"
