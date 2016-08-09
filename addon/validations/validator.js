@@ -112,17 +112,17 @@ const {
  *   }
  * })
  * validator('number', {
- * 	 dependentKeys: ['someOtherAttr'],
+ *   dependentKeys: ['someOtherAttr'],
  *   value(model, attribute) {
- *   	// Validate a value that is not the current attribute
- *   	return this.get('model').get('someOtherAttr');
+ *    // Validate a value that is not the current attribute
+ *    return this.get('model').get('someOtherAttr');
  *   }
  * })
  * ```
  *
  * ### message
  *
- * This option can take two forms. It can either be a `string` or a `function`.
+ * This option can take two forms. It can either be a `string` (a CP that returns a string is also valid), or a `function`.
  * If a string is used, then it will overwrite all error message types for the specified validator.
  *
  * ```javascript
@@ -137,7 +137,7 @@ const {
  * ```javascript
  * // Example: Function
  * validator('date', {
- *   message: function(type, options, value, context) {
+ *   message(type, options, value, context) {
  *     if (type === 'before') {
  *       return '{description} should really be before {date}';
  *     }

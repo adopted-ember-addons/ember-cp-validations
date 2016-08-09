@@ -211,10 +211,8 @@ import Validator from './validations/validator';
  *   lastName: validator('presence', true)
  * }, {
  *   description: 'This field'
- *   dependentKeys: ['i18n.locale', 'disableValidations'],
- *   disabled(model, attribute) {
- *     return model.get('disableValidations');
- *   }
+ *   dependentKeys: ['i18n.locale'],
+ *   disabled: computed.readOnly('model.disableValidations')
  * });
  * ```
  *
@@ -277,13 +275,13 @@ import Validator from './validations/validator';
  */
 
 /**
- * ## [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
+ * ### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
  *
  *  ```bash
  *  ember install ember-intl-cp-validations
  *  ```
  *
- * ## [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
+ * ### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
  *
  * ```bash
  *  ember install ember-i18n-cp-validations
