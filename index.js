@@ -13,7 +13,10 @@ module.exports = {
     var VGet = require('./htmlbars-plugins/v-get');
     registry.add('htmlbars-ast-plugin', {
       name: "v-get",
-      plugin: VGet
+      plugin: VGet,
+      baseDir: function() {
+        return __dirname;
+      }
     });
 
   }
