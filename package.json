@@ -53,7 +53,7 @@
     "ember-cli-moment-shim": "2.0.0",
     "ember-cli-qunit": "^2.0.2",
     "ember-cli-release": "1.0.0-beta.2",
-    "ember-cli-sri": "^2.1.0",
+    "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^1.2.0",
     "ember-cli-yuidoc": "0.8.7",
     "ember-code-snippet": "1.4.0",
