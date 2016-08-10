@@ -12,6 +12,7 @@ import ValidationResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
+import { isDsModel } from '../utils/utils';
 
 const {
   get,
@@ -122,7 +123,7 @@ function buildValidations(validations = {}, globalOptions = {}) {
           inheritedClass = this._super();
         }
 
-        Validations = createValidationsClass(inheritedClass, validations, getOwner(this));
+        Validations = createValidationsClass(inheritedClass, validations, this);
       }
       return Validations;
     }).readOnly(),
@@ -205,10 +206,10 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
  * @private
  * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
- * @param  {Object} owner
+ * @param  {Object} model
  * @return {Ember.Object}
  */
-function createValidationsClass(inheritedValidationsClass, validations, owner) {
+function createValidationsClass(inheritedValidationsClass, validations, model) {
   let validationRules = {};
   let validatableAttributes = Object.keys(validations);
 
@@ -230,7 +231,7 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
   const TopLevelProps = createTopLevelPropsMixin(validatableAttributes);
 
   // Create the `attrs` class which will add the current model reference once instantiated
-  const AttrsClass = createAttrsClass(validatableAttributes, validationRules, owner);
+  const AttrsClass = createAttrsClass(validatableAttributes, validationRules, model);
 
   // Create `validations` class
   const ValidationsClass = Ember.Object.extend(TopLevelProps, {
@@ -305,36 +306,52 @@ function createValidationsClass(inheritedValidationsClass, validations, owner) {
  * @private
  * @param  {Object} validatableAttributes
  * @param  {Object} validationRules
- * @param  {Object} owner
+ * @param  {Object} model
  * @return {Ember.Object}
  */
-function createAttrsClass(validatableAttributes, validationRules, owner) {
+function createAttrsClass(validatableAttributes, validationRules, model) {
+
+  // Create the CPs once per Class, not instance
+  const cpMap = validatableAttributes.reduce((map, attribute) => {
+    map[attribute] = createCPValidationFor(attribute, model, get(validationRules, attribute));
+    return map;
+  }, {});
+
   return Ember.Object.extend({
     init() {
       this._super(...arguments);
-      const model = this.get('_model');
 
-      // Create the CPs
+      const _model = this.get('_model');
+
+      /*
+        Assign the CPs to this object
+        TODO: This runs multiple nested defineProperty calls PER INSTANCE which
+              can be seriously hinder perfomance.
+
+        The reason for this is that nested validation CPs must be created in their
+        own Ember.Object instance and then setup with the correct model reference.
+       */
+
       validatableAttributes.forEach(attribute => {
-        const cp = createCPValidationFor(attribute, get(validationRules, attribute), owner);
-        assign(this, attribute, cp, true);
+        assign(this, attribute, cpMap[attribute], true);
       });
 
+      // Add a reference to the model in each nested object
       validatableAttributes.forEach(attribute => {
-        // Add a reference to the model in the deepest object
         const path = attribute.split('.');
         const lastObject = get(this, path.slice(0, path.length - 1).join('.'));
 
         if (isNone(get(lastObject, '_model'))) {
-          set(lastObject, '_model', model);
+          set(lastObject, '_model', _model);
         }
       });
     },
 
     destroy() {
       this._super(...arguments);
+
+      // Remove model reference from each nested object
       validatableAttributes.forEach(attribute => {
-        // Remove model reference from nested objects
         const path = attribute.split('.');
         const lastObject = get(this, path.slice(0, path.length - 1).join('.'));
 
@@ -352,11 +369,13 @@ function createAttrsClass(validatableAttributes, validationRules, owner) {
  * @method createCPValidationFor
  * @private
  * @param  {String} attribute
- * @param  {Array / Object} validations
- * @return {Ember.computed} A computed property which is a ValidationResultCollection
+ * @param  {Object} model         Since the CPs are created once per class on the first initialization,
+ *                                this is the first model that was instantiated
+ * @param  {Array} validations
+ * @return {Ember.ComputedProperty} A computed property which is a ValidationResultCollection
  */
-function createCPValidationFor(attribute, validations, owner) {
-  const dependentKeys = getCPDependentKeysFor(attribute, validations, owner);
+function createCPValidationFor(attribute, model, validations) {
+  const dependentKeys = getCPDependentKeysFor(attribute, model, validations);
 
   return computed(...dependentKeys, cycleBreaker(function () {
     const model = get(this, '_model');
@@ -366,9 +385,10 @@ function createCPValidationFor(attribute, validations, owner) {
       const options = get(validator, 'options').copy();
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
+      const deleted = isDsModel(model) && getWithDefault(model, 'isDeleted', false);
       let value;
 
-      if (disabled) {
+      if (disabled || deleted) {
         value = true;
       } else if (debounce > 0) {
         const cache = getDebouncedValidationsCacheFor(attribute, model);
@@ -464,10 +484,14 @@ function createTopLevelPropsMixin(validatableAttrs) {
  * @method getCPDependentKeysFor
  * @private
  * @param  {String} attribute
- * @param  {Array / Object} validations
+ * @param  {Object} model         Since the CPs are created once per class on the first initialization,
+ *                                this is the first model that was instantiated
+ * @param  {Array} validations
  * @return {Array} Unique list of dependencies
  */
-function getCPDependentKeysFor(attribute, validations, owner) {
+function getCPDependentKeysFor(attribute, model, validations) {
+  const owner = getOwner(model);
+
   let dependentKeys = validations.map(validation => {
     const type = validation._type;
     const options = validation.options;
@@ -498,6 +522,12 @@ function getCPDependentKeysFor(attribute, validations, owner) {
   });
 
   dependentKeys = flatten(dependentKeys);
+
+  // Add DS.Model specific depedents
+  if(isDsModel(model)) {
+    dependentKeys.push(`_model.isDeleted`);
+  }
+
   dependentKeys.push(`_model.${attribute}`);
 
   return emberArray(dependentKeys).uniq();

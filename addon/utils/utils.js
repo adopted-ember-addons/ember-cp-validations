@@ -5,6 +5,8 @@
 
 import Ember from 'ember';
 
+const DS = requireModule('ember-data');
+
 export function requireModule(module) {
   return self.requirejs.has(module) ? self.require(module).default : undefined;
 }
@@ -15,4 +17,8 @@ export function unwrapString(input) {
   }
 
   return input;
+}
+
+export function isDsModel(model) {
+  return DS && model && model instanceof DS.Model;
 }
