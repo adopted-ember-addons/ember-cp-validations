@@ -107,7 +107,7 @@ function buildValidations(validations = {}, globalOptions = {}) {
 
   let Validations, validationMixinCount;
 
-  return Ember.Mixin.create({
+  const ValidationsMixin = Ember.Mixin.create({
     init() {
       this._super(...arguments);
 
@@ -145,6 +145,11 @@ function buildValidations(validations = {}, globalOptions = {}) {
       get(this, 'validations').destroy();
     }
   });
+
+  // Label mixin under a named scope fro Ember Inspector
+  ValidationsMixin[Ember.NAME_KEY] = 'Validations';
+
+  return ValidationsMixin;
 }
 
 /**
