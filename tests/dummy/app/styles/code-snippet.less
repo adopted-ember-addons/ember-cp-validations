@@ -37,9 +37,14 @@
     background-color: @background-color;
     max-height: 600px;
     overflow: auto;
+    height: 100%;
 
-    > .active {
-      padding: 15px 15px 0;
+    > .tab-pane {
+      height: 100%;
+
+      &.active {
+        padding: 15px 15px 0;
+      }
     }
   }
   pre {
@@ -47,5 +52,6 @@
     margin: 0;
     padding: 0;
     background-color: @background-color;
+    height: 100%;
   }
 }

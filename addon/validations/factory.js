@@ -45,14 +45,17 @@ const {
  * ## Running Manual Validations
  *
  * Although validations are lazily computed, there are times where we might want to force all or
- * specific validations to happen. For this reason we have exposed two methods:
+ * specific validations to happen. For this reason we have exposed three methods:
  *
  * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
  * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to valididating an attribute without changing its state
  *
- * ## Inspecting Validations
- *
+ * @module Validations
+ * @main Validations
+ */
+
+/**
  * All validations can be accessed via the `validations` object created on your model/object.
  * Each attribute also has its own validation which has the same properties.
  * An attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink "ResultCollection"}}{{/crossLink}}.
@@ -80,9 +83,12 @@ const {
  * model.get('validations.attrs.email.messages');
  * // etc...
  * ```
- *
  * @module Validations
- * @main Validations
+ * @submodule Accessing Validations
+ */
+
+/**
+ * @module Validations
  * @class Factory
  */
 
@@ -101,7 +107,7 @@ function buildValidations(validations = {}, globalOptions = {}) {
 
   let Validations, validationMixinCount;
 
-  return Ember.Mixin.create({
+  const ValidationsMixin = Ember.Mixin.create({
     init() {
       this._super(...arguments);
 
@@ -139,6 +145,11 @@ function buildValidations(validations = {}, globalOptions = {}) {
       get(this, 'validations').destroy();
     }
   });
+
+  // Label mixin under a named scope fro Ember Inspector
+  ValidationsMixin[Ember.NAME_KEY] = 'Validations';
+
+  return ValidationsMixin;
 }
 
 /**
@@ -441,7 +452,8 @@ function createTopLevelPropsMixin(validatableAttrs) {
           promises.push(get(validation, '_promise'));
         }
       });
-      return RSVP.Promise.all(flatten(promises));
+
+      return RSVP.allSettled(flatten(promises));
     }).readOnly()
   });
 }
@@ -707,20 +719,20 @@ function validate(options = {}, async = true) {
     return v;
   }, []);
 
-  const validationResultsCollection = ValidationResultCollection.create({
+  const resultCollection = ValidationResultCollection.create({
     content: validationResults
   });
 
   const resultObject = {
     model,
-    validations: validationResultsCollection
+    validations: resultCollection
   };
 
   if (async) {
-    if (get(validationResultsCollection, 'isAsync')) {
-      resultObject.promise = get(validationResultsCollection, 'value');
+    if (get(resultCollection, 'isAsync')) {
+      return RSVP.allSettled(makeArray(get(resultCollection, '_promise'))).then(() => resultObject);
     }
-    return RSVP.hash(resultObject);
+    return Promise.resolve(resultObject);
   }
 
   return resultObject;

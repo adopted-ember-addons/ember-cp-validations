@@ -1,4 +1,9 @@
 /**
+ * @module Templating
+ * @main Templating
+ */
+
+/**
  * Accessing validation information in your templates is really simple but the pathing can be quite long. For example, if we want to display the error `message` for the `username` attribute, it would look something like this:
  *
  * ```handlebars
@@ -53,7 +58,7 @@
  * ```
  *
  * @module Templating
- * @main Templating
+ * @submodule V-Get Helper
  */
 
  /*jshint node:true*/

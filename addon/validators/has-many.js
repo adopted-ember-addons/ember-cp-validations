@@ -70,7 +70,7 @@ const HasMany = Base.extend({
 
 HasMany.reopenClass({
   getDependentsFor(attribute) {
-    return [ `model.${attribute}.[]`, `${attribute}.@each.isTruelyValid` ];
+    return [ `model.${attribute}.[]` ];
   }
 });
 

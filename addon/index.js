@@ -21,11 +21,11 @@ import Validator from './validations/validator';
  * ## Looking for help?
  * If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
  *
- * @module Home
+ * @module Usage
  */
 
 /**
- * <h2 id="models">Models</h2>
+ * ## Models
  *
  * The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
  *
@@ -72,7 +72,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * <h2 id="objects">Objects</h2>
+ * ## Objects
  *
  * You can also use the generated `Validations` mixin on any `Ember.Object` or child
  * of `Ember.Object`, like `Ember.Component`. For example:
@@ -134,12 +134,12 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * @module Home
- * @submodule Basic Usage
+ * @module Usage
+ * @submodule Basic
  */
 
 /**
- * <h3 id="defaultOptions">Default Options</h3>
+ * ### Default Options
  *
  * Default options can be specified over a set of validations for a given attribute. Local properties will always take precedence.
  *
@@ -184,7 +184,7 @@ import Validator from './validations/validator';
  *
  * In the above example, all the validators for username will have a description of `Username` except that of the `my-custom-validator` validator which will be `A username`.
  *
- * <h3 id="globalOptions">Global Options</h3>
+ * ### Global Options
  *
  * If you have  specific options you want to propagate throught all your validation rules, you can do so by passing in a global options object.
  * This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
@@ -211,10 +211,8 @@ import Validator from './validations/validator';
  *   lastName: validator('presence', true)
  * }, {
  *   description: 'This field'
- *   dependentKeys: ['i18n.locale', 'disableValidations'],
- *   disabled(model, attribute) {
- *     return model.get('disableValidations');
- *   }
+ *   dependentKeys: ['i18n.locale'],
+ *   disabled: computed.readOnly('model.disableValidations')
  * });
  * ```
  *
@@ -224,7 +222,7 @@ import Validator from './validations/validator';
  * This rule does not apply to `dependentKeys`, instead they all are merged. In the example above, __firstName__'s dependentKeys will be
  * `['i18n.locale', 'disableValidations', 'foo', 'bar']`
  *
- * <h3 id="computedOptions">Computed Options</h3>
+ * ### Computed Options
  *
  * All options can also be Computed Properties. These CPs have access to the `model` and `attribute` that is associated with the validator.
  *
@@ -244,7 +242,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * <h3 id="nestedKeys">Nested Keys</h3>
+ * ### Nested Keys
  *
  * When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.
  *
@@ -272,24 +270,24 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * @module Home
- * @submodule Advanced Usage
+ * @module Usage
+ * @submodule Advanced
  */
 
 /**
- * ## [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
+ * ### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
  *
  *  ```bash
  *  ember install ember-intl-cp-validations
  *  ```
  *
- * ## [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
+ * ### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
  *
  * ```bash
  *  ember install ember-i18n-cp-validations
  * ```
  *
- * @module Home
+ * @module Usage
  * @submodule I18n Solutions
  */
 

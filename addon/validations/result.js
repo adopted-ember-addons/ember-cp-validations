@@ -59,6 +59,23 @@ const Result = Ember.Object.extend({
   _validator: null,
 
   /**
+   * Determines if the _validations object is readOnly.
+   *
+   * This is needed because ResultCollections and global validation objects control their own
+   * state via CPs
+   *
+   * @property _isReadOnly
+   * @private
+   * @readOnly
+   * @type {Boolean}
+   */
+  _isReadOnly: computed('_validations', function() {
+    const validations = get(this, '_validations');
+
+    return (validations instanceof ValidationResultCollection) || get(validations, 'isValidations');
+  }).readOnly(),
+
+  /**
    * @property isWarning
    * @readOnly
    * @type {Boolean}
@@ -148,7 +165,7 @@ const Result = Ember.Object.extend({
   init() {
     this._super(...arguments);
 
-    if (get(this, 'isAsync')) {
+    if (get(this, 'isAsync') && !get(this, '_isReadOnly')) {
       this._handlePromise();
     }
   },
@@ -189,15 +206,17 @@ const Result = Ember.Object.extend({
         }))
       });
       set(this, '_validations', validationResultsCollection);
-    } else if (typeof result === 'string') {
-      setProperties(validations, {
-        message: result,
-        isValid: false
-      });
-    } else if (typeof result === 'boolean') {
-      set(validations, 'isValid', result);
-    } else if (typeof result === 'object') {
-      setProperties(validations, result);
+    } else if (!get(this, '_isReadOnly')) {
+      if (typeof result === 'string') {
+        setProperties(validations, {
+          message: result,
+          isValid: false
+        });
+      } else if (typeof result === 'boolean') {
+        set(validations, 'isValid', result);
+      } else if (typeof result === 'object') {
+        setProperties(validations, result);
+      }
     }
   },
 
@@ -210,6 +229,7 @@ const Result = Ember.Object.extend({
     const validations = get(this, '_validations');
 
     set(validations, 'isValidating', true);
+
     get(this, '_promise').then(
       result => {
         set(validations, 'isValidating', false);
