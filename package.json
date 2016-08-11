@@ -79,7 +79,7 @@
     "model"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.6",
+    "ember-cli-babel": "^5.1.8",
     "ember-cli-version-checker": "^1.1.4",
     "ember-getowner-polyfill": "^1.0.1",
     "exists-sync": "0.0.3",
