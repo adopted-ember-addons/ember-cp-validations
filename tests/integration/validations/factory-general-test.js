@@ -441,8 +441,12 @@ test("destroy object clears debounce cache", function(assert) {
       return Validators.presence(value, options, model, attr);
     }, { debounce: 500 }),
   });
+
   var object = setupObject(this, Ember.Object.extend(Validations));
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
+
+  object.validate(); // force get all validations
+
+  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
   assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 1);
 
   run(() => object.destroy());
