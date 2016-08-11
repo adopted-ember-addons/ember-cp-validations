@@ -32,9 +32,7 @@ export default Ember.Controller.extend({
           this.set('showAlert', true);
         }
         this.set('didValidate', true);
-      }, (errors) => {
-
-      });
+      }, () => {});
     },
 
     dismissAlert() {

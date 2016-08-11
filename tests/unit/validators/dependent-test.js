@@ -9,9 +9,7 @@ import { test, moduleFor } from 'ember-qunit';
 import setupObject from '../../helpers/setup-object';
 
 const {
-  get,
-  set,
-  run
+  get
 } = Ember;
 
 var Validator, message, model, options, builtOptions;
