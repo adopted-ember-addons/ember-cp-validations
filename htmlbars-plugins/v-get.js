@@ -60,6 +60,9 @@
  * @module Templating
  * @submodule V-Get Helper
  */
+
+ /*jshint node:true*/
+
 function VGet(options) {
   this.options = options;
   this.syntax = null; // set by HTMLBars

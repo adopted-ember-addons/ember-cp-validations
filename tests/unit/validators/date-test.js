@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import moment from 'moment';
 
 import {
@@ -12,8 +11,6 @@ import {
 from 'ember-qunit';
 
 var options, builtOptions, validator, message;
-var set = Ember.set;
-const assign = Ember.assign || Ember.merge;
 
 moduleFor('validator:date', 'Unit | Validator | date', {
   needs: ['validator:messages'],

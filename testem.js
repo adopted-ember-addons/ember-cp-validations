@@ -1,7 +1,7 @@
 /*jshint node:true*/
 module.exports = {
   "framework": "qunit",
-  "test_page": "tests/index.html?coverage",
+  "test_page": "tests/index.html?coverage&hidepassed",
   "disable_watching": true,
   "phantomjs_debug_port": 9000,
   "launch_in_ci": [

@@ -15,7 +15,6 @@ const {
 
 const Validators = {
   presence(value, options, model, attr) {
-    var isValid = !Ember.isNone(value);
     if (Ember.isNone(value)) {
       return `${attr} should be present`;
     }
@@ -151,7 +150,7 @@ test("has-many relationship is async", function(assert) {
   });
 
   var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
-    friends: new Ember.RSVP.Promise((resolve, reject) => {
+    friends: new Ember.RSVP.Promise((resolve) => {
       resolve([friend]);
     })
   });
@@ -188,7 +187,7 @@ test("has-many relationship is async and isWarning", function(assert) {
   });
 
   var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
-    friends: new Ember.RSVP.Promise((resolve, reject) => {
+    friends: new Ember.RSVP.Promise((resolve) => {
       resolve([friend]);
     })
   });
@@ -219,7 +218,7 @@ test("belongs-to relationship is async", function(assert) {
   });
 
   var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
-    friend: new Ember.RSVP.Promise((resolve, reject) => {
+    friend: new Ember.RSVP.Promise((resolve) => {
       resolve(friend);
     })
   });
@@ -255,7 +254,7 @@ test("belongs-to relationship is async and isWarning", function(assert) {
   });
 
   var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
-    friend: new Ember.RSVP.Promise((resolve, reject) => {
+    friend: new Ember.RSVP.Promise((resolve) => {
       resolve(friend);
     })
   });
@@ -282,7 +281,7 @@ test("belongs-to relationship is async and does not exist", function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
   var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
-    friend: new Ember.RSVP.Promise((resolve, reject) => {
+    friend: new Ember.RSVP.Promise((resolve) => {
       resolve();
     })
   });
@@ -306,7 +305,7 @@ test("has-many relationship is async and does not exist", function(assert) {
   this.register('validator:has-many', HasManyValidator);
 
   var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
-    friends: new Ember.RSVP.Promise((resolve, reject) => {
+    friends: new Ember.RSVP.Promise((resolve) => {
       resolve();
     })
   });
@@ -330,7 +329,7 @@ test("belongs-to relationship returns undefined", function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
   var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
-    friend: new Ember.RSVP.Promise((resolve, reject) => {
+    friend: new Ember.RSVP.Promise((resolve) => {
       resolve({}); // validations object will be undefined
     })
   });

@@ -10,8 +10,7 @@ import {
 }
 from 'ember-qunit';
 
-var Model, model, options, validator, message;
-var set = Ember.set;
+var model, validator, message;
 
 moduleFor('validator:ds-error', 'Unit | Validator | ds-error', {
   needs: ['validator:messages'],

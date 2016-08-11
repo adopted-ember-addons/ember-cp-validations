@@ -3,14 +3,12 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import {
   moduleFor, test
 }
 from 'ember-qunit';
 
 var options, builtOptions, validator, message;
-var set = Ember.set;
 
 moduleFor('validator:exclusion', 'Unit | Validator | exclusion', {
   needs: ['validator:messages'],
@@ -23,7 +21,7 @@ test('no options', function(assert) {
   assert.expect(1);
 
   builtOptions = validator.buildOptions({}).copy();
-  
+
   try {
     message = validator.validate(undefined, builtOptions);
   } catch (e) {

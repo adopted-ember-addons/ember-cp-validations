@@ -6,7 +6,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model(params) {
+  model() {
     return this.store.createRecord('user', {
       details: this.store.createRecord('user-detail')
     });
