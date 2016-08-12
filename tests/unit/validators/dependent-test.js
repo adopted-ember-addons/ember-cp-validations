@@ -56,7 +56,7 @@ test('all empty attributes', function(assert) {
   message = Validator.validate(undefined, builtOptions.copy(), model);
 
   assert.equal(message, "This field is invalid");
-  assert.equal(get(model, 'validations.messages.length'), 2);
+  assert.equal(get(model, 'validations.messages.length'), 1);
   assert.equal(get(model, 'validations.isValid'), false);
 });
 
