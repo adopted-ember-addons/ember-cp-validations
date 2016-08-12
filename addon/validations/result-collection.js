@@ -187,7 +187,6 @@ export default Ember.Object.extend({
    */
   messages: computed('_errorContent.@each.messages', cycleBreaker(function () {
     const messages = flatten(get(this, '_errorContent').getEach('messages'));
-
     return uniq(compact(messages));
   })).readOnly(),
 
