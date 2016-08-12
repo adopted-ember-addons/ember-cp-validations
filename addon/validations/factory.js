@@ -36,12 +36,6 @@ const {
   Promise
 } = RSVP;
 
-const {
-  and,
-  or,
-  not
-} = computed;
-
 /**
  * ## Running Manual Validations
  *
@@ -420,60 +414,40 @@ function createCPValidationFor(attribute, model, validations) {
  * @param  {Object} validations
  */
 function createTopLevelPropsMixin(validatableAttrs) {
-  return Ember.Mixin.create({
-    isWarning: and(...validatableAttrs.map(attr => `attrs.${attr}.isWarning`)).readOnly(),
-    isValid: and(...validatableAttrs.map(attr => `attrs.${attr}.isValid`)).readOnly(),
-    isValidating: or(...validatableAttrs.map(attr => `attrs.${attr}.isValidating`)).readOnly(),
-    isDirty: or(...validatableAttrs.map(attr => `attrs.${attr}.isDirty`)).readOnly(),
-    isAsync: or(...validatableAttrs.map(attr => `attrs.${attr}.isAsync`)).readOnly(),
-    isNotValidating: not('isValidating').readOnly(),
-    isInvalid: not('isValid').readOnly(),
-    isTruelyValid: and('isValid', 'isNotValidating').readOnly(),
+  // Expose the following properties as public APIs via readOnly aliases
+  const aliases = [
+    'isWarning',
+    'isValid',
+    'isValidating',
+    'isDirty',
+    'isAsync',
+    'isNotValidating',
+    'isInvalid',
+    'isTruelyValid',
+    'messages',
+    'message',
+    'warningMessages',
+    'warningMessage',
+    'warnings',
+    'warning',
+    'errors',
+    'error',
+    '_promise'
+  ];
 
-    messages: computed(...validatableAttrs.map(attr => `attrs.${attr}.messages`), function () {
-      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.messages`)))).compact();
-    }).readOnly(),
+  const topLevelProps = aliases.reduce((props, alias) => {
+    props[alias] = computed.readOnly(`__attrsResultCollection__.${alias}`);
+    return props;
+  }, {});
 
-    message: computed('messages.[]', cycleBreaker(function () {
-      return get(this, 'messages.firstObject');
-    })).readOnly(),
-
-    warningMessages: computed(...validatableAttrs.map(attr => `attrs.${attr}.warningMessages`), function () {
-      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warningMessages`)))).compact();
-    }).readOnly(),
-
-    warningMessage: computed('warningMessages.[]', cycleBreaker(function () {
-      return get(this, 'warningMessages.firstObject');
-    })).readOnly(),
-
-    warnings: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.warnings`), function () {
-      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.warnings`)))).compact();
-    }).readOnly(),
-
-    warning: computed('warning.[]', cycleBreaker(function () {
-      return get(this, 'warning.firstObject');
-    })).readOnly(),
-
-    errors: computed(...validatableAttrs.map(attr => `attrs.${attr}.@each.errors`), function () {
-      return emberArray(flatten(validatableAttrs.map(attr => get(this, `attrs.${attr}.errors`)))).compact();
-    }).readOnly(),
-
-    error: computed('errors.[]', cycleBreaker(function () {
-      return get(this, 'errors.firstObject');
-    })).readOnly(),
-
-    _promise: computed(...validatableAttrs.map(attr => `attrs.${attr}._promise`), function () {
-      const promises = [];
-
-      validatableAttrs.forEach(attr => {
-        const validation = get(this, `attrs.${attr}`);
-
-        if (get(validation, 'isAsync')) {
-          promises.push(get(validation, '_promise'));
-        }
+  return Ember.Mixin.create(topLevelProps, {
+    /*
+      Dedupe logic by creating a top level ResultCollection for all attr's ResultCollections
+     */
+    __attrsResultCollection__: computed(...validatableAttrs.map(attr => `attrs.${attr}`), function () {
+      return ValidationResultCollection.create({
+        content: validatableAttrs.map(attr => get(this, `attrs.${attr}`))
       });
-
-      return RSVP.allSettled(flatten(promises));
     }).readOnly()
   });
 }

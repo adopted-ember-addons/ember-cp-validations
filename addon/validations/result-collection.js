@@ -12,7 +12,6 @@ const {
   set,
   RSVP,
   computed,
-  isEmpty,
   isArray,
   isNone,
   A: emberArray
@@ -47,11 +46,11 @@ export default Ember.Object.extend({
    * @property attribute
    * @type {String}
    */
-  attribute: '',
+  attribute: null,
 
   init() {
     this._super(...arguments);
-    set(this, 'content', emberArray(get(this, 'content')));
+    set(this, 'content', emberArray(compact(get(this, 'content'))));
   },
 
   /**
@@ -188,7 +187,6 @@ export default Ember.Object.extend({
    */
   messages: computed('_errorContent.@each.messages', cycleBreaker(function () {
     const messages = flatten(get(this, '_errorContent').getEach('messages'));
-
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -224,7 +222,6 @@ export default Ember.Object.extend({
    */
   warningMessages: computed('_warningContent.@each.messages', cycleBreaker(function () {
     const messages = flatten(get(this, '_warningContent').getEach('messages'));
-
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -368,11 +365,7 @@ export default Ember.Object.extend({
    */
   _promise: computed('content.@each._promise', cycleBreaker(function () {
     let promises = get(this, 'content').getEach('_promise');
-    promises = compact(flatten(promises));
-
-    if (!isEmpty(promises)) {
-      return RSVP.allSettled(promises);
-    }
+    return RSVP.allSettled(compact(flatten(promises)));
   })).readOnly(),
 
   /**
@@ -407,7 +400,7 @@ export default Ember.Object.extend({
 
     errors = uniq(compact(errors));
     errors.forEach(e => {
-      if(e.get('attribute') !== attribute) {
+      if(attribute && e.get('attribute') !== attribute) {
         e.set('parentAttribute', attribute);
       }
     });
