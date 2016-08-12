@@ -7,18 +7,44 @@ import Ember from 'ember';
 
 const DS = requireModule('ember-data');
 
+const {
+  get
+} = Ember;
+
 export function requireModule(module) {
   return self.requirejs.has(module) ? self.require(module).default : undefined;
 }
 
-export function unwrapString(input) {
-  if (input && input instanceof Ember.Handlebars.SafeString) {
-    return input.toString();
+export function unwrapString(s) {
+  if (s && s instanceof Ember.Handlebars.SafeString) {
+    return s.toString();
   }
 
-  return input;
+  return s;
 }
 
-export function isDsModel(model) {
-  return DS && model && model instanceof DS.Model;
+export function unwrapProxy(o) {
+  if (o && (o instanceof Ember.ObjectProxy || o instanceof Ember.ArrayProxy)) {
+    return unwrapProxy(get(o, 'content'));
+  }
+
+  return o;
+}
+
+export function isDsModel(o) {
+  return DS && o && o instanceof DS.Model;
+}
+
+export function isEmberObject(o) {
+  return o && o instanceof Ember.Object;
+}
+
+export function isValidatable(value) {
+  const v = unwrapProxy(value);
+
+  if(isDsModel(v)) {
+    return !get(v, 'isDeleted');
+  }
+
+  return true;
 }

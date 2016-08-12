@@ -18,6 +18,7 @@ const Validations = buildValidations({
     description: "Order",
     validators: [
       validator('ds-error'),
+      validator('belongs-to'),
       validator('presence', true)
     ]
   },
@@ -33,7 +34,9 @@ const Validations = buildValidations({
     validators: [
       validator('ds-error'),
       validator('has-many'),
-      validator('presence', true)
+      validator('length', {
+        min: 1
+      })
     ]
   }
 });

@@ -5,9 +5,9 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
+import { unwrapProxy } from 'ember-cp-validations/utils/utils';
 
 const {
-  get,
   assert,
   isEmpty,
   isPresent,
@@ -89,14 +89,7 @@ export default Base.extend({
    * Handle presence of ember proxy based instances
    */
   _isPresent(value, ignoreBlank = false) {
-    if (value instanceof Ember.ObjectProxy || value instanceof Ember.ArrayProxy) {
-      return this._isPresent(get(value, 'content'), ignoreBlank);
-    }
-
-    if (ignoreBlank) {
-      return isPresent(value);
-    } else {
-      return !isEmpty(value);
-    }
+    const v = unwrapProxy(value);
+    return ignoreBlank ? isPresent(v) : !isEmpty(v);
   }
 });

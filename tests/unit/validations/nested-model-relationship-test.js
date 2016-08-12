@@ -6,7 +6,9 @@ moduleForModel('order', 'Unit | Validations | Nested Model Relationships', {
     'validator:messages',
     'validator:ds-error',
     'validator:presence',
+    'validator:length',
     'validator:number',
+    'validator:belongs-to',
     'validator:has-many',
     'model:order-line',
     'model:order-selection',
@@ -168,7 +170,7 @@ test("order with valid question shows valid if validated in reverse order", func
 });
 
 test("order with invalid question shows valid if invalid question is deleted in reverse order", function(assert) {
-  assert.expect(8);
+  assert.expect(11);
   let order = this.subject({ id: 1, source: 'external' });
 
   let orderLine, orderSelection, orderSelectionQuestion, orderSelectionQuestion2;
@@ -200,17 +202,32 @@ test("order with invalid question shows valid if invalid question is deleted in 
 
   orderSelectionQuestion2.validate().then(({ validations }) => {
     assert.equal(validations.get('isValid'), false, 'Order Selection Question 2 should be invalid');
+
     return orderSelectionQuestion.validate();
   }).then(({ validations }) => {
     assert.equal(validations.get('isValid'), true, 'Order Selection Question should be valid');
+
     return orderSelection.validate();
   }).then(({ validations }) => {
     assert.equal(validations.get('isValid'), false, 'Order Selection should be invalid because of Order Selection Question 2');
     orderSelectionQuestion2.deleteRecord();
+
     return orderSelection.validate();
   }).then(({ validations }) => {
     assert.equal(orderSelection.get('questions.length'), 2, 'Order Selection has 2 Order Selection Question');
     assert.equal(validations.get('isValid'), true, 'Order Selection should be valid because invalid Order Selection Question 2 was marked deleted');
+
+    orderSelectionQuestion.deleteRecord();
+    return orderSelection.validate();
+  }).then(() => {
+    assert.equal(orderSelection.get('questions.length'), 2, 'Order Selection has 2 Order Selection Question');
+    assert.equal(orderSelection.get('validations.attrs.questions.isValid'), false, 'Order Selection should not be valid because all Order Selection Questions have been marked deleted');
+
+    order.deleteRecord();
+    return orderSelection.validate();
+  }).then(() => {
+    assert.equal(orderSelection.get('validations.attrs.order.isValid'), false, 'Order Selection should not be valid because Order was marked for deletion');
+
     done();
   });
 });

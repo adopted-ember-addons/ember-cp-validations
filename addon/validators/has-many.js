@@ -70,7 +70,7 @@ const HasMany = Base.extend({
 
 HasMany.reopenClass({
   getDependentsFor(attribute) {
-    return [ `model.${attribute}.[]` ];
+    return [ `model.${attribute}.[]`, `model.${attribute}.@each.isDeleted` ];
   }
 });
 

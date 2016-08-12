@@ -12,7 +12,7 @@ import ValidationResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
-import { isDsModel } from '../utils/utils';
+import { isDsModel, isValidatable } from '../utils/utils';
 
 const {
   get,
@@ -141,7 +141,7 @@ function buildValidations(validations = {}, globalOptions = {}) {
     }
   });
 
-  // Label mixin under a named scope fro Ember Inspector
+  // Label mixin under a named scope for Ember Inspector
   ValidationsMixin[Ember.NAME_KEY] = 'Validations';
 
   return ValidationsMixin;
@@ -379,10 +379,9 @@ function createCPValidationFor(attribute, model, validations) {
       const options = get(validator, 'options').copy();
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
-      const deleted = isDsModel(model) && getWithDefault(model, 'isDeleted', false);
       let value;
 
-      if (disabled || deleted) {
+      if (disabled || !isValidatable(model)) {
         value = true;
       } else if (debounce > 0) {
         const cache = getDebouncedValidationsCacheFor(attribute, model);
@@ -490,19 +489,20 @@ function getCPDependentKeysFor(attribute, model, validations) {
       dependents,
       cpDependents,
       specifiedDependents
-    ).map(d => {
-      return d.split('.')[0] === 'model' ? '_' + d : d;
-    });
+    );
   });
 
   dependentKeys = flatten(dependentKeys);
 
-  // Add DS.Model specific depedents
+  dependentKeys.push(`model.${attribute}`);
+
   if(isDsModel(model)) {
-    dependentKeys.push(`_model.isDeleted`);
+    dependentKeys.push(`model.isDeleted`);
   }
 
-  dependentKeys.push(`_model.${attribute}`);
+  dependentKeys = dependentKeys.map(d => {
+    return d.split('.')[0] === 'model' ? '_' + d : d;
+  });
 
   return emberArray(dependentKeys).uniq();
 }
@@ -536,7 +536,7 @@ function extractOptionsDependentKeys(options) {
  * @method debouncedValidate
  * @private
  * @param  {Validator} validator
- * @param  {Unknown} value
+ * @param  {Mixed} value
  * @param  {Object} options
  * @param  {Object} model
  * @param  {String} attribute
@@ -555,7 +555,7 @@ function debouncedValidate(validator, model, attribute, resolve) {
  * @method validationReturnValueHandler
  * @private
  * @param  {String} attribute
- * @param  {Unknown} value
+ * @param  {Mixed} value
  * @param  {Object} model
  * @return {ValidationResult}
  */
@@ -756,7 +756,7 @@ function validate(options = {}, async = true) {
  *
  * @method validateAttribute
  * @param  {String}   attribute
- * @param  {Unknown}  value
+ * @param  {Mixed}  value
  * @return {Promise}
  * @async
  */
