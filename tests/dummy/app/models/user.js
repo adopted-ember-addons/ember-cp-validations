@@ -53,7 +53,7 @@ var Validations = buildValidations({
   }),
   details: validator('belongs-to')
 }, {
-  debounce: 500
+  debounce: 0
 });
 
 export default DS.Model.extend(Validations, {

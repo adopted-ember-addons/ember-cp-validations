@@ -3,12 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-
-const {
-  canInvoke
-} = Ember;
+import { isPromise } from 'ember-cp-validations/utils/utils';
 
 /**
  *  Identifies a `has-many` relationship in an Ember Data Model or Ember.Object.
@@ -58,7 +54,7 @@ const {
 const HasMany = Base.extend({
   validate(value) {
     if (value) {
-      if (canInvoke(value, 'then')) {
+      if (isPromise(value)) {
         return value.then(models => models ? models.map(m => m.get('validations')) : true);
       }
       return value.map(m => m.get('validations'));

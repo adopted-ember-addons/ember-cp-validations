@@ -12,6 +12,7 @@ import ValidationResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
+import { isPromise } from '../utils/utils';
 
 const {
   get,
@@ -24,7 +25,6 @@ const {
   isArray,
   computed,
   makeArray,
-  canInvoke,
   getWithDefault,
   A: emberArray
 } = Ember;
@@ -355,14 +355,32 @@ function createCPValidationFor(attribute, validations, owner) {
   return computed(...dependentKeys, cycleBreaker(function () {
     const model = get(this, '_model');
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+    const resultCollectionContent = [];
+    let value, validationResult, resultCollection;
 
-    const validationResults = validators.map(validator => {
+    validators.forEach(validator => {
       const options = get(validator, 'options').copy();
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
-      let value;
+      const lazy = getWithDefault(options, 'lazy', true);
 
-      if (disabled) {
+      /*
+        Create a temporary ResultCollection to be able to check the current validation state
+        of the attribute
+       */
+      resultCollection = ValidationResultCollection.create({ content: resultCollectionContent });
+
+      if(disabled) {
+        value = true;
+      }
+      else if(lazy && !get(resultCollection, 'isAsync') && get(resultCollection, 'isInvalid')) {
+        /*
+          If the current resultCollection is synchronous and is invalid, the rest of the validations do
+          not need to be triggered since the attribute is already in an invalid state.
+
+          Since we cannot determine the final resulting state of an async validation,
+          only synchronous validations can be lazily skipped.
+         */
         value = true;
       } else if (debounce > 0) {
         const cache = getDebouncedValidationsCacheFor(attribute, model);
@@ -375,14 +393,29 @@ function createCPValidationFor(attribute, validations, owner) {
         value = validator.validate(validator.getValue(), options, model, attribute);
       }
 
-      return validationReturnValueHandler(attribute, value, model, validator);
+      validationResult = validationReturnValueHandler(attribute, value, model, validator);
+      resultCollectionContent.push(validationResult);
     });
 
-    return ValidationResultCollection.create({
-      attribute,
-      content: flatten(validationResults)
-    });
+    return ValidationResultCollection.create({ attribute, content: resultCollectionContent });
   })).readOnly();
+}
+
+
+/**
+ * Returns a filtered set of validators that should be validated against
+ *
+ * @method filterValidatableValidators
+ * @param  {Array}  validators
+ * @return {Array}
+ */
+function filterValidatableValidators(validators = []) {
+  return validators.filter(validator => {
+    const options = get(validator, 'options').copy();
+    const disabled = getWithDefault(options, 'disabled', false);
+
+    return !disabled;
+  });
 }
 
 /**
@@ -532,7 +565,7 @@ function debouncedValidate(validator, model, attribute, resolve) {
 function validationReturnValueHandler(attribute, value, model, validator) {
   let result;
 
-  if (canInvoke(value, 'then')) {
+  if (isPromise(value)) {
     result = ValidationResult.create({
       attribute,
       _promise: Promise.resolve(value),
@@ -734,10 +767,9 @@ function validateAttribute(attribute, value) {
   const model = get(this, 'model');
   const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
-  const validationResults = validators.map(validator => {
-    const opts = get(validator, 'options').copy();
-    const disabled = getWithDefault(opts, 'disabled', false);
-    let result = disabled ? true : validator.validate(value, opts, model, attribute);
+  const validationResults = filterValidatableValidators(validators).map(validator => {
+    const options = get(validator, 'options').copy();
+    let result = validator.validate(value, options, model, attribute);
 
     return validationReturnValueHandler(attribute, result, model, validator);
   });
@@ -749,7 +781,7 @@ function validateAttribute(attribute, value) {
 
   const result = { model, validations };
 
-  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result);
 }
 
 /**
