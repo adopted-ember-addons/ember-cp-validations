@@ -355,20 +355,15 @@ function createCPValidationFor(attribute, validations, owner) {
   return computed(...dependentKeys, cycleBreaker(function () {
     const model = get(this, '_model');
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-    const resultCollectionContent = [];
-    let value, validationResult, resultCollection;
+    const resultCollection = ValidationResultCollection.create({ attribute, content: [] });
+    let value, validationResult;
+    let collectionContent = [];
 
     validators.forEach(validator => {
       const options = get(validator, 'options').copy();
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
       const lazy = getWithDefault(options, 'lazy', true);
-
-      /*
-        Create a temporary ResultCollection to be able to check the current validation state
-        of the attribute
-       */
-      resultCollection = ValidationResultCollection.create({ content: resultCollectionContent });
 
       if(disabled) {
         value = true;
@@ -394,10 +389,14 @@ function createCPValidationFor(attribute, validations, owner) {
       }
 
       validationResult = validationReturnValueHandler(attribute, value, model, validator);
-      resultCollectionContent.push(validationResult);
+      resultCollection.pushObject(validationResult);
+      console.log(attribute, 'result pushed');
     });
 
-    return ValidationResultCollection.create({ attribute, content: resultCollectionContent });
+    console.log('content: ', resultCollection.get('content'));
+    console.log('errorContent: ', resultCollection.get('_errorContent'));
+
+    return resultCollection;
   })).readOnly();
 }
 

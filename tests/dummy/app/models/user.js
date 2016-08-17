@@ -29,14 +29,18 @@ var Validations = buildValidations({
         max: 10
       }),
       validator('format', {
-        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
+        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,10}$/,
         message: '{description} must include at least one upper case letter, one lower case letter, and a number'
+      }),
+      validator('inclusion', {
+        in: ['Pass123']
       }),
       validator('length', {
         isWarning: true,
         min: 6,
         message: 'What kind of weak password is that?'
-      })
+      }),
+      validator('number')
     ]
   },
   email: {
