@@ -20,8 +20,7 @@ const {
 
 const {
   and,
-  not,
-  readOnly
+  not
 } = computed;
 
 export default Ember.Object.extend({
