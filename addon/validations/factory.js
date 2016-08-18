@@ -395,23 +395,6 @@ function createCPValidationFor(attribute, validations, owner) {
   })).readOnly();
 }
 
-
-/**
- * Returns a filtered set of validators that should be validated against
- *
- * @method filterValidatableValidators
- * @param  {Array}  validators
- * @return {Array}
- */
-function filterValidatableValidators(validators = []) {
-  return validators.filter(validator => {
-    const options = get(validator, 'options').copy();
-    const disabled = getWithDefault(options, 'disabled', false);
-
-    return !disabled;
-  });
-}
-
 /**
  * Create a mixin that will have all the top level CPs under the validations object.
  * These are computed collections on different properties of each attribute validations CP
@@ -761,9 +744,10 @@ function validateAttribute(attribute, value) {
   const model = get(this, 'model');
   const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
-  const validationResults = filterValidatableValidators(validators).map(validator => {
+  const validationResults = validators.map(validator => {
     const options = get(validator, 'options').copy();
-    let result = validator.validate(value, options, model, attribute);
+    const disabled = getWithDefault(options, 'disabled', false);
+    let result = disabled ? true : validator.validate(value, options, model, attribute);
 
     return validationReturnValueHandler(attribute, result, model, validator);
   });
