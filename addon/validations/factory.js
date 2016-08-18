@@ -355,27 +355,17 @@ function createCPValidationFor(attribute, validations, owner) {
   return computed(...dependentKeys, cycleBreaker(function () {
     const model = get(this, '_model');
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-    const resultCollection = ValidationResultCollection.create({ attribute, content: [] });
+    let isCollectionInvalid = false;
     let value, validationResult;
-    let collectionContent = [];
 
-    validators.forEach(validator => {
+    const validationResults = validators.map(validator => {
       const options = get(validator, 'options').copy();
+      const isWarning = getWithDefault(options, 'isWarning', false);
       const debounce = getWithDefault(options, 'debounce', 0);
       const disabled = getWithDefault(options, 'disabled', false);
       const lazy = getWithDefault(options, 'lazy', true);
 
-      if(disabled) {
-        value = true;
-      }
-      else if(lazy && !get(resultCollection, 'isAsync') && get(resultCollection, 'isInvalid')) {
-        /*
-          If the current resultCollection is synchronous and is invalid, the rest of the validations do
-          not need to be triggered since the attribute is already in an invalid state.
-
-          Since we cannot determine the final resulting state of an async validation,
-          only synchronous validations can be lazily skipped.
-         */
+      if(disabled || (lazy && isCollectionInvalid)) {
         value = true;
       } else if (debounce > 0) {
         const cache = getDebouncedValidationsCacheFor(attribute, model);
@@ -389,14 +379,19 @@ function createCPValidationFor(attribute, validations, owner) {
       }
 
       validationResult = validationReturnValueHandler(attribute, value, model, validator);
-      resultCollection.pushObject(validationResult);
-      console.log(attribute, 'result pushed');
+
+      /*
+        If the current validationResult is invalid, the rest of the validations do not need to be
+        triggered since the attribute is already in an invalid state.
+       */
+      if(!isCollectionInvalid && !isWarning && get(validationResult, 'isInvalid')) {
+        isCollectionInvalid = true;
+      }
+
+      return validationResult;
     });
 
-    console.log('content: ', resultCollection.get('content'));
-    console.log('errorContent: ', resultCollection.get('_errorContent'));
-
-    return resultCollection;
+    return ValidationResultCollection.create({ attribute, content: validationResults });
   })).readOnly();
 }
 

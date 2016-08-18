@@ -20,7 +20,8 @@ const {
 
 const {
   and,
-  not
+  not,
+  readOnly
 } = computed;
 
 export default Ember.Object.extend({
@@ -33,19 +34,21 @@ export default Ember.Object.extend({
   attrValue: null,
   _promise: null,
   _validator: null,
-  _promiseResolved: false,
 
   init() {
     this._super(...arguments);
-    this._handlePromise();
+
+    if(this.get('isAsync')) {
+      this._handlePromise();
+    }
   },
 
-  isNotValidating: not('isValidating'),
   isInvalid: not('isValid'),
+  isNotValidating: not('isValidating'),
   isTruelyValid: and('isNotValidating', 'isValid'),
 
-  isAsync: computed('_promise', '_promiseResolved', function () {
-    return isPromise(get(this, '_promise')) && !get(this, '_promiseResolved');
+  isAsync: computed('_promise', function () {
+    return isPromise(get(this, '_promise'));
   }),
 
   isDirty: computed('attrValue', function () {
@@ -87,11 +90,16 @@ export default Ember.Object.extend({
     return makeArray(get(this, 'error'));
   }),
 
+  /**
+   * Promise handler
+   * @method  _handlePromise
+   * @private
+   */
   _handlePromise() {
-    const promise = get(this, '_promise');
+    set(this, 'isValidating', true);
 
-    if(isPromise(promise)) {
-      promise.finally(() => set(this, '_promiseResolved', true));
-    }
+    get(this, '_promise').finally(() => {
+      set(this, 'isValidating', false);
+    });
   }
 });

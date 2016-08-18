@@ -212,12 +212,13 @@ test("shallow isAsync test", function(assert) {
   var obj = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(obj.get('validations.attrs.firstName.isAsync'), true);
-  assert.equal(Ember.canInvoke(obj.get('validations.attrs.firstName.value'), 'then'), true);
+  assert.equal(obj.get('validations.attrs.firstName.isValidating'), true);
 
   return obj.validate().then(({
     model
   }) => {
     assert.equal(model.get('validations.isValid'), true);
+    assert.equal(model.get('validations.isValidating'), false);
   });
 });
 

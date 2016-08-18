@@ -37,7 +37,6 @@ function each(collection, key, fn) {
 
 function isAny(collection, key, value, defaultValue) {
   return each(collection, key, cycleBreaker(function () {
-    console.log(`inside ${key}`, get(this, collection));
     return get(this, collection).isAny(key, value);
   }, defaultValue));
 }
@@ -61,6 +60,7 @@ export default Ember.ArrayProxy.extend({
 
   /**
    * The attribute that this collection belongs to
+   *
    * @property attribute
    * @type {String}
    */
@@ -88,6 +88,7 @@ export default Ember.ArrayProxy.extend({
    * ```
    *
    * @property isInvalid
+   * @default false
    * @readOnly
    * @type {Boolean}
    */
@@ -356,9 +357,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentValidators: each('_errorContent', '_validator', function() {
-    return get(this, '_errorContent').mapBy('_validator');
-  }).readOnly(),
+  _contentValidators: computed.mapBy('_errorContent', '_validator').readOnly(),
 
   /**
    * @property _errorContent

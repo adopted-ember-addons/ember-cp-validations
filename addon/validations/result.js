@@ -71,7 +71,6 @@ const Result = Ember.Object.extend({
    */
   _isReadOnly: computed('_validations', function() {
     const validations = get(this, '_validations');
-
     return (validations instanceof ValidationResultCollection) || get(validations, 'isValidations');
   }).readOnly(),
 
@@ -228,24 +227,12 @@ const Result = Ember.Object.extend({
    * @private
    */
   _handlePromise() {
-    const validations = get(this, '_validations');
-
-    set(validations, 'isValidating', true);
-
     get(this, '_promise').then(
-      result => {
-        set(validations, 'isValidating', false);
-        return this.update(result);
-      },
-      result => {
-        set(validations, 'isValidating', false);
-        return this.update(result);
-      }
+      result => this.update(result),
+      result => this.update(result)
     ).catch(reason => {
       // TODO: send into error state
       throw reason;
-    }).finally(() => {
-      set(validations, 'isValidating', false);
     });
   }
 });
