@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -258,7 +258,6 @@ const Result = Ember.Object.extend({
    */
   _isReadOnly: computed(&#x27;_validations&#x27;, function() {
     const validations = get(this, &#x27;_validations&#x27;);
-
     return (validations instanceof ValidationResultCollection) || get(validations, &#x27;isValidations&#x27;);
   }).readOnly(),
 
@@ -346,7 +345,9 @@ const Result = Ember.Object.extend({
    * @type {Result}
    */
   _validations: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;, function () {
-    return InternalResultObject.create(getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;]));
+    return InternalResultObject.extend({
+      attrValue: computed.readOnly(&#x60;model.${get(this, &#x27;attribute&#x27;)}&#x60;)
+    }).create(getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;]));
   }),
 
   init() {
@@ -413,24 +414,12 @@ const Result = Ember.Object.extend({
    * @private
    */
   _handlePromise() {
-    const validations = get(this, &#x27;_validations&#x27;);
-
-    set(validations, &#x27;isValidating&#x27;, true);
-
     get(this, &#x27;_promise&#x27;).then(
-      result =&gt; {
-        set(validations, &#x27;isValidating&#x27;, false);
-        return this.update(result);
-      },
-      result =&gt; {
-        set(validations, &#x27;isValidating&#x27;, false);
-        return this.update(result);
-      }
+      result =&gt; this.update(result),
+      result =&gt; this.update(result)
     ).catch(reason =&gt; {
       // TODO: send into error state
       throw reason;
-    }).finally(() =&gt; {
-      set(validations, &#x27;isValidating&#x27;, false);
     });
   }
 });

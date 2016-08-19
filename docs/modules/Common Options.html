@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -183,7 +183,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Common Options Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/validator.js#L16" target="_blank">
+              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/validator.js#L16" target="_blank">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
     </h1>
@@ -193,7 +193,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/validator.js#L16">addon/validations/validator.js:16</a>
+            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/validator.js#L16">addon/validations/validator.js:16</a>
         </div>
 
 </div>
@@ -201,7 +201,8 @@
 
 <div class="module-description page-section">
     <h3>description</h3>
-<p>A descriptor for your attribute used in the error message strings. Defaults to <code>This field'</code>.
+<p>Default: <strong>'This field'</strong></p>
+<p>A descriptor for your attribute used in the error message strings.
 You can overwrite this value in your <code>validators/messages.js</code> file by changing the <code>defaultDescription</code> property.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
 validator('date', {
@@ -209,6 +210,25 @@ validator('date', {
 })
 // If validation is run and the attribute is empty, the error returned will be:
 // 'Date of birth can't be blank'
+</code></pre>
+<h3>lazy</h3>
+<p>Default: <strong>true</strong></p>
+<p>Only validate the given validator if the attribute is not already in an invalid
+state. When you have multiple validators on an attribute, it will only validate subsequent
+validators if the preceding validators have passed. When set to <strong>false</strong>, the validator
+will always be executed, even if its preceding validators are invalid.</p>
+<pre class="code prettyprint"><code class="language-javascript">// Examples
+buildValidations({
+ username: [
+   validator('presence', true),
+   validator('length', { min: 5 }),
+   validator('custom-promise-based-validator') // Will only be executed if the above two have passed
+ ]
+});
+
+validator('custom-validator-that-must-executed', {
+  lazy: false
+})
 </code></pre>
 <h3>dependentKeys</h3>
 <p>A list of other model specific dependents for you validator.</p>
@@ -224,9 +244,8 @@ validator('x-validator', {
 })
 </code></pre>
 <h3>disabled</h3>
-<p>If set to <code>true</code>, disables the given validator. This option would usually go hand-in-hand
-with Advanced Usage and <code>dependentKeys</code>.
-Defaults to <code>false</code>.</p>
+<p>Default: <strong>false</strong></p>
+<p>If set to <strong>true</strong>, disables the given validator.</p>
 <pre class="code prettyprint"><code class="language-js">// Examples
 validator('presence', {
   presence: true,
@@ -234,13 +253,11 @@ validator('presence', {
 })
 validator('presence', {
   presence: true,
-  dependentKeys: ['shouldValidate'],
-  disabled(model, attribute) {
-    return !model.get('shouldValidate');
-  }
+  disabled: computed.not('model.shouldValidate')
 })
 </code></pre>
 <h3>debounce</h3>
+<p>Default: <strong>0</strong></p>
 <p>Debounces the validation with the given time in <code>milliseconds</code>. All debounced validations will
 be handled asynchronously (wrapped in a promise).</p>
 <pre class="code prettyprint"><code class="language-javascript">// Examples
@@ -252,6 +269,7 @@ validator('x-validator', {
 })
 </code></pre>
 <h3>isWarning</h3>
+<p>Default: <strong>false</strong></p>
 <p>Any validator can be declared as a warning validator by setting <code>isWarning</code> to true. These validators will act as
 assertions that when return a message, will be placed under <code>warnings</code> and <code>warningMessages</code> collections. What this means,
 is that these validators will not have any affect on the valid state of the attribute allowing you to display warning messages
@@ -275,15 +293,15 @@ validator('date', {
   }
 })
 validator('number', {
-     dependentKeys: ['someOtherAttr'],
+  dependentKeys: ['someOtherAttr'],
   value(model, attribute) {
-    // Validate a value that is not the current attribute
-    return this.get('model').get('someOtherAttr');
+   // Validate a value that is not the current attribute
+   return this.get('model').get('someOtherAttr');
   }
 })
 </code></pre>
 <h3>message</h3>
-<p>This option can take two forms. It can either be a <code>string</code> or a <code>function</code>.
+<p>This option can take two forms. It can either be a <code>string</code> (a CP that returns a string is also valid), or a <code>function</code>.
 If a string is used, then it will overwrite all error message types for the specified validator.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Example: String
 validator('confirmation', {
@@ -293,7 +311,7 @@ validator('confirmation', {
 <p>We can pass a <code>function</code> into our message option for even more customization capabilities.</p>
 <pre class="code prettyprint"><code class="language-javascript">// Example: Function
 validator('date', {
-  message: function(type, options, value, context) {
+  message(type, options, value, context) {
     if (type === 'before') {
       return '{description} should really be before {date}';
     }

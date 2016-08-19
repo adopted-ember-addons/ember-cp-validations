@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -183,7 +183,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Advanced Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/index.js#L141" target="_blank">
+              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/index.js#L141" target="_blank">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
     </h1>
@@ -193,7 +193,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/index.js#L141">addon/index.js:141</a>
+            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/index.js#L141">addon/index.js:141</a>
         </div>
 
 </div>
@@ -258,10 +258,8 @@ const Validations = buildValidations({
   lastName: validator('presence', true)
 }, {
   description: 'This field'
-  dependentKeys: ['i18n.locale', 'disableValidations'],
-  disabled(model, attribute) {
-    return model.get('disableValidations');
-  }
+  dependentKeys: ['i18n.locale'],
+  disabled: computed.readOnly('model.disableValidations')
 });
 </code></pre>
 <p>Just like in the default options, locale validator options will always take precedence over default options and default options will always take precedence

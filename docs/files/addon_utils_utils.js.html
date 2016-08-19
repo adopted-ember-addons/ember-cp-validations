@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -192,16 +192,66 @@
 
 import Ember from &#x27;ember&#x27;;
 
+const DS = requireModule(&#x27;ember-data&#x27;);
+
+const {
+  get,
+  isArray,
+  canInvoke,
+  A: emberArray
+} = Ember;
+
 export function requireModule(module) {
   return self.requirejs.has(module) ? self.require(module).default : undefined;
 }
 
-export function unwrapString(input) {
-  if (input &amp;&amp; input instanceof Ember.Handlebars.SafeString) {
-    return input.toString();
+export function unwrapString(s) {
+  if (s &amp;&amp; s instanceof Ember.Handlebars.SafeString) {
+    return s.toString();
   }
 
-  return input;
+  return s;
+}
+
+export function unwrapProxy(o) {
+  return isProxy(o) ? unwrapProxy(get(o, &#x27;content&#x27;)) : o;
+}
+
+export function isProxy(o) {
+  return !!(o &amp;&amp; (o instanceof Ember.ObjectProxy || o instanceof Ember.ArrayProxy));
+}
+
+export function isPromise(p) {
+  return !!(p &amp;&amp; canInvoke(p, &#x27;then&#x27;));
+}
+
+export function isDsModel(o) {
+  return !!(DS &amp;&amp; o &amp;&amp; o instanceof DS.Model);
+}
+
+export function isDSManyArray(o) {
+  return !!(o &amp;&amp; isArray(o) &amp;&amp; (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
+}
+
+export function isEmberObject(o) {
+  return !!(o &amp;&amp; o instanceof Ember.Object);
+}
+
+export function isValidatable(value) {
+  const v = unwrapProxy(value);
+  return isDsModel(v) ? !get(v, &#x27;isDeleted&#x27;) : true;
+}
+
+export function getValidatableValue(value) {
+  if(!value) {
+    return value;
+  }
+
+  if(isDSManyArray(value)) {
+    return emberArray(value.filter(v =&gt; isValidatable(v)));
+  }
+
+  return isValidatable(value) ? value : undefined;
 }
 
     </pre>

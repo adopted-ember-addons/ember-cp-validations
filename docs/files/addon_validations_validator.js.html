@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -203,7 +203,9 @@ const {
 /**
  * ### description
  *
- * A descriptor for your attribute used in the error message strings. Defaults to &#x60;This field&#x27;&#x60;.
+ * Default: __&#x27;This field&#x27;__
+ *
+ * A descriptor for your attribute used in the error message strings.
  * You can overwrite this value in your &#x60;validators/messages.js&#x60; file by changing the &#x60;defaultDescription&#x60; property.
  *
  * &#x60;&#x60;&#x60;javascript
@@ -213,6 +215,30 @@ const {
  * })
  * // If validation is run and the attribute is empty, the error returned will be:
  * // &#x27;Date of birth can&#x27;t be blank&#x27;
+ * &#x60;&#x60;&#x60;
+ *
+ * ### lazy
+ *
+ * Default: __true__
+ *
+ * Only validate the given validator if the attribute is not already in an invalid
+ * state. When you have multiple validators on an attribute, it will only validate subsequent
+ * validators if the preceding validators have passed. When set to __false__, the validator
+ * will always be executed, even if its preceding validators are invalid.
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * buildValidations({
+ *  username: [
+ *    validator(&#x27;presence&#x27;, true),
+ *    validator(&#x27;length&#x27;, { min: 5 }),
+ *    validator(&#x27;custom-promise-based-validator&#x27;) // Will only be executed if the above two have passed
+ *  ]
+ * });
+ *
+ * validator(&#x27;custom-validator-that-must-executed&#x27;, {
+ *   lazy: false
+ * })
  * &#x60;&#x60;&#x60;
  *
  * ### dependentKeys
@@ -234,9 +260,9 @@ const {
  *
  * ### disabled
  *
- * If set to &#x60;true&#x60;, disables the given validator. This option would usually go hand-in-hand
- * with {{#crossLinkModule &#x27;Advanced Usage&#x27;}}options as functions{{/crossLinkModule}} and &#x60;dependentKeys&#x60;.
- * Defaults to &#x60;false&#x60;.
+ * Default: __false__
+ *
+ * If set to __true__, disables the given validator. 
  *
  * &#x60;&#x60;&#x60;js
  * // Examples
@@ -246,14 +272,13 @@ const {
  * })
  * validator(&#x27;presence&#x27;, {
  *   presence: true,
- *   dependentKeys: [&#x27;shouldValidate&#x27;],
- *   disabled(model, attribute) {
- *     return !model.get(&#x27;shouldValidate&#x27;);
- *   }
+ *   disabled: computed.not(&#x27;model.shouldValidate&#x27;)
  * })
  * &#x60;&#x60;&#x60;
  *
  * ### debounce
+ *
+ * Default: __0__
  *
  * Debounces the validation with the given time in &#x60;milliseconds&#x60;. All debounced validations will
  * be handled asynchronously (wrapped in a promise).
@@ -269,6 +294,8 @@ const {
  * &#x60;&#x60;&#x60;
  *
  * ### isWarning
+ *
+ * Default: __false__
  *
  * Any validator can be declared as a warning validator by setting &#x60;isWarning&#x60; to true. These validators will act as
  * assertions that when return a message, will be placed under &#x60;warnings&#x60; and &#x60;warningMessages&#x60; collections. What this means,
@@ -299,17 +326,17 @@ const {
  *   }
  * })
  * validator(&#x27;number&#x27;, {
- * 	 dependentKeys: [&#x27;someOtherAttr&#x27;],
+ *   dependentKeys: [&#x27;someOtherAttr&#x27;],
  *   value(model, attribute) {
- *   	// Validate a value that is not the current attribute
- *   	return this.get(&#x27;model&#x27;).get(&#x27;someOtherAttr&#x27;);
+ *    // Validate a value that is not the current attribute
+ *    return this.get(&#x27;model&#x27;).get(&#x27;someOtherAttr&#x27;);
  *   }
  * })
  * &#x60;&#x60;&#x60;
  *
  * ### message
  *
- * This option can take two forms. It can either be a &#x60;string&#x60; or a &#x60;function&#x60;.
+ * This option can take two forms. It can either be a &#x60;string&#x60; (a CP that returns a string is also valid), or a &#x60;function&#x60;.
  * If a string is used, then it will overwrite all error message types for the specified validator.
  *
  * &#x60;&#x60;&#x60;javascript
@@ -324,7 +351,7 @@ const {
  * &#x60;&#x60;&#x60;javascript
  * // Example: Function
  * validator(&#x27;date&#x27;, {
- *   message: function(type, options, value, context) {
+ *   message(type, options, value, context) {
  *     if (type === &#x27;before&#x27;) {
  *       return &#x27;{description} should really be before {date}&#x27;;
  *     }

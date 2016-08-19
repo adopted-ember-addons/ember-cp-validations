@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -398,10 +398,8 @@ import Validator from &#x27;./validations/validator&#x27;;
  *   lastName: validator(&#x27;presence&#x27;, true)
  * }, {
  *   description: &#x27;This field&#x27;
- *   dependentKeys: [&#x27;i18n.locale&#x27;, &#x27;disableValidations&#x27;],
- *   disabled(model, attribute) {
- *     return model.get(&#x27;disableValidations&#x27;);
- *   }
+ *   dependentKeys: [&#x27;i18n.locale&#x27;],
+ *   disabled: computed.readOnly(&#x27;model.disableValidations&#x27;)
  * });
  * &#x60;&#x60;&#x60;
  *
@@ -464,13 +462,13 @@ import Validator from &#x27;./validations/validator&#x27;;
  */
 
 /**
- * ## [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
+ * ### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
  *
  *  &#x60;&#x60;&#x60;bash
  *  ember install ember-intl-cp-validations
  *  &#x60;&#x60;&#x60;
  *
- * ## [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
+ * ### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
  *
  * &#x60;&#x60;&#x60;bash
  *  ember install ember-i18n-cp-validations

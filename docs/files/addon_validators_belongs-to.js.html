@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -192,10 +192,10 @@
 
 import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
+import { isPromise } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 const {
-  get,
-  canInvoke
+  get
 } = Ember;
 
 
@@ -266,10 +266,10 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+const BelongsTo = Base.extend({
   validate(value) {
     if (value) {
-      if (canInvoke(value, &#x27;then&#x27;)) {
+      if (isPromise(value)) {
         return value.then(model =&gt; model ? get(model, &#x27;validations&#x27;) : true);
       }
       return get(value, &#x27;validations&#x27;);
@@ -278,6 +278,14 @@ export default Base.extend({
     return true;
   }
 });
+
+BelongsTo.reopenClass({
+  getDependentsFor(attribute) {
+    return [ &#x60;model.${attribute}.isDeleted&#x60; ];
+  }
+});
+
+export default BelongsTo;
 
     </pre>
 </div>

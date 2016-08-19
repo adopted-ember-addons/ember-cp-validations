@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -190,12 +190,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from &#x27;ember&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
-
-const {
-  canInvoke
-} = Ember;
+import { isPromise } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 /**
  *  Identifies a &#x60;has-many&#x60; relationship in an Ember Data Model or Ember.Object.
@@ -245,7 +241,7 @@ const {
 const HasMany = Base.extend({
   validate(value) {
     if (value) {
-      if (canInvoke(value, &#x27;then&#x27;)) {
+      if (isPromise(value)) {
         return value.then(models =&gt; models ? models.map(m =&gt; m.get(&#x27;validations&#x27;)) : true);
       }
       return value.map(m =&gt; m.get(&#x27;validations&#x27;));
@@ -257,7 +253,10 @@ const HasMany = Base.extend({
 
 HasMany.reopenClass({
   getDependentsFor(attribute) {
-    return [ &#x60;model.${attribute}.[]&#x60; ];
+    /*
+      The content.@each.isDeleted must be added for older ember-data versions
+     */
+    return [ &#x60;model.${attribute}.[]&#x60;, &#x60;model.${attribute}.@each.isDeleted&#x60;, &#x60;model.${attribute}.content.@each.isDeleted&#x60; ];
   }
 });
 

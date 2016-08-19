@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -183,7 +183,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Factory Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L90" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L84" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -197,7 +197,7 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L90">addon/validations/factory.js:90</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L84">addon/validations/factory.js:84</a>
         </div>
 </div>
 
@@ -274,8 +274,12 @@
                                   <a href="#method_debouncedValidate">debouncedValidate</a>
 
                               </li>
-                              <li class="index-item method">
+                              <li class="index-item method private">
                                   <a href="#method_extractOptionsDependentKeys">extractOptionsDependentKeys</a>
+
+                              </li>
+                              <li class="index-item method private">
+                                  <a href="#method_generateValidationResultsFor">generateValidationResultsFor</a>
 
                               </li>
                               <li class="index-item method private">
@@ -351,7 +355,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L95">addon/validations/factory.js:95</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L89">addon/validations/factory.js:89</a>
   		</p>
   
   
@@ -402,7 +406,7 @@
   						<code>validationRules</code>
   				</li>
   				<li class="arg">
-  						<code>owner</code>
+  						<code>model</code>
   				</li>
   			</ul><span class="paren">)</span>
   		</div>
@@ -421,7 +425,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L291">addon/validations/factory.js:291</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L290">addon/validations/factory.js:290</a>
   		</p>
   
   
@@ -453,7 +457,7 @@
   
   				</li>
   				<li class="param">
-  						<code class="param-name">owner</code>
+  						<code class="param-name">model</code>
   						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
@@ -484,12 +488,15 @@
   						<code>attribute</code>
   				</li>
   				<li class="arg">
+  						<code>model</code>
+  				</li>
+  				<li class="arg">
   						<code>validations</code>
   				</li>
   			</ul><span class="paren">)</span>
   		</div>
   		<span class="returns-inline">
-  			<span class="type"><a href="http://emberjs.com/api/classes/Ember.computed.html" class="crosslink external" target="_blank">Ember.computed</a></span>
+  			<span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>
   		</span>
   	</span>
   
@@ -503,7 +510,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L344">addon/validations/factory.js:344</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L359">addon/validations/factory.js:359</a>
   		</p>
   
   
@@ -525,8 +532,18 @@
   
   				</li>
   				<li class="param">
+  						<code class="param-name">model</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  					<div class="param-description"><p>Since the CPs are created once per class on the first initialization,
+  this is the first model that was instantiated</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
   						<code class="param-name">validations</code>
-  						<span class="type">Array / Object</span>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
   
   
   
@@ -538,7 +555,7 @@
   			<h4>Returns:</h4>
   
   			<div class="returns-description">
-  						<span class="type"><a href="http://emberjs.com/api/classes/Ember.computed.html" class="crosslink external" target="_blank">Ember.computed</a></span>:
+  						<span class="type"><a href="http://emberjs.com/api/classes/Ember.ComputedProperty.html" class="crosslink external" target="_blank">Ember.ComputedProperty</a></span>:
   					<p>A computed property which is a ValidationResultCollection</p>
   
   			</div>
@@ -571,7 +588,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L389">addon/validations/factory.js:389</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L440">addon/validations/factory.js:440</a>
   		</p>
   
   
@@ -614,7 +631,7 @@
   						<code>validations</code>
   				</li>
   				<li class="arg">
-  						<code>owner</code>
+  						<code>model</code>
   				</li>
   			</ul><span class="paren">)</span>
   		</div>
@@ -633,7 +650,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L192">addon/validations/factory.js:192</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L191">addon/validations/factory.js:191</a>
   		</p>
   
   
@@ -668,7 +685,7 @@
   
   				</li>
   				<li class="param">
-  						<code class="param-name">owner</code>
+  						<code class="param-name">model</code>
   						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
@@ -718,7 +735,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L613">addon/validations/factory.js:613</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L656">addon/validations/factory.js:656</a>
   		</p>
   
   
@@ -799,7 +816,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L524">addon/validations/factory.js:524</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L567">addon/validations/factory.js:567</a>
   		</p>
   
   
@@ -822,7 +839,7 @@
   				</li>
   				<li class="param">
   						<code class="param-name">value</code>
-  						<span class="type">Unknown</span>
+  						<span class="type">Mixed</span>
   
   
   
@@ -860,7 +877,7 @@
   
   
   </div>
-  <div id="method_extractOptionsDependentKeys" class="method item">
+  <div id="method_extractOptionsDependentKeys" class="method item private">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
   		<a class="fa fa-link toc-anchor" href="#method_extractOptionsDependentKeys"></a>
@@ -881,6 +898,7 @@
   
   
   
+  		<span class="flag private">private</span>
   
   
   
@@ -888,7 +906,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L501">addon/validations/factory.js:501</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L543">addon/validations/factory.js:543</a>
   		</p>
   
   
@@ -923,6 +941,100 @@
   		</div>
   
   </div>
+  <div id="method_generateValidationResultsFor" class="method item private">
+  	<span class="method-signature">
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_generateValidationResultsFor"></a>
+  		generateValidationResultsFor
+  	</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>attribute</code>
+  				</li>
+  				<li class="arg">
+  						<code>model</code>
+  				</li>
+  				<li class="arg">
+  						<code>validators</code>
+  				</li>
+  				<li class="arg">
+  						<code>validate</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  		<span class="flag private">private</span>
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>
+  				Defined in
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L396">addon/validations/factory.js:396</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Generates the validation results for a given attribute and validators. If a
+  given validator should be validated, it calls upon the validate callback to retrieve
+  the result.</p>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">attribute</code>
+  						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">model</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">validators</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">validate</code>
+  						<span class="type"><a href="http://emberjs.com/api/classes/Function.html" class="crosslink external" target="_blank">Function</a></span>
+  
+  
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  			</div>
+  		</div>
+  
+  </div>
   <div id="method_getCPDependentKeysFor" class="method item private">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
@@ -934,6 +1046,9 @@
   			<span class="paren">(</span><ul class="args-list inline commas">
   				<li class="arg">
   						<code>attribute</code>
+  				</li>
+  				<li class="arg">
+  						<code>model</code>
   				</li>
   				<li class="arg">
   						<code>validations</code>
@@ -955,7 +1070,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L456">addon/validations/factory.js:456</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L487">addon/validations/factory.js:487</a>
   		</p>
   
   
@@ -977,8 +1092,18 @@
   
   				</li>
   				<li class="param">
+  						<code class="param-name">model</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  					<div class="param-description"><p>Since the CPs are created once per class on the first initialization,
+  this is the first model that was instantiated</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
   						<code class="param-name">validations</code>
-  						<span class="type">Array / Object</span>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
   
   
   
@@ -1029,7 +1154,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L594">addon/validations/factory.js:594</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L637">addon/validations/factory.js:637</a>
   		</p>
   
   
@@ -1101,7 +1226,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L575">addon/validations/factory.js:575</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L618">addon/validations/factory.js:618</a>
   		</p>
   
   
@@ -1173,7 +1298,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L654">addon/validations/factory.js:654</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L697">addon/validations/factory.js:697</a>
   		</p>
   
   
@@ -1244,7 +1369,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L150">addon/validations/factory.js:150</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L149">addon/validations/factory.js:149</a>
   		</p>
   
   
@@ -1312,7 +1437,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L673">addon/validations/factory.js:673</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L716">addon/validations/factory.js:716</a>
   		</p>
   
   
@@ -1401,7 +1526,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L736">addon/validations/factory.js:736</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L779">addon/validations/factory.js:779</a>
   		</p>
   
   
@@ -1431,7 +1556,7 @@
   				</li>
   				<li class="param">
   						<code class="param-name">value</code>
-  						<span class="type">Unknown</span>
+  						<span class="type">Mixed</span>
   
   
   
@@ -1476,7 +1601,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L776">addon/validations/factory.js:776</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L815">addon/validations/factory.js:815</a>
   		</p>
   
   
@@ -1551,7 +1676,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/factory.js#L543">addon/validations/factory.js:543</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/factory.js#L586">addon/validations/factory.js:586</a>
   		</p>
   
   
@@ -1574,7 +1699,7 @@
   				</li>
   				<li class="param">
   						<code class="param-name">value</code>
-  						<span class="type">Unknown</span>
+  						<span class="type">Mixed</span>
   
   
   

@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -183,7 +183,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> ResultCollection Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L32" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L46" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -197,7 +197,7 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L32">addon/validations/result-collection.js:32</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L46">addon/validations/result-collection.js:46</a>
         </div>
 </div>
 
@@ -248,11 +248,7 @@
 
                       <ul class="index-list methods">
                               <li class="index-item method private">
-                                  <a href="#method__computeErrorCollection">_computeErrorCollection</a>
-
-                              </li>
-                              <li class="index-item method private">
-                                  <a href="#method__groupValidatorOptions">_groupValidatorOptions</a>
+                                  <a href="#method__handlePromise">_handlePromise</a>
 
                               </li>
                       </ul>
@@ -280,10 +276,6 @@
                               </li>
                               <li class="index-item property">
                                   <a href="#property_attribute">attribute</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_content">content</a>
 
                               </li>
                               <li class="index-item property">
@@ -334,10 +326,6 @@
                                   <a href="#property_options">options</a>
 
                               </li>
-                              <li class="index-item property private">
-                                  <a href="#property_value">value</a>
-
-                              </li>
                               <li class="index-item property">
                                   <a href="#property_warning">warning</a>
 
@@ -362,17 +350,14 @@
 
               <div id="tab_methods" role="tabpanel" class="tab-pane">
                   <div class="item-list">
-  <div id="method__computeErrorCollection" class="method item private">
+  <div id="method__handlePromise" class="method item private">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method__computeErrorCollection"></a>
-  		_computeErrorCollection
+  		<a class="fa fa-link toc-anchor" href="#method__handlePromise"></a>
+  		_handlePromise
   	</span>
   
   		<span class="paren">()</span>
-  		<span class="returns-inline">
-  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  		</span>
   	</span>
   
   
@@ -385,66 +370,17 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L399">addon/validations/result-collection.js:399</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/internal-result-object.js#L90">addon/validations/internal-result-object.js:90</a>
   		</p>
   
   
   
   	</div>
   
-  
-  
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  			</div>
-  		</div>
-  
-  </div>
-  <div id="method__groupValidatorOptions" class="method item private">
-  	<span class="method-signature">
-  	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method__groupValidatorOptions"></a>
-  		_groupValidatorOptions
-  	</span>
-  
-  		<span class="paren">()</span>
-  		<span class="returns-inline">
-  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  		</span>
-  	</span>
-  
-  
-  
-  		<span class="flag private">private</span>
-  
-  
-  
-  
-  	<div class="meta">
-  				<p>
-  				Defined in
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L418">addon/validations/result-collection.js:418</a>
-  		</p>
-  
-  
-  
-  	</div>
-  
-  	<div class="description"><p>Used by the <code>options</code> property to create a hash from the <code>content</code> that is grouped by validator type.
-  If there is more than 1 of a type, it groups it into an array of option objects.</p>
+  	<div class="description"><p>Promise handler</p>
   </div>
   
   
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  			</div>
-  		</div>
   
   </div>
                   </div>
@@ -467,7 +403,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L378">addon/validations/result-collection.js:378</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L351">addon/validations/result-collection.js:351</a>
           </p>
   
   
@@ -495,7 +431,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L385">addon/validations/result-collection.js:385</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L358">addon/validations/result-collection.js:358</a>
           </p>
   
   
@@ -523,7 +459,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L363">addon/validations/result-collection.js:363</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L341">addon/validations/result-collection.js:341</a>
           </p>
   
   
@@ -551,7 +487,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L392">addon/validations/result-collection.js:392</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L365">addon/validations/result-collection.js:365</a>
           </p>
   
   
@@ -578,7 +514,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L45">addon/validations/result-collection.js:45</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L57">addon/validations/result-collection.js:57</a>
           </p>
   
   
@@ -586,34 +522,6 @@
   
       <div class="description">
           <p>The attribute that this collection belongs to</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  <div id="property_content" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_content"></a>
-          content
-      </h3>
-      <span class="type"><a href="http://emberjs.com/api/classes/Ember.Array.html" class="crosslink external" target="_blank">Ember.Array</a></span>
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L38">addon/validations/result-collection.js:38</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>A set of all validator <a href="../classes/Result.html" class="crosslink">Result</a> objects for this specific attribute</p>
   
       </div>
   
@@ -634,7 +542,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L301">addon/validations/result-collection.js:301</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L290">addon/validations/result-collection.js:290</a>
           </p>
   
   
@@ -666,7 +574,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L283">addon/validations/result-collection.js:283</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L272">addon/validations/result-collection.js:272</a>
           </p>
   
   
@@ -699,7 +607,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L158">addon/validations/result-collection.js:158</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L157">addon/validations/result-collection.js:157</a>
           </p>
   
   
@@ -732,7 +640,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L138">addon/validations/result-collection.js:138</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L139">addon/validations/result-collection.js:139</a>
           </p>
   
   
@@ -767,7 +675,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L73">addon/validations/result-collection.js:73</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L79">addon/validations/result-collection.js:79</a>
           </p>
   
   
@@ -781,6 +689,7 @@
   
       </div>
   
+          <p><br><strong>Default:</strong> false</p>
   
   
   </div>
@@ -798,7 +707,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L120">addon/validations/result-collection.js:120</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L123">addon/validations/result-collection.js:123</a>
           </p>
   
   
@@ -831,7 +740,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L86">addon/validations/result-collection.js:86</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L93">addon/validations/result-collection.js:93</a>
           </p>
   
   
@@ -863,7 +772,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L102">addon/validations/result-collection.js:102</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L107">addon/validations/result-collection.js:107</a>
           </p>
   
   
@@ -896,7 +805,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L57">addon/validations/result-collection.js:57</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L65">addon/validations/result-collection.js:65</a>
           </p>
   
   
@@ -928,7 +837,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L195">addon/validations/result-collection.js:195</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L191">addon/validations/result-collection.js:191</a>
           </p>
   
   
@@ -960,7 +869,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L176">addon/validations/result-collection.js:176</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L173">addon/validations/result-collection.js:173</a>
           </p>
   
   
@@ -992,7 +901,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L318">addon/validations/result-collection.js:318</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L305">addon/validations/result-collection.js:305</a>
           </p>
   
   
@@ -1025,34 +934,6 @@
   
   
   </div>
-  <div id="property_value" class="property item private">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_value"></a>
-          value
-      </h3>
-      <span class="type"><a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
-  
-  
-          <span class="flag private">private</span>
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L354">addon/validations/result-collection.js:354</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          
-      </div>
-  
-  
-  
-  </div>
   <div id="property_warning" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_warning"></a>
@@ -1067,7 +948,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L266">addon/validations/result-collection.js:266</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L257">addon/validations/result-collection.js:257</a>
           </p>
   
   
@@ -1099,7 +980,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L231">addon/validations/result-collection.js:231</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L224">addon/validations/result-collection.js:224</a>
           </p>
   
   
@@ -1131,7 +1012,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L212">addon/validations/result-collection.js:212</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L206">addon/validations/result-collection.js:206</a>
           </p>
   
   
@@ -1163,7 +1044,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.5/addon/validations/result-collection.js#L248">addon/validations/result-collection.js:248</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.0.0-beta.6/addon/validations/result-collection.js#L239">addon/validations/result-collection.js:239</a>
           </p>
   
   

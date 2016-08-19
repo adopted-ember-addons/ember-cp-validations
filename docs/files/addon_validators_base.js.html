@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.5" target="_blank">
-                                  Tag: v3.0.0-beta.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
+                                  Tag: v3.0.0-beta.6
                                 </a>
                             </h4>
                         </div>
@@ -193,7 +193,7 @@
 import Ember from &#x27;ember&#x27;;
 import Messages from &#x27;ember-cp-validations/validators/messages&#x27;;
 import getOwner from &#x27;ember-getowner-polyfill&#x27;;
-import { unwrapString } from &#x27;ember-cp-validations/utils/utils&#x27;;
+import { unwrapString, getValidatableValue } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 const {
   get,
@@ -342,10 +342,11 @@ const Base = Ember.Object.extend({
    *
    * @method getValue
    * @private
-   * @return {Unknown} value
+   * @return {Mixed} value
    */
   getValue() {
-    return this.value(get(this, &#x27;model&#x27;), get(this, &#x27;attribute&#x27;));
+    const value = this.value(get(this, &#x27;model&#x27;), get(this, &#x27;attribute&#x27;));
+    return getValidatableValue(value);
   },
 
   /**
@@ -353,7 +354,7 @@ const Base = Ember.Object.extend({
    * It will get passed in the current value of the attribute this validator is attached to.
    * Within the validator object, you will have access to the following properties:
    * @method validate
-   * @param  {Unknown} value        The current value of the attribute
+   * @param  {Mixed} value        The current value of the attribute
    * @param  {Object} options       The built and processed options
    * @param  {Object} model         The current model being evaluated
    * @param  {String} attribute     The current attribute being evaluated
@@ -395,7 +396,7 @@ const Base = Ember.Object.extend({
    *
    * @method createErrorMessage
    * @param  {String} type        The type of message template to use
-   * @param  {Unknown} value                Current value being evaluated
+   * @param  {Mixed} value                Current value being evaluated
    * @param  {Object} options     Validator built and processed options (used as the message string context)
    * @return {String}             The generated message
    */
