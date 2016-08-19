@@ -6,13 +6,12 @@
 import Ember from 'ember';
 import Messages from 'ember-cp-validations/validators/messages';
 import getOwner from 'ember-getowner-polyfill';
-import { unwrapString, isValidatable } from 'ember-cp-validations/utils/utils';
+import { unwrapString, getValidatableValue } from 'ember-cp-validations/utils/utils';
 
 const {
   get,
   set,
   isNone,
-  isArray,
   computed
 } = Ember;
 
@@ -160,12 +159,7 @@ const Base = Ember.Object.extend({
    */
   getValue() {
     const value = this.value(get(this, 'model'), get(this, 'attribute'));
-
-    if(isArray(value)) {
-      return value.filter(v => isValidatable(v));
-    }
-
-    return isValidatable(value) ? value : undefined;
+    return getValidatableValue(value);
   },
 
   /**

@@ -9,7 +9,9 @@ const DS = requireModule('ember-data');
 
 const {
   get,
-  canInvoke
+  isArray,
+  canInvoke,
+  A: emberArray
 } = Ember;
 
 export function requireModule(module) {
@@ -25,11 +27,11 @@ export function unwrapString(s) {
 }
 
 export function unwrapProxy(o) {
-  if (o && (o instanceof Ember.ObjectProxy || o instanceof Ember.ArrayProxy)) {
-    return unwrapProxy(get(o, 'content'));
-  }
+  return isProxy(o) ? unwrapProxy(get(o, 'content')) : o;
+}
 
-  return o;
+export function isProxy(o) {
+  return !!(o && (o instanceof Ember.ObjectProxy || o instanceof Ember.ArrayProxy));
 }
 
 export function isPromise(p) {
@@ -40,16 +42,27 @@ export function isDsModel(o) {
   return !!(DS && o && o instanceof DS.Model);
 }
 
+export function isDSManyArray(o) {
+  return !!(o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
+}
+
 export function isEmberObject(o) {
   return !!(o && o instanceof Ember.Object);
 }
 
 export function isValidatable(value) {
   const v = unwrapProxy(value);
+  return isDsModel(v) ? !get(v, 'isDeleted') : true;
+}
 
-  if(isDsModel(v)) {
-    return !get(v, 'isDeleted');
+export function getValidatableValue(value) {
+  if(!value) {
+    return value;
   }
 
-  return true;
+  if(isDSManyArray(value)) {
+    return emberArray(value.filter(v => isValidatable(v)));
+  }
+
+  return isValidatable(value) ? value : undefined;
 }
