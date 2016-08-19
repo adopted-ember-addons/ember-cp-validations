@@ -407,6 +407,7 @@ function createCPValidationFor(attribute, model, validations) {
  * @return {Array}
  */
 function generateValidationResultsFor(attribute, model, validators, validate) {
+  let isModelValidatable = isValidatable(model);
   let isInvalid = false;
   let value, result;
 
@@ -416,7 +417,7 @@ function generateValidationResultsFor(attribute, model, validators, validate) {
     const disabled = getWithDefault(options, 'disabled', false);
     const lazy = getWithDefault(options, 'lazy', true);
 
-    if(disabled || (lazy && isInvalid) || !isValidatable(model)) {
+    if(disabled || (lazy && isInvalid) || !isModelValidatable) {
       value = true;
     } else {
       value = validate(validator, options, model, attribute);
