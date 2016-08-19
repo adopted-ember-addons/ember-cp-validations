@@ -6,7 +6,7 @@
 import Ember from 'ember';
 import Messages from 'ember-cp-validations/validators/messages';
 import getOwner from 'ember-getowner-polyfill';
-import { unwrapString } from 'ember-cp-validations/utils/utils';
+import { unwrapString, getValidatableValue } from 'ember-cp-validations/utils/utils';
 
 const {
   get,
@@ -155,10 +155,11 @@ const Base = Ember.Object.extend({
    *
    * @method getValue
    * @private
-   * @return {Unknown} value
+   * @return {Mixed} value
    */
   getValue() {
-    return this.value(get(this, 'model'), get(this, 'attribute'));
+    const value = this.value(get(this, 'model'), get(this, 'attribute'));
+    return getValidatableValue(value);
   },
 
   /**
@@ -166,7 +167,7 @@ const Base = Ember.Object.extend({
    * It will get passed in the current value of the attribute this validator is attached to.
    * Within the validator object, you will have access to the following properties:
    * @method validate
-   * @param  {Unknown} value        The current value of the attribute
+   * @param  {Mixed} value        The current value of the attribute
    * @param  {Object} options       The built and processed options
    * @param  {Object} model         The current model being evaluated
    * @param  {String} attribute     The current attribute being evaluated
@@ -208,7 +209,7 @@ const Base = Ember.Object.extend({
    *
    * @method createErrorMessage
    * @param  {String} type        The type of message template to use
-   * @param  {Unknown} value                Current value being evaluated
+   * @param  {Mixed} value                Current value being evaluated
    * @param  {Object} options     Validator built and processed options (used as the message string context)
    * @return {String}             The generated message
    */
