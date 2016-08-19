@@ -16,7 +16,9 @@ const {
 /**
  * ### description
  *
- * A descriptor for your attribute used in the error message strings. Defaults to `This field'`.
+ * Default: __'This field'__
+ *
+ * A descriptor for your attribute used in the error message strings.
  * You can overwrite this value in your `validators/messages.js` file by changing the `defaultDescription` property.
  *
  * ```javascript
@@ -26,6 +28,30 @@ const {
  * })
  * // If validation is run and the attribute is empty, the error returned will be:
  * // 'Date of birth can't be blank'
+ * ```
+ *
+ * ### lazy
+ *
+ * Default: __true__
+ *
+ * Only validate the given validator if the attribute is not already in an invalid
+ * state. When you have multiple validators on an attribute, it will only validate subsequent
+ * validators if the preceding validators have passed. When set to __false__, the validator
+ * will always be executed, even if its preceding validators are invalid.
+ *
+ * ```javascript
+ * // Examples
+ * buildValidations({
+ *  username: [
+ *    validator('presence', true),
+ *    validator('length', { min: 5 }),
+ *    validator('custom-promise-based-validator') // Will only be executed if the above two have passed
+ *  ]
+ * });
+ *
+ * validator('custom-validator-that-must-executed', {
+ *   lazy: false
+ * })
  * ```
  *
  * ### dependentKeys
@@ -47,9 +73,9 @@ const {
  *
  * ### disabled
  *
- * If set to `true`, disables the given validator. This option would usually go hand-in-hand
- * with {{#crossLinkModule 'Advanced Usage'}}options as functions{{/crossLinkModule}} and `dependentKeys`.
- * Defaults to `false`.
+ * Default: __false__
+ *
+ * If set to __true__, disables the given validator. 
  *
  * ```js
  * // Examples
@@ -59,14 +85,13 @@ const {
  * })
  * validator('presence', {
  *   presence: true,
- *   dependentKeys: ['shouldValidate'],
- *   disabled(model, attribute) {
- *     return !model.get('shouldValidate');
- *   }
+ *   disabled: computed.not('model.shouldValidate')
  * })
  * ```
  *
  * ### debounce
+ *
+ * Default: __0__
  *
  * Debounces the validation with the given time in `milliseconds`. All debounced validations will
  * be handled asynchronously (wrapped in a promise).
@@ -82,6 +107,8 @@ const {
  * ```
  *
  * ### isWarning
+ *
+ * Default: __false__
  *
  * Any validator can be declared as a warning validator by setting `isWarning` to true. These validators will act as
  * assertions that when return a message, will be placed under `warnings` and `warningMessages` collections. What this means,

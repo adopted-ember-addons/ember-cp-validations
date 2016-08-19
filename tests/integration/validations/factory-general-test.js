@@ -212,12 +212,13 @@ test("shallow isAsync test", function(assert) {
   var obj = setupObject(this, Ember.Object.extend(Validations));
 
   assert.equal(obj.get('validations.attrs.firstName.isAsync'), true);
-  assert.equal(Ember.canInvoke(obj.get('validations.attrs.firstName.value'), 'then'), true);
+  assert.equal(obj.get('validations.attrs.firstName.isValidating'), true);
 
   return obj.validate().then(({
     model
   }) => {
     assert.equal(model.get('validations.isValid'), true);
+    assert.equal(model.get('validations.isValidating'), false);
   });
 });
 
@@ -891,4 +892,91 @@ test("options CP changes trigger attribute revalidation", function(assert) {
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be FALSE');
+});
+
+test("lazy validators are actually lazy", function(assert) {
+  this.register('validator:length', LengthValidator);
+  this.register('validator:presence', PresenceValidator);
+
+  var customValidatorCount = 0;
+
+  var Validations = buildValidations({
+    password: {
+      description: 'Password',
+      validators: [
+        validator('presence', true),
+        validator('length', {
+          min: 5,
+        }),
+        validator(() => {
+          customValidatorCount++;
+          return 'Password is not valid';
+        })
+      ]
+    }
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password can\'t be blank');
+
+  object.set('password', '1234');
+
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 5 characters)');
+
+  object.set('password', '12345');
+
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password is not valid');
+  assert.equal(customValidatorCount, 1, 'Last validator only executed once');
+});
+
+test("none lazy validators are actually not lazy", function(assert) {
+  this.register('validator:length', LengthValidator);
+  this.register('validator:presence', PresenceValidator);
+
+  var customValidatorCount = 0;
+
+  var Validations = buildValidations({
+    password: {
+      description: 'Password',
+      validators: [
+        validator('presence', true),
+        validator('length', {
+          min: 5,
+          lazy: false
+        }),
+        validator(() => {
+          customValidatorCount++;
+          return 'Password is not valid';
+        }, {
+          lazy: false
+        })
+      ]
+    }
+  });
+
+  var object = setupObject(this, Ember.Object.extend(Validations));
+
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.messages.length'), 2, 'Only 2 error message should be present');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password can\'t be blank');
+
+  object.set('password', '1234');
+
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.messages.length'), 2, 'Only 2 error message should be present');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 5 characters)');
+
+  object.set('password', '12345');
+
+  assert.equal(object.get('validations.attrs.password.isValid'), false);
+  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
+  assert.equal(object.get('validations.attrs.password.message'), 'Password is not valid');
+  assert.equal(customValidatorCount, 3, 'Last validator executed 3 times');
 });

@@ -5,10 +5,10 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
+import { isPromise } from 'ember-cp-validations/utils/utils';
 
 const {
-  get,
-  canInvoke
+  get
 } = Ember;
 
 
@@ -82,7 +82,7 @@ const {
 const BelongsTo = Base.extend({
   validate(value) {
     if (value) {
-      if (canInvoke(value, 'then')) {
+      if (isPromise(value)) {
         return value.then(model => model ? get(model, 'validations') : true);
       }
       return get(value, 'validations');

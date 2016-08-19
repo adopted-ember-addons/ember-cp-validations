@@ -391,7 +391,7 @@ test("alias validation - firstMessageOnly", function(assert) {
       alias: 'firstName',
       firstMessageOnly: true
     })
-  })));
+  }, { lazy: false })));
 
   user.get('validations').validateSync();
 
@@ -414,7 +414,7 @@ test("alias validation - multiple", function(assert) {
       validator('alias', 'firstName'),
       validator('alias', 'lastName')
     ]
-  })));
+  }, { lazy: false })));
 
   user.get('validations').validateSync();
 

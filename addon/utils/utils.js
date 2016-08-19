@@ -8,7 +8,8 @@ import Ember from 'ember';
 const DS = requireModule('ember-data');
 
 const {
-  get
+  get,
+  canInvoke
 } = Ember;
 
 export function requireModule(module) {
@@ -47,4 +48,8 @@ export function isValidatable(value) {
   }
 
   return true;
+}
+
+export function isPromise(p) {
+  return !!(p && canInvoke(p, 'then'));
 }
