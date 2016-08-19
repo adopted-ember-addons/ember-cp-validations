@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## v3.0.0-beta.6
+
+- [#305](https://github.com/offirgolan/ember-cp-validations/pull/305) [BUGFIX] Provide `baseDir` to allow for proper caching
+- [#311](https://github.com/offirgolan/ember-cp-validations/pull/311) [FEATURE] Place mixin under a named scope for Ember Inspector
+- [#312](https://github.com/offirgolan/ember-cp-validations/pull/312) [BUGFIX] Deleted DS.Model records should be suppressed
+- [#321](https://github.com/offirgolan/ember-cp-validations/pull/321) [FEATURE] Lazily run validations
+
 ## v3.0.0-beta.5
 
 - [#294](https://github.com/offirgolan/ember-cp-validations/pull/294) [BUGFIX] Validate promise resolves even when validations are still validating
