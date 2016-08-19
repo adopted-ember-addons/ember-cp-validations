@@ -66,7 +66,10 @@ const HasMany = Base.extend({
 
 HasMany.reopenClass({
   getDependentsFor(attribute) {
-    return [ `model.${attribute}.[]`, `model.${attribute}.@each.isDeleted` ];
+    /*
+      The content.@each.isDeleted must be added for older ember-data versions
+     */
+    return [ `model.${attribute}.[]`, `model.${attribute}.@each.isDeleted`, `model.${attribute}.content.@each.isDeleted` ];
   }
 });
 

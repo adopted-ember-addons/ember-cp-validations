@@ -170,7 +170,7 @@ test("order with valid question shows valid if validated in reverse order", func
 });
 
 test("order with invalid question shows valid if invalid question is deleted in reverse order", function(assert) {
-  assert.expect(11);
+  assert.expect(9);
   let order = this.subject({ id: 1, source: 'external' });
 
   let orderLine, orderSelection, orderSelectionQuestion, orderSelectionQuestion2;
@@ -214,13 +214,11 @@ test("order with invalid question shows valid if invalid question is deleted in 
 
     return orderSelection.validate();
   }).then(({ validations }) => {
-    assert.equal(orderSelection.get('questions.length'), 2, 'Order Selection has 2 Order Selection Question');
     assert.equal(validations.get('isValid'), true, 'Order Selection should be valid because invalid Order Selection Question 2 was marked deleted');
 
     orderSelectionQuestion.deleteRecord();
     return orderSelection.validate();
   }).then(() => {
-    assert.equal(orderSelection.get('questions.length'), 2, 'Order Selection has 2 Order Selection Question');
     assert.equal(orderSelection.get('validations.attrs.questions.isValid'), false, 'Order Selection should not be valid because all Order Selection Questions have been marked deleted');
 
     order.deleteRecord();
