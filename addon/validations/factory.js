@@ -544,6 +544,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
  * Extract all dependentKeys from any property that is a CP
  *
  * @method extractOptionsDependentKeys
+ * @private
  * @param  {Object} options
  * @return {Array}  dependentKeys
  */
