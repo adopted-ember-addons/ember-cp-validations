@@ -32,12 +32,16 @@ export function unwrapProxy(o) {
   return o;
 }
 
+export function isPromise(p) {
+  return !!(p && canInvoke(p, 'then'));
+}
+
 export function isDsModel(o) {
-  return DS && o && o instanceof DS.Model;
+  return !!(DS && o && o instanceof DS.Model);
 }
 
 export function isEmberObject(o) {
-  return o && o instanceof Ember.Object;
+  return !!(o && o instanceof Ember.Object);
 }
 
 export function isValidatable(value) {
@@ -48,8 +52,4 @@ export function isValidatable(value) {
   }
 
   return true;
-}
-
-export function isPromise(p) {
-  return !!(p && canInvoke(p, 'then'));
 }
