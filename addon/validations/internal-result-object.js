@@ -5,17 +5,17 @@
 
 import Ember from 'ember';
 import ValidationError from './error';
-import { requireModule } from '../utils/utils';
+import { requireModule, isPromise } from '../utils/utils';
 
 const DS = requireModule('ember-data');
 
 const {
   get,
+  set,
   isNone,
   computed,
   canInvoke,
   makeArray,
-  defineProperty
 } = Ember;
 
 const {
@@ -36,18 +36,18 @@ export default Ember.Object.extend({
 
   init() {
     this._super(...arguments);
-    // TODO: Not good practice. Stef will make this go away.
-    defineProperty(this, 'attrValue', computed.oneWay(`model.${get(this, 'attribute')}`));
+
+    if(this.get('isAsync')) {
+      this._handlePromise();
+    }
   },
 
-  isNotValidating: not('isValidating'),
   isInvalid: not('isValid'),
+  isNotValidating: not('isValidating'),
   isTruelyValid: and('isNotValidating', 'isValid'),
 
   isAsync: computed('_promise', function () {
-    const promise = get(this, '_promise');
-
-    return !isNone(promise) && canInvoke(promise, 'then');
+    return isPromise(get(this, '_promise'));
   }),
 
   isDirty: computed('attrValue', function () {
@@ -87,5 +87,18 @@ export default Ember.Object.extend({
 
   errors: computed('error', function () {
     return makeArray(get(this, 'error'));
-  })
+  }),
+
+  /**
+   * Promise handler
+   * @method  _handlePromise
+   * @private
+   */
+  _handlePromise() {
+    set(this, 'isValidating', true);
+
+    get(this, '_promise').finally(() => {
+      set(this, 'isValidating', false);
+    });
+  }
 });

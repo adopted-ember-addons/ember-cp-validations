@@ -5,6 +5,10 @@
 
 import Ember from 'ember';
 
+const {
+  canInvoke
+} = Ember;
+
 export function requireModule(module) {
   return self.requirejs.has(module) ? self.require(module).default : undefined;
 }
@@ -15,4 +19,8 @@ export function unwrapString(input) {
   }
 
   return input;
+}
+
+export function isPromise(p) {
+  return !!(p && canInvoke(p, 'then'));
 }

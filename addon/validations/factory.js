@@ -12,6 +12,7 @@ import ValidationResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
+import { isPromise } from '../utils/utils';
 
 const {
   get,
@@ -24,7 +25,6 @@ const {
   isArray,
   computed,
   makeArray,
-  canInvoke,
   getWithDefault,
   A: emberArray
 } = Ember;
@@ -356,33 +356,66 @@ function createCPValidationFor(attribute, validations, owner) {
     const model = get(this, '_model');
     const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
-    const validationResults = validators.map(validator => {
-      const options = get(validator, 'options').copy();
+    const validationResults = generateValidationResultsFor(attribute, model, validators, (validator, options) => {
       const debounce = getWithDefault(options, 'debounce', 0);
-      const disabled = getWithDefault(options, 'disabled', false);
-      let value;
 
-      if (disabled) {
-        value = true;
-      } else if (debounce > 0) {
+      if (debounce > 0) {
         const cache = getDebouncedValidationsCacheFor(attribute, model);
 
         // Return a promise and pass the resolve method to the debounce handler
-        value = new Promise(resolve => {
+        return new Promise(resolve => {
           cache[guidFor(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
         });
       } else {
-        value = validator.validate(validator.getValue(), options, model, attribute);
+        return validator.validate(validator.getValue(), options, model, attribute);
       }
-
-      return validationReturnValueHandler(attribute, value, model, validator);
     });
 
-    return ValidationResultCollection.create({
-      attribute,
-      content: flatten(validationResults)
-    });
+    return ValidationResultCollection.create({ attribute, content:  validationResults });
   })).readOnly();
+}
+
+/**
+ * Generates the validation results for a given attribute and validators. If a
+ * given validator should be validated, it calls upon the validate callback to retrieve
+ * the result.
+ *
+ * @method generateValidationResultsFor
+ * @private
+ * @param  {String} attribute
+ * @param  {Object} model
+ * @param  {Array} validators
+ * @param  {Function} validate
+ * @return {Array}
+ */
+function generateValidationResultsFor(attribute, model, validators, validate) {
+  let isInvalid = false;
+  let value, result;
+
+  return validators.map(validator => {
+    const options = get(validator, 'options').copy();
+    const isWarning = getWithDefault(options, 'isWarning', false);
+    const disabled = getWithDefault(options, 'disabled', false);
+    const lazy = getWithDefault(options, 'lazy', true);
+
+    if(disabled || (lazy && isInvalid)) {
+      value = true;
+    } else {
+      value = validate(validator, options, model, attribute);
+    }
+
+    result = validationReturnValueHandler(attribute, value, model, validator);
+
+    /*
+      If the current result is invalid, the rest of the validations do not need to be
+      triggered (if lazy) since the attribute is already in an invalid state.
+     */
+    if(!isInvalid && !isWarning && get(result, 'isInvalid')) {
+      isInvalid = true;
+    }
+
+    return result;
+  });
 }
 
 /**
@@ -532,7 +565,7 @@ function debouncedValidate(validator, model, attribute, resolve) {
 function validationReturnValueHandler(attribute, value, model, validator) {
   let result;
 
-  if (canInvoke(value, 'then')) {
+  if (isPromise(value)) {
     result = ValidationResult.create({
       attribute,
       _promise: Promise.resolve(value),
@@ -734,12 +767,8 @@ function validateAttribute(attribute, value) {
   const model = get(this, 'model');
   const validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
-  const validationResults = validators.map(validator => {
-    const opts = get(validator, 'options').copy();
-    const disabled = getWithDefault(opts, 'disabled', false);
-    let result = disabled ? true : validator.validate(value, opts, model, attribute);
-
-    return validationReturnValueHandler(attribute, result, model, validator);
+  const validationResults = generateValidationResultsFor(attribute, model, validators, (validator, options) => {
+    return validator.validate(value, options, model, attribute);
   });
 
   const validations = ValidationResultCollection.create({
@@ -749,7 +778,7 @@ function validateAttribute(attribute, value) {
 
   const result = { model, validations };
 
-  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result );
+  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result);
 }
 
 /**
