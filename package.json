@@ -60,7 +60,7 @@
     "ember-data": "^2.7.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-font-awesome": "2.1.1",
+    "ember-font-awesome": "2.2.0",
     "ember-load-initializers": "^0.5.1",
     "ember-moment": "6.1.0",
     "ember-resolver": "^2.0.3",
