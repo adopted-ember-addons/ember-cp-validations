@@ -5,10 +5,10 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
+import validateCollection from 'ember-validators/collection';
 
 const {
-  get,
-  isArray
+  get
 } = Ember;
 
 /**
@@ -58,24 +58,14 @@ const Collection = Base.extend({
     return this._super(opts, defaultOptions, globalOptions);
   },
 
-  validate(value, options) {
-    const isCollection = get(options, 'collection');
-
-    if (isCollection === true && !isArray(value)) {
-      return this.createErrorMessage('collection', value, options);
-    }
-
-    if (isCollection === false && isArray(value)) {
-      return this.createErrorMessage('singular', value, options);
-    }
-
-    return true;
+  validate() {
+    return validateCollection(this, ...arguments);
   }
 });
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return (options === true || get(options, 'collection') === true) ? [ `model.${attribute}.[]` ] : [];
+    return (options === true || get(options, 'collection') === true) ? [`model.${attribute}.[]`] : [];
   }
 });
 

@@ -3,20 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-import { requireModule } from 'ember-cp-validations/utils/utils';
-
-const DS = requireModule('ember-data');
-
-if (!DS) {
-  throw new Error('Ember-Data is required to use the DS Error validator.');
-}
-
-const {
-  get,
-  isNone
-} = Ember;
+import { default as validateDsError, getPathAndKey } from 'ember-validators/ds-error';
 
 /**
  *  Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
@@ -32,16 +20,8 @@ const {
  *  @extends Base
  */
 const DSError = Base.extend({
-  validate(value, options, model, attribute) {
-    let { path, key } = getPathAndKey(attribute);
-
-    const errors = get(model, path);
-
-    if (!isNone(errors) && errors instanceof DS.Errors && errors.has(key)) {
-      return get(errors.errorsFor(key), 'lastObject.message');
-    }
-
-    return true;
+  validate() {
+    return validateDsError(this, ...arguments);
   }
 });
 
@@ -49,17 +29,8 @@ DSError.reopenClass({
   getDependentsFor(attribute) {
     let { path, key } = getPathAndKey(attribute);
 
-    return [ `model.${path}.${key}.[]` ];
+    return [`model.${path}.${key}.[]`];
   }
 });
-
-function getPathAndKey(attribute) {
-  let path = attribute.split('.');
-  let key = path.pop();
-
-  path.push('errors');
-
-  return { path: path.join('.'), key };
-}
 
 export default DSError;

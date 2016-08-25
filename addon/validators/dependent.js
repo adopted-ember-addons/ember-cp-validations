@@ -14,6 +14,7 @@ const {
   assert,
   isNone,
   isEmpty,
+  isPresent,
   isArray
 } = Ember;
 
@@ -39,7 +40,7 @@ const Dependent = Base.extend({
   validate(value, options, model, attribute) {
     const { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
 
-    assert(`[ember-cp-validations] [validator:dependent] [${attribute}] option 'on' is required`, !isEmpty(on));
+    assert(`[validator:dependent] [${attribute}] option 'on' is required`, isPresent(on));
 
     if (isNone(model)) {
       return true;
@@ -63,7 +64,7 @@ Dependent.reopenClass({
   getDependentsFor(attribute, options) {
     const dependents = get(options, 'on');
 
-    assert(`[ember-cp-validations] [validator:dependent] [${attribute}] 'on' must be an array`, isArray(dependents));
+    assert(`[validator:dependent] [${attribute}] 'on' must be an array`, isArray(dependents));
 
     if (!isEmpty(dependents)) {
       return dependents.map(dependent => `${dependent}.isTruelyValid`);

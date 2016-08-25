@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2016, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
@@ -6,13 +5,11 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
+import { default as validateFormat, regularExpressions } from 'ember-validators/format';
 
 const {
   get,
-  isNone,
-  isEmpty,
-  assert,
-  getProperties
+  isNone
 } = Ember;
 
 /**
@@ -56,11 +53,7 @@ const {
  *  @extends Base
  */
 export default Base.extend({
-  regularExpressions: {
-    email: /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-    phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
-    url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-{}]*[\w@?^=%&amp;\/~+#-{}])??/
-  },
+  regularExpressions,
 
   /**
    * Normalized options passed in by applying the desired regex or using the one declared
@@ -73,7 +66,10 @@ export default Base.extend({
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
     const regularExpressions = get(this, 'regularExpressions');
-    const { regex, type } = options;
+    const {
+      regex,
+      type
+    } = options;
 
     if (type && !isNone(regularExpressions[type]) && isNone(regex)) {
       options.regex = regularExpressions[type];
@@ -82,19 +78,7 @@ export default Base.extend({
     return this._super(options, defaultOptions, globalOptions);
   },
 
-  validate(value, options, model, attribute) {
-    const { regex, type, allowBlank } = getProperties(options, ['regex', 'type', 'allowBlank']);
-
-    assert(`[ember-cp-validations] [validator:format] [${attribute}] no options were passed in`, !isEmpty(Object.keys(options)));
-
-    if (allowBlank && isEmpty(value)) {
-      return true;
-    }
-
-    if (regex && !regex.test(value)) {
-      return this.createErrorMessage(type || 'invalid', value, options);
-    }
-
-    return true;
+  validate() {
+    return validateFormat(this, ...arguments);
   }
 });

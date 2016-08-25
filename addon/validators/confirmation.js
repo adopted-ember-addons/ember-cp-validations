@@ -5,12 +5,11 @@
 
 import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
+import validateConfirmation from 'ember-validators/confirmation';
 
 const {
   get,
-  assert,
-  isEqual,
-  isEmpty,
+  assert
 } = Ember;
 
 /**
@@ -35,16 +34,8 @@ const {
  *  @extends Base
  */
 const Confirmation = Base.extend({
-  validate(value, options, model, attribute) {
-    const on = get(options, 'on');
-
-    assert(`[ember-cp-validations] [validator:confirmation] [${attribute}] option 'on' is required`, !isEmpty(on));
-
-    if (!isEqual(value, get(model, on))) {
-      return this.createErrorMessage('confirmation', value, options);
-    }
-
-    return true;
+  validate() {
+    return validateConfirmation(this, ...arguments);
   }
 });
 
@@ -52,9 +43,9 @@ Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
     const on = get(options, 'on');
 
-    assert(`[ember-cp-validations] [validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
+    assert(`[validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
 
-    return on ? [ `model.${on}` ] : [];
+    return on ? [`model.${on}`] : [];
   }
 });
 

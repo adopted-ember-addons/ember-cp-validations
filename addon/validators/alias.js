@@ -9,7 +9,7 @@ import Base from 'ember-cp-validations/validators/base';
 const {
   get,
   assert,
-  isEmpty,
+  isPresent,
   getProperties
 } = Ember;
 
@@ -67,7 +67,7 @@ const Alias = Base.extend({
   validate(value, options, model, attribute) {
     const { alias, firstMessageOnly } = getProperties(options, ['alias', 'firstMessageOnly']);
 
-    assert(`[ember-cp-validations] [validator:alias] [${attribute}] option 'alias' is required`, !isEmpty(alias));
+    assert(`[validator:alias] [${attribute}] option 'alias' is required`, isPresent(alias));
 
     const aliasValidation = get(model, `validations.attrs.${alias}`);
 
@@ -79,7 +79,7 @@ Alias.reopenClass({
   getDependentsFor(attribute, options) {
     const alias = typeof options === 'string' ? options : get(options, 'alias');
 
-    assert(`[ember-cp-validations] [validator:alias] [${attribute}] 'alias' must be a string`, typeof alias === 'string');
+    assert(`[validator:alias] [${attribute}] 'alias' must be a string`, typeof alias === 'string');
 
     return [ `${alias}.messages.[]`, `${alias}.isTruelyValid` ];
   }
