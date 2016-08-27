@@ -82,6 +82,14 @@ test('email', function(assert) {
     'あいうえお@domain.com',
     'email@domain.com (Joe Smith)',
     'email@domain',
+    'email@domain.',
+    'email@domain.-',
+    'email@domain-',
+    'email@domain-.',
+    'email@domain.com.',
+    'email@domain.com.-',
+    'email@domain.com-',
+    'email@domain.com-.',
     'email@-domain.com',
     'email@domain..com'
   ];
