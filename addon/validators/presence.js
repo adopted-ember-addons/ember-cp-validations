@@ -30,7 +30,7 @@ const {
  *  })
  *
  *  validator('presence', {
- *  	presence: true,
+ *    presence: true,
  *    ignoreBlank: true,
  *    message: 'should not be empty or consist only of spaces'
  *  })
