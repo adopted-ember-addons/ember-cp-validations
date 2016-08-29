@@ -39,7 +39,7 @@
               On submit, a manual validation is run which will validate both the <strong>User</strong> and <strong>User Details</strong> models. If both are valid, then the user can continue to the next screen.
             </div>
           {{/unless}}
-          <button id="signup" {{action 'validate'}} disabled={{validate.isRunning}}>Sign Up</button>
+          <button id="signup" {{action 'validate'}}>Sign Up</button>
         </div>
       </form>
     </div>
