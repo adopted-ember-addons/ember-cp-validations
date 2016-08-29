@@ -55,7 +55,7 @@ test('allow blank', function(assert) {
   assert.equal(message, 'This field must be a valid email address');
 });
 
-test('email', function(assert) {
+test('email no option', function(assert) {
   const validAddresses = [
     'email@domain.com',
     'firstname.lastname@domain.com',
@@ -82,6 +82,14 @@ test('email', function(assert) {
     'あいうえお@domain.com',
     'email@domain.com (Joe Smith)',
     'email@domain',
+    'email@domain.',
+    'email@domain.-',
+    'email@domain-',
+    'email@domain-.',
+    'email@domain.com.',
+    'email@domain.com.-',
+    'email@domain.com-',
+    'email@domain.com-.',
     'email@-domain.com',
     'email@domain..com'
   ];
@@ -90,6 +98,58 @@ test('email', function(assert) {
 
   options = {
     type: 'email'
+  };
+
+  options = validator.buildOptions(options, {}).copy();
+
+  validAddresses.forEach((email) => assert.equal(validator.validate(email, options), true, `validation of ${email} must succeed`));
+  invalidAddresses.forEach((email) => assert.equal(validator.validate(email, options), 'This field must be a valid email address', `validation of ${email} must fail`));
+});
+
+test('email option allowNonTld', function(assert) {
+  const validAddresses = [
+    'email@domain.com',
+    'firstname.lastname@domain.com',
+    'email@subdomain.domain.com',
+    'firstname+lastname@domain.com',
+    '1234567890@domain.com',
+    'email@domain-one.com',
+    '_______@domain.com',
+    'email@domain.name',
+    'email@domain.co.jp',
+    'firstname-lastname@domain.com',
+    'EMAIL@DOMAIN.COM',
+    'email@domain'
+  ];
+  const invalidAddresses = [
+    'plainaddress',
+    '#@%^%#$@#$@#.com',
+    '@domain.com',
+    'Joe Smith <email@domain.com>',
+    'email.domain.com',
+    'email@domain@domain.com',
+    '.email@domain.com',
+    'email.@domain.com',
+    'email..email@domain.com',
+    'あいうえお@domain.com',
+    'email@domain.com (Joe Smith)',
+    'email@domain.',
+    'email@domain.-',
+    'email@domain-',
+    'email@domain-.',
+    'email@domain.com.',
+    'email@domain.com.-',
+    'email@domain.com-',
+    'email@domain.com-.',
+    'email@-domain.com',
+    'email@domain..com'
+  ];
+
+  assert.expect(validAddresses.length + invalidAddresses.length);
+
+  options = {
+    type: 'email',
+    allowNonTld: true
   };
 
   options = validator.buildOptions(options, {}).copy();
