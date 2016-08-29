@@ -4,7 +4,6 @@
  */
 
 import Ember from 'ember';
-import { task } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
   showAlert: false,
@@ -12,19 +11,21 @@ export default Ember.Controller.extend({
   showCode: false,
   didValidate: false,
 
-  validate: task(function * () {
-    const { validations } = yield this.get('model').validate();
+  actions: {
+    validate() {
+      this.get('model').validate().then(({ validations }) => {
+        this.set('didValidate', true);
 
-    this.set('didValidate', true);
-
-    if(validations.get('isValid')) {
-      this.setProperties({
-        showAlert: false,
-        isRegistered: true,
-        showCode: false
+        if(validations.get('isValid')) {
+          this.setProperties({
+            showAlert: false,
+            isRegistered: true,
+            showCode: false
+          });
+        } else {
+          this.set('showAlert', true);
+        }
       });
-    } else {
-      this.set('showAlert', true);
     }
-  }).restartable()
+  }
 });
