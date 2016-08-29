@@ -54,7 +54,8 @@ If you are upgrading from 2.x to 3.x, please checkout the [upgrading documentati
 
 ## Looking for help?
 
-If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
+- If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
+- Ask a question in the `#e-cp-validations` channel at the [Ember.js Community Slack](https://embercommunity.slack.com)
 
 ## Basic Usage - Models
 
