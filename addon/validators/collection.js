@@ -29,8 +29,6 @@ const {
  *  @extends Base
  */
 const Collection = EmberValidator.extend({
-  validatorType: 'collection',
-
   /**
    * Normalized options passed in.
    * ```js

@@ -27,6 +27,4 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  validatorType: 'exclusion'
-});
+export default EmberValidator.extend();

@@ -32,9 +32,7 @@ const {
  *  @module Validators
  *  @extends Base
  */
-const Confirmation = EmberValidator.extend({
-  validatorType: 'confirmation'
-});
+const Confirmation = EmberValidator.extend();
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
