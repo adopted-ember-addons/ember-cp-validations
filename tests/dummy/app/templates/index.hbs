@@ -5,7 +5,7 @@
 
       {{#if showAlert}}
         <div class="alert">
-          <div class="fa fa-times icon-remove" {{action (toggle 'showAlert' this)}}></div>
+          <div class="fa fa-times icon-remove" {{action 'toggleProperty' 'showAlert')}}></div>
           Please fix all the errors below before continuing.
         </div>
       {{/if}}
@@ -52,7 +52,7 @@
   {{/unless}}
   <footer>
     {{#unless isRegistered}}
-      <a class="show-code bottom" {{action (toggle 'showCode' this)}}>{{fa-icon 'code'}} {{if showCode 'Hide Code' 'Show Code'}} {{fa-icon 'code'}}</a>
+      <a class="show-code bottom" {{action 'toggleProperty' 'showCode'}}>{{fa-icon 'code'}} {{if showCode 'Hide Code' 'Show Code'}} {{fa-icon 'code'}}</a>
     {{else}}
       <a class="show-code bottom" {{action 'reset'}}>Reset Form</a>
     {{/unless}}

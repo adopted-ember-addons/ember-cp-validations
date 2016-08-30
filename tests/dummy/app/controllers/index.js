@@ -26,6 +26,10 @@ export default Ember.Controller.extend({
           this.set('showAlert', true);
         }
       });
+    },
+
+    toggleProperty(p) {
+      this.toggleProperty(p);
     }
   }
 });
