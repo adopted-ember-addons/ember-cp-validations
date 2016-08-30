@@ -3,8 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Base from 'ember-cp-validations/validators/base';
-import validateExclusion from 'ember-validators/exclusion';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  Validates that the attributes’ values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.
@@ -28,8 +27,6 @@ import validateExclusion from 'ember-validators/exclusion';
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  validate() {
-    return validateExclusion(this, ...arguments);
-  }
+export default EmberValidator.extend({
+  validatorType: 'exclusion'
 });

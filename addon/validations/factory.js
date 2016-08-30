@@ -7,8 +7,8 @@ import Ember from 'ember';
 import getOwner from 'ember-getowner-polyfill';
 import flatten from '../utils/flatten';
 import assign from '../utils/assign';
-import ValidationResult from './result';
-import ValidationResultCollection from './result-collection';
+import ValidationResult from '../-private/result';
+import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
@@ -365,7 +365,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  * @param  {Object} model         Since the CPs are created once per class on the first initialization,
  *                                this is the first model that was instantiated
  * @param  {Array} validations
- * @return {Ember.ComputedProperty} A computed property which is a ValidationResultCollection
+ * @return {Ember.ComputedProperty} A computed property which is a ResultCollection
  */
 function createCPValidationFor(attribute, model, validations) {
   const dependentKeys = getCPDependentKeysFor(attribute, model, validations);
@@ -389,7 +389,7 @@ function createCPValidationFor(attribute, model, validations) {
       }
     });
 
-    return ValidationResultCollection.create({ attribute, content:  validationResults });
+    return ResultCollection.create({ attribute, content:  validationResults });
   })).readOnly();
 }
 
@@ -477,7 +477,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
       Dedupe logic by creating a top level ResultCollection for all attr's ResultCollections
      */
     __attrsResultCollection__: computed(...validatableAttrs.map(attr => `attrs.${attr}`), function () {
-      return ValidationResultCollection.create({
+      return ResultCollection.create({
         content: validatableAttrs.map(attr => get(this, `attrs.${attr}`))
       });
     }).readOnly()
@@ -757,7 +757,7 @@ function validate(options = {}, async = true) {
     return v;
   }, []);
 
-  const resultCollection = ValidationResultCollection.create({
+  const resultCollection = ResultCollection.create({
     content: validationResults
   });
 
@@ -802,7 +802,7 @@ function validateAttribute(attribute, value) {
     return validator.validate(value, options, model, attribute);
   });
 
-  const validations = ValidationResultCollection.create({
+  const validations = ResultCollection.create({
     attribute,
     content: flatten(validationResults)
   });

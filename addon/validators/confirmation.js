@@ -4,8 +4,7 @@
  */
 
 import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
-import validateConfirmation from 'ember-validators/confirmation';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 const {
   get,
@@ -33,10 +32,8 @@ const {
  *  @module Validators
  *  @extends Base
  */
-const Confirmation = Base.extend({
-  validate() {
-    return validateConfirmation(this, ...arguments);
-  }
+const Confirmation = EmberValidator.extend({
+  validatorType: 'confirmation'
 });
 
 Confirmation.reopenClass({

@@ -3,8 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Base from 'ember-cp-validations/validators/base';
-import validateNumber from 'ember-validators/number';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  Validates that your attributes have only numeric values.
@@ -37,8 +36,6 @@ import validateNumber from 'ember-validators/number';
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  validate() {
-    return validateNumber(this, ...arguments);
-  }
+export default EmberValidator.extend({
+  validatorType: 'number'
 });

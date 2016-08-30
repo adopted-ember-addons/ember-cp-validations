@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import ValidationResultCollection from './result-collection';
+import ResultCollection from '../validations/result-collection';
 import InternalResultObject from './internal-result-object';
 
 const {
@@ -71,7 +71,7 @@ const Result = Ember.Object.extend({
    */
   _isReadOnly: computed('_validations', function() {
     const validations = get(this, '_validations');
-    return (validations instanceof ValidationResultCollection) || get(validations, 'isValidations');
+    return (validations instanceof ResultCollection) || get(validations, 'isValidations');
   }).readOnly(),
 
   /**
@@ -197,7 +197,7 @@ const Result = Ember.Object.extend({
     if (get(result, 'isValidations')) {
       set(this, '_validations', result);
     } else if (isArray(result)) {
-      const validationResultsCollection = ValidationResultCollection.create({
+      const validationResultsCollection = ResultCollection.create({
         attribute,
         content: result.map(r => Result.create({
           attribute,

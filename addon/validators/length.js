@@ -4,8 +4,7 @@
  */
 
 import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
-import validateLength from 'ember-validators/length';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 const {
   get,
@@ -37,7 +36,9 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default EmberValidator.extend({
+  validatorType: 'length',
+
   /**
    * Default allowNone to true
    *
@@ -51,9 +52,5 @@ export default Base.extend({
     options.allowNone = isNone(get(options, 'allowNone')) ? true : get(options, 'allowNone');
 
     return this._super(options, defaultOptions, globalOptions);
-  },
-
-  validate() {
-    return validateLength(this, ...arguments);
   }
 });

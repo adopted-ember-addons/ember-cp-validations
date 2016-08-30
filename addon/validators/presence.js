@@ -3,8 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Base from 'ember-cp-validations/validators/base';
-import validatePresence from 'ember-validators/presence';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.
@@ -32,7 +31,8 @@ import validatePresence from 'ember-validators/presence';
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default EmberValidator.extend({
+  validatorType: 'presence',
 
   /**
    * Normalized options passed in.
@@ -59,9 +59,5 @@ export default Base.extend({
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
-  },
-
-  validate() {
-    return validatePresence(this, ...arguments);
   }
 });

@@ -4,8 +4,7 @@
  */
 
 import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
-import validateCollection from 'ember-validators/collection';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 const {
   get
@@ -29,7 +28,8 @@ const {
  *  @module Validators
  *  @extends Base
  */
-const Collection = Base.extend({
+const Collection = EmberValidator.extend({
+  validatorType: 'collection',
 
   /**
    * Normalized options passed in.
@@ -56,10 +56,6 @@ const Collection = Base.extend({
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
-  },
-
-  validate() {
-    return validateCollection(this, ...arguments);
   }
 });
 

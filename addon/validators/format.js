@@ -4,8 +4,8 @@
  */
 
 import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
-import { default as validateFormat, regularExpressions } from 'ember-validators/format';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
+import { regularExpressions } from 'ember-validators/format';
 
 const {
   get,
@@ -52,7 +52,8 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default EmberValidator.extend({
+  validatorType: 'format',
   regularExpressions,
 
   /**
@@ -76,9 +77,5 @@ export default Base.extend({
     }
 
     return this._super(options, defaultOptions, globalOptions);
-  },
-
-  validate() {
-    return validateFormat(this, ...arguments);
   }
 });

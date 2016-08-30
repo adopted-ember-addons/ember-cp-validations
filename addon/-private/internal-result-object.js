@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import ValidationError from './error';
+import ValidationError from '../validations/error';
 import { isDsModel, isPromise } from '../utils/utils';
 
 const {

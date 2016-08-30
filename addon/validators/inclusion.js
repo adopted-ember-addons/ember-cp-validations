@@ -3,8 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Base from 'ember-cp-validations/validators/base';
-import validateInclusion from 'ember-validators/inclusion';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters!
@@ -44,8 +43,6 @@ import validateInclusion from 'ember-validators/inclusion';
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  validate() {
-    return validateInclusion(this, ...arguments);
-  }
+export default EmberValidator.extend({
+  validatorType: 'inclusion'
 });

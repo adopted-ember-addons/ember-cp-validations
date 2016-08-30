@@ -3,8 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Base from 'ember-cp-validations/validators/base';
-import { default as validateDsError, getPathAndKey } from 'ember-validators/ds-error';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
+import { getPathAndKey } from 'ember-validators/ds-error';
 
 /**
  *  Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
@@ -19,10 +19,8 @@ import { default as validateDsError, getPathAndKey } from 'ember-validators/ds-e
  *  @module Validators
  *  @extends Base
  */
-const DSError = Base.extend({
-  validate() {
-    return validateDsError(this, ...arguments);
-  }
+const DSError = EmberValidator.extend({
+  validatorType: 'ds-error'
 });
 
 DSError.reopenClass({

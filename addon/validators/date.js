@@ -3,8 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Base from 'ember-cp-validations/validators/base';
-import validateDate from 'ember-validators/date';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
@@ -37,8 +36,6 @@ import validateDate from 'ember-validators/date';
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  validate() {
-    return validateDate(this, ...arguments);
-  }
+export default EmberValidator.extend({
+  validatorType: 'date'
 });
