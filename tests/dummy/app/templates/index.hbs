@@ -5,7 +5,7 @@
 
       {{#if showAlert}}
         <div class="alert">
-          <div class="fa fa-times icon-remove" {{action 'dismissAlert'}}></div>
+          <div class="fa fa-times icon-remove" {{action 'toggleProperty' 'showAlert'}}></div>
           Please fix all the errors below before continuing.
         </div>
       {{/if}}
@@ -17,8 +17,10 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model valuePath='username' placeholder='Username'}} {{validated-input type='password' model=model valuePath='password' placeholder='Password'}} {{validated-input model=model valuePath='email' placeholder='Email'}} {{validated-input
-          model=model valuePath='emailConfirmation' placeholder='Verify Email'}}
+          {{validated-input model=model valuePath='username' placeholder='Username'}}
+          {{validated-input type='password' model=model valuePath='password' placeholder='Password'}}
+          {{validated-input model=model valuePath='email' placeholder='Email'}}
+          {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email'}}
         </div>
 
         <h4> About Me</h4>
@@ -30,8 +32,11 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model.details valuePath='firstName' placeholder='First Name'}} {{validated-input model=model.details valuePath='lastName' placeholder='Last Name'}} {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth'}}
-          {{validated-input model=model.details valuePath='phone' placeholder='Phone #'}} {{validated-input model=model.details valuePath='url' placeholder='URL'}}
+          {{validated-input model=model.details valuePath='firstName' placeholder='First Name'}}
+          {{validated-input model=model.details valuePath='lastName' placeholder='Last Name'}}
+          {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth'}}
+          {{validated-input model=model.details valuePath='phone' placeholder='Phone #'}}
+          {{validated-input model=model.details valuePath='url' placeholder='URL'}}
         </div>
         <div class="section">
           {{#unless showCode}}
@@ -39,7 +44,7 @@
               On submit, a manual validation is run which will validate both the <strong>User</strong> and <strong>User Details</strong> models. If both are valid, then the user can continue to the next screen.
             </div>
           {{/unless}}
-          <button id="signup" {{action 'submit'}}>Sign Up</button>
+          <button id="signup" {{action 'validate'}}>Sign Up</button>
         </div>
       </form>
     </div>
@@ -52,7 +57,7 @@
   {{/unless}}
   <footer>
     {{#unless isRegistered}}
-      <a class="show-code bottom" {{action 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
+      <a class="show-code bottom" {{action 'toggleProperty' 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
     {{else}}
       <a class="show-code bottom" {{action 'reset'}}>Reset Form</a>
     {{/unless}}
