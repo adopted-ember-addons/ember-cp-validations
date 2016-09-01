@@ -653,6 +653,12 @@ test("nested keys - complex", function(assert) {
   assert.ok(object.get('validations.attrs.user.foo._model'));
 
   assert.equal(object.get('validations.isValid'), true);
+
+  run(() => object.destroy());
+
+  assert.notOk(object.get('validations.attrs._model'));
+  assert.notOk(object.get('validations.attrs.user.foo.bar._model'));
+  assert.notOk(object.get('validations.attrs.user.foo._model'));
 });
 
 test("nested keys - inheritance", function(assert) {
