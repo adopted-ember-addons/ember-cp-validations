@@ -27,7 +27,7 @@ import Validator from './validations/validator';
 /**
  * ## Models
  *
- * The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
+ * The first thing we need to do is build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
  *
  * ```javascript
  * // models/user.js
@@ -102,7 +102,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * **Ember < 2.3.0-beta.1**
+ * **Ember < 2.3.0**
  *
  * ```javascript
  * // routes/index.js
@@ -117,7 +117,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * **Ember >= 2.3.0-beta.2**
+ * **Ember >= 2.3.0**
  *
  * ```javascript
  * // routes/index.js
