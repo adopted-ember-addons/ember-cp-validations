@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## v3.0.0-beta.7
+
+- [#330](https://github.com/offirgolan/ember-cp-validations/pull/330) [FEATURE] Add option `allowNonTld` for email format validator [@indr](https://github.com/indr)
+- [#333](https://github.com/offirgolan/ember-cp-validations/pull/333) [BUGFIX] Define CPs and nested CPs in attrs object once per class
+
 ## v3.0.0-beta.6
 
 - [#305](https://github.com/offirgolan/ember-cp-validations/pull/305) [BUGFIX] Provide `baseDir` to allow for proper caching
