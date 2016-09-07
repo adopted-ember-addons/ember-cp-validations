@@ -358,19 +358,13 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       nestedClasses[currPathStr] = nestedClasses[currPathStr] || {};
       _nestedClasses = nestedClasses[currPathStr];
 
+      currPath.push(key);
+
       if(!_nestedClasses[key]) {
-        let hash = {};
-
-        // Create a new AttrsClass with
-        _nestedClasses[key] = AttrsClass.extend({ __path__: `${currPathStr}.${key}` });
-        hash[key] = _nestedClasses[key];
-
-        // Add the new class to current class
-        currClass.reopen(hash);
+        _nestedClasses[key] = AttrsClass.extend({ __path__: currPath.join('.') });
       }
 
       currClass = _nestedClasses[key];
-      currPath.push(key);
     }
 
     // Add the final attr's CP to the class
