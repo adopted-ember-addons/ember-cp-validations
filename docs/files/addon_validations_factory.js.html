@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
-                                  Tag: v3.0.0-beta.6
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.7" target="_blank">
+                                  Tag: v3.0.0-beta.7
                                 </a>
                             </h4>
                         </div>
@@ -490,57 +490,82 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
  * @return {Ember.Object}
  */
 function createAttrsClass(validatableAttributes, validationRules, model) {
+  const nestedClasses = {};
+  const rootPath = &#x27;root&#x27;;
 
-  // Create the CPs once per Class, not instance
-  const cpMap = validatableAttributes.reduce((map, attribute) =&gt; {
-    map[attribute] = createCPValidationFor(attribute, model, get(validationRules, attribute));
-    return map;
-  }, {});
+  const AttrsClass = Ember.Object.extend({
+    __path__: rootPath,
 
-  return Ember.Object.extend({
     init() {
       this._super(...arguments);
 
       const _model = this.get(&#x27;_model&#x27;);
+      const path = this.get(&#x27;__path__&#x27;);
 
       /*
-        Assign the CPs to this object
-        TODO: This runs multiple nested defineProperty calls PER INSTANCE which
-              can be seriously hinder perfomance.
-
-        The reason for this is that nested validation CPs must be created in their
-        own Ember.Object instance and then setup with the correct model reference.
+        Instantiate the nested attrs classes for the current path
        */
-
-      validatableAttributes.forEach(attribute =&gt; {
-        assign(this, attribute, cpMap[attribute], true);
-      });
-
-      // Add a reference to the model in each nested object
-      validatableAttributes.forEach(attribute =&gt; {
-        const path = attribute.split(&#x27;.&#x27;);
-        const lastObject = get(this, path.slice(0, path.length - 1).join(&#x27;.&#x27;));
-
-        if (isNone(get(lastObject, &#x27;_model&#x27;))) {
-          set(lastObject, &#x27;_model&#x27;, _model);
-        }
+      Object.keys(nestedClasses[path] || []).forEach(key =&gt; {
+        set(this, key, nestedClasses[path][key].create({ _model }));
       });
     },
 
     destroy() {
       this._super(...arguments);
 
-      // Remove model reference from each nested object
-      validatableAttributes.forEach(attribute =&gt; {
-        const path = attribute.split(&#x27;.&#x27;);
-        const lastObject = get(this, path.slice(0, path.length - 1).join(&#x27;.&#x27;));
+      const path = this.get(&#x27;__path__&#x27;);
 
-        if (!isNone(get(lastObject, &#x27;_model&#x27;))) {
-          set(lastObject, &#x27;_model&#x27;, null);
-        }
+      /*
+        Remove the model reference from each nested class and destroy it
+       */
+      Object.keys(nestedClasses[path] || []).forEach(key =&gt; {
+        const o = get(this, key);
+        o.set(&#x27;_model&#x27;, null);
+        o.destroy();
       });
     }
   });
+
+  /*
+    Insert CPs + Create nested classes
+   */
+  validatableAttributes.forEach(attribute =&gt; {
+    let path = attribute.split(&#x27;.&#x27;);
+    let attr = path.pop();
+    let currPath = [rootPath];
+    let currClass = AttrsClass;
+    let cpHash = {};
+
+    // Iterate over the path and create the neccessary nested classes along the way
+    for(let i = 0; i &lt; path.length; i++) {
+      const key = path[i];
+      const currPathStr = currPath.join(&#x27;.&#x27;);
+      let _nestedClasses;
+
+      nestedClasses[currPathStr] = nestedClasses[currPathStr] || {};
+      _nestedClasses = nestedClasses[currPathStr];
+
+      if(!_nestedClasses[key]) {
+        let hash = {};
+
+        // Create a new AttrsClass with
+        _nestedClasses[key] = AttrsClass.extend({ __path__: &#x60;${currPathStr}.${key}&#x60; });
+        hash[key] = _nestedClasses[key];
+
+        // Add the new class to current class
+        currClass.reopen(hash);
+      }
+
+      currClass = _nestedClasses[key];
+      currPath.push(key);
+    }
+
+    // Add the final attr&#x27;s CP to the class
+    cpHash[attr] = createCPValidationFor(attribute, model, get(validationRules, attribute));
+    currClass.reopen(cpHash);
+  });
+
+  return AttrsClass;
 }
 
 /**

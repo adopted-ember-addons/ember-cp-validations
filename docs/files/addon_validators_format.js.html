@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.6" target="_blank">
-                                  Tag: v3.0.0-beta.6
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.7" target="_blank">
+                                  Tag: v3.0.0-beta.7
                                 </a>
                             </h4>
                         </div>
@@ -209,11 +209,13 @@ const {
  *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
  *  - &#x60;type&#x60; (**String**): Can be the one of the following options [&#x60;email&#x60;, &#x60;phone&#x60;, &#x60;url&#x60;]
  *  - &#x60;regex&#x60; (**RegExp**): The regular expression to test against
+ *  - &#x60;allowNonTld&#x60; (**Boolean**): If true, the predefined regular expression &#x60;email&#x60; allows non top-level domains
  *
  *  &#x60;&#x60;&#x60;javascript
  *  // Examples
  *  validator(&#x27;format&#x27;, {
- *    type: &#x27;email&#x27;
+ *    type: &#x27;email&#x27;,
+ *    allowNonTld: true
  *  })
  *  validator(&#x27;format&#x27;, {
  *    allowBlank: true,
@@ -245,6 +247,7 @@ const {
 export default Base.extend({
   regularExpressions: {
     email: /^[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+(?:\.[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
+    emailOptionalTld: /^[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+(?:\.[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.?)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
     phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
     url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;amp;:\/~+#-{}]*[\w@?^=%&amp;amp;\/~+#-{}])??/
   },
@@ -263,7 +266,11 @@ export default Base.extend({
     const { regex, type } = options;
 
     if (type &amp;&amp; !isNone(regularExpressions[type]) &amp;&amp; isNone(regex)) {
-      options.regex = regularExpressions[type];
+      if (type === &#x27;email&#x27; &amp;&amp; options.allowNonTld) {
+        options.regex = regularExpressions.emailOptionalTld;
+      } else {
+        options.regex = regularExpressions[type];
+      }
     }
 
     return this._super(options, defaultOptions, globalOptions);
