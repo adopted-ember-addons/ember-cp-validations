@@ -25,7 +25,7 @@ export default Ember.Object.extend({
   model: null,
   isValid: true,
   isValidating: false,
-  type: null,
+  type: computed.readOnly('_validator._type'),
   message: null,
   attribute: '',
 

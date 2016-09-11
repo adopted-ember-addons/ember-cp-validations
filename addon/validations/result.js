@@ -159,7 +159,6 @@ const Result = Ember.Object.extend({
    */
   _validations: computed('model', 'attribute', '_promise', '_validator', function () {
     return InternalResultObject.extend({
-      type: computed.readOnly('_validator._type'),
       attrValue: computed.readOnly(`model.${get(this, 'attribute')}`)
     }).create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
   }),
