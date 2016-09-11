@@ -15,7 +15,14 @@ const {
 } = Ember;
 
 export function requireModule(module) {
-  return self.requirejs.has(module) ? self.require(module).default : undefined;
+  const rjs = self.requirejs;
+
+  if (
+    (rjs.has && rjs.has(module)) ||
+    (!rjs.has && (rjs.entries[module] || rjs.entries[module + '/index']))
+  ) {
+    return self.require(module).default;
+  }
 }
 
 export function unwrapString(s) {
