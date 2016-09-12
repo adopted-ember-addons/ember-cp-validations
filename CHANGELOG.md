@@ -1,6 +1,30 @@
 Changelog
 =========
 
+## v3.0.0
+
+- [#226](https://github.com/offirgolan/ember-cp-validations/pull/226) Warning Validators
+- [#232](https://github.com/offirgolan/ember-cp-validations/pull/232) Computed Options (special thanks to [@xcambar](https://github.com/xcambar))
+- [#239](https://github.com/offirgolan/ember-cp-validations/pull/239) Use Require for Checking Ember Data
+- [#240](https://github.com/offirgolan/ember-cp-validations/pull/240) DS Error Validator + Nested Keys
+- [#241](https://github.com/offirgolan/ember-cp-validations/pull/241) Fix blueprint warning
+- [#245](https://github.com/offirgolan/ember-cp-validations/pull/245) Utilize \_\_root\_\_ in validator blueprint
+- [#249](https://github.com/offirgolan/ember-cp-validations/pull/249) Fixed email regex of format validator [@simonihmig](https://github.com/simonihmig)
+- [#252](https://github.com/offirgolan/ember-cp-validations/pull/252) Fix require module
+- [#262](https://github.com/offirgolan/ember-cp-validations/pull/262) Use `model` instead of `_model` when declaring custom dependents
+- [#266](https://github.com/offirgolan/ember-cp-validations/pull/266) Check for null in extractOptionsDependentKeys [@xcambar](https://github.com/xcambar)
+- [#272](https://github.com/offirgolan/ember-cp-validations/pull/272) Fix ember-cli deprecation warning
+- [#294](https://github.com/offirgolan/ember-cp-validations/pull/294) [BUGFIX] Validate promise resolves even when validations are still validating
+- [#305](https://github.com/offirgolan/ember-cp-validations/pull/305) [BUGFIX] Provide `baseDir` to allow for proper caching
+- [#311](https://github.com/offirgolan/ember-cp-validations/pull/311) [FEATURE] Place mixin under a named scope for Ember Inspector
+- [#312](https://github.com/offirgolan/ember-cp-validations/pull/312) [BUGFIX] Deleted DS.Model records should be suppressed
+- [#321](https://github.com/offirgolan/ember-cp-validations/pull/321) [FEATURE] Lazily run validations
+- [#330](https://github.com/offirgolan/ember-cp-validations/pull/330) [FEATURE] Add option `allowNonTld` for email format validator [@indr](https://github.com/indr)
+- [#333](https://github.com/offirgolan/ember-cp-validations/pull/333) [BUGFIX] Define CPs and nested CPs in attrs object once per class
+- [#338](https://github.com/offirgolan/ember-cp-validations/pull/338) [FEATURE] Add validator type to error messages [@kepek](https://github.com/kepek)
+- [#339](https://github.com/offirgolan/ember-cp-validations/pull/339) [BUGFIX] Allow for requirejs.has to not be available [@jasonmit](https://github.com/jasonmit)
+
+
 ## v3.0.0-beta.7
 
 - [#330](https://github.com/offirgolan/ember-cp-validations/pull/330) [FEATURE] Add option `allowNonTld` for email format validator [@indr](https://github.com/indr)
