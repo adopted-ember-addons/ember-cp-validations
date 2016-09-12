@@ -360,7 +360,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-   _errorContent: computed.filterBy('content', 'isWarning', false).readOnly(),
+  _errorContent: computed.filterBy('content', 'isWarning', false).readOnly(),
 
   /**
    * @property _warningContent

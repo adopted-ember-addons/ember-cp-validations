@@ -986,3 +986,29 @@ test("none lazy validators are actually not lazy", function(assert) {
   assert.equal(object.get('validations.attrs.password.message'), 'Password is not valid');
   assert.equal(customValidatorCount, 3, 'Last validator executed 3 times');
 });
+
+test("validator should return correct error type", function(assert) {
+  this.register('validator:presence', PresenceValidator);
+  this.register('validator:length', LengthValidator);
+
+  var Validations = buildValidations({
+    firstName: [
+      validator('presence', true),
+      validator('length', {min: 5, max: 35})
+    ],
+    lastName: [
+      validator('presence', true),
+      validator('length', {min: 5, max: 35})
+    ]
+  });
+
+  var obj = setupObject(this, Ember.Object.extend(Validations), {
+    firstName: 'Foo',
+    lastName: null
+  });
+
+  assert.equal(obj.get('validations.attrs.firstName.isValid'), false, 'isValid was expected to be FALSE');
+  assert.equal(obj.get('validations.attrs.lastName.error.type'), 'presence', 'error type was expected to be `presence`');
+  assert.equal(obj.get('validations.errors.length'), 2, 'number of errors was expected to be 2');
+  assert.equal(obj.get('validations.errors').filterBy('type', 'presence').length, 1, 'number of errors was expected to be 1');
+});
