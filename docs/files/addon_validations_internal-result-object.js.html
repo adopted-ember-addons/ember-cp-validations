@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.7" target="_blank">
-                                  Tag: v3.0.0-beta.7
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0" target="_blank">
+                                  Tag: v3.0.0
                                 </a>
                             </h4>
                         </div>
@@ -212,6 +212,7 @@ export default Ember.Object.extend({
   model: null,
   isValid: true,
   isValidating: false,
+  type: computed.readOnly(&#x27;_validator._type&#x27;),
   message: null,
   attribute: &#x27;&#x27;,
 
@@ -259,9 +260,10 @@ export default Ember.Object.extend({
     return makeArray(get(this, &#x27;message&#x27;));
   }),
 
-  error: computed(&#x27;message&#x27;, &#x27;isInvalid&#x27;, &#x27;attribute&#x27;, function () {
+  error: computed(&#x27;isInvalid&#x27;, &#x27;type&#x27;, &#x27;message&#x27;, &#x27;attribute&#x27;, function () {
     if (get(this, &#x27;isInvalid&#x27;)) {
       return ValidationError.create({
+        type: get(this, &#x27;type&#x27;),
         message: get(this, &#x27;message&#x27;),
         attribute: get(this, &#x27;attribute&#x27;)
       });

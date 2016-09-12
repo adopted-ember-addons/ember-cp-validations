@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.7" target="_blank">
-                                  Tag: v3.0.0-beta.7
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0" target="_blank">
+                                  Tag: v3.0.0
                                 </a>
                             </h4>
                         </div>
@@ -202,7 +202,14 @@ const {
 } = Ember;
 
 export function requireModule(module) {
-  return self.requirejs.has(module) ? self.require(module).default : undefined;
+  const rjs = self.requirejs;
+
+  if (
+    (rjs.has &amp;&amp; rjs.has(module)) ||
+    (!rjs.has &amp;&amp; (rjs.entries[module] || rjs.entries[module + &#x27;/index&#x27;]))
+  ) {
+    return self.require(module).default;
+  }
 }
 
 export function unwrapString(s) {

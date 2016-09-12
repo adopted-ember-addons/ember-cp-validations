@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0-beta.7" target="_blank">
-                                  Tag: v3.0.0-beta.7
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.0" target="_blank">
+                                  Tag: v3.0.0
                                 </a>
                             </h4>
                         </div>
@@ -545,19 +545,13 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       nestedClasses[currPathStr] = nestedClasses[currPathStr] || {};
       _nestedClasses = nestedClasses[currPathStr];
 
+      currPath.push(key);
+
       if(!_nestedClasses[key]) {
-        let hash = {};
-
-        // Create a new AttrsClass with
-        _nestedClasses[key] = AttrsClass.extend({ __path__: &#x60;${currPathStr}.${key}&#x60; });
-        hash[key] = _nestedClasses[key];
-
-        // Add the new class to current class
-        currClass.reopen(hash);
+        _nestedClasses[key] = AttrsClass.extend({ __path__: currPath.join(&#x27;.&#x27;) });
       }
 
       currClass = _nestedClasses[key];
-      currPath.push(key);
     }
 
     // Add the final attr&#x27;s CP to the class
