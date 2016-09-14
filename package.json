@@ -64,7 +64,6 @@
     "ember-load-initializers": "^0.5.1",
     "ember-moment": "6.1.0",
     "ember-resolver": "^2.0.3",
-    "ember-string-ishtmlsafe-polyfill": "1.0.1",
     "ember-truth-helpers": "1.2.0",
     "loader.js": "^4.0.11",
     "moment": "2.14.1",
