@@ -4,6 +4,7 @@
  */
 
 import Ember from 'ember';
+import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 const DS = requireModule('ember-data');
 
@@ -19,7 +20,7 @@ export function requireModule(module) {
 }
 
 export function unwrapString(s) {
-  if (s && s instanceof Ember.Handlebars.SafeString) {
+  if (isHTMLSafe(s)) {
     return s.toString();
   }
 
