@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.0.1
+
+- [#344](https://github.com/offirgolan/ember-cp-validations/pull/344) [BUGFIX] DEPRECATION: Ember.Handlebars.SafeString [@kepek](https://github.com/kepek)
+
 ## v3.0.0
 
 - [#226](https://github.com/offirgolan/ember-cp-validations/pull/226) Warning Validators
