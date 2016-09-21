@@ -4,6 +4,7 @@
  */
 
 import Ember from 'ember';
+import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 export function requireModule(module) {
   const rjs = self.requirejs;
@@ -17,7 +18,7 @@ export function requireModule(module) {
 }
 
 export function unwrapString(input) {
-  if (input && input instanceof Ember.Handlebars.SafeString) {
+  if (isHTMLSafe(input)) {
     return input.toString();
   }
 
