@@ -5,7 +5,7 @@
 
 /**
  * Checks if the give key exists on the object's super.
- * If so, we can successfuly call the obj[key] _super
+ * If so, we can successfully call the obj[key] _super
  *
  * Created by @rwjblue
  */

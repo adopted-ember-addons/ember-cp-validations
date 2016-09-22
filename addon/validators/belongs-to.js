@@ -68,7 +68,7 @@ const {
  *  });
  *  ```
  *
- *  From our `user` model, we can now check any validation propery on the `user-details` model.
+ *  From our `user` model, we can now check any validation property on the `user-details` model.
  *
  *  ```javascript
  *  get(model, 'validations.attrs.details.isValid')
