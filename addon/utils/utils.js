@@ -51,7 +51,7 @@ export function isDsModel(o) {
 }
 
 export function isDSManyArray(o) {
-  return !!(o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
+  return !!(DS && o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
 }
 
 export function isEmberObject(o) {
