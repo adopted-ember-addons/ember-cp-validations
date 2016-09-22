@@ -43,7 +43,7 @@ const {
  *
  * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
- * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to valididating an attribute without changing its state
+ * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state
  *
  * @module Validations
  * @main Validations
@@ -349,7 +349,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
     let currClass = AttrsClass;
     let cpHash = {};
 
-    // Iterate over the path and create the neccessary nested classes along the way
+    // Iterate over the path and create the necessary nested classes along the way
     for(let i = 0; i < path.length; i++) {
       const key = path[i];
       const currPathStr = currPath.join('.');
@@ -654,7 +654,7 @@ function getValidatorsFor(attribute, model) {
 }
 
 /**
- * Get debounced validation cache for the given attribute. If it doesnt exist, create a new one.
+ * Get debounced validation cache for the given attribute. If it doesn't exist, create a new one.
  *
  * @method getValidatorCacheFor
  * @private

@@ -41,7 +41,7 @@ export default Ember.Object.extend({
   _regex: /\{(\w+)\}/g,
 
   /**
-   * Default attribute description if one isnt passed into a validator's options
+   * Default attribute description if one isn't passed into a validator's options
    * @property defaultDescription
    * @type {String}
    */
