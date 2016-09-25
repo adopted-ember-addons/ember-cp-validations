@@ -17,10 +17,10 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model valuePath='username' placeholder='Username'}}
-          {{validated-input type='password' model=model valuePath='password' placeholder='Password'}}
-          {{validated-input model=model valuePath='email' placeholder='Email'}}
-          {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email'}}
+          {{validated-input model=model valuePath='username' placeholder='Username' didValidate=didValidate}}
+          {{validated-input type='password' model=model valuePath='password' placeholder='Password' didValidate=didValidate}}
+          {{validated-input model=model valuePath='email' placeholder='Email' didValidate=didValidate}}
+          {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email' didValidate=didValidate}}
         </div>
 
         <h4> About Me</h4>
@@ -32,11 +32,11 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model.details valuePath='firstName' placeholder='First Name'}}
-          {{validated-input model=model.details valuePath='lastName' placeholder='Last Name'}}
-          {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth'}}
-          {{validated-input model=model.details valuePath='phone' placeholder='Phone #'}}
-          {{validated-input model=model.details valuePath='url' placeholder='URL'}}
+          {{validated-input model=model.details valuePath='firstName' placeholder='First Name' didValidate=didValidate}}
+          {{validated-input model=model.details valuePath='lastName' placeholder='Last Name' didValidate=didValidate}}
+          {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth' didValidate=didValidate}}
+          {{validated-input model=model.details valuePath='phone' placeholder='Phone #' didValidate=didValidate}}
+          {{validated-input model=model.details valuePath='url' placeholder='URL' didValidate=didValidate}}
         </div>
         <div class="section">
           {{#unless showCode}}
