@@ -21,9 +21,9 @@ export default Ember.Component.extend({
   placeholder: '',
   validation: null,
   showValidations: false,
+  didValidate: false,
 
   notValidating: computed.not('validation.isValidating').readOnly(),
-  didValidate: computed.readOnly('targetObject.didValidate'),
   hasContent: computed.notEmpty('value').readOnly(),
   hasWarnings: computed.notEmpty('validation.warnings').readOnly(),
   isValid: computed.and('hasContent', 'validation.isTruelyValid').readOnly(),
