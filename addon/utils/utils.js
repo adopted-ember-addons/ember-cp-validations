@@ -4,6 +4,7 @@
  */
 
 import Ember from 'ember';
+import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 const DS = requireModule('ember-data');
 
@@ -15,11 +16,18 @@ const {
 } = Ember;
 
 export function requireModule(module) {
-  return self.requirejs.has(module) ? self.require(module).default : undefined;
+  const rjs = self.requirejs;
+
+  if (
+    (rjs.has && rjs.has(module)) ||
+    (!rjs.has && (rjs.entries[module] || rjs.entries[module + '/index']))
+  ) {
+    return self.require(module).default;
+  }
 }
 
 export function unwrapString(s) {
-  if (s && s instanceof Ember.Handlebars.SafeString) {
+  if (isHTMLSafe(s)) {
     return s.toString();
   }
 
@@ -43,7 +51,7 @@ export function isDsModel(o) {
 }
 
 export function isDSManyArray(o) {
-  return !!(o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
+  return !!(DS && o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
 }
 
 export function isEmberObject(o) {

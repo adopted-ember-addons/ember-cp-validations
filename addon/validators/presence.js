@@ -21,7 +21,7 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  })
  *
  *  validator('presence', {
- *  	presence: true,
+ *    presence: true,
  *    ignoreBlank: true,
  *    message: 'should not be empty or consist only of spaces'
  *  })

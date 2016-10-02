@@ -134,7 +134,7 @@ const {
  * // Examples
  * validator('date', {
  *   value(model, attribute) {
- *   	// Format the orignal value before passing it into the validator
+ *   	// Format the original value before passing it into the validator
  *   	return moment().utc(model.get(attribute)).format('DD/MM/YYY');
  *   }
  * })

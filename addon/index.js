@@ -27,7 +27,7 @@ import Validator from './validations/validator';
 /**
  * ## Models
  *
- * The first thing we need to do it build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
+ * The first thing we need to do is build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.
  *
  * ```javascript
  * // models/user.js
@@ -102,7 +102,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * **Ember < 2.3.0-beta.1**
+ * **Ember < 2.3.0**
  *
  * ```javascript
  * // routes/index.js
@@ -117,7 +117,7 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * **Ember >= 2.3.0-beta.2**
+ * **Ember >= 2.3.0**
  *
  * ```javascript
  * // routes/index.js
@@ -186,7 +186,7 @@ import Validator from './validations/validator';
  *
  * ### Global Options
  *
- * If you have  specific options you want to propagate throught all your validation rules, you can do so by passing in a global options object.
+ * If you have  specific options you want to propagate through all your validation rules, you can do so by passing in a global options object.
  * This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
  * you want easily toggle your validations on/off.
  *

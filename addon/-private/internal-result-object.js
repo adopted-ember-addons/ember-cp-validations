@@ -25,6 +25,7 @@ export default Ember.Object.extend({
   model: null,
   isValid: true,
   isValidating: false,
+  type: computed.readOnly('_validator._type'),
   message: null,
   attribute: '',
 
@@ -72,9 +73,10 @@ export default Ember.Object.extend({
     return makeArray(get(this, 'message'));
   }),
 
-  error: computed('message', 'isInvalid', 'attribute', function () {
+  error: computed('isInvalid', 'type', 'message', 'attribute', function () {
     if (get(this, 'isInvalid')) {
       return ValidationError.create({
+        type: get(this, 'type'),
         message: get(this, 'message'),
         attribute: get(this, 'attribute')
       });

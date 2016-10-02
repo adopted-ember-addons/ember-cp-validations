@@ -19,11 +19,13 @@ const {
  *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
  *  - `type` (**String**): Can be the one of the following options [`email`, `phone`, `url`]
  *  - `regex` (**RegExp**): The regular expression to test against
+ *  - `allowNonTld` (**Boolean**): If true, the predefined regular expression `email` allows non top-level domains
  *
  *  ```javascript
  *  // Examples
  *  validator('format', {
- *    type: 'email'
+ *    type: 'email',
+ *    allowNonTld: true
  *  })
  *  validator('format', {
  *    allowBlank: true,
@@ -72,7 +74,11 @@ export default EmberValidator.extend({
     } = options;
 
     if (type && !isNone(regularExpressions[type]) && isNone(regex)) {
-      options.regex = regularExpressions[type];
+      if (type === 'email' && options.allowNonTld) {
+        options.regex = regularExpressions.emailOptionalTld;
+      } else {
+        options.regex = regularExpressions[type];
+      }
     }
 
     return this._super(options, defaultOptions, globalOptions);

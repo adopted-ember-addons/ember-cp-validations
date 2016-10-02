@@ -319,7 +319,7 @@ export default Base;
  *
  * There will be times when your validator will be dependent on some other property or object. Instead of having to
  * include them in your option's `dependentKeys`, you can declare them in the static `getDependentsFor` hook. This hook
- * recieves two parameters. The first is the `attribute` that this validator is being added to, and the second are the `options`
+ * receives two parameters. The first is the `attribute` that this validator is being added to, and the second are the `options`
  * there were passed to this validator.
  *
  * From the above code sample:

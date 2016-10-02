@@ -12,17 +12,11 @@ export default Ember.Controller.extend({
   didValidate: false,
 
   actions: {
-    showCode() {
-      this.toggleProperty('showCode');
-    },
+    validate() {
+      this.get('model').validate().then(({ validations }) => {
+        this.set('didValidate', true);
 
-    submit() {
-      var model = this.get('model');
-      model.validate().then(({
-        model,
-        validations
-      }) => {
-        if (validations.get('isValid')) {
+        if(validations.get('isValid')) {
           this.setProperties({
             showAlert: false,
             isRegistered: true,
@@ -31,21 +25,11 @@ export default Ember.Controller.extend({
         } else {
           this.set('showAlert', true);
         }
-        this.set('didValidate', true);
-      }, () => {});
-    },
-
-    dismissAlert() {
-      this.set('showAlert', false);
-    },
-
-    reset() {
-      this.setProperties({
-        showAlert: false,
-        isRegistered: false,
-        showCode: false,
-        didValidate: false
       });
+    },
+
+    toggleProperty(p) {
+      this.toggleProperty(p);
     }
   }
 });

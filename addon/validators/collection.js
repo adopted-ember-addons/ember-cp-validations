@@ -11,7 +11,7 @@ const {
 } = Ember;
 
 /**
- *  If `true` validates that the given value is a valid collection and will add `<ATTRIUTE>.[]` as a dependent key to the CP.
+ *  If `true` validates that the given value is a valid collection and will add `<ATTRIBUTE>.[]` as a dependent key to the CP.
  *  If `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
  *
  *  ```javascript

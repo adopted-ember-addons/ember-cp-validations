@@ -6,6 +6,19 @@ import Ember from 'ember';
  */
 
 export default Ember.Object.extend({
+  /**
+   * The error validator type
+   * @property type
+   * @type {String}
+   */
+  type: null,
+
+  /**
+   * The error message
+   * @property message
+   * @type {String}
+   */
+  message: null,
 
   /**
    * The attribute that the error belongs to
@@ -19,12 +32,5 @@ export default Ember.Object.extend({
    * @property parentAttribute
    * @type {String}
    */
-  parentAttribute: null,
-
-  /**
-   * The error message
-   * @property message
-   * @type {String}
-   */
-  message: null
+  parentAttribute: null
 });

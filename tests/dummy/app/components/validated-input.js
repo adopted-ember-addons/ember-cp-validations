@@ -7,9 +7,8 @@
 import Ember from 'ember';
 
 const {
-  isEmpty,
   computed,
-  defineProperty,
+  defineProperty
 } = Ember;
 
 export default Ember.Component.extend({
@@ -21,27 +20,30 @@ export default Ember.Component.extend({
   valuePath: '',
   placeholder: '',
   validation: null,
-  isTyping: false,
+  showValidations: false,
+  didValidate: false,
+
+  notValidating: computed.not('validation.isValidating').readOnly(),
+  hasContent: computed.notEmpty('value').readOnly(),
+  hasWarnings: computed.notEmpty('validation.warnings').readOnly(),
+  isValid: computed.and('hasContent', 'validation.isTruelyValid').readOnly(),
+  shouldDisplayValidations: computed.or('showValidations', 'didValidate', 'hasContent').readOnly(),
+
+  showErrorClass: computed.and('notValidating', 'showErrorMessage', 'hasContent', 'validation').readOnly(),
+  showErrorMessage: computed.and('shouldDisplayValidations', 'validation.isInvalid').readOnly(),
+  showWarningMessage: computed.and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly(),
 
   init() {
     this._super(...arguments);
-    var valuePath = this.get('valuePath');
-    defineProperty(this, 'validation', computed.oneWay(`model.validations.attrs.${valuePath}`));
+    const valuePath = this.get('valuePath');
+
+    defineProperty(this, 'validation', computed.readOnly(`model.validations.attrs.${valuePath}`));
     defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
   },
 
-  notValidating: computed.not('validation.isValidating'),
-  didValidate: computed.oneWay('targetObject.didValidate'),
-  hasContent: computed.notEmpty('value'),
-  isValid: computed.and('hasContent', 'validation.isValid', 'notValidating'),
-  isInvalid: computed.oneWay('validation.isInvalid'),
-  showErrorClass: computed.and('notValidating', 'showErrorMessage', 'hasContent', 'validation'),
-  showErrorMessage: computed('validation.isDirty', 'isInvalid', 'didValidate', function() {
-    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
-  }),
-
-  showWarningMessage: computed('validation.isDirty', 'validation.warnings.[]', 'isValid', 'didValidate', function() {
-    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isValid') && !isEmpty(this.get('validation.warnings'));
-  })
+  focusOut() {
+    this._super(...arguments);
+    this.set('showValidations', true);
+  }
 });
 // END-SNIPPET
