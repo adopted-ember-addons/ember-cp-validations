@@ -40,7 +40,7 @@ ember install ember-cp-validations
 
 ## Upgrading to 3.x
 
-If you are upgrading from 2.x to 3.x, please checkout the [upgrading documentation](UPGRADING.md);
+If you are upgrading from 2.x to 3.x, please checkout the [upgrading documentation](UPGRADING.md).
 
 ## Helpful Links
 
