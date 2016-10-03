@@ -20,3 +20,8 @@ lcov.dat
 
 # ember-try files
 *.ember-try
+
+/.vscode/*
+/typings/*
+.vscodeignore
+jsconfig.json
