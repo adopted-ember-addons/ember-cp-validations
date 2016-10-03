@@ -1,7 +1,7 @@
 {
   "name": "ember-cp-validations",
   "version": "3.0.1",
-  "description": "Ember computed property based validations",
+  "description": "Ember computed property based validation library",
   "directories": {
     "doc": "doc",
     "test": "tests"

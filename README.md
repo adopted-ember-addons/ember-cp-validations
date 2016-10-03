@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg)](https://travis-ci.org/offirgolan/ember-cp-validations)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
+[![Download Total](https://img.shields.io/npm/dt/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Code Climate](https://codeclimate.com/github/offirgolan/ember-cp-validations/badges/gpa.svg)](https://codeclimate.com/github/offirgolan/ember-cp-validations)
 [![Test Coverage](https://codeclimate.com/github/offirgolan/ember-cp-validations/badges/coverage.svg)](https://codeclimate.com/github/offirgolan/ember-cp-validations/coverage)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-cp-validations.svg)](http://emberobserver.com/addons/ember-cp-validations)
 [![Dependency Status](https://david-dm.org/offirgolan/ember-cp-validations.svg)](https://david-dm.org/offirgolan/ember-cp-validations)
-[![devDependency Status](https://david-dm.org/offirgolan/ember-cp-validations/dev-status.svg)](https://david-dm.org/offirgolan/ember-cp-validations#info=devDependencies)
 
-A Ruby on Rails inspired model validation framework that is completely and utterly computed property based.
+An EmberJS validation framework that is completely and utterly computed property based.
 
 ## Features
 
@@ -16,19 +16,16 @@ __No observers were used nor harmed while developing and testing this addon.__
 
 - Lazily computed validations
 - Ruby on rails inspired validators
-- Support for both Ember Data Models and Objects
-- Synchronous and asynchronous support for both validators and validations
-- Dirty tracking
-- Support for nested models via `belongsTo` and `hasMany` relationships
-- Support for nested objects
+- Support for Ember Data Models, Objects, Components, Services, etc.
+- Support for nested models and objects
+- Synchronous and asynchronous support
 - Easily integrated with Ember Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
 - No observers. Seriously... there are none. Like absolutely zero....
-- Meta data based cycle tracking to detect cycles within your model relationships which could break the CP chain
 - Custom validators
-- Ember CLI generator to create custom validators with a unit test
+- I18n support
 - Debounceable validations
 - Warning validations
-- I18n support
+- Dirty tracking
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
