@@ -81,10 +81,10 @@ const Base = Ember.Object.extend({
 
   init() {
     this._super(...arguments);
-    const globalOptions = get(this, 'globalOptions');
-    const defaultOptions = get(this, 'defaultOptions');
-    const options = get(this, 'options');
-    const owner = getOwner(this);
+    let globalOptions = get(this, 'globalOptions');
+    let defaultOptions = get(this, 'defaultOptions');
+    let options = get(this, 'options');
+    let owner = getOwner(this);
     let errorMessages;
 
     if (!isNone(owner)) {
@@ -110,19 +110,19 @@ const Base = Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    const builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
+    let builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
 
     // Overwrite the validator's value method if it exists in the options and remove it since
     // there is no need for it to be passed around
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    const OptionsClass = Ember.Object.extend(builtOptions, {
+    let OptionsClass = Ember.Object.extend(builtOptions, {
       model: computed(() => get(this, 'model')).readOnly(),
       attribute: computed(() => get(this, 'attribute')).readOnly(),
 
       copy(deep) {
-        if(deep) {
+        if (deep) {
           return OptionsClass.create();
         }
 
@@ -158,7 +158,7 @@ const Base = Ember.Object.extend({
    * @return {Mixed} value
    */
   getValue() {
-    const value = this.value(get(this, 'model'), get(this, 'attribute'));
+    let value = this.value(get(this, 'model'), get(this, 'attribute'));
     return getValidatableValue(value);
   },
 
@@ -214,7 +214,7 @@ const Base = Ember.Object.extend({
    * @return {String}             The generated message
    */
   createErrorMessage(type, value, options = {}) {
-    const messages = this.get('errorMessages');
+    let messages = this.get('errorMessages');
     let message = unwrapString(get(options, 'message'));
 
     set(options, 'description', messages.getDescriptionFor(get(this, 'attribute'), options));

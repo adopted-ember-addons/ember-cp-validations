@@ -6,7 +6,7 @@ from 'ember-cp-validations';
 
 const Validations = buildValidations({
   quantity: {
-    description: "Quantity",
+    description: 'Quantity',
     validators: [
       validator('ds-error'),
       validator('number', {
@@ -15,7 +15,7 @@ const Validations = buildValidations({
     ]
   },
   order: {
-    description: "Order",
+    description: 'Order',
     validators: [
       validator('ds-error'),
       validator('belongs-to'),
@@ -23,14 +23,14 @@ const Validations = buildValidations({
     ]
   },
   line: {
-    description: "Order Line",
+    description: 'Order Line',
     validators: [
       validator('ds-error'),
       validator('presence', true)
     ]
   },
   questions: {
-    description: "Order Selection Questions",
+    description: 'Order Selection Questions',
     validators: [
       validator('ds-error'),
       validator('has-many'),

@@ -1,0 +1,5 @@
+{
+  "preset": "ember-suave",
+  "disallowDirectPropertyAccess": false,
+  "requireCommentsToIncludeAccess": false
+}

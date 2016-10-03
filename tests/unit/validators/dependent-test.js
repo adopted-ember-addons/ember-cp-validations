@@ -12,20 +12,20 @@ const {
   get
 } = Ember;
 
-var Validator, message, model, options, builtOptions;
+let Validator, message, model, options, builtOptions;
 
-var Validations = buildValidations({
+let Validations = buildValidations({
   firstName: validator('presence', true),
   lastName: validator('presence', true)
 });
 
-var defaultOptions = {
+let defaultOptions = {
   on: ['firstName', 'lastName']
 };
 
 moduleFor('validator:dependent', 'Unit | Validator | dependent', {
   needs: ['validator:messages', 'validator:presence'],
-  setup: function() {
+  setup() {
     Validator = this.subject();
   }
 });
@@ -55,7 +55,7 @@ test('all empty attributes', function(assert) {
 
   message = Validator.validate(undefined, builtOptions.copy(), model);
 
-  assert.equal(message, "This field is invalid");
+  assert.equal(message, 'This field is invalid');
   assert.equal(get(model, 'validations.messages.length'), 1);
   assert.equal(get(model, 'validations.isValid'), false);
 });
@@ -75,7 +75,7 @@ test('one dependent error', function(assert) {
 
   message = Validator.validate(undefined, builtOptions.copy(), model);
 
-  assert.equal(message, "This field is invalid");
+  assert.equal(message, 'This field is invalid');
   assert.equal(get(model, 'validations.messages.length'), 1);
   assert.equal(get(model, 'validations.isValid'), false);
 });

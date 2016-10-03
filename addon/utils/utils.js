@@ -5,6 +5,7 @@
 
 import Ember from 'ember';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
+import _requireModule from 'ember-validators/utils/require-module';
 
 const DS = requireModule('ember-data');
 
@@ -15,15 +16,8 @@ const {
   A: emberArray
 } = Ember;
 
-export function requireModule(module) {
-  const rjs = self.requirejs;
-
-  if (
-    (rjs.has && rjs.has(module)) ||
-    (!rjs.has && (rjs.entries[module] || rjs.entries[module + '/index']))
-  ) {
-    return self.require(module).default;
-  }
+export function requireModule() {
+  return _requireModule(...arguments);
 }
 
 export function unwrapString(s) {
@@ -59,17 +53,17 @@ export function isEmberObject(o) {
 }
 
 export function isValidatable(value) {
-  const v = unwrapProxy(value);
+  let v = unwrapProxy(value);
   return isDsModel(v) ? !get(v, 'isDeleted') : true;
 }
 
 export function getValidatableValue(value) {
-  if(!value) {
+  if (!value) {
     return value;
   }
 
-  if(isDSManyArray(value)) {
-    return emberArray(value.filter(v => isValidatable(v)));
+  if (isDSManyArray(value)) {
+    return emberArray(value.filter((v) => isValidatable(v)));
   }
 
   return isValidatable(value) ? value : undefined;

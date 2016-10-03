@@ -3,16 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
-import { unwrapProxy } from 'ember-cp-validations/utils/utils';
-
-const {
-  assert,
-  isEmpty,
-  isPresent,
-  getProperties
-} = Ember;
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.
@@ -40,7 +31,8 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default EmberValidator.extend({
+  _type: 'presence',
 
   /**
    * Normalized options passed in.
@@ -67,29 +59,5 @@ export default Base.extend({
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
-  },
-
-  validate(value, options, model, attribute) {
-    const { presence, ignoreBlank } = getProperties(options, ['presence', 'ignoreBlank']);
-
-    assert(`[ember-cp-validations] [validator:presence] [${attribute}] option 'presence' is required`, !isEmpty(presence));
-
-    if (presence === true && !this._isPresent(value, ignoreBlank)) {
-      return this.createErrorMessage('blank', value, options);
-    }
-
-    if (presence === false && this._isPresent(value, ignoreBlank)) {
-      return this.createErrorMessage('present', value, options);
-    }
-
-    return true;
-  },
-
-  /**
-   * Handle presence of ember proxy based instances
-   */
-  _isPresent(value, ignoreBlank = false) {
-    const v = unwrapProxy(value);
-    return ignoreBlank ? isPresent(v) : !isEmpty(v);
   }
 });

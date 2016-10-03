@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import ValidationResultCollection from './result-collection';
+import ResultCollection from '../validations/result-collection';
 import InternalResultObject from './internal-result-object';
 
 const {
@@ -14,7 +14,7 @@ const {
   isArray,
   computed,
   setProperties,
-  getProperties,
+  getProperties
 } = Ember;
 
 const {
@@ -70,8 +70,8 @@ const Result = Ember.Object.extend({
    * @type {Boolean}
    */
   _isReadOnly: computed('_validations', function() {
-    const validations = get(this, '_validations');
-    return (validations instanceof ValidationResultCollection) || get(validations, 'isValidations');
+    let validations = get(this, '_validations');
+    return (validations instanceof ResultCollection) || get(validations, 'isValidations');
   }).readOnly(),
 
   /**
@@ -157,7 +157,7 @@ const Result = Ember.Object.extend({
    * @private
    * @type {Result}
    */
-  _validations: computed('model', 'attribute', '_promise', '_validator', function () {
+  _validations: computed('model', 'attribute', '_promise', '_validator', function() {
     return InternalResultObject.extend({
       attrValue: computed.readOnly(`model.${get(this, 'attribute')}`)
     }).create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
@@ -185,9 +185,9 @@ const Result = Ember.Object.extend({
    * @param result
    */
   update(result) {
-    const validations = get(this, '_validations');
-    const validator = get(this, '_validator');
-    const { model, attribute } = getProperties(this, ['model', 'attribute']);
+    let validations = get(this, '_validations');
+    let validator = get(this, '_validator');
+    let { model, attribute } = getProperties(this, ['model', 'attribute']);
 
     if (isNone(result)) {
       this.update(false);
@@ -197,9 +197,9 @@ const Result = Ember.Object.extend({
     if (get(result, 'isValidations')) {
       set(this, '_validations', result);
     } else if (isArray(result)) {
-      const validationResultsCollection = ValidationResultCollection.create({
+      let validationResultsCollection = ResultCollection.create({
         attribute,
-        content: result.map(r => Result.create({
+        content: result.map((r) => Result.create({
           attribute,
           model,
           _validator: validator,
@@ -228,9 +228,9 @@ const Result = Ember.Object.extend({
    */
   _handlePromise() {
     get(this, '_promise').then(
-      result => this.update(result),
-      result => this.update(result)
-    ).catch(reason => {
+      (result) => this.update(result),
+      (result) => this.update(result)
+    ).catch((reason) => {
       // TODO: send into error state
       throw reason;
     });

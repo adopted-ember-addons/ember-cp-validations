@@ -22,7 +22,7 @@ const Validators = {
   }
 };
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   firstName: validator(Validators.presence),
   lastName: validator(Validators.presence)
 });
@@ -35,7 +35,6 @@ const HasManyValidations = buildValidations({
   friends: validator('has-many')
 });
 
-
 moduleFor('foo', 'Integration | Validations | Model Relationships', {
   integration: true,
   beforeEach() {
@@ -43,18 +42,18 @@ moduleFor('foo', 'Integration | Validations | Model Relationships', {
   }
 });
 
-test("belong to validation - no cycle", function(assert) {
+test('belong to validation - no cycle', function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var user2 = setupObject(this, Ember.Object.extend(Validations), {
+  let user2 = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'John'
   });
 
-  var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: user2
   });
 
-  const {
+  let {
     validations,
     model
   } = user.get('validations').validateSync();
@@ -70,13 +69,13 @@ test("belong to validation - no cycle", function(assert) {
 
 });
 
-test("belong to validation - with cycle", function(assert) {
+test('belong to validation - with cycle', function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var user = setupObject(this, Ember.Object.extend(BelongsToValidations));
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations));
   user.set('friend', user);
 
-  const {
+  let {
     validations,
     model
   } = user.get('validations').validateSync();
@@ -92,18 +91,18 @@ test("belong to validation - with cycle", function(assert) {
 
 });
 
-test("has-many relationship is sync", function(assert) {
+test('has-many relationship is sync', function(assert) {
   this.register('validator:has-many', HasManyValidator);
 
-  var friend = setupObject(this, Ember.Object.extend(Validations), {
+  let friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'John'
   });
 
-  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+  let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
     friends: [friend]
   });
 
-  const {
+  let {
     validations,
     model
   } = user.get('validations').validateSync();
@@ -117,18 +116,18 @@ test("has-many relationship is sync", function(assert) {
   assert.equal(friends.get('message'), 'lastName should be present');
 });
 
-test("has-many relationship is sync with proxy", function(assert) {
+test('has-many relationship is sync with proxy', function(assert) {
   this.register('validator:has-many', HasManyValidator);
 
-  var friend = setupObject(this, Ember.Object.extend(Validations), {
+  let friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'John'
   });
 
-  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+  let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
     friends: Ember.ArrayProxy.create({ content: Ember.A([friend]) })
   });
 
-  const {
+  let {
     validations,
     model
   } = user.get('validations').validateSync();
@@ -142,20 +141,20 @@ test("has-many relationship is sync with proxy", function(assert) {
   assert.equal(friends.get('message'), 'lastName should be present');
 });
 
-test("has-many relationship is async", function(assert) {
+test('has-many relationship is async', function(assert) {
   this.register('validator:has-many', HasManyValidator);
 
-  var friend = setupObject(this, Ember.Object.extend(Validations), {
+  let friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
   });
 
-  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+  let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
     friends: new Ember.RSVP.Promise((resolve) => {
       resolve([friend]);
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -174,25 +173,24 @@ test("has-many relationship is async", function(assert) {
   return validations;
 });
 
-test("has-many relationship is async and isWarning", function(assert) {
+test('has-many relationship is async and isWarning', function(assert) {
   this.register('validator:has-many', HasManyValidator);
 
-  var HasManyValidations = buildValidations({
+  let HasManyValidations = buildValidations({
     friends: validator('has-many', { isWarning: true })
   });
 
-
-  var friend = setupObject(this, Ember.Object.extend(Validations), {
+  let friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
   });
 
-  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+  let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
     friends: new Ember.RSVP.Promise((resolve) => {
       resolve([friend]);
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -210,20 +208,20 @@ test("has-many relationship is async and isWarning", function(assert) {
   return validations;
 });
 
-test("belongs-to relationship is async", function(assert) {
+test('belongs-to relationship is async', function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var friend = setupObject(this, Ember.Object.extend(Validations), {
+  let friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
   });
 
-  var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
       resolve(friend);
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -236,30 +234,30 @@ test("belongs-to relationship is async", function(assert) {
     let friend = validations.get('content').findBy('attribute', 'friend');
 
     assert.equal(friend.get('isValid'), false);
-    assert.equal(friend.get('message'), "lastName should be present");
+    assert.equal(friend.get('message'), 'lastName should be present');
   });
 
   return validations;
 });
 
-test("belongs-to relationship is async and isWarning", function(assert) {
+test('belongs-to relationship is async and isWarning', function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var BelongsToValidations = buildValidations({
+  let BelongsToValidations = buildValidations({
     friend: validator('belongs-to', { isWarning: true })
   });
 
-  var friend = setupObject(this, Ember.Object.extend(Validations), {
+  let friend = setupObject(this, Ember.Object.extend(Validations), {
     firstName: 'Offir'
   });
 
-  var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
       resolve(friend);
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -277,16 +275,16 @@ test("belongs-to relationship is async and isWarning", function(assert) {
   return validations;
 });
 
-test("belongs-to relationship is async and does not exist", function(assert) {
+test('belongs-to relationship is async and does not exist', function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
       resolve();
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -301,16 +299,16 @@ test("belongs-to relationship is async and does not exist", function(assert) {
   return validations;
 });
 
-test("has-many relationship is async and does not exist", function(assert) {
+test('has-many relationship is async and does not exist', function(assert) {
   this.register('validator:has-many', HasManyValidator);
 
-  var user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+  let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
     friends: new Ember.RSVP.Promise((resolve) => {
       resolve();
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -325,16 +323,16 @@ test("has-many relationship is async and does not exist", function(assert) {
   return validations;
 });
 
-test("belongs-to relationship returns undefined", function(assert) {
+test('belongs-to relationship returns undefined', function(assert) {
   this.register('validator:belongs-to', BelongsToValidator);
 
-  var user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
       resolve({}); // validations object will be undefined
     })
   });
 
-  var validations = user.get('validations').validate();
+  let validations = user.get('validations').validate();
   assert.equal(user.get('validations.isAsync'), true);
   assert.equal(user.get('validations.isValidating'), true);
 
@@ -353,10 +351,10 @@ test("belongs-to relationship returns undefined", function(assert) {
   return validations;
 });
 
-test("alias validation - simple", function(assert) {
+test('alias validation - simple', function(assert) {
   this.register('validator:alias', AliasValidator);
 
-  var user = setupObject(this, Ember.Object.extend(buildValidations({
+  let user = setupObject(this, Ember.Object.extend(buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator(Validators.presence),
     fullName: validator('alias', 'firstName')
@@ -379,13 +377,13 @@ test("alias validation - simple", function(assert) {
   assert.equal(user.get('validations.attrs.fullName.isValid'), true);
 });
 
-test("alias validation - firstMessageOnly", function(assert) {
+test('alias validation - firstMessageOnly', function(assert) {
   this.register('validator:alias', AliasValidator);
 
-  var user = setupObject(this, Ember.Object.extend(buildValidations({
+  let user = setupObject(this, Ember.Object.extend(buildValidations({
     firstName: [
       validator(() => 'First error message'),
-      validator(() => 'Second error message'),
+      validator(() => 'Second error message')
     ],
     fullName: validator('alias', {
       alias: 'firstName',
@@ -404,10 +402,10 @@ test("alias validation - firstMessageOnly", function(assert) {
   assert.equal(user.get('validations.attrs.fullName.message'), 'First error message');
 });
 
-test("alias validation - multiple", function(assert) {
+test('alias validation - multiple', function(assert) {
   this.register('validator:alias', AliasValidator);
 
-  var user = setupObject(this, Ember.Object.extend(buildValidations({
+  let user = setupObject(this, Ember.Object.extend(buildValidations({
     firstName: validator(Validators.presence),
     lastName: validator(Validators.presence),
     fullName: [
@@ -438,18 +436,18 @@ test("alias validation - multiple", function(assert) {
   assert.equal(user.get('validations.attrs.fullName.isValid'), true);
 });
 
-test("presence on empty DS.PromiseObject", function(assert) {
+test('presence on empty DS.PromiseObject', function(assert) {
   this.register('validator:presence', PresenceValidator);
 
-  var Validations = buildValidations({
+  let Validations = buildValidations({
     friend: validator('presence', true)
   });
 
-  var user = setupObject(this, Ember.Object.extend(Validations), {
+  let user = setupObject(this, Ember.Object.extend(Validations), {
     friend: DS.PromiseObject.create()
   });
 
-  const {
+  let {
     validations,
     model
   } = user.get('validations').validateSync();
@@ -460,22 +458,21 @@ test("presence on empty DS.PromiseObject", function(assert) {
   let friend = validations.get('content').findBy('attribute', 'friend');
 
   assert.equal(friend.get('isValid'), false);
-  assert.equal(friend.get('message'), "This field can't be blank");
-
+  assert.equal(friend.get('message'), 'This field can\'t be blank');
 });
 
-test("presence on empty DS.PromiseArray", function(assert) {
+test('presence on empty DS.PromiseArray', function(assert) {
   this.register('validator:presence', PresenceValidator);
 
-  var Validations = buildValidations({
+  let Validations = buildValidations({
     friends: validator('presence', true)
   });
 
-  var user = setupObject(this, Ember.Object.extend(Validations), {
+  let user = setupObject(this, Ember.Object.extend(Validations), {
     friends: DS.PromiseArray.create()
   });
 
-  const {
+  let {
     validations,
     model
   } = user.get('validations').validateSync();
@@ -486,6 +483,5 @@ test("presence on empty DS.PromiseArray", function(assert) {
   let friends = validations.get('content').findBy('attribute', 'friends');
 
   assert.equal(friends.get('isValid'), false);
-  assert.equal(friends.get('message'), "This field can't be blank");
-
+  assert.equal(friends.get('message'), 'This field can\'t be blank');
 });

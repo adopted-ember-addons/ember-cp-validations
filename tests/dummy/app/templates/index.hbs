@@ -1,18 +1,18 @@
-<div class="form">
+<div class='form'>
   {{#unless isRegistered}}
-    <div class="register">
+    <div class='register'>
       <h2>Create an Account</h2>
 
       {{#if showAlert}}
-        <div class="alert">
-          <div class="fa fa-times icon-remove" {{action 'toggleProperty' 'showAlert'}}></div>
+        <div class='alert'>
+          <div class='fa fa-times icon-remove' {{action 'toggleProperty' 'showAlert'}}></div>
           Please fix all the errors below before continuing.
         </div>
       {{/if}}
       <form>
-        <div class="section">
+        <div class='section'>
           {{#unless showCode}}
-            <div class="section-info left">
+            <div class='section-info left'>
               These form inputs are bound to the <strong>User</strong> model which is created in the route's model hook. Each one of these fields has validations to make sure we we receive the data we want.
             </div>
           {{/unless}}
@@ -25,9 +25,9 @@
 
         <h4> About Me</h4>
 
-        <div class="section">
+        <div class='section'>
           {{#unless showCode}}
-            <div class="section-info right">
+            <div class='section-info right'>
               We have a secondary model, <strong>User Details</strong>, which holds extra information about our user. This model is part of the <strong>User</strong> model via a belongsTo relationship.
             </div>
           {{/unless}}
@@ -38,45 +38,45 @@
           {{validated-input model=model.details valuePath='phone' placeholder='Phone #' didValidate=didValidate}}
           {{validated-input model=model.details valuePath='url' placeholder='URL' didValidate=didValidate}}
         </div>
-        <div class="section">
+        <div class='section'>
           {{#unless showCode}}
-            <div class="section-info left last">
+            <div class='section-info left last'>
               On submit, a manual validation is run which will validate both the <strong>User</strong> and <strong>User Details</strong> models. If both are valid, then the user can continue to the next screen.
             </div>
           {{/unless}}
-          <button id="signup" {{action 'validate'}}>Sign Up</button>
+          <button id='signup' {{action 'validate'}}>Sign Up</button>
         </div>
       </form>
     </div>
     {{else}}
-      <div class="registered">
-        {{!-- <img class="tomster" src="images/tomsterzilla.jpeg" alt=""> --}}
-        <div class="fa fa-check-circle icon-success"></div>
-        <h2 class="success">Success</h2>
+      <div class='registered'>
+        {{!-- <img class='tomster' src='images/tomsterzilla.jpeg' alt=''> --}}
+        <div class='fa fa-check-circle icon-success'></div>
+        <h2 class='success'>Success</h2>
       </div>
   {{/unless}}
   <footer>
     {{#unless isRegistered}}
-      <a class="show-code bottom" {{action 'toggleProperty' 'showCode'}}><i class="fa fa-code"></i> {{if showCode 'Hide Code' 'Show Code'}} <i class="fa fa-code"></i></a>
+      <a class='show-code bottom' {{action 'toggleProperty' 'showCode'}}><i class='fa fa-code'></i> {{if showCode 'Hide Code' 'Show Code'}} <i class='fa fa-code'></i></a>
     {{else}}
-      <a class="show-code bottom" {{action 'reset'}}>Reset Form</a>
+      <a class='show-code bottom' {{action 'reset'}}>Reset Form</a>
     {{/unless}}
   </footer>
 </div>
 
 {{#unless isRegistered}}
-  <div class="snippet-container {{if showCode 'show'}}">
-   <ul class="nav nav-tabs" role="tablist">
-     <li role="presentation" class="active"><a href="#user-model" aria-controls="user-model" role="tab" data-toggle="tab">models/user.js</a></li>
-     <li role="presentation"><a href="#user-detail-model" aria-controls="user-detail-model" role="tab" data-toggle="tab">models/user-detail.js</a></li>
-     <li role="presentation"><a href="#validated-input-js" aria-controls="validated-input-js" role="tab" data-toggle="tab">validated-input.js</a></li>
-     <li role="presentation"><a href="#validated-input-hbs" aria-controls="validated-input-hbs" role="tab" data-toggle="tab">validated-input.hbs</a></li>
+  <div class='snippet-container {{if showCode 'show'}}'>
+   <ul class='nav nav-tabs' role='tablist'>
+     <li role='presentation' class='active'><a href='#user-model' aria-controls='user-model' role='tab' data-toggle='tab'>models/user.js</a></li>
+     <li role='presentation'><a href='#user-detail-model' aria-controls='user-detail-model' role='tab' data-toggle='tab'>models/user-detail.js</a></li>
+     <li role='presentation'><a href='#validated-input-js' aria-controls='validated-input-js' role='tab' data-toggle='tab'>validated-input.js</a></li>
+     <li role='presentation'><a href='#validated-input-hbs' aria-controls='validated-input-hbs' role='tab' data-toggle='tab'>validated-input.hbs</a></li>
    </ul>
-   <div class="tab-content">
-     <div role="tabpanel" class="tab-pane fade in active" id="user-model">{{code-snippet name="user-model.js"}}</div>
-     <div role="tabpanel" class="tab-pane fade" id="user-detail-model">{{code-snippet name="user-detail-model.js"}}</div>
-     <div role="tabpanel" class="tab-pane fade" id="validated-input-js">{{code-snippet name="validated-input.js"}}</div>
-     <div role="tabpanel" class="tab-pane fade" id="validated-input-hbs">{{code-snippet name="validated-input.hbs"}}</div>
+   <div class='tab-content'>
+     <div role='tabpanel' class='tab-pane fade in active' id='user-model'>{{code-snippet name='user-model.js'}}</div>
+     <div role='tabpanel' class='tab-pane fade' id='user-detail-model'>{{code-snippet name='user-detail-model.js'}}</div>
+     <div role='tabpanel' class='tab-pane fade' id='validated-input-js'>{{code-snippet name='validated-input.js'}}</div>
+     <div role='tabpanel' class='tab-pane fade' id='validated-input-hbs'>{{code-snippet name='validated-input.hbs'}}</div>
    </div>
 </div>
 {{/unless}}

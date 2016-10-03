@@ -10,11 +10,11 @@ import {
 }
 from 'ember-qunit';
 
-var defaultOptions, options, validator, message;
+let defaultOptions, options, validator, message;
 
 moduleFor('validator:length', 'Unit | Validator | base', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = BaseValidator.create();
   }
 });
@@ -31,7 +31,7 @@ test('buildOptions - merge all options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
+  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b' });
 });
 
 test('buildOptions - does not overwrite options', function(assert) {
@@ -47,7 +47,7 @@ test('buildOptions - does not overwrite options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b'});
+  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b' });
 });
 
 test('buildOptions - copy', function(assert) {
@@ -77,7 +77,7 @@ test('createErrorMessage - message function', function(assert) {
 
   options = {
     message() {
-      return "{description} has some sort of error";
+      return '{description} has some sort of error';
     }
   };
 
@@ -85,12 +85,11 @@ test('createErrorMessage - message function', function(assert) {
   assert.equal(message, 'This field has some sort of error');
 });
 
-
 test('value - default gets model value', function(assert) {
   assert.expect(2);
 
   validator.setProperties({
-    model: Ember.Object.create({ foo: 'bar'}),
+    model: Ember.Object.create({ foo: 'bar' }),
     attribute: 'foo',
     options: {}
   });
@@ -105,7 +104,7 @@ test('value - overwrite value method via options', function(assert) {
   assert.expect(3);
 
   validator.setProperties({
-    model: Ember.Object.create({ foo: 'bar', bar: 'baz'}),
+    model: Ember.Object.create({ foo: 'bar', bar: 'baz' }),
     attribute: 'foo',
     options: {
       value() {

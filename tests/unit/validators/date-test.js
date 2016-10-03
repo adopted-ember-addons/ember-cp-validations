@@ -4,17 +4,13 @@
  */
 
 import moment from 'moment';
+import { moduleFor, test } from 'ember-qunit';
 
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
-
-var options, builtOptions, validator, message;
+let options, builtOptions, validator, message;
 
 moduleFor('validator:date', 'Unit | Validator | date', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -106,7 +102,7 @@ test('before', function(assert) {
 
 test('before now', function(assert) {
   assert.expect(2);
-  var now = moment().format('MMM Do, YYYY');
+  let now = moment().format('MMM Do, YYYY');
   options = {
     before: 'now'
   };
@@ -141,7 +137,7 @@ test('before or on', function(assert) {
 
 test('before now or on', function(assert) {
   assert.expect(3);
-  var now = moment().format('MMM Do, YYYY');
+  let now = moment().format('MMM Do, YYYY');
   options = {
     onOrBefore: 'now'
   };
@@ -159,15 +155,15 @@ test('before now or on', function(assert) {
 });
 
 test('before or on precision', function(assert) {
-  var precisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+  let precisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
-  assert.expect((precisions.length * 3) -1);
-  var now = moment(new Date('2013-02-08T09:30:26'));
-  var dateString = now.toString();
-  var nowMessage = now.format('MMM Do, YYYY');
+  assert.expect((precisions.length * 3) - 1);
+  let now = moment(new Date('2013-02-08T09:30:26'));
+  let dateString = now.toString();
+  let nowMessage = now.format('MMM Do, YYYY');
 
-  for (var i = 0; i < precisions.length; i++) {
-    var precision = precisions[i];
+  for (let i = 0; i < precisions.length; i++) {
+    let precision = precisions[i];
 
     builtOptions = validator.buildOptions({ onOrBefore: dateString });
 
@@ -204,7 +200,7 @@ test('after', function(assert) {
 
 test('after now', function(assert) {
   assert.expect(2);
-  var now = moment().format('MMM Do, YYYY');
+  let now = moment().format('MMM Do, YYYY');
   options = {
     after: 'now'
   };
@@ -239,7 +235,7 @@ test('after or on', function(assert) {
 
 test('after now or on', function(assert) {
   assert.expect(3);
-  var now = moment().format('MMM Do, YYYY');
+  let now = moment().format('MMM Do, YYYY');
   options = {
     onOrAfter: 'now',
     precision: 'second'
@@ -258,15 +254,15 @@ test('after now or on', function(assert) {
 });
 
 test('after or on precision', function(assert) {
-  var precisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+  let precisions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
-  assert.expect((precisions.length * 3) -1);
-  var now = moment(new Date('2013-02-08T09:30:26'));
-  var dateString = now.toString();
-  var nowMessage = now.format('MMM Do, YYYY');
+  assert.expect((precisions.length * 3) - 1);
+  let now = moment(new Date('2013-02-08T09:30:26'));
+  let dateString = now.toString();
+  let nowMessage = now.format('MMM Do, YYYY');
 
-  for (var i = 0; i < precisions.length; i++) {
-    var precision = precisions[i];
+  for (let i = 0; i < precisions.length; i++) {
+    let precision = precisions[i];
 
     builtOptions = validator.buildOptions({ onOrAfter: dateString });
 

@@ -4,14 +4,11 @@
  */
 
 import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 const {
   get,
-  assert,
-  isNone,
-  isEmpty,
-  getProperties
+  isNone
 } = Ember;
 
 /**
@@ -39,7 +36,9 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default EmberValidator.extend({
+  _type: 'length',
+
   /**
    * Default allowNone to true
    *
@@ -53,33 +52,5 @@ export default Base.extend({
     options.allowNone = isNone(get(options, 'allowNone')) ? true : get(options, 'allowNone');
 
     return this._super(options, defaultOptions, globalOptions);
-  },
-
-  validate(value, options, model, attribute) {
-    const { allowNone, allowBlank, is, min, max } = getProperties(options, [ 'allowNone', 'allowBlank', 'is', 'min', 'max' ]);
-
-    assert(`[ember-cp-validations] [validator:length] [${attribute}] no options were passed in`, !isEmpty(Object.keys(options)));
-
-    if (isNone(value)) {
-      return allowNone ? true : this.createErrorMessage('invalid', value, options);
-    }
-
-    if (allowBlank && isEmpty(value)) {
-      return true;
-    }
-
-    if (!isNone(is) && is !== get(value, 'length')) {
-      return this.createErrorMessage('wrongLength', value, options);
-    }
-
-    if (!isNone(min) && min > get(value, 'length')) {
-      return this.createErrorMessage('tooShort', value, options);
-    }
-
-    if (!isNone(max) && max < get(value, 'length')) {
-      return this.createErrorMessage('tooLong', value, options);
-    }
-
-    return true;
   }
 });

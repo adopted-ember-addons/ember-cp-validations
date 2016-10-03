@@ -10,11 +10,11 @@ import {
 }
 from 'ember-qunit';
 
-var model, validator, message;
+let model, validator, message;
 
 moduleFor('validator:ds-error', 'Unit | Validator | ds-error', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });

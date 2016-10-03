@@ -11,7 +11,6 @@ const {
   get
 } = Ember;
 
-
 /**
  *  Identifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.
  *  This is used to create a link to the validations object of the child model.
@@ -80,10 +79,12 @@ const {
  *  @extends Base
  */
 const BelongsTo = Base.extend({
+  _type: 'belongs-to',
+
   validate(value) {
     if (value) {
       if (isPromise(value)) {
-        return value.then(model => model ? get(model, 'validations') : true);
+        return value.then((model) => model ? get(model, 'validations') : true);
       }
       return get(value, 'validations');
     }

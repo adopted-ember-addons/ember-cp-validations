@@ -3,16 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
-
-const {
-  get,
-  typeOf,
-  isEmpty,
-  assert,
-  getProperties
-} = Ember;
+import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
  *  Validates that the attributes’ values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.
@@ -36,31 +27,6 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  validate(value, options, model, attribute) {
-    const array = get(options, 'in');
-    const { range, allowBlank } = getProperties(options, ['range', 'allowBlank']);
-
-    assert(`[ember-cp-validations] [validator:exclusion] [${attribute}] no options were passed in`, !isEmpty(Object.keys(options)));
-
-    if (allowBlank && isEmpty(value)) {
-      return true;
-    }
-
-    if (array && array.indexOf(value) !== -1) {
-      return this.createErrorMessage('exclusion', value, options);
-    }
-
-    if (range && range.length === 2) {
-      const min = range[0];
-      const max = range[1];
-      const equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
-
-      if (equalType && min <= value && value <= max) {
-        return this.createErrorMessage('exclusion', value, options);
-      }
-    }
-
-    return true;
-  }
+export default EmberValidator.extend({
+  _type: 'exclusion'
 });

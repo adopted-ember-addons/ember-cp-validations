@@ -3,13 +3,13 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
- // BEGIN-SNIPPET user-model
+// BEGIN-SNIPPET user-model
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const { attr } = DS;
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   username: {
     description: 'Username',
     validators: [

@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
- // BEGIN-SNIPPET user-detail-model
+// BEGIN-SNIPPET user-detail-model
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
@@ -12,7 +12,7 @@ import { validator, buildValidations } from 'ember-cp-validations';
 const { computed } = Ember;
 const { attr } = DS;
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   firstName: validator('presence', true),
   lastName: validator('presence', true),
   dob: {
@@ -25,7 +25,7 @@ var Validations = buildValidations({
           return moment().subtract(120, 'years').format('M/D/YYYY');
         }).volatile(),
         format: 'M/D/YYYY',
-        message: function(type, value /*, context */) {
+        message(type, value /*, context */) {
           if (type === 'before') {
             return 'Are you from the future?';
           }
