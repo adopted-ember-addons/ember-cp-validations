@@ -16,6 +16,8 @@ const {
   A: emberArray
 } = Ember;
 
+const assign = Ember.assign || Ember.merge;
+
 export function requireModule() {
   return _requireModule(...arguments);
 }
@@ -67,4 +69,14 @@ export function getValidatableValue(value) {
   }
 
   return isValidatable(value) ? value : undefined;
+}
+
+export function mergeOptions(...options) {
+  let o = {};
+
+  for (let i = options.length - 1; i >= 0; i--) {
+    assign(o, options[i]);
+  }
+
+  return o;
 }

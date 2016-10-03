@@ -12,7 +12,7 @@ import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
-import { isDsModel, isValidatable, isPromise } from '../utils/utils';
+import { isDsModel, isValidatable, isPromise, mergeOptions } from '../utils/utils';
 
 const {
   get,
@@ -389,25 +389,15 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  * @return {Ember.ComputedProperty} A computed property which is a ResultCollection
  */
 function createCPValidationFor(attribute, model, validations) {
-  let dependentKeys = getCPDependentKeysFor(attribute, model, validations);
+  let isVolatile = hasOption(validations, 'volatile');
+  let dependentKeys = isVolatile ? [] : getCPDependentKeysFor(attribute, model, validations);
 
-  return computed(...dependentKeys, cycleBreaker(function() {
+  let cp = computed(...dependentKeys, cycleBreaker(function() {
     let model = get(this, '_model');
     let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
     let validationResults = generateValidationResultsFor(attribute, model, validators, (validator, options) => {
-      let debounce = getWithDefault(options, 'debounce', 0);
-
-      if (debounce > 0) {
-        let cache = getDebouncedValidationsCacheFor(attribute, model);
-
-        // Return a promise and pass the resolve method to the debounce handler
-        return new Promise((resolve) => {
-          cache[guidFor(validator)] = run.debounce(validator, debouncedValidate, validator, model, attribute, resolve, debounce, false);
-        });
-      } else {
-        return validator.validate(validator.getValue(), options, model, attribute);
-      }
+      return validator.validate(validator.getValue(), options, model, attribute);
     });
 
     return ResultCollection.create({
@@ -415,6 +405,25 @@ function createCPValidationFor(attribute, model, validations) {
       content: validationResults
     });
   })).readOnly();
+
+  if (isVolatile) {
+    cp = cp.volatile();
+  }
+
+  return cp;
+}
+
+function hasOption(validations, option, value = true) {
+  for (let i = 0; i < validations.length; i++) {
+    let { options, defaultOptions = {}, globalOptions = {} } = validations[i];
+    let mergedOptions = mergeOptions(options, defaultOptions, globalOptions);
+
+    if (mergedOptions[option] === value) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -430,19 +439,34 @@ function createCPValidationFor(attribute, model, validations) {
  * @param  {Function} validate
  * @return {Array}
  */
-function generateValidationResultsFor(attribute, model, validators, validate) {
+function generateValidationResultsFor(attribute, model, validators, validate, opts = {}) {
   let isModelValidatable = isValidatable(model);
   let isInvalid = false;
   let value, result;
 
   return validators.map((validator) => {
-    let options = get(validator, 'options').copy();
+    let _options = get(validator, 'options');
+    let options = _options.copy();
     let isWarning = getWithDefault(options, 'isWarning', false);
     let disabled = getWithDefault(options, 'disabled', false);
+    let debounce = getWithDefault(options, 'debounce', 0);
     let lazy = getWithDefault(options, 'lazy', true);
 
     if (disabled || (lazy && isInvalid) || !isModelValidatable) {
       value = true;
+    } else if (debounce > 0) {
+      let cache = getDebouncedValidationsCacheFor(attribute, model);
+
+      // Return a promise and pass the resolve method to the debounce handler
+      value = new Promise((resolve) => {
+        let t = run.debounce(validator, resolve, debounce, false);
+
+        if (!opts.disableDebounceCache) {
+          cache[guidFor(validator)] = t;
+        }
+      }).then(() => {
+        return validate(validator, _options.copy(), model, attribute);
+      });
     } else {
       value = validate(validator, options, model, attribute);
     }
@@ -586,25 +610,6 @@ function extractOptionsDependentKeys(options) {
   }
 
   return [];
-}
-
-/**
- * Debounce handler for running a validation for the specified options
- *
- * @method debouncedValidate
- * @private
- * @param  {Validator} validator
- * @param  {Mixed} value
- * @param  {Object} options
- * @param  {Object} model
- * @param  {String} attribute
- * @param  {Function} resolve
- */
-function debouncedValidate(validator, model, attribute, resolve) {
-  let options = get(validator, 'options').copy();
-  let value = validator.getValue();
-
-  resolve(validator.validate(value, options, model, attribute));
 }
 
 /**
@@ -822,6 +827,8 @@ function validateAttribute(attribute, value) {
 
   let validationResults = generateValidationResultsFor(attribute, model, validators, (validator, options) => {
     return validator.validate(value, options, model, attribute);
+  }, {
+    disableDebounceCache: true
   });
 
   let validations = ResultCollection.create({
@@ -829,10 +836,7 @@ function validateAttribute(attribute, value) {
     content: flatten(validationResults)
   });
 
-  let result = {
-    model,
-    validations
-  };
+  let result = { model, validations };
 
   return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result);
 }
