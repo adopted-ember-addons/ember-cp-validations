@@ -36,6 +36,7 @@ const {
  *  @extends Base
  */
 const Alias = Base.extend({
+  _type: 'alias',
 
   /**
    * Normalized options passed in.
@@ -65,11 +66,11 @@ const Alias = Base.extend({
   },
 
   validate(value, options, model, attribute) {
-    const { alias, firstMessageOnly } = getProperties(options, ['alias', 'firstMessageOnly']);
+    let { alias, firstMessageOnly } = getProperties(options, ['alias', 'firstMessageOnly']);
 
     assert(`[validator:alias] [${attribute}] option 'alias' is required`, isPresent(alias));
 
-    const aliasValidation = get(model, `validations.attrs.${alias}`);
+    let aliasValidation = get(model, `validations.attrs.${alias}`);
 
     return firstMessageOnly ? get(aliasValidation, 'message') : get(aliasValidation, 'content');
   }
@@ -77,7 +78,7 @@ const Alias = Base.extend({
 
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
-    const alias = typeof options === 'string' ? options : get(options, 'alias');
+    let alias = typeof options === 'string' ? options : get(options, 'alias');
 
     assert(`[validator:alias] [${attribute}] 'alias' must be a string`, typeof alias === 'string');
 

@@ -55,6 +55,7 @@ const {
  *  @extends Base
  */
 export default EmberValidator.extend({
+  _type: 'format',
   regularExpressions,
 
   /**
@@ -67,11 +68,8 @@ export default EmberValidator.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    const regularExpressions = get(this, 'regularExpressions');
-    const {
-      regex,
-      type
-    } = options;
+    let regularExpressions = get(this, 'regularExpressions');
+    let { regex, type } = options;
 
     if (type && !isNone(regularExpressions[type]) && isNone(regex)) {
       if (type === 'email' && options.allowNonTld) {

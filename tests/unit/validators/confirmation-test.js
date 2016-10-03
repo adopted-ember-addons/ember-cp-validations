@@ -9,11 +9,11 @@ import {
 }
 from 'ember-qunit';
 
-var model, options, builtOptions, validator, message;
+let model, options, builtOptions, validator, message;
 
 moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -29,7 +29,7 @@ test('attribute', function(assert) {
   });
 
   message = validator.validate('bar@yahoo.com', builtOptions.copy(), model);
-  assert.equal(message, "This field doesn't match email");
+  assert.equal(message, 'This field doesn\'t match email');
 
   model.set('emailConfirmation', 'foo@yahoo.com');
 

@@ -9,29 +9,29 @@ const {
 module('Unit | Utils | shouldCallSuper');
 
 test('shouldCallSuper - true', function(assert) {
-  const Parent = Ember.Object.extend({
+  let Parent = Ember.Object.extend({
     foo: computed(function() {})
   });
 
-  const Child = Parent.extend({
+  let Child = Parent.extend({
     foo: computed(function() {
       assert.ok(shouldCallSuper(this, 'foo'));
     })
   });
 
-  const child = Child.create();
+  let child = Child.create();
   child.get('foo');
 });
 
 test('shouldCallSuper - false', function(assert) {
-  const Parent = Ember.Object.extend();
+  let Parent = Ember.Object.extend();
 
-  const Child = Parent.extend({
+  let Child = Parent.extend({
     foo: computed(function() {
       assert.ok(!shouldCallSuper(this, 'foo'));
     })
   });
 
-  const child = Child.create();
+  let child = Child.create();
   child.get('foo');
 });

@@ -36,4 +36,6 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend();
+export default EmberValidator.extend({
+  _type: 'date'
+});

@@ -1,0 +1,8 @@
+{
+  "preset": "ember-suave",
+  "excludeFiles": [
+    "tests/**/*"
+  ],
+  "disallowDirectPropertyAccess": false,
+  "requireCommentsToIncludeAccess": false
+}

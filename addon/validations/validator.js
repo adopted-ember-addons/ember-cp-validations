@@ -75,7 +75,7 @@ const {
  *
  * Default: __false__
  *
- * If set to __true__, disables the given validator. 
+ * If set to __true__, disables the given validator.
  *
  * ```js
  * // Examples
@@ -192,8 +192,8 @@ const {
  * @submodule Common Options
  */
 
-export default function (arg1, options) {
-  const props = {
+export default function(arg1, options) {
+  let props = {
     options: isNone(options) ? {} : options
   };
 

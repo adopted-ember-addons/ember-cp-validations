@@ -32,11 +32,13 @@ const {
  *  @module Validators
  *  @extends Base
  */
-const Confirmation = EmberValidator.extend();
+const Confirmation = EmberValidator.extend({
+  _type: 'confirmation'
+});
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    const on = get(options, 'on');
+    let on = get(options, 'on');
 
     assert(`[validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
 

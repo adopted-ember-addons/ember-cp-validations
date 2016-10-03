@@ -8,11 +8,11 @@ import {
 }
 from 'ember-qunit';
 
-var options, builtOptions, validator, message;
+let options, builtOptions, validator, message;
 
 moduleFor('validator:inclusion', 'Unit | Validator | inclusion', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -34,7 +34,7 @@ test('allow blank', function(assert) {
 
   options = {
     allowBlank: true,
-    "in": ["foo", "bar", "baz"]
+    'in': ['foo', 'bar', 'baz']
   };
   builtOptions = validator.buildOptions(options);
 
@@ -49,7 +49,7 @@ test('in array', function(assert) {
   assert.expect(4);
 
   options = {
-    "in": ["foo", "bar", "baz"]
+    'in': ['foo', 'bar', 'baz']
   };
   builtOptions = validator.buildOptions(options);
 

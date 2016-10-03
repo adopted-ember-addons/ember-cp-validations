@@ -7,7 +7,7 @@ module('Unit | Utils | assign');
 test('single level', function(assert) {
   let obj = {};
   assign(obj, 'foo.bar', 1);
-  assert.deepEqual(obj, { foo: { bar: 1}});
+  assert.deepEqual(obj, { foo: { bar: 1 } });
 });
 
 test('single level - ember object', function(assert) {
@@ -16,7 +16,6 @@ test('single level - ember object', function(assert) {
   assert.ok(obj.foo instanceof Ember.Object);
   assert.equal(obj.get('foo.bar'), 1);
 });
-
 
 test('single level - ember object w/ CP', function(assert) {
   let obj = Ember.Object.create();
@@ -28,7 +27,7 @@ test('single level - ember object w/ CP', function(assert) {
 test('multi level', function(assert) {
   let obj = {};
   assign(obj, 'foo.bar.baz.boo', 1);
-  assert.deepEqual(obj, { foo: { bar: { baz: { boo: 1}}}});
+  assert.deepEqual(obj, { foo: { bar: { baz: { boo: 1 } } } });
 });
 
 test('multi level - ember object', function(assert) {

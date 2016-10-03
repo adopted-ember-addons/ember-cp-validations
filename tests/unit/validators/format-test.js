@@ -8,11 +8,11 @@ import {
 }
 from 'ember-qunit';
 
-var options, builtOptions, validator, message;
+let options, builtOptions, validator, message;
 
 moduleFor('validator:format', 'Unit | Validator | format', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -56,7 +56,7 @@ test('allow blank', function(assert) {
 });
 
 test('email no option', function(assert) {
-  const validAddresses = [
+  let validAddresses = [
     'email@domain.com',
     'firstname.lastname@domain.com',
     'email@subdomain.domain.com',
@@ -69,7 +69,7 @@ test('email no option', function(assert) {
     'firstname-lastname@domain.com',
     'EMAIL@DOMAIN.COM'
   ];
-  const invalidAddresses = [
+  let invalidAddresses = [
     'plainaddress',
     '#@%^%#$@#$@#.com',
     '@domain.com',
@@ -107,7 +107,7 @@ test('email no option', function(assert) {
 });
 
 test('email option allowNonTld', function(assert) {
-  const validAddresses = [
+  let validAddresses = [
     'email@domain.com',
     'firstname.lastname@domain.com',
     'email@subdomain.domain.com',
@@ -121,7 +121,7 @@ test('email option allowNonTld', function(assert) {
     'EMAIL@DOMAIN.COM',
     'email@domain'
   ];
-  const invalidAddresses = [
+  let invalidAddresses = [
     'plainaddress',
     '#@%^%#$@#$@#.com',
     '@domain.com',

@@ -16,18 +16,18 @@ moduleForModel('order', 'Unit | Validations | Nested Model Relationships', {
   ]
 });
 
-test("order with invalid question shows invalid", function(assert) {
+test('order with invalid question shows invalid', function(assert) {
   assert.expect(11);
-  let order = this.subject({source: 'external'});
+  let order = this.subject({ source: 'external' });
 
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
   Ember.run(() => {
-    orderLine = store.createRecord('order-line', { order: order, type: "item" });
-    orderSelection = store.createRecord('order-selection', { order: order, line: orderLine, quantity: 1 });
-    orderSelectionQuestion = store.createRecord('order-selection-question', { order: order, selection: orderSelection });
-    store.createRecord('order-selection-question', { order: order, selection: orderSelection, text: 'foo' });
+    orderLine = store.createRecord('order-line', { order, type: 'item' });
+    orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
+    orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection });
+    store.createRecord('order-selection-question', { order, selection: orderSelection, text: 'foo' });
   });
 
   assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
@@ -44,28 +44,28 @@ test("order with invalid question shows invalid", function(assert) {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), false, 'Order Line should not be valid because of Order Selection Question');
     return orderSelection.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), false, 'Order Selection should not be valid because of Order Selection Question');
     return orderSelectionQuestion.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), false, 'Order Selection Question should not be valid');
     done();
   });
 });
 
-test("order with valid question shows valid", function(assert) {
+test('order with valid question shows valid', function(assert) {
   assert.expect(11);
-  let order = this.subject({source: 'external'});
+  let order = this.subject({ source: 'external' });
 
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
   Ember.run(() => {
-    orderLine = store.createRecord('order-line', { order: order, type: "item" });
-    orderSelection = store.createRecord('order-selection', { order: order, line: orderLine, quantity: 1 });
-    orderSelectionQuestion = store.createRecord('order-selection-question', { order: order, selection: orderSelection, text: 'answer' });
+    orderLine = store.createRecord('order-line', { order, type: 'item' });
+    orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
+    orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection, text: 'answer' });
   });
 
   assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
@@ -82,28 +82,28 @@ test("order with valid question shows valid", function(assert) {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'Order Line should be valid because of Order Selection Question');
     return orderSelection.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'Order Selection should be valid because of Order Selection Question');
     return orderSelectionQuestion.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'Order Selection Question should be valid');
     done();
   });
 });
 
-test("order with invalid question shows invalid if validated in reverse order", function(assert) {
+test('order with invalid question shows invalid if validated in reverse order', function(assert) {
   assert.expect(11);
-  let order = this.subject({source: 'external'});
+  let order = this.subject({ source: 'external' });
 
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
   Ember.run(() => {
-    orderLine = store.createRecord('order-line', { order: order, type: "item" });
-    orderSelection = store.createRecord('order-selection', { order: order, line: orderLine, quantity: 1 });
-    orderSelectionQuestion = store.createRecord('order-selection-question', { order: order, selection: orderSelection });
+    orderLine = store.createRecord('order-line', { order, type: 'item' });
+    orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
+    orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection });
   });
 
   assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
@@ -120,28 +120,28 @@ test("order with invalid question shows invalid if validated in reverse order", 
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), false, 'Order Selection should not be valid because of Order Selection Question');
     return orderLine.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), false, 'Order Line should not be valid because of Order Selection Question');
     return order.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), false, 'Order should not be valid because of Order Selection Question');
     done();
   });
 });
 
-test("order with valid question shows valid if validated in reverse order", function(assert) {
+test('order with valid question shows valid if validated in reverse order', function(assert) {
   assert.expect(11);
-  let order = this.subject({source: 'external'});
+  let order = this.subject({ source: 'external' });
 
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
   Ember.run(() => {
-    orderLine = store.createRecord('order-line', { order: order, type: "item" });
-    orderSelection = store.createRecord('order-selection', { order: order, line: orderLine, quantity: 1 });
-    orderSelectionQuestion = store.createRecord('order-selection-question', { order: order, selection: orderSelection, text: 'answer' });
+    orderLine = store.createRecord('order-line', { order, type: 'item' });
+    orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
+    orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection, text: 'answer' });
   });
 
   assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
@@ -158,18 +158,18 @@ test("order with valid question shows valid if validated in reverse order", func
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'Order Selection should be valid because of Order Selection Question');
     return orderLine.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'Order Line should be valid because of Order Selection Question');
     return order.validate();
-  }).then(({ validations}) => {
+  }).then(({ validations }) => {
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'Order should be valid because of Order Selection Question');
     done();
   });
 });
 
-test("order with invalid question shows valid if invalid question is deleted in reverse order", function(assert) {
+test('order with invalid question shows valid if invalid question is deleted in reverse order', function(assert) {
   assert.expect(9);
   let order = this.subject({ id: 1, source: 'external' });
 
@@ -182,10 +182,10 @@ test("order with invalid question shows valid if invalid question is deleted in 
       model.get('_internalModel').adapterDidCommit();
     };
 
-    orderLine = store.createRecord('order-line', { id: 1, order: order, type: "item" });
-    orderSelection = store.createRecord('order-selection', { id: 1, order: order, line: orderLine, quantity: 1 });
-    orderSelectionQuestion = store.createRecord('order-selection-question', { id: 1, order: order, selection: orderSelection, text: 'answer' });
-    orderSelectionQuestion2 = store.createRecord('order-selection-question', { id: 2, order: order, selection: orderSelection });
+    orderLine = store.createRecord('order-line', { id: 1, order, type: 'item' });
+    orderSelection = store.createRecord('order-selection', { id: 1, order, line: orderLine, quantity: 1 });
+    orderSelectionQuestion = store.createRecord('order-selection-question', { id: 1, order, selection: orderSelection, text: 'answer' });
+    orderSelectionQuestion2 = store.createRecord('order-selection-question', { id: 2, order, selection: orderSelection });
 
     fakeSave(order);
     fakeSave(orderLine);

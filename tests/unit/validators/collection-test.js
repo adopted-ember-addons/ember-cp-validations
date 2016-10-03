@@ -8,11 +8,11 @@ import {
 }
 from 'ember-qunit';
 
-var options, builtOptions, validator, message;
+let options, builtOptions, validator, message;
 
 moduleFor('validator:collection', 'Unit | Validator | collection', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -47,7 +47,7 @@ test('value not collection', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate('foo', builtOptions.copy());
-  assert.equal(message, "This field must be a collection");
+  assert.equal(message, 'This field must be a collection');
 });
 
 test('singular - value is singular', function(assert) {
@@ -67,5 +67,5 @@ test('singular - value not singular', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate(['foo', 'bar'], builtOptions.copy());
-  assert.equal(message, "This field can't be a collection");
+  assert.equal(message, 'This field can\'t be a collection');
 });

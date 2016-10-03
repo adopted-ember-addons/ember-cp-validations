@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
       this.get('model').validate().then(({ validations }) => {
         this.set('didValidate', true);
 
-        if(validations.get('isValid')) {
+        if (validations.get('isValid')) {
           this.setProperties({
             showAlert: false,
             isRegistered: true,

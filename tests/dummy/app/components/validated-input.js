@@ -35,7 +35,7 @@ export default Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    const valuePath = this.get('valuePath');
+    let valuePath = this.get('valuePath');
 
     defineProperty(this, 'validation', computed.readOnly(`model.validations.attrs.${valuePath}`));
     defineProperty(this, 'value', computed.alias(`model.${valuePath}`));

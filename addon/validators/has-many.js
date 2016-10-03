@@ -52,12 +52,14 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  @extends Base
  */
 const HasMany = Base.extend({
+  _type: 'has-many',
+
   validate(value) {
     if (value) {
       if (isPromise(value)) {
-        return value.then(models => models ? models.map(m => m.get('validations')) : true);
+        return value.then((models) => models ? models.map((m) => m.get('validations')) : true);
       }
-      return value.map(m => m.get('validations'));
+      return value.map((m) => m.get('validations'));
     }
 
     return true;

@@ -6,21 +6,21 @@ from 'ember-cp-validations';
 
 const Validations = buildValidations({
   order: {
-    description: "Order",
+    description: 'Order',
     validators: [
       validator('ds-error'),
       validator('presence', true)
     ]
   },
   selection: {
-    description: "Order Selection",
+    description: 'Order Selection',
     validators: [
       validator('ds-error'),
       validator('presence', true)
     ]
   },
   text: {
-    description: "Question Text",
+    description: 'Question Text',
     validators: [
       validator('ds-error'),
       validator('presence', true)

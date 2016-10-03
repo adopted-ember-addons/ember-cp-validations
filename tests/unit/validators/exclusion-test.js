@@ -8,11 +8,11 @@ import {
 }
 from 'ember-qunit';
 
-var options, builtOptions, validator, message;
+let options, builtOptions, validator, message;
 
 moduleFor('validator:exclusion', 'Unit | Validator | exclusion', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -34,7 +34,7 @@ test('allow blank', function(assert) {
 
   options = {
     allowBlank: true,
-    "in": ["foo", "bar", "baz"]
+    'in': ['foo', 'bar', 'baz']
   };
 
   builtOptions = validator.buildOptions(options);
@@ -50,7 +50,7 @@ test('not in array', function(assert) {
   assert.expect(4);
 
   options = {
-    "in": ["foo", "bar", "baz"]
+    'in': ['foo', 'bar', 'baz']
   };
 
   builtOptions = validator.buildOptions(options);
@@ -78,13 +78,13 @@ test('not in range', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate(1, builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate(5, builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate(10, builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate(0, builtOptions.copy());
   assert.equal(message, true);
@@ -103,10 +103,10 @@ test('range type check - number', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate(1, builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate(5, builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate('1', builtOptions.copy());
   assert.equal(message, true);
@@ -125,10 +125,10 @@ test('range type check - string', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate('a', builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate('z', builtOptions.copy());
-  assert.equal(message, "This field is reserved");
+  assert.equal(message, 'This field is reserved');
 
   message = validator.validate(97, builtOptions.copy());
   assert.equal(message, true);

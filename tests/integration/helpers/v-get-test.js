@@ -6,7 +6,7 @@ import '../../helpers/ensure-get-registered';
 moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
   integration: true,
   beforeEach() {
-    var model = Ember.Object.create({
+    let model = Ember.Object.create({
       validations: {
         isValid: false,
         isInvalid: true,
@@ -25,7 +25,6 @@ moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
   }
 });
 
-
 test('it renders', function(assert) {
   assert.expect(1);
 
@@ -43,9 +42,7 @@ test('access attribute validations', function(assert) {
 
   this.render(hbs`{{v-get model 'email' 'isValid'}}`);
   assert.equal(this.$().text().trim(), 'true');
-
 });
-
 
 test('updating validation should rerender', function(assert) {
   assert.expect(2);

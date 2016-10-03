@@ -20,7 +20,7 @@ const {
 const A = emberArray();
 
 function callable(method) {
-  return function (collection) {
+  return function(collection) {
     return A[method].apply(collection, arguments);
   };
 }
@@ -32,13 +32,13 @@ const compact = callable('compact');
   CP Macros
  */
 function isAny(collection, key, value, defaultValue) {
-  return computed(`${collection}.@each.${key}`, cycleBreaker(function () {
+  return computed(`${collection}.@each.${key}`, cycleBreaker(function() {
     return get(this, collection).isAny(key, value);
   }, defaultValue));
 }
 
 function isEvery(collection, key, value, defaultValue) {
-  return computed(`${collection}.@each.${key}`, cycleBreaker(function () {
+  return computed(`${collection}.@each.${key}`, cycleBreaker(function() {
     return get(this, collection).isEvery(key, value);
   }, defaultValue));
 }
@@ -183,8 +183,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed('_errorContent.@each.messages', cycleBreaker(function () {
-    const messages = flatten(get(this, '_errorContent').getEach('messages'));
+  messages: computed('_errorContent.@each.messages', cycleBreaker(function() {
+    let messages = flatten(get(this, '_errorContent').getEach('messages'));
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -216,8 +216,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed('_warningContent.@each.messages', cycleBreaker(function () {
-    const messages = flatten(get(this, '_warningContent').getEach('messages'));
+  warningMessages: computed('_warningContent.@each.messages', cycleBreaker(function() {
+    let messages = flatten(get(this, '_warningContent').getEach('messages'));
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -250,7 +250,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed('attribute', '_warningContent.@each.errors', cycleBreaker(function () {
+  warnings: computed('attribute', '_warningContent.@each.errors', cycleBreaker(function() {
     return computeErrorCollection(get(this, 'attribute'), get(this, '_warningContent'));
   })).readOnly(),
 
@@ -283,7 +283,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed('attribute', '_errorContent.@each.errors', cycleBreaker(function () {
+  errors: computed('attribute', '_errorContent.@each.errors', cycleBreaker(function() {
     return computeErrorCollection(get(this, 'attribute'), get(this, '_errorContent'));
   })).readOnly(),
 
@@ -334,7 +334,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Object}
    */
-  options: computed('_contentValidators.@each.options', function () {
+  options: computed('_contentValidators.@each.options', function() {
     return groupValidatorOptions(get(this, '_contentValidators'));
   }).readOnly(),
 
@@ -344,7 +344,7 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed('content.@each._promise', cycleBreaker(function () {
+  _promise: computed('content.@each._promise', cycleBreaker(function() {
     return RSVP.allSettled(compact(flatten(this.getEach('_promise'))));
   })).readOnly(),
 
@@ -367,16 +367,15 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _warningContent: computed.filterBy('content', 'isWarning', true).readOnly(),
+  _warningContent: computed.filterBy('content', 'isWarning', true).readOnly()
 });
-
 
 function computeErrorCollection(attribute, content = []) {
   let errors = flatten(content.getEach('errors'));
 
   errors = uniq(compact(errors));
-  errors.forEach(e => {
-    if(attribute && e.get('attribute') !== attribute) {
+  errors.forEach((e) => {
+    if (attribute && e.get('attribute') !== attribute) {
       e.set('parentAttribute', attribute);
     }
   });
@@ -394,8 +393,8 @@ function groupValidatorOptions(validators = []) {
       return options;
     }
 
-    const type = get(v, '_type');
-    const vOpts = get(v, 'options').copy();
+    let type = get(v, '_type');
+    let vOpts = get(v, 'options').copy();
 
     if (options[type]) {
       if (isArray(options[type])) {

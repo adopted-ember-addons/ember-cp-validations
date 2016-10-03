@@ -13,8 +13,8 @@ function symbol(key) {
 }
 
 function getData(obj, s) {
-  const m = Ember.meta(obj);
-  const data = m[dataKey];
+  let m = Ember.meta(obj);
+  let data = m[dataKey];
 
   if (data) {
     return data[s];
@@ -22,8 +22,8 @@ function getData(obj, s) {
 }
 
 function setData(obj, s, value) {
-  const m = Ember.meta(obj);
-  const data = m[dataKey] = m[dataKey] || {};
+  let m = Ember.meta(obj);
+  let data = m[dataKey] = m[dataKey] || {};
 
   data[s] = value;
 }

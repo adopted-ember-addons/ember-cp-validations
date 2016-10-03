@@ -14,9 +14,9 @@ function requireIfAvailable(moduleName, exportName = 'default') {
   }
 }
 
-var registerHelper = requireIfAvailable('ember-get-helper/utils/register-helper', 'registerHelper');
-var getHelper = requireIfAvailable('ember-get-helper/helpers/get');
-var getHelperGlimmer = requireIfAvailable('ember-get-helper/helpers/get-glimmer');
+let registerHelper = requireIfAvailable('ember-get-helper/utils/register-helper', 'registerHelper');
+let getHelper = requireIfAvailable('ember-get-helper/helpers/get');
+let getHelperGlimmer = requireIfAvailable('ember-get-helper/helpers/get-glimmer');
 
 if (registerHelper) {
   if (Ember.Helper) {

@@ -37,8 +37,10 @@ const {
  *  @extends Base
  */
 const Dependent = Base.extend({
+  _type: 'dependent',
+
   validate(value, options, model, attribute) {
-    const { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
+    let { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
 
     assert(`[validator:dependent] [${attribute}] option 'on' is required`, isPresent(on));
 
@@ -50,9 +52,9 @@ const Dependent = Base.extend({
       return true;
     }
 
-    const dependentValidations = getWithDefault(options, 'on', A()).map(dependent => get(model, `validations.attrs.${dependent}`));
+    let dependentValidations = getWithDefault(options, 'on', A()).map((dependent) => get(model, `validations.attrs.${dependent}`));
 
-    if (!isEmpty(dependentValidations.filter(v => !get(v, 'isTruelyValid')))) {
+    if (!isEmpty(dependentValidations.filter((v) => !get(v, 'isTruelyValid')))) {
       return this.createErrorMessage('invalid', value, options);
     }
 
@@ -62,12 +64,12 @@ const Dependent = Base.extend({
 
 Dependent.reopenClass({
   getDependentsFor(attribute, options) {
-    const dependents = get(options, 'on');
+    let dependents = get(options, 'on');
 
     assert(`[validator:dependent] [${attribute}] 'on' must be an array`, isArray(dependents));
 
     if (!isEmpty(dependents)) {
-      return dependents.map(dependent => `${dependent}.isTruelyValid`);
+      return dependents.map((dependent) => `${dependent}.isTruelyValid`);
     }
 
     return [];

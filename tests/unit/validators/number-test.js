@@ -8,11 +8,11 @@ import {
 }
 from 'ember-qunit';
 
-var options, builtOptions, validator, message;
+let options, builtOptions, validator, message;
 
 moduleFor('validator:number', 'Unit | Validator | number', {
   needs: ['validator:messages'],
-  setup: function() {
+  setup() {
     validator = this.subject();
   }
 });
@@ -57,8 +57,6 @@ test('allow string', function(assert) {
 
   message = validator.validate('22.22', builtOptions.copy());
   assert.equal(message, 'This field must be a number');
-
-
 });
 
 test('integer', function(assert) {
