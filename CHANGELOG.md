@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## v3.1.0
+
+- [#363](https://github.com/offirgolan/ember-cp-validations/pull/363) Use ember-validators
+- [#364](https://github.com/offirgolan/ember-cp-validations/pull/364) [FEATURE] Volatile option
+
 ## v3.0.1
 
 - [#344](https://github.com/offirgolan/ember-cp-validations/pull/344) [BUGFIX] DEPRECATION: Ember.Handlebars.SafeString [@kepek](https://github.com/kepek)
