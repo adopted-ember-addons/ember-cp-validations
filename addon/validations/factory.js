@@ -389,7 +389,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  * @return {Ember.ComputedProperty} A computed property which is a ResultCollection
  */
 function createCPValidationFor(attribute, model, validations) {
-  let isVolatile = hasOption(validations, 'volatile');
+  let isVolatile = hasOption(validations, 'volatile', true);
   let dependentKeys = isVolatile ? [] : getCPDependentKeysFor(attribute, model, validations);
 
   let cp = computed(...dependentKeys, cycleBreaker(function() {
@@ -413,6 +413,17 @@ function createCPValidationFor(attribute, model, validations) {
   return cp;
 }
 
+/**
+ * Check if a collection of validations have an option
+ * equal to the given value
+ *
+ * @method hasOption
+ * @private
+ * @param {Array} validations
+ * @param {String} option
+ * @param {Boolean} [value=true]
+ * @returns {Boolean}
+ */
 function hasOption(validations, option, value = true) {
   for (let i = 0; i < validations.length; i++) {
     let { options, defaultOptions = {}, globalOptions = {} } = validations[i];
@@ -437,6 +448,8 @@ function hasOption(validations, option, value = true) {
  * @param  {Object} model
  * @param  {Array} validators
  * @param  {Function} validate
+ * @param  {Object} opts
+ *                    - disableDebounceCache {Boolean}
  * @return {Array}
  */
 function generateValidationResultsFor(attribute, model, validators, validate, opts = {}) {
@@ -465,10 +478,10 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
           cache[guidFor(validator)] = t;
         }
       }).then(() => {
-        return validate(validator, _options.copy(), model, attribute);
+        return validate(validator, _options.copy());
       });
     } else {
-      value = validate(validator, options, model, attribute);
+      value = validate(validator, options);
     }
 
     result = validationReturnValueHandler(attribute, value, model, validator);

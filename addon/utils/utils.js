@@ -11,6 +11,7 @@ const DS = requireModule('ember-data');
 
 const {
   get,
+  typeOf,
   isArray,
   canInvoke,
   A: emberArray
@@ -54,6 +55,10 @@ export function isEmberObject(o) {
   return !!(o && o instanceof Ember.Object);
 }
 
+export default function isObject(o) {
+  return typeOf(o) === 'object' || typeOf(o) === 'instance';
+}
+
 export function isValidatable(value) {
   let v = unwrapProxy(value);
   return isDsModel(v) ? !get(v, 'isDeleted') : true;
@@ -75,7 +80,8 @@ export function mergeOptions(...options) {
   let o = {};
 
   for (let i = options.length - 1; i >= 0; i--) {
-    assign(o, options[i]);
+    let _o = options[i];
+    assign(o, isObject(_o) ? _o : {});
   }
 
   return o;
