@@ -1028,7 +1028,8 @@ test('volatile validations should not recompute', function(assert) {
   });
 
   let obj = setupObject(this, Ember.Object.extend(Validations, {
-    isInvalid: computed.not('validations.attrs.firstName.isValid')
+    isInvalid: computed.not('validations.attrs.firstName.isValid'),
+    isInvalidGlobal: computed.not('validations.attrs.isValid')
   }), {
     firstName: null
   });
@@ -1036,10 +1037,12 @@ test('volatile validations should not recompute', function(assert) {
   assert.equal(obj.get('validations.attrs.firstName.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(obj.get('validations.attrs.firstName.message'), 'This field can\'t be blank');
   assert.equal(obj.get('isInvalid'), true, 'isInvalid was expected to be TRUE');
+  assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
 
   obj.set('firstName', 'Offir');
   obj.set('foo', 'bar');
 
   assert.equal(obj.get('isInvalid'), true, 'isInvalid was expected to be TRUE');
+  assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
   assert.equal(obj.get('validations.attrs.firstName.isValid'), true, 'isValid was expected to be TRUE');
 });
