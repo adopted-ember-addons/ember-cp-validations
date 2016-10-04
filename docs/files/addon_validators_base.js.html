@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -193,7 +193,7 @@
 import Ember from &#x27;ember&#x27;;
 import Messages from &#x27;ember-cp-validations/validators/messages&#x27;;
 import getOwner from &#x27;ember-getowner-polyfill&#x27;;
-import { unwrapString, getValidatableValue } from &#x27;ember-cp-validations/utils/utils&#x27;;
+import { unwrapString, getValidatableValue, mergeOptions } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 const {
   get,
@@ -201,8 +201,6 @@ const {
   isNone,
   computed
 } = Ember;
-
-const assign = Ember.assign || Ember.merge;
 
 /**
  * @class Base
@@ -268,10 +266,10 @@ const Base = Ember.Object.extend({
 
   init() {
     this._super(...arguments);
-    const globalOptions = get(this, &#x27;globalOptions&#x27;);
-    const defaultOptions = get(this, &#x27;defaultOptions&#x27;);
-    const options = get(this, &#x27;options&#x27;);
-    const owner = getOwner(this);
+    let globalOptions = get(this, &#x27;globalOptions&#x27;);
+    let defaultOptions = get(this, &#x27;defaultOptions&#x27;);
+    let options = get(this, &#x27;options&#x27;);
+    let owner = getOwner(this);
     let errorMessages;
 
     if (!isNone(owner)) {
@@ -297,19 +295,19 @@ const Base = Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    const builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
+    let builtOptions = mergeOptions(options, defaultOptions, globalOptions);
 
     // Overwrite the validator&#x27;s value method if it exists in the options and remove it since
     // there is no need for it to be passed around
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    const OptionsClass = Ember.Object.extend(builtOptions, {
+    let OptionsClass = Ember.Object.extend(builtOptions, {
       model: computed(() =&gt; get(this, &#x27;model&#x27;)).readOnly(),
       attribute: computed(() =&gt; get(this, &#x27;attribute&#x27;)).readOnly(),
 
       copy(deep) {
-        if(deep) {
+        if (deep) {
           return OptionsClass.create();
         }
 
@@ -345,7 +343,7 @@ const Base = Ember.Object.extend({
    * @return {Mixed} value
    */
   getValue() {
-    const value = this.value(get(this, &#x27;model&#x27;), get(this, &#x27;attribute&#x27;));
+    let value = this.value(get(this, &#x27;model&#x27;), get(this, &#x27;attribute&#x27;));
     return getValidatableValue(value);
   },
 
@@ -401,7 +399,7 @@ const Base = Ember.Object.extend({
    * @return {String}             The generated message
    */
   createErrorMessage(type, value, options = {}) {
-    const messages = this.get(&#x27;errorMessages&#x27;);
+    let messages = this.get(&#x27;errorMessages&#x27;);
     let message = unwrapString(get(options, &#x27;message&#x27;));
 
     set(options, &#x27;description&#x27;, messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options));
@@ -506,7 +504,7 @@ export default Base;
  *
  * There will be times when your validator will be dependent on some other property or object. Instead of having to
  * include them in your option&#x27;s &#x60;dependentKeys&#x60;, you can declare them in the static &#x60;getDependentsFor&#x60; hook. This hook
- * recieves two parameters. The first is the &#x60;attribute&#x60; that this validator is being added to, and the second are the &#x60;options&#x60;
+ * receives two parameters. The first is the &#x60;attribute&#x60; that this validator is being added to, and the second are the &#x60;options&#x60;
  * there were passed to this validator.
  *
  * From the above code sample:

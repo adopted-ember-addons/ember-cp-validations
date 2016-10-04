@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -190,11 +190,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 import Ember from &#x27;ember&#x27;;
-
-const {
-  get,
-  isNone
-} = Ember;
+import Messages from &#x27;ember-validators/messages&#x27;;
 
 /**
  *  The default validation error messages are imported in your app&#x27;s &#x60;validators&#x60; folder.
@@ -217,99 +213,7 @@ const {
  *  @class Messages
  *  @module Validators
  */
-export default Ember.Object.extend({
-
-  /**
-   * Regex for matching error message placeholders
-   * @private
-   * @property _regex
-   * @type {RegExp}
-   */
-  _regex: /\{(\w+)\}/g,
-
-  /**
-   * Default attribute description if one isnt passed into a validator&#x27;s options
-   * @property defaultDescription
-   * @type {String}
-   */
-  defaultDescription: &#x27;This field&#x27;,
-
-  /**
-   * Get a description for a specific attribute. This is a hook
-   * for i18n solutions to retrieve attribute descriptions from a translation
-   * @method getDescriptionFor
-   * @param  {String} attribute
-   * @param  {Object} options
-   * @return {String}
-   */
-  getDescriptionFor(attribute, options = {}) {
-    return get(options, &#x27;description&#x27;) || get(this, &#x27;defaultDescription&#x27;);
-  },
-
-  /**
-   * Get a message with a given type
-   * @method getMessageFor
-   * @param  {String} type
-   * @param  {Object} context
-   * @return {String}
-   */
-  getMessageFor(type, context = {}) {
-    return this.formatMessage(get(this, type), context);
-  },
-
-  /**
-   * Regex replace all placeholders with their given context
-   * @method formatMessage
-   * @param  {String} message
-   * @param  {Object} context
-   * @return {String}
-   */
-  formatMessage(message, context = {}) {
-    let m = message;
-
-    if (isNone(m) || typeof m !== &#x27;string&#x27;) {
-      m = get(this, &#x27;invalid&#x27;);
-    }
-    return m.replace(get(this, &#x27;_regex&#x27;), (s, attr) =&gt; get(context, attr));
-  },
-
-  /**
-   * Default validation error message strings
-   */
-  inclusion: &#x27;{description} is not included in the list&#x27;,
-  exclusion: &#x27;{description} is reserved&#x27;,
-  invalid: &#x27;{description} is invalid&#x27;,
-  confirmation: &#x27;{description} doesn\&#x27;t match {on}&#x27;,
-  accepted: &#x27;{description} must be accepted&#x27;,
-  empty: &#x27;{description} can\&#x27;t be empty&#x27;,
-  blank: &#x27;{description} can\&#x27;t be blank&#x27;,
-  present: &#x27;{description} must be blank&#x27;,
-  collection: &#x27;{description} must be a collection&#x27;,
-  singular: &#x27;{description} can\&#x27;t be a collection&#x27;,
-  tooLong: &#x27;{description} is too long (maximum is {max} characters)&#x27;,
-  tooShort: &#x27;{description} is too short (minimum is {min} characters)&#x27;,
-  before: &#x27;{description} must be before {before}&#x27;,
-  onOrBefore: &#x27;{description} must be on or before {onOrBefore}&#x27;,
-  after: &#x27;{description} must be after {after}&#x27;,
-  onOrAfter: &#x27;{description} must be on or after {onOrAfter}&#x27;,
-  wrongDateFormat: &#x27;{description} must be in the format of {format}&#x27;,
-  wrongLength: &#x27;{description} is the wrong length (should be {is} characters)&#x27;,
-  notANumber: &#x27;{description} must be a number&#x27;,
-  notAnInteger: &#x27;{description} must be an integer&#x27;,
-  greaterThan: &#x27;{description} must be greater than {gt}&#x27;,
-  greaterThanOrEqualTo: &#x27;{description} must be greater than or equal to {gte}&#x27;,
-  equalTo: &#x27;{description} must be equal to {is}&#x27;,
-  lessThan: &#x27;{description} must be less than {lt}&#x27;,
-  lessThanOrEqualTo: &#x27;{description} must be less than or equal to {lte}&#x27;,
-  otherThan: &#x27;{description} must be other than {value}&#x27;,
-  odd: &#x27;{description} must be odd&#x27;,
-  even: &#x27;{description} must be even&#x27;,
-  positive: &#x27;{description} must be positive&#x27;,
-  date: &#x27;{description} must be a valid date&#x27;,
-  email: &#x27;{description} must be a valid email address&#x27;,
-  phone: &#x27;{description} must be a valid phone number&#x27;,
-  url: &#x27;{description} must be a valid url&#x27;
-});
+export default Ember.Object.extend(Messages);
 
     </pre>
 </div>

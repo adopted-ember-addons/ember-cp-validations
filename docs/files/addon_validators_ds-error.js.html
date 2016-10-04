@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -190,20 +190,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from &#x27;ember&#x27;;
-import Base from &#x27;ember-cp-validations/validators/base&#x27;;
-import { requireModule } from &#x27;ember-cp-validations/utils/utils&#x27;;
-
-const DS = requireModule(&#x27;ember-data&#x27;);
-
-if (!DS) {
-  throw new Error(&#x27;Ember-Data is required to use the DS Error validator.&#x27;);
-}
-
-const {
-  get,
-  isNone
-} = Ember;
+import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
+import { getPathAndKey } from &#x27;ember-validators/ds-error&#x27;;
 
 /**
  *  Creates a link between this library and Ember-Data&#x27;s [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
@@ -218,36 +206,17 @@ const {
  *  @module Validators
  *  @extends Base
  */
-const DSError = Base.extend({
-  validate(value, options, model, attribute) {
-    let { path, key } = getPathAndKey(attribute);
-
-    const errors = get(model, path);
-
-    if (!isNone(errors) &amp;&amp; errors instanceof DS.Errors &amp;&amp; errors.has(key)) {
-      return get(errors.errorsFor(key), &#x27;lastObject.message&#x27;);
-    }
-
-    return true;
-  }
+const DSError = EmberValidator.extend({
+  _type: &#x27;ds-error&#x27;
 });
 
 DSError.reopenClass({
   getDependentsFor(attribute) {
     let { path, key } = getPathAndKey(attribute);
 
-    return [ &#x60;model.${path}.${key}.[]&#x60; ];
+    return [&#x60;model.${path}.${key}.[]&#x60;];
   }
 });
-
-function getPathAndKey(attribute) {
-  let path = attribute.split(&#x27;.&#x27;);
-  let key = path.pop();
-
-  path.push(&#x27;errors&#x27;);
-
-  return { path: path.join(&#x27;.&#x27;), key };
-}
 
 export default DSError;
 

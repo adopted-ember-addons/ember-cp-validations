@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -191,14 +191,11 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import Base from &#x27;ember-cp-validations/validators/base&#x27;;
+import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
 
 const {
   get,
-  assert,
-  isNone,
-  isEmpty,
-  getProperties
+  isNone
 } = Ember;
 
 /**
@@ -226,7 +223,9 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default EmberValidator.extend({
+  _type: &#x27;length&#x27;,
+
   /**
    * Default allowNone to true
    *
@@ -240,34 +239,6 @@ export default Base.extend({
     options.allowNone = isNone(get(options, &#x27;allowNone&#x27;)) ? true : get(options, &#x27;allowNone&#x27;);
 
     return this._super(options, defaultOptions, globalOptions);
-  },
-
-  validate(value, options, model, attribute) {
-    const { allowNone, allowBlank, is, min, max } = getProperties(options, [ &#x27;allowNone&#x27;, &#x27;allowBlank&#x27;, &#x27;is&#x27;, &#x27;min&#x27;, &#x27;max&#x27; ]);
-
-    assert(&#x60;[ember-cp-validations] [validator:length] [${attribute}] no options were passed in&#x60;, !isEmpty(Object.keys(options)));
-
-    if (isNone(value)) {
-      return allowNone ? true : this.createErrorMessage(&#x27;invalid&#x27;, value, options);
-    }
-
-    if (allowBlank &amp;&amp; isEmpty(value)) {
-      return true;
-    }
-
-    if (!isNone(is) &amp;&amp; is !== get(value, &#x27;length&#x27;)) {
-      return this.createErrorMessage(&#x27;wrongLength&#x27;, value, options);
-    }
-
-    if (!isNone(min) &amp;&amp; min &gt; get(value, &#x27;length&#x27;)) {
-      return this.createErrorMessage(&#x27;tooShort&#x27;, value, options);
-    }
-
-    if (!isNone(max) &amp;&amp; max &lt; get(value, &#x27;length&#x27;)) {
-      return this.createErrorMessage(&#x27;tooLong&#x27;, value, options);
-    }
-
-    return true;
   }
 });
 

@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -185,21 +185,18 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-
 /**
  * Copyright 2016, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
 import Ember from &#x27;ember&#x27;;
-import Base from &#x27;ember-cp-validations/validators/base&#x27;;
+import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
+import { regularExpressions } from &#x27;ember-validators/format&#x27;;
 
 const {
   get,
-  isNone,
-  isEmpty,
-  assert,
-  getProperties
+  isNone
 } = Ember;
 
 /**
@@ -244,13 +241,9 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  regularExpressions: {
-    email: /^[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+(?:\.[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-    emailOptionalTld: /^[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+(?:\.[a-z0-9!#$%&amp;&#x27;*+\/=?^_&#x60;{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.?)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-    phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
-    url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;amp;:\/~+#-{}]*[\w@?^=%&amp;amp;\/~+#-{}])??/
-  },
+export default EmberValidator.extend({
+  _type: &#x27;format&#x27;,
+  regularExpressions,
 
   /**
    * Normalized options passed in by applying the desired regex or using the one declared
@@ -262,8 +255,8 @@ export default Base.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    const regularExpressions = get(this, &#x27;regularExpressions&#x27;);
-    const { regex, type } = options;
+    let regularExpressions = get(this, &#x27;regularExpressions&#x27;);
+    let { regex, type } = options;
 
     if (type &amp;&amp; !isNone(regularExpressions[type]) &amp;&amp; isNone(regex)) {
       if (type === &#x27;email&#x27; &amp;&amp; options.allowNonTld) {
@@ -274,22 +267,6 @@ export default Base.extend({
     }
 
     return this._super(options, defaultOptions, globalOptions);
-  },
-
-  validate(value, options, model, attribute) {
-    const { regex, type, allowBlank } = getProperties(options, [&#x27;regex&#x27;, &#x27;type&#x27;, &#x27;allowBlank&#x27;]);
-
-    assert(&#x60;[ember-cp-validations] [validator:format] [${attribute}] no options were passed in&#x60;, !isEmpty(Object.keys(options)));
-
-    if (allowBlank &amp;&amp; isEmpty(value)) {
-      return true;
-    }
-
-    if (regex &amp;&amp; !regex.test(value)) {
-      return this.createErrorMessage(type || &#x27;invalid&#x27;, value, options);
-    }
-
-    return true;
   }
 });
 

@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -191,18 +191,16 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import Base from &#x27;ember-cp-validations/validators/base&#x27;;
+import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
 
 const {
   get,
-  assert,
-  isEqual,
-  isEmpty,
+  assert
 } = Ember;
 
 /**
  *  You should use this validator when you have two text fields that should receive exactly the same content.
- *  For example, you may want to confirm an email address or a password. This validator doesnt have to be created on an attribute defined in your model.
+ *  For example, you may want to confirm an email address or a password. This validator doesn&#x27;t have to be created on an attribute defined in your model.
  *  This means that when you save your model, in this case, &#x60;verfiedEmail&#x60; will not be part of the payload.
  *
  *  &#x60;&#x60;&#x60;javascript
@@ -221,27 +219,17 @@ const {
  *  @module Validators
  *  @extends Base
  */
-const Confirmation = Base.extend({
-  validate(value, options, model, attribute) {
-    const on = get(options, &#x27;on&#x27;);
-
-    assert(&#x60;[ember-cp-validations] [validator:confirmation] [${attribute}] option &#x27;on&#x27; is required&#x60;, !isEmpty(on));
-
-    if (!isEqual(value, get(model, on))) {
-      return this.createErrorMessage(&#x27;confirmation&#x27;, value, options);
-    }
-
-    return true;
-  }
+const Confirmation = EmberValidator.extend({
+  _type: &#x27;confirmation&#x27;
 });
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    const on = get(options, &#x27;on&#x27;);
+    let on = get(options, &#x27;on&#x27;);
 
-    assert(&#x60;[ember-cp-validations] [validator:confirmation] [${attribute}] &#x27;on&#x27; must be a string&#x60;, typeof on === &#x27;string&#x27;);
+    assert(&#x60;[validator:confirmation] [${attribute}] &#x27;on&#x27; must be a string&#x60;, typeof on === &#x27;string&#x27;);
 
-    return on ? [ &#x60;model.${on}&#x60; ] : [];
+    return on ? [&#x60;model.${on}&#x60;] : [];
   }
 });
 

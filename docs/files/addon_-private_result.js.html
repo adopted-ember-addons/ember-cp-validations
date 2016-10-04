@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Common Options - Ember CP Validations</title>
+    <title>addon/-private/result.js - Ember CP Validations</title>
     <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -179,176 +179,255 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Common Options Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validations/validator.js#L16" target="_blank">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i> addon/-private/result.js File</h1>
 </div>
 
-<div class="content-meta">
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Copyright 2016, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
 
+import Ember from &#x27;ember&#x27;;
+import ResultCollection from &#x27;../validations/result-collection&#x27;;
+import InternalResultObject from &#x27;./internal-result-object&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validations/validator.js#L16">addon/validations/validator.js:16</a>
-        </div>
+const {
+  get,
+  set,
+  isNone,
+  isArray,
+  computed,
+  setProperties,
+  getProperties
+} = Ember;
 
-</div>
+const {
+  readOnly
+} = computed;
 
+/**
+ * This class is &#x60;private&#x60; and is only used by {{#crossLink &#x27;ResultCollection&#x27;}}{{/crossLink}}
+ * @module Validations
+ * @class Result
+ * @private
+ */
 
-<div class="module-description page-section">
-    <h3>description</h3>
-<p>Default: <strong>'This field'</strong></p>
-<p>A descriptor for your attribute used in the error message strings.
-You can overwrite this value in your <code>validators/messages.js</code> file by changing the <code>defaultDescription</code> property.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('date', {
-  description: 'Date of birth'
-})
-// If validation is run and the attribute is empty, the error returned will be:
-// 'Date of birth can't be blank'
-</code></pre>
-<h3>lazy</h3>
-<p>Default: <strong>true</strong></p>
-<p>Only validate the given validator if the attribute is not already in an invalid
-state. When you have multiple validators on an attribute, it will only validate subsequent
-validators if the preceding validators have passed. When set to <strong>false</strong>, the validator
-will always be executed, even if its preceding validators are invalid.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-buildValidations({
- username: [
-   validator('presence', true),
-   validator('length', { min: 5 }),
-   validator('custom-promise-based-validator') // Will only be executed if the above two have passed
- ]
+const Result = Ember.Object.extend({
+
+  /**
+   * @property model
+   * @type {Object}
+   */
+  model: null,
+
+  /**
+   * @property attribute
+   * @type {String}
+   */
+  attribute: &#x27;&#x27;,
+
+  /**
+   * @property _promise
+   * @async
+   * @private
+   * @type {Promise}
+   */
+  _promise: null,
+
+  /**
+   * The validator that returned this result
+   * @property _validator
+   * @private
+   * @type {Validator}
+   */
+  _validator: null,
+
+  /**
+   * Determines if the _validations object is readOnly.
+   *
+   * This is needed because ResultCollections and global validation objects control their own
+   * state via CPs
+   *
+   * @property _isReadOnly
+   * @private
+   * @readOnly
+   * @type {Boolean}
+   */
+  _isReadOnly: computed(&#x27;_validations&#x27;, function() {
+    let validations = get(this, &#x27;_validations&#x27;);
+    return (validations instanceof ResultCollection) || get(validations, &#x27;isValidations&#x27;);
+  }).readOnly(),
+
+  /**
+   * @property isWarning
+   * @readOnly
+   * @type {Boolean}
+   */
+  isWarning: readOnly(&#x27;_validator.isWarning&#x27;),
+
+  /**
+   * @property isValid
+   * @readOnly
+   * @type {Boolean}
+   */
+  isValid: readOnly(&#x27;_validations.isValid&#x27;),
+
+  /**
+   * @property isInvalid
+   * @readOnly
+   * @type {Boolean}
+   */
+  isInvalid: readOnly(&#x27;_validations.isInvalid&#x27;),
+
+  /**
+   * @property isValidating
+   * @readOnly
+   * @type {Boolean}
+   */
+  isValidating: readOnly(&#x27;_validations.isValidating&#x27;),
+
+  /**
+   * @property isTruelyValid
+   * @readOnly
+   * @type {Boolean}
+   */
+  isTruelyValid: readOnly(&#x27;_validations.isTruelyValid&#x27;),
+
+  /**
+   * @property isAsync
+   * @readOnly
+   * @type {Boolean}
+   */
+  isAsync: readOnly(&#x27;_validations.isAsync&#x27;),
+
+  /**
+   * @property isDirty
+   * @readOnly
+   * @type {Boolean}
+   */
+  isDirty: readOnly(&#x27;_validations.isDirty&#x27;),
+
+  /**
+   * @property message
+   * @readOnly
+   * @type {String}
+   */
+  message: readOnly(&#x27;_validations.message&#x27;),
+
+  /**
+   * @property messages
+   * @readOnly
+   * @type {Array}
+   */
+  messages: readOnly(&#x27;_validations.messages&#x27;),
+
+  /**
+   * @property error
+   * @readOnly
+   * @type {Object}
+   */
+  error: readOnly(&#x27;_validations.error&#x27;),
+
+  /**
+   * @property errors
+   * @readOnly
+   * @type {Array}
+   */
+  errors: readOnly(&#x27;_validations.errors&#x27;),
+
+  /**
+   * This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
+   * @property _validations
+   * @private
+   * @type {Result}
+   */
+  _validations: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;, function() {
+    return InternalResultObject.extend({
+      attrValue: computed.readOnly(&#x60;model.${get(this, &#x27;attribute&#x27;)}&#x60;)
+    }).create(getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;]));
+  }),
+
+  init() {
+    this._super(...arguments);
+
+    if (get(this, &#x27;isAsync&#x27;) &amp;&amp; !get(this, &#x27;_isReadOnly&#x27;)) {
+      this._handlePromise();
+    }
+  },
+
+  /**
+   * Update the current validation result object with the given result
+   * - If result is undefined or null, set isValid to false
+   * - If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)
+   * - If result is a collection of result objects, create a Validation Result Collection and set that to the _validations object (has-many)
+   * - If result is a string, set the message to the given string and set isValid to false
+   * - If result is a boolean, set isValid to result
+   * - If result is a pojo, update _validations object with the information given
+   *
+   * @method update
+   * @private
+   * @param result
+   */
+  update(result) {
+    let validations = get(this, &#x27;_validations&#x27;);
+    let validator = get(this, &#x27;_validator&#x27;);
+    let { model, attribute } = getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;]);
+
+    if (isNone(result)) {
+      this.update(false);
+      return;
+    }
+
+    if (get(result, &#x27;isValidations&#x27;)) {
+      set(this, &#x27;_validations&#x27;, result);
+    } else if (isArray(result)) {
+      let validationResultsCollection = ResultCollection.create({
+        attribute,
+        content: result.map((r) =&gt; Result.create({
+          attribute,
+          model,
+          _validator: validator,
+          _validations: r
+        }))
+      });
+      set(this, &#x27;_validations&#x27;, validationResultsCollection);
+    } else if (!get(this, &#x27;_isReadOnly&#x27;)) {
+      if (typeof result === &#x27;string&#x27;) {
+        setProperties(validations, {
+          message: result,
+          isValid: false
+        });
+      } else if (typeof result === &#x27;boolean&#x27;) {
+        set(validations, &#x27;isValid&#x27;, result);
+      } else if (typeof result === &#x27;object&#x27;) {
+        setProperties(validations, result);
+      }
+    }
+  },
+
+  /**
+   * Promise handler
+   * @method  _handlePromise
+   * @private
+   */
+  _handlePromise() {
+    get(this, &#x27;_promise&#x27;).then(
+      (result) =&gt; this.update(result),
+      (result) =&gt; this.update(result)
+    ).catch((reason) =&gt; {
+      // TODO: send into error state
+      throw reason;
+    });
+  }
 });
 
-validator('custom-validator-that-must-executed', {
-  lazy: false
-})
-</code></pre>
-<h3>dependentKeys</h3>
-<p>A list of other model specific dependents for you validator.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('has-friends', {
-  dependentKeys: ['model.friends.[]']
-})
-validator('has-valid-friends', {
-  dependentKeys: ['model.friends.@each.username']
-})
-validator('x-validator', {
-  dependentKeys: ['model.username', 'model.email', 'model.meta.foo.bar']
-})
-</code></pre>
-<h3>disabled</h3>
-<p>Default: <strong>false</strong></p>
-<p>If set to <strong>true</strong>, disables the given validator.</p>
-<pre class="code prettyprint"><code class="language-js">// Examples
-validator('presence', {
-  presence: true,
-  disabled: true
-})
-validator('presence', {
-  presence: true,
-  disabled: computed.not('model.shouldValidate')
-})
-</code></pre>
-<h3>debounce</h3>
-<p>Default: <strong>0</strong></p>
-<p>Debounces the validation with the given time in <code>milliseconds</code>. All debounced validations will
-be handled asynchronously (wrapped in a promise).</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('length', {
-  debounce: 500
-})
-validator('x-validator', {
-  debounce: 250
-})
-</code></pre>
-<h3>isWarning</h3>
-<p>Default: <strong>false</strong></p>
-<p>Any validator can be declared as a warning validator by setting <code>isWarning</code> to true. These validators will act as
-assertions that when return a message, will be placed under <code>warnings</code> and <code>warningMessages</code> collections. What this means,
-is that these validators will not have any affect on the valid state of the attribute allowing you to display warning messages
-even when the attribute is valid.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('length', {
-  isWarning: true,
-  min: 6,
-  message: 'Password is weak'
-})
-</code></pre>
-<h3>volatile</h3>
-<p>Default: <strong>false</strong></p>
-<p>If any validator sets the volatile option to <strong>true</strong> (including options, default options, and global options),
-it will place the entire attribute's CP in a volatile state. This means that it will set it into non-cached mode.
-When in this mode the computed property will not automatically cache the return value.</p>
-<p>Dependency keys have no effect on volatile properties as they are for cache invalidation and notification when
-cached value is invalidated. Any changes to the dependents will not refire validations.</p>
-<p><strong><strong>WARNING: This option should only be used if you know what you're doing</strong></strong></p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('length', {
-  volatile: true
-})
-</code></pre>
-<h3>value</h3>
-<p>Used to retrieve the value to validate. This will overwrite the validator's default <code>value</code> method.
-By default this returns <code>model[attribute]</code>. If you are dependent on other model attributes, you will
-need to add them as <code>dependentKeys</code>.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('date', {
-  value(model, attribute) {
-    // Format the original value before passing it into the validator
-    return moment().utc(model.get(attribute)).format('DD/MM/YYY');
-  }
-})
-validator('number', {
-  dependentKeys: ['someOtherAttr'],
-  value(model, attribute) {
-   // Validate a value that is not the current attribute
-   return this.get('model').get('someOtherAttr');
-  }
-})
-</code></pre>
-<h3>message</h3>
-<p>This option can take two forms. It can either be a <code>string</code> (a CP that returns a string is also valid), or a <code>function</code>.
-If a string is used, then it will overwrite all error message types for the specified validator.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example: String
-validator('confirmation', {
-  message: 'Email does not match {attribute}. What are you even thinking?!'
-})
-</code></pre>
-<p>We can pass a <code>function</code> into our message option for even more customization capabilities.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Example: Function
-validator('date', {
-  message(type, options, value, context) {
-    if (type === 'before') {
-      return '{description} should really be before {date}';
-    }
-    if (type === 'after') {
-      return '{description} should really be after {date}';
-    }
-  }
-})
-</code></pre>
-<p>The message function is given the following arguments:</p>
-<ul>
-<li><code>type</code> (<strong>String</strong>): The error message type</li>
-<li><code>options</code> (<strong>Object</strong>): The validator options that were defined in the model</li>
-<li><code>value</code>: The current value being evaluated</li>
-<li><code>context</code> (<strong>Object</strong>): Context for string replacement</li>
-</ul>
-<p>The return value must be a <code>string</code>. If nothing is returned (<code>undefined</code>),
-defaults to the default error message of the specified type.</p>
-<p>Within this function, the context is set to that of the current validator.
-This gives you access to the model, defaultMessages, options and more.</p>
+export default Result;
 
+    </pre>
 </div>
-
-
                         </div>
                     </div>
                 </div>

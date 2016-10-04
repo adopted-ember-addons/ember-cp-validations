@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -207,7 +207,7 @@ const {
 const A = emberArray();
 
 function callable(method) {
-  return function (collection) {
+  return function(collection) {
     return A[method].apply(collection, arguments);
   };
 }
@@ -219,13 +219,13 @@ const compact = callable(&#x27;compact&#x27;);
   CP Macros
  */
 function isAny(collection, key, value, defaultValue) {
-  return computed(&#x60;${collection}.@each.${key}&#x60;, cycleBreaker(function () {
+  return computed(&#x60;${collection}.@each.${key}&#x60;, cycleBreaker(function() {
     return get(this, collection).isAny(key, value);
   }, defaultValue));
 }
 
 function isEvery(collection, key, value, defaultValue) {
-  return computed(&#x60;${collection}.@each.${key}&#x60;, cycleBreaker(function () {
+  return computed(&#x60;${collection}.@each.${key}&#x60;, cycleBreaker(function() {
     return get(this, collection).isEvery(key, value);
   }, defaultValue));
 }
@@ -370,8 +370,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed(&#x27;_errorContent.@each.messages&#x27;, cycleBreaker(function () {
-    const messages = flatten(get(this, &#x27;_errorContent&#x27;).getEach(&#x27;messages&#x27;));
+  messages: computed(&#x27;_errorContent.@each.messages&#x27;, cycleBreaker(function() {
+    let messages = flatten(get(this, &#x27;_errorContent&#x27;).getEach(&#x27;messages&#x27;));
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -403,8 +403,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed(&#x27;_warningContent.@each.messages&#x27;, cycleBreaker(function () {
-    const messages = flatten(get(this, &#x27;_warningContent&#x27;).getEach(&#x27;messages&#x27;));
+  warningMessages: computed(&#x27;_warningContent.@each.messages&#x27;, cycleBreaker(function() {
+    let messages = flatten(get(this, &#x27;_warningContent&#x27;).getEach(&#x27;messages&#x27;));
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -437,7 +437,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed(&#x27;attribute&#x27;, &#x27;_warningContent.@each.errors&#x27;, cycleBreaker(function () {
+  warnings: computed(&#x27;attribute&#x27;, &#x27;_warningContent.@each.errors&#x27;, cycleBreaker(function() {
     return computeErrorCollection(get(this, &#x27;attribute&#x27;), get(this, &#x27;_warningContent&#x27;));
   })).readOnly(),
 
@@ -470,7 +470,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed(&#x27;attribute&#x27;, &#x27;_errorContent.@each.errors&#x27;, cycleBreaker(function () {
+  errors: computed(&#x27;attribute&#x27;, &#x27;_errorContent.@each.errors&#x27;, cycleBreaker(function() {
     return computeErrorCollection(get(this, &#x27;attribute&#x27;), get(this, &#x27;_errorContent&#x27;));
   })).readOnly(),
 
@@ -521,7 +521,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Object}
    */
-  options: computed(&#x27;_contentValidators.@each.options&#x27;, function () {
+  options: computed(&#x27;_contentValidators.@each.options&#x27;, function() {
     return groupValidatorOptions(get(this, &#x27;_contentValidators&#x27;));
   }).readOnly(),
 
@@ -531,7 +531,7 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed(&#x27;content.@each._promise&#x27;, cycleBreaker(function () {
+  _promise: computed(&#x27;content.@each._promise&#x27;, cycleBreaker(function() {
     return RSVP.allSettled(compact(flatten(this.getEach(&#x27;_promise&#x27;))));
   })).readOnly(),
 
@@ -554,16 +554,15 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _warningContent: computed.filterBy(&#x27;content&#x27;, &#x27;isWarning&#x27;, true).readOnly(),
+  _warningContent: computed.filterBy(&#x27;content&#x27;, &#x27;isWarning&#x27;, true).readOnly()
 });
-
 
 function computeErrorCollection(attribute, content = []) {
   let errors = flatten(content.getEach(&#x27;errors&#x27;));
 
   errors = uniq(compact(errors));
-  errors.forEach(e =&gt; {
-    if(attribute &amp;&amp; e.get(&#x27;attribute&#x27;) !== attribute) {
+  errors.forEach((e) =&gt; {
+    if (attribute &amp;&amp; e.get(&#x27;attribute&#x27;) !== attribute) {
       e.set(&#x27;parentAttribute&#x27;, attribute);
     }
   });
@@ -581,8 +580,8 @@ function groupValidatorOptions(validators = []) {
       return options;
     }
 
-    const type = get(v, &#x27;_type&#x27;);
-    const vOpts = get(v, &#x27;options&#x27;).copy();
+    let type = get(v, &#x27;_type&#x27;);
+    let vOpts = get(v, &#x27;options&#x27;).copy();
 
     if (options[type]) {
       if (isArray(options[type])) {

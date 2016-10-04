@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -190,14 +190,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from &#x27;ember&#x27;;
-import Base from &#x27;ember-cp-validations/validators/base&#x27;;
-
-const {
-  get,
-  isEmpty,
-  getProperties
-} = Ember;
+import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
 
 /**
  *  Validates that your attributes have only numeric values.
@@ -230,74 +223,8 @@ const {
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
-  validate(value, options) {
-    const numValue = Number(value);
-    const optionKeys = Object.keys(options);
-    const { allowBlank, allowString, integer } = getProperties(options, [&#x27;allowBlank&#x27;, &#x27;allowString&#x27;, &#x27;integer&#x27;]);
-
-    if (allowBlank &amp;&amp; isEmpty(value)) {
-      return true;
-    }
-
-    if (typeof value === &#x27;string&#x27; &amp;&amp; (isEmpty(value) || !allowString)) {
-      return this.createErrorMessage(&#x27;notANumber&#x27;, value, options);
-    }
-
-    if (!this.isNumber(numValue)) {
-      return this.createErrorMessage(&#x27;notANumber&#x27;, value, options);
-    }
-
-    if (integer &amp;&amp; !this.isInteger(numValue)) {
-      return this.createErrorMessage(&#x27;notAnInteger&#x27;, value, options);
-    }
-
-    for (let i = 0; i &lt; optionKeys.length; i++) {
-      const type = optionKeys[i];
-      const m = this._validateType(type, options, numValue);
-
-      if (typeof m === &#x27;string&#x27;) {
-        return m;
-      }
-    }
-
-    return true;
-  },
-
-  _validateType(type, options, value) {
-    const expected = get(options, type);
-    const actual = value;
-
-    if (type === &#x27;is&#x27; &amp;&amp; actual !== expected) {
-      return this.createErrorMessage(&#x27;equalTo&#x27;, value, options);
-    } else if (type === &#x27;lt&#x27; &amp;&amp; actual &gt;= expected) {
-      return this.createErrorMessage(&#x27;lessThan&#x27;, value, options);
-    } else if (type === &#x27;lte&#x27; &amp;&amp; actual &gt; expected) {
-      return this.createErrorMessage(&#x27;lessThanOrEqualTo&#x27;, value, options);
-    } else if (type === &#x27;gt&#x27; &amp;&amp; actual &lt;= expected) {
-      return this.createErrorMessage(&#x27;greaterThan&#x27;, value, options);
-    } else if (type === &#x27;gte&#x27; &amp;&amp; actual &lt; expected) {
-      return this.createErrorMessage(&#x27;greaterThanOrEqualTo&#x27;, value, options);
-    } else if (type === &#x27;positive&#x27; &amp;&amp; actual &lt; 0) {
-      return this.createErrorMessage(&#x27;positive&#x27;, value, options);
-    } else if (type === &#x27;odd&#x27; &amp;&amp; actual % 2 === 0) {
-      return this.createErrorMessage(&#x27;odd&#x27;, value, options);
-    } else if (type === &#x27;even&#x27; &amp;&amp; actual % 2 !== 0) {
-      return this.createErrorMessage(&#x27;even&#x27;, value, options);
-    }
-
-    return true;
-  },
-
-  /* Use polyfills instead of Number.isNaN or Number.isInteger to support IE &amp; Safari */
-
-  isNumber(value) {
-    return typeof value === &#x27;number&#x27; &amp;&amp; !isNaN(value);
-  },
-
-  isInteger(value) {
-    return typeof value === &#x27;number&#x27; &amp;&amp; isFinite(value) &amp;&amp; Math.floor(value) === value;
-  }
+export default EmberValidator.extend({
+  _type: &#x27;number&#x27;
 });
 
     </pre>

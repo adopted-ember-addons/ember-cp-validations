@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -194,7 +194,7 @@ export default function flatten(array = []) {
   let result = [];
 
   for (let i = 0, l = array.length; i &lt; l; i++) {
-    const item = array[i];
+    let item = array[i];
 
     if (Array.isArray(item)) {
       result = result.concat(flatten(item));

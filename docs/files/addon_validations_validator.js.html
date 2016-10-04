@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -262,7 +262,7 @@ const {
  *
  * Default: __false__
  *
- * If set to __true__, disables the given validator. 
+ * If set to __true__, disables the given validator.
  *
  * &#x60;&#x60;&#x60;js
  * // Examples
@@ -311,6 +311,26 @@ const {
  * })
  * &#x60;&#x60;&#x60;
  *
+ * ### volatile
+ *
+ * Default: __false__
+ *
+ * If any validator sets the volatile option to **true** (including options, default options, and global options),
+ * it will place the entire attribute&#x27;s CP in a volatile state. This means that it will set it into non-cached mode.
+ * When in this mode the computed property will not automatically cache the return value.
+ *
+ * Dependency keys have no effect on volatile properties as they are for cache invalidation and notification when
+ * cached value is invalidated. Any changes to the dependents will not refire validations.
+ *
+ * __**WARNING: This option should only be used if you know what you&#x27;re doing**__
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * // Examples
+ * validator(&#x27;length&#x27;, {
+ *   volatile: true
+ * })
+ * &#x60;&#x60;&#x60;
+ *
  * ### value
  *
  * Used to retrieve the value to validate. This will overwrite the validator&#x27;s default &#x60;value&#x60; method.
@@ -321,7 +341,7 @@ const {
  * // Examples
  * validator(&#x27;date&#x27;, {
  *   value(model, attribute) {
- *   	// Format the orignal value before passing it into the validator
+ *   	// Format the original value before passing it into the validator
  *   	return moment().utc(model.get(attribute)).format(&#x27;DD/MM/YYY&#x27;);
  *   }
  * })
@@ -379,8 +399,8 @@ const {
  * @submodule Common Options
  */
 
-export default function (arg1, options) {
-  const props = {
+export default function(arg1, options) {
+  let props = {
     options: isNone(options) ? {} : options
   };
 

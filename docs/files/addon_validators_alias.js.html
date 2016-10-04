@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.0.1" target="_blank">
-                                  Tag: v3.0.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
+                                  Tag: v3.1.0
                                 </a>
                             </h4>
                         </div>
@@ -196,7 +196,7 @@ import Base from &#x27;ember-cp-validations/validators/base&#x27;;
 const {
   get,
   assert,
-  isEmpty,
+  isPresent,
   getProperties
 } = Ember;
 
@@ -223,6 +223,7 @@ const {
  *  @extends Base
  */
 const Alias = Base.extend({
+  _type: &#x27;alias&#x27;,
 
   /**
    * Normalized options passed in.
@@ -252,11 +253,11 @@ const Alias = Base.extend({
   },
 
   validate(value, options, model, attribute) {
-    const { alias, firstMessageOnly } = getProperties(options, [&#x27;alias&#x27;, &#x27;firstMessageOnly&#x27;]);
+    let { alias, firstMessageOnly } = getProperties(options, [&#x27;alias&#x27;, &#x27;firstMessageOnly&#x27;]);
 
-    assert(&#x60;[ember-cp-validations] [validator:alias] [${attribute}] option &#x27;alias&#x27; is required&#x60;, !isEmpty(alias));
+    assert(&#x60;[validator:alias] [${attribute}] option &#x27;alias&#x27; is required&#x60;, isPresent(alias));
 
-    const aliasValidation = get(model, &#x60;validations.attrs.${alias}&#x60;);
+    let aliasValidation = get(model, &#x60;validations.attrs.${alias}&#x60;);
 
     return firstMessageOnly ? get(aliasValidation, &#x27;message&#x27;) : get(aliasValidation, &#x27;content&#x27;);
   }
@@ -264,9 +265,9 @@ const Alias = Base.extend({
 
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
-    const alias = typeof options === &#x27;string&#x27; ? options : get(options, &#x27;alias&#x27;);
+    let alias = typeof options === &#x27;string&#x27; ? options : get(options, &#x27;alias&#x27;);
 
-    assert(&#x60;[ember-cp-validations] [validator:alias] [${attribute}] &#x27;alias&#x27; must be a string&#x60;, typeof alias === &#x27;string&#x27;);
+    assert(&#x60;[validator:alias] [${attribute}] &#x27;alias&#x27; must be a string&#x60;, typeof alias === &#x27;string&#x27;);
 
     return [ &#x60;${alias}.messages.[]&#x60;, &#x60;${alias}.isTruelyValid&#x60; ];
   }
