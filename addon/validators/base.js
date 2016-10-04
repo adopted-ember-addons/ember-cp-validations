@@ -6,7 +6,7 @@
 import Ember from 'ember';
 import Messages from 'ember-cp-validations/validators/messages';
 import getOwner from 'ember-getowner-polyfill';
-import { unwrapString, getValidatableValue } from 'ember-cp-validations/utils/utils';
+import { unwrapString, getValidatableValue, mergeOptions } from 'ember-cp-validations/utils/utils';
 
 const {
   get,
@@ -14,8 +14,6 @@ const {
   isNone,
   computed
 } = Ember;
-
-const assign = Ember.assign || Ember.merge;
 
 /**
  * @class Base
@@ -110,7 +108,7 @@ const Base = Ember.Object.extend({
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    let builtOptions = assign(assign(assign({}, globalOptions), defaultOptions), options);
+    let builtOptions = mergeOptions(options, defaultOptions, globalOptions);
 
     // Overwrite the validator's value method if it exists in the options and remove it since
     // there is no need for it to be passed around

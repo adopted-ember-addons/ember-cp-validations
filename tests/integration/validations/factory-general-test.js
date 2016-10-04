@@ -1010,3 +1010,39 @@ test('validator should return correct error type', function(assert) {
   assert.equal(obj.get('validations.errors.length'), 2, 'number of errors was expected to be 2');
   assert.equal(obj.get('validations.errors').filterBy('type', 'presence').length, 1, 'number of errors was expected to be 1');
 });
+
+test('volatile validations should not recompute', function(assert) {
+  this.register('validator:presence', PresenceValidator);
+  this.register('validator:length', LengthValidator);
+
+  let Validations = buildValidations({
+    firstName: [
+      validator('presence', true),
+      validator('length', {
+        dependentKeys: ['model.foo'],
+        min: 5,
+        max: 35,
+        volatile: true
+      })
+    ]
+  });
+
+  let obj = setupObject(this, Ember.Object.extend(Validations, {
+    isInvalid: computed.not('validations.attrs.firstName.isValid'),
+    isInvalidGlobal: computed.not('validations.attrs.isValid')
+  }), {
+    firstName: null
+  });
+
+  assert.equal(obj.get('validations.attrs.firstName.isValid'), false, 'isValid was expected to be FALSE');
+  assert.equal(obj.get('validations.attrs.firstName.message'), 'This field can\'t be blank');
+  assert.equal(obj.get('isInvalid'), true, 'isInvalid was expected to be TRUE');
+  assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
+
+  obj.set('firstName', 'Offir');
+  obj.set('foo', 'bar');
+
+  assert.equal(obj.get('isInvalid'), true, 'isInvalid was expected to be TRUE');
+  assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
+  assert.equal(obj.get('validations.attrs.firstName.isValid'), true, 'isValid was expected to be TRUE');
+});
