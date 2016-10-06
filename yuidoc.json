@@ -12,7 +12,7 @@
     "external": {
       "data": [{
         "base": "http://emberjs.com/api/",
-        "json": "http://builds.emberjs.com/tags/v2.0.0/ember-docs.json"
+        "json": "http://builds.emberjs.com/tags/v2.8.0/ember-docs.json"
       }]
     },
     "themedir": "node_modules/yuidoc-ember-theme",
