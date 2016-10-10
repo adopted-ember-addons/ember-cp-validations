@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
-                                  Tag: v3.1.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/99f66db1" target="_blank">
+                                  Tag: 3.1.0.99f66db1
                                 </a>
                             </h4>
                         </div>
@@ -201,16 +201,15 @@ const {
 } = Ember;
 
 /**
+ *  &lt;i class=&quot;fa fa-hand-o-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; [See All Options](#method_validate)
+ *
  *  Creates an alias between a single attribute&#x27;s validations to another.
  *  This copies all messages, errors, etc., to the current attribute as well as
  *  its validation state (isValid, isValidating, etc.)
  *
- *   #### Options
- *  - &#x60;firstMessageOnly&#x60; (**Boolean**): If true, only returns the first error message of the
- *  aliased attribute and will not include validation state
+ *  ## Examples
  *
  *  &#x60;&#x60;&#x60;javascript
- *  // Examples
  *  validator(&#x27;alias&#x27;, &#x27;attribute&#x27;)
  *  validator(&#x27;alias&#x27;, {
  *    alias: &#x27;attribute&#x27;,
@@ -252,6 +251,16 @@ const Alias = Base.extend({
     return this._super(opts, defaultOptions, globalOptions);
   },
 
+  /**
+   * @method validate
+   * @param {Any} value
+   * @param {Object} options
+   * @param {String} options.alias The attribute to alias
+   * @param {Boolean} options.firstMessageOnly If true, only returns the first error message of the
+   *                                           aliased attribute and will not include validation state
+   * @param {Object} model
+   * @param {String} attribute
+   */
   validate(value, options, model, attribute) {
     let { alias, firstMessageOnly } = getProperties(options, [&#x27;alias&#x27;, &#x27;firstMessageOnly&#x27;]);
 

@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
-                                  Tag: v3.1.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/99f66db1" target="_blank">
+                                  Tag: 3.1.0.99f66db1
                                 </a>
                             </h4>
                         </div>
@@ -193,30 +193,24 @@
 import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
 
 /**
+ *  &lt;i class=&quot;fa fa-hand-o-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; [See All Options](#method_validate)
+ *
  *  Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
  *
- *  -*Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)
+ *  **Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)
  *
- *   #### Options
- *  - &#x60;allowBlank&#x60; (**Boolean**): If true, skips validation if the value is empty
- *  - &#x60;before&#x60; (**String**): The specified date must be before this date
- *  - &#x60;onOrBefore&#x60; (**String**): The specified date must be on or before this date
- *  - &#x60;after&#x60; (**String**): The specified date must be after this date
- *  - &#x60;onOrAfter&#x60; (**String**): The specified date must be on or after this date
- *  - &#x60;precision&#x60; (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.
- *  - &#x60;format&#x60; (**String**): Input value date format
- *  - &#x60;errorFormat&#x60; (**String**): Error output date format. Defaults to &#x60;MMM Do, YYYY&#x60;
+ * ## Examples
+ *
+ * If &#x60;before&#x60;, &#x60;onOrBefore&#x60;, &#x60;after&#x60;, or &#x60;onOrAfter&#x60; is set to **now**, the value given to the validator will be tested against the current date and time.
  *
  *  &#x60;&#x60;&#x60;javascript
- *  // Example
  *  validator(&#x27;date&#x27;, {
- *      after: &#x27;now&#x27;,
- *      before: &#x27;1/1/2020&#x27;,
- *      precision: &#x27;day&#x27;,
- *      format: &#x27;M/D/YYY&#x27;,
- *      errorFormat: &#x27;M/D/YYY&#x27;
+ *    after: &#x27;now&#x27;,
+ *    before: &#x27;1/1/2020&#x27;,
+ *    precision: &#x27;day&#x27;,
+ *    format: &#x27;M/D/YYY&#x27;,
+ *    errorFormat: &#x27;M/D/YYY&#x27;
  *  })
- *  // If before, onOrBefore, after, or onOrAfter is set to &#x27;now&#x27;, the value given to the validator will be tested against the current date and time.
  *  &#x60;&#x60;&#x60;
  *
  *  @class Date

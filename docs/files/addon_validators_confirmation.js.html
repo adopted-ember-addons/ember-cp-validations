@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
-                                  Tag: v3.1.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/99f66db1" target="_blank">
+                                  Tag: 3.1.0.99f66db1
                                 </a>
                             </h4>
                         </div>
@@ -199,19 +199,19 @@ const {
 } = Ember;
 
 /**
- *  You should use this validator when you have two text fields that should receive exactly the same content.
- *  For example, you may want to confirm an email address or a password. This validator doesn&#x27;t have to be created on an attribute defined in your model.
- *  This means that when you save your model, in this case, &#x60;verfiedEmail&#x60; will not be part of the payload.
+ *  &lt;i class=&quot;fa fa-hand-o-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; [See All Options](#method_validate)
+ *
+ *  Validates that the attribute has the same value as the one of the declared attribute.
+ *
+ *  ## Examples
  *
  *  &#x60;&#x60;&#x60;javascript
- *  // Example
  *  email: validator(&#x27;format&#x27;, {
  *    type: &#x27;email&#x27;
  *  })
  *  verifiedEmail: validator(&#x27;confirmation&#x27;, {
  *    on: &#x27;email&#x27;,
- *    message: &#x27;do not match&#x27;,
- *    description: &#x27;Email addresses&#x27;
+ *    message: &#x27;Email addresses do not match&#x27;
  *  })
  *  &#x60;&#x60;&#x60;
  *

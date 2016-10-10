@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
-                                  Tag: v3.1.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/99f66db1" target="_blank">
+                                  Tag: 3.1.0.99f66db1
                                 </a>
                             </h4>
                         </div>
@@ -183,7 +183,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> DS Error Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/ds-error.js#L9" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/node_modules/ember-validators/addon/ds-error.js#L20" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -200,17 +200,18 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/ds-error.js#L9">addon/validators/ds-error.js:9</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/node_modules/ember-validators/addon/ds-error.js#L20">node_modules/ember-validators/addon/ds-error.js:20</a>
         </div>
 </div>
 
 
 
   <div class="class-description">
-  <p>Creates a link between this library and Ember-Data's <a href="http://emberjs.com/api/data/classes/DS.Errors.html">DS.Errors</a>
+  <p><i class="fa fa-hand-o-right" aria-hidden="true"></i> <a href="#method_validate">See All Options</a></p>
+<p>Creates a link between this library and Ember-Data's <a href="http://emberjs.com/api/data/classes/DS.Errors.html">DS.Errors</a>
 to fetch the latest message for the given attribute.</p>
-<pre class="code prettyprint"><code class="language-javascript">// Examples
-validator('ds-error')
+<h2>Examples</h2>
+<pre class="code prettyprint"><code class="language-javascript">validator('ds-error')
 </code></pre>
 
   </div>
@@ -359,7 +360,7 @@ validator('ds-error')
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_buildOptions">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L100">addon/validators/base.js:100</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L100">addon/validators/base.js:100</a>
   		</p>
   
   
@@ -442,7 +443,7 @@ validator('ds-error')
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L182">addon/validators/base.js:182</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L182">addon/validators/base.js:182</a>
   		</p>
   
   
@@ -539,7 +540,7 @@ validator('ds-error')
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_getValue">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L151">addon/validators/base.js:151</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L151">addon/validators/base.js:151</a>
   		</p>
   
   
@@ -561,7 +562,7 @@ validator('ds-error')
   		</div>
   
   </div>
-  <div id="method_validate" class="method item inherited">
+  <div id="method_validate" class="method item">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
   		<a class="fa fa-link toc-anchor" href="#method_validate"></a>
@@ -584,9 +585,6 @@ validator('ds-error')
   				</li>
   			</ul><span class="paren">)</span>
   		</div>
-  		<span class="returns-inline">
-  			<span class="type"></span>
-  		</span>
   	</span>
   
   
@@ -596,19 +594,18 @@ validator('ds-error')
   
   
   	<div class="meta">
-  				<p>Inherited from
-  				<a href="../classes/Base.html#method_validate">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L163">addon/validators/base.js:163</a>
+  			<p>Inherited from
+  			<a href="../classes/Base.html#method_validate">
+  				Base
+  			</a>
+  			but overwritten in
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/node_modules/ember-validators/addon/ds-error.js#L25">node_modules/ember-validators/addon/ds-error.js:25</a>
   		</p>
   
   
   
   	</div>
   
-  	<div class="description"><p>The validate method is where all of your logic should go.
-  It will get passed in the current value of the attribute this validator is attached to.
-  Within the validator object, you will have access to the following properties:</p>
-  </div>
   
   		<div class="params">
   			<h4>Parameters:</h4>
@@ -616,11 +613,9 @@ validator('ds-error')
   			<ul class="params-list">
   				<li class="param">
   						<code class="param-name">value</code>
-  						<span class="type">Mixed</span>
+  						<span class="type">Any</span>
   
   
-  					<div class="param-description"><p>The current value of the attribute</p>
-  </div>
   
   				</li>
   				<li class="param">
@@ -628,8 +623,6 @@ validator('ds-error')
   						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
-  					<div class="param-description"><p>The built and processed options</p>
-  </div>
   
   				</li>
   				<li class="param">
@@ -637,8 +630,6 @@ validator('ds-error')
   						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
-  					<div class="param-description"><p>The current model being evaluated</p>
-  </div>
   
   				</li>
   				<li class="param">
@@ -646,26 +637,11 @@ validator('ds-error')
   						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
   
   
-  					<div class="param-description"><p>The current attribute being evaluated</p>
-  </div>
   
   				</li>
   			</ul>
   		</div>
   
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  					<p>One of the following types:</p>
-  <ul>
-  <li><code>Boolean</code>:  <code>true</code> if the current value passed the validation</li>
-  <li><code>String</code>: The error message</li>
-  <li><code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</li>
-  </ul>
-  
-  			</div>
-  		</div>
   
   </div>
   <div id="method_value" class="method item inherited">
@@ -699,7 +675,7 @@ validator('ds-error')
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_value">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L137">addon/validators/base.js:137</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L137">addon/validators/base.js:137</a>
   		</p>
   
   
@@ -762,7 +738,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property__type">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L72">addon/validators/base.js:72</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L72">addon/validators/base.js:72</a>
           </p>
   
   
@@ -790,7 +766,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_attribute">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L52">addon/validators/base.js:52</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L52">addon/validators/base.js:52</a>
           </p>
   
   
@@ -818,7 +794,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_defaultOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L31">addon/validators/base.js:31</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L31">addon/validators/base.js:31</a>
           </p>
   
   
@@ -846,7 +822,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_errorMessages">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L59">addon/validators/base.js:59</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L59">addon/validators/base.js:59</a>
           </p>
   
   
@@ -874,7 +850,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_globalOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L38">addon/validators/base.js:38</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L38">addon/validators/base.js:38</a>
           </p>
   
   
@@ -902,7 +878,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_isWarning">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L66">addon/validators/base.js:66</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L66">addon/validators/base.js:66</a>
           </p>
   
   
@@ -929,7 +905,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_model">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L45">addon/validators/base.js:45</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L45">addon/validators/base.js:45</a>
           </p>
   
   
@@ -957,7 +933,7 @@ validator('ds-error')
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_options">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L24">addon/validators/base.js:24</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L24">addon/validators/base.js:24</a>
           </p>
   
   

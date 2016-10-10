@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v3.1.0"
+        "version": "3.1.0.99f66db1"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
@@ -136,27 +136,21 @@
         "addon/validators/collection.js": {
             "name": "addon/validators/collection.js",
             "modules": {},
-            "classes": {
-                "Collection": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/confirmation.js": {
             "name": "addon/validators/confirmation.js",
             "modules": {},
-            "classes": {
-                "Confirmation": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/date.js": {
             "name": "addon/validators/date.js",
             "modules": {},
-            "classes": {
-                "Date": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -172,27 +166,21 @@
         "addon/validators/ds-error.js": {
             "name": "addon/validators/ds-error.js",
             "modules": {},
-            "classes": {
-                "DS Error": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/exclusion.js": {
             "name": "addon/validators/exclusion.js",
             "modules": {},
-            "classes": {
-                "Exclusion": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/format.js": {
             "name": "addon/validators/format.js",
             "modules": {},
-            "classes": {
-                "Format": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -208,45 +196,35 @@
         "addon/validators/inclusion.js": {
             "name": "addon/validators/inclusion.js",
             "modules": {},
-            "classes": {
-                "Inclusion": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/length.js": {
             "name": "addon/validators/length.js",
             "modules": {},
-            "classes": {
-                "Length": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/messages.js": {
             "name": "addon/validators/messages.js",
             "modules": {},
-            "classes": {
-                "Messages": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/number.js": {
             "name": "addon/validators/number.js",
             "modules": {},
-            "classes": {
-                "Number": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "addon/validators/presence.js": {
             "name": "addon/validators/presence.js",
             "modules": {},
-            "classes": {
-                "Presence": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -276,6 +254,147 @@
                 "V-Get Helper": 1
             },
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/-private/validators-cache.js": {
+            "name": "node_modules/ember-validators/addon/-private/validators-cache.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/utils/is-promise.js": {
+            "name": "node_modules/ember-validators/addon/utils/is-promise.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/utils/require-module.js": {
+            "name": "node_modules/ember-validators/addon/utils/require-module.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/utils/unwrap-proxy.js": {
+            "name": "node_modules/ember-validators/addon/utils/unwrap-proxy.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/utils/validation-error.js": {
+            "name": "node_modules/ember-validators/addon/utils/validation-error.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/collection.js": {
+            "name": "node_modules/ember-validators/addon/collection.js",
+            "modules": {},
+            "classes": {
+                "Collection": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/confirmation.js": {
+            "name": "node_modules/ember-validators/addon/confirmation.js",
+            "modules": {},
+            "classes": {
+                "Confirmation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/date.js": {
+            "name": "node_modules/ember-validators/addon/date.js",
+            "modules": {},
+            "classes": {
+                "Date": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/ds-error.js": {
+            "name": "node_modules/ember-validators/addon/ds-error.js",
+            "modules": {},
+            "classes": {
+                "DS Error": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/exclusion.js": {
+            "name": "node_modules/ember-validators/addon/exclusion.js",
+            "modules": {},
+            "classes": {
+                "Exclusion": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/format.js": {
+            "name": "node_modules/ember-validators/addon/format.js",
+            "modules": {},
+            "classes": {
+                "Format": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/inclusion.js": {
+            "name": "node_modules/ember-validators/addon/inclusion.js",
+            "modules": {},
+            "classes": {
+                "Inclusion": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/index.js": {
+            "name": "node_modules/ember-validators/addon/index.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/length.js": {
+            "name": "node_modules/ember-validators/addon/length.js",
+            "modules": {},
+            "classes": {
+                "Length": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/messages.js": {
+            "name": "node_modules/ember-validators/addon/messages.js",
+            "modules": {},
+            "classes": {
+                "Messages": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/number.js": {
+            "name": "node_modules/ember-validators/addon/number.js",
+            "modules": {},
+            "classes": {
+                "Number": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "node_modules/ember-validators/addon/presence.js": {
+            "name": "node_modules/ember-validators/addon/presence.js",
+            "modules": {},
+            "classes": {
+                "Presence": 1
+            },
             "fors": {},
             "namespaces": {}
         }
@@ -320,16 +439,17 @@
         "Validators": {
             "name": "Validators",
             "submodules": {
+                "undefined": 1,
                 "Common Options": 1
             },
             "elements": {},
             "classes": {
+                "Collection": 1,
                 "Alias": 1,
                 "Base": 1,
                 "Custom": 1,
                 "Inline": 1,
                 "Belongs To": 1,
-                "Collection": 1,
                 "Confirmation": 1,
                 "Date": 1,
                 "Dependent": 1,
@@ -346,8 +466,8 @@
             "fors": {},
             "namespaces": {},
             "tag": "main",
-            "file": "addon/validators/presence.js",
-            "line": 8,
+            "file": "node_modules/ember-validators/addon/presence.js",
+            "line": 17,
             "itemtype": "main"
         },
         "Common Options": {
@@ -464,7 +584,7 @@
             "namespace": "",
             "file": "addon/-private/result.js",
             "line": 24,
-            "description": "This class is `private` and is only used by {{#crossLink 'ResultCollection'}}{{/crossLink}}"
+            "description": "__PRIVATE__"
         },
         "Error": {
             "name": "Error",
@@ -517,7 +637,7 @@
             "namespace": "",
             "file": "addon/validators/alias.js",
             "line": 16,
-            "description": "Creates an alias between a single attribute's validations to another.\nThis copies all messages, errors, etc., to the current attribute as well as\nits validation state (isValid, isValidating, etc.)\n\n #### Options\n- `firstMessageOnly` (**Boolean**): If true, only returns the first error message of the\naliased attribute and will not include validation state\n\n```javascript\n// Examples\nvalidator('alias', 'attribute')\nvalidator('alias', {\n  alias: 'attribute',\n  firstMessageOnly: true\n})\n```",
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nCreates an alias between a single attribute's validations to another.\nThis copies all messages, errors, etc., to the current attribute as well as\nits validation state (isValid, isValidating, etc.)\n\n## Examples\n\n```javascript\nvalidator('alias', 'attribute')\nvalidator('alias', {\n  alias: 'attribute',\n  firstMessageOnly: true\n})\n```",
             "extends": "Base"
         },
         "Base": {
@@ -575,7 +695,7 @@
             "namespace": "",
             "file": "addon/validators/belongs-to.js",
             "line": 14,
-            "description": "Identifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.\nThis is used to create a link to the validations object of the child model.\n\n_**Note:** Validations must exist on **both** models/objects_\n\n### Ember Model\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  details: validator('belongs-to')\n});\n\nexport default DS.Model.extend(Validations, {\n  'details': DS.belongsTo('user-detail')\n});\n```\n\n```javascript\n// model/user-details.js\n\nconst Validations = buildValidations({\n  firstName: validator('presence', true),\n  lastName: validator('presence', true)\n});\n\nexport default DS.Model.extend(Validations, {\n  \"firstName\": attr('string'),\n  \"lastName\": attr('string'),\n});\n```\n\n### Ember Object\n\n```javascript\n// model/users.js\n\nimport UserDetails from '../user-details';\n\nconst Validations = buildValidations({\n  details: validator('belongs-to')\n});\n\nexport default Ember.Object.extend(Validations, {\n  details: null,\n\n  init() {\n    this._super(...arguments);\n    let owner = Ember.getOwner(this);\n    this.set('details', UserDetails.create(owner.ownerInjection()));\n  }\n});\n```\n\nFrom our `user` model, we can now check any validation property on the `user-details` model.\n\n```javascript\nget(model, 'validations.attrs.details.isValid')\nget(model, 'validations.attrs.details.messages')\n```",
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nIdentifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.\nThis is used to create a link to the validations object of the child model.\n\n_**Note:** Validations must exist on **both** models/objects_\n\n### Ember Model\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  details: validator('belongs-to')\n});\n\nexport default DS.Model.extend(Validations, {\n  'details': DS.belongsTo('user-detail')\n});\n```\n\n```javascript\n// model/user-details.js\n\nconst Validations = buildValidations({\n  firstName: validator('presence', true),\n  lastName: validator('presence', true)\n});\n\nexport default DS.Model.extend(Validations, {\n  \"firstName\": attr('string'),\n  \"lastName\": attr('string'),\n});\n```\n\n### Ember Object\n\n```javascript\n// model/users.js\n\nimport UserDetails from '../user-details';\n\nconst Validations = buildValidations({\n  details: validator('belongs-to')\n});\n\nexport default Ember.Object.extend(Validations, {\n  details: null,\n\n  init() {\n    this._super(...arguments);\n    let owner = Ember.getOwner(this);\n    this.set('details', UserDetails.create(owner.ownerInjection()));\n  }\n});\n```\n\nFrom our `user` model, we can now check any validation property on the `user-details` model.\n\n```javascript\nget(model, 'validations.attrs.details.isValid')\nget(model, 'validations.attrs.details.messages')\n```",
             "extends": "Base"
         },
         "Collection": {
@@ -588,9 +708,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/collection.js",
-            "line": 13,
-            "description": "If `true` validates that the given value is a valid collection and will add `<ATTRIBUTE>.[]` as a dependent key to the CP.\nIf `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.\n\n```javascript\n// Examples\nvalidator('collection', true)\nvalidator('collection', false)\nvalidator('collection', {\n  collection: true,\n  message: 'must be a collection'\n})\n```",
+            "file": "node_modules/ember-validators/addon/collection.js",
+            "line": 16,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nIf `true` validates that the given value is a valid collection and will add `<ATTRIBUTE>.[]` as a dependent key to the CP.\nIf `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.\n\n## Examples\n\n```javascript\nvalidator('collection', true)\nvalidator('collection', false)\nvalidator('collection', {\n  collection: true,\n  message: 'must be a collection'\n})\n```",
             "extends": "Base"
         },
         "Confirmation": {
@@ -603,9 +723,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/confirmation.js",
-            "line": 14,
-            "description": "You should use this validator when you have two text fields that should receive exactly the same content.\nFor example, you may want to confirm an email address or a password. This validator doesn't have to be created on an attribute defined in your model.\nThis means that when you save your model, in this case, `verfiedEmail` will not be part of the payload.\n\n```javascript\n// Example\nemail: validator('format', {\n  type: 'email'\n})\nverifiedEmail: validator('confirmation', {\n  on: 'email',\n  message: 'do not match',\n  description: 'Email addresses'\n})\n```",
+            "file": "node_modules/ember-validators/addon/confirmation.js",
+            "line": 16,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates that the attribute has the same value as the one of the declared attribute.\n\n## Examples\n\n```javascript\nemail: validator('format', {\n  type: 'email'\n})\nverifiedEmail: validator('confirmation', {\n  on: 'email',\n  message: 'Email addresses do not match'\n})\n```",
             "extends": "Base"
         },
         "Date": {
@@ -618,9 +738,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/date.js",
-            "line": 8,
-            "description": "Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.\n\n-*Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `before` (**String**): The specified date must be before this date\n- `onOrBefore` (**String**): The specified date must be on or before this date\n- `after` (**String**): The specified date must be after this date\n- `onOrAfter` (**String**): The specified date must be on or after this date\n- `precision` (**String**): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.\n- `format` (**String**): Input value date format\n- `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`\n\n```javascript\n// Example\nvalidator('date', {\n    after: 'now',\n    before: '1/1/2020',\n    precision: 'day',\n    format: 'M/D/YYY',\n    errorFormat: 'M/D/YYY'\n})\n// If before, onOrBefore, after, or onOrAfter is set to 'now', the value given to the validator will be tested against the current date and time.\n```",
+            "file": "node_modules/ember-validators/addon/date.js",
+            "line": 24,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.\n\n**Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)\n\n ## Examples\n\n If `before`, `onOrBefore`, `after`, or `onOrAfter` is set to **now**, the value given to the validator will be tested against the current date and time.\n\n```javascript\nvalidator('date', {\n  after: 'now',\n  before: '1/1/2020',\n  precision: 'day',\n  format: 'M/D/YYY',\n  errorFormat: 'M/D/YYY'\n})\n```",
             "extends": "Base"
         },
         "Dependent": {
@@ -635,7 +755,7 @@
             "namespace": "",
             "file": "addon/validators/dependent.js",
             "line": 21,
-            "description": "Defines an attribute as valid only if its dependents are valid.\n\n #### Options\n- `on` (**Array**): Attributes this field is dependent on\n\n```javascript\n// Example\n// Full name will only be valid if firstName and lastName are filled in\nvalidator('dependent', {\n    on: ['firstName', 'lastName'],\n})\n```",
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nDefines an attribute as valid only if its dependents are valid.\n\n## Example\n\n```javascript\n// Full name will only be valid if firstName and lastName are filled in\nvalidator('dependent', {\n  on: ['firstName', 'lastName']\n})\n```",
             "extends": "Base"
         },
         "DS Error": {
@@ -648,9 +768,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/ds-error.js",
-            "line": 9,
-            "description": "Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)\nto fetch the latest message for the given attribute.\n\n```javascript\n// Examples\nvalidator('ds-error')\n```",
+            "file": "node_modules/ember-validators/addon/ds-error.js",
+            "line": 20,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nCreates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)\nto fetch the latest message for the given attribute.\n\n## Examples\n\n```javascript\nvalidator('ds-error')\n```",
             "extends": "Base"
         },
         "Exclusion": {
@@ -663,9 +783,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/exclusion.js",
-            "line": 8,
-            "description": "Validates that the attributes’ values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `in` (**Array**): The list of values this attribute should not be\n- `range` (**Array**): The range in which the attribute's value should not reside in\n\n```javascript\n// Examples\nvalidator('exclusion', {\n    in: ['Admin', 'Super Admin']\n})\nvalidator('exclusion', {\n    range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)\n})\n```",
+            "file": "node_modules/ember-validators/addon/exclusion.js",
+            "line": 17,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates that the attributes’ values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.\n\n## Examples:\n\n```javascript\nvalidator('exclusion', {\n  in: ['Admin', 'Super Admin']\n})\nvalidator('exclusion', {\n  range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)\n})\n```",
             "extends": "Base"
         },
         "Format": {
@@ -678,9 +798,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/format.js",
-            "line": 15,
-            "description": "Validate over a predefined or custom regular expression.\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `type` (**String**): Can be the one of the following options [`email`, `phone`, `url`]\n- `regex` (**RegExp**): The regular expression to test against\n- `allowNonTld` (**Boolean**): If true, the predefined regular expression `email` allows non top-level domains\n\n```javascript\n// Examples\nvalidator('format', {\n  type: 'email',\n  allowNonTld: true\n})\nvalidator('format', {\n  allowBlank: true,\n  type: 'phone'\n})\nvalidator('format', {\n  type: 'url'\n})\nvalidator('format', {\n    regex: /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,\n    message: 'Password must include at least one upper case letter, one lower case letter, and a number'\n})\n```\n\nIf you do not want to use the predefined regex for a specific type, you can do something like this\n\n```javascript\n// Example\nvalidator('format', {\n  type: 'email',\n  regex: /My Better Email Regexp/\n})\n```\nThis allows you to still keep the email error message but with your own custom regex.",
+            "file": "node_modules/ember-validators/addon/format.js",
+            "line": 16,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidate over a predefined or custom regular expression.\n\n## Examples\n\n```javascript\nvalidator('format', {\n  type: 'email',\n  allowNonTld: true\n})\nvalidator('format', {\n  allowBlank: true,\n  type: 'phone'\n})\nvalidator('format', {\n  type: 'url'\n})\nvalidator('format', {\n  regex: /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,\n  message: 'Password must include at least one upper case letter, one lower case letter, and a number'\n})\n```\n\nIf you do not want to use the predefined regex for a specific type, you can do something like this\n\n```javascript\nvalidator('format', {\n  type: 'email',\n  regex: /My Better Email Regexp/\n})\n```\n\nThis allows you to still keep the email error message but with your own custom regex.",
             "extends": "Base"
         },
         "Has Many": {
@@ -695,7 +815,7 @@
             "namespace": "",
             "file": "addon/validators/has-many.js",
             "line": 9,
-            "description": "Identifies a `has-many` relationship in an Ember Data Model or Ember.Object.\nThis is used to create a validation collection of the `has-many` validations.\n\n_**Note:** Validations must exist on **all** models/objects_\n\n### Ember Models\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  friends: validator('has-many')\n});\n\nexport default DS.Model.extend(Validations, {\n  friends: DS.hasMany('user')\n});\n```\n\n### Ember Objects\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  friends: validator('has-many')\n});\n\nexport default Ember.Object.extend(Validations, {\n  friends: null\n});\n```\n\nFrom our `user` model, we can now check validation properties on the `friends` attribute.\n\n```javascript\nget(model, 'validations.attrs.friends.isValid')\nget(model, 'validations.attrs.friends.messages')\n```",
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nIdentifies a `has-many` relationship in an Ember Data Model or Ember.Object.\nThis is used to create a validation collection of the `has-many` validations.\n\n_**Note:** Validations must exist on **all** models/objects_\n\n### Ember Models\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  friends: validator('has-many')\n});\n\nexport default DS.Model.extend(Validations, {\n  friends: DS.hasMany('user')\n});\n```\n\n### Ember Objects\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  friends: validator('has-many')\n});\n\nexport default Ember.Object.extend(Validations, {\n  friends: null\n});\n```\n\nFrom our `user` model, we can now check validation properties on the `friends` attribute.\n\n```javascript\nget(model, 'validations.attrs.friends.isValid')\nget(model, 'validations.attrs.friends.messages')\n```",
             "extends": "Base"
         },
         "Inclusion": {
@@ -708,9 +828,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/inclusion.js",
-            "line": 8,
-            "description": "Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters!\nFor range, the value type is checked against both lower and upper bounds for type equality.\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `in` (**Array**): The list of values this attribute could be\n- `range` (**Array**): The range in which the attribute's value should reside in\n\n```javascript\n// Examples\nvalidator('inclusion', {\n    in: ['User', 'Admin']\n})\nvalidator('inclusion', {\n    range: [0, 5] // Must be between 0 (inclusive) to 5 (inclusive)\n})\n```\n\nBecause of the strict equality comparisons, you can use this validator in many different ways.\n\n```javascript\n// Examples\nvalidator('inclusion', {\n    in: ['Admin'] // Input must be equal to 'Admin'\n})\nvalidator('inclusion', {\n    range: [0, Infinity] // Input must be positive number\n})\nvalidator('inclusion', {\n    range: [-Infinity, Infinity] // Input must be a number\n})\n```",
+            "file": "node_modules/ember-validators/addon/inclusion.js",
+            "line": 17,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters!\nFor range, the value type is checked against both lower and upper bounds for type equality.\n\n## Examples\n\n```javascript\nvalidator('inclusion', {\n  in: ['User', 'Admin']\n})\nvalidator('inclusion', {\n  range: [0, 5] // Must be between 0 (inclusive) to 5 (inclusive)\n})\n```\n\nBecause of the strict equality comparisons, you can use this validator in many different ways.\n\n```javascript\nvalidator('inclusion', {\n  in: ['Admin'] // Input must be equal to 'Admin'\n})\nvalidator('inclusion', {\n  range: [0, Infinity] // Input must be positive number\n})\nvalidator('inclusion', {\n  range: [-Infinity, Infinity] // Input must be a number\n})\n```",
             "extends": "Base"
         },
         "Length": {
@@ -723,9 +843,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/length.js",
-            "line": 14,
-            "description": "Validates the length of the attributes’ values.\n\n #### Options\n- `allowNone` (**Boolean**): If true, skips validation if the value is null or undefined. __Default: true__\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `is` (**Number**): The exact length the value can be\n- `min` (**Number**): The minimum length the value can be\n- `max` (**Number**): The maximum length the value can be\n\n```javascript\n// Examples\nvalidator('length', {\n  is: 15\n})\nvalidator('length', {\n    min: 5,\n    max: 10\n})\n```",
+            "file": "node_modules/ember-validators/addon/length.js",
+            "line": 17,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates the length of the attributes’ values.\n\n## Examples\n\n```javascript\nvalidator('length', {\n  is: 15\n})\nvalidator('length', {\n  min: 5,\n  max: 10\n})\n```",
             "extends": "Base"
         },
         "Messages": {
@@ -738,8 +858,8 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/messages.js",
-            "line": 8,
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 13,
             "description": "The default validation error messages are imported in your app's `validators` folder.\nIf you want to change or extend them, all you need to do is create a `messages.js` file under `app/validators`.\n\n```javascript\n// app/validators/messages.js\n\nimport Messages from 'ember-cp-validations/validators/messages';\n\nexport default Messages.extend({\n  uniqueUsername: '{description} {username} already exists'\n});\n```\n\nWithin this object, you can overwrite the [default messages](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/messages.js) or create new messages just like in the example above.\nIf a message of a given type is not found, it will default to the `invalid` message.\nUsage examples can be found {{#crossLink \"Base/createErrorMessage:method\"}}here{{/crossLink}}"
         },
         "Number": {
@@ -752,9 +872,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/number.js",
-            "line": 8,
-            "description": "Validates that your attributes have only numeric values.\n\n #### Options\n- `allowBlank` (**Boolean**): If true, skips validation if the value is empty\n- `allowString` (**Boolean**): If true, validator will accept string representation of a number\n- `integer` (**Boolean**): Number must be an integer\n- `positive` (**Boolean**): Number must be greater than 0\n- `odd` (**Boolean**): Number must be odd\n- `even` (**Boolean**): Number must be even\n- `is` (**Number**): Number must be equal to this value\n- `lt` (**Number**): Number must be less than this value\n- `lte` (**Number**): Number must be less than or equal to this value\n- `gt` (**Number**): Number must be greater than this value\n- `gte` (**Number**): Number must be greater than or equal to this value\n\n```javascript\n// Examples\nvalidator('number') // Simple check if the value is a number\nvalidator('number', {\n    allowString: true,\n    integer: true,\n    gt: 5,\n    lte: 100\n})\n```",
+            "file": "node_modules/ember-validators/addon/number.js",
+            "line": 15,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates that your attributes have only numeric values.\n\n## Examples\n\n```javascript\nvalidator('number') // Simple check if the value is a number\nvalidator('number', {\n  allowString: true,\n  integer: true,\n  gt: 5,\n  lte: 100\n})\n```",
             "extends": "Base"
         },
         "Presence": {
@@ -767,9 +887,9 @@
             "extension_for": [],
             "module": "Validators",
             "namespace": "",
-            "file": "addon/validators/presence.js",
-            "line": 8,
-            "description": "If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.\n\n #### Options\n- `ignoreBlank` (**Boolean**): If true, treats an empty or whitespace string as not present\n\n```javascript\n// Examples\nvalidator('presence', true)\nvalidator('presence', false)\nvalidator('presence', {\n  presence: true,\n  message: 'should not be empty'\n})\n\nvalidator('presence', {\n  presence: true,\n  ignoreBlank: true,\n  message: 'should not be empty or consist only of spaces'\n})\n```",
+            "file": "node_modules/ember-validators/addon/presence.js",
+            "line": 17,
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nIf `true` validates that the given value is not empty, if `false`, validates that the given value is empty.\n\n## Examples\n\n```javascript\nvalidator('presence', true)\nvalidator('presence', false)\nvalidator('presence', {\n  presence: true,\n  message: 'should not be empty'\n})\n\nvalidator('presence', {\n  presence: true,\n  ignoreBlank: true,\n  message: 'should not be empty or consist only of spaces'\n})\n```",
             "extends": "Base"
         }
     },
@@ -782,16 +902,6 @@
             "class": "Result"
         },
         {
-            "file": "addon/-private/internal-result-object.js",
-            "line": 93,
-            "description": "Promise handler",
-            "itemtype": "method",
-            "name": "_handlePromise",
-            "access": "private",
-            "tagname": "",
-            "class": "Result"
-        },
-        {
             "file": "addon/-private/result.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
@@ -799,7 +909,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 33,
+            "line": 34,
             "itemtype": "property",
             "name": "model",
             "type": "{Object}",
@@ -808,7 +918,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 39,
+            "line": 40,
             "itemtype": "property",
             "name": "attribute",
             "type": "{String}",
@@ -817,7 +927,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 45,
+            "line": 46,
             "itemtype": "property",
             "name": "_promise",
             "async": 1,
@@ -829,7 +939,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 53,
+            "line": 54,
             "description": "The validator that returned this result",
             "itemtype": "property",
             "name": "_validator",
@@ -841,7 +951,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 61,
+            "line": 62,
             "description": "Determines if the _validations object is readOnly.\n\nThis is needed because ResultCollections and global validation objects control their own\nstate via CPs",
             "itemtype": "property",
             "name": "_isReadOnly",
@@ -854,7 +964,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 77,
+            "line": 78,
             "itemtype": "property",
             "name": "isWarning",
             "readonly": "",
@@ -864,7 +974,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 84,
+            "line": 85,
             "itemtype": "property",
             "name": "isValid",
             "readonly": "",
@@ -874,7 +984,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 91,
+            "line": 92,
             "itemtype": "property",
             "name": "isInvalid",
             "readonly": "",
@@ -884,7 +994,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 98,
+            "line": 99,
             "itemtype": "property",
             "name": "isValidating",
             "readonly": "",
@@ -894,7 +1004,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 105,
+            "line": 106,
             "itemtype": "property",
             "name": "isTruelyValid",
             "readonly": "",
@@ -904,7 +1014,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 112,
+            "line": 113,
             "itemtype": "property",
             "name": "isAsync",
             "readonly": "",
@@ -914,7 +1024,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 119,
+            "line": 120,
             "itemtype": "property",
             "name": "isDirty",
             "readonly": "",
@@ -924,7 +1034,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 126,
+            "line": 127,
             "itemtype": "property",
             "name": "message",
             "readonly": "",
@@ -934,7 +1044,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 133,
+            "line": 134,
             "itemtype": "property",
             "name": "messages",
             "readonly": "",
@@ -944,7 +1054,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 140,
+            "line": 141,
             "itemtype": "property",
             "name": "error",
             "readonly": "",
@@ -954,7 +1064,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 147,
+            "line": 148,
             "itemtype": "property",
             "name": "errors",
             "readonly": "",
@@ -964,7 +1074,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 154,
+            "line": 155,
             "description": "This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object",
             "itemtype": "property",
             "name": "_validations",
@@ -976,7 +1086,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 174,
+            "line": 175,
             "description": "Update the current validation result object with the given result\n- If result is undefined or null, set isValid to false\n- If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)\n- If result is a collection of result objects, create a Validation Result Collection and set that to the _validations object (has-many)\n- If result is a string, set the message to the given string and set isValid to false\n- If result is a boolean, set isValid to result\n- If result is a pojo, update _validations object with the information given",
             "itemtype": "method",
             "name": "update",
@@ -993,7 +1103,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 224,
+            "line": 225,
             "description": "Promise handler",
             "itemtype": "method",
             "name": "_handlePromise",
@@ -1880,7 +1990,7 @@
         },
         {
             "file": "addon/validators/alias.js",
-            "line": 41,
+            "line": 40,
             "description": "Normalized options passed in.\n```js\nvalidator('alias', 'attribute')\n// Becomes\nvalidator('alias', {\n  alias: 'attribute'\n})\n```",
             "itemtype": "method",
             "name": "buildOptions",
@@ -1905,6 +2015,48 @@
                 "description": "",
                 "type": "Object"
             },
+            "class": "Alias",
+            "module": "Validators"
+        },
+        {
+            "file": "addon/validators/alias.js",
+            "line": 67,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "alias",
+                            "description": "The attribute to alias",
+                            "type": "String"
+                        },
+                        {
+                            "name": "firstMessageOnly",
+                            "description": "If true, only returns the first error message of the\n                                          aliased attribute and will not include validation state",
+                            "type": "Boolean"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
             "class": "Alias",
             "module": "Validators"
         },
@@ -2171,7 +2323,7 @@
         },
         {
             "file": "addon/validators/collection.js",
-            "line": 34,
+            "line": 37,
             "description": "Normalized options passed in.\n```js\nvalidator('collection', true)\n// Becomes\nvalidator('collection', {\n  collection: true\n})\n```",
             "itemtype": "method",
             "name": "buildOptions",
@@ -2221,6 +2373,43 @@
             "module": "Validators"
         },
         {
+            "file": "addon/validators/dependent.js",
+            "line": 42,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "on",
+                            "description": "Attributes this field is dependent on",
+                            "type": "Array"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Dependent",
+            "module": "Validators"
+        },
+        {
             "file": "addon/validators/ds-error.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
@@ -2243,7 +2432,7 @@
         },
         {
             "file": "addon/validators/format.js",
-            "line": 61,
+            "line": 59,
             "description": "Normalized options passed in by applying the desired regex or using the one declared",
             "itemtype": "method",
             "name": "buildOptions",
@@ -2294,7 +2483,7 @@
         },
         {
             "file": "addon/validators/length.js",
-            "line": 42,
+            "line": 38,
             "description": "Default allowNone to true",
             "itemtype": "method",
             "name": "buildOptions",
@@ -2377,14 +2566,14 @@
             "file": "addon/index.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
-            "class": "",
+            "class": "Collection",
             "module": "Validators"
         },
         {
             "file": "app/validators/messages.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
-            "class": "",
+            "class": "Collection",
             "module": "Usage"
         },
         {
@@ -2398,7 +2587,7 @@
                     "type": "AST.Node"
                 }
             ],
-            "class": "",
+            "class": "Collection",
             "module": "Templating",
             "submodule": "V-Get Helper"
         },
@@ -2413,7 +2602,7 @@
                     "type": "AST.Node"
                 }
             ],
-            "class": "",
+            "class": "Collection",
             "module": "Templating",
             "submodule": "V-Get Helper"
         },
@@ -2428,7 +2617,7 @@
                     "type": "AST.Node"
                 }
             ],
-            "class": "",
+            "class": "Collection",
             "module": "Templating",
             "submodule": "V-Get Helper"
         },
@@ -2447,9 +2636,740 @@
                 "description": "",
                 "type": "AST.Node"
             },
-            "class": "",
+            "class": "Collection",
             "module": "Templating",
             "submodule": "V-Get Helper"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/-private/validators-cache.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Collection",
+            "module": "Templating"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/utils/is-promise.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Collection",
+            "module": "Templating"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/utils/require-module.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Collection",
+            "module": "Templating"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/utils/unwrap-proxy.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Collection",
+            "module": "Templating"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/utils/validation-error.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Collection",
+            "module": "Templating"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/collection.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Collection",
+            "module": "Templating"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/collection.js",
+            "line": 21,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "collection",
+                            "description": "",
+                            "type": "Boolean"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Collection",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/confirmation.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Confirmation",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/confirmation.js",
+            "line": 21,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "on",
+                            "description": "The attribute to confirm against",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Confirmation",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/date.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Date",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/date.js",
+            "line": 29,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "allowBlank",
+                            "description": "If true, skips validation if the value is empty",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "before",
+                            "description": "The specified date must be before this date",
+                            "type": "String"
+                        },
+                        {
+                            "name": "onOrBefore",
+                            "description": "The specified date must be on or before this date",
+                            "type": "String"
+                        },
+                        {
+                            "name": "after",
+                            "description": "The specified date must be after this date",
+                            "type": "String"
+                        },
+                        {
+                            "name": "onOrAfter",
+                            "description": "The specified date must be on or after this date",
+                            "type": "String"
+                        },
+                        {
+                            "name": "precision",
+                            "description": "Limit the comparison check to a specific granularity.\n                                  Possible Options: [`year`, `month`, `week`, `day`, `hour`, `minute`, `second`].",
+                            "type": "String"
+                        },
+                        {
+                            "name": "format",
+                            "description": "Input value date format",
+                            "type": "String"
+                        },
+                        {
+                            "name": "errorFormat",
+                            "description": "Error output date format. Defaults to `MMM Do, YYYY`",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Date",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/ds-error.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "DS Error",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/ds-error.js",
+            "line": 25,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "DS Error",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/exclusion.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Exclusion",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/exclusion.js",
+            "line": 22,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "allowBlank",
+                            "description": "If true, skips validation if the value is empty",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "in",
+                            "description": "The list of values this attribute should not be",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "range",
+                            "description": "The range in which the attribute's value should not reside in",
+                            "type": "Array"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Exclusion",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/format.js",
+            "line": 2,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Format",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/format.js",
+            "line": 21,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "allowBlank",
+                            "description": "If true, skips validation if the value is empty",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "type",
+                            "description": "Can be the one of the following options [`email`, `phone`, `url`]",
+                            "type": "String"
+                        },
+                        {
+                            "name": "regex",
+                            "description": "The regular expression to test against",
+                            "type": "Regex"
+                        },
+                        {
+                            "name": "allowNonTld",
+                            "description": "If true, the predefined regular expression `email` allows non top-level domains",
+                            "type": "Boolean"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Format",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/inclusion.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Inclusion",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/inclusion.js",
+            "line": 22,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "allowBlank",
+                            "description": "If true, skips validation if the value is empty",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "in",
+                            "description": "The list of values this attribute could be",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "range",
+                            "description": "The range in which the attribute's value should reside in",
+                            "type": "Array"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Inclusion",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/index.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Length",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/length.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Length",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/length.js",
+            "line": 22,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "allowNone",
+                            "description": "If true, skips validation if the value is null or undefined. __Default: true__",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "allowBlank",
+                            "description": "If true, skips validation if the value is empty",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "is",
+                            "description": "The exact length the value can be",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "min",
+                            "description": "The minimum length the value can be",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "max",
+                            "description": "The maximum length the value can be",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Length",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 18,
+            "description": "Regex for matching error message placeholders",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "property",
+            "name": "_regex",
+            "type": "{RegExp}",
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 26,
+            "description": "Default attribute description if one isnt passed into a validator's options",
+            "itemtype": "property",
+            "name": "defaultDescription",
+            "type": "{String}",
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 33,
+            "description": "Get a description for a specific attribute. This is a hook\nfor i18n solutions to retrieve attribute descriptions from a translation",
+            "itemtype": "method",
+            "name": "getDescriptionFor",
+            "params": [
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 45,
+            "description": "Get a message with a given type",
+            "itemtype": "method",
+            "name": "getMessageFor",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 56,
+            "description": "Regex replace all placeholders with their given context",
+            "itemtype": "method",
+            "name": "formatMessage",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/messages.js",
+            "line": 72,
+            "description": "Default validation error message strings",
+            "class": "Messages",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/number.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Number",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/number.js",
+            "line": 20,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "allowBlank",
+                            "description": "If true, skips validation if the value is empty",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "allowString",
+                            "description": "If true, validator will accept string representation of a number",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "integer",
+                            "description": "Number must be an integer",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "positive",
+                            "description": "Number must be greater than 0",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "odd",
+                            "description": "Number must be odd",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "even",
+                            "description": "Number must be even",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "is",
+                            "description": "Number must be equal to this value",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "lt",
+                            "description": "Number must be less than this value",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "lte",
+                            "description": "Number must be less than or equal to this value",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "gt",
+                            "description": "Number must be greater than this value",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "gte",
+                            "description": "Number must be greater than or equal to this value",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Number",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/presence.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Presence",
+            "module": "Validators"
+        },
+        {
+            "file": "node_modules/ember-validators/addon/presence.js",
+            "line": 22,
+            "itemtype": "method",
+            "name": "validate",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "presence",
+                            "description": "If true validates that the given value is not empty,\n                                  if false, validates that the given value is empty.",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "ignoreBlank",
+                            "description": "If true, treats an empty or whitespace string as not present",
+                            "type": "Boolean"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Presence",
+            "module": "Validators"
         }
     ],
     "warnings": [
@@ -2604,6 +3524,78 @@
         {
             "message": "Missing item type\nTransform (v-get model 'username' 'isValid') to (get (get model.validations.attrs 'username') 'isValid') OR\n(v-get model 'isValid') to (get model.validations 'isValid')",
             "line": " htmlbars-plugins/v-get.js:162"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/-private/validators-cache.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/utils/is-promise.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/utils/require-module.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/utils/unwrap-proxy.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/utils/validation-error.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/collection.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/confirmation.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/date.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/ds-error.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/exclusion.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/format.js:2"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/inclusion.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/index.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/length.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/messages.js:1"
+        },
+        {
+            "message": "Missing item type\nDefault validation error message strings",
+            "line": " node_modules/ember-validators/addon/messages.js:72"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/number.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " node_modules/ember-validators/addon/presence.js:1"
         }
     ]
 }

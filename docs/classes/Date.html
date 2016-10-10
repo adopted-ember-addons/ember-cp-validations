@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.0" target="_blank">
-                                  Tag: v3.1.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/99f66db1" target="_blank">
+                                  Tag: 3.1.0.99f66db1
                                 </a>
                             </h4>
                         </div>
@@ -183,7 +183,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Date Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/date.js#L8" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/node_modules/ember-validators/addon/date.js#L24" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -200,35 +200,25 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/date.js#L8">addon/validators/date.js:8</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/node_modules/ember-validators/addon/date.js#L24">node_modules/ember-validators/addon/date.js:24</a>
         </div>
 </div>
 
 
 
   <div class="class-description">
-  <p>Validate over a date range. Uses <a href="http://momentjs.com/">MomentJS</a> for date mathematics and calculations.</p>
-<p>-<em>Note</em>*: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install <a href="https://github.com/stefanpenner/ember-moment">ember-moment</a></p>
-<h4>Options</h4>
-<ul>
-<li><code>allowBlank</code> (<strong>Boolean</strong>): If true, skips validation if the value is empty</li>
-<li><code>before</code> (<strong>String</strong>): The specified date must be before this date</li>
-<li><code>onOrBefore</code> (<strong>String</strong>): The specified date must be on or before this date</li>
-<li><code>after</code> (<strong>String</strong>): The specified date must be after this date</li>
-<li><code>onOrAfter</code> (<strong>String</strong>): The specified date must be on or after this date</li>
-<li><code>precision</code> (<strong>String</strong>): Limit the comparison check to a specific granularity. Options: year, month, week, day, hour, minute, second.</li>
-<li><code>format</code> (<strong>String</strong>): Input value date format</li>
-<li><code>errorFormat</code> (<strong>String</strong>): Error output date format. Defaults to <code>MMM Do, YYYY</code></li>
-</ul>
-<pre class="code prettyprint"><code class="language-javascript">// Example
-validator('date', {
-    after: 'now',
-    before: '1/1/2020',
-    precision: 'day',
-    format: 'M/D/YYY',
-    errorFormat: 'M/D/YYY'
+  <p><i class="fa fa-hand-o-right" aria-hidden="true"></i> <a href="#method_validate">See All Options</a></p>
+<p>Validate over a date range. Uses <a href="http://momentjs.com/">MomentJS</a> for date mathematics and calculations.</p>
+<p><strong>Note</strong>: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install <a href="https://github.com/stefanpenner/ember-moment">ember-moment</a></p>
+<h2>Examples</h2>
+<p>If <code>before</code>, <code>onOrBefore</code>, <code>after</code>, or <code>onOrAfter</code> is set to <strong>now</strong>, the value given to the validator will be tested against the current date and time.</p>
+<pre class="code prettyprint"><code class="language-javascript">validator('date', {
+  after: 'now',
+  before: '1/1/2020',
+  precision: 'day',
+  format: 'M/D/YYY',
+  errorFormat: 'M/D/YYY'
 })
-// If before, onOrBefore, after, or onOrAfter is set to 'now', the value given to the validator will be tested against the current date and time.
 </code></pre>
 
   </div>
@@ -377,7 +367,7 @@ validator('date', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_buildOptions">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L100">addon/validators/base.js:100</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L100">addon/validators/base.js:100</a>
   		</p>
   
   
@@ -460,7 +450,7 @@ validator('date', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L182">addon/validators/base.js:182</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L182">addon/validators/base.js:182</a>
   		</p>
   
   
@@ -557,7 +547,7 @@ validator('date', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_getValue">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L151">addon/validators/base.js:151</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L151">addon/validators/base.js:151</a>
   		</p>
   
   
@@ -579,7 +569,7 @@ validator('date', {
   		</div>
   
   </div>
-  <div id="method_validate" class="method item inherited">
+  <div id="method_validate" class="method item">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
   		<a class="fa fa-link toc-anchor" href="#method_validate"></a>
@@ -602,9 +592,6 @@ validator('date', {
   				</li>
   			</ul><span class="paren">)</span>
   		</div>
-  		<span class="returns-inline">
-  			<span class="type"></span>
-  		</span>
   	</span>
   
   
@@ -614,19 +601,18 @@ validator('date', {
   
   
   	<div class="meta">
-  				<p>Inherited from
-  				<a href="../classes/Base.html#method_validate">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L163">addon/validators/base.js:163</a>
+  			<p>Inherited from
+  			<a href="../classes/Base.html#method_validate">
+  				Base
+  			</a>
+  			but overwritten in
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/node_modules/ember-validators/addon/date.js#L29">node_modules/ember-validators/addon/date.js:29</a>
   		</p>
   
   
   
   	</div>
   
-  	<div class="description"><p>The validate method is where all of your logic should go.
-  It will get passed in the current value of the attribute this validator is attached to.
-  Within the validator object, you will have access to the following properties:</p>
-  </div>
   
   		<div class="params">
   			<h4>Parameters:</h4>
@@ -634,11 +620,9 @@ validator('date', {
   			<ul class="params-list">
   				<li class="param">
   						<code class="param-name">value</code>
-  						<span class="type">Mixed</span>
+  						<span class="type">Any</span>
   
   
-  					<div class="param-description"><p>The current value of the attribute</p>
-  </div>
   
   				</li>
   				<li class="param">
@@ -646,17 +630,80 @@ validator('date', {
   						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
-  					<div class="param-description"><p>The built and processed options</p>
+  
+  						<ul class="params-list">
+  							<li class="param">
+  									<code class="param-name">allowBlank</code>
+  									<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  								<div class="param-description"><p>If true, skips validation if the value is empty</p>
   </div>
   
+  							</li>
+  							<li class="param">
+  									<code class="param-name">before</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>The specified date must be before this date</p>
+  </div>
+  
+  							</li>
+  							<li class="param">
+  									<code class="param-name">onOrBefore</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>The specified date must be on or before this date</p>
+  </div>
+  
+  							</li>
+  							<li class="param">
+  									<code class="param-name">after</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>The specified date must be after this date</p>
+  </div>
+  
+  							</li>
+  							<li class="param">
+  									<code class="param-name">onOrAfter</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>The specified date must be on or after this date</p>
+  </div>
+  
+  							</li>
+  							<li class="param">
+  									<code class="param-name">precision</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>Limit the comparison check to a specific granularity.
+  Possible Options: [<code>year</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code>, <code>minute</code>, <code>second</code>].</p>
+  </div>
+  
+  							</li>
+  							<li class="param">
+  									<code class="param-name">format</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>Input value date format</p>
+  </div>
+  
+  							</li>
+  							<li class="param">
+  									<code class="param-name">errorFormat</code>
+  									<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  								<div class="param-description"><p>Error output date format. Defaults to <code>MMM Do, YYYY</code></p>
+  </div>
+  
+  							</li>
+  						</ul>
   				</li>
   				<li class="param">
   						<code class="param-name">model</code>
   						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
   
-  					<div class="param-description"><p>The current model being evaluated</p>
-  </div>
   
   				</li>
   				<li class="param">
@@ -664,26 +711,11 @@ validator('date', {
   						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
   
   
-  					<div class="param-description"><p>The current attribute being evaluated</p>
-  </div>
   
   				</li>
   			</ul>
   		</div>
   
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  					<p>One of the following types:</p>
-  <ul>
-  <li><code>Boolean</code>:  <code>true</code> if the current value passed the validation</li>
-  <li><code>String</code>: The error message</li>
-  <li><code>Promise</code>: A promise that will either resolve or reject, and will finally return either <code>true</code> or the final error message string.</li>
-  </ul>
-  
-  			</div>
-  		</div>
   
   </div>
   <div id="method_value" class="method item inherited">
@@ -717,7 +749,7 @@ validator('date', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_value">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L137">addon/validators/base.js:137</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L137">addon/validators/base.js:137</a>
   		</p>
   
   
@@ -780,7 +812,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property__type">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L72">addon/validators/base.js:72</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L72">addon/validators/base.js:72</a>
           </p>
   
   
@@ -808,7 +840,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_attribute">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L52">addon/validators/base.js:52</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L52">addon/validators/base.js:52</a>
           </p>
   
   
@@ -836,7 +868,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_defaultOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L31">addon/validators/base.js:31</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L31">addon/validators/base.js:31</a>
           </p>
   
   
@@ -864,7 +896,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_errorMessages">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L59">addon/validators/base.js:59</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L59">addon/validators/base.js:59</a>
           </p>
   
   
@@ -892,7 +924,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_globalOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L38">addon/validators/base.js:38</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L38">addon/validators/base.js:38</a>
           </p>
   
   
@@ -920,7 +952,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_isWarning">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L66">addon/validators/base.js:66</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L66">addon/validators/base.js:66</a>
           </p>
   
   
@@ -947,7 +979,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_model">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L45">addon/validators/base.js:45</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L45">addon/validators/base.js:45</a>
           </p>
   
   
@@ -975,7 +1007,7 @@ validator('date', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_options">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/tree/v3.1.0/addon/validators/base.js#L24">addon/validators/base.js:24</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/tree/99f66db1/addon/validators/base.js#L24">addon/validators/base.js:24</a>
           </p>
   
   
