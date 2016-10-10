@@ -6,13 +6,13 @@
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.
  *
- *   #### Options
- *  - `ignoreBlank` (**Boolean**): If true, treats an empty or whitespace string as not present
+ *  ## Examples
  *
  *  ```javascript
- *  // Examples
  *  validator('presence', true)
  *  validator('presence', false)
  *  validator('presence', {

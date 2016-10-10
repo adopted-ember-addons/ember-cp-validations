@@ -19,16 +19,16 @@ const {
 } = Ember;
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  Defines an attribute as valid only if its dependents are valid.
  *
- *   #### Options
- *  - `on` (**Array**): Attributes this field is dependent on
+ *  ## Example
  *
  *  ```javascript
- *  // Example
  *  // Full name will only be valid if firstName and lastName are filled in
  *  validator('dependent', {
- *      on: ['firstName', 'lastName'],
+ *    on: ['firstName', 'lastName']
  *  })
  *  ```
  *
@@ -39,6 +39,14 @@ const {
 const Dependent = Base.extend({
   _type: 'dependent',
 
+  /**
+   * @method validate
+   * @param {Any} value
+   * @param {Object} options
+   * @param {Array} options.on Attributes this field is dependent on
+   * @param {Object} model
+   * @param {String} attribute
+   */
   validate(value, options, model, attribute) {
     let { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
 

@@ -6,20 +6,18 @@
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  Validates that the attributes’ values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.
  *
- *   #### Options
- *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
- *  - `in` (**Array**): The list of values this attribute should not be
- *  - `range` (**Array**): The range in which the attribute's value should not reside in
+ *  ## Examples:
  *
  *  ```javascript
- *  // Examples
  *  validator('exclusion', {
- *      in: ['Admin', 'Super Admin']
+ *    in: ['Admin', 'Super Admin']
  *  })
  *  validator('exclusion', {
- *      range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)
+ *    range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)
  *  })
  *  ```
  *

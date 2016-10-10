@@ -90,11 +90,6 @@ export default Ember.Object.extend({
     return makeArray(get(this, 'error'));
   }),
 
-  /**
-   * Promise handler
-   * @method  _handlePromise
-   * @private
-   */
   _handlePromise() {
     set(this, 'isValidating', true);
 

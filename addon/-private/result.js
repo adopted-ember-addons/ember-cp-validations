@@ -22,7 +22,8 @@ const {
 } = computed;
 
 /**
- * This class is `private` and is only used by {{#crossLink 'ResultCollection'}}{{/crossLink}}
+ * __PRIVATE__
+ *
  * @module Validations
  * @class Result
  * @private
@@ -223,7 +224,7 @@ const Result = Ember.Object.extend({
 
   /**
    * Promise handler
-   * @method  _handlePromise
+   * @method _handlePromise
    * @private
    */
   _handlePromise() {

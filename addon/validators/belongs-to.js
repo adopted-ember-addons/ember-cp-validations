@@ -12,6 +12,8 @@ const {
 } = Ember;
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  Identifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.
  *  This is used to create a link to the validations object of the child model.
  *

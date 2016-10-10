@@ -7,7 +7,8 @@
     "paths": [
       "app",
       "addon",
-      "htmlbars-plugins"
+      "htmlbars-plugins",
+      "node_modules/ember-validators/addon"
     ],
     "external": {
       "data": [{

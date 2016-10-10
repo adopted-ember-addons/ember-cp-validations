@@ -7,6 +7,8 @@ import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  Identifies a `has-many` relationship in an Ember Data Model or Ember.Object.
  *  This is used to create a validation collection of the `has-many` validations.
  *

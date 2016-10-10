@@ -12,23 +12,19 @@ const {
 } = Ember;
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  Validates the length of the attributes’ values.
  *
- *   #### Options
- *  - `allowNone` (**Boolean**): If true, skips validation if the value is null or undefined. __Default: true__
- *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
- *  - `is` (**Number**): The exact length the value can be
- *  - `min` (**Number**): The minimum length the value can be
- *  - `max` (**Number**): The maximum length the value can be
+ *  ## Examples
  *
  *  ```javascript
- *  // Examples
  *  validator('length', {
  *    is: 15
  *  })
  *  validator('length', {
- *      min: 5,
- *      max: 10
+ *    min: 5,
+ *    max: 10
  *  })
  *  ```
  *

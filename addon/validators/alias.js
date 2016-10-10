@@ -14,16 +14,15 @@ const {
 } = Ember;
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  Creates an alias between a single attribute's validations to another.
  *  This copies all messages, errors, etc., to the current attribute as well as
  *  its validation state (isValid, isValidating, etc.)
  *
- *   #### Options
- *  - `firstMessageOnly` (**Boolean**): If true, only returns the first error message of the
- *  aliased attribute and will not include validation state
+ *  ## Examples
  *
  *  ```javascript
- *  // Examples
  *  validator('alias', 'attribute')
  *  validator('alias', {
  *    alias: 'attribute',
@@ -65,6 +64,16 @@ const Alias = Base.extend({
     return this._super(opts, defaultOptions, globalOptions);
   },
 
+  /**
+   * @method validate
+   * @param {Any} value
+   * @param {Object} options
+   * @param {String} options.alias The attribute to alias
+   * @param {Boolean} options.firstMessageOnly If true, only returns the first error message of the
+   *                                           aliased attribute and will not include validation state
+   * @param {Object} model
+   * @param {String} attribute
+   */
   validate(value, options, model, attribute) {
     let { alias, firstMessageOnly } = getProperties(options, ['alias', 'firstMessageOnly']);
 

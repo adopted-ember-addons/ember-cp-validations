@@ -11,11 +11,14 @@ const {
 } = Ember;
 
 /**
+ *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
+ *
  *  If `true` validates that the given value is a valid collection and will add `<ATTRIBUTE>.[]` as a dependent key to the CP.
  *  If `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
  *
+ *  ## Examples
+ *
  *  ```javascript
- *  // Examples
  *  validator('collection', true)
  *  validator('collection', false)
  *  validator('collection', {
