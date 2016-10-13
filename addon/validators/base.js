@@ -281,7 +281,7 @@ export default Base;
  * export default UniqueUsername;
  * ```
  *
- * **Side Node**: Before we continue, I would suggest checking out the documentation for the {{#crossLink 'Base'}}Base Validator{{/crossLink}}.
+ * **Side Note**: Before we continue, I would suggest checking out the documentation for the {{#crossLink 'Base'}}Base Validator{{/crossLink}}.
  *
  * If you want to interact with the `store` within your validator, you can simply inject the service like you would a component.
  * Since you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.
