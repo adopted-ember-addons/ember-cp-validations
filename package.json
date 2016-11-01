@@ -16,7 +16,7 @@
     "url": "http://github.com/offirgolan/ember-cp-validations.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "author": "Offir Golan <offirgolan@gmail.com>",
   "contributors": [
