@@ -67,7 +67,7 @@
     "ember-suave": "4.0.1",
     "ember-truth-helpers": "1.2.0",
     "loader.js": "^4.0.11",
-    "moment": "2.15.1",
+    "moment": "2.15.2",
     "moment-timezone": "0.5.7",
     "yuidoc-ember-theme": "^1.2.1"
   },
