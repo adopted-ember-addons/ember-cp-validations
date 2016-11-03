@@ -5,7 +5,7 @@
 
 import Ember from 'ember';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
-import _requireModule from 'ember-validators/utils/require-module';
+import requireModule from 'ember-require-module';
 
 const DS = requireModule('ember-data');
 
@@ -18,10 +18,6 @@ const {
 } = Ember;
 
 const assign = Ember.assign || Ember.merge;
-
-export function requireModule() {
-  return _requireModule(...arguments);
-}
 
 export function unwrapString(s) {
   if (isHTMLSafe(s)) {
