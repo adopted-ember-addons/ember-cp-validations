@@ -303,7 +303,8 @@ function createAttrsClass(validatableAttributes, validationRules, owner) {
       validatableAttributes.forEach(attribute => {
         // Add a reference to the model in the deepest object
         const path = attribute.split('.');
-        const lastObject = get(this, path.slice(0, path.length - 1).join('.'));
+        const pathFragment = path.slice(0, path.length - 1).join('.');
+        const lastObject = isEmpty(pathFragment) ? this : get(this, pathFragment);
 
         if (isNone(get(lastObject, '_model'))) {
           set(lastObject, '_model', model);
@@ -316,7 +317,8 @@ function createAttrsClass(validatableAttributes, validationRules, owner) {
       validatableAttributes.forEach(attribute => {
         // Remove model reference from nested objects
         const path = attribute.split('.');
-        const lastObject = get(this, path.slice(0, path.length - 1).join('.'));
+        const pathFragment = path.slice(0, path.length - 1).join('.');
+        const lastObject = isEmpty(pathFragment) ? this : get(this, pathFragment);
 
         if (!isNone(get(lastObject, '_model'))) {
           set(lastObject, '_model', null);
