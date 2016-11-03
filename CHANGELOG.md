@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.1.1
+
+- [#383](https://github.com/offirgolan/ember-cp-validations/pull/383) [BUGFIX] Use ember-require-module
+
 ## v3.1.0
 
 - [#363](https://github.com/offirgolan/ember-cp-validations/pull/363) Use ember-validators
