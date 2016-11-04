@@ -20,7 +20,7 @@ addons:
       - google-chrome-stable
 
 env:
-  - EMBER_TRY_SCENARIO=default COVERAGE=true
+  - EMBER_TRY_SCENARIO=default
   - EMBER_TRY_SCENARIO=ember-1.11
   - EMBER_TRY_SCENARIO=ember-1.12
   - EMBER_TRY_SCENARIO=ember-1.13
