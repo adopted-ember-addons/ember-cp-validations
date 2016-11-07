@@ -33,7 +33,7 @@ const {
  *  @extends Base
  */
 const Confirmation = EmberValidator.extend({
-  _type: 'confirmation'
+  _evType: 'confirmation'
 });
 
 Confirmation.reopenClass({

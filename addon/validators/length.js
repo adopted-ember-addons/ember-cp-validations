@@ -33,7 +33,7 @@ const {
  *  @extends Base
  */
 export default EmberValidator.extend({
-  _type: 'length',
+  _evType: 'length',
 
   /**
    * Default allowNone to true
