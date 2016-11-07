@@ -32,7 +32,7 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @extends Base
  */
 export default EmberValidator.extend({
-  _type: 'presence',
+  _evType: 'presence',
 
   /**
    * Normalized options passed in.

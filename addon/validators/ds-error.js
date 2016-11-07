@@ -23,7 +23,7 @@ import { getPathAndKey } from 'ember-validators/ds-error';
  *  @extends Base
  */
 const DSError = EmberValidator.extend({
-  _type: 'ds-error'
+  _evType: 'ds-error'
 });
 
 DSError.reopenClass({

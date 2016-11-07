@@ -81,8 +81,6 @@ const {
  *  @extends Base
  */
 const BelongsTo = Base.extend({
-  _type: 'belongs-to',
-
   validate(value) {
     if (value) {
       if (isPromise(value)) {

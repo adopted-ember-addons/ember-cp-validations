@@ -37,8 +37,6 @@ const {
  *  @extends Base
  */
 const Dependent = Base.extend({
-  _type: 'dependent',
-
   /**
    * @method validate
    * @param {Any} value
