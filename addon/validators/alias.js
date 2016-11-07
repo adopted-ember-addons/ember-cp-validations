@@ -35,8 +35,6 @@ const {
  *  @extends Base
  */
 const Alias = Base.extend({
-  _type: 'alias',
-
   /**
    * Normalized options passed in.
    * ```js

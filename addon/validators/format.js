@@ -53,7 +53,7 @@ const {
  *  @extends Base
  */
 export default EmberValidator.extend({
-  _type: 'format',
+  _evType: 'format',
   regularExpressions,
 
   /**

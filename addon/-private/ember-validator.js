@@ -3,7 +3,7 @@ import { validate as _validate } from 'ember-validators';
 
 export default Base.extend({
   validate() {
-    let result = _validate(this.get('_type'), ...arguments);
+    let result = _validate(this.get('_evType'), ...arguments);
 
     if (result && typeof result === 'object') {
       return this.createErrorMessage(result.type, result.value, result.context);
