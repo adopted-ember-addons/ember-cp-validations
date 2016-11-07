@@ -3,7 +3,7 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v3.1.1"
+        "version": "v3.1.2"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
@@ -1983,7 +1983,7 @@
         },
         {
             "file": "addon/validators/alias.js",
-            "line": 40,
+            "line": 38,
             "description": "Normalized options passed in.\n```js\nvalidator('alias', 'attribute')\n// Becomes\nvalidator('alias', {\n  alias: 'attribute'\n})\n```",
             "itemtype": "method",
             "name": "buildOptions",
@@ -2013,7 +2013,7 @@
         },
         {
             "file": "addon/validators/alias.js",
-            "line": 67,
+            "line": 65,
             "itemtype": "method",
             "name": "validate",
             "params": [
@@ -2367,7 +2367,7 @@
         },
         {
             "file": "addon/validators/dependent.js",
-            "line": 42,
+            "line": 40,
             "itemtype": "method",
             "name": "validate",
             "params": [
