@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.1.2
+
+- [#389](https://github.com/offirgolan/ember-cp-validations/pull/389) [BUGFIX] Resolve \_type conflicts with EmberValidator classes
+
 ## v3.1.1
 
 - [#383](https://github.com/offirgolan/ember-cp-validations/pull/383) [BUGFIX] Use ember-require-module
