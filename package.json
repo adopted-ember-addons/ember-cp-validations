@@ -44,7 +44,7 @@
     "ember-cli-code-coverage": "0.3.8",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-github-pages": "^0.1.2",
-    "ember-cli-htmlbars": "^1.1.0",
+    "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-htmlbars-inline-precompile": "^0.3.6",
     "ember-cli-inject-live-reload": "^1.4.0",
     "ember-cli-jshint": "^2.0.0",
