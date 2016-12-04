@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.1.3
+
+- [#405](https://github.com/offirgolan/ember-cp-validations/pull/405) Add support for ember-source NPM package [@rwjblue](https://github.com/rwjblue))
+
 ## v3.1.2
 
 - [#389](https://github.com/offirgolan/ember-cp-validations/pull/389) [BUGFIX] Resolve \_type conflicts with EmberValidator classes
