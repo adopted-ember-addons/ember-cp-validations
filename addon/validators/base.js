@@ -5,14 +5,14 @@
 
 import Ember from 'ember';
 import Messages from 'ember-cp-validations/validators/messages';
-import getOwner from 'ember-getowner-polyfill';
 import { unwrapString, getValidatableValue, mergeOptions } from 'ember-cp-validations/utils/utils';
 
 const {
   get,
   set,
   isNone,
-  computed
+  computed,
+  getOwner
 } = Ember;
 
 /**

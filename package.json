@@ -16,7 +16,7 @@
     "url": "http://github.com/offirgolan/ember-cp-validations.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.12.0"
   },
   "author": "Offir Golan <offirgolan@gmail.com>",
   "contributors": [
@@ -37,17 +37,17 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.6",
     "ember-ajax": "^2.5.1",
-    "ember-cli": "^2.7.0",
+    "ember-cli": "^2.10.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-autoprefixer": "^0.6.0",
     "ember-cli-changelog": "0.3.4",
     "ember-cli-code-coverage": "0.3.8",
-    "ember-cli-dependency-checker": "^1.2.0",
+    "ember-cli-dependency-checker": "^1.3.0",
     "ember-cli-github-pages": "^0.1.2",
     "ember-cli-htmlbars": "^1.1.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.6",
-    "ember-cli-inject-live-reload": "^1.4.0",
-    "ember-cli-jshint": "^2.0.0",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-jshint": "^2.0.1",
     "ember-cli-less": "1.5.3",
     "ember-cli-moment-shim": "2.2.1",
     "ember-cli-qunit": "^3.0.0",
@@ -57,7 +57,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-cli-yuidoc": "^0.8.7",
     "ember-code-snippet": "^1.7.0",
-    "ember-data": "^2.7.0",
+    "ember-data": "^2.10.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.2.0",
@@ -82,7 +82,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.8",
     "ember-cli-version-checker": "^1.2.0",
-    "ember-getowner-polyfill": "^1.0.1",
+    "ember-getowner-polyfill": "^1.1.0",
     "ember-validators": "0.1.2",
     "ember-require-module": "^0.1.1",
     "ember-string-ishtmlsafe-polyfill": "1.0.1",

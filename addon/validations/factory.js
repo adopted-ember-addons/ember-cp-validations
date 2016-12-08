@@ -4,7 +4,6 @@
  */
 
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 import flatten from '../utils/flatten';
 import assign from '../utils/assign';
 import ValidationResult from '../-private/result';
@@ -24,6 +23,7 @@ const {
   isEmpty,
   isArray,
   computed,
+  getOwner,
   makeArray,
   getWithDefault,
   A: emberArray
