@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.3" target="_blank">
-                                  Tag: v3.1.3
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.4" target="_blank">
+                                  Tag: v3.1.4
                                 </a>
                             </h4>
                         </div>
@@ -192,14 +192,14 @@
 
 import Ember from &#x27;ember&#x27;;
 import Messages from &#x27;ember-cp-validations/validators/messages&#x27;;
-import getOwner from &#x27;ember-getowner-polyfill&#x27;;
 import { unwrapString, getValidatableValue, mergeOptions } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 const {
   get,
   set,
   isNone,
-  computed
+  computed,
+  getOwner
 } = Ember;
 
 /**
