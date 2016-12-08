@@ -2,11 +2,14 @@ import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
 
+const assign = Ember.assign || Ember.merge;
+
 export default function startApp(attrs) {
   let application;
 
   // use defaults, but you can override
-  let attributes = Ember.assign({}, config.APP, attrs);
+  let attributes = assign({}, config.APP);
+  attributes = assign(attributes, attrs); // use defaults, but you can override;
 
   Ember.run(() => {
     application = Application.create(attributes);
