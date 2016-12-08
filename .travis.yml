@@ -9,6 +9,8 @@ dist: trusty
 cache:
   directories:
     - node_modules
+    - $HOME/.npm
+    - $HOME/.cache # includes bowers cache
 
 addons:
   code_climate:
@@ -25,9 +27,10 @@ env:
   - EMBER_TRY_SCENARIO=ember-1.12
   - EMBER_TRY_SCENARIO=ember-1.13
   - EMBER_TRY_SCENARIO=ember-2.0
-  - EMBER_TRY_SCENARIO=ember-2.1
-  - EMBER_TRY_SCENARIO=ember-2.2
   - EMBER_TRY_SCENARIO=ember-2.3
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  - EMBER_TRY_SCENARIO=ember-lts-2.8
+  - EMBER_TRY_SCENARIO=ember-2.10
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary

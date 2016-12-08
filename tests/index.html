@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ember CP Validations - Tests</title>
+    <title>Dummy Tests</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,41 +13,15 @@
     <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
     <link rel="stylesheet" href="{{rootURL}}assets/dummy.css">
     <link rel="stylesheet" href="{{rootURL}}assets/test-support.css">
-    <style>
-    #ember-testing-container {
-        position: absolute !important;
-        background: #fff;
-        bottom: 0;
-        right: 0;
-        width: 640px;
-        height: 384px;
-        overflow: auto;
-        z-index: 9999;
-        border: 1px solid #ccc;
-    }
-
-    #ember-testing {
-        zoom: 50%;
-    }
-
-    #ember-testing-container #ember-testing nav.nav-primary,
-    #ember-testing-container #ember-testing #main-header {
-        position: absolute;
-    }
-
-    body {
-        height: initial;
-    }
-    </style>
 
     {{content-for "head-footer"}}
     {{content-for "test-head-footer"}}
   </head>
   <body>
-
     {{content-for "body"}}
     {{content-for "test-body"}}
-    <script src="{{rootURL}}testem.js" integrity=""></script>
+
+    <script src="/testem.js" integrity=""></script>
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/test-support.js"></script>
     <script src="{{rootURL}}assets/dummy.js"></script>

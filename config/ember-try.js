@@ -14,68 +14,50 @@ module.exports = {
     name: 'ember-1.11',
     bower: {
       dependencies: {
-        ember: '~1.11.0',
+        'ember': '~1.11.0',
         'ember-data': '~1.13.0',
         'ember-cli-shims': '0.0.6'
       }
     },
     npm: {
       dependencies: {
-        'ember-get-helper': '^1.0.4',
+        'ember-get-helper': '^1.0.4'
       }
     }
   }, {
     name: 'ember-1.12',
     bower: {
       dependencies: {
-        ember: '~1.12.0',
+        'ember': '~1.12.0',
         'ember-data': '~1.13.0',
         'ember-cli-shims': '0.0.6'
       }
     },
     npm: {
       dependencies: {
-        'ember-get-helper': '^1.0.4',
+        'ember-get-helper': '^1.0.4'
       }
     }
   }, {
     name: 'ember-1.13',
     bower: {
       dependencies: {
-        ember: '~1.13.0',
+        'ember': '~1.13.0',
         'ember-data': '~1.13.0',
         'ember-cli-shims': '0.0.6'
       }
     },
     npm: {
       dependencies: {
-        'ember-get-helper': '^1.0.4',
+        'ember-get-helper': '^1.0.4'
       }
     }
   }, {
     name: 'ember-2.0',
     bower: {
       dependencies: {
-        ember: '~2.0.0',
+        'ember': '~2.0.0',
         'ember-data': '~2.0.0',
-        'ember-cli-shims': '0.0.6'
-      }
-    }
-  }, {
-    name: 'ember-2.1',
-    bower: {
-      dependencies: {
-        ember: '~2.1.0',
-        'ember-data': '~2.1.0',
-        'ember-cli-shims': '0.0.6'
-      }
-    }
-  }, {
-    name: 'ember-2.2',
-    bower: {
-      dependencies: {
-        ember: '~2.2.0',
-        'ember-data': '~2.2.0',
         'ember-cli-shims': '0.0.6'
       }
     }
@@ -83,8 +65,40 @@ module.exports = {
     name: 'ember-2.3',
     bower: {
       dependencies: {
-        ember: '~2.3.0',
+        'ember': '~2.3.0',
         'ember-data': '~2.3.0'
+      }
+    }
+  }, {
+    name: 'ember-lts-2.4',
+    bower: {
+      dependencies: {
+        'ember': 'components/ember#lts-2-4'
+      },
+      resolutions: {
+        'ember': 'lts-2-4'
+      }
+    }
+  }, {
+    name: 'ember-lts-2.8',
+    bower: {
+      dependencies: {
+        'ember': 'components/ember#lts-2-8'
+      },
+      resolutions: {
+        'ember': 'lts-2-8'
+      }
+    }
+  }, {
+    name: 'ember-2.10',
+    bower: {
+      dependencies: {
+        'ember': '~2.10.0'
+      }
+    },
+    npm: {
+      dependencies: {
+        'ember-data': '~2.10.0'
       }
     }
   }, {
