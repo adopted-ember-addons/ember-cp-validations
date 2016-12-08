@@ -434,29 +434,6 @@ test('disabled validations - cp with dependent key', function(assert) {
   assert.equal(object.get('validations.isValid'), true);
 });
 
-test('destroy object clears debounce cache', function(assert) {
-  let Validations = buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator((value, options, model, attr) => {
-      model.set('foo', 'bar');
-      return Validators.presence(value, options, model, attr);
-    }, { debounce: 500 })
-  });
-
-  let object = setupObject(this, Ember.Object.extend(Validations));
-
-  object.validate(); // force get all validations
-
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 1);
-
-  run(() => object.destroy());
-
-  run(() => {
-    assert.equal(Object.keys(object.get('validations._debouncedValidations')).length, 0);
-  });
-});
-
 test('attribute validation result options hash', function(assert) {
   this.register('validator:length', LengthValidator);
   this.register('validator:presence', PresenceValidator);
@@ -722,6 +699,7 @@ test('call super in validations class with no super property', function(assert) 
   });
 
   let component = setupObject(this, Ember.Component.extend(Validations, mixin, {
+    renderer: {},
     actions: {
       foo() {
         assert.ok(true);
