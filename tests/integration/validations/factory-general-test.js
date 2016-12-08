@@ -698,8 +698,7 @@ test('call super in validations class with no super property', function(assert) 
     }
   });
 
-  let component = setupObject(this, Ember.Component.extend(Validations, mixin, {
-    renderer: {},
+  let controller = setupObject(this, Ember.Controller.extend(Validations, mixin, {
     actions: {
       foo() {
         assert.ok(true);
@@ -708,7 +707,7 @@ test('call super in validations class with no super property', function(assert) 
     }
   }));
 
-  component.send('foo');
+  controller.send('foo');
 });
 
 test('multiple mixins', function(assert) {
