@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.1.4
+
+- [#414](https://github.com/offirgolan/ember-cp-validations/pull/414) Dependency upgrades
+
 ## v3.1.3
 
 - [#405](https://github.com/offirgolan/ember-cp-validations/pull/405) Add support for ember-source NPM package [@rwjblue](https://github.com/rwjblue))
