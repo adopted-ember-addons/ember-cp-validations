@@ -41,8 +41,8 @@ const {
  * Although validations are lazily computed, there are times where we might want to force all or
  * specific validations to happen. For this reason we have exposed three methods:
  *
- * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
+ * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
  * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state
  *
  * @module Validations
@@ -93,10 +93,7 @@ const {
  * @param  {Object} validations  Validation rules
  * @return {Ember.Mixin}
  */
-export
-default
-
-function buildValidations(validations = {}, globalOptions = {}) {
+export default function buildValidations(validations = {}, globalOptions = {}) {
   normalizeOptions(validations, globalOptions);
 
   let Validations, validationMixinCount;
@@ -121,18 +118,23 @@ function buildValidations(validations = {}, globalOptions = {}) {
       }
       return Validations;
     }).readOnly(),
+
     validations: computed(function() {
       return this.get('__validationsClass__').create({ model: this });
     }).readOnly(),
+
     validate() {
       return get(this, 'validations').validate(...arguments);
     },
+
     validateSync() {
       return get(this, 'validations').validateSync(...arguments);
     },
+
     validateAttribute() {
       return get(this, 'validations').validateAttribute(...arguments);
     },
+
     destroy() {
       this._super(...arguments);
       get(this, 'validations').destroy();
@@ -347,7 +349,6 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
     let attr = path.pop();
     let currPath = [rootPath];
     let currClass = AttrsClass;
-    let cpHash = {};
 
     // Iterate over the path and create the necessary nested classes along the way
     for (let i = 0; i < path.length; i++) {
@@ -370,8 +371,9 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
     }
 
     // Add the final attr's CP to the class
-    cpHash[attr] = createCPValidationFor(attribute, model, get(validationRules, attribute));
-    currClass.reopen(cpHash);
+    currClass.reopen({
+      [attr]: createCPValidationFor(attribute, model, get(validationRules, attribute))
+    });
   });
 
   return AttrsClass;
@@ -458,8 +460,7 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
   let value, result;
 
   return validators.map((validator) => {
-    let _options = get(validator, 'options');
-    let options = _options.copy();
+    let options = get(validator, 'options').copy();
     let isWarning = getWithDefault(options, 'isWarning', false);
     let disabled = getWithDefault(options, 'disabled', false);
     let debounce = getWithDefault(options, 'debounce', 0);
@@ -478,7 +479,7 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
           cache[guidFor(validator)] = t;
         }
       }).then(() => {
-        return validate(validator, _options.copy());
+        return validate(validator, get(validator, 'options').copy());
       });
     } else {
       value = validate(validator, options);
@@ -566,24 +567,20 @@ function getCPDependentKeysFor(attribute, model, validations) {
     let baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
     let dependents = Validator.getDependentsFor(attribute, options) || [];
 
-    let specifiedDependents = [].concat(
-      getWithDefault(options, 'dependentKeys', []),
-      getWithDefault(validation, 'defaultOptions.dependentKeys', []),
-      getWithDefault(validation, 'globalOptions.dependentKeys', [])
-    );
+    return [
+      ...baseDependents,
+      ...dependents,
 
-    // Extract dependentKeys from option CPs
-    let cpDependents = [].concat(
-      extractOptionsDependentKeys(options),
-      extractOptionsDependentKeys(get(validation, 'defaultOptions')),
-      extractOptionsDependentKeys(get(validation, 'globalOptions'))
-    );
+      // Get all explicitly defined dependents
+      ...getWithDefault(options, 'dependentKeys', []),
+      ...getWithDefault(validation, 'defaultOptions.dependentKeys', []),
+      ...getWithDefault(validation, 'globalOptions.dependentKeys', []),
 
-    return baseDependents.concat(
-      dependents,
-      cpDependents,
-      specifiedDependents
-    );
+      // Extract implicit dependents from CPs
+      ...extractOptionsDependentKeys(options),
+      ...extractOptionsDependentKeys(get(validation, 'defaultOptions')),
+      ...extractOptionsDependentKeys(get(validation, 'globalOptions'))
+    ];
   });
 
   dependentKeys = flatten(dependentKeys);
@@ -591,7 +588,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
   dependentKeys.push(`model.${attribute}`);
 
   if (isDsModel(model)) {
-    dependentKeys.push(`model.isDeleted`);
+    dependentKeys.push('model.isDeleted');
   }
 
   dependentKeys = dependentKeys.map((d) => {
@@ -666,12 +663,7 @@ function validationReturnValueHandler(attribute, value, model, validator) {
  */
 function getValidatorsFor(attribute, model) {
   let validators = get(model, `validations._validators.${attribute}`);
-
-  if (!isNone(validators)) {
-    return validators;
-  }
-
-  return createValidatorsFor(attribute, model);
+  return isNone(validators) ? createValidatorsFor(attribute, model) : validators;
 }
 
 /**
@@ -725,6 +717,7 @@ function createValidatorsFor(attribute, model) {
     } else {
       validator = lookupValidator(owner, v._type).create(v);
     }
+
     validators.push(validator);
   });
 
@@ -750,14 +743,11 @@ function lookupValidator(owner, type) {
   if (isNone(validatorClass)) {
     throw new Error(`[ember-cp-validations] Validator not found of type: ${type}.`);
   }
+
   return validatorClass;
 }
 
 /**
- * ### Options
- * - `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute
- * - `excludes` (**Array**): Exclude validation on the given attributes
- *
  * ```javascript
  * model.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {
  *   validations.get('isValid'); // true or false
@@ -769,7 +759,9 @@ function lookupValidator(owner, type) {
  * ```
  *
  * @method validate
- * @param  {Object}  options
+ * @param  {Object} options
+ * @param  {Array} options.on Only validate the given attributes. If empty, will validate over all validatable attribute
+ * @param  {Array} options.excludes Exclude validation on the given attributes
  * @param  {Boolean} async      If `false`, will get all validations and will error if an async validations is found.
  *                              If `true`, will get all validations and wrap them in a promise hash
  * @return {Promise or Object}  Promise if async is true, object if async is false
@@ -794,22 +786,21 @@ function validate(options = {}, async = true) {
 
       v.push(validationResult);
     }
+
     return v;
   }, []);
 
-  let resultCollection = ResultCollection.create({
+  let validations = ResultCollection.create({
     content: validationResults
   });
 
-  let resultObject = {
-    model,
-    validations: resultCollection
-  };
+  let resultObject = { model, validations };
 
   if (async) {
-    if (get(resultCollection, 'isAsync')) {
-      return RSVP.allSettled(makeArray(get(resultCollection, '_promise'))).then(() => resultObject);
+    if (get(validations, 'isAsync')) {
+      return RSVP.allSettled(makeArray(get(validations, '_promise'))).then(() => resultObject);
     }
+
     return Promise.resolve(resultObject);
   }
 
@@ -855,10 +846,6 @@ function validateAttribute(attribute, value) {
 }
 
 /**
- * ### Options
- * - `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute
- * - `excludes` (**Array**): Exclude validation on the given attributes
- *
  * ```javascript
  * let { m, validations } = model.validateSync();
  * validations.get('isValid') // true or false
@@ -866,6 +853,8 @@ function validateAttribute(attribute, value) {
  *
  * @method validateSync
  * @param  {Object}  options
+ * @param  {Array} options.on Only validate the given attributes. If empty, will validate over all validatable attribute
+ * @param  {Array} options.excludes Exclude validation on the given attributes
  * @return {Object}
  */
 function validateSync(options) {
