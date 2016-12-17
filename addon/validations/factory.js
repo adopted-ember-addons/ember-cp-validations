@@ -639,13 +639,14 @@ function validationReturnValueHandler(attribute, value, model, validator) {
     attribute,
     _validator: validator
   };
+  let owner = getOwner(model);
 
   if (isPromise(value)) {
-    result = ValidationResult.create(commonProps, {
+    result = ValidationResult.create(owner.ownerInjection(), commonProps, {
       _promise: Promise.resolve(value)
     });
   } else {
-    result = ValidationResult.create(commonProps);
+    result = ValidationResult.create(owner.ownerInjection(), commonProps);
     result.update(value);
   }
 

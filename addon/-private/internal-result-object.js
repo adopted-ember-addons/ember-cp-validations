@@ -13,7 +13,8 @@ const {
   isNone,
   computed,
   canInvoke,
-  makeArray
+  makeArray,
+  getOwner
 } = Ember;
 
 const {
@@ -75,8 +76,9 @@ export default Ember.Object.extend({
   }),
 
   error: computed('isInvalid', 'type', 'message', 'attribute', function() {
+    let owner = getOwner(this);
     if (get(this, 'isInvalid')) {
-      return ValidationError.create({
+      return ValidationError.create(owner.ownerInjection(), {
         type: get(this, '_type'),
         message: get(this, 'message'),
         attribute: get(this, 'attribute')

@@ -14,7 +14,8 @@ const {
   isArray,
   computed,
   setProperties,
-  getProperties
+  getProperties,
+  getOwner
 } = Ember;
 
 const {
@@ -159,9 +160,10 @@ const Result = Ember.Object.extend({
    * @type {Result}
    */
   _validations: computed('model', 'attribute', '_promise', '_validator', function() {
+    let owner = getOwner(this);
     return InternalResultObject.extend({
       attrValue: computed.readOnly(`model.${get(this, 'attribute')}`)
-    }).create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
+    }).create(owner.ownerInjection(), getProperties(this, ['model', 'attribute', '_promise', '_validator']));
   }),
 
   init() {
