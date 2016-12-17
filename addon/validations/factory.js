@@ -485,7 +485,7 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
       value = validate(validator, options);
     }
 
-    result = validationReturnValueHandler(attribute, value, model, validator);
+    result = validationReturnValueHandler(attribute, value, model, validator, options);
 
     /*
       If the current result is invalid, the rest of the validations do not need to be
@@ -632,12 +632,13 @@ function extractOptionsDependentKeys(options) {
  * @param  {Object} model
  * @return {ValidationResult}
  */
-function validationReturnValueHandler(attribute, value, model, validator) {
+function validationReturnValueHandler(attribute, value, model, validator, options) {
   let result;
   let commonProps = {
     model,
     attribute,
-    _validator: validator
+    _validator: validator,
+    options
   };
   let owner = getOwner(model);
 

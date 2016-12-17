@@ -45,6 +45,14 @@ const Result = Ember.Object.extend({
   attribute: '',
 
   /**
+   * @property options
+   * @async
+   * @private
+   * @type {Promise}
+   */
+  options: null,
+
+  /**
    * @property _promise
    * @async
    * @private
@@ -213,7 +221,7 @@ const Result = Ember.Object.extend({
     } else if (!get(this, '_isReadOnly')) {
       if (typeof result === 'string') {
         setProperties(validations, {
-          message: result,
+          result,
           isValid: false
         });
       } else if (typeof result === 'boolean') {
