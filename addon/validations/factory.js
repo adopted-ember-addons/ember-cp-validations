@@ -476,7 +476,9 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
         let t = run.debounce(validator, resolve, debounce, false);
 
         if (!opts.disableDebounceCache) {
-          cache[guidFor(validator)] = t;
+          let guid = guidFor(validator);
+          Ember.run.cancel(cache[guid])
+          cache[guid] = t;
         }
       }).then(() => {
         return validate(validator, get(validator, 'options').copy());
