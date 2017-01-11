@@ -27,6 +27,10 @@ __No observers were used nor harmed while developing and testing this addon.__
 - Warning validations
 - Dirty tracking
 
+[![Introduction to Ember CP Validations](https://cloud.githubusercontent.com/assets/2922250/21854491/ebda55b8-d7e8-11e6-8d13-00dff93be8d8.png)](https://embermap.com/video/ember-cp-validations)
+
+You can also learn more by watching this Global Ember Meetup talk:
+
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
 ## Installation
