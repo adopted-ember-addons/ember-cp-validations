@@ -79,7 +79,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Validations",
             "name": "Validations",
-            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed three methods:\n\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n- {{#crossLink \"Factory/validateAttribute:method\"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state"
+            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed three methods:\n\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validateAttribute:method\"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state"
         },
         {
             "displayName": "Validators",

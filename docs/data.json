@@ -3,7 +3,16 @@
         "name": "Ember CP Validations",
         "description": "Ember computed property based validations",
         "url": "https://github.com/offirgolan/ember-cp-validations",
-        "version": "v3.1.4"
+        "indexModule": "Usage",
+        "externalDocs": [
+            {
+                "name": "ember-validators",
+                "path": "node_modules/ember-validators",
+                "url": "https://github.com/offirgolan/ember-validators",
+                "version": "master"
+            }
+        ],
+        "version": "v3.1.5"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
@@ -410,7 +419,7 @@
             "tag": "main",
             "file": "addon/validations/result-collection.js",
             "line": 46,
-            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed three methods:\n\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n- {{#crossLink \"Factory/validateAttribute:method\"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state",
+            "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed three methods:\n\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validateAttribute:method\"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state",
             "access": "private",
             "tagname": "",
             "itemtype": "main"
@@ -1237,7 +1246,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 148,
+            "line": 150,
             "description": "Validation rules can be created with default and global options\n{\n  description: 'Username',\n  validators: [...]\n}\n\nThis method generate the default options pojo, applies it to each validation rule, and flattens the object",
             "itemtype": "method",
             "name": "normalizeOptions",
@@ -1258,7 +1267,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 189,
+            "line": 191,
             "description": "Creates the validations class that will become `model.validations`.\n  - Setup parent validation inheritance\n  - Normalize nested keys (i.e. 'details.dob') into objects (i.e { details: { dob: validator() }})\n  - Merge normalized validations with parent\n  - Create global CPs (i.e. 'isValid', 'messages', etc...)",
             "itemtype": "method",
             "name": "createValidationsClass",
@@ -1290,7 +1299,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 288,
+            "line": 290,
             "description": "Creates the `attrs` class which holds all the CP logic\n\n```javascript\nmodel.get('validations.attrs.username');\nmodel.get('validations.attrs.nested.object.attribute');\n```",
             "itemtype": "method",
             "name": "createAttrsClass",
@@ -1322,7 +1331,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 380,
+            "line": 382,
             "description": "CP generator for the given attribute",
             "itemtype": "method",
             "name": "createCPValidationFor",
@@ -1354,7 +1363,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 416,
+            "line": 418,
             "description": "Check if a collection of validations have an option\nequal to the given value",
             "itemtype": "method",
             "name": "hasOption",
@@ -1388,7 +1397,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 440,
+            "line": 442,
             "description": "Generates the validation results for a given attribute and validators. If a\ngiven validator should be validated, it calls upon the validate callback to retrieve\nthe result.",
             "itemtype": "method",
             "name": "generateValidationResultsFor",
@@ -1430,7 +1439,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 501,
+            "line": 502,
             "description": "Create a mixin that will have all the top level CPs under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
             "itemtype": "method",
             "name": "createTopLevelPropsMixin",
@@ -1448,7 +1457,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 548,
+            "line": 549,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -1480,7 +1489,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 604,
+            "line": 601,
             "description": "Extract all dependentKeys from any property that is a CP",
             "itemtype": "method",
             "name": "extractOptionsDependentKeys",
@@ -1502,7 +1511,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 628,
+            "line": 625,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -1534,7 +1543,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 658,
+            "line": 655,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -1561,7 +1570,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 677,
+            "line": 669,
             "description": "Get debounced validation cache for the given attribute. If it doesn't exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -1588,7 +1597,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 696,
+            "line": 688,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1615,7 +1624,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 737,
+            "line": 730,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1646,15 +1655,45 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 756,
-            "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
+            "line": 750,
+            "description": "Call the passed resolve method. This is needed as run.debounce expects a\nstatic method to work properly.",
+            "itemtype": "method",
+            "name": "resolveDebounce",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "resolve",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "Factory",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/validations/factory.js",
+            "line": 762,
+            "description": "```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
             "params": [
                 {
                     "name": "options",
                     "description": "",
-                    "type": "Object"
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "on",
+                            "description": "Only validate the given attributes. If empty, will validate over all validatable attribute",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "excludes",
+                            "description": "Exclude validation on the given attributes",
+                            "type": "Array"
+                        }
+                    ]
                 },
                 {
                     "name": "async",
@@ -1671,7 +1710,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 819,
+            "line": 822,
             "description": "A functional approach to check if a given attribute on a model is valid independently of the\nmodel attribute's validations. This method will always return a promise which will then resolve\nto a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```javascript\nmodel.validateAttribute('username', 'offirgolan').then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n});\n```",
             "itemtype": "method",
             "name": "validateAttribute",
@@ -1697,15 +1736,27 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 857,
-            "description": "### Options\n- `on` (**Array**): Only validate the given attributes. If empty, will validate over all validatable attribute\n- `excludes` (**Array**): Exclude validation on the given attributes\n\n```javascript\nlet { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
+            "line": 860,
+            "description": "```javascript\nlet { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
             "params": [
                 {
                     "name": "options",
                     "description": "",
-                    "type": "Object"
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "on",
+                            "description": "Only validate the given attributes. If empty, will validate over all validatable attribute",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "excludes",
+                            "description": "Exclude validation on the given attributes",
+                            "type": "Array"
+                        }
+                    ]
                 }
             ],
             "return": {
@@ -3361,7 +3412,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/validations/factory.js:416"
+            "line": " addon/validations/factory.js:418"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
