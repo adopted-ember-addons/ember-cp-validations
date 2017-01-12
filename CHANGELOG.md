@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.1.5
+
+- [#414](https://github.com/offirgolan/ember-cp-validations/pull/434) [BUGFIX] Debounce context not properly set
+
 ## v3.1.4
 
 - [#414](https://github.com/offirgolan/ember-cp-validations/pull/414) Dependency upgrades
