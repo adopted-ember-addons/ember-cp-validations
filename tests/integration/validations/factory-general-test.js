@@ -339,6 +339,33 @@ test('debounced validations', function(assert) {
   }, 500);
 });
 
+test('debounced validator should only be called once', function(assert) {
+  let count = 0;
+
+  let done = assert.async();
+  let Validations = buildValidations({
+    firstName: validator(() => count++, {
+      debounce: 500
+    })
+  });
+
+  let object = setupObject(this, Ember.Object.extend(Validations));
+
+  object.set('firstName', 'O');
+  object.get('validations.attrs.firstName.isValid');
+
+  object.set('firstName', 'Off');
+  object.get('validations.attrs.firstName.isValid');
+
+  object.set('firstName', 'Offir');
+  object.get('validations.attrs.firstName.isValid');
+
+  run.later(() => {
+    assert.equal(count, 1);
+    done();
+  }, 500);
+});
+
 test('debounced validations should cleanup on object destroy', function(assert) {
   let done = assert.async();
   let initSetup = true;

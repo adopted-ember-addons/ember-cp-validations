@@ -473,7 +473,7 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
 
       // Return a promise and pass the resolve method to the debounce handler
       value = new Promise((resolve) => {
-        let t = run.debounce(validator, resolve, debounce, false);
+        let t = run.debounce(validator, resolveDebounce, resolve, debounce);
 
         if (!opts.disableDebounceCache) {
           cache[guidFor(validator)] = t;
@@ -745,6 +745,18 @@ function lookupValidator(owner, type) {
   }
 
   return validatorClass;
+}
+
+/**
+ * Call the passed resolve method. This is needed as run.debounce expects a
+ * static method to work properly.
+ *
+ * @method resolveDebounce
+ * @private
+ * @param  {Function} resolve
+ */
+function resolveDebounce(resolve)  {
+  resolve();
 }
 
 /**
