@@ -11,7 +11,7 @@ import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
-import { isDsModel, isValidatable, isPromise, mergeOptions } from '../utils/utils';
+import { isDsModel, isValidatable, isPromise, isDescriptor, mergeOptions } from '../utils/utils';
 
 const {
   get,
@@ -611,7 +611,7 @@ function extractOptionsDependentKeys(options) {
     return Object.keys(options).reduce((arr, key) => {
       let option = options[key];
 
-      if (option && typeof option === 'object' && option.isDescriptor) {
+      if (isDescriptor(option)) {
         return arr.concat(option._dependentKeys || []);
       }
 
