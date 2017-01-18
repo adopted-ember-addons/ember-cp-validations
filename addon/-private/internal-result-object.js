@@ -13,7 +13,8 @@ const {
   isNone,
   computed,
   canInvoke,
-  makeArray
+  makeArray,
+  defineProperty
 } = Ember;
 
 const {
@@ -36,6 +37,8 @@ export default Ember.Object.extend({
 
   init() {
     this._super(...arguments);
+
+    defineProperty(this, 'attrValue', computed.readOnly(`model.${get(this, 'attribute')}`));
 
     if (this.get('isAsync')) {
       this._handlePromise();

@@ -1050,3 +1050,55 @@ test('volatile validations should not recompute', function(assert) {
   assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
   assert.equal(obj.get('validations.attrs.firstName.isValid'), true, 'isValid was expected to be TRUE');
 });
+
+test('load test', function(assert) {
+  this.register('validator:presence', PresenceValidator);
+
+  let Validations = buildValidations({
+    a: validator('presence', true),
+    b: validator('presence', true),
+    c: validator('presence', true),
+    d: validator('presence', true),
+    e: validator('presence', true)
+  });
+
+  let Klass = Ember.Object.extend(Validations, {
+    a: null,
+    b: null,
+    c: null,
+    d: null,
+    e: null
+  });
+
+  let items = Ember.A([]);
+  for (let i = 0; i < 50; i++) {
+    let obj = setupObject(this, Klass, {
+      a: i,
+      b: i,
+      c: i,
+      d: i,
+      e: i
+    });
+    items.push(obj);
+  }
+
+  console.time('init');
+  items.mapBy('validations.isValid');
+  console.timeEnd('init');
+
+  items.forEach((item, i) => {
+    item.setProperties({
+      a: i + 1000,
+      b: i + 1000,
+      c: i + 1000,
+      d: i + 1000,
+      e: i + 1000
+    });
+  });
+
+  console.time('after set');
+  Ember.A(items).mapBy('validations.isValid');
+  console.timeEnd('after set');
+
+  assert.ok(true);
+});

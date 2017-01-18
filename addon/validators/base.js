@@ -12,8 +12,41 @@ const {
   set,
   isNone,
   computed,
-  getOwner
+  getOwner,
+  defineProperty
 } = Ember;
+
+const Options = Ember.Object.extend({
+  model: null,
+  attribute: null,
+
+  // Private
+  __options__: null,
+
+  init() {
+    this._super(...arguments);
+
+    let options = this.get('__options__');
+
+    Object.keys(options).forEach((key) => {
+      let value = options[key];
+      if (value && typeof value === 'object' && value.isDescriptor) {
+        defineProperty(this, key, value);
+      } else {
+        set(this, key, value);
+      }
+    });
+  },
+
+  copy() {
+    let options = this.get('__options__');
+
+    return Ember.Object.create(Object.keys(options).reduce((obj, o) => {
+      obj[o] = get(this, o);
+      return obj;
+    }, {}));
+  }
+});
 
 /**
  * @class Base
@@ -115,23 +148,29 @@ const Base = Ember.Object.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    let OptionsClass = Ember.Object.extend(builtOptions, {
-      model: computed(() => get(this, 'model')).readOnly(),
-      attribute: computed(() => get(this, 'attribute')).readOnly(),
+    // let OptionsClass = Ember.Object.extend(builtOptions, {
+    //   model: computed(() => get(this, 'model')).readOnly(),
+    //   attribute: computed(() => get(this, 'attribute')).readOnly(),
+    //
+    //   copy(deep) {
+    //     if (deep) {
+    //       return OptionsClass.create();
+    //     }
+    //
+    //     return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) => {
+    //       obj[o] = get(this, o);
+    //       return obj;
+    //     }, {}));
+    //   }
+    // });
+    //
+    // return OptionsClass.create();
 
-      copy(deep) {
-        if (deep) {
-          return OptionsClass.create();
-        }
-
-        return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) => {
-          obj[o] = get(this, o);
-          return obj;
-        }, {}));
-      }
+    return Options.create({
+      model: get(this, 'model'),
+      attribute: get(this, 'attribute'),
+      __options__: builtOptions
     });
-
-    return OptionsClass.create();
   },
 
   /**
