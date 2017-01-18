@@ -13,7 +13,8 @@ const {
   isNone,
   computed,
   canInvoke,
-  makeArray
+  makeArray,
+  getOwner
 } = Ember;
 
 const {
@@ -26,7 +27,12 @@ export default Ember.Object.extend({
   model: null,
   isValid: true,
   isValidating: false,
-  message: null,
+
+  /**
+   * The result returned by the validator
+   * @private
+   */
+  result: null,
   attribute: '',
 
   attrValue: null,
@@ -70,16 +76,20 @@ export default Ember.Object.extend({
     return !isNone(attrValue);
   }),
 
+  message: computed.readOnly('error.message'),
+
   messages: computed('message', function() {
     return makeArray(get(this, 'message'));
   }),
 
   error: computed('isInvalid', 'type', 'message', 'attribute', function() {
+    let owner = getOwner(this);
     if (get(this, 'isInvalid')) {
-      return ValidationError.create({
+      return ValidationError.create(owner.ownerInjection(), {
         type: get(this, '_type'),
-        message: get(this, 'message'),
-        attribute: get(this, 'attribute')
+        result: get(this, 'result'),
+        attribute: get(this, 'attribute'),
+        options: get(this, 'options')
       });
     }
 

@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+const {
+  computed
+} = Ember;
+
 /**
  * @module Validations
  * @class Error
@@ -14,11 +18,18 @@ export default Ember.Object.extend({
   type: null,
 
   /**
+   * The error returned by the validators `validate` method
+   * @property message
+   * @type {Any}
+   */
+  result: null,
+
+  /**
    * The error message
    * @property message
    * @type {String}
    */
-  message: null,
+  message: computed.readOnly('result'),
 
   /**
    * The attribute that the error belongs to
