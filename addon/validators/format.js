@@ -70,11 +70,7 @@ export default EmberValidator.extend({
     let { regex, type } = options;
 
     if (type && !isNone(regularExpressions[type]) && isNone(regex)) {
-      if (type === 'email' && options.allowNonTld) {
-        options.regex = regularExpressions.emailOptionalTld;
-      } else {
-        options.regex = regularExpressions[type];
-      }
+      options.regex = regularExpressions[type];
     }
 
     return this._super(options, defaultOptions, globalOptions);
