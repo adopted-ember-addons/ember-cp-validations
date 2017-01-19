@@ -1,9 +1,19 @@
 Changelog
 =========
 
+## v3.2.0
+
+- [#436](https://github.com/offirgolan/ember-cp-validations/pull/436) [BUGFIX] Performance Improvements
+- [#438](https://github.com/offirgolan/ember-cp-validations/pull/438) Upgrade ember-validators
+
+### Ember-Validators
+
+- [#39](https://github.com/offirgolan/ember-validators/pull/39)  [FEATURE] allowNonTld & minTldLength in format validator  *by [Offir Golan](https://github.com/offirgolan)*
+- [#41](https://github.com/offirgolan/ember-validators/pull/41)  [BUGFIX] Use String.match instead of RegExp.test to support g flag  *by [Offir Golan](https://github.com/offirgolan)*
+
 ## v3.1.5
 
-- [#414](https://github.com/offirgolan/ember-cp-validations/pull/434) [BUGFIX] Debounce context not properly set
+- [#434](https://github.com/offirgolan/ember-cp-validations/pull/434) [BUGFIX] Debounce context not properly set
 
 ## v3.1.4
 
