@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.1.5" target="_blank">
-                                  Tag: v3.1.5
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.2.0" target="_blank">
+                                  Tag: v3.2.0
                                 </a>
                             </h4>
                         </div>
@@ -180,7 +180,7 @@
                     <div id="docs-main">
                         <div class="content">
 <div class="page-header">
-    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i> addon/validators/base.js File</h1>
 </div>
 
 <div class="file">
@@ -192,6 +192,7 @@
 
 import Ember from &#x27;ember&#x27;;
 import Messages from &#x27;ember-cp-validations/validators/messages&#x27;;
+import Options from &#x27;ember-cp-validations/-private/options&#x27;;
 import { unwrapString, getValidatableValue, mergeOptions } from &#x27;ember-cp-validations/utils/utils&#x27;;
 
 const {
@@ -302,23 +303,11 @@ const Base = Ember.Object.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    let OptionsClass = Ember.Object.extend(builtOptions, {
-      model: computed(() =&gt; get(this, &#x27;model&#x27;)).readOnly(),
-      attribute: computed(() =&gt; get(this, &#x27;attribute&#x27;)).readOnly(),
-
-      copy(deep) {
-        if (deep) {
-          return OptionsClass.create();
-        }
-
-        return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) =&gt; {
-          obj[o] = get(this, o);
-          return obj;
-        }, {}));
-      }
+    return Options.create({
+      model: get(this, &#x27;model&#x27;),
+      attribute: get(this, &#x27;attribute&#x27;),
+      __options__: builtOptions
     });
-
-    return OptionsClass.create();
   },
 
   /**

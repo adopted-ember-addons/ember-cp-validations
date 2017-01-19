@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "v3.1.5"
+        "version": "v3.2.0"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
@@ -262,13 +262,6 @@
                 "Templating": 1,
                 "V-Get Helper": 1
             },
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "node_modules/ember-validators/addon/-private/validators-cache.js": {
-            "name": "node_modules/ember-validators/addon/-private/validators-cache.js",
-            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -653,7 +646,7 @@
             "module": "Validators",
             "namespace": "",
             "file": "addon/validators/base.js",
-            "line": 18
+            "line": 19
         },
         "Custom": {
             "name": "Custom",
@@ -666,7 +659,7 @@
             "module": "Validators",
             "namespace": "",
             "file": "addon/validators/base.js",
-            "line": 252,
+            "line": 241,
             "description": "Creating custom validators is very simple. To generate a validator named `unique-username` in Ember CLI\n\n```bash\nember generate validator unique-username\n```\n\nThis will create the following files\n\n* `app/validators/unique-username.js`\n* `tests/unit/validators/unique-username-test.js`\n\n```javascript\n// app/validators/unique-username.js\n\nimport BaseValidator from 'ember-cp-validations/validators/base';\n\nconst UniqueUsername = BaseValidator.extend({\n  validate(value, options, model, attribute) {\n    return true;\n  }\n});\n\nUniqueUsername.reopenClass({\n  getDependentsFor(attribute, options) {\n    return [];\n  }\n});\n\nexport default UniqueUsername;\n```\n\n**Side Note**: Before we continue, I would suggest checking out the documentation for the {{#crossLink 'Base'}}Base Validator{{/crossLink}}.\n\nIf you want to interact with the `store` within your validator, you can simply inject the service like you would a component.\nSince you have access to your model and the current value, you should be able to send the server the right information to determine if this username is unique.\n\n```javascript\n// app/validators/unique-username.js\n\nimport Ember from 'ember';\nimport BaseValidator from 'ember-cp-validations/validators/base';\n\nconst UniqueUsername = BaseValidator.extend({\n  store: Ember.inject.service(),\n\n  validate(value, options, model, attribute) {\n    return this.get('store').findRecord('user', value).then((user) => {\n      if(user && user.id === value) {\n        let message = `The username '${value}' already exists.`;\n        let meta = user.get('meta');\n\n        if(get(options, 'showSuggestions') && meta && meta.suggestions) {\n          message += \"What about one of the these: \" + meta.suggestions.join(', ');\n        }\n        return message;\n      } else {\n        return true;\n      }\n    })\n  }\n});\n```\n\n## Dependent Keys\n\nThere will be times when your validator will be dependent on some other property or object. Instead of having to\ninclude them in your option's `dependentKeys`, you can declare them in the static `getDependentsFor` hook. This hook\nreceives two parameters. The first is the `attribute` that this validator is being added to, and the second are the `options`\nthere were passed to this validator.\n\nFrom the above code sample:\n\n```javascript\n// app/validators/unique-username.js\n\nimport BaseValidator from 'ember-cp-validations/validators/base';\n\nconst UniqueUsername = BaseValidator.extend({});\n\nUniqueUsername.reopenClass({\n  getDependentsFor(attribute, options) {\n    return [];\n  }\n});\n\nexport default UniqueUsername;\n```\n\nAll dependent keys are in reference to the model's `validations.attrs` object. So when you return `['username']`,\nit will add a dependent to `model.validations.attrs.username`. If you want to add a dependent on the model, your\nkey needs to be prefixed with `model`. So when you return `['model.username']`, it will add a dependent to `model.username` instead of `model.validations.attrs.username`.\nThis means that if you have a dependent on a service, that service must be injected into the model since returning `['model.myService.someProperty']`\nwill be interpreted as `model.myService.someProperty`.\n\n## Usage\n\nTo use our unique-username validator we just have to add it to the model definition\n\n```javascript\nvar Validations = buildValidations({\n  username: validator('unique-username', {\n    showSuggestions: true\n  }),\n});\n\nexport default DS.Model.extend(Validations, {\n  'username': DS.attr('string'),\n});\n```\n\n## Testing\nAs mentioned before, the generator created a unit test for your new custom validator.\n\n```javascript\n// tests/unit/validators/unique-username-test.js\n\nimport Ember from 'ember';\nimport { moduleFor, test } from 'ember-qunit';\n\nmoduleFor('validator:unique-username', 'Unit | Validator | unique-username', {\n    needs: ['validator:messages']\n});\n\ntest('it works', function(assert) {\n    var validator =  this.subject();\n    assert.ok(validator);\n});\n```\n\nA simple test for our validation method can be as such\n\n```javascript\ntest('username is unique', function(assert) {\n    assert.expect(1);\n\n    let validator =  this.subject();\n    let done = assert.async();\n\n    validator.validate('johndoe42').then((message) => {\n      assert.equal(message, true);\n      done();\n    });\n});\n```",
             "extends": "Base"
         },
@@ -681,7 +674,7 @@
             "module": "Validators",
             "namespace": "",
             "file": "addon/validators/base.js",
-            "line": 402,
+            "line": 391,
             "description": "A validator can also be declared with an inline function. The function will be then wrapped in the {{#crossLink 'Base'}}Base Validator{{/crossLink}} class and used just like any other pre-defined validator.\n\n```javascript\n// Example\nvalidator(function(value, options, model, attribute) {\n  return value === get(options, 'username') ? true : `must be ${get(options, 'username')}`;\n} , {\n  username: 'John' // Any options can be passed here\n})\n```",
             "extends": "Base"
         },
@@ -801,7 +794,7 @@
             "module": "Validators",
             "namespace": "",
             "file": "node_modules/ember-validators/addon/format.js",
-            "line": 16,
+            "line": 20,
             "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidate over a predefined or custom regular expression.\n\n## Examples\n\n```javascript\nvalidator('format', {\n  type: 'email',\n  allowNonTld: true\n})\nvalidator('format', {\n  allowBlank: true,\n  type: 'phone'\n})\nvalidator('format', {\n  type: 'url'\n})\nvalidator('format', {\n  regex: /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,\n  message: 'Password must include at least one upper case letter, one lower case letter, and a number'\n})\n```\n\nIf you do not want to use the predefined regex for a specific type, you can do something like this\n\n```javascript\nvalidator('format', {\n  type: 'email',\n  regex: /My Better Email Regexp/\n})\n```\n\nThis allows you to still keep the email error message but with your own custom regex.",
             "extends": "Base"
         },
@@ -1088,7 +1081,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 175,
+            "line": 173,
             "description": "Update the current validation result object with the given result\n- If result is undefined or null, set isValid to false\n- If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)\n- If result is a collection of result objects, create a Validation Result Collection and set that to the _validations object (has-many)\n- If result is a string, set the message to the given string and set isValid to false\n- If result is a boolean, set isValid to result\n- If result is a pojo, update _validations object with the information given",
             "itemtype": "method",
             "name": "update",
@@ -1105,7 +1098,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 225,
+            "line": 223,
             "description": "Promise handler",
             "itemtype": "method",
             "name": "_handlePromise",
@@ -2113,7 +2106,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 24,
+            "line": 25,
             "description": "Options passed in to the validator when defined in the model",
             "itemtype": "property",
             "name": "options",
@@ -2123,7 +2116,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 31,
+            "line": 32,
             "description": "Default validation options for this specific attribute",
             "itemtype": "property",
             "name": "defaultOptions",
@@ -2133,7 +2126,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 38,
+            "line": 39,
             "description": "Global validation options for this model",
             "itemtype": "property",
             "name": "globalOptions",
@@ -2143,7 +2136,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 45,
+            "line": 46,
             "description": "Model instance",
             "itemtype": "property",
             "name": "model",
@@ -2153,7 +2146,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 52,
+            "line": 53,
             "description": "Attributed name of the model this validator is attached to",
             "itemtype": "property",
             "name": "attribute",
@@ -2163,7 +2156,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 59,
+            "line": 60,
             "description": "Error message object. Populated by validators/messages",
             "itemtype": "property",
             "name": "errorMessages",
@@ -2173,7 +2166,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 66,
+            "line": 67,
             "itemtype": "property",
             "name": "isWarning",
             "type": "{Boolean}",
@@ -2182,7 +2175,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 72,
+            "line": 73,
             "description": "Validator type",
             "itemtype": "property",
             "name": "_type",
@@ -2194,7 +2187,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 100,
+            "line": 101,
             "description": "Build options hook. Merges default options into options object.\nThis method gets called on init and is the ideal place to normalize your options.\nThe [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js) is a good example to checkout",
             "itemtype": "method",
             "name": "buildOptions",
@@ -2224,7 +2217,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 137,
+            "line": 126,
             "description": "Used to retrieve the value to validate.\nThis method gets called right before `validate` and the returned value\ngets passed into the validate method.",
             "itemtype": "method",
             "name": "value",
@@ -2248,7 +2241,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 151,
+            "line": 140,
             "description": "Wrapper method to `value` that passes the necessary parameters",
             "itemtype": "method",
             "name": "getValue",
@@ -2263,7 +2256,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 163,
+            "line": 152,
             "description": "The validate method is where all of your logic should go.\nIt will get passed in the current value of the attribute this validator is attached to.\nWithin the validator object, you will have access to the following properties:",
             "itemtype": "method",
             "name": "validate",
@@ -2297,7 +2290,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 182,
+            "line": 171,
             "description": "Used by all pre-defined validators to build an error message that is present\nin `validators/message` or declared in your i18n solution.\n\nIf we extended our default messages to include `uniqueUsername: '{username} already exists'`,\nwe can use this method to generate our error message.\n\n```javascript\nvalidate(value, options) {\n  var exists = false;\n\n  get(options, 'description') = 'Username';\n  get(options, 'username') = value;\n\n  // check with server if username exists...\n\n  if(exists) {\n    return this.createErrorMessage('uniqueUsername', value, options);\n  }\n\n  return true;\n}\n```\n\nIf we input `johndoe` and that username already exists, the returned message would be `'johndoe already exists'`.",
             "itemtype": "method",
             "name": "createErrorMessage",
@@ -2327,7 +2320,7 @@
         },
         {
             "file": "addon/validators/base.js",
-            "line": 236,
+            "line": 225,
             "description": "Generate the needed depenent keys for this validator",
             "itemtype": "method",
             "name": "getDependentsFor",
@@ -2685,13 +2678,6 @@
             "submodule": "V-Get Helper"
         },
         {
-            "file": "node_modules/ember-validators/addon/-private/validators-cache.js",
-            "line": 1,
-            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
-            "class": "Collection",
-            "module": "Templating"
-        },
-        {
             "file": "node_modules/ember-validators/addon/utils/is-promise.js",
             "line": 1,
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
@@ -2979,7 +2965,7 @@
         },
         {
             "file": "node_modules/ember-validators/addon/format.js",
-            "line": 21,
+            "line": 25,
             "itemtype": "method",
             "name": "validate",
             "params": [
@@ -3012,6 +2998,11 @@
                             "name": "allowNonTld",
                             "description": "If true, the predefined regular expression `email` allows non top-level domains",
                             "type": "Boolean"
+                        },
+                        {
+                            "name": "minTldLength",
+                            "description": "The min length of the top-level domain on the predefined `email` regular expression",
+                            "type": "Number"
                         }
                     ]
                 },
@@ -3561,10 +3552,6 @@
         {
             "message": "Missing item type\nTransform (v-get model 'username' 'isValid') to (get (get model.validations.attrs 'username') 'isValid') OR\n(v-get model 'isValid') to (get model.validations 'isValid')",
             "line": " htmlbars-plugins/v-get.js:162"
-        },
-        {
-            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
-            "line": " node_modules/ember-validators/addon/-private/validators-cache.js:1"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
