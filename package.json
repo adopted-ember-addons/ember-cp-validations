@@ -69,7 +69,7 @@
     "loader.js": "^4.0.11",
     "moment": "2.17.1",
     "moment-timezone": "0.5.10",
-    "yuidoc-ember-theme": "^1.2.1"
+    "yuidoc-ember-theme": "^1.3.0"
   },
   "keywords": [
     "yahoo",
