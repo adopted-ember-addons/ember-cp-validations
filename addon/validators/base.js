@@ -5,6 +5,7 @@
 
 import Ember from 'ember';
 import Messages from 'ember-cp-validations/validators/messages';
+import Options from 'ember-cp-validations/-private/options';
 import { unwrapString, getValidatableValue, mergeOptions } from 'ember-cp-validations/utils/utils';
 
 const {
@@ -115,23 +116,11 @@ const Base = Ember.Object.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    let OptionsClass = Ember.Object.extend(builtOptions, {
-      model: computed(() => get(this, 'model')).readOnly(),
-      attribute: computed(() => get(this, 'attribute')).readOnly(),
-
-      copy(deep) {
-        if (deep) {
-          return OptionsClass.create();
-        }
-
-        return Ember.Object.create(Object.keys(builtOptions).reduce((obj, o) => {
-          obj[o] = get(this, o);
-          return obj;
-        }, {}));
-      }
+    return Options.create({
+      model: get(this, 'model'),
+      attribute: get(this, 'attribute'),
+      __options__: builtOptions
     });
-
-    return OptionsClass.create();
   },
 
   /**
