@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "3.2.0.fa1592a0"
+        "version": "3.2.0.d67233f8"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
