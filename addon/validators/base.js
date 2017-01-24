@@ -6,6 +6,7 @@
 import Ember from 'ember';
 import Messages from 'ember-cp-validations/validators/messages';
 import Options from 'ember-cp-validations/-private/options';
+import factoryFor from '../-private/factory-for';
 import { unwrapString, getValidatableValue, mergeOptions } from 'ember-cp-validations/utils/utils';
 
 const {
@@ -88,7 +89,7 @@ const Base = Ember.Object.extend({
 
     if (!isNone(owner)) {
       // Since default error messages are stored in app/validators/messages, we have to look it up via the owner
-      errorMessages = owner._lookupFactory('validator:messages');
+      errorMessages = factoryFor(owner, 'validator:messages');
     }
 
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
