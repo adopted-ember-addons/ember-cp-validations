@@ -7,6 +7,7 @@ import Ember from 'ember';
 import flatten from '../utils/flatten';
 import assign from '../utils/assign';
 import ValidationResult from '../-private/result';
+import factoryFor from '../-private/factory-for';
 import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
@@ -738,7 +739,7 @@ function createValidatorsFor(attribute, model) {
  * @return {Class} Validator class or undefined if not found
  */
 function lookupValidator(owner, type) {
-  let validatorClass = owner._lookupFactory(`validator:${type}`);
+  let validatorClass = factoryFor(owner, `validator:${type}`);
 
   if (isNone(validatorClass)) {
     throw new Error(`[ember-cp-validations] Validator not found of type: ${type}.`);
