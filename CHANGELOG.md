@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.2.1
+
+- [#441](https://github.com/offirgolan/ember-cp-validations/pull/441) [FEATURE] Updated blueprints to account for new mocha syntax [@Patsy-issa](https://github.com/Patsy-issa)
+
 ## v3.2.0
 
 - [#436](https://github.com/offirgolan/ember-cp-validations/pull/436) [BUGFIX] Performance Improvements
