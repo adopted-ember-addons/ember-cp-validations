@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.2.2
+
+- [#442](https://github.com/offirgolan/ember-cp-validations/pull/442) [BUGFIX] Replace private and deprecated `_lookupFactory` with public & performant `factoryFor` [@cibernox](https://github.com/cibernox)
+
 ## v3.2.1
 
 - [#441](https://github.com/offirgolan/ember-cp-validations/pull/441) [FEATURE] Updated blueprints to account for new mocha syntax [@Patsy-issa](https://github.com/Patsy-issa)
