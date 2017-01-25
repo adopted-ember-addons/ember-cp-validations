@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>I18n Solutions - Ember CP Validations</title>
+    <title>addon/-private/factory-for.js - Ember CP Validations</title>
     <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -179,37 +179,28 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> I18n Solutions Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/blob/v3.2.2/addon/index.js#L277" target="_blank">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
-<div class="content-meta">
-
-
-        <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.2.2/addon/index.js#L277">addon/index.js:277</a>
-        </div>
-
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+  Utility to use &#x60;ApplicationInstance#factoryFor&#x60; if available (2.12+) and
+  fallback to private &#x60;_lookupFactory&#x60; otherwise
+*/
+export default function factoryFor(owner, type) {
+  let factory;
+  if (owner.factoryFor) {
+    let maybeFactory = owner.factoryFor(type);
+    factory = maybeFactory &amp;&amp; maybeFactory.class;
+  } else {
+    factory = owner._lookupFactory(type);
+  }
+  return factory;
+}
+    </pre>
 </div>
-
-
-<div class="module-description page-section">
-    <h3><a href="https://github.com/jasonmit/ember-intl-cp-validations"><strong>Ember-Intl</strong></a></h3>
-<pre class="code prettyprint"><code class="language-bash">ember install ember-intl-cp-validations
-</code></pre>
-<h3><a href="https://github.com/jasonmit/ember-i18n-cp-validations"><strong>Ember-I18n</strong></a></h3>
-<pre class="code prettyprint"><code class="language-bash"> ember install ember-i18n-cp-validations
-</code></pre>
-
-</div>
-
-
                         </div>
                     </div>
                 </div>

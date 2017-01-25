@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.2.1" target="_blank">
-                                  Tag: v3.2.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.2.2" target="_blank">
+                                  Tag: v3.2.2
                                 </a>
                             </h4>
                         </div>
@@ -194,6 +194,7 @@ import Ember from &#x27;ember&#x27;;
 import flatten from &#x27;../utils/flatten&#x27;;
 import assign from &#x27;../utils/assign&#x27;;
 import ValidationResult from &#x27;../-private/result&#x27;;
+import factoryFor from &#x27;../-private/factory-for&#x27;;
 import ResultCollection from &#x27;./result-collection&#x27;;
 import BaseValidator from &#x27;../validators/base&#x27;;
 import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
@@ -925,7 +926,7 @@ function createValidatorsFor(attribute, model) {
  * @return {Class} Validator class or undefined if not found
  */
 function lookupValidator(owner, type) {
-  let validatorClass = owner._lookupFactory(&#x60;validator:${type}&#x60;);
+  let validatorClass = factoryFor(owner, &#x60;validator:${type}&#x60;);
 
   if (isNone(validatorClass)) {
     throw new Error(&#x60;[ember-cp-validations] Validator not found of type: ${type}.&#x60;);
