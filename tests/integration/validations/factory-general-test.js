@@ -5,6 +5,7 @@ import PresenceValidator from 'dummy/validators/presence';
 import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
+import factoryFor from 'ember-cp-validations/-private/factory-for';
 
 const {
   run,
@@ -31,6 +32,12 @@ moduleFor('foo', 'Integration | Validations | Factory - General', {
 
 test('it works', function(assert) {
   assert.ok(buildValidations());
+});
+
+test('factoryFor results when instantiated have assigned owner', function(assert) {
+  let presence = factoryFor(Ember.getOwner(this), 'dummy@validator:presence').create();
+
+  assert.ok(Ember.getOwner(presence));
 });
 
 test('basic sync validation – invalid', function(assert) {
