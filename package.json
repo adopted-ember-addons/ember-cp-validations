@@ -36,7 +36,6 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.6",
-    "ember-ajax": "^2.5.1",
     "ember-cli": "^2.10.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-autoprefixer": "^0.6.0",
@@ -82,10 +81,10 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.8",
     "ember-cli-version-checker": "^1.2.0",
-    "ember-getowner-polyfill": "^1.1.0",
-    "ember-validators": "0.2.0",
+    "ember-getowner-polyfill": "^1.2.0",
     "ember-require-module": "^0.1.1",
     "ember-string-ishtmlsafe-polyfill": "1.0.1",
+    "ember-validators": "0.2.0",
     "exists-sync": "0.0.4",
     "walk-sync": "^0.3.1"
   },

@@ -7,7 +7,6 @@ import Ember from 'ember';
 import flatten from '../utils/flatten';
 import assign from '../utils/assign';
 import ValidationResult from '../-private/result';
-import factoryFor from '../-private/factory-for';
 import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
@@ -564,7 +563,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
   let dependentKeys = validations.map((validation) => {
     let { options } = validation;
     let type = validation._type;
-    let Validator = type === 'function' ? BaseValidator : lookupValidator(owner, type);
+    let Validator = type === 'function' ? BaseValidator : lookupValidator(owner, type).class;
     let baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
     let dependents = Validator.getDependentsFor(attribute, options) || [];
 
@@ -739,7 +738,7 @@ function createValidatorsFor(attribute, model) {
  * @return {Class} Validator class or undefined if not found
  */
 function lookupValidator(owner, type) {
-  let validatorClass = factoryFor(owner, `validator:${type}`);
+  let validatorClass = owner.factoryFor(`validator:${type}`);
 
   if (isNone(validatorClass)) {
     throw new Error(`[ember-cp-validations] Validator not found of type: ${type}.`);
