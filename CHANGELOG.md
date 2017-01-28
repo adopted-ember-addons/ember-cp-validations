@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.2.3
+
+- [#443](https://github.com/offirgolan/ember-cp-validations/pull/443) [BUGFIX] Change factoryFor to use factoryFor().create() [@jasonmit](https://github.com/jasonmit)
+
 ## v3.2.2
 
 - [#442](https://github.com/offirgolan/ember-cp-validations/pull/442) [BUGFIX] Replace private and deprecated `_lookupFactory` with public & performant `factoryFor` [@cibernox](https://github.com/cibernox)
