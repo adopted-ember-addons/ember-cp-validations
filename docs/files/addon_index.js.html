@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.2.3" target="_blank">
-                                  Tag: v3.2.3
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/0d0d2f5e" target="_blank">
+                                  Tag: 3.2.3.0d0d2f5e
                                 </a>
                             </h4>
                         </div>
@@ -279,8 +279,6 @@ import Validator from &#x27;./validations/validator&#x27;;
  * });
  * &#x60;&#x60;&#x60;
  *
- * To lookup validators, container access is required which can cause an issue with &#x60;Ember.Object&#x60; creation if the object is statically imported. The current fix for this is as follows.
- *
  * &#x60;&#x60;&#x60;javascript
  * // models/user.js
  *
@@ -288,6 +286,11 @@ import Validator from &#x27;./validations/validator&#x27;;
  *   username: null
  * });
  * &#x60;&#x60;&#x60;
+ *
+ * ## A Note on Testing &amp; Object Containers
+ *
+ * To lookup validators, container access is required, which can cause an issue with &#x60;Ember.Object&#x60; creation
+ * if the object is statically imported. The current fix for this is as follows.
  *
  * **Ember &lt; 2.3.0**
  *
@@ -318,6 +321,16 @@ import Validator from &#x27;./validations/validator&#x27;;
  *      { username: &#x27;John&#x27; }
  *     );
  *   }
+ * });
+ * &#x60;&#x60;&#x60;
+ *
+ * This also has ramifications for Ember Data model tests. When using [Ember QUnit&#x27;s &#x60;moduleForModel&#x60;](https://github.com/emberjs/ember-qunit#ember-data-tests)
+ * (or [Ember Mocha&#x27;s &#x60;setupModelTest&#x60;](https://github.com/emberjs/ember-mocha#setup-model-tests)), you will need to specify all validators
+ * that your model depends on:
+ *
+ * &#x60;&#x60;&#x60;javascript
+ * moduleForModel(&#x27;foo&#x27;, &#x27;Unit | Model | model&#x27;, {
+ *   needs: [&#x27;validator:presence&#x27;]
  * });
  * &#x60;&#x60;&#x60;
  *
