@@ -83,7 +83,7 @@
     "ember-cli-version-checker": "^1.2.0",
     "ember-getowner-polyfill": "^1.2.0",
     "ember-require-module": "^0.1.1",
-    "ember-string-ishtmlsafe-polyfill": "1.0.1",
+    "ember-string-ishtmlsafe-polyfill": "1.1.0",
     "ember-validators": "0.2.0",
     "exists-sync": "0.0.4",
     "walk-sync": "^0.3.1"
