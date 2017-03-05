@@ -4,7 +4,6 @@
  */
 
 import Ember from 'ember';
-import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 import requireModule from 'ember-require-module';
 
 const DS = requireModule('ember-data');
@@ -16,6 +15,8 @@ const {
   canInvoke,
   A: emberArray
 } = Ember;
+
+const { isHTMLSafe } = Ember.String;
 
 const assign = Ember.assign || Ember.merge;
 
