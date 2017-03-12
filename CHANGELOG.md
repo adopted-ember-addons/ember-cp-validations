@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.2.4
+
+- [#459](https://github.com/offirgolan/ember-cp-validations/pull/459) Upgrading ember-string-ishtmlsafe-polyfill [@workmanw](https://github.com/workmanw)
+
 ## v3.2.3
 
 - [#443](https://github.com/offirgolan/ember-cp-validations/pull/443) [BUGFIX] Change factoryFor to use factoryFor().create() [@jasonmit](https://github.com/jasonmit)
