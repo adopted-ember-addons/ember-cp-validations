@@ -3,14 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 import { regularExpressions } from 'ember-validators/format';
-
-const {
-  get,
-  isNone
-} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -54,25 +48,5 @@ const {
  */
 export default EmberValidator.extend({
   _evType: 'format',
-  regularExpressions,
-
-  /**
-   * Normalized options passed in by applying the desired regex or using the one declared
-   *
-   * @method buildOptions
-   * @param  {Object}     options
-   * @param  {Object}     defaultOptions
-   * @param  {Object}     globalOptions
-   * @return {Object}
-   */
-  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    let regularExpressions = get(this, 'regularExpressions');
-    let { regex, type } = options;
-
-    if (type && !isNone(regularExpressions[type]) && isNone(regex)) {
-      options.regex = regularExpressions[type];
-    }
-
-    return this._super(options, defaultOptions, globalOptions);
-  }
+  regularExpressions
 });

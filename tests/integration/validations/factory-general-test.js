@@ -268,10 +268,9 @@ test('global options', function(assert) {
   assert.ok(object.get('validations.attrs.firstName.isInvalid'));
 
   let v = object.get('validations._validators.firstName.0');
-  assert.deepEqual(v.get('options').getProperties(['message', 'description', 'allowNone', 'min', 'max']), {
+  assert.deepEqual(v.get('options').getProperties(['message', 'description', 'min', 'max']), {
     message: 'Global error message',
     description: 'Test field',
-    allowNone: true,
     min: 1,
     max: 5
   });
