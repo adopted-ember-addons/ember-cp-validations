@@ -1,6 +1,19 @@
 Changelog
 =========
 
+## v3.3.0
+
+- [#477](https://github.com/offirgolan/ember-cp-validations/pull/477) [FEATURE] Upgrade Ember Validators
+  - Confirmation
+    - allowBlank
+  - Format
+    - inverse
+  - Length
+    - useBetweenMessage (If min and max are set, use the `between` error message type
+  - Number
+    - allowNone (defaulted to true)
+    - multipleOf
+
 ## v3.2.4
 
 - [#459](https://github.com/offirgolan/ember-cp-validations/pull/459) Upgrading ember-string-ishtmlsafe-polyfill [@workmanw](https://github.com/workmanw)
