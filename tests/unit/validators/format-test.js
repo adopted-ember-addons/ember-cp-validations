@@ -17,16 +17,6 @@ moduleFor('validator:format', 'Unit | Validator | format', {
   }
 });
 
-test('buildOptions', function(assert) {
-  assert.expect(2);
-
-  options = { type: 'email' };
-  builtOptions = validator.buildOptions(options, {}).copy();
-
-  assert.equal(builtOptions.get('type'), 'email');
-  assert.ok(builtOptions.get('regex'));
-});
-
 test('no options', function(assert) {
   assert.expect(1);
 
