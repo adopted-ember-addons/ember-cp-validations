@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.2.4" target="_blank">
-                                  Tag: v3.2.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.3.0" target="_blank">
+                                  Tag: v3.3.0
                                 </a>
                             </h4>
                         </div>
@@ -190,13 +190,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from &#x27;ember&#x27;;
 import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
-
-const {
-  get,
-  isNone
-} = Ember;
 
 /**
  *  &lt;i class=&quot;fa fa-hand-o-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; [See All Options](#method_validate)
@@ -220,22 +214,7 @@ const {
  *  @extends Base
  */
 export default EmberValidator.extend({
-  _evType: &#x27;length&#x27;,
-
-  /**
-   * Default allowNone to true
-   *
-   * @method buildOptions
-   * @param  {Object}     options
-   * @param  {Object}     defaultOptions
-   * @param  {Object}     globalOptions
-   * @return {Object}
-   */
-  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    options.allowNone = isNone(get(options, &#x27;allowNone&#x27;)) ? true : get(options, &#x27;allowNone&#x27;);
-
-    return this._super(options, defaultOptions, globalOptions);
-  }
+  _evType: &#x27;length&#x27;
 });
 
     </pre>

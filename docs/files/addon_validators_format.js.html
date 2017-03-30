@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.2.4" target="_blank">
-                                  Tag: v3.2.4
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.3.0" target="_blank">
+                                  Tag: v3.3.0
                                 </a>
                             </h4>
                         </div>
@@ -190,14 +190,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from &#x27;ember&#x27;;
 import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#x27;;
 import { regularExpressions } from &#x27;ember-validators/format&#x27;;
-
-const {
-  get,
-  isNone
-} = Ember;
 
 /**
  *  &lt;i class=&quot;fa fa-hand-o-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; [See All Options](#method_validate)
@@ -241,27 +235,7 @@ const {
  */
 export default EmberValidator.extend({
   _evType: &#x27;format&#x27;,
-  regularExpressions,
-
-  /**
-   * Normalized options passed in by applying the desired regex or using the one declared
-   *
-   * @method buildOptions
-   * @param  {Object}     options
-   * @param  {Object}     defaultOptions
-   * @param  {Object}     globalOptions
-   * @return {Object}
-   */
-  buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    let regularExpressions = get(this, &#x27;regularExpressions&#x27;);
-    let { regex, type } = options;
-
-    if (type &amp;&amp; !isNone(regularExpressions[type]) &amp;&amp; isNone(regex)) {
-      options.regex = regularExpressions[type];
-    }
-
-    return this._super(options, defaultOptions, globalOptions);
-  }
+  regularExpressions
 });
 
     </pre>
