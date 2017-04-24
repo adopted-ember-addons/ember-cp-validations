@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.3.1
+
+- [#494](https://github.com/offirgolan/ember-cp-validations/pull/494) [BUGFIX] Async relational validations resolve with fake positive
+
 ## v3.3.0
 
 - [#477](https://github.com/offirgolan/ember-cp-validations/pull/477) [FEATURE] Upgrade Ember Validators
