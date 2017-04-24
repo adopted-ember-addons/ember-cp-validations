@@ -45,8 +45,8 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add codeclimate-test-reporter
-  - yarn global add bower
+  - npm install -g codeclimate-test-reporter
+  - npm install -g bower
 
 install:
   - yarn install --no-lockfile
