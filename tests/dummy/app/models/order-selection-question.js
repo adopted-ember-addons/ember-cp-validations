@@ -23,9 +23,11 @@ const Validations = buildValidations({
     description: 'Question Text',
     validators: [
       validator('ds-error'),
-      validator('presence', { presence: true, debounce: 0 })
+      validator('presence', true)
     ]
   }
+}, {
+  debounce: 10
 });
 
 export default DS.Model.extend(Validations, {
