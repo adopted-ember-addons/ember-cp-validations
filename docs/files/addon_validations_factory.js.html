@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/f0f8a92f" target="_blank">
-                                  Tag: 3.3.0.f0f8a92f
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.3.1" target="_blank">
+                                  Tag: v3.3.1
                                 </a>
                             </h4>
                         </div>
@@ -727,6 +727,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
      */
     __attrsResultCollection__: computed(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}&#x60;), function() {
       return ResultCollection.create({
+        attribute: &#x60;Model:${this}&#x60;,
         content: validatableAttrs.map((attr) =&gt; get(this, &#x60;attrs.${attr}&#x60;))
       });
     }).readOnly()
@@ -961,11 +962,11 @@ function resolveDebounce(resolve)  {
  * @param  {Object} options
  * @param  {Array} options.on Only validate the given attributes. If empty, will validate over all validatable attribute
  * @param  {Array} options.excludes Exclude validation on the given attributes
- * @param  {Boolean} async      If &#x60;false&#x60;, will get all validations and will error if an async validations is found.
+ * @param  {Boolean} isAsync      If &#x60;false&#x60;, will get all validations and will error if an async validations is found.
  *                              If &#x60;true&#x60;, will get all validations and wrap them in a promise hash
- * @return {Promise or Object}  Promise if async is true, object if async is false
+ * @return {Promise or Object}  Promise if isAsync is true, object if isAsync is false
  */
-function validate(options = {}, async = true) {
+function validate(options = {}, isAsync = true) {
   let model = get(this, &#x27;model&#x27;);
   let whiteList = makeArray(options.on);
   let blackList = makeArray(options.excludes);
@@ -979,7 +980,7 @@ function validate(options = {}, async = true) {
       let validationResult = get(this, &#x60;attrs.${name}&#x60;);
 
       // If an async validation is found, throw an error
-      if (!async &amp;&amp; get(validationResult, &#x27;isAsync&#x27;)) {
+      if (!isAsync &amp;&amp; get(validationResult, &#x27;isAsync&#x27;)) {
         throw new Error(&#x60;[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.&#x60;);
       }
 
@@ -990,17 +991,21 @@ function validate(options = {}, async = true) {
   }, []);
 
   let validations = ResultCollection.create({
+    attribute: &#x60;Validate:${model}&#x60;,
     content: validationResults
   });
 
   let resultObject = { model, validations };
 
-  if (async) {
-    if (get(validations, &#x27;isAsync&#x27;)) {
-      return RSVP.allSettled(makeArray(get(validations, &#x27;_promise&#x27;))).then(() =&gt; resultObject);
-    }
-
-    return Promise.resolve(resultObject);
+  if (isAsync) {
+    return Promise.resolve(get(validations, &#x27;_promise&#x27;)).then(() =&gt; {
+      /*
+        NOTE: When dealing with belongsTo and hasMany relationships, there are cases
+        where we have to resolve the actual models and only then resolve all the underlying
+        validation promises. This is the reason that &#x60;validate&#x60; must be called recursively.
+       */
+      return get(validations, &#x27;isValidating&#x27;) ? this.validate(options, isAsync) : resultObject;
+    });
   }
 
   return resultObject;
@@ -1041,7 +1046,14 @@ function validateAttribute(attribute, value) {
 
   let result = { model, validations };
 
-  return Promise.resolve(get(validations, &#x27;isAsync&#x27;) ? get(validations, &#x27;_promise&#x27;).then(() =&gt; result) : result);
+  return Promise.resolve(get(validations, &#x27;_promise&#x27;)).then(() =&gt; {
+    /*
+      NOTE: When dealing with belongsTo and hasMany relationships, there are cases
+      where we have to resolve the actual models and only then resolve all the underlying
+      validation promises. This is the reason that &#x60;validateAttribute&#x60; must be called recursively.
+     */
+    return get(validations, &#x27;isValidating&#x27;) ? this.validateAttribute(attribute, value) : result;
+  });
 }
 
 /**

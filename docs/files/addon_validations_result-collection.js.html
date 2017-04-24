@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/f0f8a92f" target="_blank">
-                                  Tag: 3.3.0.f0f8a92f
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.3.1" target="_blank">
+                                  Tag: v3.3.1
                                 </a>
                             </h4>
                         </div>
@@ -531,9 +531,19 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed(&#x27;content.@each._promise&#x27;, cycleBreaker(function() {
-    return RSVP.allSettled(compact(flatten(this.getEach(&#x27;_promise&#x27;))));
+  _promise: computed(&#x27;content.@each._promise&#x27;, &#x27;_contentValidations.@each._promise&#x27;, cycleBreaker(function() {
+    let promises = [ this.get(&#x27;_contentValidations&#x27;).getEach(&#x27;_promise&#x27;), this.getEach(&#x27;_promise&#x27;) ];
+    return RSVP.allSettled(compact(flatten(promises)));
   })).readOnly(),
+
+  /**
+  * @property _contentValidations
+  * @type {Array}
+  * @private
+  */
+  _contentValidations: computed(&#x27;content.@each._validations&#x27;, function() {
+    return emberArray(compact(this.getEach(&#x27;_validations&#x27;)));
+  }).readOnly(),
 
   /**
    * @property _contentValidators

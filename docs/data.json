@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "3.3.0.f0f8a92f"
+        "version": "v3.3.1"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
@@ -1450,7 +1450,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 549,
+            "line": 550,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -1482,7 +1482,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 601,
+            "line": 602,
             "description": "Extract all dependentKeys from any property that is a CP",
             "itemtype": "method",
             "name": "extractOptionsDependentKeys",
@@ -1504,7 +1504,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 625,
+            "line": 626,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -1536,7 +1536,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 655,
+            "line": 656,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -1563,7 +1563,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 669,
+            "line": 670,
             "description": "Get debounced validation cache for the given attribute. If it doesn't exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -1590,7 +1590,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 688,
+            "line": 689,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1617,7 +1617,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 730,
+            "line": 731,
             "description": "Lookup a validators of a specific type on the owner",
             "itemtype": "method",
             "name": "lookupValidator",
@@ -1648,7 +1648,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 750,
+            "line": 751,
             "description": "Call the passed resolve method. This is needed as run.debounce expects a\nstatic method to work properly.",
             "itemtype": "method",
             "name": "resolveDebounce",
@@ -1666,7 +1666,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 762,
+            "line": 763,
             "description": "```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1689,13 +1689,13 @@
                     ]
                 },
                 {
-                    "name": "async",
+                    "name": "isAsync",
                     "description": "If `false`, will get all validations and will error if an async validations is found.\n                             If `true`, will get all validations and wrap them in a promise hash",
                     "type": "Boolean"
                 }
             ],
             "return": {
-                "description": "Promise if async is true, object if async is false",
+                "description": "Promise if isAsync is true, object if isAsync is false",
                 "type": "Promise or Object"
             },
             "class": "Factory",
@@ -1703,7 +1703,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 822,
+            "line": 827,
             "description": "A functional approach to check if a given attribute on a model is valid independently of the\nmodel attribute's validations. This method will always return a promise which will then resolve\nto a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```javascript\nmodel.validateAttribute('username', 'offirgolan').then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n});\n```",
             "itemtype": "method",
             "name": "validateAttribute",
@@ -1729,7 +1729,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 860,
+            "line": 872,
             "description": "```javascript\nlet { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -1973,7 +1973,18 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 351,
+            "line": 352,
+            "itemtype": "property",
+            "name": "_contentValidations",
+            "type": "{Array}",
+            "access": "private",
+            "tagname": "",
+            "class": "ResultCollection",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/validations/result-collection.js",
+            "line": 361,
             "itemtype": "property",
             "name": "_contentValidators",
             "type": "{Array}",
@@ -1984,7 +1995,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 358,
+            "line": 368,
             "itemtype": "property",
             "name": "_errorContent",
             "type": "{Array}",
@@ -1995,7 +2006,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 365,
+            "line": 375,
             "itemtype": "property",
             "name": "_warningContent",
             "type": "{Array}",
@@ -2006,7 +2017,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 386,
+            "line": 396,
             "description": "Used by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
             "class": "ResultCollection",
             "module": "Validations"
@@ -3424,7 +3435,7 @@
         },
         {
             "message": "Missing item type\nUsed by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
-            "line": " addon/validations/result-collection.js:386"
+            "line": " addon/validations/result-collection.js:396"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
