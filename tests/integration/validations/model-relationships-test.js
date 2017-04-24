@@ -532,11 +532,10 @@ test('debounce should work across nested BelongsTo relationships', function(asse
   });
 
   let friend = setupObject(this, Ember.Object.extend(FriendValidations));
-  let friend2 = setupObject(this, Ember.Object.extend(FriendValidations));
 
   let user2 = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
-      resolve(friend2);
+      resolve(friend);
     })
   });
 
