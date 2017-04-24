@@ -540,6 +540,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
      */
     __attrsResultCollection__: computed(...validatableAttrs.map((attr) => `attrs.${attr}`), function() {
       return ResultCollection.create({
+        attribute: `Model:${this}`,
         content: validatableAttrs.map((attr) => get(this, `attrs.${attr}`))
       });
     }).readOnly()
@@ -774,11 +775,11 @@ function resolveDebounce(resolve)  {
  * @param  {Object} options
  * @param  {Array} options.on Only validate the given attributes. If empty, will validate over all validatable attribute
  * @param  {Array} options.excludes Exclude validation on the given attributes
- * @param  {Boolean} async      If `false`, will get all validations and will error if an async validations is found.
+ * @param  {Boolean} isAsync      If `false`, will get all validations and will error if an async validations is found.
  *                              If `true`, will get all validations and wrap them in a promise hash
- * @return {Promise or Object}  Promise if async is true, object if async is false
+ * @return {Promise or Object}  Promise if isAsync is true, object if isAsync is false
  */
-function validate(options = {}, async = true) {
+function validate(options = {}, isAsync = true) {
   let model = get(this, 'model');
   let whiteList = makeArray(options.on);
   let blackList = makeArray(options.excludes);
@@ -792,7 +793,7 @@ function validate(options = {}, async = true) {
       let validationResult = get(this, `attrs.${name}`);
 
       // If an async validation is found, throw an error
-      if (!async && get(validationResult, 'isAsync')) {
+      if (!isAsync && get(validationResult, 'isAsync')) {
         throw new Error(`[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`);
       }
 
@@ -803,17 +804,21 @@ function validate(options = {}, async = true) {
   }, []);
 
   let validations = ResultCollection.create({
+    attribute: `Validate:${model}`,
     content: validationResults
   });
 
   let resultObject = { model, validations };
 
-  if (async) {
-    if (get(validations, 'isAsync')) {
-      return RSVP.allSettled(makeArray(get(validations, '_promise'))).then(() => resultObject);
-    }
-
-    return Promise.resolve(resultObject);
+  if (isAsync) {
+    return Promise.resolve(get(validations, '_promise')).then(() => {
+      /*
+        NOTE: When dealing with belongsTo and hasMany relationships, there are cases
+        where we have to resolve the actual models and only then resolve all the underlying
+        validation promises. This is the reason that `validate` must be called recursively.
+       */
+      return get(validations, 'isValidating') ? this.validate(options, isAsync) : resultObject;
+    });
   }
 
   return resultObject;
@@ -854,7 +859,14 @@ function validateAttribute(attribute, value) {
 
   let result = { model, validations };
 
-  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result);
+  return Promise.resolve(get(validations, '_promise')).then(() => {
+    /*
+      NOTE: When dealing with belongsTo and hasMany relationships, there are cases
+      where we have to resolve the actual models and only then resolve all the underlying
+      validation promises. This is the reason that `validateAttribute` must be called recursively.
+     */
+    return get(validations, 'isValidating') ? this.validateAttribute(attribute, value) : result;
+  });
 }
 
 /**

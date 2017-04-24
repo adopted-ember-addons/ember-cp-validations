@@ -7,9 +7,8 @@ sudo: required
 dist: trusty
 
 cache:
+  yarn: true
   directories:
-    - node_modules
-    - $HOME/.npm
     - $HOME/.cache # includes bowers cache
 
 addons:
@@ -44,17 +43,17 @@ matrix:
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm config set spin false
-  - npm install -g npm@^3
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
   - npm install -g codeclimate-test-reporter
+  - npm install -g bower
 
 install:
-  - npm install -g bower
-  - npm install
+  - yarn install --no-lockfile
   - bower install
 
 script:
-  - ember try:one $EMBER_TRY_SCENARIO --- ember test
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
 
 after_script:
   - codeclimate-test-reporter < coverage/lcov.info

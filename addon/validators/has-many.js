@@ -54,11 +54,12 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  @extends Base
  */
 const HasMany = Base.extend({
-  validate(value) {
+  validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((models) => models ? models.map((m) => m.get('validations')) : true);
+        return value.then((models) => this.validate(models, ...args));
       }
+
       return value.map((m) => m.get('validations'));
     }
 
@@ -71,7 +72,13 @@ HasMany.reopenClass({
     /*
       The content.@each.isDeleted must be added for older ember-data versions
      */
-    return [ `model.${attribute}.[]`, `model.${attribute}.@each.isDeleted`, `model.${attribute}.content.@each.isDeleted` ];
+    return [
+      `model.${attribute}.[]`,
+      `model.${attribute}.@each.isDeleted`,
+      `model.${attribute}.content.@each.isDeleted`,
+      `model.${attribute}.@each.validations`,
+      `model.${attribute}.content.@each.validations`
+    ];
   }
 });
 

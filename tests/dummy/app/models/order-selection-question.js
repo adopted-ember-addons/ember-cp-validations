@@ -26,6 +26,8 @@ const Validations = buildValidations({
       validator('presence', true)
     ]
   }
+}, {
+  debounce: 10
 });
 
 export default DS.Model.extend(Validations, {

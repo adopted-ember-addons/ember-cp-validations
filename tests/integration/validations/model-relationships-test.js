@@ -485,3 +485,101 @@ test('presence on empty DS.PromiseArray', function(assert) {
   assert.equal(friends.get('isValid'), false);
   assert.equal(friends.get('message'), 'This field can\'t be blank');
 });
+
+test('debounce should work across nested HasMany relationships', function(assert) {
+  this.register('validator:presence', PresenceValidator);
+  this.register('validator:has-many', HasManyValidator);
+
+  let done = assert.async();
+
+  let FriendValidations = buildValidations({
+    name: validator('presence', { presence: true, debounce: 50 })
+  });
+
+  let friend = setupObject(this, Ember.Object.extend(FriendValidations));
+  let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
+    friends: new Ember.RSVP.Promise((resolve) => {
+      resolve([ friend ]);
+    })
+  });
+
+  user.validate().then(({ validations }) => {
+    assert.equal(friend.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValid'), false, 'User should not be valid');
+
+    friend.set('name', 'Offir');
+    return user.validate();
+
+  }).then(({ validations }) => {
+    assert.equal(friend.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValid'), true, 'User should be valid');
+    done();
+  });
+});
+
+test('debounce should work across nested BelongsTo relationships', function(assert) {
+  this.register('validator:presence', PresenceValidator);
+  this.register('validator:belongs-to', BelongsToValidator);
+
+  let done = assert.async();
+
+  let FriendValidations = buildValidations({
+    name: validator('presence', { presence: true, debounce: 50 })
+  });
+
+  let friend = setupObject(this, Ember.Object.extend(FriendValidations));
+
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+    friend: new Ember.RSVP.Promise((resolve) => {
+      resolve(friend);
+    })
+  });
+
+  user.validate().then(({ validations }) => {
+    assert.equal(friend.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValid'), false, 'User should not be valid');
+
+    friend.set('name', 'Offir');
+    return user.validate();
+
+  }).then(({ validations }) => {
+    assert.equal(friend.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValid'), true, 'User should be valid');
+    done();
+  });
+});
+
+test('Validations should work across two-way BelongsTo relationships', function(assert) {
+  this.register('validator:presence', PresenceValidator);
+  this.register('validator:belongs-to', BelongsToValidator);
+
+  let done = assert.async();
+
+  let user2 = setupObject(this, Ember.Object.extend(BelongsToValidations));
+
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+    friend: new Ember.RSVP.Promise((resolve) => {
+      resolve(user2);
+    })
+  });
+
+  user2.set('friend', new Ember.RSVP.Promise((resolve) => {
+    resolve(user);
+  }));
+
+  user.validate().then(({ validations }) => {
+    assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(user2.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValid'), true, 'User should be valid');
+    done();
+  });
+});
