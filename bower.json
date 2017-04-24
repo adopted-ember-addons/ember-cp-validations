@@ -7,8 +7,5 @@
     "moment": ">= 2.8.0",
     "moment-timezone": ">= 0.1.0",
     "font-awesome": "~4.5.0"
-  },
-  "devDependencies": {
-    "ember-qunit-notifications": "0.1.0"
   }
 }
