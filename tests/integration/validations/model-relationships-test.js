@@ -328,7 +328,7 @@ test('belongs-to relationship returns undefined', function(assert) {
 
   let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
-      resolve(); // validations object will be undefined
+      resolve({}); // validations object will be undefined
     })
   });
 
@@ -344,7 +344,7 @@ test('belongs-to relationship returns undefined', function(assert) {
 
     let friend = validations.get('content').findBy('attribute', 'friend');
 
-    assert.equal(friend.get('isValid'), true);
+    assert.equal(friend.get('isValid'), false);
     assert.equal(friend.get('message'), undefined);
   });
 
@@ -499,7 +499,7 @@ test('debounce should work across nested HasMany relationships', function(assert
   let friend = setupObject(this, Ember.Object.extend(FriendValidations));
   let user = setupObject(this, Ember.Object.extend(HasManyValidations), {
     friends: new Ember.RSVP.Promise((resolve) => {
-      resolve([ friend ]); // validations object will be undefined
+      resolve([ friend ]);
     })
   });
 
@@ -533,15 +533,9 @@ test('debounce should work across nested BelongsTo relationships', function(asse
 
   let friend = setupObject(this, Ember.Object.extend(FriendValidations));
 
-  let user2 = setupObject(this, Ember.Object.extend(BelongsToValidations), {
-    friend: new Ember.RSVP.Promise((resolve) => {
-      resolve(friend);
-    })
-  });
-
   let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
     friend: new Ember.RSVP.Promise((resolve) => {
-      resolve(user2);
+      resolve(friend);
     })
   });
 
@@ -557,6 +551,33 @@ test('debounce should work across nested BelongsTo relationships', function(asse
   }).then(({ validations }) => {
     assert.equal(friend.get('validations.isValidating'), false, 'All promises should be resolved');
     assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
+    assert.equal(validations.get('isValid'), true, 'User should be valid');
+    done();
+  });
+});
+
+test('Validations should work across two-way BelongsTo relationships', function(assert) {
+  this.register('validator:presence', PresenceValidator);
+  this.register('validator:belongs-to', BelongsToValidator);
+
+  let done = assert.async();
+
+  let user2 = setupObject(this, Ember.Object.extend(BelongsToValidations));
+
+  let user = setupObject(this, Ember.Object.extend(BelongsToValidations), {
+    friend: new Ember.RSVP.Promise((resolve) => {
+      resolve(user2);
+    })
+  });
+
+  user2.set('friend', new Ember.RSVP.Promise((resolve) => {
+    resolve(user);
+  }));
+
+  user.validate().then(({ validations }) => {
+    assert.equal(user.get('validations.isValidating'), false, 'All promises should be resolved');
+    assert.equal(user2.get('validations.isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValidating'), false, 'All promises should be resolved');
     assert.equal(validations.get('isValid'), true, 'User should be valid');
     done();

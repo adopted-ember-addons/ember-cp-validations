@@ -3,14 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
-import ResultCollection from 'ember-cp-validations/validations/result-collection';
 import { isPromise } from 'ember-cp-validations/utils/utils';
-
-const {
-  get
-} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -66,20 +60,7 @@ const HasMany = Base.extend({
         return value.then((models) => this.validate(models, ...args));
       }
 
-      let validations = ResultCollection.create({
-        attribute: `Has-Many:${value}`,
-        content: value.map((m) => m.get('validations'))
-      });
-
-      if (get(validations, 'isAsync')) {
-        console.log('hasMany', ...args);
-        return get(validations, '_promise').then(() => {
-          console.log('hasMany:done', ...args);
-          return validations;
-        });
-      }
-
-      return validations;
+      return value.map((m) => m.get('validations'));
     }
 
     return true;

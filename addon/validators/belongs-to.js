@@ -87,17 +87,7 @@ const BelongsTo = Base.extend({
         return value.then((model) => this.validate(model, ...args));
       }
 
-      let validations = get(value, 'validations');
-      console.log('belongsTo', get(validations, '_promise'));
-
-      if (get(validations, 'isAsync')) {
-        return get(validations, '_promise').then(() => {
-          console.log('belongsTo:done', ...args);
-          return validations;
-        });
-      }
-
-      return validations;
+      return get(value, 'validations');
     }
 
     return true;

@@ -395,7 +395,6 @@ function createCPValidationFor(attribute, model, validations) {
   let dependentKeys = isVolatile ? [] : getCPDependentKeysFor(attribute, model, validations);
 
   let cp = computed(...dependentKeys, cycleBreaker(function() {
-    console.log('Get: ', attribute);
     let model = get(this, '_model');
     let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
@@ -812,11 +811,14 @@ function validate(options = {}, isAsync = true) {
   let resultObject = { model, validations };
 
   if (isAsync) {
-    if (get(validations, 'isAsync')) {
-      return RSVP.allSettled(makeArray(get(validations, '_promise'))).then(() => resultObject);
-    }
-
-    return Promise.resolve(resultObject);
+    return Promise.resolve(get(validations, '_promise')).then(() => {
+      /*
+        NOTE: When dealing with belongsTo and hasMany relationships, there are cases
+        where we have to resolve the actual models and only then resolve all the underlying
+        validation promises. This is the reason that `validate` must be called recursively.
+       */
+      return get(validations, 'isValidating') ? this.validate(options, isAsync) : resultObject;
+    });
   }
 
   return resultObject;
@@ -857,7 +859,14 @@ function validateAttribute(attribute, value) {
 
   let result = { model, validations };
 
-  return Promise.resolve(get(validations, 'isAsync') ? get(validations, '_promise').then(() => result) : result);
+  return Promise.resolve(get(validations, '_promise')).then(() => {
+    /*
+      NOTE: When dealing with belongsTo and hasMany relationships, there are cases
+      where we have to resolve the actual models and only then resolve all the underlying
+      validation promises. This is the reason that `validateAttribute` must be called recursively.
+     */
+    return get(validations, 'isValidating') ? this.validateAttribute(attribute, value) : result;
+  });
 }
 
 /**
