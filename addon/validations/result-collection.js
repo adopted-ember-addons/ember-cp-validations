@@ -344,9 +344,21 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed('content.@each._promise', cycleBreaker(function() {
-    return RSVP.allSettled(compact(flatten(this.getEach('_promise'))));
+  _promise: computed('content.@each._promise', '_contentValidations.@each._promise', cycleBreaker(function() {
+
+    let promises = [ this.get('_contentValidations').getEach('_promise'), this.getEach('_promise') ];
+    console.log('_promise', this.get('attribute'), compact(flatten(promises)));
+    return RSVP.allSettled(compact(flatten(promises)));
   })).readOnly(),
+
+  /**
+  * @property _contentValidations
+  * @type {Array}
+  * @private
+  */
+  _contentValidations: computed('content.@each._validations', function() {
+    return emberArray(compact(this.getEach('_validations')));
+  }).readOnly(),
 
   /**
    * @property _contentValidators

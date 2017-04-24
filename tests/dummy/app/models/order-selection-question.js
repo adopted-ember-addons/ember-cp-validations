@@ -23,7 +23,7 @@ const Validations = buildValidations({
     description: 'Question Text',
     validators: [
       validator('ds-error'),
-      validator('presence', true)
+      validator('presence', { presence: true, debounce: 0 })
     ]
   }
 });

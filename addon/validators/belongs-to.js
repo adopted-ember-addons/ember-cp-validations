@@ -81,12 +81,23 @@ const {
  *  @extends Base
  */
 const BelongsTo = Base.extend({
-  validate(value) {
+  validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((model) => model ? get(model, 'validations') : true);
+        return value.then((model) => this.validate(model, ...args));
       }
-      return get(value, 'validations');
+
+      let validations = get(value, 'validations');
+      console.log('belongsTo', get(validations, '_promise'));
+
+      if (get(validations, 'isAsync')) {
+        return get(validations, '_promise').then(() => {
+          console.log('belongsTo:done', ...args);
+          return validations;
+        });
+      }
+
+      return validations;
     }
 
     return true;
@@ -95,7 +106,12 @@ const BelongsTo = Base.extend({
 
 BelongsTo.reopenClass({
   getDependentsFor(attribute) {
-    return [ `model.${attribute}.isDeleted` ];
+    return [
+      `model.${attribute}.isDeleted`,
+      `model.${attribute}.content.isDeleted`,
+      `model.${attribute}.validations`,
+      `model.${attribute}.content.validations`
+    ];
   }
 });
 

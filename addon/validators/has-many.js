@@ -3,8 +3,14 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+import Ember from 'ember';
 import Base from 'ember-cp-validations/validators/base';
+import ResultCollection from 'ember-cp-validations/validations/result-collection';
 import { isPromise } from 'ember-cp-validations/utils/utils';
+
+const {
+  get
+} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -54,12 +60,26 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  @extends Base
  */
 const HasMany = Base.extend({
-  validate(value) {
+  validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((models) => models ? models.map((m) => m.get('validations')) : true);
+        return value.then((models) => this.validate(models, ...args));
       }
-      return value.map((m) => m.get('validations'));
+
+      let validations = ResultCollection.create({
+        attribute: `Has-Many:${value}`,
+        content: value.map((m) => m.get('validations'))
+      });
+
+      if (get(validations, 'isAsync')) {
+        console.log('hasMany', ...args);
+        return get(validations, '_promise').then(() => {
+          console.log('hasMany:done', ...args);
+          return validations;
+        });
+      }
+
+      return validations;
     }
 
     return true;
@@ -71,7 +91,13 @@ HasMany.reopenClass({
     /*
       The content.@each.isDeleted must be added for older ember-data versions
      */
-    return [ `model.${attribute}.[]`, `model.${attribute}.@each.isDeleted`, `model.${attribute}.content.@each.isDeleted` ];
+    return [
+      `model.${attribute}.[]`,
+      `model.${attribute}.@each.isDeleted`,
+      `model.${attribute}.content.@each.isDeleted`,
+      `model.${attribute}.@each.validations`,
+      `model.${attribute}.content.@each.validations`
+    ];
   }
 });
 
