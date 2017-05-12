@@ -319,24 +319,25 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
         Instantiate the nested attrs classes for the current path
        */
       Object.keys(nestedClasses[path] || []).forEach((key) => {
-        set(this, key, nestedClasses[path][key].create({
-          _model
-        }));
+        set(this, key, nestedClasses[path][key].create({ _model }));
       });
     },
 
-    destroy() {
+    willDestroy() {
       this._super(...arguments);
 
       let path = this.get('__path__');
 
       /*
-        Remove the model reference from each nested class and destroy it
+        Remove the model reference
+       */
+      set(this, '_model', null);
+
+      /*
+        Destroy all nested classes
        */
       Object.keys(nestedClasses[path] || []).forEach((key) => {
-        let o = get(this, key);
-        o.set('_model', null);
-        o.destroy();
+        get(this, key).destroy();
       });
     }
   });
