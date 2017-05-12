@@ -53,8 +53,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.3.1" target="_blank">
-                                  Tag: v3.3.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.3.2" target="_blank">
+                                  Tag: v3.3.2
                                 </a>
                             </h4>
                         </div>
@@ -506,24 +506,25 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
         Instantiate the nested attrs classes for the current path
        */
       Object.keys(nestedClasses[path] || []).forEach((key) =&gt; {
-        set(this, key, nestedClasses[path][key].create({
-          _model
-        }));
+        set(this, key, nestedClasses[path][key].create({ _model }));
       });
     },
 
-    destroy() {
+    willDestroy() {
       this._super(...arguments);
 
       let path = this.get(&#x27;__path__&#x27;);
 
       /*
-        Remove the model reference from each nested class and destroy it
+        Remove the model reference
+       */
+      set(this, &#x27;_model&#x27;, null);
+
+      /*
+        Destroy all nested classes
        */
       Object.keys(nestedClasses[path] || []).forEach((key) =&gt; {
-        let o = get(this, key);
-        o.set(&#x27;_model&#x27;, null);
-        o.destroy();
+        get(this, key).destroy();
       });
     }
   });
