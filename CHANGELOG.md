@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.3.2
+
+- [#505](https://github.com/offirgolan/ember-cp-validations/pull/505) [BUGFIX] Ember Data 2.13 Nested Key Destroy
+
 ## v3.3.1
 
 - [#494](https://github.com/offirgolan/ember-cp-validations/pull/494) [BUGFIX] Async relational validations resolve with fake positive
