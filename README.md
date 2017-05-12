@@ -1,6 +1,6 @@
 # Ember CP Validations
 
-[![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg)](https://travis-ci.org/offirgolan/ember-cp-validations)
+[![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg?branch=master)](https://travis-ci.org/offirgolan/ember-cp-validations)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Download Total](https://img.shields.io/npm/dt/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-cp-validations.svg)](http://emberobserver.com/addons/ember-cp-validations)
