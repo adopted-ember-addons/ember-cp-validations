@@ -58,7 +58,7 @@
     "ember-code-snippet": "^1.7.0",
     "ember-data": "^2.10.0",
     "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-export-application-global": "^1.0.5",
+    "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "2.2.0",
     "ember-load-initializers": "^0.6.3",
     "ember-moment": "7.0.3",
