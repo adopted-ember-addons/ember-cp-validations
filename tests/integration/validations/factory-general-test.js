@@ -407,7 +407,7 @@ test('debounced validations should cleanup on object destroy', function(assert) 
     try {
       object.destroy();
       assert.ok(true, 'Object destroy was clean');
-    } catch(e) {}
+    } catch(e) { /* noop */ }
     run.later(() => {
       done();
     }, 400);
@@ -728,7 +728,9 @@ test('call super in validations class with no super property', function(assert) 
     actions: {
       foo() {
         assert.ok(true);
-        let validations = this.get('validations'); // jshint ignore:line
+        /* eslint-disable */
+        let validations = this.get('validations');
+        /* eslint-enable */
       }
     }
   }));
@@ -1080,7 +1082,7 @@ test('load test', function(assert) {
     });
     items.push(obj);
   }
-
+  /* eslint-disable no-console */
   console.time('init');
   items.mapBy('validations.isValid');
   console.timeEnd('init');
@@ -1098,6 +1100,7 @@ test('load test', function(assert) {
   console.time('after set');
   Ember.A(items).mapBy('validations.isValid');
   console.timeEnd('after set');
+  /* eslint-enable no-console */
 
   assert.ok(true);
 });
