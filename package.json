@@ -80,7 +80,7 @@
     "model"
   ],
   "dependencies": {
-    "ember-cli-babel": "^6.3.0",
+    "ember-cli-babel": "^6.6.0",
     "ember-cli-version-checker": "^2.0.0",
     "ember-getowner-polyfill": "^2.0.1",
     "ember-require-module": "^0.1.2",
