@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v3.4.0
+
+- [#523](https://github.com/offirgolan/ember-cp-validations/pull/523) Upgrade All the Dependencies!
+
 ## v3.3.2
 
 - [#505](https://github.com/offirgolan/ember-cp-validations/pull/505) [BUGFIX] Ember Data 2.13 Nested Key Destroy
