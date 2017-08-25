@@ -3066,11 +3066,10 @@ ember-source@~2.14.1:
     simple-dom "^0.3.0"
     simple-html-tokenizer "^0.4.1"
 
-ember-string-ishtmlsafe-polyfill@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ember-string-ishtmlsafe-polyfill/-/ember-string-ishtmlsafe-polyfill-1.1.0.tgz#ecde33419ff912b91dd8acf0640eb74b9758408e"
+ember-string-ishtmlsafe-polyfill@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-string-ishtmlsafe-polyfill/-/ember-string-ishtmlsafe-polyfill-2.0.0.tgz#38f17038c3451999e9f1db748e424d8831e85863"
   dependencies:
-    ember-cli-babel "^5.1.7"
     ember-cli-version-checker "^1.2.0"
 
 ember-test-helpers@^0.6.3:
