@@ -1,7 +1,0 @@
-{
-  "name": "ember-cp-validations",
-  "dependencies": {
-    "moment": ">= 2.8.0",
-    "moment-timezone": ">= 0.1.0"
-  }
-}
