@@ -2,7 +2,7 @@
  * Copyright 2016, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*jshint node:true*/
+/* eslint-env node */
 module.exports = {
   command: 'ember test',
   scenarios: [{

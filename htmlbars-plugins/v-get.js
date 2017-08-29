@@ -61,7 +61,7 @@
  * @submodule V-Get Helper
  */
 
- /*jshint node:true*/
+/* eslint-env node */
 
 function VGet(options) {
   this.options = options;
