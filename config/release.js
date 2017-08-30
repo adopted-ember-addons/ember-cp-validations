@@ -1,4 +1,4 @@
-/* jshint node:true */
+/* eslint-env node */
 
 var execSync = require('child_process').execSync;
 var generateChangelog = require('ember-cli-changelog/lib/tasks/release-with-changelog');
