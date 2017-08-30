@@ -15,13 +15,23 @@ module.exports = {
     bower: {
       dependencies: {
         'ember': '~1.11.0',
-        'ember-data': '~1.13.0',
-        'ember-cli-shims': '0.0.6'
+        'ember-cli-shims': '0.0.6',
+        'ember-data': '~1.13.0'
+      },
+      resolutions: {
+        'ember': '~1.11.0',
+        'ember-cli-shims': '0.0.6',
+        'ember-data': '~1.13.0'
       }
     },
     npm: {
       dependencies: {
         'ember-get-helper': '^1.0.4'
+      },
+      devDependencies: {
+        'ember-cli-shims': null,
+        'ember-data': '~1.13.0',
+        'ember-source': null
       }
     }
   }, {
@@ -36,6 +46,11 @@ module.exports = {
     npm: {
       dependencies: {
         'ember-get-helper': '^1.0.4'
+      },
+      devDependencies: {
+        'ember-cli-shims': null,
+        'ember-data': '~1.13.0',
+        'ember-source': null
       }
     }
   }, {
@@ -50,6 +65,11 @@ module.exports = {
     npm: {
       dependencies: {
         'ember-get-helper': '^1.0.4'
+      },
+      devDependencies: {
+        'ember-cli-shims': null,
+        'ember-data': '~1.13.0',
+        'ember-source': null
       }
     }
   }, {
@@ -60,13 +80,12 @@ module.exports = {
         'ember-data': '~2.0.0',
         'ember-cli-shims': '0.0.6'
       }
-    }
-  }, {
-    name: 'ember-2.3',
-    bower: {
-      dependencies: {
-        'ember': '~2.3.0',
-        'ember-data': '~2.3.0'
+    },
+    npm: {
+      devDependencies: {
+        'ember-cli-shims': null,
+        'ember-data': '~2.0.0',
+        'ember-source': null
       }
     }
   }, {
