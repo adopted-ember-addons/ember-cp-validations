@@ -125,11 +125,15 @@ module.exports = {
     bower: {
       dependencies: {
         'ember': 'components/ember#release',
-        'ember-data': 'components/ember-data#release'
+        'ember-data': null
       },
       resolutions: {
-        'ember': 'release',
-        'ember-data': 'release'
+        'ember': 'release'
+      }
+    },
+    npm: {
+      dependencies: {
+        'ember-data': '~2.13.0'
       }
     }
   }, {
