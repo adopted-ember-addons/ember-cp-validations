@@ -8,8 +8,6 @@ dist: trusty
 
 cache:
   yarn: true
-  directories:
-    - $HOME/.cache # includes bowers cache
 
 addons:
   code_climate:
@@ -39,11 +37,9 @@ before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
   - yarn global add codeclimate-test-reporter
-  - yarn global add bower
 
 install:
   - yarn install --no-lockfile
-  - bower install
 
 script:
   - HEADLESS=true node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup

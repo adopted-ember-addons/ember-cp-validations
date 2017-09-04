@@ -2983,23 +2983,6 @@ ember-load-initializers@^1.0.0:
   dependencies:
     ember-cli-babel "^6.0.0-beta.7"
 
-ember-macro-helpers@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/ember-macro-helpers/-/ember-macro-helpers-0.15.1.tgz#a402651fafb3a25b3612a8c09843bc4061553a13"
-  dependencies:
-    ember-cli-babel "^6.0.0"
-    ember-cli-string-utils "^1.1.0"
-    ember-cli-test-info "^1.0.0"
-    ember-weakmap "^2.0.0"
-
-ember-moment@^7.4.1:
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/ember-moment/-/ember-moment-7.4.1.tgz#88018c4d981643bb4521ad39539f60ba3ec6bf42"
-  dependencies:
-    ember-cli-babel "^6.6.0"
-    ember-getowner-polyfill "^2.0.1"
-    ember-macro-helpers "^0.15.1"
-
 ember-qunit@^2.1.3:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-2.2.0.tgz#3cdf400031c93a38de781a7304819738753b7f99"
@@ -3115,12 +3098,6 @@ ember-validators@1.0.3:
   dependencies:
     ember-cli-babel "^5.1.6"
     ember-require-module "^0.1.2"
-
-ember-weakmap@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ember-weakmap/-/ember-weakmap-2.0.0.tgz#71c6819a8bfd0b077ae17ca1d9053fc5db06e4ac"
-  dependencies:
-    ember-cli-babel "^5.1.6"
 
 encodeurl@~1.0.1:
   version "1.0.1"
@@ -5390,12 +5367,6 @@ module-deps@~2.0.0:
     resolve "~0.6.3"
     stream-combiner "~0.1.0"
     through2 "~0.4.1"
-
-moment-timezone@0.5.10:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.10.tgz#3766249c2d317d08f07d896d3033c26f87c4ae2b"
-  dependencies:
-    moment ">= 2.6.0"
 
 moment-timezone@^0.3.0:
   version "0.3.1"
