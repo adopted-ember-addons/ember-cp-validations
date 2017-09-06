@@ -11,34 +11,6 @@ module.exports = {
       dependencies: {}
     }
   }, {
-    name: 'ember-1.11',
-    bower: {
-      dependencies: {
-        'ember': '~1.11.0',
-        'ember-data': '~1.13.0',
-        'ember-cli-shims': '0.0.6'
-      }
-    },
-    npm: {
-      dependencies: {
-        'ember-get-helper': '^1.0.4'
-      }
-    }
-  }, {
-    name: 'ember-1.12',
-    bower: {
-      dependencies: {
-        'ember': '~1.12.0',
-        'ember-data': '~1.13.0',
-        'ember-cli-shims': '0.0.6'
-      }
-    },
-    npm: {
-      dependencies: {
-        'ember-get-helper': '^1.0.4'
-      }
-    }
-  }, {
     name: 'ember-1.13',
     bower: {
       dependencies: {
@@ -50,23 +22,11 @@ module.exports = {
     npm: {
       dependencies: {
         'ember-get-helper': '^1.0.4'
-      }
-    }
-  }, {
-    name: 'ember-2.0',
-    bower: {
-      dependencies: {
-        'ember': '~2.0.0',
-        'ember-data': '~2.0.0',
-        'ember-cli-shims': '0.0.6'
-      }
-    }
-  }, {
-    name: 'ember-2.3',
-    bower: {
-      dependencies: {
-        'ember': '~2.3.0',
-        'ember-data': '~2.3.0'
+      },
+      devDependencies: {
+        'ember-cli-shims': null,
+        'ember-data': '~1.13.0',
+        'ember-source': null
       }
     }
   }, {
@@ -90,15 +50,15 @@ module.exports = {
       }
     }
   }, {
-    name: 'ember-2.10',
+    name: 'ember-2.12',
     bower: {
       dependencies: {
-        'ember': '~2.10.0'
+        'ember': '~2.12.0'
       }
     },
     npm: {
       dependencies: {
-        'ember-data': '~2.10.0'
+        'ember-data': '~2.12.0'
       }
     }
   }, {
@@ -106,11 +66,15 @@ module.exports = {
     bower: {
       dependencies: {
         'ember': 'components/ember#release',
-        'ember-data': 'components/ember-data#release'
+        'ember-data': null
       },
       resolutions: {
-        'ember': 'release',
-        'ember-data': 'release'
+        'ember': 'release'
+      }
+    },
+    npm: {
+      dependencies: {
+        'ember-data': '~2.13.0'
       }
     }
   }, {
