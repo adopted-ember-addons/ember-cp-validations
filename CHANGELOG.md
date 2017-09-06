@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## v3.4.1
+
+- [#530](https://github.com/offirgolan/ember-cp-validations/pull/530) bumped version on ember-string-ishtmlsafe-polyfill dependency [@stopfstedt](https://github.com/stopfstedt)
+- [#532](https://github.com/offirgolan/ember-cp-validations/pull/532) remove bower usage [@Dhaulagiri](https://github.com/Dhaulagiri)
+
 ## v3.4.0
 
 - [#523](https://github.com/offirgolan/ember-cp-validations/pull/523) Upgrade All the Dependencies!
