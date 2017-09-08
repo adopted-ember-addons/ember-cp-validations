@@ -382,6 +382,11 @@ export default Ember.ArrayProxy.extend({
 
 function computeErrorCollection(attribute, content = []) {
   let errors = flatten(content.getEach('errors'));
+  let warnings;
+  if(errors.length === 0) {
+    warnings = flatten(content.getEach('warnings'));  
+    errors = warnings.length > 0 ? warnings : errors;
+  } 
 
   errors = uniq(compact(errors));
   errors.forEach((e) => {
