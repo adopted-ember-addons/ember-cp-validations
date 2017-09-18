@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## v3.5.0
+- [#358](https://github.com/offirgolan/ember-cp-validations/pull/358) [BUGFIX] Rework Warning Logic
+
+#### Upgrade Notes
+
+The `isWarning` flag on the validations object as well as the individual attribute validations object has been removed since
+it didn't really make any sense and replace with a `hasWarnings` flag.
+
 ## v3.4.1
 
 - [#530](https://github.com/offirgolan/ember-cp-validations/pull/530) bumped version on ember-string-ishtmlsafe-polyfill dependency [@stopfstedt](https://github.com/stopfstedt)
