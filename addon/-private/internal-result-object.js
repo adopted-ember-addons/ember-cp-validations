@@ -28,6 +28,7 @@ export default Ember.Object.extend({
   isValid: true,
   isValidating: false,
   message: null,
+  warningMessage: null,
   attribute: '',
 
   attrValue: null,
@@ -45,6 +46,7 @@ export default Ember.Object.extend({
     }
   },
 
+  isWarning: readOnly('_validator.isWarning'),
   isInvalid: not('isValid'),
   isNotValidating: not('isValidating'),
   isTruelyValid: and('isNotValidating', 'isValid'),
@@ -91,6 +93,26 @@ export default Ember.Object.extend({
 
   errors: computed('error', function() {
     return makeArray(get(this, 'error'));
+  }),
+
+  warningMessages: computed('warningMessage', function() {
+    return makeArray(get(this, 'warningMessage'));
+  }),
+
+  warning: computed('isWarning', 'type', 'warningMessage', 'attribute', function() {
+    if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
+      return ValidationError.create({
+        type: get(this, '_type'),
+        message: get(this, 'warningMessage'),
+        attribute: get(this, 'attribute')
+      });
+    }
+
+    return null;
+  }),
+
+  warnings: computed('warning', function() {
+    return makeArray(get(this, 'warning'));
   }),
 
   _handlePromise() {

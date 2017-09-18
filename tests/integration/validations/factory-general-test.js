@@ -846,6 +846,10 @@ test('warning validators api', function(assert) {
   });
 
   assert.equal(object.get('validations.isValid'), false);
+  assert.equal(object.get('validations.warnings.length'), 2);
+  assert.equal(object.get('validations.warningMessage'), 'Password should not be empty');
+  assert.equal(object.get('validations.message'), 'Password is too short (minimum is 1 characters)');
+
   assert.equal(object.get('validations.attrs.password.isValid'), false);
   assert.equal(object.get('validations.attrs.password.warnings.length'), 2);
   assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password should not be empty');
@@ -857,6 +861,43 @@ test('warning validators api', function(assert) {
   assert.equal(object.get('validations.attrs.password.isValid'), true);
   assert.equal(object.get('validations.attrs.password.warnings.length'), 1);
   assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password is weak');
+});
+
+test('computed isWarning option', function(assert) {
+  this.register('validator:length', LengthValidator);
+  this.register('validator:presence', PresenceValidator);
+
+  let Validations = buildValidations({
+    password: {
+      description: 'Password',
+      lazy: false,
+      validators: [
+        validator('presence', {
+          presence: true,
+          isWarning: computed.readOnly('model.isWarning'),
+          message: '{description} should not be empty'
+        }),
+        validator('length', {
+          min: 1,
+          max: 10
+        })
+      ]
+    }
+  });
+
+  let object = setupObject(this, Ember.Object.extend(Validations), {
+    password: '',
+    isWarning: false
+  });
+
+  assert.equal(object.get('validations.isValid'), false);
+  assert.equal(object.get('validations.warnings.length'), 0);
+  assert.equal(object.get('validations.errors.length'), 2);
+
+  object.set('isWarning', true);
+
+  assert.equal(object.get('validations.warnings.length'), 1);
+  assert.equal(object.get('validations.errors.length'), 1);
 });
 
 test('options CP changes trigger attribute revalidation', function(assert) {

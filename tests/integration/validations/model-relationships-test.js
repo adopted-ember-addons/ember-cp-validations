@@ -66,7 +66,6 @@ test('belong to validation - no cycle', function(assert) {
   assert.equal(friend.get('isValid'), false);
   assert.equal(friend.get('isValidating'), false);
   assert.equal(friend.get('message'), 'lastName should be present');
-
 });
 
 test('belong to validation - with cycle', function(assert) {
@@ -202,6 +201,8 @@ test('has-many relationship is async and isWarning', function(assert) {
 
     let friends = validations.get('content').findBy('attribute', 'friends');
 
+    assert.equal(friends.get('warning.message'), 'lastName should be present');
+    assert.equal(friends.get('warningMessage'), 'lastName should be present');
     assert.equal(friends.get('isValid'), true);
   });
 
@@ -269,6 +270,8 @@ test('belongs-to relationship is async and isWarning', function(assert) {
 
     let friend = validations.get('content').findBy('attribute', 'friend');
 
+    assert.equal(friend.get('warning.message'), 'lastName should be present');
+    assert.equal(friend.get('warningMessage'), 'lastName should be present');
     assert.equal(friend.get('isValid'), true);
   });
 
