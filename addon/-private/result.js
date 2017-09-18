@@ -77,6 +77,13 @@ const Result = Ember.Object.extend({
   }).readOnly(),
 
   /**
+   * @property isWarning
+   * @readOnly
+   * @type {Boolean}
+   */
+  isWarning: readOnly('_validator.isWarning'),
+
+  /**
    * @property isValid
    * @readOnly
    * @type {Boolean}
@@ -207,9 +214,8 @@ const Result = Ember.Object.extend({
    */
   update(value) {
     let result = get(this, '_result');
-    let validator = get(this, '_validator');
     let attribute = get(this, 'attribute');
-    let isWarning = get(validator, 'isWarning');
+    let isWarning = get(this, 'isWarning');
     let Collection = isWarning ? WarningResultCollection : ResultCollection;
 
     if (isNone(value)) {

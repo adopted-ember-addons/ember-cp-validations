@@ -14,14 +14,6 @@ export default Ember.Object.extend({
   type: null,
 
   /**
-   * If this error has been flagged as a warning
-   * @property isWarning
-   * @type {Boolean}
-   * @default false
-   */
-  isWarning: false,
-
-  /**
    * The error message
    * @property message
    * @type {String}
