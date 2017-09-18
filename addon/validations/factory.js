@@ -4,13 +4,13 @@
  */
 
 import Ember from 'ember';
-import flatten from '../utils/flatten';
 import assign from '../utils/assign';
 import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
+import { flatten } from '../utils/array';
 import { isDsModel, isValidatable, isPromise, isDescriptor, mergeOptions } from '../utils/utils';
 
 const {

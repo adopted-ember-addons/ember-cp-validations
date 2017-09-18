@@ -5,6 +5,7 @@
 
 import Ember from 'ember';
 import ResultCollection from '../validations/result-collection';
+import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
 
 const {
@@ -207,68 +208,28 @@ const Result = Ember.Object.extend({
   update(value) {
     let result = get(this, '_result');
     let validator = get(this, '_validator');
+    let attribute = get(this, 'attribute');
     let isWarning = get(validator, 'isWarning');
-    let { model, attribute } = getProperties(this, ['model', 'attribute']);
+    let Collection = isWarning ? WarningResultCollection : ResultCollection;
 
     if (isNone(value)) {
       return this.update(false);
     } else if (get(value, 'isValidations')) {
-      // let errorMessages = get(value, 'messages').map((message) => {
-      //   let r = Result.create({
-      //     attribute,
-      //     model,
-      //     _validator: validator,
-      //     _promise: get(value, '_promise'),
-      //   });
-      //
-      //   r._setMessage(message, isWarning);
-      //   return r;
-      // });
-      //
-      // let warningMessages = get(value, 'warningMessages').map((message) => {
-      //   let r = Result.create({
-      //     attribute,
-      //     model,
-      //     _validator: validator,
-      //     _promise: get(value, '_promise'),
-      //   });
-      //
-      //   r._setMessage(message, true);
-      //   return r;
-      // });
-      //
-      // set(this, '_result', ResultCollection.create({
-      //   attribute,
-      //   content: [...errorMessages, ...warningMessages]
-      // }));
-
-      set(this, '_result', value);
+      set(this, '_result', Collection.create({ attribute, content: [ value ]}));
     } else if (isArray(value)) {
-      set(this, '_result', ResultCollection.create({
-        attribute,
-        content: value.map((r) => Result.create({
-          attribute,
-          model,
-          _validator: validator,
-          _result: r
-        }))
-      }));
+      set(this, '_result', Collection.create({ attribute, content: value }));
     } else if (!get(this, '_isReadOnly')) {
       if (typeof value === 'string') {
-        this._setMessage(value, isWarning);
+        setProperties(get(this, '_result'), {
+          [isWarning ? 'warningMessage' : 'message']: value,
+          isValid: isWarning ? true : false
+        })
       } else if (typeof value === 'boolean') {
         set(result, 'isValid', value);
       } else if (typeof value === 'object') {
         setProperties(result, value);
       }
     }
-  },
-
-  _setMessage(message, isWarning = false) {
-    setProperties(get(this, '_result'), {
-      [isWarning ? 'warningMessage' : 'message']: message,
-      isValid: isWarning ? true : false
-    })
   },
 
   /**

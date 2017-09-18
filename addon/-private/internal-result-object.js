@@ -14,7 +14,6 @@ const {
   computed,
   canInvoke,
   makeArray,
-  setProperties,
   defineProperty
 } = Ember;
 
@@ -48,7 +47,6 @@ export default Ember.Object.extend({
   },
 
   isWarning: readOnly('_validator.isWarning'),
-
   isInvalid: not('isValid'),
   isNotValidating: not('isValidating'),
   isTruelyValid: and('isNotValidating', 'isValid'),
@@ -105,7 +103,6 @@ export default Ember.Object.extend({
     if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
       return ValidationError.create({
         type: get(this, '_type'),
-        isWarning: true,
         message: get(this, 'warningMessage'),
         attribute: get(this, 'attribute')
       });
@@ -117,15 +114,6 @@ export default Ember.Object.extend({
   warnings: computed('warning', function() {
     return makeArray(get(this, 'warning'));
   }),
-
-  setMessage(message) {
-    const isWarning = this.get('isWarning');
-
-    setProperties(this, {
-      [isWarning ? 'warningMessage' : 'message']: message,
-      isValid: isWarning ? true : false
-    })
-  },
 
   _handlePromise() {
     set(this, 'isValidating', true);

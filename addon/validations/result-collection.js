@@ -4,8 +4,8 @@
  */
 
 import Ember from 'ember';
-import flatten from '../utils/flatten';
 import cycleBreaker from '../utils/cycle-breaker';
+import { flatten, uniq, compact } from '../utils/array';
 
 const {
   get,
@@ -16,17 +16,6 @@ const {
   isNone,
   A: emberArray
 } = Ember;
-
-const A = emberArray();
-
-function callable(method) {
-  return function(collection) {
-    return A[method].apply(collection, arguments);
-  };
-}
-
-const uniq = callable('uniq');
-const compact = callable('compact');
 
 /*
   CP Macros
@@ -169,8 +158,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    */
   messages: computed('content.@each.messages', cycleBreaker(function() {
-    let messages = flatten(this.getEach('messages'));
-    return uniq(compact(messages));
+    return uniq(compact(flatten(this.getEach('messages'))));
   })).readOnly(),
 
   /**
@@ -217,8 +205,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    */
   warningMessages: computed('content.@each.warningMessages', cycleBreaker(function() {
-    let warningMessages = flatten(this.getEach('warningMessages'));
-    return uniq(compact(warningMessages));
+    return uniq(compact(flatten(this.getEach('warningMessages'))));
   })).readOnly(),
 
   /**
@@ -251,7 +238,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    */
   warnings: computed('attribute', 'content.@each.warnings', cycleBreaker(function() {
-    return computeErrorCollection(get(this, 'attribute'), this.getEach('warnings'));
+    return this._computeErrorCollection(this.getEach('warnings'));
   })).readOnly(),
 
   /**
@@ -284,7 +271,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    */
   errors: computed('attribute', 'content.@each.errors', cycleBreaker(function() {
-    return computeErrorCollection(get(this, 'attribute'), this.getEach('errors'));
+    return this._computeErrorCollection(this.getEach('errors'));
   })).readOnly(),
 
   /**
@@ -335,7 +322,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Object}
    */
   options: computed('_contentValidators.@each.options', function() {
-    return groupValidatorOptions(get(this, '_contentValidators'));
+    return this._groupValidatorOptions(get(this, '_contentValidators'));
   }).readOnly(),
 
   /**
@@ -345,8 +332,9 @@ export default Ember.ArrayProxy.extend({
    * @type {Promise}
    */
   _promise: computed('content.@each._promise', '_contentResults.@each._promise', cycleBreaker(function() {
-    let promises = [ this.get('_contentResults').getEach('_promise'), this.getEach('_promise') ];
-    return RSVP.allSettled(compact(flatten(promises)));
+    return RSVP.allSettled(compact(flatten([
+      this.get('_contentResults').getEach('_promise'), this.getEach('_promise')
+    ])));
   })).readOnly(),
 
   /**
@@ -363,43 +351,44 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentValidators: computed.mapBy('content', '_validator').readOnly()
-});
+  _contentValidators: computed.mapBy('content', '_validator').readOnly(),
 
-function computeErrorCollection(attribute, collection = []) {
-  let errors = uniq(compact(flatten(collection)));
+  _computeErrorCollection(collection = []) {
+    let attribute = get(this, 'attribute');
+    let errors = uniq(compact(flatten(collection)));
 
-  errors.forEach((e) => {
-    if (attribute && e.get('attribute') !== attribute) {
-      e.set('parentAttribute', attribute);
-    }
-  });
-
-  return errors;
-}
-
-/**
- * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
- * If there is more than 1 of a type, it groups it into an array of option objects.
- */
-function groupValidatorOptions(validators = []) {
-  return validators.reduce((options, v) => {
-    if (isNone(v) || isNone(get(v, '_type'))) {
-      return options;
-    }
-
-    let type = get(v, '_type');
-    let vOpts = get(v, 'options').copy();
-
-    if (options[type]) {
-      if (isArray(options[type])) {
-        options[type].push(vOpts);
-      } else {
-        options[type] = [options[type], vOpts];
+    errors.forEach((e) => {
+      if (attribute && e.get('attribute') !== attribute) {
+        e.set('parentAttribute', attribute);
       }
-    } else {
-      options[type] = vOpts;
-    }
-    return options;
-  }, {});
-}
+    });
+
+    return errors;
+  },
+
+  /**
+   * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
+   * If there is more than 1 of a type, it groups it into an array of option objects.
+   */
+  _groupValidatorOptions(validators = []) {
+    return validators.reduce((options, v) => {
+      if (isNone(v) || isNone(get(v, '_type'))) {
+        return options;
+      }
+
+      let type = get(v, '_type');
+      let vOpts = get(v, 'options').copy();
+
+      if (options[type]) {
+        if (isArray(options[type])) {
+          options[type].push(vOpts);
+        } else {
+          options[type] = [options[type], vOpts];
+        }
+      } else {
+        options[type] = vOpts;
+      }
+      return options;
+    }, {});
+  }
+});
