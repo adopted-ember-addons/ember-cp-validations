@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Accessing Validations - Ember CP Validations</title>
+    <title>addon/validations/warning-result-collection.js - Ember CP Validations</title>
     <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -180,50 +180,44 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Accessing Validations Module
-              <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.0/addon/validations/factory.js#L52" target="_blank">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
-<div class="content-meta">
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ * Copyright 2016, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
 
+import Ember from &#x27;ember&#x27;;
+import ResultCollection from &#x27;./result-collection&#x27;;
+import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
+import { flatten, uniq, compact } from &#x27;../utils/array&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.0/addon/validations/factory.js#L52">addon/validations/factory.js:52</a>
-        </div>
+const {
+  computed,
+} = Ember;
 
+export default ResultCollection.extend({
+  isValid: computed(() =&gt; true).readOnly(),
+  isTruelyValid: computed.not(&#x27;isValidating&#x27;).readOnly(),
+
+  messages: computed(() =&gt; []).readOnly(),
+  errors: computed(() =&gt; []).readOnly(),
+
+  warningMessages: computed(&#x27;content.@each.{messages,warningMessages}&#x27;, cycleBreaker(function() {
+    return uniq(compact(flatten([this.getEach(&#x27;messages&#x27;), this.getEach(&#x27;warningMessages&#x27;)])));
+  })).readOnly(),
+
+  warnings: computed(&#x27;attribute&#x27;, &#x27;content.@each.{errors,warnings}&#x27;, cycleBreaker(function() {
+    return this._computeErrorCollection(flatten([this.getEach(&#x27;errors&#x27;), this.getEach(&#x27;warnings&#x27;)]));
+  })).readOnly()
+});
+
+    </pre>
 </div>
-
-
-<div class="module-description page-section">
-    <p>All validations can be accessed via the <code>validations</code> object created on your model/object.
-Each attribute also has its own validation which has the same properties.
-An attribute validation can be accessed via <code>validations.attrs.&lt;ATTRIBUTE&gt;</code> which will return a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
-<h3>Global Validations</h3>
-<p>Global validations exist on the <code>validations</code> object that resides on the object that is being validated.
-To see all possible properties, please checkout the docs for <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>.</p>
-<pre class="code prettyprint"><code class="language-js">model.get('validations.isValid');
-model.get('validations.errors');
-model.get('validations.messages');
-// etc...
-</code></pre>
-<h3>Attribute Validations</h3>
-<p>The <code>validations</code> object also contains an <code>attrs</code> object which holds a <a href="../classes/ResultCollection.html" class="crosslink">ResultCollection</a>
-for each attribute specified in your validation rules.</p>
-<pre class="code prettyprint"><code class="language-js">model.get('validations.attrs.username.isValid');
-model.get('validations.attrs.password.errors');
-model.get('validations.attrs.email.messages');
-// etc...
-</code></pre>
-
-</div>
-
-
                         </div>
                     </div>
                 </div>

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.4.1" target="_blank">
-                                  Tag: v3.4.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.0" target="_blank">
+                                  Tag: v3.5.0
                                 </a>
                             </h4>
                         </div>
@@ -192,13 +192,13 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import flatten from &#x27;../utils/flatten&#x27;;
 import assign from &#x27;../utils/assign&#x27;;
 import ValidationResult from &#x27;../-private/result&#x27;;
 import ResultCollection from &#x27;./result-collection&#x27;;
 import BaseValidator from &#x27;../validators/base&#x27;;
 import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
 import shouldCallSuper from &#x27;../utils/should-call-super&#x27;;
+import { flatten } from &#x27;../utils/array&#x27;;
 import { isDsModel, isValidatable, isPromise, isDescriptor, mergeOptions } from &#x27;../utils/utils&#x27;;
 
 const {
@@ -699,7 +699,6 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
 function createTopLevelPropsMixin(validatableAttrs) {
   // Expose the following properties as public APIs via readOnly aliases
   let aliases = [
-    &#x27;isWarning&#x27;,
     &#x27;isValid&#x27;,
     &#x27;isValidating&#x27;,
     &#x27;isDirty&#x27;,
@@ -707,6 +706,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     &#x27;isNotValidating&#x27;,
     &#x27;isInvalid&#x27;,
     &#x27;isTruelyValid&#x27;,
+    &#x27;hasWarnings&#x27;,
     &#x27;messages&#x27;,
     &#x27;message&#x27;,
     &#x27;warningMessages&#x27;,

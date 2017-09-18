@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "v3.4.1"
+        "version": "v3.5.0"
     },
     "files": {
         "addon/-private/internal-result-object.js": {
@@ -40,13 +40,6 @@
         },
         "addon/utils/cycle-breaker.js": {
             "name": "addon/utils/cycle-breaker.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/utils/flatten.js": {
-            "name": "addon/utils/flatten.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -109,6 +102,13 @@
                 "Validators": 1,
                 "Common Options": 1
             },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/validations/warning-result-collection.js": {
+            "name": "addon/validations/warning-result-collection.js",
+            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -411,7 +411,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "addon/validations/result-collection.js",
-            "line": 46,
+            "line": 35,
             "description": "## Running Manual Validations\n\nAlthough validations are lazily computed, there are times where we might want to force all or\nspecific validations to happen. For this reason we have exposed three methods:\n\n- {{#crossLink \"Factory/validate:method\"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present\n- {{#crossLink \"Factory/validateSync:method\"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous\n- {{#crossLink \"Factory/validateAttribute:method\"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state",
             "access": "private",
             "tagname": "",
@@ -578,7 +578,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/-private/result.js",
-            "line": 24,
+            "line": 25,
             "description": "__PRIVATE__"
         },
         "Error": {
@@ -618,7 +618,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/validations/result-collection.js",
-            "line": 46
+            "line": 35
         },
         "Alias": {
             "name": "Alias",
@@ -904,7 +904,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 34,
+            "line": 35,
             "itemtype": "property",
             "name": "model",
             "type": "{Object}",
@@ -913,7 +913,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 40,
+            "line": 41,
             "itemtype": "property",
             "name": "attribute",
             "type": "{String}",
@@ -922,7 +922,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 46,
+            "line": 47,
             "itemtype": "property",
             "name": "_promise",
             "async": 1,
@@ -934,7 +934,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 54,
+            "line": 55,
             "description": "The validator that returned this result",
             "itemtype": "property",
             "name": "_validator",
@@ -946,8 +946,8 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 62,
-            "description": "Determines if the _validations object is readOnly.\n\nThis is needed because ResultCollections and global validation objects control their own\nstate via CPs",
+            "line": 63,
+            "description": "Determines if the _result object is readOnly.\n\nThis is needed because ResultCollections and global validation objects control their own\nstate via CPs",
             "itemtype": "property",
             "name": "_isReadOnly",
             "access": "private",
@@ -959,7 +959,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 78,
+            "line": 79,
             "itemtype": "property",
             "name": "isWarning",
             "readonly": "",
@@ -969,7 +969,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 85,
+            "line": 86,
             "itemtype": "property",
             "name": "isValid",
             "readonly": "",
@@ -979,7 +979,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 92,
+            "line": 93,
             "itemtype": "property",
             "name": "isInvalid",
             "readonly": "",
@@ -989,7 +989,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 99,
+            "line": 100,
             "itemtype": "property",
             "name": "isValidating",
             "readonly": "",
@@ -999,7 +999,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 106,
+            "line": 107,
             "itemtype": "property",
             "name": "isTruelyValid",
             "readonly": "",
@@ -1009,7 +1009,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 113,
+            "line": 114,
             "itemtype": "property",
             "name": "isAsync",
             "readonly": "",
@@ -1019,7 +1019,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 120,
+            "line": 121,
             "itemtype": "property",
             "name": "isDirty",
             "readonly": "",
@@ -1029,7 +1029,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 127,
+            "line": 128,
             "itemtype": "property",
             "name": "message",
             "readonly": "",
@@ -1039,7 +1039,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 134,
+            "line": 135,
             "itemtype": "property",
             "name": "messages",
             "readonly": "",
@@ -1049,7 +1049,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 141,
+            "line": 142,
             "itemtype": "property",
             "name": "error",
             "readonly": "",
@@ -1059,7 +1059,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 148,
+            "line": 149,
             "itemtype": "property",
             "name": "errors",
             "readonly": "",
@@ -1069,10 +1069,50 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 155,
+            "line": 156,
+            "itemtype": "property",
+            "name": "warningMessage",
+            "readonly": "",
+            "type": "{String}",
+            "class": "Result",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/-private/result.js",
+            "line": 163,
+            "itemtype": "property",
+            "name": "warningMessages",
+            "readonly": "",
+            "type": "{Array}",
+            "class": "Result",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/-private/result.js",
+            "line": 170,
+            "itemtype": "property",
+            "name": "warning",
+            "readonly": "",
+            "type": "{Object}",
+            "class": "Result",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/-private/result.js",
+            "line": 177,
+            "itemtype": "property",
+            "name": "warnings",
+            "readonly": "",
+            "type": "{Array}",
+            "class": "Result",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/-private/result.js",
+            "line": 184,
             "description": "This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object",
             "itemtype": "property",
-            "name": "_validations",
+            "name": "_result",
             "access": "private",
             "tagname": "",
             "type": "{Result}",
@@ -1081,15 +1121,15 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 173,
-            "description": "Update the current validation result object with the given result\n- If result is undefined or null, set isValid to false\n- If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)\n- If result is a collection of result objects, create a Validation Result Collection and set that to the _validations object (has-many)\n- If result is a string, set the message to the given string and set isValid to false\n- If result is a boolean, set isValid to result\n- If result is a pojo, update _validations object with the information given",
+            "line": 202,
+            "description": "Update the current validation result object with the given value\n- If value is undefined or null, set isValid to false\n- If value is a validations object from a different model/object, set the _result object to the one given (belongs-to)\n- If value is a collection of result objects, create a Validation Result Collection and set that to the _result object (has-many)\n- If value is a string, set the message to the given string and set isValid to false\n- If value is a boolean, set isValid to result\n- If value is a pojo, update _result object with the information given",
             "itemtype": "method",
             "name": "update",
             "access": "private",
             "tagname": "",
             "params": [
                 {
-                    "name": "result",
+                    "name": "value",
                     "description": ""
                 }
             ],
@@ -1098,7 +1138,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 223,
+            "line": 241,
             "description": "Promise handler",
             "itemtype": "method",
             "name": "_handlePromise",
@@ -1132,13 +1172,6 @@
             "file": "addon/utils/cycle-breaker.js",
             "line": 6,
             "description": "Use Ember Meta to break cycles in the CP chains. Lets say we have a User model with a `friends` property that is a hasMany\nrelationship. If we have a user John and he has a friend Jane, that creates a two-way relationship. John is Jane's friends and vise\nversa. If we were to go down the CP chain and get validations for John's friends, it would go to Jane, then to Jane's friends, which\nwould point back to John. This method tracks which models have been already visited and breaks the cycle.",
-            "class": "Error",
-            "module": "Validations"
-        },
-        {
-            "file": "addon/utils/flatten.js",
-            "line": 1,
-            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Error",
             "module": "Validations"
         },
@@ -1768,7 +1801,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 57,
+            "line": 45,
             "description": "The attribute that this collection belongs to",
             "itemtype": "property",
             "name": "attribute",
@@ -1778,19 +1811,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 65,
-            "description": "```javascript\n// Examples\nget(user, 'validations.isWarning')\nget(user, 'validations.attrs.username.isWarning')\n```",
-            "itemtype": "property",
-            "name": "isWarning",
-            "default": "false",
-            "readonly": "",
-            "type": "{Boolean}",
-            "class": "ResultCollection",
-            "module": "Validations"
-        },
-        {
-            "file": "addon/validations/result-collection.js",
-            "line": 79,
+            "line": 53,
             "description": "```javascript\n// Examples\nget(user, 'validations.isInvalid')\nget(user, 'validations.attrs.username.isInvalid')\n```",
             "itemtype": "property",
             "name": "isInvalid",
@@ -1802,7 +1823,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 93,
+            "line": 67,
             "description": "```javascript\n// Examples\nget(user, 'validations.isValid')\nget(user, 'validations.attrs.username.isValid')\n```",
             "itemtype": "property",
             "name": "isValid",
@@ -1814,7 +1835,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 107,
+            "line": 81,
             "description": "This property is toggled only if there is an async validation\n\n```javascript\n// Examples\nget(user, 'validations.isValidating')\nget(user, 'validations.attrs.username.isValidating')\n```",
             "itemtype": "property",
             "name": "isValidating",
@@ -1826,7 +1847,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 123,
+            "line": 97,
             "description": "Will be true only if isValid is `true` and isValidating is `false`\n\n```javascript\n// Examples\nget(user, 'validations.isTruelyValid')\nget(user, 'validations.attrs.username.isTruelyValid')\n```",
             "itemtype": "property",
             "name": "isTruelyValid",
@@ -1838,7 +1859,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 139,
+            "line": 113,
             "description": "Will be true is the attribute in question is not `null` or `undefined`. If the object being\nvalidated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison.\n\n```javascript\n// Examples\n// 'username' : DS.attr('string', { defaultValue: 'johndoe' })\nget(user, 'validations.isDirty')\nget(user, 'validations.attrs.username.isDirty')\n```",
             "itemtype": "property",
             "name": "isDirty",
@@ -1850,7 +1871,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 157,
+            "line": 131,
             "description": "Will be `true` only if a validation returns a promise\n\n```javascript\n// Examples\nget(user, 'validations.isAsync')\nget(user, 'validations.attrs.username.isAsync')\n```",
             "itemtype": "property",
             "name": "isAsync",
@@ -1862,7 +1883,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 173,
+            "line": 147,
             "description": "A collection of all error messages on the object in question\n\n```javascript\n// Examples\nget(user, 'validations.messages')\nget(user, 'validations.attrs.username.messages')\n```",
             "itemtype": "property",
             "name": "messages",
@@ -1873,7 +1894,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 191,
+            "line": 164,
             "description": "An alias to the first message in the messages collection.\n\n```javascript\n// Example\nget(user, 'validations.message')\nget(user, 'validations.attrs.username.message')\n```",
             "itemtype": "property",
             "name": "message",
@@ -1884,7 +1905,18 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 206,
+            "line": 179,
+            "description": "Will be `true` if there are warnings in the collection.\n\n```javascript\n// Example\nget(user, 'validations.hasWarnings')\nget(user, 'validations.attrs.username.hasWarnings')\n```",
+            "itemtype": "property",
+            "name": "hasWarnings",
+            "readonly": "",
+            "type": "{String}",
+            "class": "ResultCollection",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/validations/result-collection.js",
+            "line": 194,
             "description": "A collection of all warning messages on the object in question\n\n```javascript\n// Examples\nget(user, 'validations.warningMessages')\nget(user, 'validations.attrs.username.warningMessages')\n```",
             "itemtype": "property",
             "name": "warningMessages",
@@ -1895,7 +1927,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 224,
+            "line": 211,
             "description": "An alias to the first message in the warningMessages collection.\n\n```javascript\n// Example\nget(user, 'validations.warningMessage')\nget(user, 'validations.attrs.username.warningMessage')\n```",
             "itemtype": "property",
             "name": "warningMessage",
@@ -1906,7 +1938,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 239,
+            "line": 226,
             "description": "A collection of all {{#crossLink \"Error\"}}Warnings{{/crossLink}} on the object in question.\nEach warning object includes the warning message and it's associated attribute name.\n\n```javascript\n// Example\nget(user, 'validations.warnings')\nget(user, 'validations.attrs.username.warnings')\n```",
             "itemtype": "property",
             "name": "warnings",
@@ -1917,7 +1949,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 257,
+            "line": 244,
             "description": "An alias to the first {{#crossLink \"Warning\"}}{{/crossLink}} in the warnings collection.\n\n```javascript\n// Example\nget(user, 'validations.warning')\nget(user, 'validations.attrs.username.warning')\n```",
             "itemtype": "property",
             "name": "warning",
@@ -1928,7 +1960,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 272,
+            "line": 259,
             "description": "A collection of all {{#crossLink \"Error\"}}Errors{{/crossLink}} on the object in question.\nEach error object includes the error message and it's associated attribute name.\n\n```javascript\n// Example\nget(user, 'validations.errors')\nget(user, 'validations.attrs.username.errors')\n```",
             "itemtype": "property",
             "name": "errors",
@@ -1939,7 +1971,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 290,
+            "line": 277,
             "description": "An alias to the first {{#crossLink \"Error\"}}{{/crossLink}} in the errors collection.\n\n```javascript\n// Example\nget(user, 'validations.error')\nget(user, 'validations.attrs.username.error')\n```",
             "itemtype": "property",
             "name": "error",
@@ -1950,7 +1982,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 305,
+            "line": 292,
             "description": "All built options of the validators associated with the results in this collection grouped by validator type\n\n```javascript\n// Given the following validators\n{\n  username: [\n    validator('presence', true),\n    validator('length', { max: 15 }),\n    validator('format', { regex: /foo/ }),\n    validator('format', { regex: /bar/ }),\n  ]\n}\n```\n\n```js\nget(user, 'validations.attrs.username.options')\n```\n\nThe above will return the following\n```js\n{\n  'presence': { presence: true},\n  'length': { max: 15 },\n  'regex': [{ regex: /foo/ }, { regex: /bar/ }]\n}\n```",
             "itemtype": "property",
             "name": "options",
@@ -1961,7 +1993,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 341,
+            "line": 328,
             "itemtype": "property",
             "name": "_promise",
             "async": 1,
@@ -1973,9 +2005,9 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 352,
+            "line": 340,
             "itemtype": "property",
-            "name": "_contentValidations",
+            "name": "_contentResults",
             "type": "{Array}",
             "access": "private",
             "tagname": "",
@@ -1984,7 +2016,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 361,
+            "line": 349,
             "itemtype": "property",
             "name": "_contentValidators",
             "type": "{Array}",
@@ -1995,29 +2027,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 368,
-            "itemtype": "property",
-            "name": "_errorContent",
-            "type": "{Array}",
-            "access": "private",
-            "tagname": "",
-            "class": "ResultCollection",
-            "module": "Validations"
-        },
-        {
-            "file": "addon/validations/result-collection.js",
-            "line": 375,
-            "itemtype": "property",
-            "name": "_warningContent",
-            "type": "{Array}",
-            "access": "private",
-            "tagname": "",
-            "class": "ResultCollection",
-            "module": "Validations"
-        },
-        {
-            "file": "addon/validations/result-collection.js",
-            "line": 396,
+            "line": 369,
             "description": "Used by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
             "class": "ResultCollection",
             "module": "Validations"
@@ -2028,6 +2038,13 @@
             "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "class": "Alias",
             "module": "Validations"
+        },
+        {
+            "file": "addon/validations/warning-result-collection.js",
+            "line": 1,
+            "description": "Copyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "class": "Alias",
+            "module": "Validators"
         },
         {
             "file": "addon/validators/alias.js",
@@ -3407,10 +3424,6 @@
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
-            "line": " addon/utils/flatten.js:1"
-        },
-        {
-            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/utils/meta-data.js:1"
         },
         {
@@ -3435,11 +3448,15 @@
         },
         {
             "message": "Missing item type\nUsed by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
-            "line": " addon/validations/result-collection.js:396"
+            "line": " addon/validations/result-collection.js:369"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
             "line": " addon/validations/validator.js:1"
+        },
+        {
+            "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",
+            "line": " addon/validations/warning-result-collection.js:1"
         },
         {
             "message": "Missing item type\nCopyright 2016, Yahoo! Inc.\nCopyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.",

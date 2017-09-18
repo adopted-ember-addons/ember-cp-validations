@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.4.1" target="_blank">
-                                  Tag: v3.4.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.0" target="_blank">
+                                  Tag: v3.5.0
                                 </a>
                             </h4>
                         </div>
@@ -192,8 +192,8 @@
  */
 
 import Ember from &#x27;ember&#x27;;
-import flatten from &#x27;../utils/flatten&#x27;;
 import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
+import { flatten, uniq, compact } from &#x27;../utils/array&#x27;;
 
 const {
   get,
@@ -204,17 +204,6 @@ const {
   isNone,
   A: emberArray
 } = Ember;
-
-const A = emberArray();
-
-function callable(method) {
-  return function(collection) {
-    return A[method].apply(collection, arguments);
-  };
-}
-
-const uniq = callable(&#x27;uniq&#x27;);
-const compact = callable(&#x27;compact&#x27;);
 
 /*
   CP Macros
@@ -236,7 +225,6 @@ function isEvery(collection, key, value, defaultValue) {
  * @class ResultCollection
  */
 export default Ember.ArrayProxy.extend({
-
   init() {
     set(this, &#x27;content&#x27;, emberArray(compact(get(this, &#x27;content&#x27;))));
     this._super(...arguments);
@@ -249,20 +237,6 @@ export default Ember.ArrayProxy.extend({
    * @type {String}
    */
   attribute: null,
-
-  /**
-   * &#x60;&#x60;&#x60;javascript
-   * // Examples
-   * get(user, &#x27;validations.isWarning&#x27;)
-   * get(user, &#x27;validations.attrs.username.isWarning&#x27;)
-   * &#x60;&#x60;&#x60;
-   *
-   * @property isWarning
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  isWarning: isEvery(&#x27;content&#x27;, &#x27;isWarning&#x27;, true, false).readOnly(),
 
   /**
    * &#x60;&#x60;&#x60;javascript
@@ -290,7 +264,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isValid: isEvery(&#x27;_errorContent&#x27;, &#x27;isValid&#x27;, true, true).readOnly(),
+  isValid: isEvery(&#x27;content&#x27;, &#x27;isValid&#x27;, true, true).readOnly(),
 
   /**
    * This property is toggled only if there is an async validation
@@ -322,7 +296,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyValid: isEvery(&#x27;_errorContent&#x27;, &#x27;isTruelyValid&#x27;, true, true).readOnly(),
+  isTruelyValid: isEvery(&#x27;content&#x27;, &#x27;isTruelyValid&#x27;, true, true).readOnly(),
 
   /**
    * Will be true is the attribute in question is not &#x60;null&#x60; or &#x60;undefined&#x60;. If the object being
@@ -340,7 +314,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isDirty: isAny(&#x27;_errorContent&#x27;, &#x27;isDirty&#x27;, true, false).readOnly(),
+  isDirty: isAny(&#x27;content&#x27;, &#x27;isDirty&#x27;, true, false).readOnly(),
 
   /**
    * Will be &#x60;true&#x60; only if a validation returns a promise
@@ -371,9 +345,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed(&#x27;_errorContent.@each.messages&#x27;, cycleBreaker(function() {
-    let messages = flatten(get(this, &#x27;_errorContent&#x27;).getEach(&#x27;messages&#x27;));
-    return uniq(compact(messages));
+  messages: computed(&#x27;content.@each.messages&#x27;, cycleBreaker(function() {
+    return uniq(compact(flatten(this.getEach(&#x27;messages&#x27;))));
   })).readOnly(),
 
   /**
@@ -392,6 +365,21 @@ export default Ember.ArrayProxy.extend({
   message: computed.readOnly(&#x27;messages.firstObject&#x27;),
 
   /**
+   * Will be &#x60;true&#x60; if there are warnings in the collection.
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * // Example
+   * get(user, &#x27;validations.hasWarnings&#x27;)
+   * get(user, &#x27;validations.attrs.username.hasWarnings&#x27;)
+   * &#x60;&#x60;&#x60;
+   *
+   * @property hasWarnings
+   * @readOnly
+   * @type {String}
+   */
+  hasWarnings: computed.notEmpty(&#x27;warningMessages&#x27;).readOnly(),
+
+  /**
    * A collection of all warning messages on the object in question
    *
    * &#x60;&#x60;&#x60;javascript
@@ -404,9 +392,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed(&#x27;_warningContent.@each.messages&#x27;, cycleBreaker(function() {
-    let messages = flatten(get(this, &#x27;_warningContent&#x27;).getEach(&#x27;messages&#x27;));
-    return uniq(compact(messages));
+  warningMessages: computed(&#x27;content.@each.warningMessages&#x27;, cycleBreaker(function() {
+    return uniq(compact(flatten(this.getEach(&#x27;warningMessages&#x27;))));
   })).readOnly(),
 
   /**
@@ -438,8 +425,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed(&#x27;attribute&#x27;, &#x27;_warningContent.@each.errors&#x27;, cycleBreaker(function() {
-    return computeErrorCollection(get(this, &#x27;attribute&#x27;), get(this, &#x27;_warningContent&#x27;));
+  warnings: computed(&#x27;attribute&#x27;, &#x27;content.@each.warnings&#x27;, cycleBreaker(function() {
+    return this._computeErrorCollection(this.getEach(&#x27;warnings&#x27;));
   })).readOnly(),
 
   /**
@@ -471,8 +458,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed(&#x27;attribute&#x27;, &#x27;_errorContent.@each.errors&#x27;, cycleBreaker(function() {
-    return computeErrorCollection(get(this, &#x27;attribute&#x27;), get(this, &#x27;_errorContent&#x27;));
+  errors: computed(&#x27;attribute&#x27;, &#x27;content.@each.errors&#x27;, cycleBreaker(function() {
+    return this._computeErrorCollection(this.getEach(&#x27;errors&#x27;));
   })).readOnly(),
 
   /**
@@ -523,7 +510,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Object}
    */
   options: computed(&#x27;_contentValidators.@each.options&#x27;, function() {
-    return groupValidatorOptions(get(this, &#x27;_contentValidators&#x27;));
+    return this._groupValidatorOptions(get(this, &#x27;_contentValidators&#x27;));
   }).readOnly(),
 
   /**
@@ -532,18 +519,19 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed(&#x27;content.@each._promise&#x27;, &#x27;_contentValidations.@each._promise&#x27;, cycleBreaker(function() {
-    let promises = [ this.get(&#x27;_contentValidations&#x27;).getEach(&#x27;_promise&#x27;), this.getEach(&#x27;_promise&#x27;) ];
-    return RSVP.allSettled(compact(flatten(promises)));
+  _promise: computed(&#x27;content.@each._promise&#x27;, &#x27;_contentResults.@each._promise&#x27;, cycleBreaker(function() {
+    return RSVP.allSettled(compact(flatten([
+      this.get(&#x27;_contentResults&#x27;).getEach(&#x27;_promise&#x27;), this.getEach(&#x27;_promise&#x27;)
+    ])));
   })).readOnly(),
 
   /**
-  * @property _contentValidations
+  * @property _contentResults
   * @type {Array}
   * @private
   */
-  _contentValidations: computed(&#x27;content.@each._validations&#x27;, function() {
-    return emberArray(compact(this.getEach(&#x27;_validations&#x27;)));
+  _contentResults: computed(&#x27;content.@each._result&#x27;, function() {
+    return emberArray(compact(this.getEach(&#x27;_result&#x27;)));
   }).readOnly(),
 
   /**
@@ -551,61 +539,47 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentValidators: computed.mapBy(&#x27;_errorContent&#x27;, &#x27;_validator&#x27;).readOnly(),
+  _contentValidators: computed.mapBy(&#x27;content&#x27;, &#x27;_validator&#x27;).readOnly(),
 
-  /**
-   * @property _errorContent
-   * @type {Array}
-   * @private
-   */
-  _errorContent: computed.filterBy(&#x27;content&#x27;, &#x27;isWarning&#x27;, false).readOnly(),
+  _computeErrorCollection(collection = []) {
+    let attribute = get(this, &#x27;attribute&#x27;);
+    let errors = uniq(compact(flatten(collection)));
 
-  /**
-   * @property _warningContent
-   * @type {Array}
-   * @private
-   */
-  _warningContent: computed.filterBy(&#x27;content&#x27;, &#x27;isWarning&#x27;, true).readOnly()
-});
-
-function computeErrorCollection(attribute, content = []) {
-  let errors = flatten(content.getEach(&#x27;errors&#x27;));
-
-  errors = uniq(compact(errors));
-  errors.forEach((e) =&gt; {
-    if (attribute &amp;&amp; e.get(&#x27;attribute&#x27;) !== attribute) {
-      e.set(&#x27;parentAttribute&#x27;, attribute);
-    }
-  });
-
-  return errors;
-}
-
-/**
- * Used by the &#x60;options&#x60; property to create a hash from the &#x60;content&#x60; that is grouped by validator type.
- * If there is more than 1 of a type, it groups it into an array of option objects.
- */
-function groupValidatorOptions(validators = []) {
-  return validators.reduce((options, v) =&gt; {
-    if (isNone(v) || isNone(get(v, &#x27;_type&#x27;))) {
-      return options;
-    }
-
-    let type = get(v, &#x27;_type&#x27;);
-    let vOpts = get(v, &#x27;options&#x27;).copy();
-
-    if (options[type]) {
-      if (isArray(options[type])) {
-        options[type].push(vOpts);
-      } else {
-        options[type] = [options[type], vOpts];
+    errors.forEach((e) =&gt; {
+      if (attribute &amp;&amp; e.get(&#x27;attribute&#x27;) !== attribute) {
+        e.set(&#x27;parentAttribute&#x27;, attribute);
       }
-    } else {
-      options[type] = vOpts;
-    }
-    return options;
-  }, {});
-}
+    });
+
+    return errors;
+  },
+
+  /**
+   * Used by the &#x60;options&#x60; property to create a hash from the &#x60;content&#x60; that is grouped by validator type.
+   * If there is more than 1 of a type, it groups it into an array of option objects.
+   */
+  _groupValidatorOptions(validators = []) {
+    return validators.reduce((options, v) =&gt; {
+      if (isNone(v) || isNone(get(v, &#x27;_type&#x27;))) {
+        return options;
+      }
+
+      let type = get(v, &#x27;_type&#x27;);
+      let vOpts = get(v, &#x27;options&#x27;).copy();
+
+      if (options[type]) {
+        if (isArray(options[type])) {
+          options[type].push(vOpts);
+        } else {
+          options[type] = [options[type], vOpts];
+        }
+      } else {
+        options[type] = vOpts;
+      }
+      return options;
+    }, {});
+  }
+});
 
     </pre>
 </div>

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.4.1" target="_blank">
-                                  Tag: v3.4.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.0" target="_blank">
+                                  Tag: v3.5.0
                                 </a>
                             </h4>
                         </div>
@@ -216,6 +216,7 @@ export default Ember.Object.extend({
   isValid: true,
   isValidating: false,
   message: null,
+  warningMessage: null,
   attribute: &#x27;&#x27;,
 
   attrValue: null,
@@ -233,6 +234,7 @@ export default Ember.Object.extend({
     }
   },
 
+  isWarning: readOnly(&#x27;_validator.isWarning&#x27;),
   isInvalid: not(&#x27;isValid&#x27;),
   isNotValidating: not(&#x27;isValidating&#x27;),
   isTruelyValid: and(&#x27;isNotValidating&#x27;, &#x27;isValid&#x27;),
@@ -279,6 +281,26 @@ export default Ember.Object.extend({
 
   errors: computed(&#x27;error&#x27;, function() {
     return makeArray(get(this, &#x27;error&#x27;));
+  }),
+
+  warningMessages: computed(&#x27;warningMessage&#x27;, function() {
+    return makeArray(get(this, &#x27;warningMessage&#x27;));
+  }),
+
+  warning: computed(&#x27;isWarning&#x27;, &#x27;type&#x27;, &#x27;warningMessage&#x27;, &#x27;attribute&#x27;, function() {
+    if (get(this, &#x27;isWarning&#x27;) &amp;&amp; !isNone(get(this, &#x27;warningMessage&#x27;))) {
+      return ValidationError.create({
+        type: get(this, &#x27;_type&#x27;),
+        message: get(this, &#x27;warningMessage&#x27;),
+        attribute: get(this, &#x27;attribute&#x27;)
+      });
+    }
+
+    return null;
+  }),
+
+  warnings: computed(&#x27;warning&#x27;, function() {
+    return makeArray(get(this, &#x27;warning&#x27;));
   }),
 
   _handlePromise() {

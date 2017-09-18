@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.4.1" target="_blank">
-                                  Tag: v3.4.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.0" target="_blank">
+                                  Tag: v3.5.0
                                 </a>
                             </h4>
                         </div>
@@ -193,6 +193,7 @@
 
 import Ember from &#x27;ember&#x27;;
 import ResultCollection from &#x27;../validations/result-collection&#x27;;
+import WarningResultCollection from &#x27;../validations/warning-result-collection&#x27;;
 import InternalResultObject from &#x27;./internal-result-object&#x27;;
 
 const {
@@ -248,7 +249,7 @@ const Result = Ember.Object.extend({
   _validator: null,
 
   /**
-   * Determines if the _validations object is readOnly.
+   * Determines if the _result object is readOnly.
    *
    * This is needed because ResultCollections and global validation objects control their own
    * state via CPs
@@ -258,8 +259,8 @@ const Result = Ember.Object.extend({
    * @readOnly
    * @type {Boolean}
    */
-  _isReadOnly: computed(&#x27;_validations&#x27;, function() {
-    let validations = get(this, &#x27;_validations&#x27;);
+  _isReadOnly: computed(&#x27;_result&#x27;, function() {
+    let validations = get(this, &#x27;_result&#x27;);
     return (validations instanceof ResultCollection) || get(validations, &#x27;isValidations&#x27;);
   }).readOnly(),
 
@@ -275,78 +276,106 @@ const Result = Ember.Object.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isValid: readOnly(&#x27;_validations.isValid&#x27;),
+  isValid: readOnly(&#x27;_result.isValid&#x27;),
 
   /**
    * @property isInvalid
    * @readOnly
    * @type {Boolean}
    */
-  isInvalid: readOnly(&#x27;_validations.isInvalid&#x27;),
+  isInvalid: readOnly(&#x27;_result.isInvalid&#x27;),
 
   /**
    * @property isValidating
    * @readOnly
    * @type {Boolean}
    */
-  isValidating: readOnly(&#x27;_validations.isValidating&#x27;),
+  isValidating: readOnly(&#x27;_result.isValidating&#x27;),
 
   /**
    * @property isTruelyValid
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyValid: readOnly(&#x27;_validations.isTruelyValid&#x27;),
+  isTruelyValid: readOnly(&#x27;_result.isTruelyValid&#x27;),
 
   /**
    * @property isAsync
    * @readOnly
    * @type {Boolean}
    */
-  isAsync: readOnly(&#x27;_validations.isAsync&#x27;),
+  isAsync: readOnly(&#x27;_result.isAsync&#x27;),
 
   /**
    * @property isDirty
    * @readOnly
    * @type {Boolean}
    */
-  isDirty: readOnly(&#x27;_validations.isDirty&#x27;),
+  isDirty: readOnly(&#x27;_result.isDirty&#x27;),
 
   /**
    * @property message
    * @readOnly
    * @type {String}
    */
-  message: readOnly(&#x27;_validations.message&#x27;),
+  message: readOnly(&#x27;_result.message&#x27;),
 
   /**
    * @property messages
    * @readOnly
    * @type {Array}
    */
-  messages: readOnly(&#x27;_validations.messages&#x27;),
+  messages: readOnly(&#x27;_result.messages&#x27;),
 
   /**
    * @property error
    * @readOnly
    * @type {Object}
    */
-  error: readOnly(&#x27;_validations.error&#x27;),
+  error: readOnly(&#x27;_result.error&#x27;),
 
   /**
    * @property errors
    * @readOnly
    * @type {Array}
    */
-  errors: readOnly(&#x27;_validations.errors&#x27;),
+  errors: readOnly(&#x27;_result.errors&#x27;),
+
+  /**
+   * @property warningMessage
+   * @readOnly
+   * @type {String}
+   */
+  warningMessage: readOnly(&#x27;_result.warningMessage&#x27;),
+
+  /**
+   * @property warningMessages
+   * @readOnly
+   * @type {Array}
+   */
+  warningMessages: readOnly(&#x27;_result.warningMessages&#x27;),
+
+  /**
+   * @property warning
+   * @readOnly
+   * @type {Object}
+   */
+  warning: readOnly(&#x27;_result.warning&#x27;),
+
+  /**
+   * @property warnings
+   * @readOnly
+   * @type {Array}
+   */
+  warnings: readOnly(&#x27;_result.warnings&#x27;),
 
   /**
    * This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
-   * @property _validations
+   * @property _result
    * @private
    * @type {Result}
    */
-  _validations: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;, function() {
+  _result: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;, function() {
     return InternalResultObject.create(getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;]));
   }),
 
@@ -359,51 +388,40 @@ const Result = Ember.Object.extend({
   },
 
   /**
-   * Update the current validation result object with the given result
-   * - If result is undefined or null, set isValid to false
-   * - If result is a validations object from a different model/object, set the _validations object to the one given (belongs-to)
-   * - If result is a collection of result objects, create a Validation Result Collection and set that to the _validations object (has-many)
-   * - If result is a string, set the message to the given string and set isValid to false
-   * - If result is a boolean, set isValid to result
-   * - If result is a pojo, update _validations object with the information given
+   * Update the current validation result object with the given value
+   * - If value is undefined or null, set isValid to false
+   * - If value is a validations object from a different model/object, set the _result object to the one given (belongs-to)
+   * - If value is a collection of result objects, create a Validation Result Collection and set that to the _result object (has-many)
+   * - If value is a string, set the message to the given string and set isValid to false
+   * - If value is a boolean, set isValid to result
+   * - If value is a pojo, update _result object with the information given
    *
    * @method update
    * @private
-   * @param result
+   * @param value
    */
-  update(result) {
-    let validations = get(this, &#x27;_validations&#x27;);
-    let validator = get(this, &#x27;_validator&#x27;);
-    let { model, attribute } = getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;]);
+  update(value) {
+    let result = get(this, &#x27;_result&#x27;);
+    let attribute = get(this, &#x27;attribute&#x27;);
+    let isWarning = get(this, &#x27;isWarning&#x27;);
+    let Collection = isWarning ? WarningResultCollection : ResultCollection;
 
-    if (isNone(result)) {
-      this.update(false);
-      return;
-    }
-
-    if (get(result, &#x27;isValidations&#x27;)) {
-      set(this, &#x27;_validations&#x27;, result);
-    } else if (isArray(result)) {
-      let validationResultsCollection = ResultCollection.create({
-        attribute,
-        content: result.map((r) =&gt; Result.create({
-          attribute,
-          model,
-          _validator: validator,
-          _validations: r
-        }))
-      });
-      set(this, &#x27;_validations&#x27;, validationResultsCollection);
+    if (isNone(value)) {
+      return this.update(false);
+    } else if (get(value, &#x27;isValidations&#x27;)) {
+      set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: [ value ]}));
+    } else if (isArray(value)) {
+      set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: value }));
     } else if (!get(this, &#x27;_isReadOnly&#x27;)) {
-      if (typeof result === &#x27;string&#x27;) {
-        setProperties(validations, {
-          message: result,
-          isValid: false
-        });
-      } else if (typeof result === &#x27;boolean&#x27;) {
-        set(validations, &#x27;isValid&#x27;, result);
-      } else if (typeof result === &#x27;object&#x27;) {
-        setProperties(validations, result);
+      if (typeof value === &#x27;string&#x27;) {
+        setProperties(get(this, &#x27;_result&#x27;), {
+          [isWarning ? &#x27;warningMessage&#x27; : &#x27;message&#x27;]: value,
+          isValid: isWarning ? true : false
+        })
+      } else if (typeof value === &#x27;boolean&#x27;) {
+        set(result, &#x27;isValid&#x27;, value);
+      } else if (typeof value === &#x27;object&#x27;) {
+        setProperties(result, value);
       }
     }
   },
@@ -415,8 +433,8 @@ const Result = Ember.Object.extend({
    */
   _handlePromise() {
     get(this, &#x27;_promise&#x27;).then(
-      (result) =&gt; this.update(result),
-      (result) =&gt; this.update(result)
+      (value) =&gt; this.update(value),
+      (value) =&gt; this.update(value)
     ).catch((reason) =&gt; {
       // TODO: send into error state
       throw reason;
