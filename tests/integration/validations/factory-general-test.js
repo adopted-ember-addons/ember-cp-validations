@@ -846,6 +846,10 @@ test('warning validators api', function(assert) {
   });
 
   assert.equal(object.get('validations.isValid'), false);
+  assert.equal(object.get('validations.warnings.length'), 2);
+  assert.equal(object.get('validations.warningMessage'), 'Password should not be empty');
+  assert.equal(object.get('validations.message'), 'Password is too short (minimum is 1 characters)');
+
   assert.equal(object.get('validations.attrs.password.isValid'), false);
   assert.equal(object.get('validations.attrs.password.warnings.length'), 2);
   assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password should not be empty');

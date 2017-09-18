@@ -201,7 +201,7 @@ test('has-many relationship is async and isWarning', function(assert) {
     assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friends'].sort());
 
     let friends = validations.get('content').findBy('attribute', 'friends');
-
+    debugger;
     assert.equal(friends.get('isValid'), true);
   });
 
@@ -268,7 +268,7 @@ test('belongs-to relationship is async and isWarning', function(assert) {
     assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['friend'].sort());
 
     let friend = validations.get('content').findBy('attribute', 'friend');
-
+    debugger;
     assert.equal(friend.get('isValid'), true);
   });
 

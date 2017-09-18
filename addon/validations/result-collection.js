@@ -48,7 +48,6 @@ function isEvery(collection, key, value, defaultValue) {
  * @class ResultCollection
  */
 export default Ember.ArrayProxy.extend({
-
   init() {
     set(this, 'content', emberArray(compact(get(this, 'content'))));
     this._super(...arguments);
@@ -61,20 +60,6 @@ export default Ember.ArrayProxy.extend({
    * @type {String}
    */
   attribute: null,
-
-  /**
-   * ```javascript
-   * // Examples
-   * get(user, 'validations.isWarning')
-   * get(user, 'validations.attrs.username.isWarning')
-   * ```
-   *
-   * @property isWarning
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  isWarning: isEvery('content', 'isWarning', true, false).readOnly(),
 
   /**
    * ```javascript
@@ -102,7 +87,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isValid: isEvery('_errorContent', 'isValid', true, true).readOnly(),
+  isValid: isEvery('content', 'isValid', true, true).readOnly(),
 
   /**
    * This property is toggled only if there is an async validation
@@ -134,7 +119,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyValid: isEvery('_errorContent', 'isTruelyValid', true, true).readOnly(),
+  isTruelyValid: isEvery('content', 'isTruelyValid', true, true).readOnly(),
 
   /**
    * Will be true is the attribute in question is not `null` or `undefined`. If the object being
@@ -152,7 +137,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isDirty: isAny('_errorContent', 'isDirty', true, false).readOnly(),
+  isDirty: isAny('content', 'isDirty', true, false).readOnly(),
 
   /**
    * Will be `true` only if a validation returns a promise
@@ -183,8 +168,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed('_errorContent.@each.messages', cycleBreaker(function() {
-    let messages = flatten(get(this, '_errorContent').getEach('messages'));
+  messages: computed('content.@each.messages', cycleBreaker(function() {
+    let messages = flatten(this.getEach('messages'));
     return uniq(compact(messages));
   })).readOnly(),
 
@@ -204,6 +189,21 @@ export default Ember.ArrayProxy.extend({
   message: computed.readOnly('messages.firstObject'),
 
   /**
+   * Will be `true` if there are warnings in the collection.
+   *
+   * ```javascript
+   * // Example
+   * get(user, 'validations.hasWarnings')
+   * get(user, 'validations.attrs.username.hasWarnings')
+   * ```
+   *
+   * @property hasWarnings
+   * @readOnly
+   * @type {String}
+   */
+  hasWarnings: computed.notEmpty('warningMessages').readOnly(),
+
+  /**
    * A collection of all warning messages on the object in question
    *
    * ```javascript
@@ -216,9 +216,9 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed('_warningContent.@each.messages', cycleBreaker(function() {
-    let messages = flatten(get(this, '_warningContent').getEach('messages'));
-    return uniq(compact(messages));
+  warningMessages: computed('content.@each.warningMessages', cycleBreaker(function() {
+    let warningMessages = flatten(this.getEach('warningMessages'));
+    return uniq(compact(warningMessages));
   })).readOnly(),
 
   /**
@@ -250,8 +250,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed('attribute', '_warningContent.@each.errors', cycleBreaker(function() {
-    return computeErrorCollection(get(this, 'attribute'), get(this, '_warningContent'));
+  warnings: computed('attribute', 'content.@each.warnings', cycleBreaker(function() {
+    return computeErrorCollection(get(this, 'attribute'), this.getEach('warnings'));
   })).readOnly(),
 
   /**
@@ -283,8 +283,8 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed('attribute', '_errorContent.@each.errors', cycleBreaker(function() {
-    return computeErrorCollection(get(this, 'attribute'), get(this, '_errorContent'));
+  errors: computed('attribute', 'content.@each.errors', cycleBreaker(function() {
+    return computeErrorCollection(get(this, 'attribute'), this.getEach('errors'));
   })).readOnly(),
 
   /**
@@ -344,18 +344,18 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed('content.@each._promise', '_contentValidations.@each._promise', cycleBreaker(function() {
-    let promises = [ this.get('_contentValidations').getEach('_promise'), this.getEach('_promise') ];
+  _promise: computed('content.@each._promise', '_contentResults.@each._promise', cycleBreaker(function() {
+    let promises = [ this.get('_contentResults').getEach('_promise'), this.getEach('_promise') ];
     return RSVP.allSettled(compact(flatten(promises)));
   })).readOnly(),
 
   /**
-  * @property _contentValidations
+  * @property _contentResults
   * @type {Array}
   * @private
   */
-  _contentValidations: computed('content.@each._validations', function() {
-    return emberArray(compact(this.getEach('_validations')));
+  _contentResults: computed('content.@each._result', function() {
+    return emberArray(compact(this.getEach('_result')));
   }).readOnly(),
 
   /**
@@ -363,27 +363,12 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentValidators: computed.mapBy('_errorContent', '_validator').readOnly(),
-
-  /**
-   * @property _errorContent
-   * @type {Array}
-   * @private
-   */
-  _errorContent: computed.filterBy('content', 'isWarning', false).readOnly(),
-
-  /**
-   * @property _warningContent
-   * @type {Array}
-   * @private
-   */
-  _warningContent: computed.filterBy('content', 'isWarning', true).readOnly()
+  _contentValidators: computed.mapBy('content', '_validator').readOnly()
 });
 
-function computeErrorCollection(attribute, content = []) {
-  let errors = flatten(content.getEach('errors'));
+function computeErrorCollection(attribute, collection = []) {
+  let errors = uniq(compact(flatten(collection)));
 
-  errors = uniq(compact(errors));
   errors.forEach((e) => {
     if (attribute && e.get('attribute') !== attribute) {
       e.set('parentAttribute', attribute);

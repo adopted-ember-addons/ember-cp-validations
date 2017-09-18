@@ -511,7 +511,6 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
 function createTopLevelPropsMixin(validatableAttrs) {
   // Expose the following properties as public APIs via readOnly aliases
   let aliases = [
-    'isWarning',
     'isValid',
     'isValidating',
     'isDirty',
@@ -519,6 +518,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     'isNotValidating',
     'isInvalid',
     'isTruelyValid',
+    'hasWarnings',
     'messages',
     'message',
     'warningMessages',
