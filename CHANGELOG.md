@@ -2,7 +2,7 @@ Changelog
 =========
 
 ## v3.5.0
-- [#358](https://github.com/offirgolan/ember-cp-validations/pull/358) [BUGFIX] Rework Warning Logic
+- [#538](https://github.com/offirgolan/ember-cp-validations/pull/538) [BUGFIX] Rework Warning Logic
 
 #### Upgrade Notes
 
