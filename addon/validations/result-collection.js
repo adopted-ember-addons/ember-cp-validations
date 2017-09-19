@@ -120,11 +120,11 @@ export default Ember.ArrayProxy.extend({
    * ```
    *
    * @property isTruelyInvalid
-   * @default true
+   * @default false
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyInvalid: computed.not('isTruelyValid').readOnly(),
+  isTruelyInvalid: isAny('content', 'isTruelyInvalid', true, false).readOnly()
 
   /**
    * Will be true is the attribute in question is not `null` or `undefined`. If the object being
