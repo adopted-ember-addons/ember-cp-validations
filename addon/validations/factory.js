@@ -518,6 +518,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     'isNotValidating',
     'isInvalid',
     'isTruelyValid',
+    'isTruelyInvalid',
     'hasWarnings',
     'messages',
     'message',

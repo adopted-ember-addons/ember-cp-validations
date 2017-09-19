@@ -112,6 +112,13 @@ const Result = Ember.Object.extend({
   isTruelyValid: readOnly('_result.isTruelyValid'),
 
   /**
+   * @property isTruelyInvalid
+   * @readOnly
+   * @type {Boolean}
+   */
+  isTruelyInvalid: readOnly('_result.isTruelyInvalid'),
+
+  /**
    * @property isAsync
    * @readOnly
    * @type {Boolean}

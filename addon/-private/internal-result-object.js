@@ -50,6 +50,7 @@ export default Ember.Object.extend({
   isInvalid: not('isValid'),
   isNotValidating: not('isValidating'),
   isTruelyValid: and('isNotValidating', 'isValid'),
+  isTruelyInvalid: and('isNotValidating', 'isInvalid'),
 
   isAsync: computed('_promise', function() {
     return isPromise(get(this, '_promise'));

@@ -39,6 +39,7 @@ test('basic sync validation – invalid', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -60,6 +61,7 @@ test('basic sync validation – invalid', function(assert) {
   assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be TRUE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
   assert.equal(object.get('validations.isTruelyValid'), true, 'isTruelyValid was expected to be TRUE');
+  assert.equal(object.get('validations.isTruelyInvalid'), false, 'isTruelyInvalid was expected to be FALSE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -81,6 +83,7 @@ test('basic sync validation - valid', function(assert) {
   assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be TRUE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
   assert.equal(object.get('validations.isTruelyValid'), true, 'isTruelyValid was expected to be TRUE');
+  assert.equal(object.get('validations.isTruelyInvalid'), false, 'isTruelyInvalid was expected to be FALSE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -99,6 +102,7 @@ test('basic sync validation - 50% invalid', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -134,6 +138,7 @@ test('basic sync validation - API - #validation', function(assert) {
     assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
     assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
     assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+    assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
     assert.equal(object.get('validations.attrs.firstName.isValid'), true);
     assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -172,6 +177,7 @@ test('basic sync validation - API - #validationSync', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -193,6 +199,7 @@ test('basic sync validation returns null', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -321,6 +328,7 @@ test('debounced validations', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
@@ -390,6 +398,7 @@ test('debounced validations should cleanup on object destroy', function(assert) 
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
@@ -426,6 +435,7 @@ test('disabled validations - simple', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
@@ -450,6 +460,7 @@ test('disabled validations - cp with dependent key', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
@@ -926,6 +937,7 @@ test('options CP changes trigger attribute revalidation', function(assert) {
   assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
   assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
   assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
+  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.message'), 'First Name is too short (minimum is 6 characters)');

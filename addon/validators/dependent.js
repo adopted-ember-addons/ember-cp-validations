@@ -60,7 +60,7 @@ const Dependent = Base.extend({
 
     let dependentValidations = getWithDefault(options, 'on', A()).map((dependent) => get(model, `validations.attrs.${dependent}`));
 
-    if (!isEmpty(dependentValidations.filter((v) => !get(v, 'isTruelyValid')))) {
+    if (!isEmpty(dependentValidations.filter((v) => get(v, 'isTruelyInvalid')))) {
       return this.createErrorMessage('invalid', value, options);
     }
 

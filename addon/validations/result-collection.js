@@ -111,6 +111,22 @@ export default Ember.ArrayProxy.extend({
   isTruelyValid: isEvery('content', 'isTruelyValid', true, true).readOnly(),
 
   /**
+   * Will be true only if isValid is `false` and isValidating is `false`
+   *
+   * ```javascript
+   * // Examples
+   * get(user, 'validations.isTruelyInvalid')
+   * get(user, 'validations.attrs.username.isTruelyInvalid')
+   * ```
+   *
+   * @property isTruelyInvalid
+   * @default false
+   * @readOnly
+   * @type {Boolean}
+   */
+  isTruelyInvalid: isAny('content', 'isTruelyInvalid', true, false).readOnly(),
+
+  /**
    * Will be true is the attribute in question is not `null` or `undefined`. If the object being
    * validated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison.
    *
