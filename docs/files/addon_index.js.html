@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.0" target="_blank">
-                                  Tag: v3.5.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.1" target="_blank">
+                                  Tag: v3.5.1
                                 </a>
                             </h4>
                         </div>
@@ -389,7 +389,7 @@ import Validator from &#x27;./validations/validator&#x27;;
  *
  * If you have  specific options you want to propagate through all your validation rules, you can do so by passing in a global options object.
  * This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
- * you want easily toggle your validations on/off.
+ * you want easily toggle your validations on/off. As of 3.x, all dependent keys must be prefixed with &#x60;model&#x60;.
  *
  * &#x60;&#x60;&#x60;javascript
  * const Validations = buildValidations(validationRules, globalOptions);
@@ -405,14 +405,14 @@ import Validator from &#x27;./validations/validator&#x27;;
  *     validators: [
  *       validator(&#x27;presence&#x27;, {
  *         presence: true,
- *         dependentKeys: [&#x27;foo&#x27;, &#x27;bar&#x27;]
+ *         dependentKeys: [&#x27;model.foo&#x27;, &#x27;model.bar&#x27;]
  *       })
  *      ]
  *    },
  *   lastName: validator(&#x27;presence&#x27;, true)
  * }, {
  *   description: &#x27;This field&#x27;
- *   dependentKeys: [&#x27;i18n.locale&#x27;],
+ *   dependentKeys: [&#x27;model.i18n.locale&#x27;],
  *   disabled: computed.readOnly(&#x27;model.disableValidations&#x27;)
  * });
  * &#x60;&#x60;&#x60;
@@ -421,7 +421,7 @@ import Validator from &#x27;./validations/validator&#x27;;
  * over global options. This allows you to declare global rules while having the ability to override them in lower levels.
  *
  * This rule does not apply to &#x60;dependentKeys&#x60;, instead they all are merged. In the example above, __firstName__&#x27;s dependentKeys will be
- * &#x60;[&#x27;i18n.locale&#x27;, &#x27;disableValidations&#x27;, &#x27;foo&#x27;, &#x27;bar&#x27;]&#x60;
+ * &#x60;[&#x27;model.i18n.locale&#x27;, &#x27;model.foo&#x27;, &#x27;model.bar&#x27;]&#x60;
  *
  * ### Computed Options
  *
