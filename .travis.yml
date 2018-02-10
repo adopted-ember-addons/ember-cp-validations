@@ -10,6 +10,8 @@ dist: trusty
 
 addons:
   chrome: stable
+  code_climate:
+    repo_token: 32e4df25574ba02aacb75e6d34b9c667044984df279e20a208884d7e9e9d4a8d
 
 cache:
   yarn: true
