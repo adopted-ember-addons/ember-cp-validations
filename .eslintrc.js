@@ -8,6 +8,7 @@ module.exports = {
     'ember'
   ],
   extends: [
+    'prettier',
     'eslint:recommended',
     'plugin:ember/recommended'
   ],
@@ -15,6 +16,9 @@ module.exports = {
     browser: true
   },
   rules: {
+    'prettier/prettier': ['error', {
+      singleQuote: true
+    }],
   },
   overrides: [
     // node files
