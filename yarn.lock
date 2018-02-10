@@ -3266,11 +3266,11 @@ ember-qunit@^3.3.0:
     ember-cli-test-loader "^2.2.0"
     qunit "^2.5.0"
 
-ember-require-module@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.1.2.tgz#fdffdcf86745d601009211c1b41907395a4d081e"
+ember-require-module@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.2.0.tgz#eafe436737ead4762220a9166b78364abf754274"
   dependencies:
-    ember-cli-babel "^5.1.7"
+    ember-cli-babel "^6.9.2"
 
 ember-resolver@^4.3.0:
   version "4.3.0"
@@ -3357,12 +3357,12 @@ ember-try@^0.2.15:
     rsvp "^3.0.17"
     semver "^5.1.0"
 
-ember-validators@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-1.0.4.tgz#7d89c2511945c52bd20c5384e715138f902133bb"
+ember-validators@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-1.1.0.tgz#af549dae67518fcb7571e3d7f20cac2b9ed2f020"
   dependencies:
     ember-cli-babel "^6.9.2"
-    ember-require-module "^0.1.2"
+    ember-require-module "^0.2.0"
 
 encodeurl@~1.0.1:
   version "1.0.2"

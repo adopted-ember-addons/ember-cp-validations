@@ -85,8 +85,8 @@
   "dependencies": {
     "ember-cli-babel": "^6.6.0",
     "ember-cli-version-checker": "^2.0.0",
-    "ember-require-module": "^0.1.2",
-    "ember-validators": "^1.0.4"
+    "ember-require-module": "^0.2.0",
+    "ember-validators": "^1.1.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
