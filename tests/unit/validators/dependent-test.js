@@ -1,10 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import EmberObject, { get } from '@ember/object';
-
 import { validator, buildValidations } from 'ember-cp-validations';
 import { test, moduleFor } from 'ember-qunit';
 import setupObject from '../../helpers/setup-object';

@@ -1,10 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import { not } from '@ember/object/computed';
-
 import { computed } from '@ember/object';
 import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';

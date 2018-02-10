@@ -1,8 +1,3 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 // BEGIN-SNIPPET user-detail-model
 import { computed } from '@ember/object';
 

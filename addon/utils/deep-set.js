@@ -1,9 +1,4 @@
 /**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-/**
  * Assigns a value to an object via the given path while creating new objects if
  * the pathing requires it. If the given path is `foo.bar`, it will create a new object (obj.foo)
  * and assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.

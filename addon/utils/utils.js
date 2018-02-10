@@ -1,10 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import ArrayProxy from '@ember/array/proxy';
-
 import ObjectProxy from '@ember/object/proxy';
 import { assign } from '@ember/polyfills';
 import { isHTMLSafe } from '@ember/string';

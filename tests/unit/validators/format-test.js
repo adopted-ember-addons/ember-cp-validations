@@ -1,8 +1,3 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import { moduleFor, test } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
@@ -194,10 +189,10 @@ test('url', function(assert) {
 
   options = validator.buildOptions(options, {}).copy();
 
-  message = validator.validate('yahoo', options);
+  message = validator.validate('offirgolan', options);
   assert.equal(message, 'This field must be a valid url');
 
-  message = validator.validate('http://www.yahoo.com', options);
+  message = validator.validate('http://www.offirgolan.com', options);
   assert.equal(message, true);
 });
 

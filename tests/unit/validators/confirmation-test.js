@@ -1,8 +1,3 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import EmberObject from '@ember/object';
 import { moduleFor, test } from 'ember-qunit';
 
@@ -22,14 +17,14 @@ test('attribute', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   model = EmberObject.create({
-    email: 'foo@yahoo.com'
+    email: 'foo@gmail.com'
   });
 
-  message = validator.validate('bar@yahoo.com', builtOptions.copy(), model);
+  message = validator.validate('bar@gmail.com', builtOptions.copy(), model);
   assert.equal(message, "This field doesn't match email");
 
-  model.set('emailConfirmation', 'foo@yahoo.com');
+  model.set('emailConfirmation', 'foo@gmail.com');
 
-  message = validator.validate('foo@yahoo.com', builtOptions.copy(), model);
+  message = validator.validate('foo@gmail.com', builtOptions.copy(), model);
   assert.equal(message, true);
 });

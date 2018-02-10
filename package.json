@@ -34,7 +34,7 @@
       "email": "me@rwjblue.com"
     }
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.6",
     "ember-cli": "~2.18.2",
@@ -76,7 +76,6 @@
     "yuidoc-ember-theme": "^1.4.0"
   },
   "keywords": [
-    "yahoo",
     "ember-addon",
     "ember-data",
     "validator",

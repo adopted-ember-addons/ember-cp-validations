@@ -1,8 +1,3 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 // BEGIN-SNIPPET user-model
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';

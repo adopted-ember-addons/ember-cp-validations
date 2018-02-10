@@ -1,10 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import { getProperties, getWithDefault, get } from '@ember/object';
-
 import { assert } from '@ember/debug';
 import { isPresent, isEmpty, isNone } from '@ember/utils';
 import { isArray, A } from '@ember/array';

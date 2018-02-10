@@ -1,10 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import { readOnly } from '@ember/object/computed';
-
 import Mixin from '@ember/object/mixin';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';

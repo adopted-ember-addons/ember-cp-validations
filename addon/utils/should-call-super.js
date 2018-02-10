@@ -1,9 +1,4 @@
 /**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-/**
  * Checks if the give key exists on the object's super.
  * If so, we can successfully call the obj[key] _super
  *
