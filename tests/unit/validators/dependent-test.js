@@ -3,14 +3,11 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import EmberObject, { get } from '@ember/object';
+
 import { validator, buildValidations } from 'ember-cp-validations';
 import { test, moduleFor } from 'ember-qunit';
 import setupObject from '../../helpers/setup-object';
-
-const {
-  get
-} = Ember;
 
 let Validator, message, model, options, builtOptions;
 
@@ -48,7 +45,7 @@ test('all empty attributes', function(assert) {
   options = defaultOptions;
   builtOptions = Validator.buildOptions(options);
 
-  model = setupObject(this, Ember.Object.extend(Validations));
+  model = setupObject(this, EmberObject.extend(Validations));
 
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), false);
@@ -66,7 +63,7 @@ test('one dependent error', function(assert) {
   options = defaultOptions;
   builtOptions = Validator.buildOptions(options);
 
-  model = setupObject(this, Ember.Object.extend(Validations), {
+  model = setupObject(this, EmberObject.extend(Validations), {
     firstName: 'Offir'
   });
 
@@ -85,7 +82,7 @@ test('no dependent errors', function(assert) {
   options = defaultOptions;
   builtOptions = Validator.buildOptions(options);
 
-  model = setupObject(this, Ember.Object.extend(Validations), {
+  model = setupObject(this, EmberObject.extend(Validations), {
     firstName: 'Offir',
     lastName: 'Golan'
   });

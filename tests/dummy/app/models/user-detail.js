@@ -4,12 +4,12 @@
  */
 
 // BEGIN-SNIPPET user-detail-model
-import Ember from 'ember';
+import { computed } from '@ember/object';
+
 import DS from 'ember-data';
 import moment from 'moment';
 import { validator, buildValidations } from 'ember-cp-validations';
 
-const { computed } = Ember;
 const { attr } = DS;
 
 const Validations = buildValidations({

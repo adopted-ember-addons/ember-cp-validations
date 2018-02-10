@@ -8,6 +8,8 @@
  * Provided by @rwjblue
  */
 
+import Helper from '@ember/component/helper';
+
 function requireIfAvailable(moduleName, exportName = 'default') {
   if (requirejs.entries[moduleName]) {
     return require(moduleName)[exportName];
@@ -19,7 +21,7 @@ let getHelper = requireIfAvailable('ember-get-helper/helpers/get');
 let getHelperGlimmer = requireIfAvailable('ember-get-helper/helpers/get-glimmer');
 
 if (registerHelper) {
-  if (Ember.Helper) {
+  if (Helper) {
     registerHelper('get', getHelperGlimmer);
   } else {
     registerHelper('get', getHelper);

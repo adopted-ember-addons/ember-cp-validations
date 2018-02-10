@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import {
   moduleFor, test
 }
@@ -24,7 +24,7 @@ test('attribute', function(assert) {
   options = { on: 'email' };
   builtOptions = validator.buildOptions(options);
 
-  model = Ember.Object.create({
+  model = EmberObject.create({
     'email': 'foo@yahoo.com'
   });
 

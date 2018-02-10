@@ -8,14 +8,14 @@
  * the pathing requires it. If the given path is `foo.bar`, it will create a new object (obj.foo)
  * and assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.
  */
-import Ember from 'ember';
+import ComputedProperty from '@ember/object/computed';
 
-const {
-  get,
+import { isNone } from '@ember/utils';
+import EmberObject, {
+  defineProperty,
   set,
-  isNone,
-  defineProperty
-} = Ember;
+  get
+} from '@ember/object';
 
 export default function assign(obj, path, value, useEmberObject = false, delimiter = '.') {
   let keyPath = path.split(delimiter);
@@ -28,12 +28,12 @@ export default function assign(obj, path, value, useEmberObject = false, delimit
 
     // Create a new object if it doesnt exist
     if (isNone(get(currObj, key))) {
-      set(currObj, key, useEmberObject ? Ember.Object.create() : {});
+      set(currObj, key, useEmberObject ? EmberObject.create() : {});
     }
     currObj = get(currObj, key);
   }
 
-  if (value instanceof Ember.ComputedProperty) {
+  if (value instanceof ComputedProperty) {
     defineProperty(currObj, keyPath[lastKeyIndex], value);
   } else {
     set(currObj, keyPath[lastKeyIndex], value);

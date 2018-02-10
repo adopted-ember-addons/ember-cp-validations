@@ -3,19 +3,15 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import { not, readOnly, notEmpty, mapBy } from '@ember/object/computed';
+
+import ArrayProxy from '@ember/array/proxy';
+import RSVP from 'rsvp';
+import { computed, set, get } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { A as emberArray, isArray } from '@ember/array';
 import cycleBreaker from '../utils/cycle-breaker';
 import { flatten, uniq, compact } from '../utils/array';
-
-const {
-  get,
-  set,
-  RSVP,
-  computed,
-  isArray,
-  isNone,
-  A: emberArray
-} = Ember;
 
 /*
   CP Macros
@@ -36,7 +32,7 @@ function isEvery(collection, key, value, defaultValue) {
  * @module Validations
  * @class ResultCollection
  */
-export default Ember.ArrayProxy.extend({
+export default ArrayProxy.extend({
   init() {
     set(this, 'content', emberArray(compact(get(this, 'content'))));
     this._super(...arguments);
@@ -62,7 +58,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isInvalid: computed.not('isValid').readOnly(),
+  isInvalid: not('isValid').readOnly(),
 
   /**
    * ```javascript
@@ -190,7 +186,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  message: computed.readOnly('messages.firstObject'),
+  message: readOnly('messages.firstObject'),
 
   /**
    * Will be `true` if there are warnings in the collection.
@@ -205,7 +201,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  hasWarnings: computed.notEmpty('warningMessages').readOnly(),
+  hasWarnings: notEmpty('warningMessages').readOnly(),
 
   /**
    * A collection of all warning messages on the object in question
@@ -237,7 +233,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  warningMessage: computed.readOnly('warningMessages.firstObject'),
+  warningMessage: readOnly('warningMessages.firstObject'),
 
   /**
    * A collection of all {{#crossLink "Error"}}Warnings{{/crossLink}} on the object in question.
@@ -270,7 +266,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Error}
    */
-  warning: computed.readOnly('warnings.firstObject'),
+  warning: readOnly('warnings.firstObject'),
 
   /**
    * A collection of all {{#crossLink "Error"}}Errors{{/crossLink}} on the object in question.
@@ -303,7 +299,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Error}
    */
-  error: computed.readOnly('errors.firstObject'),
+  error: readOnly('errors.firstObject'),
 
   /**
    * All built options of the validators associated with the results in this collection grouped by validator type
@@ -367,7 +363,7 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentValidators: computed.mapBy('content', '_validator').readOnly(),
+  _contentValidators: mapBy('content', '_validator').readOnly(),
 
   _computeErrorCollection(collection = []) {
     let attribute = get(this, 'attribute');

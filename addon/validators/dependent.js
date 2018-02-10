@@ -3,20 +3,12 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
+import { getProperties, getWithDefault, get } from '@ember/object';
 
-const {
-  A,
-  get,
-  getWithDefault,
-  getProperties,
-  assert,
-  isNone,
-  isEmpty,
-  isPresent,
-  isArray
-} = Ember;
+import { assert } from '@ember/debug';
+import { isPresent, isEmpty, isNone } from '@ember/utils';
+import { isArray, A } from '@ember/array';
+import Base from 'ember-cp-validations/validators/base';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)

@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 /**
  * @module Validations
  * @class Error
  */
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   /**
    * The error validator type
    * @property type

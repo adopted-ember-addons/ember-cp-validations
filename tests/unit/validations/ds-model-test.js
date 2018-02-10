@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import {
   moduleForModel,
   test
@@ -15,7 +15,7 @@ test('create model with defaults', function(assert) {
   assert.equal(object.get('validations.attrs.acceptTerms.isDirty'), false, 'isDirty was expected to be FALSE');
   assert.equal(object.get('validations.attrs.acceptTerms.isValid'), false, 'isValid was expected to be FALSE');
 
-  Ember.run(() => {
+  run(() => {
     object.set('acceptTerms', true);
   });
 
@@ -29,7 +29,7 @@ test('create model overriding defaults', function(assert) {
   assert.equal(object.get('validations.attrs.acceptTerms.isDirty'), true, 'isDirty was expected to be TRUE');
   assert.equal(object.get('validations.attrs.acceptTerms.isValid'), true, 'isValid was expected to be TRUE');
 
-  Ember.run(() => {
+  run(() => {
     object.set('acceptTerms', false);
   });
 

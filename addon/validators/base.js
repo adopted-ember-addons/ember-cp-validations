@@ -3,24 +3,24 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import { bool } from '@ember/object/computed';
+
+import EmberObject, { set, get } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { getOwner } from '@ember/application';
 import Messages from 'ember-cp-validations/validators/messages';
 import Options from 'ember-cp-validations/-private/options';
-import { unwrapString, getValidatableValue, mergeOptions } from 'ember-cp-validations/utils/utils';
-
-const {
-  get,
-  set,
-  isNone,
-  computed,
-  getOwner
-} = Ember;
+import {
+  unwrapString,
+  getValidatableValue,
+  mergeOptions
+} from 'ember-cp-validations/utils/utils';
 
 /**
  * @class Base
  * @module Validators
  */
-const Base = Ember.Object.extend({
+const Base = EmberObject.extend({
 
   /**
    * Options passed in to the validator when defined in the model
@@ -68,7 +68,7 @@ const Base = Ember.Object.extend({
    * @property isWarning
    * @type {Boolean}
    */
-  isWarning: computed.bool('options.isWarning').readOnly(),
+  isWarning: bool('options.isWarning').readOnly(),
 
   /**
    * Validator type

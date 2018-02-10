@@ -3,6 +3,27 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+import { readOnly } from '@ember/object/computed';
+
+import Mixin from '@ember/object/mixin';
+import { assign, merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
+import RSVP from 'rsvp';
+import { guidFor } from '@ember/object/internals';
+import { isEmpty, isNone } from '@ember/utils';
+import { getOwner } from '@ember/application';
+import EmberObject, {
+  getWithDefault,
+  computed,
+  set,
+  get
+} from '@ember/object';
+import {
+  A as emberArray,
+  makeArray,
+  isArray
+} from '@ember/array';
+
 import Ember from 'ember';
 import assign from '../utils/assign';
 import ValidationResult from '../-private/result';
@@ -11,25 +32,15 @@ import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import { flatten } from '../utils/array';
-import { isDsModel, isValidatable, isPromise, isDescriptor, mergeOptions } from '../utils/utils';
+import {
+  isDsModel,
+  isValidatable,
+  isPromise,
+  isDescriptor,
+  mergeOptions
+} from '../utils/utils';
 
-const {
-  get,
-  set,
-  run,
-  RSVP,
-  isNone,
-  guidFor,
-  isEmpty,
-  isArray,
-  computed,
-  getOwner,
-  makeArray,
-  getWithDefault,
-  A: emberArray
-} = Ember;
-
-const merge = Ember.assign || Ember.merge;
+const merge = assign || merge;
 
 const {
   Promise
@@ -98,7 +109,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
   let Validations, validationMixinCount;
 
-  let ValidationsMixin = Ember.Mixin.create({
+  let ValidationsMixin = Mixin.create({
     init() {
       this._super(...arguments);
 
@@ -227,7 +238,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   let AttrsClass = createAttrsClass(validatableAttributes, validationRules, model);
 
   // Create `validations` class
-  let ValidationsClass = Ember.Object.extend(TopLevelProps, {
+  let ValidationsClass = EmberObject.extend(TopLevelProps, {
     model: null,
     attrs: null,
     isValidations: true,
@@ -306,7 +317,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   let nestedClasses = {};
   let rootPath = 'root';
 
-  let AttrsClass = Ember.Object.extend({
+  let AttrsClass = EmberObject.extend({
     __path__: rootPath,
 
     init() {
@@ -532,11 +543,11 @@ function createTopLevelPropsMixin(validatableAttrs) {
   ];
 
   let topLevelProps = aliases.reduce((props, alias) => {
-    props[alias] = computed.readOnly(`__attrsResultCollection__.${alias}`);
+    props[alias] = readOnly(`__attrsResultCollection__.${alias}`);
     return props;
   }, {});
 
-  return Ember.Mixin.create(topLevelProps, {
+  return Mixin.create(topLevelProps, {
     /*
       Dedupe logic by creating a top level ResultCollection for all attr's ResultCollections
      */

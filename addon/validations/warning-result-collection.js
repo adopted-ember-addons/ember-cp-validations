@@ -3,18 +3,16 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import { not } from '@ember/object/computed';
+
+import { computed } from '@ember/object';
 import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
 import { flatten, uniq, compact } from '../utils/array';
 
-const {
-  computed,
-} = Ember;
-
 export default ResultCollection.extend({
   isValid: computed(() => true).readOnly(),
-  isTruelyValid: computed.not('isValidating').readOnly(),
+  isTruelyValid: not('isValidating').readOnly(),
 
   messages: computed(() => []).readOnly(),
   errors: computed(() => []).readOnly(),

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('order', 'Unit | Validations | Nested Model Relationships', {
@@ -23,7 +23,7 @@ test('order with invalid question shows invalid', function(assert) {
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
-  Ember.run(() => {
+  run(() => {
     orderLine = store.createRecord('order-line', { order, type: 'item' });
     orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
     orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection });
@@ -62,7 +62,7 @@ test('order with valid question shows valid', function(assert) {
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
-  Ember.run(() => {
+  run(() => {
     orderLine = store.createRecord('order-line', { order, type: 'item' });
     orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
     orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection, text: 'answer' });
@@ -100,7 +100,7 @@ test('order with invalid question shows invalid if validated in reverse order', 
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
-  Ember.run(() => {
+  run(() => {
     orderLine = store.createRecord('order-line', { order, type: 'item' });
     orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
     orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection });
@@ -138,7 +138,7 @@ test('order with valid question shows valid if validated in reverse order', func
   let orderLine, orderSelection, orderSelectionQuestion;
 
   let store = this.store();
-  Ember.run(() => {
+  run(() => {
     orderLine = store.createRecord('order-line', { order, type: 'item' });
     orderSelection = store.createRecord('order-selection', { order, line: orderLine, quantity: 1 });
     orderSelectionQuestion = store.createRecord('order-selection-question', { order, selection: orderSelection, text: 'answer' });
@@ -176,7 +176,7 @@ test('order with invalid question shows valid if invalid question is deleted in 
   let orderLine, orderSelection, orderSelectionQuestion, orderSelectionQuestion2;
 
   let store = this.store();
-  Ember.run(() => {
+  run(() => {
     let fakeSave = function(model) {
       model.get('_internalModel').adapterWillCommit();
       model.get('_internalModel').adapterDidCommit();

@@ -3,15 +3,11 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
-import Base from 'ember-cp-validations/validators/base';
+import { assert } from '@ember/debug';
 
-const {
-  get,
-  assert,
-  isPresent,
-  getProperties
-} = Ember;
+import { isPresent } from '@ember/utils';
+import { getProperties, get } from '@ember/object';
+import Base from 'ember-cp-validations/validators/base';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)

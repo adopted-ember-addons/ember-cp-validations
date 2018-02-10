@@ -1,13 +1,11 @@
-import Ember from 'ember';
+import EmberObject, {
+  defineProperty,
+  set,
+  get
+} from '@ember/object';
 import { isDescriptor } from 'ember-cp-validations/utils/utils';
 
-const {
-  get,
-  set,
-  defineProperty
-} = Ember;
-
-const Options = Ember.Object.extend({
+const Options = EmberObject.extend({
   model: null,
   attribute: null,
 
@@ -41,7 +39,7 @@ const Options = Ember.Object.extend({
       });
     }
 
-    return Ember.Object.create(Object.keys(options).reduce((obj, o) => {
+    return EmberObject.create(Object.keys(options).reduce((obj, o) => {
       obj[o] = get(this, o);
       return obj;
     }, {}));

@@ -3,20 +3,19 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import { isNone } from '@ember/utils';
+
+import { isArray } from '@ember/array';
+import EmberObject, {
+  getProperties,
+  setProperties,
+  computed,
+  set,
+  get
+} from '@ember/object';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
-
-const {
-  get,
-  set,
-  isNone,
-  isArray,
-  computed,
-  setProperties,
-  getProperties
-} = Ember;
 
 const {
   readOnly
@@ -30,7 +29,7 @@ const {
  * @private
  */
 
-const Result = Ember.Object.extend({
+const Result = EmberObject.extend({
 
   /**
    * @property model

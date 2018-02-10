@@ -3,7 +3,10 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import Ember from 'ember';
+import { htmlSafe } from '@ember/string';
+
+import EmberObject from '@ember/object';
+import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import {
   moduleFor, test
@@ -54,20 +57,20 @@ test('buildOptions - copy', function(assert) {
   assert.expect(6);
 
   options = validator.buildOptions({
-    foo: Ember.computed.alias('bar'),
+    foo: alias('bar'),
     bar: 'bar'
   });
 
-  assert.ok(options instanceof Ember.Object);
+  assert.ok(options instanceof EmberObject);
 
   let optionsCopy = options.copy();
 
-  assert.ok(optionsCopy instanceof Ember.Object);
+  assert.ok(optionsCopy instanceof EmberObject);
   assert.equal(optionsCopy.foo, 'bar');
 
   optionsCopy = options.copy(true);
 
-  assert.ok(optionsCopy instanceof Ember.Object);
+  assert.ok(optionsCopy instanceof EmberObject);
   assert.ok(optionsCopy.foo.isDescriptor);
   assert.equal(optionsCopy.get('foo'), 'bar');
 });
@@ -89,7 +92,7 @@ test('value - default gets model value', function(assert) {
   assert.expect(2);
 
   validator.setProperties({
-    model: Ember.Object.create({ foo: 'bar' }),
+    model: EmberObject.create({ foo: 'bar' }),
     attribute: 'foo',
     options: {}
   });
@@ -104,7 +107,7 @@ test('value - overwrite value method via options', function(assert) {
   assert.expect(3);
 
   validator.setProperties({
-    model: Ember.Object.create({ foo: 'bar', bar: 'baz' }),
+    model: EmberObject.create({ foo: 'bar', bar: 'baz' }),
     attribute: 'foo',
     options: {
       value() {
@@ -124,7 +127,7 @@ test('message - handles SafeString', function(assert) {
   assert.expect(1);
 
   options = {
-    message: Ember.String.htmlSafe('should be more than &euro;15')
+    message: htmlSafe('should be more than &euro;15')
   };
 
   message = validator.createErrorMessage(undefined, undefined, options);

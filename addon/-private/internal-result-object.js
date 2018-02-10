@@ -3,18 +3,23 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+import { readOnly } from '@ember/object/computed';
+
+import { isNone } from '@ember/utils';
+import { makeArray } from '@ember/array';
+import EmberObject, {
+  defineProperty,
+  computed,
+  set,
+  get
+} from '@ember/object';
+
 import Ember from 'ember';
 import ValidationError from '../validations/error';
 import { isDsModel, isPromise } from '../utils/utils';
 
 const {
-  get,
-  set,
-  isNone,
-  computed,
-  canInvoke,
-  makeArray,
-  defineProperty
+  canInvoke
 } = Ember;
 
 const {
@@ -23,7 +28,7 @@ const {
   readOnly
 } = computed;
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   model: null,
   isValid: true,
   isValidating: false,
@@ -39,7 +44,7 @@ export default Ember.Object.extend({
   init() {
     this._super(...arguments);
 
-    defineProperty(this, 'attrValue', computed.readOnly(`model.${get(this, 'attribute')}`));
+    defineProperty(this, 'attrValue', readOnly(`model.${get(this, 'attribute')}`));
 
     if (this.get('isAsync')) {
       this._handlePromise();

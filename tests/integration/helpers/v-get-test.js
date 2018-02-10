@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import '../../helpers/ensure-get-registered';
@@ -6,7 +6,7 @@ import '../../helpers/ensure-get-registered';
 moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
   integration: true,
   beforeEach() {
-    let model = Ember.Object.create({
+    let model = EmberObject.create({
       validations: {
         isValid: false,
         isInvalid: true,
