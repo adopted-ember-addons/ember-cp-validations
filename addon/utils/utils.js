@@ -6,7 +6,7 @@
 import ArrayProxy from '@ember/array/proxy';
 
 import ObjectProxy from '@ember/object/proxy';
-import { assign, merge } from '@ember/polyfills';
+import { assign } from '@ember/polyfills';
 import { isHTMLSafe } from '@ember/string';
 import EmberObject, { get } from '@ember/object';
 import { typeOf } from '@ember/utils';
@@ -17,11 +17,7 @@ import requireModule from 'ember-require-module';
 
 const DS = requireModule('ember-data');
 
-const {
-  canInvoke
-} = Ember;
-
-const assign = assign || merge;
+const { canInvoke } = Ember;
 
 export function unwrapString(s) {
   if (isHTMLSafe(s)) {
@@ -48,7 +44,12 @@ export function isDsModel(o) {
 }
 
 export function isDSManyArray(o) {
-  return !!(DS && o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
+  return !!(
+    DS &&
+    o &&
+    isArray(o) &&
+    (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
+  );
 }
 
 export function isEmberObject(o) {
@@ -74,7 +75,7 @@ export function getValidatableValue(value) {
   }
 
   if (isDSManyArray(value)) {
-    return emberArray(value.filter((v) => isValidatable(v)));
+    return emberArray(value.filter(v => isValidatable(v)));
   }
 
   return isValidatable(value) ? value : undefined;

@@ -32,17 +32,37 @@ export default Component.extend({
   hasContent: notEmpty('value').readOnly(),
   hasWarnings: notEmpty('validation.warnings').readOnly(),
   isValid: and('hasContent', 'validation.isTruelyValid').readOnly(),
-  shouldDisplayValidations: or('showValidations', 'didValidate', 'hasContent').readOnly(),
+  shouldDisplayValidations: or(
+    'showValidations',
+    'didValidate',
+    'hasContent'
+  ).readOnly(),
 
-  showErrorClass: and('notValidating', 'showErrorMessage', 'hasContent', 'validation').readOnly(),
-  showErrorMessage: and('shouldDisplayValidations', 'validation.isInvalid').readOnly(),
-  showWarningMessage: and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly(),
+  showErrorClass: and(
+    'notValidating',
+    'showErrorMessage',
+    'hasContent',
+    'validation'
+  ).readOnly(),
+  showErrorMessage: and(
+    'shouldDisplayValidations',
+    'validation.isInvalid'
+  ).readOnly(),
+  showWarningMessage: and(
+    'shouldDisplayValidations',
+    'hasWarnings',
+    'isValid'
+  ).readOnly(),
 
   init() {
     this._super(...arguments);
     let valuePath = this.get('valuePath');
 
-    defineProperty(this, 'validation', readOnly(`model.validations.attrs.${valuePath}`));
+    defineProperty(
+      this,
+      'validation',
+      readOnly(`model.validations.attrs.${valuePath}`)
+    );
     defineProperty(this, 'value', alias(`model.${valuePath}`));
   },
 

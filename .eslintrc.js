@@ -5,6 +5,7 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
+    'prettier',
     'ember'
   ],
   extends: [

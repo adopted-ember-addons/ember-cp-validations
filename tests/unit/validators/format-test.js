@@ -3,10 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
@@ -92,8 +89,20 @@ test('email no option', function(assert) {
 
   options = validator.buildOptions(options, {}).copy();
 
-  validAddresses.forEach((email) => assert.equal(validator.validate(email, options), true, `validation of ${email} must succeed`));
-  invalidAddresses.forEach((email) => assert.equal(validator.validate(email, options), 'This field must be a valid email address', `validation of ${email} must fail`));
+  validAddresses.forEach(email =>
+    assert.equal(
+      validator.validate(email, options),
+      true,
+      `validation of ${email} must succeed`
+    )
+  );
+  invalidAddresses.forEach(email =>
+    assert.equal(
+      validator.validate(email, options),
+      'This field must be a valid email address',
+      `validation of ${email} must fail`
+    )
+  );
 });
 
 test('email option allowNonTld', function(assert) {
@@ -144,8 +153,20 @@ test('email option allowNonTld', function(assert) {
 
   options = validator.buildOptions(options, {}).copy();
 
-  validAddresses.forEach((email) => assert.equal(validator.validate(email, options), true, `validation of ${email} must succeed`));
-  invalidAddresses.forEach((email) => assert.equal(validator.validate(email, options), 'This field must be a valid email address', `validation of ${email} must fail`));
+  validAddresses.forEach(email =>
+    assert.equal(
+      validator.validate(email, options),
+      true,
+      `validation of ${email} must succeed`
+    )
+  );
+  invalidAddresses.forEach(email =>
+    assert.equal(
+      validator.validate(email, options),
+      'This field must be a valid email address',
+      `validation of ${email} must fail`
+    )
+  );
 });
 
 test('phone', function(assert) {

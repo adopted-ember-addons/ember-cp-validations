@@ -23,7 +23,7 @@ function getData(obj, s) {
 
 function setData(obj, s, value) {
   let m = Ember.meta(obj);
-  let data = m[dataKey] = m[dataKey] || {};
+  let data = (m[dataKey] = m[dataKey] || {});
 
   data[s] = value;
 }

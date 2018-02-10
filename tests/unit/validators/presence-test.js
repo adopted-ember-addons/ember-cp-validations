@@ -3,10 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
@@ -59,7 +56,7 @@ test('presence with ignoreBlank - value blank', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate(' ', builtOptions.copy());
-  assert.equal(message, 'This field can\'t be blank');
+  assert.equal(message, "This field can't be blank");
 });
 
 test('presence - value not present', function(assert) {
@@ -69,7 +66,7 @@ test('presence - value not present', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate(undefined, builtOptions.copy());
-  assert.equal(message, 'This field can\'t be blank');
+  assert.equal(message, "This field can't be blank");
 });
 
 test('absence - value present', function(assert) {

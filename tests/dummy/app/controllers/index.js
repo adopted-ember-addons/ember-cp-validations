@@ -13,19 +13,21 @@ export default Controller.extend({
 
   actions: {
     validate() {
-      this.get('model').validate().then(({ validations }) => {
-        this.set('didValidate', true);
+      this.get('model')
+        .validate()
+        .then(({ validations }) => {
+          this.set('didValidate', true);
 
-        if (validations.get('isValid')) {
-          this.setProperties({
-            showAlert: false,
-            isRegistered: true,
-            showCode: false
-          });
-        } else {
-          this.set('showAlert', true);
-        }
-      });
+          if (validations.get('isValid')) {
+            this.setProperties({
+              showAlert: false,
+              isRegistered: true,
+              showCode: false
+            });
+          } else {
+            this.set('showAlert', true);
+          }
+        });
     },
 
     toggleProperty(p) {

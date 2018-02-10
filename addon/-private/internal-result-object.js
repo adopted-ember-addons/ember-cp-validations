@@ -3,30 +3,16 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import { readOnly } from '@ember/object/computed';
-
+import { and, not, readOnly } from '@ember/object/computed';
 import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
-import EmberObject, {
-  defineProperty,
-  computed,
-  set,
-  get
-} from '@ember/object';
+import EmberObject, { defineProperty, computed, set, get } from '@ember/object';
 
 import Ember from 'ember';
 import ValidationError from '../validations/error';
 import { isDsModel, isPromise } from '../utils/utils';
 
-const {
-  canInvoke
-} = Ember;
-
-const {
-  and,
-  not,
-  readOnly
-} = computed;
+const { canInvoke } = Ember;
 
 export default EmberObject.extend({
   model: null,
@@ -44,7 +30,11 @@ export default EmberObject.extend({
   init() {
     this._super(...arguments);
 
-    defineProperty(this, 'attrValue', readOnly(`model.${get(this, 'attribute')}`));
+    defineProperty(
+      this,
+      'attrValue',
+      readOnly(`model.${get(this, 'attribute')}`)
+    );
 
     if (this.get('isAsync')) {
       this._handlePromise();
@@ -105,17 +95,23 @@ export default EmberObject.extend({
     return makeArray(get(this, 'warningMessage'));
   }),
 
-  warning: computed('isWarning', 'type', 'warningMessage', 'attribute', function() {
-    if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
-      return ValidationError.create({
-        type: get(this, '_type'),
-        message: get(this, 'warningMessage'),
-        attribute: get(this, 'attribute')
-      });
-    }
+  warning: computed(
+    'isWarning',
+    'type',
+    'warningMessage',
+    'attribute',
+    function() {
+      if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
+        return ValidationError.create({
+          type: get(this, '_type'),
+          message: get(this, 'warningMessage'),
+          attribute: get(this, 'attribute')
+        });
+      }
 
-    return null;
-  }),
+      return null;
+    }
+  ),
 
   warnings: computed('warning', function() {
     return makeArray(get(this, 'warning'));

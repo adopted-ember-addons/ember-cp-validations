@@ -17,11 +17,24 @@ export default ResultCollection.extend({
   messages: computed(() => []).readOnly(),
   errors: computed(() => []).readOnly(),
 
-  warningMessages: computed('content.@each.{messages,warningMessages}', cycleBreaker(function() {
-    return uniq(compact(flatten([this.getEach('messages'), this.getEach('warningMessages')])));
-  })).readOnly(),
+  warningMessages: computed(
+    'content.@each.{messages,warningMessages}',
+    cycleBreaker(function() {
+      return uniq(
+        compact(
+          flatten([this.getEach('messages'), this.getEach('warningMessages')])
+        )
+      );
+    })
+  ).readOnly(),
 
-  warnings: computed('attribute', 'content.@each.{errors,warnings}', cycleBreaker(function() {
-    return this._computeErrorCollection(flatten([this.getEach('errors'), this.getEach('warnings')]));
-  })).readOnly()
+  warnings: computed(
+    'attribute',
+    'content.@each.{errors,warnings}',
+    cycleBreaker(function() {
+      return this._computeErrorCollection(
+        flatten([this.getEach('errors'), this.getEach('warnings')])
+      );
+    })
+  ).readOnly()
 });

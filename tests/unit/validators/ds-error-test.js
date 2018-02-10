@@ -5,10 +5,7 @@
 
 import EmberObject from '@ember/object';
 import DS from 'ember-data';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let model, validator, message;
 

@@ -69,13 +69,21 @@ const Alias = Base.extend({
    * @param {String} attribute
    */
   validate(value, options, model, attribute) {
-    let { alias, firstMessageOnly } = getProperties(options, ['alias', 'firstMessageOnly']);
+    let { alias, firstMessageOnly } = getProperties(options, [
+      'alias',
+      'firstMessageOnly'
+    ]);
 
-    assert(`[validator:alias] [${attribute}] option 'alias' is required`, isPresent(alias));
+    assert(
+      `[validator:alias] [${attribute}] option 'alias' is required`,
+      isPresent(alias)
+    );
 
     let aliasValidation = get(model, `validations.attrs.${alias}`);
 
-    return firstMessageOnly ? get(aliasValidation, 'message') : get(aliasValidation, 'content');
+    return firstMessageOnly
+      ? get(aliasValidation, 'message')
+      : get(aliasValidation, 'content');
   }
 });
 
@@ -83,9 +91,12 @@ Alias.reopenClass({
   getDependentsFor(attribute, options) {
     let alias = typeof options === 'string' ? options : get(options, 'alias');
 
-    assert(`[validator:alias] [${attribute}] 'alias' must be a string`, typeof alias === 'string');
+    assert(
+      `[validator:alias] [${attribute}] 'alias' must be a string`,
+      typeof alias === 'string'
+    );
 
-    return [ `${alias}.messages.[]`, `${alias}.isTruelyValid` ];
+    return [`${alias}.messages.[]`, `${alias}.isTruelyValid`];
   }
 });
 

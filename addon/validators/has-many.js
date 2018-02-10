@@ -57,10 +57,10 @@ const HasMany = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((models) => this.validate(models, ...args));
+        return value.then(models => this.validate(models, ...args));
       }
 
-      return value.map((m) => m.get('validations'));
+      return value.map(m => m.get('validations'));
     }
 
     return true;

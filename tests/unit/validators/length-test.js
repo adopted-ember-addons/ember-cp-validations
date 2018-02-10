@@ -3,10 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
@@ -72,7 +69,10 @@ test('is', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate('testing', builtOptions.copy());
-  assert.equal(message, 'This field is the wrong length (should be 4 characters)');
+  assert.equal(
+    message,
+    'This field is the wrong length (should be 4 characters)'
+  );
 
   message = validator.validate('test', builtOptions.copy());
   assert.equal(message, true);

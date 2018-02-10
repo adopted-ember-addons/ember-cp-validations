@@ -61,7 +61,9 @@ const Collection = EmberValidator.extend({
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return (options === true || get(options, 'collection') === true) ? [`model.${attribute}.[]`] : [];
+    return options === true || get(options, 'collection') === true
+      ? [`model.${attribute}.[]`]
+      : [];
   }
 });
 

@@ -26,7 +26,12 @@ test('Page Loads', function(assert) {
   assert.expect(2);
   visit('/');
   andThen(function() {
-    assert.equal(find('a.navbar-brand').text().trim(), 'CP Validations');
+    assert.equal(
+      find('a.navbar-brand')
+        .text()
+        .trim(),
+      'CP Validations'
+    );
     assert.equal(find('.form .register h2').text(), 'Create an Account');
   });
 });
@@ -36,7 +41,12 @@ test('Helper tooltips', function(assert) {
   visit('/');
   andThen(function() {
     assert.equal(find('.section .section-info').length, 3);
-    assert.equal(find('.section .section-info:first').text().trim().length > 0, true);
+    assert.equal(
+      find('.section .section-info:first')
+        .text()
+        .trim().length > 0,
+      true
+    );
   });
 });
 
@@ -47,18 +57,26 @@ test('Invalid form submit', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(find('.form .alert').text().trim(), 'Please fix all the errors below before continuing.');
+    assert.equal(
+      find('.form .alert')
+        .text()
+        .trim(),
+      'Please fix all the errors below before continuing.'
+    );
   });
 });
 
 test('Valid form submit', function(assert) {
   visit('/');
   andThen(function() {
-    Object.keys(validInputValues).forEach((input) => {
+    Object.keys(validInputValues).forEach(input => {
       let $input = find(`.validated-input input[name='${input}']`);
       assert.ok($input, `${input} found`);
       fillIn($input, validInputValues[input]);
-      assert.ok($input.parent('.validated-input.has-success'), `${input} success`);
+      assert.ok(
+        $input.parent('.validated-input.has-success'),
+        `${input} success`
+      );
     });
     click('#signup');
   });
@@ -80,7 +98,14 @@ test('Invalid to valid email', function(assert) {
   });
 
   andThen(function() {
-    assert.equal($input.parent('.form-group').find('.input-error .error').text().trim(), 'This field must be a valid email address');
+    assert.equal(
+      $input
+        .parent('.form-group')
+        .find('.input-error .error')
+        .text()
+        .trim(),
+      'This field must be a valid email address'
+    );
     assert.ok($input.parent('.validated-input.has-error'));
 
     fillIn($input, validInputValues.email);

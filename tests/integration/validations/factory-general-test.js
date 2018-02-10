@@ -38,32 +38,92 @@ test('it works', function(assert) {
 test('basic sync validation – invalid', function(assert) {
   let object = setupObject(this, EmberObject.extend(Validations));
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.firstName.message'), 'firstName should be present');
+  assert.equal(
+    object.get('validations.attrs.firstName.message'),
+    'firstName should be present'
+  );
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
+  assert.equal(
+    object.get('validations.attrs.lastName.message'),
+    'lastName should be present'
+  );
 
-  assert.equal(object.get('validations.errors.length'), 2, 'errors length was expected to be 2');
-  assert.ok(object.get('validations.errors').indexOf(object.get('validations.attrs.firstName.errors.0')) > -1, 'errors was expected to contain firstName error');
-  assert.ok(object.get('validations.errors').indexOf(object.get('validations.attrs.lastName.errors.0')) > -1, 'errors was expected to contain lastName error');
-  assert.equal(object.get('validations.errors.0.attribute'), 'firstName', 'error object was expected to have attribute \'firstName\'');
-  assert.equal(object.get('validations.errors.1.attribute'), 'lastName', 'error object was expected to have attribute \'lastName\'');
+  assert.equal(
+    object.get('validations.errors.length'),
+    2,
+    'errors length was expected to be 2'
+  );
+  assert.ok(
+    object
+      .get('validations.errors')
+      .indexOf(object.get('validations.attrs.firstName.errors.0')) > -1,
+    'errors was expected to contain firstName error'
+  );
+  assert.ok(
+    object
+      .get('validations.errors')
+      .indexOf(object.get('validations.attrs.lastName.errors.0')) > -1,
+    'errors was expected to contain lastName error'
+  );
+  assert.equal(
+    object.get('validations.errors.0.attribute'),
+    'firstName',
+    "error object was expected to have attribute 'firstName'"
+  );
+  assert.equal(
+    object.get('validations.errors.1.attribute'),
+    'lastName',
+    "error object was expected to have attribute 'lastName'"
+  );
 
   object.set('firstName', 'stef');
   object.set('lastName', 'penner');
 
-  assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be TRUE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyValid'), true, 'isTruelyValid was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyInvalid'), false, 'isTruelyInvalid was expected to be FALSE');
+  assert.equal(
+    object.get('validations.isValid'),
+    true,
+    'isValid was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    true,
+    'isTruelyValid was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    false,
+    'isTruelyInvalid was expected to be FALSE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -73,7 +133,11 @@ test('basic sync validation – invalid', function(assert) {
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
   assert.equal(object.get('validations.attrs.lastName.message'), null);
 
-  assert.equal(object.get('validations.errors.length'), 0, 'errors length was expected to be 0');
+  assert.equal(
+    object.get('validations.errors.length'),
+    0,
+    'errors length was expected to be 0'
+  );
 });
 
 test('basic sync validation - valid', function(assert) {
@@ -82,10 +146,26 @@ test('basic sync validation - valid', function(assert) {
     lastName: 'Penner'
   });
 
-  assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be TRUE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyValid'), true, 'isTruelyValid was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyInvalid'), false, 'isTruelyInvalid was expected to be FALSE');
+  assert.equal(
+    object.get('validations.isValid'),
+    true,
+    'isValid was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    true,
+    'isTruelyValid was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    false,
+    'isTruelyInvalid was expected to be FALSE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -101,10 +181,26 @@ test('basic sync validation - 50% invalid', function(assert) {
     firstName: 'Stef'
   });
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -112,7 +208,10 @@ test('basic sync validation - 50% invalid', function(assert) {
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
+  assert.equal(
+    object.get('validations.attrs.lastName.message'),
+    'lastName should be present'
+  );
 });
 
 test('basic sync validation - API - #validation', function(assert) {
@@ -120,36 +219,70 @@ test('basic sync validation - API - #validation', function(assert) {
     firstName: 'Stef'
   });
 
-  return object.get('validations').validate().then(({
-    validations, model
-  }) => {
-    assert.equal(model, object, 'expected model to be the correct model');
-    assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['firstName', 'lastName'].sort());
+  return object
+    .get('validations')
+    .validate()
+    .then(({ validations, model }) => {
+      assert.equal(model, object, 'expected model to be the correct model');
+      assert.deepEqual(
+        validations
+          .get('content')
+          .getEach('attribute')
+          .sort(),
+        ['firstName', 'lastName'].sort()
+      );
 
-    let firstName = validations.get('content').findBy('attribute', 'firstName');
-    let lastName = validations.get('content').findBy('attribute', 'lastName');
+      let firstName = validations
+        .get('content')
+        .findBy('attribute', 'firstName');
+      let lastName = validations.get('content').findBy('attribute', 'lastName');
 
-    assert.equal(firstName.get('isValid'), true);
-    assert.equal(firstName.get('isValidating'), false);
-    assert.equal(firstName.get('message'), undefined);
+      assert.equal(firstName.get('isValid'), true);
+      assert.equal(firstName.get('isValidating'), false);
+      assert.equal(firstName.get('message'), undefined);
 
-    assert.equal(lastName.get('isValid'), false);
-    assert.equal(lastName.get('isValidating'), false);
-    assert.equal(lastName.get('message'), 'lastName should be present');
+      assert.equal(lastName.get('isValid'), false);
+      assert.equal(lastName.get('isValidating'), false);
+      assert.equal(lastName.get('message'), 'lastName should be present');
 
-    assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-    assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-    assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-    assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+      assert.equal(
+        object.get('validations.isValid'),
+        false,
+        'isValid was expected to be FALSE'
+      );
+      assert.equal(
+        object.get('validations.isValidating'),
+        false,
+        'isValidating was expected to be FALSE'
+      );
+      assert.equal(
+        object.get('validations.isTruelyValid'),
+        false,
+        'isTruelyValid was expected to be FALSE'
+      );
+      assert.equal(
+        object.get('validations.isTruelyInvalid'),
+        true,
+        'isTruelyInvalid was expected to be TRUE'
+      );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
-    assert.equal(object.get('validations.attrs.firstName.message'), null);
+      assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+      assert.equal(
+        object.get('validations.attrs.firstName.isValidating'),
+        false
+      );
+      assert.equal(object.get('validations.attrs.firstName.message'), null);
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-    assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
-  });
+      assert.equal(object.get('validations.attrs.lastName.isValid'), false);
+      assert.equal(
+        object.get('validations.attrs.lastName.isValidating'),
+        false
+      );
+      assert.equal(
+        object.get('validations.attrs.lastName.message'),
+        'lastName should be present'
+      );
+    });
 });
 
 test('basic sync validation - API - #validationSync', function(assert) {
@@ -157,13 +290,16 @@ test('basic sync validation - API - #validationSync', function(assert) {
     firstName: 'Stef'
   });
 
-  let {
-    validations,
-    model
-  } = object.get('validations').validateSync();
+  let { validations, model } = object.get('validations').validateSync();
 
   assert.equal(model, object, 'expected model to be the correct model');
-  assert.deepEqual(validations.get('content').getEach('attribute').sort(), ['firstName', 'lastName'].sort());
+  assert.deepEqual(
+    validations
+      .get('content')
+      .getEach('attribute')
+      .sort(),
+    ['firstName', 'lastName'].sort()
+  );
 
   let firstName = validations.get('content').findBy('attribute', 'firstName');
   let lastName = validations.get('content').findBy('attribute', 'lastName');
@@ -176,10 +312,26 @@ test('basic sync validation - API - #validationSync', function(assert) {
   assert.equal(lastName.get('isValidating'), false);
   assert.equal(lastName.get('message'), 'lastName should be present');
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
@@ -187,7 +339,10 @@ test('basic sync validation - API - #validationSync', function(assert) {
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
+  assert.equal(
+    object.get('validations.attrs.lastName.message'),
+    'lastName should be present'
+  );
 });
 
 test('basic sync validation returns null', function(assert) {
@@ -198,21 +353,36 @@ test('basic sync validation returns null', function(assert) {
     firstName: 'Offir'
   });
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
   assert.equal(object.get('validations.attrs.firstName.message'), undefined);
-
 });
 
 test('shallow isAsync test', function(assert) {
   let Validations = buildValidations({
     firstName: validator(function() {
-      return new EmberPromise((resolve) => {
+      return new EmberPromise(resolve => {
         resolve(true);
       });
     })
@@ -223,9 +393,7 @@ test('shallow isAsync test', function(assert) {
   assert.equal(obj.get('validations.attrs.firstName.isAsync'), true);
   assert.equal(obj.get('validations.attrs.firstName.isValidating'), true);
 
-  return obj.validate().then(({
-    model
-  }) => {
+  return obj.validate().then(({ model }) => {
     assert.equal(model.get('validations.isValid'), true);
     assert.equal(model.get('validations.isValidating'), false);
   });
@@ -235,10 +403,7 @@ test('default options', function(assert) {
   let Validations = buildValidations({
     firstName: {
       description: 'Test field',
-      validators: [
-        validator(Validators.presence),
-        validator(() => false)
-      ]
+      validators: [validator(Validators.presence), validator(() => false)]
     }
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
@@ -252,18 +417,19 @@ test('default options', function(assert) {
 test('global options', function(assert) {
   this.register('validator:length', LengthValidator);
 
-  let Validations = buildValidations({
-    firstName: {
-      description: 'Test field',
-      validators: [
-        validator('length', { min: 1, max: 5 })
-      ]
+  let Validations = buildValidations(
+    {
+      firstName: {
+        description: 'Test field',
+        validators: [validator('length', { min: 1, max: 5 })]
+      }
+    },
+    {
+      message: 'Global error message',
+      description: 'Default field',
+      max: 10
     }
-  }, {
-    message: 'Global error message',
-    description: 'Default field',
-    max: 10
-  });
+  );
 
   let object = setupObject(this, EmberObject.extend(Validations), {
     firstName: ''
@@ -277,12 +443,15 @@ test('global options', function(assert) {
   assert.ok(object.get('validations.attrs.firstName.isInvalid'));
 
   let v = object.get('validations._validators.firstName.0');
-  assert.deepEqual(v.get('options').getProperties(['message', 'description', 'min', 'max']), {
-    message: 'Global error message',
-    description: 'Test field',
-    min: 1,
-    max: 5
-  });
+  assert.deepEqual(
+    v.get('options').getProperties(['message', 'description', 'min', 'max']),
+    {
+      message: 'Global error message',
+      description: 'Test field',
+      min: 1,
+      max: 5
+    }
+  );
 });
 
 test('custom messages object', function(assert) {
@@ -297,7 +466,10 @@ test('custom messages object', function(assert) {
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.firstName.message'), 'Test error message');
+  assert.equal(
+    object.get('validations.attrs.firstName.message'),
+    'Test error message'
+  );
 });
 
 test('null message object', function(assert) {
@@ -311,7 +483,10 @@ test('null message object', function(assert) {
 
   let object = setupObject(this, EmberObject.extend(Validations));
 
-  assert.equal(object.get('validations.attrs.firstName.message'), 'This field can\'t be blank');
+  assert.equal(
+    object.get('validations.attrs.firstName.message'),
+    "This field can't be blank"
+  );
 });
 
 test('debounced validations', function(assert) {
@@ -327,14 +502,33 @@ test('debounced validations', function(assert) {
   });
   let object = setupObject(this, EmberObject.extend(Validations));
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
+  assert.equal(
+    object.get('validations.attrs.lastName.message'),
+    'lastName should be present'
+  );
 
   initSetup = false;
   object.set('lastName', 'Golan');
@@ -379,14 +573,17 @@ test('debounced validations should cleanup on object destroy', function(assert) 
   let done = assert.async();
   let initSetup = true;
 
-  let debouncedValidator = validator((value, options, model, attr) => {
-    model.set('foo', 'bar');
-    return Validators.presence(value, options, model, attr);
-  }, {
-    debounce: computed(function() {
-      return initSetup ? 0 : 500;
-    }).volatile()
-  });
+  let debouncedValidator = validator(
+    (value, options, model, attr) => {
+      model.set('foo', 'bar');
+      return Validators.presence(value, options, model, attr);
+    },
+    {
+      debounce: computed(function() {
+        return initSetup ? 0 : 500;
+      }).volatile()
+    }
+  );
 
   let Validations = buildValidations({
     firstName: validator(Validators.presence),
@@ -397,18 +594,37 @@ test('debounced validations should cleanup on object destroy', function(assert) 
     details: {}
   });
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
-  assert.equal(object.get('validations.attrs.lastName.message'), 'lastName should be present');
+  assert.equal(
+    object.get('validations.attrs.lastName.message'),
+    'lastName should be present'
+  );
 
   initSetup = false;
   object.setProperties({
-    'lastName': 'Golan',
+    lastName: 'Golan',
     'details.url': 'github.com'
   });
   assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
@@ -418,7 +634,9 @@ test('debounced validations should cleanup on object destroy', function(assert) 
     try {
       object.destroy();
       assert.ok(true, 'Object destroy was clean');
-    } catch(e) { /* noop */ }
+    } catch (e) {
+      /* noop */
+    }
     run.later(() => {
       done();
     }, 400);
@@ -434,10 +652,26 @@ test('disabled validations - simple', function(assert) {
   });
   let object = setupObject(this, EmberObject.extend(Validations));
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), true);
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
@@ -454,15 +688,34 @@ test('disabled validations - cp with dependent key', function(assert) {
       disabled: not('model.validateLastName')
     })
   });
-  let object = setupObject(this, EmberObject.extend(Validations, {
-    firstName: 'Offir',
-    validateLastName: true
-  }));
+  let object = setupObject(
+    this,
+    EmberObject.extend(Validations, {
+      firstName: 'Offir',
+      validateLastName: true
+    })
+  );
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be TRUE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be TRUE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
@@ -495,7 +748,10 @@ test('attribute validation result options hash', function(assert) {
   let options = object.get('validations.attrs.firstName.options');
 
   assert.ok(options);
-  assert.deepEqual(Object.keys(options).sort(), ['presence', 'length', 'function'].sort());
+  assert.deepEqual(
+    Object.keys(options).sort(),
+    ['presence', 'length', 'function'].sort()
+  );
   assert.ok(isArray(options['function']) && options['function'].length === 2);
   assert.ok(options.presence.presence);
   assert.equal(options.length.min, 1);
@@ -531,15 +787,19 @@ test('attribute validation result options hash with cps', function(assert) {
 });
 
 test('validations persist with inheritance', function(assert) {
-  let Parent = EmberObject.extend(buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator(Validators.presence)
-  }));
+  let Parent = EmberObject.extend(
+    buildValidations({
+      firstName: validator(Validators.presence),
+      lastName: validator(Validators.presence)
+    })
+  );
 
-  let Child = Parent.extend(buildValidations({
-    middleName: validator(Validators.presence),
-    dob: validator(Validators.presence)
-  }));
+  let Child = Parent.extend(
+    buildValidations({
+      middleName: validator(Validators.presence),
+      dob: validator(Validators.presence)
+    })
+  );
 
   let child = setupObject(this, Child);
 
@@ -547,7 +807,10 @@ test('validations persist with inheritance', function(assert) {
 
   assert.equal(child.get('validations.errors.length'), 4);
   assert.equal(child.get('validations.isValid'), false);
-  assert.deepEqual(child.get('validations.validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob'].sort());
+  assert.deepEqual(
+    child.get('validations.validatableAttributes').sort(),
+    ['firstName', 'lastName', 'middleName', 'dob'].sort()
+  );
 
   child.setProperties({
     middleName: 'John',
@@ -566,20 +829,26 @@ test('validations persist with inheritance', function(assert) {
 });
 
 test('validations persist with deep inheritance', function(assert) {
-  let Parent = EmberObject.extend(buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator(Validators.presence)
-  }));
+  let Parent = EmberObject.extend(
+    buildValidations({
+      firstName: validator(Validators.presence),
+      lastName: validator(Validators.presence)
+    })
+  );
 
-  let Child = Parent.extend(buildValidations({
-    middleName: validator(Validators.presence),
-    dob: validator(Validators.presence)
-  }));
+  let Child = Parent.extend(
+    buildValidations({
+      middleName: validator(Validators.presence),
+      dob: validator(Validators.presence)
+    })
+  );
 
-  let Baby = Child.extend(buildValidations({
-    diaper: validator(Validators.presence),
-    favParent: validator(Validators.presence)
-  }));
+  let Baby = Child.extend(
+    buildValidations({
+      diaper: validator(Validators.presence),
+      favParent: validator(Validators.presence)
+    })
+  );
 
   let baby = setupObject(this, Baby);
 
@@ -587,7 +856,10 @@ test('validations persist with deep inheritance', function(assert) {
 
   assert.equal(baby.get('validations.errors.length'), 6);
   assert.equal(baby.get('validations.isValid'), false);
-  assert.deepEqual(baby.get('validations.validatableAttributes').sort(), ['firstName', 'lastName', 'middleName', 'dob', 'diaper', 'favParent'].sort());
+  assert.deepEqual(
+    baby.get('validations.validatableAttributes').sort(),
+    ['firstName', 'lastName', 'middleName', 'dob', 'diaper', 'favParent'].sort()
+  );
 
   baby.setProperties({
     middleName: 'John',
@@ -638,7 +910,7 @@ test('nested keys - simple', function(assert) {
 
 test('nested keys - complex', function(assert) {
   let Validations = buildValidations({
-    'firstName': validator(Validators.presence),
+    firstName: validator(Validators.presence),
     'user.foo.bar.baz': validator(Validators.presence),
     'user.foo.boop': validator(Validators.presence)
   });
@@ -678,18 +950,22 @@ test('nested keys - complex', function(assert) {
 });
 
 test('nested keys - inheritance', function(assert) {
-  let Parent = EmberObject.extend(buildValidations({
-    'firstName': validator(Validators.presence),
-    'user.firstName': validator(Validators.presence),
-    'user.middleName': validator(Validators.presence)
-  }));
-
-  let Child = Parent.extend(buildValidations({
-    'user.lastName': validator(Validators.presence),
-    'user.middleName': validator(function() {
-      return 'Middle name invalid';
+  let Parent = EmberObject.extend(
+    buildValidations({
+      firstName: validator(Validators.presence),
+      'user.firstName': validator(Validators.presence),
+      'user.middleName': validator(Validators.presence)
     })
-  }));
+  );
+
+  let Child = Parent.extend(
+    buildValidations({
+      'user.lastName': validator(Validators.presence),
+      'user.middleName': validator(function() {
+        return 'Middle name invalid';
+      })
+    })
+  );
 
   let child = setupObject(this, Child);
 
@@ -697,18 +973,24 @@ test('nested keys - inheritance', function(assert) {
 
   assert.equal(child.get('validations.errors.length'), 4);
   assert.equal(child.get('validations.isValid'), false);
-  assert.deepEqual(child.get('validations.validatableAttributes').sort(), ['firstName', 'user.firstName', 'user.middleName' ,'user.lastName'].sort());
+  assert.deepEqual(
+    child.get('validations.validatableAttributes').sort(),
+    ['firstName', 'user.firstName', 'user.middleName', 'user.lastName'].sort()
+  );
 
   child.setProperties({
     user: {
       firstName: 'Offir',
-      'middleName': 'David',
+      middleName: 'David',
       lastName: 'Golan'
     }
   });
 
   assert.equal(child.get('validations.errors.length'), 2);
-  assert.equal(child.get('validations.attrs.user.middleName.message'), 'Middle name invalid');
+  assert.equal(
+    child.get('validations.attrs.user.middleName.message'),
+    'Middle name invalid'
+  );
 
   child.setProperties({
     firstName: 'John'
@@ -723,7 +1005,7 @@ test('call super in validations class with no super property', function(assert) 
   assert.expect(1);
 
   let Validations = buildValidations({
-    'firstName': validator(Validators.presence)
+    firstName: validator(Validators.presence)
   });
 
   let mixin = Mixin.create({
@@ -737,36 +1019,45 @@ test('call super in validations class with no super property', function(assert) 
     }
   });
 
-  let controller = setupObject(this, Controller.extend(Validations, mixin, {
-    actions: {
-      foo() {
-        assert.ok(true);
-        /* eslint-disable */
+  let controller = setupObject(
+    this,
+    Controller.extend(Validations, mixin, {
+      actions: {
+        foo() {
+          assert.ok(true);
+          /* eslint-disable */
         let validations = this.get('validations');
-        /* eslint-enable */
+          /* eslint-enable */
+        }
       }
-    }
-  }));
+    })
+  );
 
   controller.send('foo');
 });
 
 test('multiple mixins', function(assert) {
   let Validations1 = buildValidations({
-    'firstName': validator(Validators.presence)
+    firstName: validator(Validators.presence)
   });
 
   let Validations2 = buildValidations({
-    'middleName': validator(Validators.presence)
+    middleName: validator(Validators.presence)
   });
 
   let Validations3 = buildValidations({
-    'lastName': validator(Validators.presence)
+    lastName: validator(Validators.presence)
   });
 
-  let object = setupObject(this, EmberObject.extend(Validations1, Validations2, Validations3));
+  let object = setupObject(
+    this,
+    EmberObject.extend(Validations1, Validations2, Validations3)
+  );
 
-  assert.deepEqual(object.get('validations.validatableAttributes').sort(), ['firstName', 'middleName', 'lastName'].sort());
+  assert.deepEqual(
+    object.get('validations.validatableAttributes').sort(),
+    ['firstName', 'middleName', 'lastName'].sort()
+  );
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
   assert.equal(object.get('validations.attrs.lastName.isValid'), false);
   assert.equal(object.get('validations.isValid'), false);
@@ -789,23 +1080,20 @@ test('multiple mixins', function(assert) {
 
 test('validateAttribute - sync validations', function(assert) {
   let Validations = buildValidations({
-    firstName: [
-      validator(Validators.presence),
-      validator(() => true)
-    ]
+    firstName: [validator(Validators.presence), validator(() => true)]
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
     firstName: 'Offir'
   });
 
-  return object.validateAttribute('firstName', undefined).then(({
-    validations, model
-  }) => {
-    assert.equal(model.get('validations.isValid'), true);
-    assert.equal(validations.get('isValid'), false);
-    assert.equal(validations.get('isValidating'), false);
-    assert.equal(validations.get('message'), 'firstName should be present');
-  });
+  return object
+    .validateAttribute('firstName', undefined)
+    .then(({ validations, model }) => {
+      assert.equal(model.get('validations.isValid'), true);
+      assert.equal(validations.get('isValid'), false);
+      assert.equal(validations.get('isValidating'), false);
+      assert.equal(validations.get('message'), 'firstName should be present');
+    });
 });
 
 test('validateAttribute - async validations', function(assert) {
@@ -819,13 +1107,13 @@ test('validateAttribute - async validations', function(assert) {
     firstName: 'Offir'
   });
 
-  return object.validateAttribute('firstName', 'foo').then(({
-    validations
-  }) => {
-    assert.equal(validations.get('isValid'), false);
-    assert.equal(validations.get('isValidating'), false);
-    assert.equal(validations.get('message'), 'firstName is invalid');
-  });
+  return object
+    .validateAttribute('firstName', 'foo')
+    .then(({ validations }) => {
+      assert.equal(validations.get('isValid'), false);
+      assert.equal(validations.get('isValidating'), false);
+      assert.equal(validations.get('message'), 'firstName is invalid');
+    });
 });
 
 test('warning validators api', function(assert) {
@@ -860,20 +1148,35 @@ test('warning validators api', function(assert) {
 
   assert.equal(object.get('validations.isValid'), false);
   assert.equal(object.get('validations.warnings.length'), 2);
-  assert.equal(object.get('validations.warningMessage'), 'Password should not be empty');
-  assert.equal(object.get('validations.message'), 'Password is too short (minimum is 1 characters)');
+  assert.equal(
+    object.get('validations.warningMessage'),
+    'Password should not be empty'
+  );
+  assert.equal(
+    object.get('validations.message'),
+    'Password is too short (minimum is 1 characters)'
+  );
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
   assert.equal(object.get('validations.attrs.password.warnings.length'), 2);
-  assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password should not be empty');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 1 characters)');
+  assert.equal(
+    object.get('validations.attrs.password.warningMessage'),
+    'Password should not be empty'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    'Password is too short (minimum is 1 characters)'
+  );
 
   object.set('password', 'wat');
 
   assert.equal(object.get('validations.isValid'), true);
   assert.equal(object.get('validations.attrs.password.isValid'), true);
   assert.equal(object.get('validations.attrs.password.warnings.length'), 1);
-  assert.equal(object.get('validations.attrs.password.warningMessage'), 'Password is weak');
+  assert.equal(
+    object.get('validations.attrs.password.warningMessage'),
+    'Password is weak'
+  );
 });
 
 test('computed isWarning option', function(assert) {
@@ -916,33 +1219,58 @@ test('computed isWarning option', function(assert) {
 test('options CP changes trigger attribute revalidation', function(assert) {
   this.register('validator:length', LengthValidator);
 
-  let Validations = buildValidations({
-    firstName: {
-      description: readOnly('model.description'),
-      validators: [
-        validator('length', {
-          min: alias('model.minLength')
-        })
-      ]
+  let Validations = buildValidations(
+    {
+      firstName: {
+        description: readOnly('model.description'),
+        validators: [
+          validator('length', {
+            min: alias('model.minLength')
+          })
+        ]
+      }
+    },
+    {
+      disabled: not('model.enabled')
     }
-  }, {
-    disabled: not('model.enabled')
-  });
+  );
 
-  let object = setupObject(this, EmberObject.extend(Validations, {
-    enabled: true,
-    description: 'First Name',
-    minLength: 6,
-    firstName: 'Offir'
-  }));
+  let object = setupObject(
+    this,
+    EmberObject.extend(Validations, {
+      enabled: true,
+      description: 'First Name',
+      minLength: 6,
+      firstName: 'Offir'
+    })
+  );
 
-  assert.equal(object.get('validations.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(object.get('validations.isValidating'), false, 'isValidating was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyValid'), false, 'isTruelyValid was expected to be FALSE');
-  assert.equal(object.get('validations.isTruelyInvalid'), true, 'isTruelyInvalid was expected to be TRUE');
+  assert.equal(
+    object.get('validations.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isValidating'),
+    false,
+    'isValidating was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyValid'),
+    false,
+    'isTruelyValid was expected to be FALSE'
+  );
+  assert.equal(
+    object.get('validations.isTruelyInvalid'),
+    true,
+    'isTruelyInvalid was expected to be TRUE'
+  );
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-  assert.equal(object.get('validations.attrs.firstName.message'), 'First Name is too short (minimum is 6 characters)');
+  assert.equal(
+    object.get('validations.attrs.firstName.message'),
+    'First Name is too short (minimum is 6 characters)'
+  );
 
   object.setProperties({
     description: 'Name',
@@ -950,12 +1278,19 @@ test('options CP changes trigger attribute revalidation', function(assert) {
   });
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-  assert.equal(object.get('validations.attrs.firstName.message'), 'Name is too short (minimum is 10 characters)');
+  assert.equal(
+    object.get('validations.attrs.firstName.message'),
+    'Name is too short (minimum is 10 characters)'
+  );
 
   object.set('enabled', false);
 
   assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-  assert.equal(object.get('validations.isValid'), true, 'isValid was expected to be FALSE');
+  assert.equal(
+    object.get('validations.isValid'),
+    true,
+    'isValid was expected to be FALSE'
+  );
 });
 
 test('lazy validators are actually lazy', function(assert) {
@@ -983,20 +1318,41 @@ test('lazy validators are actually lazy', function(assert) {
   let object = setupObject(this, EmberObject.extend(Validations));
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
-  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password can\'t be blank');
+  assert.equal(
+    object.get('validations.attrs.password.messages.length'),
+    1,
+    'Only 1 error message should be present'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    "Password can't be blank"
+  );
 
   object.set('password', '1234');
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
-  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 5 characters)');
+  assert.equal(
+    object.get('validations.attrs.password.messages.length'),
+    1,
+    'Only 1 error message should be present'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    'Password is too short (minimum is 5 characters)'
+  );
 
   object.set('password', '12345');
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
-  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password is not valid');
+  assert.equal(
+    object.get('validations.attrs.password.messages.length'),
+    1,
+    'Only 1 error message should be present'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    'Password is not valid'
+  );
   assert.equal(customValidatorCount, 1, 'Last validator only executed once');
 });
 
@@ -1015,12 +1371,15 @@ test('none lazy validators are actually not lazy', function(assert) {
           min: 5,
           lazy: false
         }),
-        validator(() => {
-          customValidatorCount++;
-          return 'Password is not valid';
-        }, {
-          lazy: false
-        })
+        validator(
+          () => {
+            customValidatorCount++;
+            return 'Password is not valid';
+          },
+          {
+            lazy: false
+          }
+        )
       ]
     }
   });
@@ -1028,20 +1387,41 @@ test('none lazy validators are actually not lazy', function(assert) {
   let object = setupObject(this, EmberObject.extend(Validations));
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
-  assert.equal(object.get('validations.attrs.password.messages.length'), 2, 'Only 2 error message should be present');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password can\'t be blank');
+  assert.equal(
+    object.get('validations.attrs.password.messages.length'),
+    2,
+    'Only 2 error message should be present'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    "Password can't be blank"
+  );
 
   object.set('password', '1234');
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
-  assert.equal(object.get('validations.attrs.password.messages.length'), 2, 'Only 2 error message should be present');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password is too short (minimum is 5 characters)');
+  assert.equal(
+    object.get('validations.attrs.password.messages.length'),
+    2,
+    'Only 2 error message should be present'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    'Password is too short (minimum is 5 characters)'
+  );
 
   object.set('password', '12345');
 
   assert.equal(object.get('validations.attrs.password.isValid'), false);
-  assert.equal(object.get('validations.attrs.password.messages.length'), 1, 'Only 1 error message should be present');
-  assert.equal(object.get('validations.attrs.password.message'), 'Password is not valid');
+  assert.equal(
+    object.get('validations.attrs.password.messages.length'),
+    1,
+    'Only 1 error message should be present'
+  );
+  assert.equal(
+    object.get('validations.attrs.password.message'),
+    'Password is not valid'
+  );
   assert.equal(customValidatorCount, 3, 'Last validator executed 3 times');
 });
 
@@ -1065,10 +1445,26 @@ test('validator should return correct error type', function(assert) {
     lastName: null
   });
 
-  assert.equal(obj.get('validations.attrs.firstName.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(obj.get('validations.attrs.lastName.error.type'), 'presence', 'error type was expected to be `presence`');
-  assert.equal(obj.get('validations.errors.length'), 2, 'number of errors was expected to be 2');
-  assert.equal(obj.get('validations.errors').filterBy('type', 'presence').length, 1, 'number of errors was expected to be 1');
+  assert.equal(
+    obj.get('validations.attrs.firstName.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    obj.get('validations.attrs.lastName.error.type'),
+    'presence',
+    'error type was expected to be `presence`'
+  );
+  assert.equal(
+    obj.get('validations.errors.length'),
+    2,
+    'number of errors was expected to be 2'
+  );
+  assert.equal(
+    obj.get('validations.errors').filterBy('type', 'presence').length,
+    1,
+    'number of errors was expected to be 1'
+  );
 });
 
 test('volatile validations should not recompute', function(assert) {
@@ -1087,24 +1483,47 @@ test('volatile validations should not recompute', function(assert) {
     ]
   });
 
-  let obj = setupObject(this, EmberObject.extend(Validations, {
-    isInvalid: not('validations.attrs.firstName.isValid'),
-    isInvalidGlobal: not('validations.attrs.isValid')
-  }), {
-    firstName: null
-  });
+  let obj = setupObject(
+    this,
+    EmberObject.extend(Validations, {
+      isInvalid: not('validations.attrs.firstName.isValid'),
+      isInvalidGlobal: not('validations.attrs.isValid')
+    }),
+    {
+      firstName: null
+    }
+  );
 
-  assert.equal(obj.get('validations.attrs.firstName.isValid'), false, 'isValid was expected to be FALSE');
-  assert.equal(obj.get('validations.attrs.firstName.message'), 'This field can\'t be blank');
+  assert.equal(
+    obj.get('validations.attrs.firstName.isValid'),
+    false,
+    'isValid was expected to be FALSE'
+  );
+  assert.equal(
+    obj.get('validations.attrs.firstName.message'),
+    "This field can't be blank"
+  );
   assert.equal(obj.get('isInvalid'), true, 'isInvalid was expected to be TRUE');
-  assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
+  assert.equal(
+    obj.get('isInvalidGlobal'),
+    true,
+    'isInvalidGlobal was expected to be TRUE'
+  );
 
   obj.set('firstName', 'Offir');
   obj.set('foo', 'bar');
 
   assert.equal(obj.get('isInvalid'), true, 'isInvalid was expected to be TRUE');
-  assert.equal(obj.get('isInvalidGlobal'), true, 'isInvalidGlobal was expected to be TRUE');
-  assert.equal(obj.get('validations.attrs.firstName.isValid'), true, 'isValid was expected to be TRUE');
+  assert.equal(
+    obj.get('isInvalidGlobal'),
+    true,
+    'isInvalidGlobal was expected to be TRUE'
+  );
+  assert.equal(
+    obj.get('validations.attrs.firstName.isValid'),
+    true,
+    'isValid was expected to be TRUE'
+  );
 });
 
 test('load test', function(assert) {

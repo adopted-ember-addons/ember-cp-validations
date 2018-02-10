@@ -1,4 +1,4 @@
-/* global requirejs, Ember, require */
+/* global requirejs, require */
 
 /**
  * Registers the get helper created by the ember-get-helper addon if it is available. Since
@@ -16,9 +16,14 @@ function requireIfAvailable(moduleName, exportName = 'default') {
   }
 }
 
-let registerHelper = requireIfAvailable('ember-get-helper/utils/register-helper', 'registerHelper');
+let registerHelper = requireIfAvailable(
+  'ember-get-helper/utils/register-helper',
+  'registerHelper'
+);
 let getHelper = requireIfAvailable('ember-get-helper/helpers/get');
-let getHelperGlimmer = requireIfAvailable('ember-get-helper/helpers/get-glimmer');
+let getHelperGlimmer = requireIfAvailable(
+  'ember-get-helper/helpers/get-glimmer'
+);
 
 if (registerHelper) {
   if (Helper) {

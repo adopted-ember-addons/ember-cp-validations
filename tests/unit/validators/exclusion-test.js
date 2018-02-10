@@ -3,10 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
@@ -34,7 +31,7 @@ test('allow blank', function(assert) {
 
   options = {
     allowBlank: true,
-    'in': ['foo', 'bar', 'baz']
+    in: ['foo', 'bar', 'baz']
   };
 
   builtOptions = validator.buildOptions(options);
@@ -50,7 +47,7 @@ test('not in array', function(assert) {
   assert.expect(4);
 
   options = {
-    'in': ['foo', 'bar', 'baz']
+    in: ['foo', 'bar', 'baz']
   };
 
   builtOptions = validator.buildOptions(options);

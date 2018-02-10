@@ -8,10 +8,7 @@ import { htmlSafe } from '@ember/string';
 import EmberObject from '@ember/object';
 import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let defaultOptions, options, validator, message;
 
@@ -34,7 +31,10 @@ test('buildOptions - merge all options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b' });
+  assert.deepEqual(options.getProperties(['foo', 'bar']), {
+    foo: 'a',
+    bar: 'b'
+  });
 });
 
 test('buildOptions - does not overwrite options', function(assert) {
@@ -50,7 +50,10 @@ test('buildOptions - does not overwrite options', function(assert) {
   };
 
   options = validator.buildOptions(options, defaultOptions);
-  assert.deepEqual(options.getProperties(['foo', 'bar']), { foo: 'a', bar: 'b' });
+  assert.deepEqual(options.getProperties(['foo', 'bar']), {
+    foo: 'a',
+    bar: 'b'
+  });
 });
 
 test('buildOptions - copy', function(assert) {

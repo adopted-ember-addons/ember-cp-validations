@@ -81,7 +81,7 @@ const BelongsTo = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((model) => this.validate(model, ...args));
+        return value.then(model => this.validate(model, ...args));
       }
 
       return get(value, 'validations');

@@ -4,10 +4,7 @@
  */
 
 import EmberObject from '@ember/object';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let model, options, builtOptions, validator, message;
 
@@ -25,11 +22,11 @@ test('attribute', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   model = EmberObject.create({
-    'email': 'foo@yahoo.com'
+    email: 'foo@yahoo.com'
   });
 
   message = validator.validate('bar@yahoo.com', builtOptions.copy(), model);
-  assert.equal(message, 'This field doesn\'t match email');
+  assert.equal(message, "This field doesn't match email");
 
   model.set('emailConfirmation', 'foo@yahoo.com');
 

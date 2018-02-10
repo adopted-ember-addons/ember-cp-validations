@@ -21,7 +21,6 @@ import {
  * @module Validators
  */
 const Base = EmberObject.extend({
-
   /**
    * Options passed in to the validator when defined in the model
    * @property options
@@ -94,7 +93,15 @@ const Base = EmberObject.extend({
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
     errorMessages = errorMessages || Messages;
 
-    set(this, 'options', this.buildOptions(options || {}, defaultOptions || {}, globalOptions || {}));
+    set(
+      this,
+      'options',
+      this.buildOptions(
+        options || {},
+        defaultOptions || {},
+        globalOptions || {}
+      )
+    );
     set(this, 'errorMessages', errorMessages.create());
   },
 
@@ -204,14 +211,20 @@ const Base = EmberObject.extend({
     let messages = this.get('errorMessages');
     let message = unwrapString(get(options, 'message'));
 
-    set(options, 'description', messages.getDescriptionFor(get(this, 'attribute'), options));
+    set(
+      options,
+      'description',
+      messages.getDescriptionFor(get(this, 'attribute'), options)
+    );
 
     if (message) {
       if (typeof message === 'string') {
         message = messages.formatMessage(message, options);
       } else if (typeof message === 'function') {
         message = message.apply(this, arguments);
-        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options);
+        message = isNone(message)
+          ? messages.getMessageFor(type, options)
+          : messages.formatMessage(message, options);
       }
     } else {
       message = messages.getMessageFor(type, options);

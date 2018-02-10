@@ -37,7 +37,10 @@ Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
     let on = get(options, 'on');
 
-    assert(`[validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
+    assert(
+      `[validator:confirmation] [${attribute}] 'on' must be a string`,
+      typeof on === 'string'
+    );
 
     return on ? [`model.${on}`] : [];
   }

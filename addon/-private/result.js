@@ -17,9 +17,7 @@ import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
 
-const {
-  readOnly
-} = computed;
+const { readOnly } = computed;
 
 /**
  * __PRIVATE__
@@ -30,7 +28,6 @@ const {
  */
 
 const Result = EmberObject.extend({
-
   /**
    * @property model
    * @type {Object}
@@ -72,7 +69,10 @@ const Result = EmberObject.extend({
    */
   _isReadOnly: computed('_result', function() {
     let validations = get(this, '_result');
-    return (validations instanceof ResultCollection) || get(validations, 'isValidations');
+    return (
+      validations instanceof ResultCollection ||
+      get(validations, 'isValidations')
+    );
   }).readOnly(),
 
   /**
@@ -194,7 +194,9 @@ const Result = EmberObject.extend({
    * @type {Result}
    */
   _result: computed('model', 'attribute', '_promise', '_validator', function() {
-    return InternalResultObject.create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
+    return InternalResultObject.create(
+      getProperties(this, ['model', 'attribute', '_promise', '_validator'])
+    );
   }),
 
   init() {
@@ -227,7 +229,7 @@ const Result = EmberObject.extend({
     if (isNone(value)) {
       return this.update(false);
     } else if (get(value, 'isValidations')) {
-      set(this, '_result', Collection.create({ attribute, content: [ value ]}));
+      set(this, '_result', Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
       set(this, '_result', Collection.create({ attribute, content: value }));
     } else if (!get(this, '_isReadOnly')) {
@@ -235,7 +237,7 @@ const Result = EmberObject.extend({
         setProperties(get(this, '_result'), {
           [isWarning ? 'warningMessage' : 'message']: value,
           isValid: isWarning ? true : false
-        })
+        });
       } else if (typeof value === 'boolean') {
         set(result, 'isValid', value);
       } else if (typeof value === 'object') {
@@ -250,13 +252,12 @@ const Result = EmberObject.extend({
    * @private
    */
   _handlePromise() {
-    get(this, '_promise').then(
-      (value) => this.update(value),
-      (value) => this.update(value)
-    ).catch((reason) => {
-      // TODO: send into error state
-      throw reason;
-    });
+    get(this, '_promise')
+      .then(value => this.update(value), value => this.update(value))
+      .catch(reason => {
+        // TODO: send into error state
+        throw reason;
+      });
   }
 });
 

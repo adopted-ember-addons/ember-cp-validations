@@ -17,15 +17,21 @@ import { flatten, uniq, compact } from '../utils/array';
   CP Macros
  */
 function isAny(collection, key, value, defaultValue) {
-  return computed(`${collection}.@each.${key}`, cycleBreaker(function() {
-    return get(this, collection).isAny(key, value);
-  }, defaultValue));
+  return computed(
+    `${collection}.@each.${key}`,
+    cycleBreaker(function() {
+      return get(this, collection).isAny(key, value);
+    }, defaultValue)
+  );
 }
 
 function isEvery(collection, key, value, defaultValue) {
-  return computed(`${collection}.@each.${key}`, cycleBreaker(function() {
-    return get(this, collection).isEvery(key, value);
-  }, defaultValue));
+  return computed(
+    `${collection}.@each.${key}`,
+    cycleBreaker(function() {
+      return get(this, collection).isEvery(key, value);
+    }, defaultValue)
+  );
 }
 
 /**
@@ -169,9 +175,12 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed('content.@each.messages', cycleBreaker(function() {
-    return uniq(compact(flatten(this.getEach('messages'))));
-  })).readOnly(),
+  messages: computed(
+    'content.@each.messages',
+    cycleBreaker(function() {
+      return uniq(compact(flatten(this.getEach('messages'))));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first message in the messages collection.
@@ -216,9 +225,12 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed('content.@each.warningMessages', cycleBreaker(function() {
-    return uniq(compact(flatten(this.getEach('warningMessages'))));
-  })).readOnly(),
+  warningMessages: computed(
+    'content.@each.warningMessages',
+    cycleBreaker(function() {
+      return uniq(compact(flatten(this.getEach('warningMessages'))));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first message in the warningMessages collection.
@@ -249,9 +261,13 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed('attribute', 'content.@each.warnings', cycleBreaker(function() {
-    return this._computeErrorCollection(this.getEach('warnings'));
-  })).readOnly(),
+  warnings: computed(
+    'attribute',
+    'content.@each.warnings',
+    cycleBreaker(function() {
+      return this._computeErrorCollection(this.getEach('warnings'));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first {{#crossLink "Warning"}}{{/crossLink}} in the warnings collection.
@@ -282,9 +298,13 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed('attribute', 'content.@each.errors', cycleBreaker(function() {
-    return this._computeErrorCollection(this.getEach('errors'));
-  })).readOnly(),
+  errors: computed(
+    'attribute',
+    'content.@each.errors',
+    cycleBreaker(function() {
+      return this._computeErrorCollection(this.getEach('errors'));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first {{#crossLink "Error"}}{{/crossLink}} in the errors collection.
@@ -343,17 +363,26 @@ export default ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed('content.@each._promise', '_contentResults.@each._promise', cycleBreaker(function() {
-    return RSVP.allSettled(compact(flatten([
-      this.get('_contentResults').getEach('_promise'), this.getEach('_promise')
-    ])));
-  })).readOnly(),
+  _promise: computed(
+    'content.@each._promise',
+    '_contentResults.@each._promise',
+    cycleBreaker(function() {
+      return RSVP.allSettled(
+        compact(
+          flatten([
+            this.get('_contentResults').getEach('_promise'),
+            this.getEach('_promise')
+          ])
+        )
+      );
+    })
+  ).readOnly(),
 
   /**
-  * @property _contentResults
-  * @type {Array}
-  * @private
-  */
+   * @property _contentResults
+   * @type {Array}
+   * @private
+   */
   _contentResults: computed('content.@each._result', function() {
     return emberArray(compact(this.getEach('_result')));
   }).readOnly(),
@@ -369,7 +398,7 @@ export default ArrayProxy.extend({
     let attribute = get(this, 'attribute');
     let errors = uniq(compact(flatten(collection)));
 
-    errors.forEach((e) => {
+    errors.forEach(e => {
       if (attribute && e.get('attribute') !== attribute) {
         e.set('parentAttribute', attribute);
       }

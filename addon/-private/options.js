@@ -1,8 +1,4 @@
-import EmberObject, {
-  defineProperty,
-  set,
-  get
-} from '@ember/object';
+import EmberObject, { defineProperty, set, get } from '@ember/object';
 import { isDescriptor } from 'ember-cp-validations/utils/utils';
 
 const Options = EmberObject.extend({
@@ -17,7 +13,7 @@ const Options = EmberObject.extend({
 
     let options = this.get('__options__');
 
-    Object.keys(options).forEach((key) => {
+    Object.keys(options).forEach(key => {
       let value = options[key];
 
       if (isDescriptor(value)) {
@@ -39,10 +35,12 @@ const Options = EmberObject.extend({
       });
     }
 
-    return EmberObject.create(Object.keys(options).reduce((obj, o) => {
-      obj[o] = get(this, o);
-      return obj;
-    }, {}));
+    return EmberObject.create(
+      Object.keys(options).reduce((obj, o) => {
+        obj[o] = get(this, o);
+        return obj;
+      }, {})
+    );
   }
 });
 

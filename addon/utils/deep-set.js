@@ -11,13 +11,15 @@
 import ComputedProperty from '@ember/object/computed';
 
 import { isNone } from '@ember/utils';
-import EmberObject, {
-  defineProperty,
-  set,
-  get
-} from '@ember/object';
+import EmberObject, { defineProperty, set, get } from '@ember/object';
 
-export default function assign(obj, path, value, useEmberObject = false, delimiter = '.') {
+export default function deepSet(
+  obj,
+  path,
+  value,
+  useEmberObject = false,
+  delimiter = '.'
+) {
   let keyPath = path.split(delimiter);
   let lastKeyIndex = keyPath.length - 1;
   let currObj = obj;
