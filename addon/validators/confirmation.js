@@ -1,15 +1,6 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { assert } from '@ember/debug';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
-
-const {
-  get,
-  assert
-} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -40,7 +31,10 @@ Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
     let on = get(options, 'on');
 
-    assert(`[validator:confirmation] [${attribute}] 'on' must be a string`, typeof on === 'string');
+    assert(
+      `[validator:confirmation] [${attribute}] 'on' must be a string`,
+      typeof on === 'string'
+    );
 
     return on ? [`model.${on}`] : [];
   }

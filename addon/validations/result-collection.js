@@ -1,42 +1,38 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from 'ember';
+import { not, readOnly, notEmpty, mapBy } from '@ember/object/computed';
+import ArrayProxy from '@ember/array/proxy';
+import RSVP from 'rsvp';
+import { computed, set, get } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { A as emberArray, isArray } from '@ember/array';
 import cycleBreaker from '../utils/cycle-breaker';
 import { flatten, uniq, compact } from '../utils/array';
-
-const {
-  get,
-  set,
-  RSVP,
-  computed,
-  isArray,
-  isNone,
-  A: emberArray
-} = Ember;
 
 /*
   CP Macros
  */
 function isAny(collection, key, value, defaultValue) {
-  return computed(`${collection}.@each.${key}`, cycleBreaker(function() {
-    return get(this, collection).isAny(key, value);
-  }, defaultValue));
+  return computed(
+    `${collection}.@each.${key}`,
+    cycleBreaker(function() {
+      return get(this, collection).isAny(key, value);
+    }, defaultValue)
+  );
 }
 
 function isEvery(collection, key, value, defaultValue) {
-  return computed(`${collection}.@each.${key}`, cycleBreaker(function() {
-    return get(this, collection).isEvery(key, value);
-  }, defaultValue));
+  return computed(
+    `${collection}.@each.${key}`,
+    cycleBreaker(function() {
+      return get(this, collection).isEvery(key, value);
+    }, defaultValue)
+  );
 }
 
 /**
  * @module Validations
  * @class ResultCollection
  */
-export default Ember.ArrayProxy.extend({
+export default ArrayProxy.extend({
   init() {
     set(this, 'content', emberArray(compact(get(this, 'content'))));
     this._super(...arguments);
@@ -62,7 +58,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isInvalid: computed.not('isValid').readOnly(),
+  isInvalid: not('isValid').readOnly(),
 
   /**
    * ```javascript
@@ -173,9 +169,12 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed('content.@each.messages', cycleBreaker(function() {
-    return uniq(compact(flatten(this.getEach('messages'))));
-  })).readOnly(),
+  messages: computed(
+    'content.@each.messages',
+    cycleBreaker(function() {
+      return uniq(compact(flatten(this.getEach('messages'))));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first message in the messages collection.
@@ -190,7 +189,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  message: computed.readOnly('messages.firstObject'),
+  message: readOnly('messages.firstObject'),
 
   /**
    * Will be `true` if there are warnings in the collection.
@@ -205,7 +204,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  hasWarnings: computed.notEmpty('warningMessages').readOnly(),
+  hasWarnings: notEmpty('warningMessages').readOnly(),
 
   /**
    * A collection of all warning messages on the object in question
@@ -220,9 +219,12 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed('content.@each.warningMessages', cycleBreaker(function() {
-    return uniq(compact(flatten(this.getEach('warningMessages'))));
-  })).readOnly(),
+  warningMessages: computed(
+    'content.@each.warningMessages',
+    cycleBreaker(function() {
+      return uniq(compact(flatten(this.getEach('warningMessages'))));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first message in the warningMessages collection.
@@ -237,7 +239,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  warningMessage: computed.readOnly('warningMessages.firstObject'),
+  warningMessage: readOnly('warningMessages.firstObject'),
 
   /**
    * A collection of all {{#crossLink "Error"}}Warnings{{/crossLink}} on the object in question.
@@ -253,9 +255,13 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed('attribute', 'content.@each.warnings', cycleBreaker(function() {
-    return this._computeErrorCollection(this.getEach('warnings'));
-  })).readOnly(),
+  warnings: computed(
+    'attribute',
+    'content.@each.warnings',
+    cycleBreaker(function() {
+      return this._computeErrorCollection(this.getEach('warnings'));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first {{#crossLink "Warning"}}{{/crossLink}} in the warnings collection.
@@ -270,7 +276,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Error}
    */
-  warning: computed.readOnly('warnings.firstObject'),
+  warning: readOnly('warnings.firstObject'),
 
   /**
    * A collection of all {{#crossLink "Error"}}Errors{{/crossLink}} on the object in question.
@@ -286,9 +292,13 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed('attribute', 'content.@each.errors', cycleBreaker(function() {
-    return this._computeErrorCollection(this.getEach('errors'));
-  })).readOnly(),
+  errors: computed(
+    'attribute',
+    'content.@each.errors',
+    cycleBreaker(function() {
+      return this._computeErrorCollection(this.getEach('errors'));
+    })
+  ).readOnly(),
 
   /**
    * An alias to the first {{#crossLink "Error"}}{{/crossLink}} in the errors collection.
@@ -303,7 +313,7 @@ export default Ember.ArrayProxy.extend({
    * @readOnly
    * @type {Error}
    */
-  error: computed.readOnly('errors.firstObject'),
+  error: readOnly('errors.firstObject'),
 
   /**
    * All built options of the validators associated with the results in this collection grouped by validator type
@@ -347,17 +357,26 @@ export default Ember.ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed('content.@each._promise', '_contentResults.@each._promise', cycleBreaker(function() {
-    return RSVP.allSettled(compact(flatten([
-      this.get('_contentResults').getEach('_promise'), this.getEach('_promise')
-    ])));
-  })).readOnly(),
+  _promise: computed(
+    'content.@each._promise',
+    '_contentResults.@each._promise',
+    cycleBreaker(function() {
+      return RSVP.allSettled(
+        compact(
+          flatten([
+            this.get('_contentResults').getEach('_promise'),
+            this.getEach('_promise')
+          ])
+        )
+      );
+    })
+  ).readOnly(),
 
   /**
-  * @property _contentResults
-  * @type {Array}
-  * @private
-  */
+   * @property _contentResults
+   * @type {Array}
+   * @private
+   */
   _contentResults: computed('content.@each._result', function() {
     return emberArray(compact(this.getEach('_result')));
   }).readOnly(),
@@ -367,13 +386,13 @@ export default Ember.ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentValidators: computed.mapBy('content', '_validator').readOnly(),
+  _contentValidators: mapBy('content', '_validator').readOnly(),
 
   _computeErrorCollection(collection = []) {
     let attribute = get(this, 'attribute');
     let errors = uniq(compact(flatten(collection)));
 
-    errors.forEach((e) => {
+    errors.forEach(e => {
       if (attribute && e.get('attribute') !== attribute) {
         e.set('parentAttribute', attribute);
       }

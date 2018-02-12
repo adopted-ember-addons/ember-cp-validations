@@ -1,8 +1,3 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
 
@@ -57,10 +52,10 @@ const HasMany = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((models) => this.validate(models, ...args));
+        return value.then(models => this.validate(models, ...args));
       }
 
-      return value.map((m) => m.get('validations'));
+      return value.map(m => m.get('validations'));
     }
 
     return true;

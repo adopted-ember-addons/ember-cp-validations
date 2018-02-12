@@ -6,7 +6,9 @@ export default Base.extend({
     let result = _validate(this.get('_evType'), ...arguments);
 
     if (result && typeof result === 'object') {
-      return result.message ? result.message : this.createErrorMessage(result.type, result.value, result.context);
+      return result.message
+        ? result.message
+        : this.createErrorMessage(result.type, result.value, result.context);
     }
 
     return result;

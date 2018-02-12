@@ -1,13 +1,5 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from 'ember';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { moduleFor, test } from 'ember-qunit';
 
 let model, options, builtOptions, validator, message;
 
@@ -24,15 +16,15 @@ test('attribute', function(assert) {
   options = { on: 'email' };
   builtOptions = validator.buildOptions(options);
 
-  model = Ember.Object.create({
-    'email': 'foo@yahoo.com'
+  model = EmberObject.create({
+    email: 'foo@gmail.com'
   });
 
-  message = validator.validate('bar@yahoo.com', builtOptions.copy(), model);
-  assert.equal(message, 'This field doesn\'t match email');
+  message = validator.validate('bar@gmail.com', builtOptions.copy(), model);
+  assert.equal(message, "This field doesn't match email");
 
-  model.set('emailConfirmation', 'foo@yahoo.com');
+  model.set('emailConfirmation', 'foo@gmail.com');
 
-  message = validator.validate('foo@yahoo.com', builtOptions.copy(), model);
+  message = validator.validate('foo@gmail.com', builtOptions.copy(), model);
   assert.equal(message, true);
 });

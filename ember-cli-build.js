@@ -1,13 +1,11 @@
-/* eslint-env node */
-/* global require, module */
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    snippetSearchPaths: ['addon','tests/dummy/app'],
-    snippetPaths: ['snippets','tests/dummy/snippets']
+    snippetSearchPaths: ['addon', 'tests/dummy/app'],
+    snippetPaths: ['snippets', 'tests/dummy/snippets']
   });
 
   /*

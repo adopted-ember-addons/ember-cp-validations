@@ -1,11 +1,6 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import Controller from '@ember/controller';
 
-import Ember from 'ember';
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   showAlert: false,
   isRegistered: false,
   showCode: false,
@@ -13,19 +8,21 @@ export default Ember.Controller.extend({
 
   actions: {
     validate() {
-      this.get('model').validate().then(({ validations }) => {
-        this.set('didValidate', true);
+      this.get('model')
+        .validate()
+        .then(({ validations }) => {
+          this.set('didValidate', true);
 
-        if (validations.get('isValid')) {
-          this.setProperties({
-            showAlert: false,
-            isRegistered: true,
-            showCode: false
-          });
-        } else {
-          this.set('showAlert', true);
-        }
-      });
+          if (validations.get('isValid')) {
+            this.setProperties({
+              showAlert: false,
+              isRegistered: true,
+              showCode: false
+            });
+          } else {
+            this.set('showAlert', true);
+          }
+        });
     },
 
     toggleProperty(p) {

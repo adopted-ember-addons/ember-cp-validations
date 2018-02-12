@@ -1,8 +1,5 @@
 import DS from 'ember-data';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   quantity: {
@@ -24,10 +21,7 @@ const Validations = buildValidations({
   },
   line: {
     description: 'Order Line',
-    validators: [
-      validator('ds-error'),
-      validator('presence', true)
-    ]
+    validators: [validator('ds-error'), validator('presence', true)]
   },
   questions: {
     description: 'Order Selection Questions',

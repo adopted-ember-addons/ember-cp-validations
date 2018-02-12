@@ -1,8 +1,4 @@
-import Ember from 'ember';
-
-const {
-  A: emberArray
-} = Ember;
+import { A as emberArray } from '@ember/array';
 
 const A = emberArray();
 

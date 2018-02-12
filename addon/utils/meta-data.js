@@ -1,8 +1,3 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import Ember from 'ember';
 
 let id = 0;
@@ -23,7 +18,7 @@ function getData(obj, s) {
 
 function setData(obj, s, value) {
   let m = Ember.meta(obj);
-  let data = m[dataKey] = m[dataKey] || {};
+  let data = (m[dataKey] = m[dataKey] || {});
 
   data[s] = value;
 }

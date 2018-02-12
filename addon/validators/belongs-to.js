@@ -1,15 +1,6 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from 'ember';
+import { get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
-
-const {
-  get
-} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -84,7 +75,7 @@ const BelongsTo = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then((model) => this.validate(model, ...args));
+        return value.then(model => this.validate(model, ...args));
       }
 
       return get(value, 'validations');

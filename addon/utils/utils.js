@@ -1,24 +1,17 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import ArrayProxy from '@ember/array/proxy';
+import ObjectProxy from '@ember/object/proxy';
+import { assign } from '@ember/polyfills';
+import { isHTMLSafe } from '@ember/string';
+import EmberObject, { get } from '@ember/object';
+import { typeOf } from '@ember/utils';
+import { A as emberArray, isArray } from '@ember/array';
 
 import Ember from 'ember';
 import requireModule from 'ember-require-module';
 
 const DS = requireModule('ember-data');
 
-const {
-  get,
-  typeOf,
-  isArray,
-  canInvoke,
-  A: emberArray
-} = Ember;
-
-const { isHTMLSafe } = Ember.String;
-
-const assign = Ember.assign || Ember.merge;
+const { canInvoke } = Ember;
 
 export function unwrapString(s) {
   if (isHTMLSafe(s)) {
@@ -33,7 +26,7 @@ export function unwrapProxy(o) {
 }
 
 export function isProxy(o) {
-  return !!(o && (o instanceof Ember.ObjectProxy || o instanceof Ember.ArrayProxy));
+  return !!(o && (o instanceof ObjectProxy || o instanceof ArrayProxy));
 }
 
 export function isPromise(p) {
@@ -45,11 +38,16 @@ export function isDsModel(o) {
 }
 
 export function isDSManyArray(o) {
-  return !!(DS && o && isArray(o) && (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray));
+  return !!(
+    DS &&
+    o &&
+    isArray(o) &&
+    (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
+  );
 }
 
 export function isEmberObject(o) {
-  return !!(o && o instanceof Ember.Object);
+  return !!(o && o instanceof EmberObject);
 }
 
 export function isObject(o) {
@@ -71,7 +69,7 @@ export function getValidatableValue(value) {
   }
 
   if (isDSManyArray(value)) {
-    return emberArray(value.filter((v) => isValidatable(v)));
+    return emberArray(value.filter(v => isValidatable(v)));
   }
 
   return isValidatable(value) ? value : undefined;

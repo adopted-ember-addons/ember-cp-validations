@@ -1,26 +1,18 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import { isNone } from '@ember/utils';
 
-import Ember from 'ember';
+import { isArray } from '@ember/array';
+import EmberObject, {
+  getProperties,
+  setProperties,
+  computed,
+  set,
+  get
+} from '@ember/object';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
 
-const {
-  get,
-  set,
-  isNone,
-  isArray,
-  computed,
-  setProperties,
-  getProperties
-} = Ember;
-
-const {
-  readOnly
-} = computed;
+const { readOnly } = computed;
 
 /**
  * __PRIVATE__
@@ -30,8 +22,7 @@ const {
  * @private
  */
 
-const Result = Ember.Object.extend({
-
+const Result = EmberObject.extend({
   /**
    * @property model
    * @type {Object}
@@ -73,7 +64,10 @@ const Result = Ember.Object.extend({
    */
   _isReadOnly: computed('_result', function() {
     let validations = get(this, '_result');
-    return (validations instanceof ResultCollection) || get(validations, 'isValidations');
+    return (
+      validations instanceof ResultCollection ||
+      get(validations, 'isValidations')
+    );
   }).readOnly(),
 
   /**
@@ -195,7 +189,9 @@ const Result = Ember.Object.extend({
    * @type {Result}
    */
   _result: computed('model', 'attribute', '_promise', '_validator', function() {
-    return InternalResultObject.create(getProperties(this, ['model', 'attribute', '_promise', '_validator']));
+    return InternalResultObject.create(
+      getProperties(this, ['model', 'attribute', '_promise', '_validator'])
+    );
   }),
 
   init() {
@@ -228,7 +224,7 @@ const Result = Ember.Object.extend({
     if (isNone(value)) {
       return this.update(false);
     } else if (get(value, 'isValidations')) {
-      set(this, '_result', Collection.create({ attribute, content: [ value ]}));
+      set(this, '_result', Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
       set(this, '_result', Collection.create({ attribute, content: value }));
     } else if (!get(this, '_isReadOnly')) {
@@ -236,7 +232,7 @@ const Result = Ember.Object.extend({
         setProperties(get(this, '_result'), {
           [isWarning ? 'warningMessage' : 'message']: value,
           isValid: isWarning ? true : false
-        })
+        });
       } else if (typeof value === 'boolean') {
         set(result, 'isValid', value);
       } else if (typeof value === 'object') {
@@ -251,13 +247,12 @@ const Result = Ember.Object.extend({
    * @private
    */
   _handlePromise() {
-    get(this, '_promise').then(
-      (value) => this.update(value),
-      (value) => this.update(value)
-    ).catch((reason) => {
-      // TODO: send into error state
-      throw reason;
-    });
+    get(this, '_promise')
+      .then(value => this.update(value), value => this.update(value))
+      .catch(reason => {
+        // TODO: send into error state
+        throw reason;
+      });
   }
 });
 

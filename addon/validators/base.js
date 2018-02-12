@@ -1,27 +1,21 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import { bool } from '@ember/object/computed';
 
-import Ember from 'ember';
+import EmberObject, { set, get } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { getOwner } from '@ember/application';
 import Messages from 'ember-cp-validations/validators/messages';
 import Options from 'ember-cp-validations/-private/options';
-import { unwrapString, getValidatableValue, mergeOptions } from 'ember-cp-validations/utils/utils';
-
-const {
-  get,
-  set,
-  isNone,
-  computed,
-  getOwner
-} = Ember;
+import {
+  unwrapString,
+  getValidatableValue,
+  mergeOptions
+} from 'ember-cp-validations/utils/utils';
 
 /**
  * @class Base
  * @module Validators
  */
-const Base = Ember.Object.extend({
-
+const Base = EmberObject.extend({
   /**
    * Options passed in to the validator when defined in the model
    * @property options
@@ -68,7 +62,7 @@ const Base = Ember.Object.extend({
    * @property isWarning
    * @type {Boolean}
    */
-  isWarning: computed.bool('options.isWarning').readOnly(),
+  isWarning: bool('options.isWarning').readOnly(),
 
   /**
    * Validator type
@@ -94,7 +88,15 @@ const Base = Ember.Object.extend({
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
     errorMessages = errorMessages || Messages;
 
-    set(this, 'options', this.buildOptions(options || {}, defaultOptions || {}, globalOptions || {}));
+    set(
+      this,
+      'options',
+      this.buildOptions(
+        options || {},
+        defaultOptions || {},
+        globalOptions || {}
+      )
+    );
     set(this, 'errorMessages', errorMessages.create());
   },
 
@@ -204,14 +206,20 @@ const Base = Ember.Object.extend({
     let messages = this.get('errorMessages');
     let message = unwrapString(get(options, 'message'));
 
-    set(options, 'description', messages.getDescriptionFor(get(this, 'attribute'), options));
+    set(
+      options,
+      'description',
+      messages.getDescriptionFor(get(this, 'attribute'), options)
+    );
 
     if (message) {
       if (typeof message === 'string') {
         message = messages.formatMessage(message, options);
       } else if (typeof message === 'function') {
         message = message.apply(this, arguments);
-        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options);
+        message = isNone(message)
+          ? messages.getMessageFor(type, options)
+          : messages.formatMessage(message, options);
       }
     } else {
       message = messages.getMessageFor(type, options);

@@ -1,22 +1,8 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from 'ember';
+import { getProperties, getWithDefault, get } from '@ember/object';
+import { assert } from '@ember/debug';
+import { isPresent, isEmpty, isNone } from '@ember/utils';
+import { isArray, A } from '@ember/array';
 import Base from 'ember-cp-validations/validators/base';
-
-const {
-  A,
-  get,
-  getWithDefault,
-  getProperties,
-  assert,
-  isNone,
-  isEmpty,
-  isPresent,
-  isArray
-} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -48,7 +34,10 @@ const Dependent = Base.extend({
   validate(value, options, model, attribute) {
     let { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
 
-    assert(`[validator:dependent] [${attribute}] option 'on' is required`, isPresent(on));
+    assert(
+      `[validator:dependent] [${attribute}] option 'on' is required`,
+      isPresent(on)
+    );
 
     if (isNone(model)) {
       return true;
@@ -58,9 +47,11 @@ const Dependent = Base.extend({
       return true;
     }
 
-    let dependentValidations = getWithDefault(options, 'on', A()).map((dependent) => get(model, `validations.attrs.${dependent}`));
+    let dependentValidations = getWithDefault(options, 'on', A()).map(
+      dependent => get(model, `validations.attrs.${dependent}`)
+    );
 
-    if (!isEmpty(dependentValidations.filter((v) => get(v, 'isTruelyInvalid')))) {
+    if (!isEmpty(dependentValidations.filter(v => get(v, 'isTruelyInvalid')))) {
       return this.createErrorMessage('invalid', value, options);
     }
 
@@ -72,10 +63,13 @@ Dependent.reopenClass({
   getDependentsFor(attribute, options) {
     let dependents = get(options, 'on');
 
-    assert(`[validator:dependent] [${attribute}] 'on' must be an array`, isArray(dependents));
+    assert(
+      `[validator:dependent] [${attribute}] 'on' must be an array`,
+      isArray(dependents)
+    );
 
     if (!isEmpty(dependents)) {
-      return dependents.map((dependent) => `${dependent}.isTruelyValid`);
+      return dependents.map(dependent => `${dependent}.isTruelyValid`);
     }
 
     return [];

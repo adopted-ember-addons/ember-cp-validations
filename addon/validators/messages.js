@@ -1,8 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import Messages from 'ember-validators/messages';
 
 /**
@@ -26,4 +22,4 @@ import Messages from 'ember-validators/messages';
  *  @class Messages
  *  @module Validators
  */
-export default Ember.Object.extend(Messages);
+export default EmberObject.extend(Messages);

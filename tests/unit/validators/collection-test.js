@@ -1,12 +1,4 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
@@ -67,5 +59,5 @@ test('singular - value not singular', function(assert) {
   builtOptions = validator.buildOptions(options);
 
   message = validator.validate(['foo', 'bar'], builtOptions.copy());
-  assert.equal(message, 'This field can\'t be a collection');
+  assert.equal(message, "This field can't be a collection");
 });

@@ -1,17 +1,8 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import { assert } from '@ember/debug';
 
-import Ember from 'ember';
+import { isPresent } from '@ember/utils';
+import { getProperties, get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
-
-const {
-  get,
-  assert,
-  isPresent,
-  getProperties
-} = Ember;
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -73,13 +64,21 @@ const Alias = Base.extend({
    * @param {String} attribute
    */
   validate(value, options, model, attribute) {
-    let { alias, firstMessageOnly } = getProperties(options, ['alias', 'firstMessageOnly']);
+    let { alias, firstMessageOnly } = getProperties(options, [
+      'alias',
+      'firstMessageOnly'
+    ]);
 
-    assert(`[validator:alias] [${attribute}] option 'alias' is required`, isPresent(alias));
+    assert(
+      `[validator:alias] [${attribute}] option 'alias' is required`,
+      isPresent(alias)
+    );
 
     let aliasValidation = get(model, `validations.attrs.${alias}`);
 
-    return firstMessageOnly ? get(aliasValidation, 'message') : get(aliasValidation, 'content');
+    return firstMessageOnly
+      ? get(aliasValidation, 'message')
+      : get(aliasValidation, 'content');
   }
 });
 
@@ -87,9 +86,12 @@ Alias.reopenClass({
   getDependentsFor(attribute, options) {
     let alias = typeof options === 'string' ? options : get(options, 'alias');
 
-    assert(`[validator:alias] [${attribute}] 'alias' must be a string`, typeof alias === 'string');
+    assert(
+      `[validator:alias] [${attribute}] 'alias' must be a string`,
+      typeof alias === 'string'
+    );
 
-    return [ `${alias}.messages.[]`, `${alias}.isTruelyValid` ];
+    return [`${alias}.messages.[]`, `${alias}.isTruelyValid`];
   }
 });
 

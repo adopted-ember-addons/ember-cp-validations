@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import EmberObject, { computed } from '@ember/object';
 import { module, test } from 'qunit';
 import shouldCallSuper from 'ember-cp-validations/utils/should-call-super';
-
-const {
-  computed
-} = Ember;
 
 module('Unit | Utils | shouldCallSuper');
 
 test('shouldCallSuper - true', function(assert) {
-  let Parent = Ember.Object.extend({
+  let Parent = EmberObject.extend({
     foo: computed(function() {})
   });
 
@@ -24,7 +20,7 @@ test('shouldCallSuper - true', function(assert) {
 });
 
 test('shouldCallSuper - false', function(assert) {
-  let Parent = Ember.Object.extend();
+  let Parent = EmberObject.extend();
 
   let Child = Parent.extend({
     foo: computed(function() {

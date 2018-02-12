@@ -1,14 +1,6 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import DS from 'ember-data';
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 
 let model, validator, message;
 
@@ -22,7 +14,7 @@ moduleFor('validator:ds-error', 'Unit | Validator | ds-error', {
 test('works with empty object', function(assert) {
   assert.expect(1);
 
-  model = Ember.Object.create();
+  model = EmberObject.create();
 
   message = validator.validate(undefined, undefined, model, 'username');
   assert.equal(message, true);
@@ -31,7 +23,7 @@ test('works with empty object', function(assert) {
 test('it works', function(assert) {
   assert.expect(2);
 
-  model = Ember.Object.create({
+  model = EmberObject.create({
     errors: DS.Errors.create(),
     username: null
   });
@@ -48,7 +40,7 @@ test('it works', function(assert) {
 test('gets last message', function(assert) {
   assert.expect(2);
 
-  model = Ember.Object.create({
+  model = EmberObject.create({
     errors: DS.Errors.create(),
     username: null
   });

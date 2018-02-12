@@ -1,44 +1,52 @@
 ---
 language: node_js
 node_js:
-  - "6"
+  # we recommend testing addons with the same minimum supported node version as Ember CLI
+  # so that your addon works for all apps
+  - "4"
 
 sudo: false
 dist: trusty
 
-cache:
-  yarn: true
-
 addons:
+  chrome: stable
   code_climate:
     repo_token: 32e4df25574ba02aacb75e6d34b9c667044984df279e20a208884d7e9e9d4a8d
 
+cache:
+  yarn: true
+
 env:
-  - EMBER_TRY_SCENARIO=default
-  - EMBER_TRY_SCENARIO=ember-1.13
-  - EMBER_TRY_SCENARIO=ember-lts-2.4
-  - EMBER_TRY_SCENARIO=ember-lts-2.8
-  - EMBER_TRY_SCENARIO=ember-2.12
-  - EMBER_TRY_SCENARIO=ember-release
-  - EMBER_TRY_SCENARIO=ember-beta
-  - EMBER_TRY_SCENARIO=ember-canary
+  global:
+    # See https://git.io/vdao3 for details.
+    - JOBS=1
+  matrix:
+    # we recommend new addons test the current and previous LTS
+    # as well as latest stable release (bonus points to beta/canary)
+    - EMBER_TRY_SCENARIO=ember-lts-2.12
+    - EMBER_TRY_SCENARIO=ember-lts-2.16
+    - EMBER_TRY_SCENARIO=ember-release
+    - EMBER_TRY_SCENARIO=ember-beta
+    - EMBER_TRY_SCENARIO=ember-canary
+    - EMBER_TRY_SCENARIO=ember-default
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add codeclimate-test-reporter
 
 install:
-  - yarn install --no-lockfile
+  - yarn install --no-lockfile --non-interactive
 
 script:
-  - HEADLESS=true node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+  - yarn lint:js
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
 
 after_script:
   - codeclimate-test-reporter < coverage/lcov.info

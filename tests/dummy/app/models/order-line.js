@@ -1,23 +1,14 @@
 import DS from 'ember-data';
-import {
-  validator, buildValidations
-}
-from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   type: {
     description: 'Order Line Type',
-    validators: [
-      validator('ds-error'),
-      validator('presence', true)
-    ]
+    validators: [validator('ds-error'), validator('presence', true)]
   },
   order: {
     description: 'Order',
-    validators: [
-      validator('ds-error'),
-      validator('presence', true)
-    ]
+    validators: [validator('ds-error'), validator('presence', true)]
   },
   selections: {
     description: 'Order Selections',
