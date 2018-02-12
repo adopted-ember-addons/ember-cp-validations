@@ -246,11 +246,18 @@ const Base = EmberObject.extend({
 
   /**
    * Easily compose complicated validations by using this method to validate
-   * against pre-existing validators.
+   * against other validators.
    *
    * ```javascript
    * validate(value, options, ...args) {
    *   let result = this.test('presence', value, { presence: true }, ...args);
+   *
+   *   if (!result.isValid) {
+   *     return result.message;
+   *   }
+   *
+   *   // You can even test against your own custom validators
+   *   result = this.test('my-validator', value, { foo: 'bar' }, ...args);
    *
    *   if (!result.isValid) {
    *     return result.message;
