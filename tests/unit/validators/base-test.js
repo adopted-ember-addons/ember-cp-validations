@@ -51,7 +51,7 @@ test('buildOptions - does not overwrite options', function(assert) {
 });
 
 test('buildOptions - copy', function(assert) {
-  assert.expect(6);
+  assert.expect(5);
 
   options = validator.buildOptions({
     foo: alias('bar'),
@@ -68,7 +68,6 @@ test('buildOptions - copy', function(assert) {
   optionsCopy = options.copy(true);
 
   assert.ok(optionsCopy instanceof EmberObject);
-  assert.ok(optionsCopy.foo.isDescriptor);
   assert.equal(optionsCopy.get('foo'), 'bar');
 });
 
