@@ -277,6 +277,8 @@ const Base = EmberObject.extend({
    * ```
    * @method test
    * @param  {String} type    The validator type (e.x. 'presence', 'length', etc.)
+   *                          The following types are unsupported:
+   *                            'alias', 'belongs-to', 'dependent', 'has-many'
    * @param  {...} args       The params to pass through to the validator
    * @return {Object}         The test result object which will contain `isValid`
    *                          and `message`. If the validator is async, then the
