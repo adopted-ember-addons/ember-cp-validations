@@ -1,15 +1,23 @@
 import { bool } from '@ember/object/computed';
-
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set, get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import Messages from 'ember-cp-validations/validators/messages';
 import Options from 'ember-cp-validations/-private/options';
+import lookupValidator from 'ember-cp-validations/utils/lookup-validator';
 import {
   unwrapString,
   getValidatableValue,
-  mergeOptions
+  mergeOptions,
+  isPromise
 } from 'ember-cp-validations/utils/utils';
+
+class TestResult {
+  constructor(result) {
+    this.isValid = result === true;
+    this.message = typeof result === 'string' ? result : null;
+  }
+}
 
 /**
  * @class Base
@@ -71,6 +79,14 @@ const Base = EmberObject.extend({
    * @type {String}
    */
   _type: null,
+
+  /**
+   * Validators cache used back `validates`
+   * @property _testValidatorCache
+   * @private
+   * @type {Object}
+   */
+  _testValidatorCache: computed(() => ({})).readOnly(),
 
   init() {
     this._super(...arguments);
@@ -179,7 +195,7 @@ const Base = EmberObject.extend({
    *
    * ```javascript
    * validate(value, options) {
-   *   var exists = false;
+   *   const exists = false;
    *
    *   get(options, 'description') = 'Username';
    *   get(options, 'username') = value;
@@ -198,7 +214,7 @@ const Base = EmberObject.extend({
    *
    * @method createErrorMessage
    * @param  {String} type        The type of message template to use
-   * @param  {Mixed} value                Current value being evaluated
+   * @param  {Mixed} value        Current value being evaluated
    * @param  {Object} options     Validator built and processed options (used as the message string context)
    * @return {String}             The generated message
    */
@@ -226,6 +242,57 @@ const Base = EmberObject.extend({
     }
 
     return message.trim();
+  },
+
+  /**
+   * Easily compose complicated validations by using this method to validate
+   * against pre-existing validators.
+   *
+   * ```javascript
+   * validate(value, options, ...args) {
+   *   let result = this.test('presence', value, { presence: true }, ...args);
+   *
+   *   if (!result.isValid) {
+   *     return result.message;
+   *   }
+   *
+   *   result = this.test('number', value, { integer: true }, ...args);
+   *
+   *   // You can easily override the error message by returning your own.
+   *   if (!result.isValid) {
+   *      return 'This value must be an integer!';
+   *    }
+   *
+   *   // Add custom logic...
+   *
+   *   return true;
+   * }
+   * ```
+   * @method test
+   * @param  {String} type    The validator type (e.x. 'presence', 'length', etc.)
+   * @param  {...} args       The params to pass through to the validator
+   * @return {Object}         The test result object which will contain `isValid`
+   *                          and `message`. If the validator is async, then the
+   *                          return value will be a promise.
+   */
+  test(type, ...args) {
+    const cache = this.get('_testValidatorCache');
+    const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
+
+    if (unsupportedTypes.includes(type)) {
+      throw new Error(
+        `[ember-cp-validations] The \`test\` API does not support validators of type: ${type}.`
+      );
+    }
+
+    cache[type] = cache[type] || lookupValidator(getOwner(this), type).create();
+    const result = cache[type].validate(...args);
+
+    if (isPromise(result)) {
+      return result.then(r => new TestResult(r), r => new TestResult(r));
+    }
+
+    return new TestResult(result);
   }
 });
 
@@ -346,7 +413,7 @@ export default Base;
  * To use our unique-username validator we just have to add it to the model definition
  *
  * ```javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: validator('unique-username', {
  *     showSuggestions: true
  *   }),
@@ -371,7 +438,7 @@ export default Base;
  * });
  *
  * test('it works', function(assert) {
- *     var validator =  this.subject();
+ *     const validator =  this.subject();
  *     assert.ok(validator);
  * });
  * ```
