@@ -81,7 +81,7 @@ const Base = EmberObject.extend({
   _type: null,
 
   /**
-   * Validators cache used back `validates`
+   * Validators cache used by `test` api
    * @property _testValidatorCache
    * @private
    * @type {Object}
