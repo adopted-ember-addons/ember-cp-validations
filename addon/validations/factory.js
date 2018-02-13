@@ -8,7 +8,6 @@ import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import EmberObject, { getWithDefault, computed, set, get } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
-
 import Ember from 'ember';
 import deepSet from '../utils/deep-set';
 import ValidationResult from '../-private/result';
@@ -16,6 +15,7 @@ import ResultCollection from './result-collection';
 import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
+import lookupValidator from '../utils/lookup-validator';
 import { flatten } from '../utils/array';
 import {
   isDsModel,
@@ -773,28 +773,6 @@ function createValidatorsFor(attribute, model) {
   deepSet(validatorCache, attribute, validators);
 
   return validators;
-}
-
-/**
- * Lookup a validators of a specific type on the owner
- *
- * @method lookupValidator
- * @throws {Error} Validator not found
- * @private
- * @param  {Ember.Owner} owner
- * @param  {String} type
- * @return {Class} Validator class or undefined if not found
- */
-function lookupValidator(owner, type) {
-  let validatorClass = owner.factoryFor(`validator:${type}`);
-
-  if (isNone(validatorClass)) {
-    throw new Error(
-      `[ember-cp-validations] Validator not found of type: ${type}.`
-    );
-  }
-
-  return validatorClass;
 }
 
 /**

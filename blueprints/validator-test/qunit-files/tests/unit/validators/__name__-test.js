@@ -5,6 +5,6 @@ moduleFor('validator:<%= dasherizedModuleName %>', 'Unit | Validator | <%= dashe
 });
 
 test('it works', function(assert) {
-  var validator = this.subject();
+  const validator = this.subject();
   assert.ok(validator);
 });
