@@ -1,5 +1,6 @@
 import { htmlSafe } from '@ember/string';
 import EmberObject from '@ember/object';
+import ObjectProxy from '@ember/object/proxy';
 import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import { moduleFor, test } from 'ember-qunit';
@@ -50,25 +51,21 @@ test('buildOptions - does not overwrite options', function(assert) {
   });
 });
 
-test('buildOptions - copy', function(assert) {
-  assert.expect(5);
+test('buildOptions - toObject', function(assert) {
+  assert.expect(4);
 
   options = validator.buildOptions({
     foo: alias('bar'),
     bar: 'bar'
   });
 
-  assert.ok(options instanceof EmberObject);
+  assert.ok(options instanceof ObjectProxy);
 
-  let optionsCopy = options.copy();
+  let optionsObj = options.toObject();
 
-  assert.ok(optionsCopy instanceof EmberObject);
-  assert.equal(optionsCopy.foo, 'bar');
-
-  optionsCopy = options.copy(true);
-
-  assert.ok(optionsCopy instanceof EmberObject);
-  assert.equal(optionsCopy.get('foo'), 'bar');
+  assert.equal(typeof optionsObj, 'object');
+  assert.notOk(optionsObj instanceof EmberObject);
+  assert.equal(optionsObj.foo, 'bar');
 });
 
 test('createErrorMessage - message function', function(assert) {

@@ -12,7 +12,7 @@ moduleFor('validator:inclusion', 'Unit | Validator | inclusion', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  builtOptions = validator.buildOptions({}).copy();
+  builtOptions = validator.buildOptions({}).toObject();
 
   try {
     message = validator.validate(undefined, builtOptions);
@@ -30,10 +30,10 @@ test('allow blank', function(assert) {
   };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('', builtOptions.copy());
+  message = validator.validate('', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('test', builtOptions.copy());
+  message = validator.validate('test', builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 });
 
@@ -45,16 +45,16 @@ test('in array', function(assert) {
   };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('test', builtOptions.copy());
+  message = validator.validate('test', builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('foo', builtOptions.copy());
+  message = validator.validate('foo', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('bar', builtOptions.copy());
+  message = validator.validate('bar', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('baz', builtOptions.copy());
+  message = validator.validate('baz', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -66,19 +66,19 @@ test('in range', function(assert) {
   };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(0, builtOptions.copy());
+  message = validator.validate(0, builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(100, builtOptions.copy());
+  message = validator.validate(100, builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(1, builtOptions.copy());
+  message = validator.validate(1, builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate(5, builtOptions.copy());
+  message = validator.validate(5, builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate(10, builtOptions.copy());
+  message = validator.validate(10, builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -90,25 +90,25 @@ test('range type check - number', function(assert) {
   };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('0', builtOptions.copy());
+  message = validator.validate('0', builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(0, builtOptions.copy());
+  message = validator.validate(0, builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('1', builtOptions.copy());
+  message = validator.validate('1', builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('5', builtOptions.copy());
+  message = validator.validate('5', builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate(1, builtOptions.copy());
+  message = validator.validate(1, builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate(5, builtOptions.copy());
+  message = validator.validate(5, builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate(10, builtOptions.copy());
+  message = validator.validate(10, builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -120,18 +120,18 @@ test('range type check - string', function(assert) {
   };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(97, builtOptions.copy());
+  message = validator.validate(97, builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('zzz', builtOptions.copy());
+  message = validator.validate('zzz', builtOptions.toObject());
   assert.equal(message, 'This field is not included in the list');
 
-  message = validator.validate('a', builtOptions.copy());
+  message = validator.validate('a', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('o', builtOptions.copy());
+  message = validator.validate('o', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('z', builtOptions.copy());
+  message = validator.validate('z', builtOptions.toObject());
   assert.equal(message, true);
 });

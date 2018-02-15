@@ -107,11 +107,7 @@ const Base = EmberObject.extend({
     set(
       this,
       'options',
-      this.buildOptions(
-        options || {},
-        defaultOptions || {},
-        globalOptions || {}
-      )
+      this.buildOptions(options, defaultOptions, globalOptions)
     );
     set(this, 'errorMessages', errorMessages.create());
   },
@@ -134,10 +130,10 @@ const Base = EmberObject.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    return Options.create({
+    return new Options({
       model: get(this, 'model'),
       attribute: get(this, 'attribute'),
-      __options__: builtOptions
+      options: builtOptions
     });
   },
 

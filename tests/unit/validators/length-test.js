@@ -14,7 +14,7 @@ test('no options', function(assert) {
 
   builtOptions = validator.buildOptions({});
 
-  message = validator.validate(undefined, builtOptions.copy());
+  message = validator.validate(undefined, builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -28,10 +28,10 @@ test('allow blank', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('', builtOptions.copy());
+  message = validator.validate('', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('test', builtOptions.copy());
+  message = validator.validate('test', builtOptions.toObject());
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 });
 
@@ -44,13 +44,13 @@ test('allow none', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(undefined, builtOptions.copy());
+  message = validator.validate(undefined, builtOptions.toObject());
   assert.equal(message, true);
 
   options.allowNone = false;
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(null, builtOptions.copy());
+  message = validator.validate(null, builtOptions.toObject());
   assert.equal(message, 'This field is invalid');
 });
 
@@ -63,13 +63,13 @@ test('is', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('testing', builtOptions.copy());
+  message = validator.validate('testing', builtOptions.toObject());
   assert.equal(
     message,
     'This field is the wrong length (should be 4 characters)'
   );
 
-  message = validator.validate('test', builtOptions.copy());
+  message = validator.validate('test', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -82,10 +82,10 @@ test('min', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('test', builtOptions.copy());
+  message = validator.validate('test', builtOptions.toObject());
   assert.equal(message, 'This field is too short (minimum is 5 characters)');
 
-  message = validator.validate('testing', builtOptions.copy());
+  message = validator.validate('testing', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -98,10 +98,10 @@ test('max', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('testing', builtOptions.copy());
+  message = validator.validate('testing', builtOptions.toObject());
   assert.equal(message, 'This field is too long (maximum is 5 characters)');
 
-  message = validator.validate('test', builtOptions.copy());
+  message = validator.validate('test', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -114,9 +114,9 @@ test('array', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate([], builtOptions.copy());
+  message = validator.validate([], builtOptions.toObject());
   assert.equal(message, 'This field is too short (minimum is 1 characters)');
 
-  message = validator.validate([1], builtOptions.copy());
+  message = validator.validate([1], builtOptions.toObject());
   assert.equal(message, true);
 });

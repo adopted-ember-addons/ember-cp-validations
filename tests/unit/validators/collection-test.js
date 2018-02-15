@@ -28,7 +28,7 @@ test('value is collection', function(assert) {
   options = { collection: true };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(['foo', 'bar'], builtOptions.copy());
+  message = validator.validate(['foo', 'bar'], builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -38,7 +38,7 @@ test('value not collection', function(assert) {
   options = { collection: true };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('foo', builtOptions.copy());
+  message = validator.validate('foo', builtOptions.toObject());
   assert.equal(message, 'This field must be a collection');
 });
 
@@ -48,7 +48,7 @@ test('singular - value is singular', function(assert) {
   options = { collection: false };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('value', builtOptions.copy());
+  message = validator.validate('value', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -58,6 +58,6 @@ test('singular - value not singular', function(assert) {
   options = { collection: false };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(['foo', 'bar'], builtOptions.copy());
+  message = validator.validate(['foo', 'bar'], builtOptions.toObject());
   assert.equal(message, "This field can't be a collection");
 });

@@ -12,6 +12,7 @@ import PresenceValidator from 'dummy/validators/presence';
 import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { moduleFor, test } from 'ember-qunit';
+import { ATTRS_MODEL } from 'ember-cp-validations/-private/symbols';
 
 const Validators = {
   presence(value, options, model, attr) {
@@ -936,17 +937,17 @@ test('nested keys - complex', function(assert) {
   assert.equal(object.get('validations.attrs.user.foo.bar.baz.isValid'), true);
   assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), true);
 
-  assert.ok(object.get('validations.attrs._model'));
-  assert.ok(object.get('validations.attrs.user.foo.bar._model'));
-  assert.ok(object.get('validations.attrs.user.foo._model'));
+  assert.ok(object.get(`validations.attrs.${ATTRS_MODEL}`));
+  assert.ok(object.get(`validations.attrs.user.foo.bar.${ATTRS_MODEL}`));
+  assert.ok(object.get(`validations.attrs.user.foo.${ATTRS_MODEL}`));
 
   assert.equal(object.get('validations.isValid'), true);
 
   run(() => object.destroy());
 
-  assert.notOk(object.get('validations.attrs._model'));
-  assert.notOk(object.get('validations.attrs.user.foo.bar._model'));
-  assert.notOk(object.get('validations.attrs.user.foo._model'));
+  assert.notOk(object.get(`validations.attrs.${ATTRS_MODEL}`));
+  assert.notOk(object.get(`validations.attrs.user.foo.bar.${ATTRS_MODEL}`));
+  assert.notOk(object.get(`validations.attrs.user.foo.${ATTRS_MODEL}`));
 });
 
 test('nested keys - inheritance', function(assert) {
@@ -1026,7 +1027,7 @@ test('call super in validations class with no super property', function(assert) 
         foo() {
           assert.ok(true);
           /* eslint-disable */
-        let validations = this.get('validations');
+          let validations = this.get('validations');
           /* eslint-enable */
         }
       }

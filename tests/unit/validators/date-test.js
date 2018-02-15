@@ -28,10 +28,10 @@ test('allow blank', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('', builtOptions.copy());
+  message = validator.validate('', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('1/1/2016', builtOptions.copy());
+  message = validator.validate('1/1/2016', builtOptions.toObject());
   assert.equal(message, 'This field must be before Jan 1st, 2015');
 });
 
@@ -42,10 +42,10 @@ test('valid date', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('abc', builtOptions.copy());
+  message = validator.validate('abc', builtOptions.toObject());
   assert.equal(message, 'This field must be a valid date');
 
-  message = validator.validate(new Date(), builtOptions.copy());
+  message = validator.validate(new Date(), builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -58,10 +58,10 @@ test('valid input date format', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('27/3/15', builtOptions.copy());
+  message = validator.validate('27/3/15', builtOptions.toObject());
   assert.equal(message, 'This field must be in the format of DD/M/YYYY');
 
-  message = validator.validate('27/3/2015', builtOptions.copy());
+  message = validator.validate('27/3/2015', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -75,7 +75,7 @@ test('error date format', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2016', builtOptions.copy());
+  message = validator.validate('1/1/2016', builtOptions.toObject());
   assert.equal(message, 'This field must be before 1/1/2015');
 });
 
@@ -88,10 +88,10 @@ test('before', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2016', builtOptions.copy());
+  message = validator.validate('1/1/2016', builtOptions.toObject());
   assert.equal(message, 'This field must be before Jan 1st, 2015');
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -104,10 +104,10 @@ test('before now', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/3015', builtOptions.copy());
+  message = validator.validate('1/1/3015', builtOptions.toObject());
   assert.equal(message, `This field must be before ${now}`);
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -120,13 +120,13 @@ test('before or on', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2016', builtOptions.copy());
+  message = validator.validate('1/1/2016', builtOptions.toObject());
   assert.equal(message, 'This field must be on or before Jan 1st, 2015');
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('1/1/2015', builtOptions.copy());
+  message = validator.validate('1/1/2015', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -139,13 +139,13 @@ test('before now or on', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/3015', builtOptions.copy());
+  message = validator.validate('1/1/3015', builtOptions.toObject());
   assert.equal(message, `This field must be on or before ${now}`);
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('now', builtOptions.copy());
+  message = validator.validate('now', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -162,12 +162,12 @@ test('before or on precision', function(assert) {
 
     builtOptions = validator.buildOptions({ onOrBefore: dateString });
 
-    message = validator.validate(now, builtOptions.copy());
+    message = validator.validate(now, builtOptions.toObject());
     assert.equal(message, true);
 
     message = validator.validate(
       moment(now).add(1, precision),
-      builtOptions.copy()
+      builtOptions.toObject()
     );
     assert.equal(message, `This field must be on or before ${nowMessage}`);
 
@@ -179,7 +179,7 @@ test('before or on precision', function(assert) {
 
       message = validator.validate(
         moment(now).add(1, precisions),
-        builtOptions.copy()
+        builtOptions.toObject()
       );
       assert.equal(message, true);
     }
@@ -195,10 +195,10 @@ test('after', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, 'This field must be after Jan 1st, 2015');
 
-  message = validator.validate('1/1/2016', builtOptions.copy());
+  message = validator.validate('1/1/2016', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -211,10 +211,10 @@ test('after now', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, `This field must be after ${now}`);
 
-  message = validator.validate('1/1/3015', builtOptions.copy());
+  message = validator.validate('1/1/3015', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -227,13 +227,13 @@ test('after or on', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, 'This field must be on or after Jan 1st, 2015');
 
-  message = validator.validate('1/1/2016', builtOptions.copy());
+  message = validator.validate('1/1/2016', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('1/1/2015', builtOptions.copy());
+  message = validator.validate('1/1/2015', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -247,13 +247,13 @@ test('after now or on', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('1/1/2014', builtOptions.copy());
+  message = validator.validate('1/1/2014', builtOptions.toObject());
   assert.equal(message, `This field must be on or after ${now}`);
 
-  message = validator.validate('1/1/3015', builtOptions.copy());
+  message = validator.validate('1/1/3015', builtOptions.toObject());
   assert.equal(message, true);
 
-  message = validator.validate('now', builtOptions.copy());
+  message = validator.validate('now', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -270,12 +270,12 @@ test('after or on precision', function(assert) {
 
     builtOptions = validator.buildOptions({ onOrAfter: dateString });
 
-    message = validator.validate(now, builtOptions.copy());
+    message = validator.validate(now, builtOptions.toObject());
     assert.equal(message, true);
 
     message = validator.validate(
       moment(now).subtract(1, precision),
-      builtOptions.copy()
+      builtOptions.toObject()
     );
     assert.equal(message, `This field must be on or after ${nowMessage}`);
 
@@ -287,7 +287,7 @@ test('after or on precision', function(assert) {
 
       message = validator.validate(
         moment(now).subtract(1, precisions),
-        builtOptions.copy()
+        builtOptions.toObject()
       );
       assert.equal(message, true);
     }

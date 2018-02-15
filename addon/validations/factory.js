@@ -1,14 +1,14 @@
-import { readOnly } from '@ember/object/computed';
+import Ember from 'ember';
 import Mixin from '@ember/object/mixin';
+import { Promise } from 'rsvp';
+import EmberObject, { getWithDefault, computed, set, get } from '@ember/object';
+import { A as emberArray, makeArray, isArray } from '@ember/array';
+import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
-import RSVP from 'rsvp';
 import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
-import EmberObject, { getWithDefault, computed, set, get } from '@ember/object';
-import { A as emberArray, makeArray, isArray } from '@ember/array';
-import Ember from 'ember';
 import deepSet from '../utils/deep-set';
 import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
@@ -24,8 +24,14 @@ import {
   isDescriptor,
   mergeOptions
 } from '../utils/utils';
-
-const { Promise } = RSVP;
+import {
+  VALIDATIONS_CLASS,
+  VALIDATIONS_MIXIN_COUNT,
+  IS_VALIDATIONS_CLASS,
+  ATTRS_MODEL,
+  ATTRS_PATH,
+  ATTRS_RESULT_COLLECTION
+} from '../-private/symbols';
 
 /**
  * ## Running Manual Validations
@@ -95,15 +101,15 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       this._super(...arguments);
 
       // Count number of mixins to bypass super check if there is more than 1
-      this.__validationsMixinCount__ = this.__validationsMixinCount__ || 0;
-      validationMixinCount = ++this.__validationsMixinCount__;
+      this[VALIDATIONS_MIXIN_COUNT] = this[VALIDATIONS_MIXIN_COUNT] || 0;
+      validationMixinCount = ++this[VALIDATIONS_MIXIN_COUNT];
     },
-    __validationsClass__: computed(function() {
+    [VALIDATIONS_CLASS]: computed(function() {
       if (!Validations) {
         let inheritedClass;
 
         if (
-          shouldCallSuper(this, '__validationsClass__') ||
+          shouldCallSuper(this, VALIDATIONS_CLASS) ||
           validationMixinCount > 1
         ) {
           inheritedClass = this._super();
@@ -115,7 +121,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     }).readOnly(),
 
     validations: computed(function() {
-      return this.get('__validationsClass__').create({ model: this });
+      return this.get(VALIDATIONS_CLASS).create({ model: this });
     }).readOnly(),
 
     validate() {
@@ -204,7 +210,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   // Setup validation inheritance
   if (
     inheritedValidationsClass &&
-    inheritedValidationsClass.__isCPValidationsClass__
+    inheritedValidationsClass[IS_VALIDATIONS_CLASS]
   ) {
     let inheritedValidations = inheritedValidationsClass.create();
 
@@ -262,7 +268,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this._super(...arguments);
       this.setProperties({
         attrs: AttrsClass.create({
-          _model: this.get('model')
+          [ATTRS_MODEL]: this.get('model')
         }),
         _validators: {},
         _debouncedValidations: {}
@@ -290,7 +296,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   });
 
   ValidationsClass.reopenClass({
-    __isCPValidationsClass__: true
+    [IS_VALIDATIONS_CLASS]: true
   });
 
   return ValidationsClass;
@@ -316,31 +322,35 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   let rootPath = 'root';
 
   let AttrsClass = EmberObject.extend({
-    __path__: rootPath,
+    [ATTRS_PATH]: rootPath,
 
     init() {
       this._super(...arguments);
 
-      let _model = this.get('_model');
-      let path = this.get('__path__');
+      let model = this.get(ATTRS_MODEL);
+      let path = this.get(ATTRS_PATH);
 
       /*
         Instantiate the nested attrs classes for the current path
        */
       Object.keys(nestedClasses[path] || []).forEach(key => {
-        set(this, key, nestedClasses[path][key].create({ _model }));
+        set(
+          this,
+          key,
+          nestedClasses[path][key].create({ [ATTRS_MODEL]: model })
+        );
       });
     },
 
     willDestroy() {
       this._super(...arguments);
 
-      let path = this.get('__path__');
+      let path = this.get(ATTRS_PATH);
 
       /*
         Remove the model reference
        */
-      set(this, '_model', null);
+      set(this, ATTRS_MODEL, null);
 
       /*
         Destroy all nested classes
@@ -373,7 +383,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
 
       if (!_nestedClasses[key]) {
         _nestedClasses[key] = AttrsClass.extend({
-          __path__: currPath.join('.')
+          [ATTRS_PATH]: currPath.join('.')
         });
       }
 
@@ -413,7 +423,7 @@ function createCPValidationFor(attribute, model, validations) {
   let cp = computed(
     ...dependentKeys,
     cycleBreaker(function() {
-      let model = get(this, '_model');
+      let model = get(this, ATTRS_MODEL);
       let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
       let validationResults = generateValidationResultsFor(
@@ -495,7 +505,7 @@ function generateValidationResultsFor(
   let value, result;
 
   return validators.map(validator => {
-    let options = get(validator, 'options').copy();
+    let options = get(validator, 'options').toObject();
     let isWarning = getWithDefault(options, 'isWarning', false);
     let disabled = getWithDefault(options, 'disabled', false);
     let debounce = getWithDefault(options, 'debounce', 0);
@@ -514,7 +524,7 @@ function generateValidationResultsFor(
           cache[guidFor(validator)] = t;
         }
       }).then(() => {
-        return validate(validator, get(validator, 'options').copy());
+        return validate(validator, get(validator, 'options').toObject());
       });
     } else {
       value = validate(validator, options);
@@ -566,7 +576,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
   ];
 
   let topLevelProps = aliases.reduce((props, alias) => {
-    props[alias] = readOnly(`__attrsResultCollection__.${alias}`);
+    props[alias] = readOnly(`${ATTRS_RESULT_COLLECTION}.${alias}`);
     return props;
   }, {});
 
@@ -574,7 +584,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     /*
       Dedupe logic by creating a top level ResultCollection for all attr's ResultCollections
      */
-    __attrsResultCollection__: computed(
+    [ATTRS_RESULT_COLLECTION]: computed(
       ...validatableAttrs.map(attr => `attrs.${attr}`),
       function() {
         return ResultCollection.create({
@@ -634,7 +644,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
   }
 
   dependentKeys = dependentKeys.map(d => {
-    return `${d.split('.')[0] === 'model' ? '_' : ''}${d}`;
+    return d.replace(/^model\./, `${ATTRS_MODEL}.`);
   });
 
   return emberArray(dependentKeys).uniq();

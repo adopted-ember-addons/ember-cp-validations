@@ -1,47 +1,23 @@
-import EmberObject, { defineProperty, set, get } from '@ember/object';
-import { isDescriptor } from 'ember-cp-validations/utils/utils';
+import EmberObject, { get } from '@ember/object';
+import ObjectProxy from '@ember/object/proxy';
 
-const Options = EmberObject.extend({
-  model: null,
-  attribute: null,
+const { keys } = Object;
+const OPTION_KEYS = '__option_keys__';
 
-  // Private
-  __options__: null,
-
-  init() {
-    this._super(...arguments);
-
-    let options = this.get('__options__');
-
-    Object.keys(options).forEach(key => {
-      let value = options[key];
-
-      if (isDescriptor(value)) {
-        defineProperty(this, key, value);
-      } else {
-        set(this, key, value);
-      }
-    });
-  },
-
-  copy(deep) {
-    let options = this.get('__options__');
-
-    if (deep) {
-      return Options.create({
-        model: get(this, 'model'),
-        attribute: get(this, 'attribute'),
-        __options__: options
-      });
-    }
-
-    return EmberObject.create(
-      Object.keys(options).reduce((obj, o) => {
-        obj[o] = get(this, o);
-        return obj;
-      }, {})
-    );
+const OptionsProxy = ObjectProxy.extend({
+  toObject() {
+    return this[OPTION_KEYS].reduce((obj, key) => {
+      obj[key] = get(this, key);
+      return obj;
+    }, {});
   }
 });
 
-export default Options;
+export default class Options {
+  constructor({ model, attribute, options = {} }) {
+    return OptionsProxy.create({
+      [OPTION_KEYS]: keys(options),
+      content: EmberObject.extend(options).create({ model, attribute })
+    });
+  }
+}
