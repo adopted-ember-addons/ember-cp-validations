@@ -24,8 +24,8 @@ const Validators = {
 };
 
 let Validations = buildValidations({
-  firstName: validator(Validators.presence),
-  lastName: validator(Validators.presence)
+  firstName: validator('inline', { validate: Validators.presence }),
+  lastName: validator('inline', { validate: Validators.presence })
 });
 
 moduleFor('foo', 'Integration | Validations | Factory - General', {
@@ -348,7 +348,7 @@ test('basic sync validation - API - #validationSync', function(assert) {
 
 test('basic sync validation returns null', function(assert) {
   let Validations = buildValidations({
-    firstName: validator(() => null)
+    firstName: validator('inline', { validate: () => null })
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
     firstName: 'Offir'
@@ -382,10 +382,12 @@ test('basic sync validation returns null', function(assert) {
 
 test('shallow isAsync test', function(assert) {
   let Validations = buildValidations({
-    firstName: validator(function() {
-      return new EmberPromise(resolve => {
-        resolve(true);
-      });
+    firstName: validator('inline', {
+      validate() {
+        return new EmberPromise(resolve => {
+          resolve(true);
+        });
+      }
     })
   });
 
@@ -404,7 +406,10 @@ test('default options', function(assert) {
   let Validations = buildValidations({
     firstName: {
       description: 'Test field',
-      validators: [validator(Validators.presence), validator(() => false)]
+      validators: [
+        validator('inline', { validate: Validators.presence }),
+        validator('inline', { validate: () => false })
+      ]
     }
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
@@ -458,8 +463,10 @@ test('global options', function(assert) {
 test('custom messages object', function(assert) {
   this.register('validator:messages', DefaultMessages);
   let Validations = buildValidations({
-    firstName: validator(function(value) {
-      return this.createErrorMessage('test', value);
+    firstName: validator('inline', {
+      validate(value) {
+        return this.createErrorMessage('test', value);
+      }
     })
   });
 
@@ -494,8 +501,9 @@ test('debounced validations', function(assert) {
   let done = assert.async();
   let initSetup = true;
   let Validations = buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator(Validators.presence, {
+    firstName: validator('inline', { validate: Validators.presence }),
+    lastName: validator('inline', {
+      validate: Validators.presence,
       debounce: computed(function() {
         return initSetup ? 0 : 500; // Do not debounce on initial object creation
       }).volatile()
@@ -548,7 +556,8 @@ test('debounced validator should only be called once', function(assert) {
 
   let done = assert.async();
   let Validations = buildValidations({
-    firstName: validator(() => count++, {
+    firstName: validator('inline', {
+      validate: () => count++,
       debounce: 500
     })
   });
@@ -574,20 +583,18 @@ test('debounced validations should cleanup on object destroy', function(assert) 
   let done = assert.async();
   let initSetup = true;
 
-  let debouncedValidator = validator(
-    (value, options, model, attr) => {
+  let debouncedValidator = validator('inline', {
+    debounce: computed(function() {
+      return initSetup ? 0 : 500;
+    }).volatile(),
+    validate(value, options, model, attr) {
       model.set('foo', 'bar');
       return Validators.presence(value, options, model, attr);
-    },
-    {
-      debounce: computed(function() {
-        return initSetup ? 0 : 500;
-      }).volatile()
     }
-  );
+  });
 
   let Validations = buildValidations({
-    firstName: validator(Validators.presence),
+    firstName: validator('inline', { validate: Validators.presence }),
     lastName: debouncedValidator,
     'details.url': debouncedValidator
   });
@@ -646,8 +653,9 @@ test('debounced validations should cleanup on object destroy', function(assert) 
 
 test('disabled validations - simple', function(assert) {
   let Validations = buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator(Validators.presence, {
+    firstName: validator('inline', { validate: Validators.presence }),
+    lastName: validator('inline', {
+      validate: Validators.presence,
       disabled: true
     })
   });
@@ -684,8 +692,9 @@ test('disabled validations - simple', function(assert) {
 
 test('disabled validations - cp with dependent key', function(assert) {
   let Validations = buildValidations({
-    firstName: validator(Validators.presence),
-    lastName: validator(Validators.presence, {
+    firstName: validator('inline', { validate: Validators.presence }),
+    lastName: validator('inline', {
+      validate: Validators.presence,
       disabled: not('model.validateLastName')
     })
   });
@@ -735,8 +744,8 @@ test('attribute validation result options hash', function(assert) {
     firstName: {
       description: 'First Name',
       validators: [
-        validator(Validators.presence, {}),
-        validator(Validators.presence, { presence: true }),
+        validator('inline', { validate: Validators.presence }),
+        validator('inline', { validate: Validators.presence, presence: true }),
         validator('presence', true),
         validator('length', {
           min: 1,
@@ -751,17 +760,17 @@ test('attribute validation result options hash', function(assert) {
   assert.ok(options);
   assert.deepEqual(
     Object.keys(options).sort(),
-    ['presence', 'length', 'function'].sort()
+    ['presence', 'length', 'inline'].sort()
   );
-  assert.ok(isArray(options['function']) && options['function'].length === 2);
+  assert.ok(isArray(options['inline']) && options['inline'].length === 2);
   assert.ok(options.presence.presence);
   assert.equal(options.length.min, 1);
-  assert.ok(options['function'][1].presence);
+  assert.ok(options['inline'][1].presence);
 
   // Default options built into option objects
   assert.equal(options.length.description, 'First Name');
   assert.equal(options.presence.description, 'First Name');
-  assert.equal(options['function'][0].description, 'First Name');
+  assert.equal(options['inline'][0].description, 'First Name');
 });
 
 test('attribute validation result options hash with cps', function(assert) {
@@ -790,15 +799,15 @@ test('attribute validation result options hash with cps', function(assert) {
 test('validations persist with inheritance', function(assert) {
   let Parent = EmberObject.extend(
     buildValidations({
-      firstName: validator(Validators.presence),
-      lastName: validator(Validators.presence)
+      firstName: validator('inline', { validate: Validators.presence }),
+      lastName: validator('inline', { validate: Validators.presence })
     })
   );
 
   let Child = Parent.extend(
     buildValidations({
-      middleName: validator(Validators.presence),
-      dob: validator(Validators.presence)
+      middleName: validator('inline', { validate: Validators.presence }),
+      dob: validator('inline', { validate: Validators.presence })
     })
   );
 
@@ -832,22 +841,22 @@ test('validations persist with inheritance', function(assert) {
 test('validations persist with deep inheritance', function(assert) {
   let Parent = EmberObject.extend(
     buildValidations({
-      firstName: validator(Validators.presence),
-      lastName: validator(Validators.presence)
+      firstName: validator('inline', { validate: Validators.presence }),
+      lastName: validator('inline', { validate: Validators.presence })
     })
   );
 
   let Child = Parent.extend(
     buildValidations({
-      middleName: validator(Validators.presence),
-      dob: validator(Validators.presence)
+      middleName: validator('inline', { validate: Validators.presence }),
+      dob: validator('inline', { validate: Validators.presence })
     })
   );
 
   let Baby = Child.extend(
     buildValidations({
-      diaper: validator(Validators.presence),
-      favParent: validator(Validators.presence)
+      diaper: validator('inline', { validate: Validators.presence }),
+      favParent: validator('inline', { validate: Validators.presence })
     })
   );
 
@@ -887,8 +896,8 @@ test('validations persist with deep inheritance', function(assert) {
 
 test('nested keys - simple', function(assert) {
   let Validations = buildValidations({
-    'user.firstName': validator(Validators.presence),
-    'user.lastName': validator(Validators.presence)
+    'user.firstName': validator('inline', { validate: Validators.presence }),
+    'user.lastName': validator('inline', { validate: Validators.presence })
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
     user: {}
@@ -911,9 +920,9 @@ test('nested keys - simple', function(assert) {
 
 test('nested keys - complex', function(assert) {
   let Validations = buildValidations({
-    firstName: validator(Validators.presence),
-    'user.foo.bar.baz': validator(Validators.presence),
-    'user.foo.boop': validator(Validators.presence)
+    firstName: validator('inline', { validate: Validators.presence }),
+    'user.foo.bar.baz': validator('inline', { validate: Validators.presence }),
+    'user.foo.boop': validator('inline', { validate: Validators.presence })
   });
   let object = setupObject(this, EmberObject.extend(Validations));
 
@@ -953,17 +962,19 @@ test('nested keys - complex', function(assert) {
 test('nested keys - inheritance', function(assert) {
   let Parent = EmberObject.extend(
     buildValidations({
-      firstName: validator(Validators.presence),
-      'user.firstName': validator(Validators.presence),
-      'user.middleName': validator(Validators.presence)
+      firstName: validator('inline', { validate: Validators.presence }),
+      'user.firstName': validator('inline', { validate: Validators.presence }),
+      'user.middleName': validator('inline', { validate: Validators.presence })
     })
   );
 
   let Child = Parent.extend(
     buildValidations({
-      'user.lastName': validator(Validators.presence),
-      'user.middleName': validator(function() {
-        return 'Middle name invalid';
+      'user.lastName': validator('inline', { validate: Validators.presence }),
+      'user.middleName': validator('inline', {
+        validate() {
+          return 'Middle name invalid';
+        }
       })
     })
   );
@@ -1006,7 +1017,7 @@ test('call super in validations class with no super property', function(assert) 
   assert.expect(1);
 
   let Validations = buildValidations({
-    firstName: validator(Validators.presence)
+    firstName: validator('inline', { validate: Validators.presence })
   });
 
   let mixin = Mixin.create({
@@ -1039,15 +1050,15 @@ test('call super in validations class with no super property', function(assert) 
 
 test('multiple mixins', function(assert) {
   let Validations1 = buildValidations({
-    firstName: validator(Validators.presence)
+    firstName: validator('inline', { validate: Validators.presence })
   });
 
   let Validations2 = buildValidations({
-    middleName: validator(Validators.presence)
+    middleName: validator('inline', { validate: Validators.presence })
   });
 
   let Validations3 = buildValidations({
-    lastName: validator(Validators.presence)
+    lastName: validator('inline', { validate: Validators.presence })
   });
 
   let object = setupObject(
@@ -1081,7 +1092,10 @@ test('multiple mixins', function(assert) {
 
 test('validateAttribute - sync validations', function(assert) {
   let Validations = buildValidations({
-    firstName: [validator(Validators.presence), validator(() => true)]
+    firstName: [
+      validator('inline', { validate: Validators.presence }),
+      validator('inline', { validate: () => true })
+    ]
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
     firstName: 'Offir'
@@ -1100,8 +1114,12 @@ test('validateAttribute - sync validations', function(assert) {
 test('validateAttribute - async validations', function(assert) {
   let Validations = buildValidations({
     firstName: [
-      validator(() => EmberPromise.resolve('firstName is invalid')),
-      validator(() => EmberPromise.resolve('firstName is really invalid'))
+      validator('inline', {
+        validate: () => EmberPromise.resolve('firstName is invalid')
+      }),
+      validator('inline', {
+        validate: () => EmberPromise.resolve('firstName is really invalid')
+      })
     ]
   });
   let object = setupObject(this, EmberObject.extend(Validations), {
@@ -1308,9 +1326,11 @@ test('lazy validators are actually lazy', function(assert) {
         validator('length', {
           min: 5
         }),
-        validator(() => {
-          customValidatorCount++;
-          return 'Password is not valid';
+        validator('inline', {
+          validate() {
+            customValidatorCount++;
+            return 'Password is not valid';
+          }
         })
       ]
     }
@@ -1372,15 +1392,13 @@ test('none lazy validators are actually not lazy', function(assert) {
           min: 5,
           lazy: false
         }),
-        validator(
-          () => {
+        validator('inline', {
+          lazy: false,
+          validate() {
             customValidatorCount++;
             return 'Password is not valid';
-          },
-          {
-            lazy: false
           }
-        )
+        })
       ]
     }
   });

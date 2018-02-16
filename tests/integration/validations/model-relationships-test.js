@@ -23,8 +23,8 @@ const Validators = {
 };
 
 const Validations = buildValidations({
-  firstName: validator(Validators.presence),
-  lastName: validator(Validators.presence)
+  firstName: validator('inline', { validate: Validators.presence }),
+  lastName: validator('inline', { validate: Validators.presence })
 });
 
 const BelongsToValidations = buildValidations({
@@ -400,8 +400,8 @@ test('alias validation - simple', function(assert) {
     this,
     EmberObject.extend(
       buildValidations({
-        firstName: validator(Validators.presence),
-        lastName: validator(Validators.presence),
+        firstName: validator('inline', { validate: Validators.presence }),
+        lastName: validator('inline', { validate: Validators.presence }),
         fullName: validator('alias', 'firstName')
       })
     )
@@ -445,8 +445,8 @@ test('alias validation - firstMessageOnly', function(assert) {
       buildValidations(
         {
           firstName: [
-            validator(() => 'First error message'),
-            validator(() => 'Second error message')
+            validator('inline', { validate: () => 'First error message' }),
+            validator('inline', { validate: () => 'Second error message' })
           ],
           fullName: validator('alias', {
             alias: 'firstName',
@@ -480,8 +480,8 @@ test('alias validation - multiple', function(assert) {
     EmberObject.extend(
       buildValidations(
         {
-          firstName: validator(Validators.presence),
-          lastName: validator(Validators.presence),
+          firstName: validator('inline', { validate: Validators.presence }),
+          lastName: validator('inline', { validate: Validators.presence }),
           fullName: [
             validator('alias', 'firstName'),
             validator('alias', 'lastName')

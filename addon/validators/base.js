@@ -115,7 +115,7 @@ const Base = EmberObject.extend({
   /**
    * Build options hook. Merges default options into options object.
    * This method gets called on init and is the ideal place to normalize your options.
-   * The [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js) is a good example to checkout
+   * The [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/presence.js) is a good example to checkout
    * @method buildOptions
    * @param  {Object} options
    * @param  {Object} defaultOptions
@@ -302,7 +302,7 @@ const Base = EmberObject.extend({
 
 Base.reopenClass({
   /**
-   * Generate the needed depenent keys for this validator
+   * Generate the needed dependent keys for this validator
    *
    * @method getDependentsFor
    * @static
@@ -465,21 +465,4 @@ export default Base;
  *  @class Custom
  *  @module Validators
  *  @extends Base
- */
-
-/**
- * A validator can also be declared with an inline function. The function will be then wrapped in the {{#crossLink 'Base'}}Base Validator{{/crossLink}} class and used just like any other pre-defined validator.
- *
- * ```javascript
- * // Example
- * validator(function(value, options, model, attribute) {
- *   return value === options.username ? true : `{description} must be ${options.username}`;
- * } , {
- *   username: 'John' // Any options can be passed here
- * })
- * ```
- *
- * @class Inline
- * @module Validators
- * @extends Base
  */

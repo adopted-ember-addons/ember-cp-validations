@@ -3,8 +3,10 @@ import { validator, buildValidations } from 'ember-cp-validations';
 
 let Validations = buildValidations({
   name: validator('presence', true),
-  acceptTerms: validator(value => {
-    return value || 'You must accept the terms.';
+  acceptTerms: validator('inline', {
+    validate(value) {
+      return value || 'You must accept the terms.';
+    }
   })
 });
 
