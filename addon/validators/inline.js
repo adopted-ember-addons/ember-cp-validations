@@ -3,18 +3,17 @@ import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 
 /**
- *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
- *
- *  If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.
+ *  Accepts a custom `validate` function.
  *
  *  ## Examples
  *
  *  ```javascript
  *  validator('inline', {
+ *    username: 'offirgolan',
  *    validate(value, options, model, attribute) {
  *      return value === options.username ?
  *             true :
- *             `{description} must be ${options.username}`;
+ *             `Username must be ${options.username}`;
  *    }
  *  });
  *  ```
