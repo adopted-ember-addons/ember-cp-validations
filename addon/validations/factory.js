@@ -247,22 +247,17 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     attrs: null,
     isValidations: true,
 
-    validatableAttributes: computed(function() {
-      return validatableAttributes;
-    }).readOnly(),
-
     // Caches
     _validators: null,
     _debouncedValidations: null,
 
     // Private
-    _validationRules: computed(function() {
-      return validationRules;
-    }).readOnly(),
+    _validationRules: validationRules,
 
     validate,
     validateSync,
     validateAttribute,
+    validatableAttributes,
 
     init() {
       this._super(...arguments);
