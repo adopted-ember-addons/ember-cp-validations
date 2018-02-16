@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('signup', 'Unit | Validations | DS.Model', {
-  needs: ['validator:presence']
+  needs: ['validator:presence', 'validator:inline']
 });
 
 test('create model with defaults', function(assert) {

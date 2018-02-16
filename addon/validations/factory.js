@@ -751,7 +751,6 @@ function createValidatorsFor(attribute, model) {
   let validatorCache = get(validations, '_validators');
   let owner = getOwner(model);
   let validators = [];
-  let validator;
 
   // We must have an owner to be able to lookup our validators
   if (isNone(owner)) {
@@ -763,15 +762,7 @@ function createValidatorsFor(attribute, model) {
   validationRules.forEach(v => {
     v.attribute = attribute;
     v.model = model;
-
-    // If validate function exists, that means validator was created with a function so use the base class
-    if (v._type === 'function') {
-      validator = BaseValidator.create(owner.ownerInjection(), v);
-    } else {
-      validator = lookupValidator(owner, v._type).create(v);
-    }
-
-    validators.push(validator);
+    validators.push(lookupValidator(owner, v._type).create(v));
   });
 
   // Add validators to model instance cache
