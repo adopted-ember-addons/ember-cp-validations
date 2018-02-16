@@ -1,6 +1,5 @@
 import { htmlSafe } from '@ember/string';
 import EmberObject from '@ember/object';
-import ObjectProxy from '@ember/object/proxy';
 import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import { moduleFor, test } from 'ember-qunit';
@@ -59,7 +58,7 @@ test('buildOptions - toObject', function(assert) {
     bar: 'bar'
   });
 
-  assert.ok(options instanceof ObjectProxy);
+  assert.ok(options instanceof EmberObject);
 
   let optionsObj = options.toObject();
 
