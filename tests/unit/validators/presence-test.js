@@ -28,7 +28,7 @@ test('presence - value present', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('value', builtOptions.copy());
+  message = validator.validate('value', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -39,7 +39,7 @@ test('presence - value blank', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(' ', builtOptions.copy());
+  message = validator.validate(' ', builtOptions.toObject());
   assert.equal(message, true);
 });
 
@@ -50,7 +50,7 @@ test('presence with ignoreBlank - value blank', function(assert) {
 
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(' ', builtOptions.copy());
+  message = validator.validate(' ', builtOptions.toObject());
   assert.equal(message, "This field can't be blank");
 });
 
@@ -60,7 +60,7 @@ test('presence - value not present', function(assert) {
   options = { presence: true };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(undefined, builtOptions.copy());
+  message = validator.validate(undefined, builtOptions.toObject());
   assert.equal(message, "This field can't be blank");
 });
 
@@ -70,7 +70,7 @@ test('absence - value present', function(assert) {
   options = { presence: false };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('value', builtOptions.copy());
+  message = validator.validate('value', builtOptions.toObject());
   assert.equal(message, 'This field must be blank');
 });
 
@@ -80,6 +80,6 @@ test('absence - value not present', function(assert) {
   options = { presence: false };
   builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(undefined, builtOptions.copy());
+  message = validator.validate(undefined, builtOptions.toObject());
   assert.equal(message, true);
 });

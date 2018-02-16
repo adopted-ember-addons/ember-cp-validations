@@ -24,7 +24,7 @@ moduleFor('validator:dependent', 'Unit | Validator | dependent', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  builtOptions = Validator.buildOptions({}).copy();
+  builtOptions = Validator.buildOptions({}).toObject();
 
   try {
     message = Validator.validate(undefined, builtOptions);
@@ -44,7 +44,7 @@ test('all empty attributes', function(assert) {
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), false);
 
-  message = Validator.validate(undefined, builtOptions.copy(), model);
+  message = Validator.validate(undefined, builtOptions.toObject(), model);
 
   assert.equal(message, 'This field is invalid');
   assert.equal(get(model, 'validations.messages.length'), 1);
@@ -64,7 +64,7 @@ test('one dependent error', function(assert) {
   assert.equal(get(model, 'validations.isValid'), false);
   assert.equal(get(model, 'validations.isDirty'), true);
 
-  message = Validator.validate(undefined, builtOptions.copy(), model);
+  message = Validator.validate(undefined, builtOptions.toObject(), model);
 
   assert.equal(message, 'This field is invalid');
   assert.equal(get(model, 'validations.messages.length'), 1);
@@ -84,7 +84,7 @@ test('no dependent errors', function(assert) {
   assert.equal(get(model, 'validations.isValid'), true);
   assert.equal(get(model, 'validations.isDirty'), true);
 
-  message = Validator.validate(undefined, builtOptions.copy(), model);
+  message = Validator.validate(undefined, builtOptions.toObject(), model);
 
   assert.equal(message, true);
   assert.equal(get(model, 'validations.messages.length'), 0);

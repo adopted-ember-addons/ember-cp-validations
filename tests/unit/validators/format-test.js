@@ -12,7 +12,7 @@ moduleFor('validator:format', 'Unit | Validator | format', {
 test('no options', function(assert) {
   assert.expect(1);
 
-  builtOptions = validator.buildOptions({}).copy();
+  builtOptions = validator.buildOptions({}).toObject();
 
   try {
     message = validator.validate(undefined, builtOptions);
@@ -28,7 +28,7 @@ test('allow blank', function(assert) {
     allowBlank: true,
     type: 'email'
   };
-  options = validator.buildOptions(options, {}).copy();
+  options = validator.buildOptions(options, {}).toObject();
 
   message = validator.validate(undefined, options);
   assert.equal(message, true);
@@ -82,7 +82,7 @@ test('email no option', function(assert) {
     type: 'email'
   };
 
-  options = validator.buildOptions(options, {}).copy();
+  options = validator.buildOptions(options, {}).toObject();
 
   validAddresses.forEach(email =>
     assert.equal(
@@ -146,7 +146,7 @@ test('email option allowNonTld', function(assert) {
     allowNonTld: true
   };
 
-  options = validator.buildOptions(options, {}).copy();
+  options = validator.buildOptions(options, {}).toObject();
 
   validAddresses.forEach(email =>
     assert.equal(
@@ -171,7 +171,7 @@ test('phone', function(assert) {
     type: 'phone'
   };
 
-  options = validator.buildOptions(options, {}).copy();
+  options = validator.buildOptions(options, {}).toObject();
 
   message = validator.validate('123', options);
   assert.equal(message, 'This field must be a valid phone number');
@@ -187,7 +187,7 @@ test('url', function(assert) {
     type: 'url'
   };
 
-  options = validator.buildOptions(options, {}).copy();
+  options = validator.buildOptions(options, {}).toObject();
 
   message = validator.validate('offirgolan', options);
   assert.equal(message, 'This field must be a valid url');
@@ -203,7 +203,7 @@ test('custom', function(assert) {
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
   };
 
-  options = validator.buildOptions(options, {}).copy();
+  options = validator.buildOptions(options, {}).toObject();
 
   message = validator.validate('password', options);
   assert.equal(message, 'This field is invalid');

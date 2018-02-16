@@ -1,47 +1,28 @@
-import EmberObject, { defineProperty, set, get } from '@ember/object';
-import { isDescriptor } from 'ember-cp-validations/utils/utils';
+import EmberObject, { get } from '@ember/object';
+import { isDescriptor } from '../utils/utils';
 
-const Options = EmberObject.extend({
-  model: null,
-  attribute: null,
+const { keys } = Object;
+const OPTION_KEYS = '__option_keys__';
 
-  // Private
-  __options__: null,
-
-  init() {
-    this._super(...arguments);
-
-    let options = this.get('__options__');
-
-    Object.keys(options).forEach(key => {
-      let value = options[key];
-
-      if (isDescriptor(value)) {
-        defineProperty(this, key, value);
-      } else {
-        set(this, key, value);
-      }
-    });
-  },
-
-  copy(deep) {
-    let options = this.get('__options__');
-
-    if (deep) {
-      return Options.create({
-        model: get(this, 'model'),
-        attribute: get(this, 'attribute'),
-        __options__: options
-      });
-    }
-
-    return EmberObject.create(
-      Object.keys(options).reduce((obj, o) => {
-        obj[o] = get(this, o);
-        return obj;
-      }, {})
-    );
+const OptionsObject = EmberObject.extend({
+  toObject() {
+    return this[OPTION_KEYS].reduce((obj, key) => {
+      obj[key] = get(this, key);
+      return obj;
+    }, {});
   }
 });
 
-export default Options;
+export default class Options {
+  constructor({ model, attribute, options = {} }) {
+    const optionKeys = keys(options);
+    const createParams = { [OPTION_KEYS]: optionKeys, model, attribute };
+
+    // If any of the options is a CP, we need to create a custom class for it
+    if (optionKeys.some(key => isDescriptor(options[key]))) {
+      return OptionsObject.extend(options).create(createParams);
+    }
+
+    return OptionsObject.create(createParams, options);
+  }
+}

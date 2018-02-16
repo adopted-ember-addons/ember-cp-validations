@@ -20,11 +20,11 @@ test('attribute', function(assert) {
     email: 'foo@gmail.com'
   });
 
-  message = validator.validate('bar@gmail.com', builtOptions.copy(), model);
+  message = validator.validate('bar@gmail.com', builtOptions.toObject(), model);
   assert.equal(message, "This field doesn't match email");
 
   model.set('emailConfirmation', 'foo@gmail.com');
 
-  message = validator.validate('foo@gmail.com', builtOptions.copy(), model);
+  message = validator.validate('foo@gmail.com', builtOptions.toObject(), model);
   assert.equal(message, true);
 });

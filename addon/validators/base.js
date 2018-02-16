@@ -107,11 +107,7 @@ const Base = EmberObject.extend({
     set(
       this,
       'options',
-      this.buildOptions(
-        options || {},
-        defaultOptions || {},
-        globalOptions || {}
-      )
+      this.buildOptions(options, defaultOptions, globalOptions)
     );
     set(this, 'errorMessages', errorMessages.create());
   },
@@ -134,10 +130,10 @@ const Base = EmberObject.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    return Options.create({
+    return new Options({
       model: get(this, 'model'),
       attribute: get(this, 'attribute'),
-      __options__: builtOptions
+      options: builtOptions
     });
   },
 
@@ -197,12 +193,11 @@ const Base = EmberObject.extend({
    * validate(value, options) {
    *   const exists = false;
    *
-   *   get(options, 'description') = 'Username';
-   *   get(options, 'username') = value;
-   *
    *   // check with server if username exists...
    *
    *   if(exists) {
+   *     // The username key on the options object will be used to create the error message
+   *     options.username = value;
    *     return this.createErrorMessage('uniqueUsername', value, options);
    *   }
    *
@@ -374,7 +369,7 @@ export default Base;
  *         let message = `The username '${value}' already exists.`;
  *         let meta = user.get('meta');
  *
- *         if(get(options, 'showSuggestions') && meta && meta.suggestions) {
+ *         if(options.showSuggestions && meta && meta.suggestions) {
  *           message += "What about one of the these: " + meta.suggestions.join(', ');
  *         }
  *         return message;
@@ -478,7 +473,7 @@ export default Base;
  * ```javascript
  * // Example
  * validator(function(value, options, model, attribute) {
- *   return value === get(options, 'username') ? true : `must be ${get(options, 'username')}`;
+ *   return value === options.username ? true : `{description} must be ${options.username}`;
  * } , {
  *   username: 'John' // Any options can be passed here
  * })

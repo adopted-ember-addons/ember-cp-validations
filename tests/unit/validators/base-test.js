@@ -50,8 +50,8 @@ test('buildOptions - does not overwrite options', function(assert) {
   });
 });
 
-test('buildOptions - copy', function(assert) {
-  assert.expect(5);
+test('buildOptions - toObject', function(assert) {
+  assert.expect(4);
 
   options = validator.buildOptions({
     foo: alias('bar'),
@@ -60,15 +60,11 @@ test('buildOptions - copy', function(assert) {
 
   assert.ok(options instanceof EmberObject);
 
-  let optionsCopy = options.copy();
+  let optionsObj = options.toObject();
 
-  assert.ok(optionsCopy instanceof EmberObject);
-  assert.equal(optionsCopy.foo, 'bar');
-
-  optionsCopy = options.copy(true);
-
-  assert.ok(optionsCopy instanceof EmberObject);
-  assert.equal(optionsCopy.get('foo'), 'bar');
+  assert.equal(typeof optionsObj, 'object');
+  assert.notOk(optionsObj instanceof EmberObject);
+  assert.equal(optionsObj.foo, 'bar');
 });
 
 test('createErrorMessage - message function', function(assert) {

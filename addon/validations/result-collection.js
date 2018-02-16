@@ -412,7 +412,7 @@ export default ArrayProxy.extend({
       }
 
       let type = get(v, '_type');
-      let vOpts = get(v, 'options').copy();
+      let vOpts = get(v, 'options').toObject();
 
       if (options[type]) {
         if (isArray(options[type])) {
