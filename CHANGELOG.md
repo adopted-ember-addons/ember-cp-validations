@@ -1,11 +1,17 @@
 Changelog
 =========
 
+## v3.5.2
+
+- Fix ember-validators and ember-require-module versions
+
 ## v3.5.1
+
 - [#540](https://github.com/offirgolan/ember-cp-validations/pull/540) adding `isTruelyInvalid` property [@artemgurzhii](https://github.com/artemgurzhii)
 - [#550](https://github.com/offirgolan/ember-cp-validations/pull/550) Update `ember-validators` to v1.0.4 [@Turbo87](https://github.com/Turbo87)
 
 ## v3.5.0
+
 - [#538](https://github.com/offirgolan/ember-cp-validations/pull/538) [BUGFIX] Rework Warning Logic
 
 #### Upgrade Notes
