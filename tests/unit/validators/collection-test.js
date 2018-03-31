@@ -1,63 +1,65 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-moduleFor('validator:collection', 'Unit | Validator | collection', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | collection', function(hooks) {
+  setupTest(hooks);
 
-test('buildOptions', function(assert) {
-  assert.expect(2);
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:collection');
+  });
 
-  options = true;
-  builtOptions = validator.buildOptions(options, {});
+  test('buildOptions', function(assert) {
+    assert.expect(2);
 
-  assert.equal(builtOptions.get('collection'), true);
+    options = true;
+    builtOptions = validator.buildOptions(options, {});
 
-  options = { collection: true };
-  builtOptions = validator.buildOptions(options, {});
-  assert.equal(builtOptions.get('collection'), true);
-});
+    assert.equal(builtOptions.get('collection'), true);
 
-test('value is collection', function(assert) {
-  assert.expect(1);
+    options = { collection: true };
+    builtOptions = validator.buildOptions(options, {});
+    assert.equal(builtOptions.get('collection'), true);
+  });
 
-  options = { collection: true };
-  builtOptions = validator.buildOptions(options);
+  test('value is collection', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate(['foo', 'bar'], builtOptions.toObject());
-  assert.equal(message, true);
-});
+    options = { collection: true };
+    builtOptions = validator.buildOptions(options);
 
-test('value not collection', function(assert) {
-  assert.expect(1);
+    message = validator.validate(['foo', 'bar'], builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = { collection: true };
-  builtOptions = validator.buildOptions(options);
+  test('value not collection', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate('foo', builtOptions.toObject());
-  assert.equal(message, 'This field must be a collection');
-});
+    options = { collection: true };
+    builtOptions = validator.buildOptions(options);
 
-test('singular - value is singular', function(assert) {
-  assert.expect(1);
+    message = validator.validate('foo', builtOptions.toObject());
+    assert.equal(message, 'This field must be a collection');
+  });
 
-  options = { collection: false };
-  builtOptions = validator.buildOptions(options);
+  test('singular - value is singular', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate('value', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    options = { collection: false };
+    builtOptions = validator.buildOptions(options);
 
-test('singular - value not singular', function(assert) {
-  assert.expect(1);
+    message = validator.validate('value', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = { collection: false };
-  builtOptions = validator.buildOptions(options);
+  test('singular - value not singular', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate(['foo', 'bar'], builtOptions.toObject());
-  assert.equal(message, "This field can't be a collection");
+    options = { collection: false };
+    builtOptions = validator.buildOptions(options);
+
+    message = validator.validate(['foo', 'bar'], builtOptions.toObject());
+    assert.equal(message, "This field can't be a collection");
+  });
 });

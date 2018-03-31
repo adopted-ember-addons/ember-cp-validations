@@ -1,241 +1,243 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-moduleFor('validator:number', 'Unit | Validator | number', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | number', function(hooks) {
+  setupTest(hooks);
 
-test('no options', function(assert) {
-  assert.expect(2);
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:number');
+  });
 
-  builtOptions = validator.buildOptions({});
+  test('no options', function(assert) {
+    assert.expect(2);
 
-  message = validator.validate(undefined, builtOptions.toObject());
-  assert.equal(message, 'This field must be a number');
+    builtOptions = validator.buildOptions({});
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(undefined, builtOptions.toObject());
+    assert.equal(message, 'This field must be a number');
 
-test('allow string', function(assert) {
-  assert.expect(6);
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    allowString: true
-  };
-  builtOptions = validator.buildOptions(options);
+  test('allow string', function(assert) {
+    assert.expect(6);
 
-  message = validator.validate('22', builtOptions.toObject());
-  assert.equal(message, true);
+    options = {
+      allowString: true
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('22.22', builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate('22', builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate('test', builtOptions.toObject());
-  assert.equal(message, 'This field must be a number');
+    message = validator.validate('22.22', builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate('', builtOptions.toObject());
-  assert.equal(message, 'This field must be a number');
+    message = validator.validate('test', builtOptions.toObject());
+    assert.equal(message, 'This field must be a number');
 
-  options.allowString = false;
-  builtOptions = validator.buildOptions(options);
+    message = validator.validate('', builtOptions.toObject());
+    assert.equal(message, 'This field must be a number');
 
-  message = validator.validate('22', builtOptions.toObject());
-  assert.equal(message, 'This field must be a number');
+    options.allowString = false;
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('22.22', builtOptions.toObject());
-  assert.equal(message, 'This field must be a number');
-});
+    message = validator.validate('22', builtOptions.toObject());
+    assert.equal(message, 'This field must be a number');
 
-test('integer', function(assert) {
-  assert.expect(3);
+    message = validator.validate('22.22', builtOptions.toObject());
+    assert.equal(message, 'This field must be a number');
+  });
 
-  options = {
-    integer: true
-  };
-  builtOptions = validator.buildOptions(options);
+  test('integer', function(assert) {
+    assert.expect(3);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
+    options = {
+      integer: true
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(22.22, builtOptions.toObject());
-  assert.equal(message, 'This field must be an integer');
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate(-2.2, builtOptions.toObject());
-  assert.equal(message, 'This field must be an integer');
-});
+    message = validator.validate(22.22, builtOptions.toObject());
+    assert.equal(message, 'This field must be an integer');
 
-test('is', function(assert) {
-  assert.expect(2);
+    message = validator.validate(-2.2, builtOptions.toObject());
+    assert.equal(message, 'This field must be an integer');
+  });
 
-  options = {
-    is: 22
-  };
-  builtOptions = validator.buildOptions(options);
+  test('is', function(assert) {
+    assert.expect(2);
 
-  message = validator.validate(1, builtOptions.toObject());
-  assert.equal(message, 'This field must be equal to 22');
+    options = {
+      is: 22
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(1, builtOptions.toObject());
+    assert.equal(message, 'This field must be equal to 22');
 
-test('lt', function(assert) {
-  assert.expect(3);
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    lt: 22
-  };
-  builtOptions = validator.buildOptions(options);
+  test('lt', function(assert) {
+    assert.expect(3);
 
-  message = validator.validate(21, builtOptions.toObject());
-  assert.equal(message, true);
+    options = {
+      lt: 22
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, 'This field must be less than 22');
+    message = validator.validate(21, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate(23, builtOptions.toObject());
-  assert.equal(message, 'This field must be less than 22');
-});
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, 'This field must be less than 22');
 
-test('lte', function(assert) {
-  assert.expect(3);
+    message = validator.validate(23, builtOptions.toObject());
+    assert.equal(message, 'This field must be less than 22');
+  });
 
-  options = {
-    lte: 22
-  };
-  builtOptions = validator.buildOptions(options);
+  test('lte', function(assert) {
+    assert.expect(3);
 
-  message = validator.validate(21, builtOptions.toObject());
-  assert.equal(message, true);
+    options = {
+      lte: 22
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(21, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate(23, builtOptions.toObject());
-  assert.equal(message, 'This field must be less than or equal to 22');
-});
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
 
-test('gt', function(assert) {
-  assert.expect(3);
+    message = validator.validate(23, builtOptions.toObject());
+    assert.equal(message, 'This field must be less than or equal to 22');
+  });
 
-  options = {
-    gt: 22
-  };
-  builtOptions = validator.buildOptions(options);
+  test('gt', function(assert) {
+    assert.expect(3);
 
-  message = validator.validate(21, builtOptions.toObject());
-  assert.equal(message, 'This field must be greater than 22');
+    options = {
+      gt: 22
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, 'This field must be greater than 22');
+    message = validator.validate(21, builtOptions.toObject());
+    assert.equal(message, 'This field must be greater than 22');
 
-  message = validator.validate(23, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, 'This field must be greater than 22');
 
-test('gte', function(assert) {
-  assert.expect(3);
+    message = validator.validate(23, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    gte: 22
-  };
-  builtOptions = validator.buildOptions(options);
+  test('gte', function(assert) {
+    assert.expect(3);
 
-  message = validator.validate(21, builtOptions.toObject());
-  assert.equal(message, 'This field must be greater than or equal to 22');
+    options = {
+      gte: 22
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(21, builtOptions.toObject());
+    assert.equal(message, 'This field must be greater than or equal to 22');
 
-  message = validator.validate(23, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
 
-test('positive', function(assert) {
-  assert.expect(4);
+    message = validator.validate(23, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    positive: true
-  };
-  builtOptions = validator.buildOptions(options);
+  test('positive', function(assert) {
+    assert.expect(4);
 
-  message = validator.validate(-1, builtOptions.toObject());
-  assert.equal(message, 'This field must be positive');
+    options = {
+      positive: true
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(-144, builtOptions.toObject());
-  assert.equal(message, 'This field must be positive');
+    message = validator.validate(-1, builtOptions.toObject());
+    assert.equal(message, 'This field must be positive');
 
-  message = validator.validate(0, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(-144, builtOptions.toObject());
+    assert.equal(message, 'This field must be positive');
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(0, builtOptions.toObject());
+    assert.equal(message, true);
 
-test('odd', function(assert) {
-  assert.expect(4);
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    odd: true
-  };
-  builtOptions = validator.buildOptions(options);
+  test('odd', function(assert) {
+    assert.expect(4);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, 'This field must be odd');
+    options = {
+      odd: true
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(-144, builtOptions.toObject());
-  assert.equal(message, 'This field must be odd');
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, 'This field must be odd');
 
-  message = validator.validate(21, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(-144, builtOptions.toObject());
+    assert.equal(message, 'This field must be odd');
 
-  message = validator.validate(-21, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(21, builtOptions.toObject());
+    assert.equal(message, true);
 
-test('even', function(assert) {
-  assert.expect(5);
+    message = validator.validate(-21, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    even: true
-  };
-  builtOptions = validator.buildOptions(options);
+  test('even', function(assert) {
+    assert.expect(5);
 
-  message = validator.validate(22, builtOptions.toObject());
-  assert.equal(message, true);
+    options = {
+      even: true
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(-22, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(22, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate(22.22, builtOptions.toObject());
-  assert.equal(message, 'This field must be even');
+    message = validator.validate(-22, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate(21, builtOptions.toObject());
-  assert.equal(message, 'This field must be even');
+    message = validator.validate(22.22, builtOptions.toObject());
+    assert.equal(message, 'This field must be even');
 
-  message = validator.validate(-33, builtOptions.toObject());
-  assert.equal(message, 'This field must be even');
-});
+    message = validator.validate(21, builtOptions.toObject());
+    assert.equal(message, 'This field must be even');
 
-test('allowBlank', function(assert) {
-  assert.expect(3);
+    message = validator.validate(-33, builtOptions.toObject());
+    assert.equal(message, 'This field must be even');
+  });
 
-  options = {
-    allowBlank: true
-  };
-  builtOptions = validator.buildOptions(options);
+  test('allowBlank', function(assert) {
+    assert.expect(3);
 
-  message = validator.validate(null, builtOptions.toObject());
-  assert.equal(message, true);
+    options = {
+      allowBlank: true
+    };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(undefined, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(null, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate('', builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(undefined, builtOptions.toObject());
+    assert.equal(message, true);
+
+    message = validator.validate('', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 });

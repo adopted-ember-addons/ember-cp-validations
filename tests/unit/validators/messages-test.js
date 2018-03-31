@@ -1,54 +1,60 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let messages;
 
-moduleFor('validator:messages', 'Unit | Validator | messages', {
-  setup() {
-    messages = this.subject();
-  }
-});
+module('Unit | Validator | messages', function(hooks) {
+  setupTest(hooks);
 
-test('message strings present', function(assert) {
-  assert.expect(2);
-  assert.equal(messages.get('invalid'), '{description} is invalid');
-  assert.equal(
-    messages.get('tooShort'),
-    '{description} is too short (minimum is {min} characters)'
-  );
-});
+  hooks.beforeEach(function() {
+    messages = this.owner.lookup('validator:messages');
+  });
 
-test('formatMessage', function(assert) {
-  assert.expect(3);
-  let context = {
-    description: 'This field'
-  };
-  assert.equal(
-    messages.formatMessage(undefined, context),
-    'This field is invalid'
-  );
-  assert.equal(
-    messages.formatMessage('{foo} is undefined'),
-    'undefined is undefined'
-  );
-  assert.equal(
-    messages.formatMessage('{foo} {foo} {bar} {baz}', {
-      foo: 'a',
-      bar: 1,
-      baz: 'abc'
-    }),
-    'a a 1 abc'
-  );
-});
+  test('message strings present', function(assert) {
+    assert.expect(2);
+    assert.equal(messages.get('invalid'), '{description} is invalid');
+    assert.equal(
+      messages.get('tooShort'),
+      '{description} is too short (minimum is {min} characters)'
+    );
+  });
 
-test('getMessageFor', function(assert) {
-  assert.expect(2);
-  let context = {
-    description: 'This field',
-    min: 4
-  };
-  assert.equal(messages.getMessageFor('foo', context), 'This field is invalid');
-  assert.equal(
-    messages.getMessageFor('tooShort', context),
-    'This field is too short (minimum is 4 characters)'
-  );
+  test('formatMessage', function(assert) {
+    assert.expect(3);
+    let context = {
+      description: 'This field'
+    };
+    assert.equal(
+      messages.formatMessage(undefined, context),
+      'This field is invalid'
+    );
+    assert.equal(
+      messages.formatMessage('{foo} is undefined'),
+      'undefined is undefined'
+    );
+    assert.equal(
+      messages.formatMessage('{foo} {foo} {bar} {baz}', {
+        foo: 'a',
+        bar: 1,
+        baz: 'abc'
+      }),
+      'a a 1 abc'
+    );
+  });
+
+  test('getMessageFor', function(assert) {
+    assert.expect(2);
+    let context = {
+      description: 'This field',
+      min: 4
+    };
+    assert.equal(
+      messages.getMessageFor('foo', context),
+      'This field is invalid'
+    );
+    assert.equal(
+      messages.getMessageFor('tooShort', context),
+      'This field is too short (minimum is 4 characters)'
+    );
+  });
 });

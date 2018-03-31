@@ -35,12 +35,12 @@
   }
   .navbar-nav > li > a:focus,
   .navbar-nav > li > a:hover {
-    color: @accent-color;
+    color: $accent-color;
   }
   .navbar-nav > .active > a,
   .navbar-nav > .active > a:focus,
   .navbar-nav > .active > a:hover {
-    color: @accent-color;
+    color: $accent-color;
     background-color: transparent;
   }
 }

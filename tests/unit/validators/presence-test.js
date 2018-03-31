@@ -1,85 +1,87 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-moduleFor('validator:presence', 'Unit | Validator | presence', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | presence', function(hooks) {
+  setupTest(hooks);
 
-test('buildOptions', function(assert) {
-  assert.expect(2);
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:presence');
+  });
 
-  options = true;
-  builtOptions = validator.buildOptions(options, {});
-  assert.equal(builtOptions.get('presence'), true);
+  test('buildOptions', function(assert) {
+    assert.expect(2);
 
-  options = { presence: true };
-  builtOptions = validator.buildOptions(options, {});
-  assert.equal(builtOptions.get('presence'), true);
-});
+    options = true;
+    builtOptions = validator.buildOptions(options, {});
+    assert.equal(builtOptions.get('presence'), true);
 
-test('presence - value present', function(assert) {
-  assert.expect(1);
+    options = { presence: true };
+    builtOptions = validator.buildOptions(options, {});
+    assert.equal(builtOptions.get('presence'), true);
+  });
 
-  options = { presence: true };
+  test('presence - value present', function(assert) {
+    assert.expect(1);
 
-  builtOptions = validator.buildOptions(options);
+    options = { presence: true };
 
-  message = validator.validate('value', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    builtOptions = validator.buildOptions(options);
 
-test('presence - value blank', function(assert) {
-  assert.expect(1);
+    message = validator.validate('value', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = { presence: true };
+  test('presence - value blank', function(assert) {
+    assert.expect(1);
 
-  builtOptions = validator.buildOptions(options);
+    options = { presence: true };
 
-  message = validator.validate(' ', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    builtOptions = validator.buildOptions(options);
 
-test('presence with ignoreBlank - value blank', function(assert) {
-  assert.expect(1);
+    message = validator.validate(' ', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = { presence: true, ignoreBlank: true };
+  test('presence with ignoreBlank - value blank', function(assert) {
+    assert.expect(1);
 
-  builtOptions = validator.buildOptions(options);
+    options = { presence: true, ignoreBlank: true };
 
-  message = validator.validate(' ', builtOptions.toObject());
-  assert.equal(message, "This field can't be blank");
-});
+    builtOptions = validator.buildOptions(options);
 
-test('presence - value not present', function(assert) {
-  assert.expect(1);
+    message = validator.validate(' ', builtOptions.toObject());
+    assert.equal(message, "This field can't be blank");
+  });
 
-  options = { presence: true };
-  builtOptions = validator.buildOptions(options);
+  test('presence - value not present', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate(undefined, builtOptions.toObject());
-  assert.equal(message, "This field can't be blank");
-});
+    options = { presence: true };
+    builtOptions = validator.buildOptions(options);
 
-test('absence - value present', function(assert) {
-  assert.expect(1);
+    message = validator.validate(undefined, builtOptions.toObject());
+    assert.equal(message, "This field can't be blank");
+  });
 
-  options = { presence: false };
-  builtOptions = validator.buildOptions(options);
+  test('absence - value present', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate('value', builtOptions.toObject());
-  assert.equal(message, 'This field must be blank');
-});
+    options = { presence: false };
+    builtOptions = validator.buildOptions(options);
 
-test('absence - value not present', function(assert) {
-  assert.expect(1);
+    message = validator.validate('value', builtOptions.toObject());
+    assert.equal(message, 'This field must be blank');
+  });
 
-  options = { presence: false };
-  builtOptions = validator.buildOptions(options);
+  test('absence - value not present', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate(undefined, builtOptions.toObject());
-  assert.equal(message, true);
+    options = { presence: false };
+    builtOptions = validator.buildOptions(options);
+
+    message = validator.validate(undefined, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 });

@@ -1,7 +1,7 @@
-@background-color: #fdfdfd;
+$background-color: #fdfdfd;
 
 .snippet-container {
-  background: @background-color;
+  background: $background-color;
   align-self: flex-start;
   overflow: auto;
   width: 0;
@@ -29,12 +29,12 @@
       font-size: 12px;
     }
     li.active > a {
-      background-color: @background-color;
+      background-color: $background-color;
       color: #696969;
     }
   }
   .tab-content {
-    background-color: @background-color;
+    background-color: $background-color;
     max-height: 600px;
     overflow: auto;
     height: 100%;
@@ -51,7 +51,7 @@
     border: none;
     margin: 0;
     padding: 0;
-    background-color: @background-color;
+    background-color: $background-color;
     height: 100%;
   }
 }

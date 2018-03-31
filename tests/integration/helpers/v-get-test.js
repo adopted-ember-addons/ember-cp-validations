@@ -1,11 +1,14 @@
 import EmberObject from '@ember/object';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import '../../helpers/ensure-get-registered';
 
-moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
-  integration: true,
-  beforeEach() {
+module('Integration | Helper | v-get', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
     let model = EmberObject.create({
       validations: {
         isValid: false,
@@ -22,85 +25,81 @@ moduleForComponent('helper:v-get', 'Integration | Helper | v-get', {
       }
     });
     this.set('model', model);
-  }
-});
+  });
 
-test('it renders', function(assert) {
-  assert.expect(1);
+  test('it renders', async function(assert) {
+    assert.expect(1);
 
-  this.render(hbs`{{v-get model 'isValid'}}`);
-  assert.equal(this._element.textContent.trim(), 'false');
-});
+    await render(hbs`{{v-get model 'isValid'}}`);
+    assert.dom(this.element).hasText('false');
+  });
 
-test('access attribute validations', function(assert) {
-  assert.expect(3);
-  this.render(hbs`{{v-get model 'username' 'isValid'}}`);
-  assert.equal(this._element.textContent.trim(), 'false');
+  test('access attribute validations', async function(assert) {
+    assert.expect(3);
+    await render(hbs`{{v-get model 'username' 'isValid'}}`);
+    assert.dom(this.element).hasText('false');
 
-  this.render(hbs`{{v-get model 'username' 'message'}}`);
-  assert.equal(this._element.textContent.trim(), 'This field is invalid');
+    await render(hbs`{{v-get model 'username' 'message'}}`);
+    assert.dom(this.element).hasText('This field is invalid');
 
-  this.render(hbs`{{v-get model 'email' 'isValid'}}`);
-  assert.equal(this._element.textContent.trim(), 'true');
-});
+    await render(hbs`{{v-get model 'email' 'isValid'}}`);
+    assert.dom(this.element).hasText('true');
+  });
 
-test('updating validation should rerender', function(assert) {
-  assert.expect(2);
+  test('updating validation should rerender', async function(assert) {
+    assert.expect(2);
 
-  this.render(hbs`{{v-get model 'username' 'isValid'}}`);
-  assert.equal(this._element.textContent.trim(), 'false');
+    await render(hbs`{{v-get model 'username' 'isValid'}}`);
+    assert.dom(this.element).hasText('false');
 
-  this.set('model.validations.attrs.username.isValid', true);
+    this.set('model.validations.attrs.username.isValid', true);
 
-  assert.equal(this._element.textContent.trim(), 'true');
-});
+    assert.dom(this.element).hasText('true');
+  });
 
-test('block statement param', function(assert) {
-  assert.expect(2);
+  test('block statement param', async function(assert) {
+    assert.expect(2);
 
-  this.render(hbs`
-    {{#if (v-get model 'email' 'isValid')}}
-      Email address is valid
-    {{/if}}
-  `);
+    await render(hbs`
+      {{#if (v-get model 'email' 'isValid')}}
+        Email address is valid
+      {{/if}}
+    `);
 
-  assert.equal(this._element.textContent.trim(), 'Email address is valid');
+    assert.dom(this.element).hasText('Email address is valid');
 
-  this.render(hbs`
-    {{#unless (v-get model 'username' 'isValid')}}
-      {{v-get model 'username' 'message'}}
-    {{/unless}}
-  `);
+    await render(hbs`
+      {{#unless (v-get model 'username' 'isValid')}}
+        {{v-get model 'username' 'message'}}
+      {{/unless}}
+    `);
 
-  assert.equal(this._element.textContent.trim(), 'This field is invalid');
-});
+    assert.dom(this.element).hasText('This field is invalid');
+  });
 
-test('element node attribute', function(assert) {
-  assert.expect(2);
+  test('element node attribute', async function(assert) {
+    assert.expect(2);
 
-  this.render(
-    hbs`<button type="button" disabled={{v-get model 'isInvalid'}}>Button</button>`
-  );
-  assert.equal(this._element.textContent.trim(), 'Button');
+    await render(
+      hbs`<button type="button" disabled={{v-get model 'isInvalid'}}>Button</button>`
+    );
+    assert.dom(this.element).hasText('Button');
 
-  assert.equal(this._element.querySelector('button').disabled, true);
-});
+    assert.equal(this.element.querySelector('button').disabled, true);
+  });
 
-test('element node attribute in class string', function(assert) {
-  assert.expect(3);
+  test('element node attribute in class string', async function(assert) {
+    assert.expect(3);
 
-  this.render(
-    hbs`<span class="base {{if (v-get model 'isInvalid') 'has-error'}}">Text</span>`
-  );
-  assert.equal(this._element.textContent.trim(), 'Text');
-  assert.equal(
-    this._element.querySelector('span').classList.contains('base'),
-    true,
-    'base class present'
-  );
-  assert.equal(
-    this._element.querySelector('span').classList.contains('has-error'),
-    true,
-    'error class present'
-  );
+    await render(
+      hbs`<span class="base {{if (v-get model 'isInvalid') 'has-error'}}">Text</span>`
+    );
+    assert.dom(this.element).hasText('Text');
+    assert
+      .dom(this.element.querySelector('span'))
+      .hasClass('base', 'base class present');
+    assert
+      .dom(this.element.querySelector('span'))
+      .hasClass('has-error', 'error class present');
+  });
 });
