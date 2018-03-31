@@ -66,17 +66,22 @@
 
 {{#unless isRegistered}}
   <div class='snippet-container {{if showCode 'show'}}'>
-   <ul class='nav nav-tabs' role='tablist'>
-     <li role='presentation' class='active'><a href='#user-model' aria-controls='user-model' role='tab' data-toggle='tab'>models/user.js</a></li>
-     <li role='presentation'><a href='#user-detail-model' aria-controls='user-detail-model' role='tab' data-toggle='tab'>models/user-detail.js</a></li>
-     <li role='presentation'><a href='#validated-input-js' aria-controls='validated-input-js' role='tab' data-toggle='tab'>validated-input.js</a></li>
-     <li role='presentation'><a href='#validated-input-hbs' aria-controls='validated-input-hbs' role='tab' data-toggle='tab'>validated-input.hbs</a></li>
-   </ul>
-   <div class='tab-content'>
-     <div role='tabpanel' class='tab-pane fade in active' id='user-model'>{{code-snippet name='user-model.js'}}</div>
-     <div role='tabpanel' class='tab-pane fade' id='user-detail-model'>{{code-snippet name='user-detail-model.js'}}</div>
-     <div role='tabpanel' class='tab-pane fade' id='validated-input-js'>{{code-snippet name='validated-input.js'}}</div>
-     <div role='tabpanel' class='tab-pane fade' id='validated-input-hbs'>{{code-snippet name='validated-input.hbs'}}</div>
-   </div>
-</div>
+    {{#bs-tab as |tab|}}
+      {{#tab.pane title="models/user.js"}}
+        {{code-snippet name='user-model.js'}}
+      {{/tab.pane}}
+
+      {{#tab.pane title="models/user-detail.js"}}
+        {{code-snippet name='user-detail-model.js'}}
+      {{/tab.pane}}
+
+      {{#tab.pane title="validated-input.js"}}
+        {{code-snippet name='validated-input.js'}}
+      {{/tab.pane}}
+
+      {{#tab.pane title="validated-input.hbs"}}
+        {{code-snippet name='validated-input.hbs'}}
+      {{/tab.pane}}
+    {{/bs-tab}}
+  </div>
 {{/unless}}

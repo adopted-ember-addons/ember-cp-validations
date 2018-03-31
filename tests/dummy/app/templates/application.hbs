@@ -1,37 +1,25 @@
-<nav class='navbar navbar-default'>
-  <div class='container-fluid'>
-    <div class='navbar-header'>
-      <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#nav' aria-expanded='false'>
-        <span class='sr-only'>Toggle navigation</span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-      </button>
-      {{#link-to 'index' class='navbar-brand'}}
-        <img src='images/ember-logo.png' alt=''>
-        <span>CP Validations</span>
-      {{/link-to}}
-    </div>
-
-    <div class='collapse navbar-collapse' id='nav'>
-      <ul class='nav navbar-nav'>
-        {{!-- {{#link-to 'index' tagName='li'}}
-          {{link-to 'Home' 'index'}}
-        {{/link-to}} --}}
-      </ul>
-      <ul class='nav navbar-nav navbar-right'>
-        <li class='dropdown'>
-          <a class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Documentation <span class='fa fa-caret-down'></span></a>
-          <ul class='dropdown-menu'>
-            <li><a href='docs'>v3.x</a></li>
-            <li><a href='https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/index.html'>v2.x</a></li>
-          </ul>
-        </li>
-        <li><a href='https://github.com/offirgolan/ember-cp-validations' class='fa fa-github github'></a></li>
-      </ul>
-    </div>
+{{#bs-navbar fluid=true collapsed=true as |navbar|}}
+  <div class="navbar-header">
+    {{navbar.toggle}}
+    {{#link-to 'index' class='navbar-brand'}}
+      <img src='images/ember-logo.png' alt=''>
+      <span>CP Validations</span>
+    {{/link-to}}
   </div>
-</nav>
+
+  {{#navbar.content}}
+    {{#navbar.nav class="navbar-right" as |nav|}}
+      {{#nav.dropdown as |dd|}}
+        {{#dd.toggle}}Documentation <span class="caret"></span>{{/dd.toggle}}
+        {{#dd.menu as |ddm|}}
+          {{#ddm.item}}<a href='docs'>v3.x</a>{{/ddm.item}}
+          {{#ddm.item}}<a href='https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/index.html'>v2.x</a>{{/ddm.item}}
+        {{/dd.menu}}
+      {{/nav.dropdown}}
+      {{#nav.item}}<a href='https://github.com/offirgolan/ember-cp-validations' class='fa fa-github github'></a>{{/nav.item}}
+    {{/navbar.nav}}
+  {{/navbar.content}}
+{{/bs-navbar}}
 
 <div class='content'>
   {{outlet}}
