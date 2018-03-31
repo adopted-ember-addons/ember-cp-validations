@@ -4,6 +4,7 @@ import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import setupObject from '../../helpers/setup-object';
 
 let defaultOptions, options, validator, message;
 
@@ -11,7 +12,7 @@ module('Unit | Validator | base', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
-    validator = BaseValidator.create();
+    validator = setupObject(this, BaseValidator);
   });
 
   test('buildOptions - merge all options', function(assert) {
