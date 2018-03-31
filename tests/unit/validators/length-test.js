@@ -1,122 +1,124 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-moduleFor('validator:length', 'Unit | Validator | length', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | length', function(hooks) {
+  setupTest(hooks);
 
-test('no options', function(assert) {
-  assert.expect(1);
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:length');
+  });
 
-  builtOptions = validator.buildOptions({});
+  test('no options', function(assert) {
+    assert.expect(1);
 
-  message = validator.validate(undefined, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    builtOptions = validator.buildOptions({});
 
-test('allow blank', function(assert) {
-  assert.expect(2);
+    message = validator.validate(undefined, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    allowBlank: true,
-    min: 5
-  };
+  test('allow blank', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      allowBlank: true,
+      min: 5
+    };
 
-  message = validator.validate('', builtOptions.toObject());
-  assert.equal(message, true);
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('test', builtOptions.toObject());
-  assert.equal(message, 'This field is too short (minimum is 5 characters)');
-});
+    message = validator.validate('', builtOptions.toObject());
+    assert.equal(message, true);
 
-test('allow none', function(assert) {
-  assert.expect(2);
+    message = validator.validate('test', builtOptions.toObject());
+    assert.equal(message, 'This field is too short (minimum is 5 characters)');
+  });
 
-  options = {
-    // default allowNone should be true
-  };
+  test('allow none', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      // default allowNone should be true
+    };
 
-  message = validator.validate(undefined, builtOptions.toObject());
-  assert.equal(message, true);
+    builtOptions = validator.buildOptions(options);
 
-  options.allowNone = false;
-  builtOptions = validator.buildOptions(options);
+    message = validator.validate(undefined, builtOptions.toObject());
+    assert.equal(message, true);
 
-  message = validator.validate(null, builtOptions.toObject());
-  assert.equal(message, 'This field is invalid');
-});
+    options.allowNone = false;
+    builtOptions = validator.buildOptions(options);
 
-test('is', function(assert) {
-  assert.expect(2);
+    message = validator.validate(null, builtOptions.toObject());
+    assert.equal(message, 'This field is invalid');
+  });
 
-  options = {
-    is: 4
-  };
+  test('is', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      is: 4
+    };
 
-  message = validator.validate('testing', builtOptions.toObject());
-  assert.equal(
-    message,
-    'This field is the wrong length (should be 4 characters)'
-  );
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('test', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate('testing', builtOptions.toObject());
+    assert.equal(
+      message,
+      'This field is the wrong length (should be 4 characters)'
+    );
 
-test('min', function(assert) {
-  assert.expect(2);
+    message = validator.validate('test', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    min: 5
-  };
+  test('min', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      min: 5
+    };
 
-  message = validator.validate('test', builtOptions.toObject());
-  assert.equal(message, 'This field is too short (minimum is 5 characters)');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('testing', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate('test', builtOptions.toObject());
+    assert.equal(message, 'This field is too short (minimum is 5 characters)');
 
-test('max', function(assert) {
-  assert.expect(2);
+    message = validator.validate('testing', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    max: 5
-  };
+  test('max', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      max: 5
+    };
 
-  message = validator.validate('testing', builtOptions.toObject());
-  assert.equal(message, 'This field is too long (maximum is 5 characters)');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('test', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate('testing', builtOptions.toObject());
+    assert.equal(message, 'This field is too long (maximum is 5 characters)');
 
-test('array', function(assert) {
-  assert.expect(2);
+    message = validator.validate('test', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    min: 1
-  };
+  test('array', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      min: 1
+    };
 
-  message = validator.validate([], builtOptions.toObject());
-  assert.equal(message, 'This field is too short (minimum is 1 characters)');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate([1], builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate([], builtOptions.toObject());
+    assert.equal(message, 'This field is too short (minimum is 1 characters)');
+
+    message = validator.validate([1], builtOptions.toObject());
+    assert.equal(message, true);
+  });
 });

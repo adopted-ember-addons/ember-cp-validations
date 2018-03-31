@@ -30,7 +30,8 @@ You can also learn more by watching this Global Ember Meetup talk:
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
-## Installation
+Installation
+------------------------------------------------------------------------------
 
 ```shell
 ember install ember-cp-validations

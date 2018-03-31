@@ -1,7 +1,7 @@
-import { run } from '@ember/runloop';
+import { click, fillIn, find, visit } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-let App;
+import { dasherize } from '@ember/string';
 
 const validInputValues = {
   username: 'offirgolan',
@@ -13,102 +13,69 @@ const validInputValues = {
   dob: '1/1/1930'
 };
 
-module('Acceptance | Dummy | index', {
-  beforeEach() {
-    App = startApp();
-  },
-  afterEach() {
-    run(App, App.destroy);
-  }
-});
+module('Acceptance | Dummy | index', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('Page Loads', function(assert) {
-  assert.expect(2);
-  visit('/');
-  andThen(function() {
-    assert.equal(
-      find('a.navbar-brand')
-        .text()
-        .trim(),
-      'CP Validations'
-    );
-    assert.equal(find('.form .register h2').text(), 'Create an Account');
-  });
-});
+  test('Page Loads', async function(assert) {
+    assert.expect(2);
+    await visit('/');
 
-test('Helper tooltips', function(assert) {
-  assert.expect(2);
-  visit('/');
-  andThen(function() {
-    assert.equal(find('.section .section-info').length, 3);
-    assert.equal(
-      find('.section .section-info:first')
-        .text()
-        .trim().length > 0,
-      true
-    );
-  });
-});
-
-test('Invalid form submit', function(assert) {
-  visit('/');
-  andThen(function() {
-    click('#signup');
+    assert.dom('a.navbar-brand').hasText('CP Validations');
+    assert.dom('.form .register h2').hasText('Create an Account');
   });
 
-  andThen(function() {
-    assert.equal(
-      find('.form .alert')
-        .text()
-        .trim(),
-      'Please fix all the errors below before continuing.'
-    );
-  });
-});
+  test('Helper tooltips', async function(assert) {
+    assert.expect(2);
+    await visit('/');
 
-test('Valid form submit', function(assert) {
-  visit('/');
-  andThen(function() {
-    Object.keys(validInputValues).forEach(input => {
-      let $input = find(`.validated-input input[name='${input}']`);
-      assert.ok($input, `${input} found`);
-      fillIn($input, validInputValues[input]);
-      assert.ok(
-        $input.parent('.validated-input.has-success'),
-        `${input} success`
-      );
-    });
-    click('#signup');
+    assert.dom('.section .section-info').exists({ count: 3 });
+    assert
+      .dom(find('.section .section-info'))
+      .includesText('These form inputs are bound to the User model');
   });
 
-  andThen(function() {
-    assert.ok(find('.form .registered img.tomster'));
-    assert.equal(find('.form .registered h2.success').text(), 'Success');
-  });
-});
+  test('Invalid form submit', async function(assert) {
+    await visit('/');
+    await click('[data-test-sign-up]');
 
-test('Invalid to valid email', function(assert) {
-  assert.expect(4);
-  visit('/');
-  let $input;
-  andThen(function() {
-    $input = find('.validated-input input[name="email"]');
-    assert.ok($input);
-    fillIn($input, 'invalid-email');
+    assert
+      .dom('.form .alert')
+      .hasText('Please fix all the errors below before continuing.');
   });
 
-  andThen(function() {
-    assert.equal(
-      $input
-        .parent('.form-group')
-        .find('.input-error .error')
-        .text()
-        .trim(),
-      'This field must be a valid email address'
-    );
-    assert.ok($input.parent('.validated-input.has-error'));
+  test('Valid form submit', async function(assert) {
+    await visit('/');
 
-    fillIn($input, validInputValues.email);
-    assert.ok($input.parent('.validated-input.has-success'));
+    for (let key in validInputValues) {
+      const selector = `[data-test-${dasherize(key)}]`;
+      const input = find(`${selector} input`);
+
+      assert.ok(input, `${selector} found`);
+      await fillIn(input, validInputValues[key]);
+      assert.dom(selector).hasClass('has-success');
+    }
+
+    await click('[data-test-sign-up]');
+    // assert.dom('[data-test-tomster]').exists();
+    assert.dom('.form .registered .icon-success').exists();
+    assert.dom('.form .registered h2.success').hasText('Success');
+  });
+
+  test('Invalid to valid email', async function(assert) {
+    assert.expect(4);
+    await visit('/');
+
+    const input = find('[data-test-email] input');
+
+    assert.ok(input);
+    await fillIn(input, 'invalid-email');
+
+    assert.dom('[data-test-email]').hasClass('has-error');
+    assert
+      .dom('[data-test-email] .input-error')
+      .hasText('This field must be a valid email address');
+
+    await fillIn(input, validInputValues.email);
+    assert.dom('[data-test-email]').hasClass('has-success');
   });
 });

@@ -1,213 +1,215 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-moduleFor('validator:format', 'Unit | Validator | format', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | format', function(hooks) {
+  setupTest(hooks);
 
-test('no options', function(assert) {
-  assert.expect(1);
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:format');
+  });
 
-  builtOptions = validator.buildOptions({}).toObject();
+  test('no options', function(assert) {
+    assert.expect(1);
 
-  try {
-    message = validator.validate(undefined, builtOptions);
-  } catch (e) {
-    assert.ok(true);
-  }
-});
+    builtOptions = validator.buildOptions({}).toObject();
 
-test('allow blank', function(assert) {
-  assert.expect(2);
+    try {
+      message = validator.validate(undefined, builtOptions);
+    } catch (e) {
+      assert.ok(true);
+    }
+  });
 
-  options = {
-    allowBlank: true,
-    type: 'email'
-  };
-  options = validator.buildOptions(options, {}).toObject();
+  test('allow blank', function(assert) {
+    assert.expect(2);
 
-  message = validator.validate(undefined, options);
-  assert.equal(message, true);
+    options = {
+      allowBlank: true,
+      type: 'email'
+    };
+    options = validator.buildOptions(options, {}).toObject();
 
-  message = validator.validate('email', options);
-  assert.equal(message, 'This field must be a valid email address');
-});
+    message = validator.validate(undefined, options);
+    assert.equal(message, true);
 
-test('email no option', function(assert) {
-  let validAddresses = [
-    'email@domain.com',
-    'firstname.lastname@domain.com',
-    'email@subdomain.domain.com',
-    'firstname+lastname@domain.com',
-    '1234567890@domain.com',
-    'email@domain-one.com',
-    '_______@domain.com',
-    'email@domain.name',
-    'email@domain.co.jp',
-    'firstname-lastname@domain.com',
-    'EMAIL@DOMAIN.COM'
-  ];
-  let invalidAddresses = [
-    'plainaddress',
-    '#@%^%#$@#$@#.com',
-    '@domain.com',
-    'Joe Smith <email@domain.com>',
-    'email.domain.com',
-    'email@domain@domain.com',
-    '.email@domain.com',
-    'email.@domain.com',
-    'email..email@domain.com',
-    'あいうえお@domain.com',
-    'email@domain.com (Joe Smith)',
-    'email@domain',
-    'email@domain.',
-    'email@domain.-',
-    'email@domain-',
-    'email@domain-.',
-    'email@domain.com.',
-    'email@domain.com.-',
-    'email@domain.com-',
-    'email@domain.com-.',
-    'email@-domain.com',
-    'email@domain..com'
-  ];
+    message = validator.validate('email', options);
+    assert.equal(message, 'This field must be a valid email address');
+  });
 
-  assert.expect(validAddresses.length + invalidAddresses.length);
+  test('email no option', function(assert) {
+    let validAddresses = [
+      'email@domain.com',
+      'firstname.lastname@domain.com',
+      'email@subdomain.domain.com',
+      'firstname+lastname@domain.com',
+      '1234567890@domain.com',
+      'email@domain-one.com',
+      '_______@domain.com',
+      'email@domain.name',
+      'email@domain.co.jp',
+      'firstname-lastname@domain.com',
+      'EMAIL@DOMAIN.COM'
+    ];
+    let invalidAddresses = [
+      'plainaddress',
+      '#@%^%#$@#$@#.com',
+      '@domain.com',
+      'Joe Smith <email@domain.com>',
+      'email.domain.com',
+      'email@domain@domain.com',
+      '.email@domain.com',
+      'email.@domain.com',
+      'email..email@domain.com',
+      'あいうえお@domain.com',
+      'email@domain.com (Joe Smith)',
+      'email@domain',
+      'email@domain.',
+      'email@domain.-',
+      'email@domain-',
+      'email@domain-.',
+      'email@domain.com.',
+      'email@domain.com.-',
+      'email@domain.com-',
+      'email@domain.com-.',
+      'email@-domain.com',
+      'email@domain..com'
+    ];
 
-  options = {
-    type: 'email'
-  };
+    assert.expect(validAddresses.length + invalidAddresses.length);
 
-  options = validator.buildOptions(options, {}).toObject();
+    options = {
+      type: 'email'
+    };
 
-  validAddresses.forEach(email =>
-    assert.equal(
-      validator.validate(email, options),
-      true,
-      `validation of ${email} must succeed`
-    )
-  );
-  invalidAddresses.forEach(email =>
-    assert.equal(
-      validator.validate(email, options),
-      'This field must be a valid email address',
-      `validation of ${email} must fail`
-    )
-  );
-});
+    options = validator.buildOptions(options, {}).toObject();
 
-test('email option allowNonTld', function(assert) {
-  let validAddresses = [
-    'email@domain.com',
-    'firstname.lastname@domain.com',
-    'email@subdomain.domain.com',
-    'firstname+lastname@domain.com',
-    '1234567890@domain.com',
-    'email@domain-one.com',
-    '_______@domain.com',
-    'email@domain.name',
-    'email@domain.co.jp',
-    'firstname-lastname@domain.com',
-    'EMAIL@DOMAIN.COM',
-    'email@domain'
-  ];
-  let invalidAddresses = [
-    'plainaddress',
-    '#@%^%#$@#$@#.com',
-    '@domain.com',
-    'Joe Smith <email@domain.com>',
-    'email.domain.com',
-    'email@domain@domain.com',
-    '.email@domain.com',
-    'email.@domain.com',
-    'email..email@domain.com',
-    'あいうえお@domain.com',
-    'email@domain.com (Joe Smith)',
-    'email@domain.',
-    'email@domain.-',
-    'email@domain-',
-    'email@domain-.',
-    'email@domain.com.',
-    'email@domain.com.-',
-    'email@domain.com-',
-    'email@domain.com-.',
-    'email@-domain.com',
-    'email@domain..com'
-  ];
+    validAddresses.forEach(email =>
+      assert.equal(
+        validator.validate(email, options),
+        true,
+        `validation of ${email} must succeed`
+      )
+    );
+    invalidAddresses.forEach(email =>
+      assert.equal(
+        validator.validate(email, options),
+        'This field must be a valid email address',
+        `validation of ${email} must fail`
+      )
+    );
+  });
 
-  assert.expect(validAddresses.length + invalidAddresses.length);
+  test('email option allowNonTld', function(assert) {
+    let validAddresses = [
+      'email@domain.com',
+      'firstname.lastname@domain.com',
+      'email@subdomain.domain.com',
+      'firstname+lastname@domain.com',
+      '1234567890@domain.com',
+      'email@domain-one.com',
+      '_______@domain.com',
+      'email@domain.name',
+      'email@domain.co.jp',
+      'firstname-lastname@domain.com',
+      'EMAIL@DOMAIN.COM',
+      'email@domain'
+    ];
+    let invalidAddresses = [
+      'plainaddress',
+      '#@%^%#$@#$@#.com',
+      '@domain.com',
+      'Joe Smith <email@domain.com>',
+      'email.domain.com',
+      'email@domain@domain.com',
+      '.email@domain.com',
+      'email.@domain.com',
+      'email..email@domain.com',
+      'あいうえお@domain.com',
+      'email@domain.com (Joe Smith)',
+      'email@domain.',
+      'email@domain.-',
+      'email@domain-',
+      'email@domain-.',
+      'email@domain.com.',
+      'email@domain.com.-',
+      'email@domain.com-',
+      'email@domain.com-.',
+      'email@-domain.com',
+      'email@domain..com'
+    ];
 
-  options = {
-    type: 'email',
-    allowNonTld: true
-  };
+    assert.expect(validAddresses.length + invalidAddresses.length);
 
-  options = validator.buildOptions(options, {}).toObject();
+    options = {
+      type: 'email',
+      allowNonTld: true
+    };
 
-  validAddresses.forEach(email =>
-    assert.equal(
-      validator.validate(email, options),
-      true,
-      `validation of ${email} must succeed`
-    )
-  );
-  invalidAddresses.forEach(email =>
-    assert.equal(
-      validator.validate(email, options),
-      'This field must be a valid email address',
-      `validation of ${email} must fail`
-    )
-  );
-});
+    options = validator.buildOptions(options, {}).toObject();
 
-test('phone', function(assert) {
-  assert.expect(2);
+    validAddresses.forEach(email =>
+      assert.equal(
+        validator.validate(email, options),
+        true,
+        `validation of ${email} must succeed`
+      )
+    );
+    invalidAddresses.forEach(email =>
+      assert.equal(
+        validator.validate(email, options),
+        'This field must be a valid email address',
+        `validation of ${email} must fail`
+      )
+    );
+  });
 
-  options = {
-    type: 'phone'
-  };
+  test('phone', function(assert) {
+    assert.expect(2);
 
-  options = validator.buildOptions(options, {}).toObject();
+    options = {
+      type: 'phone'
+    };
 
-  message = validator.validate('123', options);
-  assert.equal(message, 'This field must be a valid phone number');
+    options = validator.buildOptions(options, {}).toObject();
 
-  message = validator.validate('(408) 555-1234', options);
-  assert.equal(message, true);
-});
+    message = validator.validate('123', options);
+    assert.equal(message, 'This field must be a valid phone number');
 
-test('url', function(assert) {
-  assert.expect(2);
+    message = validator.validate('(408) 555-1234', options);
+    assert.equal(message, true);
+  });
 
-  options = {
-    type: 'url'
-  };
+  test('url', function(assert) {
+    assert.expect(2);
 
-  options = validator.buildOptions(options, {}).toObject();
+    options = {
+      type: 'url'
+    };
 
-  message = validator.validate('offirgolan', options);
-  assert.equal(message, 'This field must be a valid url');
+    options = validator.buildOptions(options, {}).toObject();
 
-  message = validator.validate('http://www.offirgolan.com', options);
-  assert.equal(message, true);
-});
+    message = validator.validate('offirgolan', options);
+    assert.equal(message, 'This field must be a valid url');
 
-test('custom', function(assert) {
-  assert.expect(2);
+    message = validator.validate('http://www.offirgolan.com', options);
+    assert.equal(message, true);
+  });
 
-  options = {
-    regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
-  };
+  test('custom', function(assert) {
+    assert.expect(2);
 
-  options = validator.buildOptions(options, {}).toObject();
+    options = {
+      regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
+    };
 
-  message = validator.validate('password', options);
-  assert.equal(message, 'This field is invalid');
+    options = validator.buildOptions(options, {}).toObject();
 
-  message = validator.validate('Pass123', options);
-  assert.equal(message, true);
+    message = validator.validate('password', options);
+    assert.equal(message, 'This field is invalid');
+
+    message = validator.validate('Pass123', options);
+    assert.equal(message, true);
+  });
 });

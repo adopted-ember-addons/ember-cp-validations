@@ -1,30 +1,40 @@
 import EmberObject from '@ember/object';
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let model, options, builtOptions, validator, message;
 
-moduleFor('validator:confirmation', 'Unit | Validator | confirmation', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | confirmation', function(hooks) {
+  setupTest(hooks);
 
-test('attribute', function(assert) {
-  assert.expect(2);
-
-  options = { on: 'email' };
-  builtOptions = validator.buildOptions(options);
-
-  model = EmberObject.create({
-    email: 'foo@gmail.com'
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:confirmation');
   });
 
-  message = validator.validate('bar@gmail.com', builtOptions.toObject(), model);
-  assert.equal(message, "This field doesn't match email");
+  test('attribute', function(assert) {
+    assert.expect(2);
 
-  model.set('emailConfirmation', 'foo@gmail.com');
+    options = { on: 'email' };
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('foo@gmail.com', builtOptions.toObject(), model);
-  assert.equal(message, true);
+    model = EmberObject.create({
+      email: 'foo@gmail.com'
+    });
+
+    message = validator.validate(
+      'bar@gmail.com',
+      builtOptions.toObject(),
+      model
+    );
+    assert.equal(message, "This field doesn't match email");
+
+    model.set('emailConfirmation', 'foo@gmail.com');
+
+    message = validator.validate(
+      'foo@gmail.com',
+      builtOptions.toObject(),
+      model
+    );
+    assert.equal(message, true);
+  });
 });

@@ -4,7 +4,7 @@
   background: #ffffff;
   width: 485px;
   padding: 40px;
-  border-top: 5px solid @accent-color;
+  border-top: 5px solid $accent-color;
   border-radius: 3px;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.15);
   z-index: 5;
@@ -63,7 +63,7 @@ input.form-control:focus {
 .form h2 {
   margin: -15px 0 25px 0;
   line-height: 1;
-  color: @accent-color;
+  color: $accent-color;
   font-size: 18px;
   font-weight: 400;
 }
@@ -101,7 +101,7 @@ input.form-control:focus {
 .form button {
   cursor: pointer;
   outline: none;
-  background: @accent-color;
+  background: $accent-color;
   width: 100%;
   padding: 10px 15px;
   margin-bottom: 25px;

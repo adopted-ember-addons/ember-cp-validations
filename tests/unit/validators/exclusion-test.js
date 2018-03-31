@@ -1,130 +1,132 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-moduleFor('validator:exclusion', 'Unit | Validator | exclusion', {
-  needs: ['validator:messages'],
-  setup() {
-    validator = this.subject();
-  }
-});
+module('Unit | Validator | exclusion', function(hooks) {
+  setupTest(hooks);
 
-test('no options', function(assert) {
-  assert.expect(1);
+  hooks.beforeEach(function() {
+    validator = this.owner.lookup('validator:exclusion');
+  });
 
-  builtOptions = validator.buildOptions({}).toObject();
+  test('no options', function(assert) {
+    assert.expect(1);
 
-  try {
-    message = validator.validate(undefined, builtOptions);
-  } catch (e) {
-    assert.ok(true);
-  }
-});
+    builtOptions = validator.buildOptions({}).toObject();
 
-test('allow blank', function(assert) {
-  assert.expect(2);
+    try {
+      message = validator.validate(undefined, builtOptions);
+    } catch (e) {
+      assert.ok(true);
+    }
+  });
 
-  options = {
-    allowBlank: true,
-    in: ['foo', 'bar', 'baz']
-  };
+  test('allow blank', function(assert) {
+    assert.expect(2);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      allowBlank: true,
+      in: ['foo', 'bar', 'baz']
+    };
 
-  message = validator.validate('', builtOptions.toObject());
-  assert.equal(message, true);
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('foo', builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
-});
+    message = validator.validate('', builtOptions.toObject());
+    assert.equal(message, true);
 
-test('not in array', function(assert) {
-  assert.expect(4);
+    message = validator.validate('foo', builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
+  });
 
-  options = {
-    in: ['foo', 'bar', 'baz']
-  };
+  test('not in array', function(assert) {
+    assert.expect(4);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      in: ['foo', 'bar', 'baz']
+    };
 
-  message = validator.validate('foo', builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('bar', builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    message = validator.validate('foo', builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('baz', builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    message = validator.validate('bar', builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('test', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate('baz', builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-test('not in range', function(assert) {
-  assert.expect(5);
+    message = validator.validate('test', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    range: [1, 10]
-  };
+  test('not in range', function(assert) {
+    assert.expect(5);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      range: [1, 10]
+    };
 
-  message = validator.validate(1, builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(5, builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    message = validator.validate(1, builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate(10, builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    message = validator.validate(5, builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate(0, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(10, builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate(100, builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate(0, builtOptions.toObject());
+    assert.equal(message, true);
 
-test('range type check - number', function(assert) {
-  assert.expect(4);
+    message = validator.validate(100, builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    range: [1, 10]
-  };
+  test('range type check - number', function(assert) {
+    assert.expect(4);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      range: [1, 10]
+    };
 
-  message = validator.validate(1, builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate(5, builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    message = validator.validate(1, builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('1', builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(5, builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('5', builtOptions.toObject());
-  assert.equal(message, true);
-});
+    message = validator.validate('1', builtOptions.toObject());
+    assert.equal(message, true);
 
-test('range type check - string', function(assert) {
-  assert.expect(4);
+    message = validator.validate('5', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 
-  options = {
-    range: ['a', 'z']
-  };
+  test('range type check - string', function(assert) {
+    assert.expect(4);
 
-  builtOptions = validator.buildOptions(options);
+    options = {
+      range: ['a', 'z']
+    };
 
-  message = validator.validate('a', builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    builtOptions = validator.buildOptions(options);
 
-  message = validator.validate('z', builtOptions.toObject());
-  assert.equal(message, 'This field is reserved');
+    message = validator.validate('a', builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate(97, builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate('z', builtOptions.toObject());
+    assert.equal(message, 'This field is reserved');
 
-  message = validator.validate('zzz', builtOptions.toObject());
-  assert.equal(message, true);
+    message = validator.validate(97, builtOptions.toObject());
+    assert.equal(message, true);
+
+    message = validator.validate('zzz', builtOptions.toObject());
+    assert.equal(message, true);
+  });
 });

@@ -17,10 +17,10 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model valuePath='username' placeholder='Username' didValidate=didValidate}}
-          {{validated-input type='password' model=model valuePath='password' placeholder='Password' didValidate=didValidate}}
-          {{validated-input model=model valuePath='email' placeholder='Email' didValidate=didValidate}}
-          {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email' didValidate=didValidate}}
+          {{validated-input model=model valuePath='username' placeholder='Username' didValidate=didValidate data-test-username=''}}
+          {{validated-input type='password' model=model valuePath='password' placeholder='Password' didValidate=didValidate data-test-password=''}}
+          {{validated-input model=model valuePath='email' placeholder='Email' didValidate=didValidate data-test-email=''}}
+          {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email' didValidate=didValidate data-test-email-confirmation=''}}
         </div>
 
         <h4> About Me</h4>
@@ -32,11 +32,11 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model.details valuePath='firstName' placeholder='First Name' didValidate=didValidate}}
-          {{validated-input model=model.details valuePath='lastName' placeholder='Last Name' didValidate=didValidate}}
-          {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth' didValidate=didValidate}}
-          {{validated-input model=model.details valuePath='phone' placeholder='Phone #' didValidate=didValidate}}
-          {{validated-input model=model.details valuePath='url' placeholder='URL' didValidate=didValidate}}
+          {{validated-input model=model.details valuePath='firstName' placeholder='First Name' didValidate=didValidate data-test-first-name=''}}
+          {{validated-input model=model.details valuePath='lastName' placeholder='Last Name' didValidate=didValidate data-test-last-name=''}}
+          {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth' didValidate=didValidate data-test-dob=''}}
+          {{validated-input model=model.details valuePath='phone' placeholder='Phone #' didValidate=didValidate data-test-phone=''}}
+          {{validated-input model=model.details valuePath='url' placeholder='URL' didValidate=didValidate data-test-url=''}}
         </div>
         <div class='section'>
           {{#unless showCode}}
@@ -44,13 +44,13 @@
               On submit, a manual validation is run which will validate both the <strong>User</strong> and <strong>User Details</strong> models. If both are valid, then the user can continue to the next screen.
             </div>
           {{/unless}}
-          <button id='signup' {{action 'validate'}}>Sign Up</button>
+          <button id='signup' {{action 'validate'}} data-test-sign-up>Sign Up</button>
         </div>
       </form>
     </div>
     {{else}}
       <div class='registered'>
-        {{!-- <img class='tomster' src='images/tomsterzilla.jpeg' alt=''> --}}
+        {{!-- <img class='tomster' src='images/tomsterzilla.jpeg' alt='' data-test-tomster> --}}
         <div class='fa fa-check-circle icon-success'></div>
         <h2 class='success'>Success</h2>
       </div>
@@ -66,17 +66,22 @@
 
 {{#unless isRegistered}}
   <div class='snippet-container {{if showCode 'show'}}'>
-   <ul class='nav nav-tabs' role='tablist'>
-     <li role='presentation' class='active'><a href='#user-model' aria-controls='user-model' role='tab' data-toggle='tab'>models/user.js</a></li>
-     <li role='presentation'><a href='#user-detail-model' aria-controls='user-detail-model' role='tab' data-toggle='tab'>models/user-detail.js</a></li>
-     <li role='presentation'><a href='#validated-input-js' aria-controls='validated-input-js' role='tab' data-toggle='tab'>validated-input.js</a></li>
-     <li role='presentation'><a href='#validated-input-hbs' aria-controls='validated-input-hbs' role='tab' data-toggle='tab'>validated-input.hbs</a></li>
-   </ul>
-   <div class='tab-content'>
-     <div role='tabpanel' class='tab-pane fade in active' id='user-model'>{{code-snippet name='user-model.js'}}</div>
-     <div role='tabpanel' class='tab-pane fade' id='user-detail-model'>{{code-snippet name='user-detail-model.js'}}</div>
-     <div role='tabpanel' class='tab-pane fade' id='validated-input-js'>{{code-snippet name='validated-input.js'}}</div>
-     <div role='tabpanel' class='tab-pane fade' id='validated-input-hbs'>{{code-snippet name='validated-input.hbs'}}</div>
-   </div>
-</div>
+    {{#bs-tab as |tab|}}
+      {{#tab.pane title="models/user.js"}}
+        {{code-snippet name='user-model.js'}}
+      {{/tab.pane}}
+
+      {{#tab.pane title="models/user-detail.js"}}
+        {{code-snippet name='user-detail-model.js'}}
+      {{/tab.pane}}
+
+      {{#tab.pane title="validated-input.js"}}
+        {{code-snippet name='validated-input.js'}}
+      {{/tab.pane}}
+
+      {{#tab.pane title="validated-input.hbs"}}
+        {{code-snippet name='validated-input.hbs'}}
+      {{/tab.pane}}
+    {{/bs-tab}}
+  </div>
 {{/unless}}
