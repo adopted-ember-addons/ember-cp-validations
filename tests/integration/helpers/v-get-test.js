@@ -24,6 +24,7 @@ module('Integration | Helper | v-get', function(hooks) {
         }
       }
     });
+
     this.set('model', model);
   });
 
@@ -36,6 +37,7 @@ module('Integration | Helper | v-get', function(hooks) {
 
   test('access attribute validations', async function(assert) {
     assert.expect(3);
+
     await render(hbs`{{v-get model 'username' 'isValid'}}`);
     assert.dom(this.element).hasText('false');
 
@@ -83,8 +85,8 @@ module('Integration | Helper | v-get', function(hooks) {
     await render(
       hbs`<button type="button" disabled={{v-get model 'isInvalid'}}>Button</button>`
     );
-    assert.dom(this.element).hasText('Button');
 
+    assert.dom(this.element).hasText('Button');
     assert.equal(this.element.querySelector('button').disabled, true);
   });
 
@@ -94,6 +96,7 @@ module('Integration | Helper | v-get', function(hooks) {
     await render(
       hbs`<span class="base {{if (v-get model 'isInvalid') 'has-error'}}">Text</span>`
     );
+
     assert.dom(this.element).hasText('Text');
     assert
       .dom(this.element.querySelector('span'))
