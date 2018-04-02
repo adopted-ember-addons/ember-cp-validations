@@ -123,24 +123,6 @@ export default ArrayProxy.extend({
   isTruelyInvalid: isAny('content', 'isTruelyInvalid', true, false).readOnly(),
 
   /**
-   * Will be true is the attribute in question is not `null` or `undefined`. If the object being
-   * validated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison.
-   *
-   * ```javascript
-   * // Examples
-   * // 'username' : DS.attr('string', { defaultValue: 'johndoe' })
-   * get(user, 'validations.isDirty')
-   * get(user, 'validations.attrs.username.isDirty')
-   * ```
-   *
-   * @property isDirty
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  isDirty: isAny('content', 'isDirty', true, false).readOnly(),
-
-  /**
    * Will be `true` only if a validation returns a promise
    *
    * ```javascript

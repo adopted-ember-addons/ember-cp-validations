@@ -1,13 +1,9 @@
+import EmberObject, { computed, set, get } from '@ember/object';
 import { and, not, readOnly } from '@ember/object/computed';
 import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
-import EmberObject, { defineProperty, computed, set, get } from '@ember/object';
-
-import Ember from 'ember';
 import ValidationError from '../validations/error';
-import { isDsModel, isPromise } from '../utils/utils';
-
-const { canInvoke } = Ember;
+import { isPromise } from '../utils/utils';
 
 export default EmberObject.extend({
   model: null,
@@ -17,19 +13,12 @@ export default EmberObject.extend({
   warningMessage: null,
   attribute: '',
 
-  attrValue: null,
   _promise: null,
   _validator: null,
   _type: readOnly('_validator._type'),
 
   init() {
     this._super(...arguments);
-
-    defineProperty(
-      this,
-      'attrValue',
-      readOnly(`model.${get(this, 'attribute')}`)
-    );
 
     if (this.get('isAsync')) {
       this._handlePromise();
@@ -44,26 +33,6 @@ export default EmberObject.extend({
 
   isAsync: computed('_promise', function() {
     return isPromise(get(this, '_promise'));
-  }),
-
-  isDirty: computed('attrValue', function() {
-    let model = get(this, 'model');
-    let attribute = get(this, 'attribute');
-    let attrValue = get(this, 'attrValue');
-
-    // Check default model values
-    if (isDsModel(model) && canInvoke(model, 'eachAttribute')) {
-      let attrMeta = model.get('constructor.attributes').get(attribute);
-
-      if (attrMeta) {
-        let { defaultValue } = attrMeta.options;
-
-        if (!isNone(defaultValue)) {
-          return defaultValue !== attrValue;
-        }
-      }
-    }
-    return !isNone(attrValue);
   }),
 
   messages: computed('message', function() {

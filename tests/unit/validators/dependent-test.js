@@ -35,7 +35,7 @@ module('Unit | Validator | dependent', function(hooks) {
   });
 
   test('all empty attributes', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
 
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
@@ -43,7 +43,6 @@ module('Unit | Validator | dependent', function(hooks) {
     model = setupObject(this, EmberObject.extend(Validations));
 
     assert.equal(get(model, 'validations.isValid'), false);
-    assert.equal(get(model, 'validations.isDirty'), false);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
@@ -53,7 +52,7 @@ module('Unit | Validator | dependent', function(hooks) {
   });
 
   test('one dependent error', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
 
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
@@ -63,7 +62,6 @@ module('Unit | Validator | dependent', function(hooks) {
     });
 
     assert.equal(get(model, 'validations.isValid'), false);
-    assert.equal(get(model, 'validations.isDirty'), true);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
@@ -73,7 +71,7 @@ module('Unit | Validator | dependent', function(hooks) {
   });
 
   test('no dependent errors', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
@@ -83,7 +81,6 @@ module('Unit | Validator | dependent', function(hooks) {
     });
 
     assert.equal(get(model, 'validations.isValid'), true);
-    assert.equal(get(model, 'validations.isDirty'), true);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
