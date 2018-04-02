@@ -1,10 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('validator:<%= dasherizedModuleName %>', 'Unit | Validator | <%= dasherizedModuleName %>', {
-  needs: ['validator:messages']
-});
+module('Unit | Validator | <%= dasherizedModuleName %>', function(hooks) {
+  setupTest(hooks);
 
-test('it works', function(assert) {
-  const validator = this.subject();
-  assert.ok(validator);
+  // Replace this with your real tests.
+  test('it exists', function(assert) {
+    const validator = this.owner.lookup('validator:<%= dasherizedModuleName %>');
+    assert.ok(validator);
+  });
 });

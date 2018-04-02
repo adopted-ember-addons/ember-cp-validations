@@ -1,19 +1,13 @@
 import { expect } from 'chai';
-import {
-  describeModule,
-  it
-} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
-describeModule(
-  'validator:<%= dasherizedModuleName %>',
-  '<%= classifiedModuleName %>Validator',
-  {
-    needs: ['validator:messages']
-  },
-  function() {
-    it('works', function() {
-      const validator = this.subject();
-      expect(validator).to.be.ok;
-    });
-  }
-);
+describe('Unit | Validator | <%= dasherizedModuleName %>', function() {
+  setupTest();
+
+  // Replace this with your real tests.
+  it('exists', function() {
+    const validator = this.owner.lookup('validator:<%= dasherizedModuleName %>');
+    expect(validator).to.be.ok;
+  });
+});
