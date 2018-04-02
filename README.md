@@ -30,24 +30,23 @@ You can also learn more by watching this Global Ember Meetup talk:
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
-Installation
-------------------------------------------------------------------------------
+## Installation
 
 ```shell
 ember install ember-cp-validations
 ```
 
-## Upgrading to 3.x
+## Upgrading to 4.x
 
-If you are upgrading from 2.x to 3.x, please checkout the [upgrading documentation](UPGRADING.md).
+If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentation](UPGRADING.md).
 
 ## Helpful Links
 
 - ### [Live Demo](http://offirgolan.github.io/ember-cp-validations)
 
 - ### Documentation
-  - [3.x](http://offirgolan.github.io/ember-cp-validations/docs)
-  - [2.x](https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/modules/Home.html)
+  - [4.x](http://offirgolan.github.io/ember-cp-validations/docs)
+  - [3.x](https://rawgit.com/offirgolan/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html)
 
 - ### [Changelog](CHANGELOG.md)
 

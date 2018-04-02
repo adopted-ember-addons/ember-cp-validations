@@ -9238,9 +9238,9 @@ yui@^3.18.1:
   dependencies:
     request "~2.40.0"
 
-yuidoc-ember-theme@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/yuidoc-ember-theme/-/yuidoc-ember-theme-1.4.0.tgz#b7ba649be58993530b3092e12fc114a07e81c414"
+yuidoc-ember-theme@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/yuidoc-ember-theme/-/yuidoc-ember-theme-2.0.1.tgz#3798c592e3f35bf4216b7be40903cc039702c8b6"
 
 yuidocjs@^0.10.0:
   version "0.10.2"
