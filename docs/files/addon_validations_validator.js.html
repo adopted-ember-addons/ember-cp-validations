@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.2" target="_blank">
-                                  Tag: v3.5.2
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
+                                  Tag: v4.0.0-beta.0
                                 </a>
                             </h4>
                         </div>
@@ -186,15 +186,8 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-import Ember from &#x27;ember&#x27;;
-
-const {
-  isNone
-} = Ember;
+import { isNone } from &#x27;@ember/utils&#x27;;
+import { deprecate } from &#x27;@ember/application/deprecations&#x27;;
 
 /**
  * @module Validators
@@ -406,12 +399,21 @@ export default function(arg1, options) {
   };
 
   if (typeof arg1 === &#x27;function&#x27;) {
-    props.validate = arg1;
-    props._type = &#x27;function&#x27;;
+    deprecate(
+      &#x27;[ember-cp-validations] &#x60;validator&#x60; no longer directly accepts &#x27; +
+        &#x27;a function. Please use the inline validator syntax:&#x27; +
+        &quot;\n\nvalidator(&#x27;inline&#x27;, { validate() {} )\n\n&quot;,
+      false,
+      { id: &#x27;ember-cp-validations.inline-validator&#x27;, until: &#x27;4.2.0&#x27; }
+    );
+    props.options.validate = arg1;
+    props._type = &#x27;inline&#x27;;
   } else if (typeof arg1 === &#x27;string&#x27;) {
     props._type = arg1;
   } else {
-    throw new TypeError(&#x27;[ember-cp-validations] Unexpected type for first validator argument. It should either be a string or a function&#x27;);
+    throw new TypeError(
+      &#x27;[ember-cp-validations] Unexpected type for first validator argument — It must be a string.&#x27;
+    );
   }
 
   return props;

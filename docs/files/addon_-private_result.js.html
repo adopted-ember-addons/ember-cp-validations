@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.2" target="_blank">
-                                  Tag: v3.5.2
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
+                                  Tag: v4.0.0-beta.0
                                 </a>
                             </h4>
                         </div>
@@ -186,29 +186,21 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import { isNone } from &#x27;@ember/utils&#x27;;
 
-import Ember from &#x27;ember&#x27;;
+import { isArray } from &#x27;@ember/array&#x27;;
+import EmberObject, {
+  getProperties,
+  setProperties,
+  computed,
+  set,
+  get
+} from &#x27;@ember/object&#x27;;
 import ResultCollection from &#x27;../validations/result-collection&#x27;;
 import WarningResultCollection from &#x27;../validations/warning-result-collection&#x27;;
 import InternalResultObject from &#x27;./internal-result-object&#x27;;
 
-const {
-  get,
-  set,
-  isNone,
-  isArray,
-  computed,
-  setProperties,
-  getProperties
-} = Ember;
-
-const {
-  readOnly
-} = computed;
+const { readOnly } = computed;
 
 /**
  * __PRIVATE__
@@ -218,8 +210,7 @@ const {
  * @private
  */
 
-const Result = Ember.Object.extend({
-
+const Result = EmberObject.extend({
   /**
    * @property model
    * @type {Object}
@@ -261,7 +252,10 @@ const Result = Ember.Object.extend({
    */
   _isReadOnly: computed(&#x27;_result&#x27;, function() {
     let validations = get(this, &#x27;_result&#x27;);
-    return (validations instanceof ResultCollection) || get(validations, &#x27;isValidations&#x27;);
+    return (
+      validations instanceof ResultCollection ||
+      get(validations, &#x27;isValidations&#x27;)
+    );
   }).readOnly(),
 
   /**
@@ -383,7 +377,9 @@ const Result = Ember.Object.extend({
    * @type {Result}
    */
   _result: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;, function() {
-    return InternalResultObject.create(getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;]));
+    return InternalResultObject.create(
+      getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;])
+    );
   }),
 
   init() {
@@ -416,7 +412,7 @@ const Result = Ember.Object.extend({
     if (isNone(value)) {
       return this.update(false);
     } else if (get(value, &#x27;isValidations&#x27;)) {
-      set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: [ value ]}));
+      set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
       set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: value }));
     } else if (!get(this, &#x27;_isReadOnly&#x27;)) {
@@ -424,7 +420,7 @@ const Result = Ember.Object.extend({
         setProperties(get(this, &#x27;_result&#x27;), {
           [isWarning ? &#x27;warningMessage&#x27; : &#x27;message&#x27;]: value,
           isValid: isWarning ? true : false
-        })
+        });
       } else if (typeof value === &#x27;boolean&#x27;) {
         set(result, &#x27;isValid&#x27;, value);
       } else if (typeof value === &#x27;object&#x27;) {
@@ -439,13 +435,12 @@ const Result = Ember.Object.extend({
    * @private
    */
   _handlePromise() {
-    get(this, &#x27;_promise&#x27;).then(
-      (value) =&gt; this.update(value),
-      (value) =&gt; this.update(value)
-    ).catch((reason) =&gt; {
-      // TODO: send into error state
-      throw reason;
-    });
+    get(this, &#x27;_promise&#x27;)
+      .then(value =&gt; this.update(value), value =&gt; this.update(value))
+      .catch(reason =&gt; {
+        // TODO: send into error state
+        throw reason;
+      });
   }
 });
 

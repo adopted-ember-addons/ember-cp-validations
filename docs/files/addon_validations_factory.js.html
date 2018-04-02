@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.2" target="_blank">
-                                  Tag: v3.5.2
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
+                                  Tag: v4.0.0-beta.0
                                 </a>
                             </h4>
                         </div>
@@ -186,42 +186,40 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
 import Ember from &#x27;ember&#x27;;
-import assign from &#x27;../utils/assign&#x27;;
+import Mixin from &#x27;@ember/object/mixin&#x27;;
+import { Promise } from &#x27;rsvp&#x27;;
+import EmberObject, { getWithDefault, computed, set, get } from &#x27;@ember/object&#x27;;
+import { A as emberArray, makeArray, isArray } from &#x27;@ember/array&#x27;;
+import { readOnly } from &#x27;@ember/object/computed&#x27;;
+import { assign } from &#x27;@ember/polyfills&#x27;;
+import { run } from &#x27;@ember/runloop&#x27;;
+import { guidFor } from &#x27;@ember/object/internals&#x27;;
+import { isEmpty, isNone } from &#x27;@ember/utils&#x27;;
+import { getOwner } from &#x27;@ember/application&#x27;;
+import deepSet from &#x27;../utils/deep-set&#x27;;
 import ValidationResult from &#x27;../-private/result&#x27;;
 import ResultCollection from &#x27;./result-collection&#x27;;
 import BaseValidator from &#x27;../validators/base&#x27;;
 import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
 import shouldCallSuper from &#x27;../utils/should-call-super&#x27;;
+import lookupValidator from &#x27;../utils/lookup-validator&#x27;;
 import { flatten } from &#x27;../utils/array&#x27;;
-import { isDsModel, isValidatable, isPromise, isDescriptor, mergeOptions } from &#x27;../utils/utils&#x27;;
-
-const {
-  get,
-  set,
-  run,
-  RSVP,
-  isNone,
-  guidFor,
-  isEmpty,
-  isArray,
-  computed,
-  getOwner,
-  makeArray,
-  getWithDefault,
-  A: emberArray
-} = Ember;
-
-const merge = Ember.assign || Ember.merge;
-
-const {
-  Promise
-} = RSVP;
+import {
+  isDsModel,
+  isValidatable,
+  isPromise,
+  isDescriptor,
+  mergeOptions
+} from &#x27;../utils/utils&#x27;;
+import {
+  VALIDATIONS_CLASS,
+  VALIDATIONS_MIXIN_COUNT,
+  IS_VALIDATIONS_CLASS,
+  ATTRS_MODEL,
+  ATTRS_PATH,
+  ATTRS_RESULT_COLLECTION
+} from &#x27;../-private/symbols&#x27;;
 
 /**
  * ## Running Manual Validations
@@ -286,19 +284,22 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
   let Validations, validationMixinCount;
 
-  let ValidationsMixin = Ember.Mixin.create({
+  let ValidationsMixin = Mixin.create({
     init() {
       this._super(...arguments);
 
       // Count number of mixins to bypass super check if there is more than 1
-      this.__validationsMixinCount__ = this.__validationsMixinCount__ || 0;
-      validationMixinCount = ++this.__validationsMixinCount__;
+      this[VALIDATIONS_MIXIN_COUNT] = this[VALIDATIONS_MIXIN_COUNT] || 0;
+      validationMixinCount = ++this[VALIDATIONS_MIXIN_COUNT];
     },
-    __validationsClass__: computed(function() {
+    [VALIDATIONS_CLASS]: computed(function() {
       if (!Validations) {
         let inheritedClass;
 
-        if (shouldCallSuper(this, &#x27;__validationsClass__&#x27;) || validationMixinCount &gt; 1) {
+        if (
+          shouldCallSuper(this, VALIDATIONS_CLASS) ||
+          validationMixinCount &gt; 1
+        ) {
           inheritedClass = this._super();
         }
 
@@ -308,7 +309,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     }).readOnly(),
 
     validations: computed(function() {
-      return this.get(&#x27;__validationsClass__&#x27;).create({ model: this });
+      return this.get(VALIDATIONS_CLASS).create({ model: this });
     }).readOnly(),
 
     validate() {
@@ -352,7 +353,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 function normalizeOptions(validations = {}, globalOptions = {}) {
   let validatableAttrs = Object.keys(validations);
 
-  validatableAttrs.forEach((attribute) =&gt; {
+  validatableAttrs.forEach(attribute =&gt; {
     let rules = validations[attribute];
 
     if (rules &amp;&amp; typeof rules === &#x27;object&#x27; &amp;&amp; isArray(rules.validators)) {
@@ -364,13 +365,13 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
       }, {});
 
       let { validators } = rules;
-      validators.forEach((v) =&gt; {
+      validators.forEach(v =&gt; {
         v.defaultOptions = options;
       });
       validations[attribute] = validators;
     }
     validations[attribute] = makeArray(validations[attribute]);
-    validations[attribute].forEach((v) =&gt; {
+    validations[attribute].forEach(v =&gt; {
       v.globalOptions = globalOptions;
     });
   });
@@ -395,16 +396,26 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   let validatableAttributes = Object.keys(validations);
 
   // Setup validation inheritance
-  if (inheritedValidationsClass &amp;&amp; inheritedValidationsClass.__isCPValidationsClass__) {
+  if (
+    inheritedValidationsClass &amp;&amp;
+    inheritedValidationsClass[IS_VALIDATIONS_CLASS]
+  ) {
     let inheritedValidations = inheritedValidationsClass.create();
 
-    validationRules = merge(validationRules, inheritedValidations.get(&#x27;_validationRules&#x27;));
-    validatableAttributes = emberArray(inheritedValidations.get(&#x27;validatableAttributes&#x27;).concat(validatableAttributes)).uniq();
+    validationRules = assign(
+      validationRules,
+      inheritedValidations.get(&#x27;_validationRules&#x27;)
+    );
+    validatableAttributes = emberArray(
+      inheritedValidations
+        .get(&#x27;validatableAttributes&#x27;)
+        .concat(validatableAttributes)
+    ).uniq();
   }
 
   // Normalize nested keys into actual objects and merge them with parent object
   Object.keys(validations).reduce((obj, key) =&gt; {
-    assign(obj, key, validations[key]);
+    deepSet(obj, key, validations[key]);
     return obj;
   }, validationRules);
 
@@ -412,36 +423,35 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   let TopLevelProps = createTopLevelPropsMixin(validatableAttributes);
 
   // Create the &#x60;attrs&#x60; class which will add the current model reference once instantiated
-  let AttrsClass = createAttrsClass(validatableAttributes, validationRules, model);
+  let AttrsClass = createAttrsClass(
+    validatableAttributes,
+    validationRules,
+    model
+  );
 
   // Create &#x60;validations&#x60; class
-  let ValidationsClass = Ember.Object.extend(TopLevelProps, {
+  let ValidationsClass = EmberObject.extend(TopLevelProps, {
     model: null,
     attrs: null,
     isValidations: true,
-
-    validatableAttributes: computed(function() {
-      return validatableAttributes;
-    }).readOnly(),
 
     // Caches
     _validators: null,
     _debouncedValidations: null,
 
     // Private
-    _validationRules: computed(function() {
-      return validationRules;
-    }).readOnly(),
+    _validationRules: validationRules,
 
     validate,
     validateSync,
     validateAttribute,
+    validatableAttributes,
 
     init() {
       this._super(...arguments);
       this.setProperties({
         attrs: AttrsClass.create({
-          _model: this.get(&#x27;model&#x27;)
+          [ATTRS_MODEL]: this.get(&#x27;model&#x27;)
         }),
         _validators: {},
         _debouncedValidations: {}
@@ -457,19 +467,19 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this.get(&#x27;attrs&#x27;).destroy();
 
       // Cancel all debounced timers
-      validatableAttrs.forEach((attr) =&gt; {
+      validatableAttrs.forEach(attr =&gt; {
         let attrCache = get(debouncedValidations, attr);
 
         if (!isNone(attrCache)) {
           // Itterate over each attribute and cancel all of its debounced validations
-          Object.keys(attrCache).forEach((v) =&gt; run.cancel(attrCache[v]));
+          Object.keys(attrCache).forEach(v =&gt; run.cancel(attrCache[v]));
         }
       });
     }
   });
 
   ValidationsClass.reopenClass({
-    __isCPValidationsClass__: true
+    [IS_VALIDATIONS_CLASS]: true
   });
 
   return ValidationsClass;
@@ -494,37 +504,41 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   let nestedClasses = {};
   let rootPath = &#x27;root&#x27;;
 
-  let AttrsClass = Ember.Object.extend({
-    __path__: rootPath,
+  let AttrsClass = EmberObject.extend({
+    [ATTRS_PATH]: rootPath,
 
     init() {
       this._super(...arguments);
 
-      let _model = this.get(&#x27;_model&#x27;);
-      let path = this.get(&#x27;__path__&#x27;);
+      let model = this.get(ATTRS_MODEL);
+      let path = this.get(ATTRS_PATH);
 
       /*
         Instantiate the nested attrs classes for the current path
        */
-      Object.keys(nestedClasses[path] || []).forEach((key) =&gt; {
-        set(this, key, nestedClasses[path][key].create({ _model }));
+      Object.keys(nestedClasses[path] || []).forEach(key =&gt; {
+        set(
+          this,
+          key,
+          nestedClasses[path][key].create({ [ATTRS_MODEL]: model })
+        );
       });
     },
 
     willDestroy() {
       this._super(...arguments);
 
-      let path = this.get(&#x27;__path__&#x27;);
+      let path = this.get(ATTRS_PATH);
 
       /*
         Remove the model reference
        */
-      set(this, &#x27;_model&#x27;, null);
+      set(this, ATTRS_MODEL, null);
 
       /*
         Destroy all nested classes
        */
-      Object.keys(nestedClasses[path] || []).forEach((key) =&gt; {
+      Object.keys(nestedClasses[path] || []).forEach(key =&gt; {
         get(this, key).destroy();
       });
     }
@@ -533,7 +547,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   /*
     Insert CPs + Create nested classes
    */
-  validatableAttributes.forEach((attribute) =&gt; {
+  validatableAttributes.forEach(attribute =&gt; {
     let path = attribute.split(&#x27;.&#x27;);
     let attr = path.pop();
     let currPath = [rootPath];
@@ -552,7 +566,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
 
       if (!_nestedClasses[key]) {
         _nestedClasses[key] = AttrsClass.extend({
-          __path__: currPath.join(&#x27;.&#x27;)
+          [ATTRS_PATH]: currPath.join(&#x27;.&#x27;)
         });
       }
 
@@ -561,7 +575,11 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
 
     // Add the final attr&#x27;s CP to the class
     currClass.reopen({
-      [attr]: createCPValidationFor(attribute, model, get(validationRules, attribute))
+      [attr]: createCPValidationFor(
+        attribute,
+        model,
+        get(validationRules, attribute)
+      )
     });
   });
 
@@ -581,21 +599,36 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  */
 function createCPValidationFor(attribute, model, validations) {
   let isVolatile = hasOption(validations, &#x27;volatile&#x27;, true);
-  let dependentKeys = isVolatile ? [] : getCPDependentKeysFor(attribute, model, validations);
+  let dependentKeys = isVolatile
+    ? []
+    : getCPDependentKeysFor(attribute, model, validations);
 
-  let cp = computed(...dependentKeys, cycleBreaker(function() {
-    let model = get(this, &#x27;_model&#x27;);
-    let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+  let cp = computed(
+    ...dependentKeys,
+    cycleBreaker(function() {
+      let model = get(this, ATTRS_MODEL);
+      let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
-    let validationResults = generateValidationResultsFor(attribute, model, validators, (validator, options) =&gt; {
-      return validator.validate(validator.getValue(), options, model, attribute);
-    });
+      let validationResults = generateValidationResultsFor(
+        attribute,
+        model,
+        validators,
+        (validator, options) =&gt; {
+          return validator.validate(
+            validator.getValue(),
+            options,
+            model,
+            attribute
+          );
+        }
+      );
 
-    return ResultCollection.create({
-      attribute,
-      content: validationResults
-    });
-  })).readOnly();
+      return ResultCollection.create({
+        attribute,
+        content: validationResults
+      });
+    })
+  ).readOnly();
 
   if (isVolatile) {
     cp = cp.volatile();
@@ -643,13 +676,19 @@ function hasOption(validations, option, value = true) {
  *                    - disableDebounceCache {Boolean}
  * @return {Array}
  */
-function generateValidationResultsFor(attribute, model, validators, validate, opts = {}) {
+function generateValidationResultsFor(
+  attribute,
+  model,
+  validators,
+  validate,
+  opts = {}
+) {
   let isModelValidatable = isValidatable(model);
   let isInvalid = false;
   let value, result;
 
-  return validators.map((validator) =&gt; {
-    let options = get(validator, &#x27;options&#x27;).copy();
+  return validators.map(validator =&gt; {
+    let options = get(validator, &#x27;options&#x27;).toObject();
     let isWarning = getWithDefault(options, &#x27;isWarning&#x27;, false);
     let disabled = getWithDefault(options, &#x27;disabled&#x27;, false);
     let debounce = getWithDefault(options, &#x27;debounce&#x27;, 0);
@@ -661,14 +700,14 @@ function generateValidationResultsFor(attribute, model, validators, validate, op
       let cache = getDebouncedValidationsCacheFor(attribute, model);
 
       // Return a promise and pass the resolve method to the debounce handler
-      value = new Promise((resolve) =&gt; {
+      value = new Promise(resolve =&gt; {
         let t = run.debounce(validator, resolveDebounce, resolve, debounce);
 
         if (!opts.disableDebounceCache) {
           cache[guidFor(validator)] = t;
         }
       }).then(() =&gt; {
-        return validate(validator, get(validator, &#x27;options&#x27;).copy());
+        return validate(validator, get(validator, &#x27;options&#x27;).toObject());
       });
     } else {
       value = validate(validator, options);
@@ -720,20 +759,23 @@ function createTopLevelPropsMixin(validatableAttrs) {
   ];
 
   let topLevelProps = aliases.reduce((props, alias) =&gt; {
-    props[alias] = computed.readOnly(&#x60;__attrsResultCollection__.${alias}&#x60;);
+    props[alias] = readOnly(&#x60;${ATTRS_RESULT_COLLECTION}.${alias}&#x60;);
     return props;
   }, {});
 
-  return Ember.Mixin.create(topLevelProps, {
+  return Mixin.create(topLevelProps, {
     /*
       Dedupe logic by creating a top level ResultCollection for all attr&#x27;s ResultCollections
      */
-    __attrsResultCollection__: computed(...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}&#x60;), function() {
-      return ResultCollection.create({
-        attribute: &#x60;Model:${this}&#x60;,
-        content: validatableAttrs.map((attr) =&gt; get(this, &#x60;attrs.${attr}&#x60;))
-      });
-    }).readOnly()
+    [ATTRS_RESULT_COLLECTION]: computed(
+      ...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}&#x60;),
+      function() {
+        return ResultCollection.create({
+          attribute: &#x60;Model:${this}&#x60;,
+          content: validatableAttrs.map(attr =&gt; get(this, &#x60;attrs.${attr}&#x60;))
+        });
+      }
+    ).readOnly()
   });
 }
 
@@ -751,11 +793,13 @@ function createTopLevelPropsMixin(validatableAttrs) {
 function getCPDependentKeysFor(attribute, model, validations) {
   let owner = getOwner(model);
 
-  let dependentKeys = validations.map((validation) =&gt; {
+  let dependentKeys = validations.map(validation =&gt; {
     let { options } = validation;
     let type = validation._type;
-    let Validator = type === &#x27;function&#x27; ? BaseValidator : lookupValidator(owner, type).class;
-    let baseDependents = BaseValidator.getDependentsFor(attribute, options) || [];
+    let Validator =
+      type === &#x27;function&#x27; ? BaseValidator : lookupValidator(owner, type).class;
+    let baseDependents =
+      BaseValidator.getDependentsFor(attribute, options) || [];
     let dependents = Validator.getDependentsFor(attribute, options) || [];
 
     return [
@@ -782,8 +826,8 @@ function getCPDependentKeysFor(attribute, model, validations) {
     dependentKeys.push(&#x27;model.isDeleted&#x27;);
   }
 
-  dependentKeys = dependentKeys.map((d) =&gt; {
-    return &#x60;${d.split(&#x27;.&#x27;)[0] === &#x27;model&#x27; ? &#x27;_&#x27; : &#x27;&#x27;}${d}&#x60;;
+  dependentKeys = dependentKeys.map(d =&gt; {
+    return d.replace(/^model\./, &#x60;${ATTRS_MODEL}.&#x60;);
   });
 
   return emberArray(dependentKeys).uniq();
@@ -854,7 +898,9 @@ function validationReturnValueHandler(attribute, value, model, validator) {
  */
 function getValidatorsFor(attribute, model) {
   let validators = get(model, &#x60;validations._validators.${attribute}&#x60;);
-  return isNone(validators) ? createValidatorsFor(attribute, model) : validators;
+  return isNone(validators)
+    ? createValidatorsFor(attribute, model)
+    : validators;
 }
 
 /**
@@ -870,7 +916,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
   let debouncedValidations = get(model, &#x27;validations._debouncedValidations&#x27;);
 
   if (isNone(get(debouncedValidations, attribute))) {
-    assign(debouncedValidations, attribute, {});
+    deepSet(debouncedValidations, attribute, {});
   }
 
   return get(debouncedValidations, attribute);
@@ -887,55 +933,30 @@ function getDebouncedValidationsCacheFor(attribute, model) {
  */
 function createValidatorsFor(attribute, model) {
   let validations = get(model, &#x27;validations&#x27;);
-  let validationRules = makeArray(get(validations, &#x60;_validationRules.${attribute}&#x60;));
+  let validationRules = makeArray(
+    get(validations, &#x60;_validationRules.${attribute}&#x60;)
+  );
   let validatorCache = get(validations, &#x27;_validators&#x27;);
   let owner = getOwner(model);
   let validators = [];
-  let validator;
 
   // We must have an owner to be able to lookup our validators
   if (isNone(owner)) {
-    throw new TypeError(&#x60;[ember-cp-validations] ${model.toString()} is missing a container or owner.&#x60;);
+    throw new TypeError(
+      &#x60;[ember-cp-validations] ${model.toString()} is missing a container or owner.&#x60;
+    );
   }
 
-  validationRules.forEach((v) =&gt; {
+  validationRules.forEach(v =&gt; {
     v.attribute = attribute;
     v.model = model;
-
-    // If validate function exists, that means validator was created with a function so use the base class
-    if (v._type === &#x27;function&#x27;) {
-      validator = BaseValidator.create(owner.ownerInjection(), v);
-    } else {
-      validator = lookupValidator(owner, v._type).create(v);
-    }
-
-    validators.push(validator);
+    validators.push(lookupValidator(owner, v._type).create(v));
   });
 
   // Add validators to model instance cache
-  assign(validatorCache, attribute, validators);
+  deepSet(validatorCache, attribute, validators);
 
   return validators;
-}
-
-/**
- * Lookup a validators of a specific type on the owner
- *
- * @method lookupValidator
- * @throws {Error} Validator not found
- * @private
- * @param  {Ember.Owner} owner
- * @param  {String} type
- * @return {Class} Validator class or undefined if not found
- */
-function lookupValidator(owner, type) {
-  let validatorClass = owner.factoryFor(&#x60;validator:${type}&#x60;);
-
-  if (isNone(validatorClass)) {
-    throw new Error(&#x60;[ember-cp-validations] Validator not found of type: ${type}.&#x60;);
-  }
-
-  return validatorClass;
 }
 
 /**
@@ -946,7 +967,7 @@ function lookupValidator(owner, type) {
  * @private
  * @param  {Function} resolve
  */
-function resolveDebounce(resolve)  {
+function resolveDebounce(resolve) {
   resolve();
 }
 
@@ -974,24 +995,29 @@ function validate(options = {}, isAsync = true) {
   let whiteList = makeArray(options.on);
   let blackList = makeArray(options.excludes);
 
-  let validationResults = get(this, &#x27;validatableAttributes&#x27;).reduce((v, name) =&gt; {
-    if (!isEmpty(blackList) &amp;&amp; blackList.indexOf(name) !== -1) {
-      return v;
-    }
-
-    if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
-      let validationResult = get(this, &#x60;attrs.${name}&#x60;);
-
-      // If an async validation is found, throw an error
-      if (!isAsync &amp;&amp; get(validationResult, &#x27;isAsync&#x27;)) {
-        throw new Error(&#x60;[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.&#x60;);
+  let validationResults = get(this, &#x27;validatableAttributes&#x27;).reduce(
+    (v, name) =&gt; {
+      if (!isEmpty(blackList) &amp;&amp; blackList.indexOf(name) !== -1) {
+        return v;
       }
 
-      v.push(validationResult);
-    }
+      if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
+        let validationResult = get(this, &#x60;attrs.${name}&#x60;);
 
-    return v;
-  }, []);
+        // If an async validation is found, throw an error
+        if (!isAsync &amp;&amp; get(validationResult, &#x27;isAsync&#x27;)) {
+          throw new Error(
+            &#x60;[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.&#x60;
+          );
+        }
+
+        v.push(validationResult);
+      }
+
+      return v;
+    },
+    []
+  );
 
   let validations = ResultCollection.create({
     attribute: &#x60;Validate:${model}&#x60;,
@@ -1007,7 +1033,9 @@ function validate(options = {}, isAsync = true) {
         where we have to resolve the actual models and only then resolve all the underlying
         validation promises. This is the reason that &#x60;validate&#x60; must be called recursively.
        */
-      return get(validations, &#x27;isValidating&#x27;) ? this.validate(options, isAsync) : resultObject;
+      return get(validations, &#x27;isValidating&#x27;)
+        ? this.validate(options, isAsync)
+        : resultObject;
     });
   }
 
@@ -1036,11 +1064,17 @@ function validateAttribute(attribute, value) {
   let model = get(this, &#x27;model&#x27;);
   let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
-  let validationResults = generateValidationResultsFor(attribute, model, validators, (validator, options) =&gt; {
-    return validator.validate(value, options, model, attribute);
-  }, {
-    disableDebounceCache: true
-  });
+  let validationResults = generateValidationResultsFor(
+    attribute,
+    model,
+    validators,
+    (validator, options) =&gt; {
+      return validator.validate(value, options, model, attribute);
+    },
+    {
+      disableDebounceCache: true
+    }
+  );
 
   let validations = ResultCollection.create({
     attribute,
@@ -1055,7 +1089,9 @@ function validateAttribute(attribute, value) {
       where we have to resolve the actual models and only then resolve all the underlying
       validation promises. This is the reason that &#x60;validateAttribute&#x60; must be called recursively.
      */
-    return get(validations, &#x27;isValidating&#x27;) ? this.validateAttribute(attribute, value) : result;
+    return get(validations, &#x27;isValidating&#x27;)
+      ? this.validateAttribute(attribute, value)
+      : result;
   });
 }
 

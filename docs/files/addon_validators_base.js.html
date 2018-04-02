@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.2" target="_blank">
-                                  Tag: v3.5.2
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
+                                  Tag: v4.0.0-beta.0
                                 </a>
                             </h4>
                         </div>
@@ -186,30 +186,32 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-
-import Ember from &#x27;ember&#x27;;
+import { bool } from &#x27;@ember/object/computed&#x27;;
+import EmberObject, { set, get, computed } from &#x27;@ember/object&#x27;;
+import { isNone } from &#x27;@ember/utils&#x27;;
+import { getOwner } from &#x27;@ember/application&#x27;;
 import Messages from &#x27;ember-cp-validations/validators/messages&#x27;;
 import Options from &#x27;ember-cp-validations/-private/options&#x27;;
-import { unwrapString, getValidatableValue, mergeOptions } from &#x27;ember-cp-validations/utils/utils&#x27;;
+import lookupValidator from &#x27;ember-cp-validations/utils/lookup-validator&#x27;;
+import {
+  unwrapString,
+  getValidatableValue,
+  mergeOptions,
+  isPromise
+} from &#x27;ember-cp-validations/utils/utils&#x27;;
 
-const {
-  get,
-  set,
-  isNone,
-  computed,
-  getOwner
-} = Ember;
+class TestResult {
+  constructor(result) {
+    this.isValid = result === true;
+    this.message = typeof result === &#x27;string&#x27; ? result : null;
+  }
+}
 
 /**
  * @class Base
  * @module Validators
  */
-const Base = Ember.Object.extend({
-
+const Base = EmberObject.extend({
   /**
    * Options passed in to the validator when defined in the model
    * @property options
@@ -256,7 +258,7 @@ const Base = Ember.Object.extend({
    * @property isWarning
    * @type {Boolean}
    */
-  isWarning: computed.bool(&#x27;options.isWarning&#x27;).readOnly(),
+  isWarning: bool(&#x27;options.isWarning&#x27;).readOnly(),
 
   /**
    * Validator type
@@ -265,6 +267,14 @@ const Base = Ember.Object.extend({
    * @type {String}
    */
   _type: null,
+
+  /**
+   * Validators cache used by &#x60;test&#x60; api
+   * @property _testValidatorCache
+   * @private
+   * @type {Object}
+   */
+  _testValidatorCache: computed(() =&gt; ({})).readOnly(),
 
   init() {
     this._super(...arguments);
@@ -282,14 +292,18 @@ const Base = Ember.Object.extend({
     // If for some reason, we can&#x27;t find the messages object (i.e. unit tests), use default
     errorMessages = errorMessages || Messages;
 
-    set(this, &#x27;options&#x27;, this.buildOptions(options || {}, defaultOptions || {}, globalOptions || {}));
+    set(
+      this,
+      &#x27;options&#x27;,
+      this.buildOptions(options, defaultOptions, globalOptions)
+    );
     set(this, &#x27;errorMessages&#x27;, errorMessages.create());
   },
 
   /**
    * Build options hook. Merges default options into options object.
    * This method gets called on init and is the ideal place to normalize your options.
-   * The [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js) is a good example to checkout
+   * The [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/presence.js) is a good example to checkout
    * @method buildOptions
    * @param  {Object} options
    * @param  {Object} defaultOptions
@@ -304,10 +318,10 @@ const Base = Ember.Object.extend({
     this.value = builtOptions.value || this.value;
     delete builtOptions.value;
 
-    return Options.create({
+    return new Options({
       model: get(this, &#x27;model&#x27;),
       attribute: get(this, &#x27;attribute&#x27;),
-      __options__: builtOptions
+      options: builtOptions
     });
   },
 
@@ -365,14 +379,13 @@ const Base = Ember.Object.extend({
    *
    * &#x60;&#x60;&#x60;javascript
    * validate(value, options) {
-   *   var exists = false;
-   *
-   *   get(options, &#x27;description&#x27;) = &#x27;Username&#x27;;
-   *   get(options, &#x27;username&#x27;) = value;
+   *   const exists = false;
    *
    *   // check with server if username exists...
    *
    *   if(exists) {
+   *     // The username key on the options object will be used to create the error message
+   *     options.username = value;
    *     return this.createErrorMessage(&#x27;uniqueUsername&#x27;, value, options);
    *   }
    *
@@ -384,7 +397,7 @@ const Base = Ember.Object.extend({
    *
    * @method createErrorMessage
    * @param  {String} type        The type of message template to use
-   * @param  {Mixed} value                Current value being evaluated
+   * @param  {Mixed} value        Current value being evaluated
    * @param  {Object} options     Validator built and processed options (used as the message string context)
    * @return {String}             The generated message
    */
@@ -392,26 +405,92 @@ const Base = Ember.Object.extend({
     let messages = this.get(&#x27;errorMessages&#x27;);
     let message = unwrapString(get(options, &#x27;message&#x27;));
 
-    set(options, &#x27;description&#x27;, messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options));
+    set(
+      options,
+      &#x27;description&#x27;,
+      messages.getDescriptionFor(get(this, &#x27;attribute&#x27;), options)
+    );
 
     if (message) {
       if (typeof message === &#x27;string&#x27;) {
         message = messages.formatMessage(message, options);
       } else if (typeof message === &#x27;function&#x27;) {
         message = message.apply(this, arguments);
-        message = isNone(message) ? messages.getMessageFor(type, options) : messages.formatMessage(message, options);
+        message = isNone(message)
+          ? messages.getMessageFor(type, options)
+          : messages.formatMessage(message, options);
       }
     } else {
       message = messages.getMessageFor(type, options);
     }
 
     return message.trim();
+  },
+
+  /**
+   * Easily compose complicated validations by using this method to validate
+   * against other validators.
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * validate(value, options, ...args) {
+   *   let result = this.test(&#x27;presence&#x27;, value, { presence: true }, ...args);
+   *
+   *   if (!result.isValid) {
+   *     return result.message;
+   *   }
+   *
+   *   // You can even test against your own custom validators
+   *   result = this.test(&#x27;my-validator&#x27;, value, { foo: &#x27;bar&#x27; }, ...args);
+   *
+   *   if (!result.isValid) {
+   *     return result.message;
+   *   }
+   *
+   *   result = this.test(&#x27;number&#x27;, value, { integer: true }, ...args);
+   *
+   *   // You can easily override the error message by returning your own.
+   *   if (!result.isValid) {
+   *      return &#x27;This value must be an integer!&#x27;;
+   *    }
+   *
+   *   // Add custom logic...
+   *
+   *   return true;
+   * }
+   * &#x60;&#x60;&#x60;
+   * @method test
+   * @param  {String} type    The validator type (e.x. &#x27;presence&#x27;, &#x27;length&#x27;, etc.)
+   *                          The following types are unsupported:
+   *                            &#x27;alias&#x27;, &#x27;belongs-to&#x27;, &#x27;dependent&#x27;, &#x27;has-many&#x27;
+   * @param  {...args} args   The arguments to pass through to the validator
+   * @return {Object}         The test result object which will contain &#x60;isValid&#x60;
+   *                          and &#x60;message&#x60;. If the validator is async, then the
+   *                          return value will be a promise.
+   */
+  test(type, ...args) {
+    const cache = this.get(&#x27;_testValidatorCache&#x27;);
+    const unsupportedTypes = [&#x27;alias&#x27;, &#x27;belongs-to&#x27;, &#x27;dependent&#x27;, &#x27;has-many&#x27;];
+
+    if (unsupportedTypes.includes(type)) {
+      throw new Error(
+        &#x60;[ember-cp-validations] The \&#x60;test\&#x60; API does not support validators of type: ${type}.&#x60;
+      );
+    }
+
+    cache[type] = cache[type] || lookupValidator(getOwner(this), type).create();
+    const result = cache[type].validate(...args);
+
+    if (isPromise(result)) {
+      return result.then(r =&gt; new TestResult(r), r =&gt; new TestResult(r));
+    }
+
+    return new TestResult(result);
   }
 });
 
 Base.reopenClass({
   /**
-   * Generate the needed depenent keys for this validator
+   * Generate the needed dependent keys for this validator
    *
    * @method getDependentsFor
    * @static
@@ -478,7 +557,7 @@ export default Base;
  *         let message = &#x60;The username &#x27;${value}&#x27; already exists.&#x60;;
  *         let meta = user.get(&#x27;meta&#x27;);
  *
- *         if(get(options, &#x27;showSuggestions&#x27;) &amp;&amp; meta &amp;&amp; meta.suggestions) {
+ *         if(options.showSuggestions &amp;&amp; meta &amp;&amp; meta.suggestions) {
  *           message += &quot;What about one of the these: &quot; + meta.suggestions.join(&#x27;, &#x27;);
  *         }
  *         return message;
@@ -526,7 +605,7 @@ export default Base;
  * To use our unique-username validator we just have to add it to the model definition
  *
  * &#x60;&#x60;&#x60;javascript
- * var Validations = buildValidations({
+ * const Validations = buildValidations({
  *   username: validator(&#x27;unique-username&#x27;, {
  *     showSuggestions: true
  *   }),
@@ -551,7 +630,7 @@ export default Base;
  * });
  *
  * test(&#x27;it works&#x27;, function(assert) {
- *     var validator =  this.subject();
+ *     const validator =  this.subject();
  *     assert.ok(validator);
  * });
  * &#x60;&#x60;&#x60;
@@ -574,23 +653,6 @@ export default Base;
  *  @class Custom
  *  @module Validators
  *  @extends Base
- */
-
-/**
- * A validator can also be declared with an inline function. The function will be then wrapped in the {{#crossLink &#x27;Base&#x27;}}Base Validator{{/crossLink}} class and used just like any other pre-defined validator.
- *
- * &#x60;&#x60;&#x60;javascript
- * // Example
- * validator(function(value, options, model, attribute) {
- *   return value === get(options, &#x27;username&#x27;) ? true : &#x60;must be ${get(options, &#x27;username&#x27;)}&#x60;;
- * } , {
- *   username: &#x27;John&#x27; // Any options can be passed here
- * })
- * &#x60;&#x60;&#x60;
- *
- * @class Inline
- * @module Validators
- * @extends Base
  */
 
     </pre>

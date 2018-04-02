@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v3.5.2" target="_blank">
-                                  Tag: v3.5.2
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
+                                  Tag: v4.0.0-beta.0
                                 </a>
                             </h4>
                         </div>
@@ -184,7 +184,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> Exclusion Class
-            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-validators/blob/master//addon/exclusion.js#L17" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/offirgolan/ember-validators/blob/master//addon/exclusion.js#L6" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -201,7 +201,7 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/offirgolan/ember-validators/blob/master//addon/exclusion.js#L17">ember-validators/addon/exclusion.js:17</a>
+            Defined In: <a href="https://github.com/offirgolan/ember-validators/blob/master//addon/exclusion.js#L6">ember-validators/addon/exclusion.js:6</a>
         </div>
 </div>
 
@@ -277,6 +277,10 @@ validator('exclusion', {
 
                               </li>
                               <li class="index-item method inherited">
+                                  <a href="#method_test">test</a>
+
+                              </li>
+                              <li class="index-item method inherited">
                                   <a href="#method_validate">validate</a>
 
                               </li>
@@ -291,6 +295,10 @@ validator('exclusion', {
                       <h3>Properties</h3>
 
                       <ul class="index-list properties extends">
+                              <li class="index-item property private inherited">
+                                  <a href="#property__testValidatorCache">_testValidatorCache</a>
+
+                              </li>
                               <li class="index-item property private inherited">
                                   <a href="#property__type">_type</a>
 
@@ -365,7 +373,7 @@ validator('exclusion', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_buildOptions">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L101">addon/validators/base.js:101</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L115">addon/validators/base.js:115</a>
   		</p>
   
   
@@ -374,7 +382,7 @@ validator('exclusion', {
   
   	<div class="description"><p>Build options hook. Merges default options into options object.
   This method gets called on init and is the ideal place to normalize your options.
-  The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/app/validators/presence.js">presence validator</a> is a good example to checkout</p>
+  The <a href="https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/presence.js">presence validator</a> is a good example to checkout</p>
   </div>
   
   		<div class="params">
@@ -448,7 +456,7 @@ validator('exclusion', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_createErrorMessage">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L171">addon/validators/base.js:171</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L185">addon/validators/base.js:185</a>
   		</p>
   
   
@@ -460,14 +468,13 @@ validator('exclusion', {
   <p>If we extended our default messages to include <code>uniqueUsername: '{username} already exists'</code>,
   we can use this method to generate our error message.</p>
   <pre class="code prettyprint"><code class="language-javascript">validate(value, options) {
-    var exists = false;
-  
-    get(options, 'description') = 'Username';
-    get(options, 'username') = value;
+    const exists = false;
   
     // check with server if username exists...
   
     if(exists) {
+      // The username key on the options object will be used to create the error message
+      options.username = value;
       return this.createErrorMessage('uniqueUsername', value, options);
     }
   
@@ -545,7 +552,7 @@ validator('exclusion', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_getValue">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L140">addon/validators/base.js:140</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L154">addon/validators/base.js:154</a>
   		</p>
   
   
@@ -562,6 +569,114 @@ validator('exclusion', {
   			<div class="returns-description">
   						<span class="type">Mixed</span>:
   					<p>value</p>
+  
+  			</div>
+  		</div>
+  
+  </div>
+  <div id="method_test" class="method item inherited">
+  	<span class="method-signature">
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_test"></a>
+  		test
+  	</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>type</code>
+  				</li>
+  				<li class="arg">
+  						<code>args</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>Inherited from
+  				<a href="../classes/Base.html#method_test">Base</a>:
+  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L242">addon/validators/base.js:242</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Easily compose complicated validations by using this method to validate
+  against other validators.</p>
+  <pre class="code prettyprint"><code class="language-javascript">validate(value, options, ...args) {
+    let result = this.test('presence', value, { presence: true }, ...args);
+  
+    if (!result.isValid) {
+      return result.message;
+    }
+  
+    // You can even test against your own custom validators
+    result = this.test('my-validator', value, { foo: 'bar' }, ...args);
+  
+    if (!result.isValid) {
+      return result.message;
+    }
+  
+    result = this.test('number', value, { integer: true }, ...args);
+  
+    // You can easily override the error message by returning your own.
+    if (!result.isValid) {
+       return 'This value must be an integer!';
+     }
+  
+    // Add custom logic...
+  
+    return true;
+  }
+  </code></pre>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">type</code>
+  						<span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  					<div class="param-description"><p>The validator type (e.x. 'presence', 'length', etc.)
+  The following types are unsupported:
+  'alias', 'belongs-to', 'dependent', 'has-many'</p>
+  </div>
+  
+  				</li>
+  				<li class="param">
+  						<code class="param-name">args</code>
+  						<span class="type">...args</span>
+  
+  
+  					<div class="param-description"><p>The arguments to pass through to the validator</p>
+  </div>
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+  					<p>The test result object which will contain <code>isValid</code>
+  and <code>message</code>. If the validator is async, then the
+  return value will be a promise.</p>
   
   			</div>
   		</div>
@@ -604,7 +719,7 @@ validator('exclusion', {
   				Base
   			</a>
   			but overwritten in
-  		<a href="https://github.com/offirgolan/ember-validators/blob/master//addon/exclusion.js#L22">ember-validators/addon/exclusion.js:22</a>
+  		<a href="https://github.com/offirgolan/ember-validators/blob/master//addon/exclusion.js#L11">ember-validators/addon/exclusion.js:11</a>
   		</p>
   
   
@@ -706,7 +821,7 @@ validator('exclusion', {
   	<div class="meta">
   				<p>Inherited from
   				<a href="../classes/Base.html#method_value">Base</a>:
-  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L126">addon/validators/base.js:126</a>
+  		<a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L140">addon/validators/base.js:140</a>
   		</p>
   
   
@@ -754,6 +869,35 @@ validator('exclusion', {
 
               <div id="tab_properties" role="tabpanel" class="tab-pane">
                   <div class="item-list">
+  <div id="property__testValidatorCache" class="property item private inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property__testValidatorCache"></a>
+          _testValidatorCache
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+          <span class="flag private">private</span>
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="../classes/Base.html#property__testValidatorCache">Base</a>:
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L83">addon/validators/base.js:83</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Validators cache used by <code>test</code> api</p>
+  
+      </div>
+  
+  
+  
+  </div>
   <div id="property__type" class="property item private inherited">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property__type"></a>
@@ -769,7 +913,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property__type">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L73">addon/validators/base.js:73</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L75">addon/validators/base.js:75</a>
           </p>
   
   
@@ -797,7 +941,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_attribute">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L53">addon/validators/base.js:53</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L55">addon/validators/base.js:55</a>
           </p>
   
   
@@ -825,7 +969,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_defaultOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L32">addon/validators/base.js:32</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L34">addon/validators/base.js:34</a>
           </p>
   
   
@@ -853,7 +997,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_errorMessages">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L60">addon/validators/base.js:60</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L62">addon/validators/base.js:62</a>
           </p>
   
   
@@ -881,7 +1025,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_globalOptions">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L39">addon/validators/base.js:39</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L41">addon/validators/base.js:41</a>
           </p>
   
   
@@ -909,7 +1053,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_isWarning">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L67">addon/validators/base.js:67</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L69">addon/validators/base.js:69</a>
           </p>
   
   
@@ -936,7 +1080,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_model">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L46">addon/validators/base.js:46</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L48">addon/validators/base.js:48</a>
           </p>
   
   
@@ -964,7 +1108,7 @@ validator('exclusion', {
       <div class="meta">
                   <p>Inherited from
                   <a href="../classes/Base.html#property_options">Base</a>:
-          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v3.5.2/addon/validators/base.js#L25">addon/validators/base.js:25</a>
+          <a href="https://github.com/offirgolan/ember-cp-validations/blob/v4.0.0-beta.0/addon/validators/base.js#L27">addon/validators/base.js:27</a>
           </p>
   
   
