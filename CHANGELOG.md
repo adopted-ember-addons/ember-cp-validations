@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## v4.0.0-beta.0
+
+- [#564](https://github.com/offirgolan/ember-cp-validations/pull/564) Update all the things
+- [#566](https://github.com/offirgolan/ember-cp-validations/pull/566) Validator Composability
+- [#568](https://github.com/offirgolan/ember-cp-validations/pull/568) Partial memory leak fixes
+- [#569](https://github.com/offirgolan/ember-cp-validations/pull/569) Inline Validator
+- [#576](https://github.com/offirgolan/ember-cp-validations/pull/576) Ember 3.0 + Updated Tests
+
 ## v3.5.2
 
 - Fix ember-validators and ember-require-module versions
