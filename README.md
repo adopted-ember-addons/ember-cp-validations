@@ -22,7 +22,6 @@ __No observers were used nor harmed while developing and testing this addon.__
 - I18n support
 - Debounceable validations
 - Warning validations
-- Dirty tracking
 
 [![Introduction to Ember CP Validations](https://cloud.githubusercontent.com/assets/2922250/21854491/ebda55b8-d7e8-11e6-8d13-00dff93be8d8.png)](https://embermap.com/video/ember-cp-validations)
 

@@ -552,7 +552,6 @@ function createTopLevelPropsMixin(validatableAttrs) {
   let aliases = [
     'isValid',
     'isValidating',
-    'isDirty',
     'isAsync',
     'isNotValidating',
     'isInvalid',

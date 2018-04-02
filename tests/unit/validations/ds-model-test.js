@@ -11,11 +11,6 @@ module('Unit | Validations | DS.Model', function(hooks) {
     );
 
     assert.equal(
-      object.get('validations.attrs.acceptTerms.isDirty'),
-      false,
-      'isDirty was expected to be FALSE'
-    );
-    assert.equal(
       object.get('validations.attrs.acceptTerms.isValid'),
       false,
       'isValid was expected to be FALSE'
@@ -25,11 +20,6 @@ module('Unit | Validations | DS.Model', function(hooks) {
       object.set('acceptTerms', true);
     });
 
-    assert.equal(
-      object.get('validations.attrs.acceptTerms.isDirty'),
-      true,
-      'isDirty was expected to be TRUE'
-    );
     assert.equal(
       object.get('validations.attrs.acceptTerms.isValid'),
       true,
@@ -45,11 +35,6 @@ module('Unit | Validations | DS.Model', function(hooks) {
     );
 
     assert.equal(
-      object.get('validations.attrs.acceptTerms.isDirty'),
-      true,
-      'isDirty was expected to be TRUE'
-    );
-    assert.equal(
       object.get('validations.attrs.acceptTerms.isValid'),
       true,
       'isValid was expected to be TRUE'
@@ -59,11 +44,6 @@ module('Unit | Validations | DS.Model', function(hooks) {
       object.set('acceptTerms', false);
     });
 
-    assert.equal(
-      object.get('validations.attrs.acceptTerms.isDirty'),
-      false,
-      'isDirty was expected to be FALSE'
-    );
     assert.equal(
       object.get('validations.attrs.acceptTerms.isValid'),
       false,
