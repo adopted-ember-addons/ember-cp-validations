@@ -10,8 +10,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  ## Examples
  *
  *  ```javascript
- *  email: validator('confirmation', {
- *    on: 'email'
+ *  email: validator('format', {
+ *    type: 'email'
  *  })
  *  verifiedEmail: validator('confirmation', {
  *    on: 'email',
