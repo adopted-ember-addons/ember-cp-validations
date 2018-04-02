@@ -80,14 +80,16 @@
     "loader.js": "^4.2.3",
     "prettier": "^1.10.2",
     "qunit-dom": "^0.5.0",
-    "yuidoc-ember-theme": "^1.4.0"
+    "yuidoc-ember-theme": "^2.0.1"
   },
   "keywords": [
     "ember-addon",
     "ember-data",
     "validator",
     "validation",
-    "model"
+    "model",
+    "input",
+    "form"
   ],
   "dependencies": {
     "ember-cli-babel": "^6.6.0",

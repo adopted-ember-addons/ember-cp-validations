@@ -1,70 +1,42 @@
-# Upgrading v2.x to 3.x
+# Upgrading v3.x to 4.x
 
 This document is here to show breaking changes when upgrading from v2.x to v3.x
 
-### Computed Options
+## Support Latest 2 LTS Releases
 
-In 2.x, we introduced the notion of `Options as Functions` which allowed any validator's option to be a function that would
-be lazily called right before a validation happened. In 3.x, we noticed that such implementation very much resembled the
-workings of a Computed Property (without the caching of course). Converting our functional approach to an Ember CP approach made defining validations a whole lot simpler.
+As Ember is evolving, we have to be able to keep up. v3.x supported Ember versions as old
+as 1.11 which not only made this addon difficult to maintain, but also added a
+lot of bloat. Going forward, this addon will target and test against only the 2
+latest LTS releases.
 
-**Before (2.x)**
+## Inline Validator
+
+This library has always supported the ability to pass in a custom validate function
+to the `validator` but it didn't feel consistent with the rest of the API. To normalize
+this, we created a new `inline` validator that you can pass a function to via
+the `validate` option.
+
+**Before (3.x)**
 
 ```javascript
-validator('length', {
-  dependentKeys: ['isDisabled', 'meta.username.minLength', 'meta.username.maxLength'],
-  disabled(model) {
-    return model.get('isDisabled');
-  },
-  min(model) {
-    return model.get('meta.username.minLength')
-  },
-  max(model) {
-    return model.get('meta.username.maxLength')
-  },
-  description(model, attribute) {
-    return model.generateDescription(attribute);
+validator(function(value, options, model, attribute) {
+  return value === options.username ?
+         true :
+         `Username must be ${options.username}`;
+}, {
+  username: 'offirgolan'
+});
+```
+
+**After (4.x)**
+
+```javascript
+validator('inline', {
+  username: 'offirgolan',
+  validate(value, options, model, attribute) {
+    return value === options.username ?
+           true :
+           `Username must be ${options.username}`;
   }
-});
-```
-
-**After (3.x)**
-
-```javascript
-validator('length', {
-  disabled: Ember.computed.not('model.meta.username.isEnabled'),
-  min: Ember.computed.readOnly('model.meta.username.minLength'),
-  max: Ember.computed.readOnly('model.meta.username.maxLength'),
-  description: Ember.computed(function() {
-    // CPs have access to the `model` and `attribute`
-    return this.get('model').generateDescription(this.get('attribute'));
-  }).volatile() // Disable caching and force recompute on every get call
-});
-```
-
-Some more reasons why this is better:
-
-- Any option that uses a CP doesn't have to re-declare those dependents in the `dependentKeys` collection.
-- You can use any Ember.computed operation (computed.`and`, computed.`or`, computed.`filterBy`, etc.)
-
-### dependentKeys
-
-There might be instances where your validator is dependent on external properties. For this reason, we introduced `dependentKeys` in 2.x. In 3.x, the only change to this is that all dependent keys must be prefixed with `model`.
-
-**Before (2.x)**
-
-```javascript
-validator('presence', {
-  presence: true,
-  dependentKeys: ['someService.someProperty', 'foo', 'bar.baz']
-});
-```
-
-**After (3.x)**
-
-```javascript
-validator('presence', {
-  presence: true,
-  dependentKeys: ['model.someService.someProperty', 'model.foo', 'model.bar.baz']
 });
 ```
