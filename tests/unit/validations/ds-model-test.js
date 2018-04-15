@@ -58,14 +58,10 @@ module('Unit | Validations | DS.Model', function(hooks) {
 
     run(() => company.setProperties({ name: null }));
 
-    assert.equal(
-      company.get('validations.attrs.name.isValid'),
-      false,
-      'isValid => FALSE'
-    );
+    assert.notOk(company.get('validations.isValid'), 'isValid => FALSE');
 
     run(() => company.setProperties({ name: 'dude' }));
 
-    assert.equal(company.get('validations.isValid'), true, 'isValid => TRUE');
+    assert.ok(company.get('validations.isValid'), 'isValid => TRUE');
   });
 });
