@@ -50,4 +50,18 @@ module('Unit | Validations | DS.Model', function(hooks) {
       'isValid was expected to be FALSE'
     );
   });
+
+  test('for es6 class style model with decorator declaring validations', function(assert) {
+    let company = run(() => {
+      return this.owner.lookup('service:store').createRecord('company');
+    });
+
+    run(() => company.setProperties({ name: null }));
+
+    assert.notOk(company.get('validations.isValid'), 'isValid => FALSE');
+
+    run(() => company.setProperties({ name: 'dude' }));
+
+    assert.ok(company.get('validations.isValid'), 'isValid => TRUE');
+  });
 });

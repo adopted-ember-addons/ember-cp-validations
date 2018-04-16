@@ -1,5 +1,6 @@
 import Factory from './validations/factory';
 import Validator from './validations/validator';
+import { hasValidations as validationDecorator } from './decorators/has-validations';
 
 /**
  * ## Installation
@@ -301,8 +302,10 @@ import Validator from './validations/validator';
 
 export const buildValidations = Factory;
 export const validator = Validator;
+export const hasValidations = validationDecorator;
 
 export default {
   buildValidations,
-  validator
+  validator,
+  hasValidations
 };
