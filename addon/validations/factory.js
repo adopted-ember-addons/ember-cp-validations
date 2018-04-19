@@ -101,8 +101,8 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       this._super(...arguments);
 
       // Count number of mixins to bypass super check if there is more than 1
-      this[VALIDATIONS_MIXIN_COUNT] = this[VALIDATIONS_MIXIN_COUNT] || 0;
-      validationMixinCount = ++this[VALIDATIONS_MIXIN_COUNT];
+      validationMixinCount = (this.get(VALIDATIONS_MIXIN_COUNT) || 0) + 1;
+      this.set(VALIDATIONS_MIXIN_COUNT, validationMixinCount);
     },
     [VALIDATIONS_CLASS]: computed(function() {
       if (!Validations) {
