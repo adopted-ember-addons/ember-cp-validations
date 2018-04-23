@@ -6,7 +6,7 @@ import {
   buildValidations
 } from 'ember-cp-validations';
 
-const Validations = buildValidations({
+export const Validations = buildValidations({
   name: validator('presence', { presence: true, description: 'Name' })
 });
 
