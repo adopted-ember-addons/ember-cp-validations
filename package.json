@@ -96,7 +96,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^6.6.0",
-    "ember-require-module": "^0.2.0",
+    "ember-require-module": "^0.3.0",
     "ember-validators": "^1.1.1"
   },
   "ember-addon": {
