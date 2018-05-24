@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## v4.0.0-beta.1
+
+- [#579](https://github.com/offirgolan/ember-cp-validations/pull/579) Update validator test blueprints to latest APIs
+- [#580](https://github.com/offirgolan/ember-cp-validations/pull/580) Remove `isDirty`
+- [#583](https://github.com/offirgolan/ember-cp-validations/pull/583) export hasValidations decorator for es6 style models [@danielspaniel](https://github.com/danielspaniel)
+- [#586](https://github.com/offirgolan/ember-cp-validations/pull/586) update to 3.1 and fix ObjectProxy extends validations bug [@danielspaniel](https://github.com/danielspaniel)
+- [#590](https://github.com/offirgolan/ember-cp-validations/pull/590) Update `ember-require-module` to v0.3.0
+- [#593](https://github.com/offirgolan/ember-cp-validations/pull/593) Upgrade `ember-validators` to 1.2.0
+
 ## v4.0.0-beta.0
 
 - [#564](https://github.com/offirgolan/ember-cp-validations/pull/564) Update all the things
