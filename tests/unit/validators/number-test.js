@@ -16,7 +16,7 @@ module('Unit | Validator | number', function(hooks) {
     builtOptions = validator.buildOptions({});
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, 'This field must be a number');
+    assert.equal(message, true);
 
     message = validator.validate(22, builtOptions.toObject());
     assert.equal(message, true);
