@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
-                                  Tag: v4.0.0-beta.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.1" target="_blank">
+                                  Tag: v4.0.0-beta.1
                                 </a>
                             </h4>
                         </div>
@@ -309,24 +309,6 @@ export default ArrayProxy.extend({
    * @type {Boolean}
    */
   isTruelyInvalid: isAny(&#x27;content&#x27;, &#x27;isTruelyInvalid&#x27;, true, false).readOnly(),
-
-  /**
-   * Will be true is the attribute in question is not &#x60;null&#x60; or &#x60;undefined&#x60;. If the object being
-   * validated is an Ember Data Model and you have a &#x60;defaultValue&#x60; specified, then it will use that for comparison.
-   *
-   * &#x60;&#x60;&#x60;javascript
-   * // Examples
-   * // &#x27;username&#x27; : DS.attr(&#x27;string&#x27;, { defaultValue: &#x27;johndoe&#x27; })
-   * get(user, &#x27;validations.isDirty&#x27;)
-   * get(user, &#x27;validations.attrs.username.isDirty&#x27;)
-   * &#x60;&#x60;&#x60;
-   *
-   * @property isDirty
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  isDirty: isAny(&#x27;content&#x27;, &#x27;isDirty&#x27;, true, false).readOnly(),
 
   /**
    * Will be &#x60;true&#x60; only if a validation returns a promise

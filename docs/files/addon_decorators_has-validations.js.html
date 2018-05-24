@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>node_modules/ember-validators/addon/inclusion.js - Ember CP Validations</title>
+    <title>addon/decorators/has-validations.js - Ember CP Validations</title>
     <meta name="description" content="Ember computed property based validations">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -186,50 +186,27 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import { assert } from &#x27;@ember/debug&#x27;;
-import { isEmpty, typeOf } from &#x27;@ember/utils&#x27;;
-import { getProperties, get } from &#x27;@ember/object&#x27;;
-import validationError from &#x27;ember-validators/utils/validation-error&#x27;;
-
 /**
- *  @class Inclusion
- *  @module Validators
+ * Decorator that allows you to mixin validations when using es6 style model classes
+ *
+ * Usage:
+ *
+ * import { hasValidations } from &#x27;ember-cp-validations&#x27;;
+ *
+ * @hasValidations(Validations)
+ * export default class YourModel extends Model {
+ *    @attr(&#x27;string&#x27;) name
+ * };
+ *
+ *
+ * @param validations
+ * @returns {decorator}
  */
 
-/**
- * @method validate
- * @param {Any} value
- * @param {Object} options
- * @param {Boolean} options.allowBlank If true, skips validation if the value is empty
- * @param {Array} options.in The list of values this attribute could be
- * @param {Array} options.range The range in which the attribute&#x27;s value should reside in
- * @param {Object} model
- * @param {String} attribute
- */
-export default function validateInclusion(value, options, model, attribute) {
-  let array = get(options, &#x27;in&#x27;);
-  let { range, allowBlank } = getProperties(options, [&#x27;range&#x27;, &#x27;allowBlank&#x27;]);
-
-  assert(&#x60;[validator:inclusion] [${attribute}] no options were passed in&#x60;, !isEmpty(Object.keys(options)));
-
-  if (allowBlank &amp;&amp; isEmpty(value)) {
-    return true;
-  }
-
-  if (array &amp;&amp; array.indexOf(value) === -1) {
-    return validationError(&#x27;inclusion&#x27;, value, options);
-  }
-
-  if (range &amp;&amp; range.length === 2) {
-    let [ min, max ] = range;
-    let equalType = typeOf(value) === typeOf(min) &amp;&amp; typeOf(value) === typeOf(max);
-
-    if (!equalType || min &gt; value || value &gt; max) {
-      return validationError(&#x27;inclusion&#x27;, value, options);
-    }
-  }
-
-  return true;
+export function hasValidations(validations) {
+  return function decorator(target) {
+    target.prototype.reopen(validations);
+  };
 }
 
     </pre>

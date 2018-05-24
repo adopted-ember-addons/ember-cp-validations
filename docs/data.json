@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "v4.0.0-beta.0"
+        "version": "v4.0.0-beta.1"
     },
     "files": {
         "addon/-private/result.js": {
@@ -21,6 +21,13 @@
             "classes": {
                 "Result": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/decorators/has-validations.js": {
+            "name": "addon/decorators/has-validations.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -444,7 +451,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "addon/index.js",
-            "line": 4,
+            "line": 5,
             "description": "## Installation\n```shell\nember install ember-cp-validations\n```\n\n## Changelog\nChangelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)\n\n## Live Demo\nA live demo can be found [here](http://offirgolan.github.io/ember-cp-validations/)\n\n## Looking for help?\nIf it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues)."
         },
         "Basic": {
@@ -458,7 +465,7 @@
             "module": "Usage",
             "namespace": "",
             "file": "addon/index.js",
-            "line": 22,
+            "line": 23,
             "description": "## Models\n\nThe first thing we need to do is build our validation rules. This will then generate a Mixin that you will be able to incorporate into your model or object.\n\n```javascript\n// models/user.js\n\nimport Ember from 'ember';\nimport DS from 'ember-data';\nimport { validator, buildValidations } from 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  username: validator('presence', true),\n  password: [\n    validator('presence', true),\n    validator('length', {\n      min: 4,\n      max: 8\n    })\n  ],\n  email: [\n    validator('presence', true),\n    validator('format', { type: 'email' })\n  ],\n  emailConfirmation: [\n    validator('presence', true),\n    validator('confirmation', {\n      on: 'email',\n      message: '{description} do not match',\n      description: 'Email addresses'\n    })\n  ]\n});\n```\n\nOnce our rules are created and our Mixin is generated, all we have to do is add it to our model.\n\n```javascript\n// models/user.js\n\nexport default DS.Model.extend(Validations, {\n  'username': attr('string'),\n  'password': attr('string'),\n  'email': attr('string')\n});\n```\n\n## Objects\n\nYou can also use the generated `Validations` mixin on any `Ember.Object` or child\nof `Ember.Object`, like `Ember.Component`. For example:\n\n```javascript\n// components/x-foo.js\n\nimport Ember from 'ember';\nimport { validator, buildValidations } from 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  bar: validator('presence', true)\n});\n\nexport default Ember.Component.extend(Validations, {\n  bar: null\n});\n```\n\n```javascript\n// models/user.js\n\nexport default Ember.Object.extend(Validations, {\n  username: null\n});\n```\n\n## A Note on Testing & Object Containers\n\nTo lookup validators, container access is required, which can cause an issue with `Ember.Object` creation\nif the object is statically imported. The current fix for this is as follows.\n\n**Ember < 2.3.0**\n\n```javascript\n// routes/index.js\n\nimport User from '../models/user';\n\nexport default Ember.Route.extend({\n  model() {\n    const container = this.get('container');\n    return User.create({ username: 'John', container })\n  }\n});\n```\n\n**Ember >= 2.3.0**\n\n```javascript\n// routes/index.js\n\nimport User from '../models/user';\n\nexport default Ember.Route.extend({\n  model() {\n    return User.create(\n     Ember.getOwner(this).ownerInjection(),\n     { username: 'John' }\n    );\n  }\n});\n```\n\nThis also has ramifications for Ember Data model tests. When using [Ember QUnit's `moduleForModel`](https://github.com/emberjs/ember-qunit#ember-data-tests)\n(or [Ember Mocha's `setupModelTest`](https://github.com/emberjs/ember-mocha#setup-model-tests)), you will need to specify all validators\nthat your model depends on:\n\n```javascript\nmoduleForModel('foo', 'Unit | Model | model', {\n  needs: ['validator:presence']\n});\n```"
         },
         "Advanced": {
@@ -472,7 +479,7 @@
             "module": "Usage",
             "namespace": "",
             "file": "addon/index.js",
-            "line": 149,
+            "line": 150,
             "description": "### Default Options\n\nDefault options can be specified over a set of validations for a given attribute. Local properties will always take precedence.\n\nInstead of doing the following:\n\n```javascript\nconst Validations = buildValidations({\n  username: [\n    validator('presence', {\n      presence: true,\n      description: 'Username'\n    }),\n    validator('length', {\n      min: 1,\n      description: 'Username'\n    }),\n    validator('my-custom-validator', {\n      description: 'A username'\n    })\n  ]\n});\n```\n\nWe can declare default options:\n\n```javascript\nconst Validations = buildValidations({\n  username: {\n    description: 'Username'\n    validators: [\n      validator('presence', true),\n      validator('length', {\n        min: 1\n      }),\n      validator('my-custom-validator', {\n        description: 'A username'\n      })\n    ]\n  },\n});\n```\n\nIn the above example, all the validators for username will have a description of `Username` except that of the `my-custom-validator` validator which will be `A username`.\n\n### Global Options\n\nIf you have  specific options you want to propagate through all your validation rules, you can do so by passing in a global options object.\nThis is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or\nyou want easily toggle your validations on/off. As of 3.x, all dependent keys must be prefixed with `model`.\n\n```javascript\nconst Validations = buildValidations(validationRules, globalOptions);\n```\n\n```javascript\nimport Ember from 'ember';\nimport { validator, buildValidations } from 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  firstName: {\n    description: 'First Name'\n    validators: [\n      validator('presence', {\n        presence: true,\n        dependentKeys: ['model.foo', 'model.bar']\n      })\n     ]\n   },\n  lastName: validator('presence', true)\n}, {\n  description: 'This field'\n  dependentKeys: ['model.i18n.locale'],\n  disabled: computed.readOnly('model.disableValidations')\n});\n```\n\nJust like in the default options, locale validator options will always take precedence over default options and default options will always take precedence\nover global options. This allows you to declare global rules while having the ability to override them in lower levels.\n\nThis rule does not apply to `dependentKeys`, instead they all are merged. In the example above, __firstName__'s dependentKeys will be\n`['model.i18n.locale', 'model.foo', 'model.bar']`\n\n### Computed Options\n\nAll options can also be Computed Properties. These CPs have access to the `model` and `attribute` that is associated with the validator.\n\nPlease note that the `message` option of a validator can also be a function with [the following signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).\n\n```javascript\nconst Validations = buildValidations({\n  username: validator('length', {\n    disabled: Ember.computed.not('model.meta.username.isEnabled'),\n    min: Ember.computed.readOnly('model.meta.username.minLength'),\n    max: Ember.computed.readOnly('model.meta.username.maxLength'),\n    description: Ember.computed(function() {\n      // CPs have access to the `model` and `attribute`\n      return this.get('model').generateDescription(this.get('attribute'));\n    }).volatile() // Disable caching and force recompute on every get call\n  })\n});\n```\n\n### Nested Keys\n\nWhen declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.\n\n```javascript\nimport Ember from 'ember';\nimport { validator, buildValidations } from 'ember-cp-validations';\n\nconst Validations = buildValidations({\n  'acceptTerms': validator('inclusion', { in: [ true ] }),\n  'user.firstName': validator('presence', true),\n  'user.lastName': validator('presence', true),\n  'user.account.number': validator('number')\n});\n\nexport default Ember.Component.extend(Validations, {\n  acceptTerms: false,\n  user:  {\n    firstName: 'John',\n    lastName: 'Doe' ,\n    account: {\n      number: 123456,\n    }\n  },\n  isFormValid: Ember.computed.alias('validations.isValid'),\n});\n```"
         },
         "I18n Solutions": {
@@ -486,7 +493,7 @@
             "module": "Usage",
             "namespace": "",
             "file": "addon/index.js",
-            "line": 285,
+            "line": 286,
             "description": "### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)\n\n ```bash\n ember install ember-intl-cp-validations\n ```\n\n### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)\n\n```bash\n ember install ember-i18n-cp-validations\n```"
         },
         "Templating": {
@@ -657,7 +664,7 @@
             "namespace": "",
             "file": "node_modules/ember-validators/addon/confirmation.js",
             "line": 6,
-            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates that the attribute has the same value as the one of the declared attribute.\n\n## Examples\n\n```javascript\nemail: validator('confirmation', {\n  on: 'email'\n})\nverifiedEmail: validator('confirmation', {\n  on: 'email',\n  message: 'Email addresses do not match'\n})\n```",
+            "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nValidates that the attribute has the same value as the one of the declared attribute.\n\n## Examples\n\n```javascript\nemail: validator('format', {\n  type: 'email'\n})\nverifiedEmail: validator('confirmation', {\n  on: 'email',\n  message: 'Email addresses do not match'\n})\n```",
             "extends": "Base"
         },
         "Date": {
@@ -971,16 +978,6 @@
             "file": "addon/-private/result.js",
             "line": 122,
             "itemtype": "property",
-            "name": "isDirty",
-            "readonly": "",
-            "type": "{Boolean}",
-            "class": "Result",
-            "module": "Validations"
-        },
-        {
-            "file": "addon/-private/result.js",
-            "line": 129,
-            "itemtype": "property",
             "name": "message",
             "readonly": "",
             "type": "{String}",
@@ -989,7 +986,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 136,
+            "line": 129,
             "itemtype": "property",
             "name": "messages",
             "readonly": "",
@@ -999,7 +996,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 143,
+            "line": 136,
             "itemtype": "property",
             "name": "error",
             "readonly": "",
@@ -1009,7 +1006,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 150,
+            "line": 143,
             "itemtype": "property",
             "name": "errors",
             "readonly": "",
@@ -1019,7 +1016,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 157,
+            "line": 150,
             "itemtype": "property",
             "name": "warningMessage",
             "readonly": "",
@@ -1029,7 +1026,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 164,
+            "line": 157,
             "itemtype": "property",
             "name": "warningMessages",
             "readonly": "",
@@ -1039,7 +1036,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 171,
+            "line": 164,
             "itemtype": "property",
             "name": "warning",
             "readonly": "",
@@ -1049,7 +1046,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 178,
+            "line": 171,
             "itemtype": "property",
             "name": "warnings",
             "readonly": "",
@@ -1059,7 +1056,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 185,
+            "line": 178,
             "description": "This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object",
             "itemtype": "property",
             "name": "_result",
@@ -1071,7 +1068,7 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 205,
+            "line": 198,
             "description": "Update the current validation result object with the given value\n- If value is undefined or null, set isValid to false\n- If value is a validations object from a different model/object, set the _result object to the one given (belongs-to)\n- If value is a collection of result objects, create a Validation Result Collection and set that to the _result object (has-many)\n- If value is a string, set the message to the given string and set isValid to false\n- If value is a boolean, set isValid to result\n- If value is a pojo, update _result object with the information given",
             "itemtype": "method",
             "name": "update",
@@ -1088,13 +1085,32 @@
         },
         {
             "file": "addon/-private/result.js",
-            "line": 244,
+            "line": 237,
             "description": "Promise handler",
             "itemtype": "method",
             "name": "_handlePromise",
             "access": "private",
             "tagname": "",
             "class": "Result",
+            "module": "Validations"
+        },
+        {
+            "file": "addon/decorators/has-validations.js",
+            "line": 1,
+            "description": "Decorator that allows you to mixin validations when using es6 style model classes\n\nUsage:\n\nimport { hasValidations } from 'ember-cp-validations';",
+            "hasvalidations": "(Validations)\nexport default class YourModel extends Model {",
+            "attr": "('string') name\n};",
+            "params": [
+                {
+                    "name": "validations",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Decorator"
+            },
+            "class": "Error",
             "module": "Validations"
         },
         {
@@ -1418,7 +1434,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 594,
+            "line": 593,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -1450,7 +1466,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 648,
+            "line": 647,
             "description": "Extract all dependentKeys from any property that is a CP",
             "itemtype": "method",
             "name": "extractOptionsDependentKeys",
@@ -1472,7 +1488,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 672,
+            "line": 671,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -1504,7 +1520,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 702,
+            "line": 701,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -1531,7 +1547,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 718,
+            "line": 717,
             "description": "Get debounced validation cache for the given attribute. If it doesn't exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -1558,7 +1574,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 737,
+            "line": 736,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1585,7 +1601,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 774,
+            "line": 773,
             "description": "Call the passed resolve method. This is needed as run.debounce expects a\nstatic method to work properly.",
             "itemtype": "method",
             "name": "resolveDebounce",
@@ -1603,7 +1619,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 786,
+            "line": 785,
             "description": "```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1640,7 +1656,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 857,
+            "line": 856,
             "description": "A functional approach to check if a given attribute on a model is valid independently of the\nmodel attribute's validations. This method will always return a promise which will then resolve\nto a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```javascript\nmodel.validateAttribute('username', 'offirgolan').then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n});\n```",
             "itemtype": "method",
             "name": "validateAttribute",
@@ -1666,7 +1682,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 910,
+            "line": 909,
             "description": "```javascript\nlet { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -1769,18 +1785,6 @@
         {
             "file": "addon/validations/result-collection.js",
             "line": 125,
-            "description": "Will be true is the attribute in question is not `null` or `undefined`. If the object being\nvalidated is an Ember Data Model and you have a `defaultValue` specified, then it will use that for comparison.\n\n```javascript\n// Examples\n// 'username' : DS.attr('string', { defaultValue: 'johndoe' })\nget(user, 'validations.isDirty')\nget(user, 'validations.attrs.username.isDirty')\n```",
-            "itemtype": "property",
-            "name": "isDirty",
-            "default": "false",
-            "readonly": "",
-            "type": "{Boolean}",
-            "class": "ResultCollection",
-            "module": "Validations"
-        },
-        {
-            "file": "addon/validations/result-collection.js",
-            "line": 143,
             "description": "Will be `true` only if a validation returns a promise\n\n```javascript\n// Examples\nget(user, 'validations.isAsync')\nget(user, 'validations.attrs.username.isAsync')\n```",
             "itemtype": "property",
             "name": "isAsync",
@@ -1792,7 +1796,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 159,
+            "line": 141,
             "description": "A collection of all error messages on the object in question\n\n```javascript\n// Examples\nget(user, 'validations.messages')\nget(user, 'validations.attrs.username.messages')\n```",
             "itemtype": "property",
             "name": "messages",
@@ -1803,7 +1807,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 179,
+            "line": 161,
             "description": "An alias to the first message in the messages collection.\n\n```javascript\n// Example\nget(user, 'validations.message')\nget(user, 'validations.attrs.username.message')\n```",
             "itemtype": "property",
             "name": "message",
@@ -1814,7 +1818,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 194,
+            "line": 176,
             "description": "Will be `true` if there are warnings in the collection.\n\n```javascript\n// Example\nget(user, 'validations.hasWarnings')\nget(user, 'validations.attrs.username.hasWarnings')\n```",
             "itemtype": "property",
             "name": "hasWarnings",
@@ -1825,7 +1829,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 209,
+            "line": 191,
             "description": "A collection of all warning messages on the object in question\n\n```javascript\n// Examples\nget(user, 'validations.warningMessages')\nget(user, 'validations.attrs.username.warningMessages')\n```",
             "itemtype": "property",
             "name": "warningMessages",
@@ -1836,7 +1840,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 229,
+            "line": 211,
             "description": "An alias to the first message in the warningMessages collection.\n\n```javascript\n// Example\nget(user, 'validations.warningMessage')\nget(user, 'validations.attrs.username.warningMessage')\n```",
             "itemtype": "property",
             "name": "warningMessage",
@@ -1847,7 +1851,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 244,
+            "line": 226,
             "description": "A collection of all {{#crossLink \"Error\"}}Warnings{{/crossLink}} on the object in question.\nEach warning object includes the warning message and it's associated attribute name.\n\n```javascript\n// Example\nget(user, 'validations.warnings')\nget(user, 'validations.attrs.username.warnings')\n```",
             "itemtype": "property",
             "name": "warnings",
@@ -1858,7 +1862,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 266,
+            "line": 248,
             "description": "An alias to the first {{#crossLink \"Warning\"}}{{/crossLink}} in the warnings collection.\n\n```javascript\n// Example\nget(user, 'validations.warning')\nget(user, 'validations.attrs.username.warning')\n```",
             "itemtype": "property",
             "name": "warning",
@@ -1869,7 +1873,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 281,
+            "line": 263,
             "description": "A collection of all {{#crossLink \"Error\"}}Errors{{/crossLink}} on the object in question.\nEach error object includes the error message and it's associated attribute name.\n\n```javascript\n// Example\nget(user, 'validations.errors')\nget(user, 'validations.attrs.username.errors')\n```",
             "itemtype": "property",
             "name": "errors",
@@ -1880,7 +1884,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 303,
+            "line": 285,
             "description": "An alias to the first {{#crossLink \"Error\"}}{{/crossLink}} in the errors collection.\n\n```javascript\n// Example\nget(user, 'validations.error')\nget(user, 'validations.attrs.username.error')\n```",
             "itemtype": "property",
             "name": "error",
@@ -1891,7 +1895,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 318,
+            "line": 300,
             "description": "All built options of the validators associated with the results in this collection grouped by validator type\n\n```javascript\n// Given the following validators\n{\n  username: [\n    validator('presence', true),\n    validator('length', { max: 15 }),\n    validator('format', { regex: /foo/ }),\n    validator('format', { regex: /bar/ }),\n  ]\n}\n```\n\n```js\nget(user, 'validations.attrs.username.options')\n```\n\nThe above will return the following\n```js\n{\n  'presence': { presence: true},\n  'length': { max: 15 },\n  'regex': [{ regex: /foo/ }, { regex: /bar/ }]\n}\n```",
             "itemtype": "property",
             "name": "options",
@@ -1902,7 +1906,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 354,
+            "line": 336,
             "itemtype": "property",
             "name": "_promise",
             "async": 1,
@@ -1914,7 +1918,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 375,
+            "line": 357,
             "itemtype": "property",
             "name": "_contentResults",
             "type": "{Array}",
@@ -1925,7 +1929,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 384,
+            "line": 366,
             "itemtype": "property",
             "name": "_contentValidators",
             "type": "{Array}",
@@ -1936,7 +1940,7 @@
         },
         {
             "file": "addon/validations/result-collection.js",
-            "line": 404,
+            "line": 386,
             "description": "Used by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
             "class": "ResultCollection",
             "module": "Validations"
@@ -3022,7 +3026,7 @@
                         },
                         {
                             "name": "positive",
-                            "description": "Number must be greater than 0",
+                            "description": "Number must be greater than or equal to 0",
                             "type": "Boolean"
                         },
                         {
@@ -3126,8 +3130,24 @@
     ],
     "warnings": [
         {
+            "message": "unknown tag: hasvalidations",
+            "line": " addon/decorators/has-validations.js:1"
+        },
+        {
+            "message": "unknown tag: attr",
+            "line": " addon/decorators/has-validations.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " addon/decorators/has-validations.js:1"
+        },
+        {
             "message": "replacing incorrect tag: returns with return",
             "line": " addon/validations/factory.js:452"
+        },
+        {
+            "message": "Missing item type\nDecorator that allows you to mixin validations when using es6 style model classes\n\nUsage:\n\nimport { hasValidations } from 'ember-cp-validations';",
+            "line": " addon/decorators/has-validations.js:1"
         },
         {
             "message": "Missing item type\nUse Ember Meta to break cycles in the CP chains. Lets say we have a User model with a `friends` property that is a hasMany\nrelationship. If we have a user John and he has a friend Jane, that creates a two-way relationship. John is Jane's friends and vise\nversa. If we were to go down the CP chain and get validations for John's friends, it would go to Jane, then to Jane's friends, which\nwould point back to John. This method tracks which models have been already visited and breaks the cycle.",
@@ -3147,7 +3167,7 @@
         },
         {
             "message": "Missing item type\nUsed by the `options` property to create a hash from the `content` that is grouped by validator type.\nIf there is more than 1 of a type, it groups it into an array of option objects.",
-            "line": " addon/validations/result-collection.js:404"
+            "line": " addon/validations/result-collection.js:386"
         },
         {
             "message": "Missing item type\n{{#if (v-get model 'username' 'isValid')}} {{/if}}",

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.0" target="_blank">
-                                  Tag: v4.0.0-beta.0
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.1" target="_blank">
+                                  Tag: v4.0.0-beta.1
                                 </a>
                             </h4>
                         </div>
@@ -188,6 +188,7 @@
     <pre class="prettyprint linenums">
 import Factory from &#x27;./validations/factory&#x27;;
 import Validator from &#x27;./validations/validator&#x27;;
+import { hasValidations as validationDecorator } from &#x27;./decorators/has-validations&#x27;;
 
 /**
  * ## Installation
@@ -489,10 +490,12 @@ import Validator from &#x27;./validations/validator&#x27;;
 
 export const buildValidations = Factory;
 export const validator = Validator;
+export const hasValidations = validationDecorator;
 
 export default {
   buildValidations,
-  validator
+  validator,
+  hasValidations
 };
 
     </pre>
