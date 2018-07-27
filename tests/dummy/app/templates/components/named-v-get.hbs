@@ -1,0 +1,6 @@
+{{!-- This component is used to test v-get helper usage with named args --}}
+{{#if @attr}}
+  {{v-get @model @attr @field}}
+{{else}}
+  {{v-get @model @field}}
+{{/if}}

@@ -3,7 +3,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import '../../helpers/ensure-get-registered';
 
 module('Integration | Helper | v-get', function(hooks) {
   setupRenderingTest(hooks);
@@ -104,5 +103,17 @@ module('Integration | Helper | v-get', function(hooks) {
     assert
       .dom(this.element.querySelector('span'))
       .hasClass('has-error', 'error class present');
+  });
+
+  test('access validations with named args', async function(assert) {
+    assert.expect(2);
+
+    await render(hbs`{{named-v-get model=model field='isValid'}}`);
+    assert.dom(this.element).hasText('false');
+
+    await render(
+      hbs`{{named-v-get model=model attr='username' field='isValid'}}`
+    );
+    assert.dom(this.element).hasText('false');
   });
 });

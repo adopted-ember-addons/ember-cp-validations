@@ -67,6 +67,7 @@
     "ember-font-awesome": "^3.0.5",
     "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-named-arguments-polyfill": "^1.0.0",
     "ember-qunit-nice-errors": "^1.2.0",
     "ember-resolver": "^4.5.0",
     "ember-source": "~3.1.0",
