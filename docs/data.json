@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "v4.0.0-beta.1"
+        "version": "v4.0.0-beta.2"
     },
     "files": {
         "addon/-private/result.js": {
@@ -753,7 +753,7 @@
             "module": "Validators",
             "namespace": "",
             "file": "addon/validators/has-many.js",
-            "line": 4,
+            "line": 5,
             "description": "<i class=\"fa fa-hand-o-right\" aria-hidden=\"true\"></i> [See All Options](#method_validate)\n\nIdentifies a `has-many` relationship in an Ember Data Model or Ember.Object.\nThis is used to create a validation collection of the `has-many` validations.\n\n_**Note:** Validations must exist on **all** models/objects_\n\n### Ember Models\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  friends: validator('has-many')\n});\n\nexport default DS.Model.extend(Validations, {\n  friends: DS.hasMany('user')\n});\n```\n\n### Ember Objects\n\n```javascript\n// model/users.js\n\nconst Validations = buildValidations({\n  friends: validator('has-many')\n});\n\nexport default Ember.Object.extend(Validations, {\n  friends: null\n});\n```\n\nFrom our `user` model, we can now check validation properties on the `friends` attribute.\n\n```javascript\nget(model, 'validations.attrs.friends.isValid')\nget(model, 'validations.attrs.friends.messages')\n```",
             "extends": "Base"
         },
@@ -2423,7 +2423,7 @@
         },
         {
             "file": "htmlbars-plugins/v-get.js",
-            "line": 102,
+            "line": 105,
             "description": "{{#if (v-get model 'username' 'isValid')}} {{/if}}",
             "params": [
                 {
@@ -2438,7 +2438,7 @@
         },
         {
             "file": "htmlbars-plugins/v-get.js",
-            "line": 121,
+            "line": 124,
             "description": "{{x-component prop=(v-get model 'isValid')}}",
             "params": [
                 {
@@ -2453,7 +2453,7 @@
         },
         {
             "file": "htmlbars-plugins/v-get.js",
-            "line": 140,
+            "line": 143,
             "description": "<button type=\"submit\" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)\n<div class=\"form-group {{if (v-get model 'isInvalid') 'has-error'}}\">",
             "params": [
                 {
@@ -2468,8 +2468,8 @@
         },
         {
             "file": "htmlbars-plugins/v-get.js",
-            "line": 162,
-            "description": "Transform (v-get model 'username' 'isValid') to (get (get model.validations.attrs 'username') 'isValid') OR\n(v-get model 'isValid') to (get model.validations 'isValid')",
+            "line": 164,
+            "description": "Transform:\n (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')\nOR\n (v-get model 'isValid') to (get (get model 'validations') 'isValid')",
             "params": [
                 {
                     "name": "node",
@@ -3171,19 +3171,19 @@
         },
         {
             "message": "Missing item type\n{{#if (v-get model 'username' 'isValid')}} {{/if}}",
-            "line": " htmlbars-plugins/v-get.js:102"
+            "line": " htmlbars-plugins/v-get.js:105"
         },
         {
             "message": "Missing item type\n{{x-component prop=(v-get model 'isValid')}}",
-            "line": " htmlbars-plugins/v-get.js:121"
+            "line": " htmlbars-plugins/v-get.js:124"
         },
         {
             "message": "Missing item type\n<button type=\"submit\" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)\n<div class=\"form-group {{if (v-get model 'isInvalid') 'has-error'}}\">",
-            "line": " htmlbars-plugins/v-get.js:140"
+            "line": " htmlbars-plugins/v-get.js:143"
         },
         {
-            "message": "Missing item type\nTransform (v-get model 'username' 'isValid') to (get (get model.validations.attrs 'username') 'isValid') OR\n(v-get model 'isValid') to (get model.validations 'isValid')",
-            "line": " htmlbars-plugins/v-get.js:162"
+            "message": "Missing item type\nTransform:\n (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')\nOR\n (v-get model 'isValid') to (get (get model 'validations') 'isValid')",
+            "line": " htmlbars-plugins/v-get.js:164"
         },
         {
             "message": "Missing item type\nDefault validation error message strings",

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.1" target="_blank">
-                                  Tag: v4.0.0-beta.1
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.2" target="_blank">
+                                  Tag: v4.0.0-beta.2
                                 </a>
                             </h4>
                         </div>
@@ -240,7 +240,7 @@
  *       {{v-get model &#x27;username&#x27; &#x27;message&#x27;}}
  *     &lt;/div&gt;
  *   {{/if}}
-    *
+ *
  *   &lt;button type=&quot;submit&quot; disabled={{v-get model &#x27;isInvalid&#x27;}}&gt;Submit&lt;/button&gt;
  * &lt;/form&gt;
  * &#x60;&#x60;&#x60;
@@ -270,7 +270,10 @@ VGet.prototype.transform = function(ast) {
 };
 
 VGet.prototype.validate = function(node) {
-  return [&#x27;BlockStatement&#x27;, &#x27;MustacheStatement&#x27;, &#x27;ElementNode&#x27;].indexOf(node.type) &gt; -1;
+  return (
+    [&#x27;BlockStatement&#x27;, &#x27;MustacheStatement&#x27;, &#x27;ElementNode&#x27;].indexOf(node.type) &gt;
+    -1
+  );
 };
 
 VGet.prototype.processNode = function(node) {
@@ -346,35 +349,47 @@ VGet.prototype.processNodeAttributes = function(node) {
   }
 };
 
-
 /**
- * Transform (v-get model &#x27;username&#x27; &#x27;isValid&#x27;) to (get (get model.validations.attrs &#x27;username&#x27;) &#x27;isValid&#x27;) OR
- * (v-get model &#x27;isValid&#x27;) to (get model.validations &#x27;isValid&#x27;)
+ * Transform:
+ *  (v-get model &#x27;username&#x27; &#x27;isValid&#x27;) to (get (get (get (get model &#x27;validations&#x27;) &#x27;attrs&#x27;) &#x27;username&#x27;) &#x27;isValid&#x27;)
+ * OR
+ *  (v-get model &#x27;isValid&#x27;) to (get (get model &#x27;validations&#x27;) &#x27;isValid&#x27;)
  * @param  {AST.Node} node
  * @return {AST.Node}
  */
 VGet.prototype.transformToGet = function(node) {
   node = unwrapNode(node);
   var params = node.params;
-  var i = 0;
+  var numParams = params.length;
 
-  if (params.length &lt; 2) {
+  if (numParams &lt; 2) {
     throw new Error(&#x27;{{v-get}} requires at least two arguments&#x27;);
   }
   if (params[0].type !== &#x27;PathExpression&#x27;) {
     throw new Error(&#x27;The first argument to {{v-get}} must be a stream&#x27;);
   }
 
-  var root = this.syntax.builders.path(params[i++].original + &#x27;.validations&#x27;);
+  // (get model &#x27;validations&#x27;)
+  var root = this.syntax.builders.sexpr(this.syntax.builders.path(&#x27;get&#x27;), [
+    params[0],
+    this.syntax.builders.string(&#x27;validations&#x27;)
+  ]);
 
-  if (params.length === 3) {
-    root = this.syntax.builders.path(root.original + &#x27;.attrs&#x27;);
-    root = this.syntax.builders.sexpr(this.syntax.builders.path(&#x27;get&#x27;), [root, params[i++]]); // (get model.validations.attrs &#x27;username&#x27;)
+  // (get (get (get model &#x27;validations&#x27;) &#x27;attrs&#x27;) &#x27;username&#x27;)
+  if (numParams === 3) {
+    root = this.syntax.builders.sexpr(this.syntax.builders.path(&#x27;get&#x27;), [
+      root,
+      this.syntax.builders.string(&#x27;attrs&#x27;)
+    ]);
+    root = this.syntax.builders.sexpr(this.syntax.builders.path(&#x27;get&#x27;), [
+      root,
+      params[1]
+    ]);
   }
 
   node.path = this.syntax.builders.path(&#x27;get&#x27;);
-  node.params = [root, params[i]];
-
+  // (get root &#x27;isValid&#x27;)
+  node.params = [root, params[numParams - 1]];
 };
 
 // For compatibility with pre- and post-glimmer
