@@ -6,35 +6,34 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'prettier',
     'ember'
   ],
   extends: [
-    'prettier',
     'eslint:recommended',
+    'plugin:prettier/recommended',
     'plugin:ember/recommended'
   ],
   env: {
     browser: true
   },
   rules: {
-    'prettier/prettier': ['error', {
-      singleQuote: true
-    }],
+    'prettier/prettier': ['error', { singleQuote: true }],
   },
   overrides: [
     // node files
     {
       files: [
+        'ember-cli-build.js',
         'index.js',
         'testem.js',
-        'ember-cli-build.js',
+        'blueprints/*/index.js',
         'config/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
-        'app/**',
         'addon/**',
+        'addon-test-support/**',
+        'app/**',
         'tests/dummy/app/**'
       ],
       parserOptions: {
