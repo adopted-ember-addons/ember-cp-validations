@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v4.0.0-beta.2
+
+- [#600](https://github.com/offirgolan/ember-cp-validations/pull/600) fix: v-get helper with named argument
+
 ## v4.0.0-beta.1
 
 - [#579](https://github.com/offirgolan/ember-cp-validations/pull/579) Update validator test blueprints to latest APIs
