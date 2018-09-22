@@ -284,10 +284,10 @@ import { hasValidations as validationDecorator } from './decorators/has-validati
  */
 
 /**
- * ### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)
+ * ### [__Ember-Intl__](https://github.com/ember-intl/cp-validations)
  *
  *  ```bash
- *  ember install ember-intl-cp-validations
+ *  ember install @ember-intl/cp-validations
  *  ```
  *
  * ### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)
