@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "v4.0.0-beta.2"
+        "version": "4.0.0-beta.2.eb11847f"
     },
     "files": {
         "addon/-private/result.js": {
@@ -494,7 +494,7 @@
             "namespace": "",
             "file": "addon/index.js",
             "line": 286,
-            "description": "### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)\n\n ```bash\n ember install ember-intl-cp-validations\n ```\n\n### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)\n\n```bash\n ember install ember-i18n-cp-validations\n```"
+            "description": "### [__Ember-Intl__](https://github.com/ember-intl/cp-validations)\n\n ```bash\n ember install @ember-intl/cp-validations\n ```\n\n### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)\n\n```bash\n ember install ember-i18n-cp-validations\n```"
         },
         "Templating": {
             "name": "Templating",

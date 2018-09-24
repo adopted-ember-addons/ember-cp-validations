@@ -60,7 +60,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "I18n Solutions",
             "name": "I18n Solutions",
-            "description": "### [__Ember-Intl__](https://github.com/jasonmit/ember-intl-cp-validations)\n\n ```bash\n ember install ember-intl-cp-validations\n ```\n\n### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)\n\n```bash\n ember install ember-i18n-cp-validations\n```"
+            "description": "### [__Ember-Intl__](https://github.com/ember-intl/cp-validations)\n\n ```bash\n ember install @ember-intl/cp-validations\n ```\n\n### [__Ember-I18n__](https://github.com/jasonmit/ember-i18n-cp-validations)\n\n```bash\n ember install ember-i18n-cp-validations\n```"
         },
         {
             "displayName": "Templating",
