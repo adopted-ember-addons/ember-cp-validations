@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## v4.0.0-beta.3
+
+- [75bd547](https://github.com/offirgolan/ember-cp-validations/commit/75bd5473b7f57dcb48de331ed917969ff9c1cd88) chore: Bump ember-validators
+
 ## v4.0.0-beta.2
 
 - [#600](https://github.com/offirgolan/ember-cp-validations/pull/600) fix: v-get helper with named argument
