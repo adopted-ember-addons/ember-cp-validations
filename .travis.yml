@@ -41,17 +41,19 @@ jobs:
         - yarn run lint:hbs
         - yarn run lint:js
         - yarn test
+      after_script:
+        - codeclimate-test-reporter < coverage/lcov.info
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
     - stage: 'Additional Tests'
-      env: EMBER_TRY_SCENARIO=ember-lts-2.16
-    - env: EMBER_TRY_SCENARIO=ember-lts-2.18
-    - env: EMBER_TRY_SCENARIO=ember-lts-3.4
-    - env: EMBER_TRY_SCENARIO=ember-release
-    - env: EMBER_TRY_SCENARIO=ember-beta
-    - env: EMBER_TRY_SCENARIO=ember-canary
-    - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
+      - env: EMBER_TRY_SCENARIO=ember-lts-2.16
+      - env: EMBER_TRY_SCENARIO=ember-lts-2.18
+      - env: EMBER_TRY_SCENARIO=ember-lts-3.4
+      - env: EMBER_TRY_SCENARIO=ember-release
+      - env: EMBER_TRY_SCENARIO=ember-beta
+      - env: EMBER_TRY_SCENARIO=ember-canary
+      - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
 
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -62,6 +64,3 @@ install:
 
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
-
-after_script:
-  - codeclimate-test-reporter < coverage/lcov.info
