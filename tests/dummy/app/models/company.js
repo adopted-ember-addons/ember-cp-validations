@@ -1,5 +1,5 @@
 import Model from 'ember-data/model';
-import { attr } from 'ember-decorators/data';
+import { attr } from '@ember-decorators/data';
 import {
   hasValidations,
   validator,

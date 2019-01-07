@@ -16,7 +16,14 @@
  */
 
 export function hasValidations(validations) {
-  return function decorator(target) {
-    target.prototype.reopen(validations);
+  return desc => {
+    return {
+      ...desc,
+      finisher(klass) {
+        klass.prototype.reopen(validations);
+
+        return klass;
+      }
+    };
   };
 }
