@@ -3,11 +3,12 @@
   "version": "4.0.0-beta.4",
   "description": "Ember computed property based validation library",
   "scripts": {
+    "build": "ember build",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",
-    "test": "ember try:each",
-    "build": "ember build"
+    "test": "ember test",
+    "test:all": "ember try:each"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
@@ -67,7 +68,7 @@
     "ember-source-channel-url": "^1.1.0",
     "ember-test-selectors": "^0.3.8",
     "ember-truth-helpers": "2.0.0",
-    "ember-try": "^1.0.0",
+    "ember-try": "^1.1.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-ember": "^5.2.0",

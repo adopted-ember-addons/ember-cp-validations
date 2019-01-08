@@ -5084,7 +5084,7 @@ ember-try@^0.2.23:
     rsvp "^3.0.17"
     semver "^5.1.0"
 
-ember-try@^1.0.0:
+ember-try@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ember-try/-/ember-try-1.1.0.tgz#194d5843a79b5a9fc0e4c07445ebc18c08a91e78"
   integrity sha512-NL1rKPz2LuyVEqwoNV+SQD4c2w1/A0rrdeT6jqTYqlt/P7y3+SWcsxyReBnImebaIu7Drtz6p9yiAsrJq5Chyg==
