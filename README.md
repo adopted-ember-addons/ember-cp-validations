@@ -9,7 +9,7 @@ An EmberJS validation framework that is completely and utterly computed property
 
 ## Features
 
-__No observers were used nor harmed while developing and testing this addon.__
+**No observers were used nor harmed while developing and testing this addon.**
 
 - Lazily computed validations
 - Ruby on rails inspired validators
@@ -45,6 +45,7 @@ If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentati
 - ### [Live Demo](http://offirgolan.github.io/ember-cp-validations)
 
 - ### Documentation
+
   - [4.x](http://offirgolan.github.io/ember-cp-validations/docs)
   - [3.x](https://rawgit.com/offirgolan/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html)
 

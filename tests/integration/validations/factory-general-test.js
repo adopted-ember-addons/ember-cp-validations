@@ -499,8 +499,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('debounced validations', function(assert) {
-    let done = assert.async();
+  test('debounced validations', async function(assert) {
     let initSetup = true;
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
@@ -545,21 +544,18 @@ module('Integration | Validations | Factory - General', function(hooks) {
     object.set('lastName', 'Golan');
     assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
 
-    run.later(() => {
+    await run.later(() => {
       assert.equal(object.get('validations.attrs.lastName.isValid'), true);
       assert.equal(
         object.get('validations.attrs.lastName.isValidating'),
         false
       );
       assert.equal(object.get('validations.attrs.lastName.message'), null);
-      done();
-    }, 500);
+    }, 505);
   });
 
-  test('debounced validator should only be called once', function(assert) {
+  test('debounced validator should only be called once', async function(assert) {
     let count = 0;
-
-    let done = assert.async();
     let Validations = buildValidations({
       firstName: validator('inline', {
         validate: () => count++,
@@ -578,10 +574,9 @@ module('Integration | Validations | Factory - General', function(hooks) {
     object.set('firstName', 'Offir');
     object.get('validations.attrs.firstName.isValid');
 
-    run.later(() => {
+    await run.later(() => {
       assert.equal(count, 1);
-      done();
-    }, 500);
+    }, 505);
   });
 
   test('debounced validations should cleanup on object destroy', function(assert) {

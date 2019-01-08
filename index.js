@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cp-validations',
+  name: require('./package').name,
 
   setupPreprocessorRegistry: function(type, registry) {
     var VGet = require('./htmlbars-plugins/v-get');
