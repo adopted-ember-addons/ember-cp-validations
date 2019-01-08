@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.0.0-beta.5
+
+- [#619](https://github.com/offirgolan/ember-cp-validations/pull/619) chore: Upgrade to 3.6
+- [#619](https://github.com/offirgolan/ember-cp-validations/pull/619) Update `hasValidations` decorator to stage 2
+
 ## v4.0.0-beta.4
 
 - [#618](https://github.com/offirgolan/ember-cp-validations/pull/618) chore: Bump ember-validators
