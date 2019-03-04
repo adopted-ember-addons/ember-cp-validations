@@ -12,7 +12,7 @@
                 "version": "master"
             }
         ],
-        "version": "v4.0.0-beta.5"
+        "version": "v4.0.0-beta.6"
     },
     "files": {
         "addon/-private/result.js": {
@@ -387,7 +387,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/validations/factory.js",
-            "line": 50,
+            "line": 49,
             "description": "All validations can be accessed via the `validations` object created on your model/object.\nEach attribute also has its own validation which has the same properties.\nAn attribute validation can be accessed via `validations.attrs.<ATTRIBUTE>` which will return a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n### Global Validations\n\nGlobal validations exist on the `validations` object that resides on the object that is being validated.\nTo see all possible properties, please checkout the docs for {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```js\nmodel.get('validations.isValid');\nmodel.get('validations.errors');\nmodel.get('validations.messages');\n// etc...\n```\n\n### Attribute Validations\n\nThe `validations` object also contains an `attrs` object which holds a {{#crossLink \"ResultCollection\"}}{{/crossLink}}\nfor each attribute specified in your validation rules.\n\n```js\nmodel.get('validations.attrs.username.isValid');\nmodel.get('validations.attrs.password.errors');\nmodel.get('validations.attrs.email.messages');\n// etc...\n```"
         },
         "Validators": {
@@ -564,7 +564,7 @@
             "module": "Validations",
             "namespace": "",
             "file": "addon/validations/factory.js",
-            "line": 82
+            "line": 81
         },
         "ResultCollection": {
             "name": "ResultCollection",
@@ -1203,7 +1203,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 87,
+            "line": 86,
             "description": "Top level method that will ultimately return a mixin with all CP validations",
             "itemtype": "method",
             "name": "buildValidations",
@@ -1223,7 +1223,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 151,
+            "line": 145,
             "description": "Validation rules can be created with default and global options\n{\n  description: 'Username',\n  validators: [...]\n}\n\nThis method generate the default options pojo, applies it to each validation rule, and flattens the object",
             "itemtype": "method",
             "name": "normalizeOptions",
@@ -1244,7 +1244,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 192,
+            "line": 186,
             "description": "Creates the validations class that will become `model.validations`.\n  - Setup parent validation inheritance\n  - Normalize nested keys (i.e. 'details.dob') into objects (i.e { details: { dob: validator() }})\n  - Merge normalized validations with parent\n  - Create global CPs (i.e. 'isValid', 'messages', etc...)",
             "itemtype": "method",
             "name": "createValidationsClass",
@@ -1276,7 +1276,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 300,
+            "line": 294,
             "description": "Creates the `attrs` class which holds all the CP logic\n\n```javascript\nmodel.get('validations.attrs.username');\nmodel.get('validations.attrs.nested.object.attribute');\n```",
             "itemtype": "method",
             "name": "createAttrsClass",
@@ -1308,7 +1308,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 401,
+            "line": 395,
             "description": "CP generator for the given attribute",
             "itemtype": "method",
             "name": "createCPValidationFor",
@@ -1340,7 +1340,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 452,
+            "line": 446,
             "description": "Check if a collection of validations have an option\nequal to the given value",
             "itemtype": "method",
             "name": "hasOption",
@@ -1374,7 +1374,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 476,
+            "line": 470,
             "description": "Generates the validation results for a given attribute and validators. If a\ngiven validator should be validated, it calls upon the validate callback to retrieve\nthe result.",
             "itemtype": "method",
             "name": "generateValidationResultsFor",
@@ -1416,7 +1416,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 542,
+            "line": 536,
             "description": "Create a mixin that will have all the top level CPs under the validations object.\nThese are computed collections on different properties of each attribute validations CP",
             "itemtype": "method",
             "name": "createTopLevelPropsMixin",
@@ -1434,7 +1434,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 593,
+            "line": 587,
             "description": "CP dependency generator for a give attribute depending on its relationships",
             "itemtype": "method",
             "name": "getCPDependentKeysFor",
@@ -1466,7 +1466,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 647,
+            "line": 641,
             "description": "Extract all dependentKeys from any property that is a CP",
             "itemtype": "method",
             "name": "extractOptionsDependentKeys",
@@ -1488,7 +1488,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 671,
+            "line": 665,
             "description": "A handler used to create ValidationResult object from values returned from a validator",
             "itemtype": "method",
             "name": "validationReturnValueHandler",
@@ -1520,7 +1520,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 701,
+            "line": 695,
             "description": "Get validators for the give attribute. If they are not in the cache, then create them.",
             "itemtype": "method",
             "name": "getValidatorsFor",
@@ -1547,7 +1547,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 717,
+            "line": 711,
             "description": "Get debounced validation cache for the given attribute. If it doesn't exist, create a new one.",
             "itemtype": "method",
             "name": "getValidatorCacheFor",
@@ -1574,7 +1574,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 736,
+            "line": 730,
             "description": "Create validators for the give attribute and store them in a cache",
             "itemtype": "method",
             "name": "createValidatorsFor",
@@ -1601,7 +1601,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 773,
+            "line": 767,
             "description": "Call the passed resolve method. This is needed as run.debounce expects a\nstatic method to work properly.",
             "itemtype": "method",
             "name": "resolveDebounce",
@@ -1619,7 +1619,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 785,
+            "line": 779,
             "description": "```javascript\nmodel.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n\n  let usernameValidations = m.get('validations.attrs.username');\n  usernameValidations.get('isValid') // true or false\n});\n```",
             "itemtype": "method",
             "name": "validate",
@@ -1656,7 +1656,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 856,
+            "line": 850,
             "description": "A functional approach to check if a given attribute on a model is valid independently of the\nmodel attribute's validations. This method will always return a promise which will then resolve\nto a {{#crossLink \"ResultCollection\"}}{{/crossLink}}.\n\n```javascript\nmodel.validateAttribute('username', 'offirgolan').then(({ m, validations }) => {\n  validations.get('isValid'); // true or false\n  validations.get('isValidating'); // false\n});\n```",
             "itemtype": "method",
             "name": "validateAttribute",
@@ -1682,7 +1682,7 @@
         },
         {
             "file": "addon/validations/factory.js",
-            "line": 909,
+            "line": 903,
             "description": "```javascript\nlet { m, validations } = model.validateSync();\nvalidations.get('isValid') // true or false\n```",
             "itemtype": "method",
             "name": "validateSync",
@@ -3143,7 +3143,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/validations/factory.js:452"
+            "line": " addon/validations/factory.js:446"
         },
         {
             "message": "Missing item type\nDecorator that allows you to mixin validations when using es6 style model classes\n\nUsage:\n\nimport { hasValidations } from 'ember-cp-validations';",
