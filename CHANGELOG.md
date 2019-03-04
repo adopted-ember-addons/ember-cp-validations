@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.0.0-beta.6
+
+- [283fc05](https://github.com/offirgolan/ember-cp-validations/commit/283fc0596b2ee8a44eaa87704a56f135a69dd4ae) fix: Remove NAME_KEY usage
+
 ## v4.0.0-beta.5
 
 - [#619](https://github.com/offirgolan/ember-cp-validations/pull/619) chore: Upgrade to 3.6
