@@ -10,14 +10,26 @@ module.exports = {
   name: 'ember-cp-validations',
 
   setupPreprocessorRegistry: function(type, registry) {
+    let plugin = this._buildPlugin();
+
+    plugin.parallelBabel = {
+      requireFile: __filename,
+      buildUsing: '_buildPlugin',
+      params: {},
+    };
+
+    registry.add('htmlbars-ast-plugin', plugin);
+  },
+
+  _buildPlugin() {
     var VGet = require('./htmlbars-plugins/v-get');
 
-    registry.add('htmlbars-ast-plugin', {
+    return {
       name: 'v-get',
       plugin: VGet,
       baseDir: function() {
         return __dirname;
       }
-    });
-  }
+    };
+  },
 };
