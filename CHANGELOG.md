@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.0.0-beta.8
+
+- [#633](https://github.com/offirgolan/ember-cp-validations/pull/633) Do not override \_result [@mydea](https://github.com/mydea)
+- [#634](https://github.com/offirgolan/ember-cp-validations/pull/634) fix: use weakmap instead of mutating object validation mixin is applied to [@jasonmit](https://github.com/jasonmit)
+
 ## v4.0.0-beta.7
 
 - [#630](https://github.com/offirgolan/ember-cp-validations/pull/630) fix: Enable parallel babel builds
