@@ -181,11 +181,21 @@ const Result = EmberObject.extend({
    * @private
    * @type {Result}
    */
-  _result: computed('model', 'attribute', '_promise', '_validator', function() {
-    return InternalResultObject.create(
-      getProperties(this, ['model', 'attribute', '_promise', '_validator'])
-    );
-  }),
+  _result: computed(
+    'model',
+    'attribute',
+    '_promise',
+    '_validator',
+    '_resultOverride',
+    function() {
+      return (
+        get(this, '_resultOverride') ||
+        InternalResultObject.create(
+          getProperties(this, ['model', 'attribute', '_promise', '_validator'])
+        )
+      );
+    }
+  ),
 
   init() {
     this._super(...arguments);
@@ -217,10 +227,12 @@ const Result = EmberObject.extend({
     if (isNone(value)) {
       return this.update(false);
     } else if (get(value, 'isValidations')) {
-      set(this, '_result', Collection.create({ attribute, content: [value] }));
+      this._overrideResult(Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
-      set(this, '_result', Collection.create({ attribute, content: value }));
+      this._overrideResult(Collection.create({ attribute, content: value }));
     } else if (!get(this, '_isReadOnly')) {
+      this._overrideResult(undefined);
+
       if (typeof value === 'string') {
         setProperties(get(this, '_result'), {
           [isWarning ? 'warningMessage' : 'message']: value,
@@ -232,6 +244,16 @@ const Result = EmberObject.extend({
         setProperties(result, value);
       }
     }
+  },
+
+  /**
+   * Override the internal _result property.
+   * @method _overrideResult
+   * @param result
+   * @private
+   */
+  _overrideResult(result) {
+    set(this, '_resultOverride', result);
   },
 
   /**
