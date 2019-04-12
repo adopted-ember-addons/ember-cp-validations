@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.7" target="_blank">
-                                  Tag: v4.0.0-beta.7
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.8" target="_blank">
+                                  Tag: v4.0.0-beta.8
                                 </a>
                             </h4>
                         </div>
@@ -369,11 +369,21 @@ const Result = EmberObject.extend({
    * @private
    * @type {Result}
    */
-  _result: computed(&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;, function() {
-    return InternalResultObject.create(
-      getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;])
-    );
-  }),
+  _result: computed(
+    &#x27;model&#x27;,
+    &#x27;attribute&#x27;,
+    &#x27;_promise&#x27;,
+    &#x27;_validator&#x27;,
+    &#x27;_resultOverride&#x27;,
+    function() {
+      return (
+        get(this, &#x27;_resultOverride&#x27;) ||
+        InternalResultObject.create(
+          getProperties(this, [&#x27;model&#x27;, &#x27;attribute&#x27;, &#x27;_promise&#x27;, &#x27;_validator&#x27;])
+        )
+      );
+    }
+  ),
 
   init() {
     this._super(...arguments);
@@ -405,10 +415,12 @@ const Result = EmberObject.extend({
     if (isNone(value)) {
       return this.update(false);
     } else if (get(value, &#x27;isValidations&#x27;)) {
-      set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: [value] }));
+      this._overrideResult(Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
-      set(this, &#x27;_result&#x27;, Collection.create({ attribute, content: value }));
+      this._overrideResult(Collection.create({ attribute, content: value }));
     } else if (!get(this, &#x27;_isReadOnly&#x27;)) {
+      this._overrideResult(undefined);
+
       if (typeof value === &#x27;string&#x27;) {
         setProperties(get(this, &#x27;_result&#x27;), {
           [isWarning ? &#x27;warningMessage&#x27; : &#x27;message&#x27;]: value,
@@ -420,6 +432,16 @@ const Result = EmberObject.extend({
         setProperties(result, value);
       }
     }
+  },
+
+  /**
+   * Override the internal _result property.
+   * @method _overrideResult
+   * @param result
+   * @private
+   */
+  _overrideResult(result) {
+    set(this, &#x27;_resultOverride&#x27;, result);
   },
 
   /**
