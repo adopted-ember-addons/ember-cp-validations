@@ -25,12 +25,13 @@ import {
 } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
-  VALIDATIONS_MIXIN_COUNT,
   IS_VALIDATIONS_CLASS,
   ATTRS_MODEL,
   ATTRS_PATH,
   ATTRS_RESULT_COLLECTION
 } from '../-private/symbols';
+
+const VALIDATION_COUNT_MAP = new WeakMap();
 
 /**
  * ## Running Manual Validations
@@ -100,8 +101,8 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       this._super(...arguments);
 
       // Count number of mixins to bypass super check if there is more than 1
-      validationMixinCount = (get(this, VALIDATIONS_MIXIN_COUNT) || 0) + 1;
-      set(this, VALIDATIONS_MIXIN_COUNT, validationMixinCount);
+      validationMixinCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
+      VALIDATION_COUNT_MAP.set(this, validationMixinCount);
     },
     [VALIDATIONS_CLASS]: computed(function() {
       if (!Validations) {
