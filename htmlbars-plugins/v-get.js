@@ -52,7 +52,7 @@
  *       {{v-get model 'username' 'message'}}
  *     </div>
  *   {{/if}}
-    *
+ *
  *   <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button>
  * </form>
  * ```
@@ -82,7 +82,10 @@ VGet.prototype.transform = function(ast) {
 };
 
 VGet.prototype.validate = function(node) {
-  return ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(node.type) > -1;
+  return (
+    ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(node.type) >
+    -1
+  );
 };
 
 VGet.prototype.processNode = function(node) {
@@ -158,35 +161,47 @@ VGet.prototype.processNodeAttributes = function(node) {
   }
 };
 
-
 /**
- * Transform (v-get model 'username' 'isValid') to (get (get model.validations.attrs 'username') 'isValid') OR
- * (v-get model 'isValid') to (get model.validations 'isValid')
+ * Transform:
+ *  (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')
+ * OR
+ *  (v-get model 'isValid') to (get (get model 'validations') 'isValid')
  * @param  {AST.Node} node
  * @return {AST.Node}
  */
 VGet.prototype.transformToGet = function(node) {
   node = unwrapNode(node);
   var params = node.params;
-  var i = 0;
+  var numParams = params.length;
 
-  if (params.length < 2) {
+  if (numParams < 2) {
     throw new Error('{{v-get}} requires at least two arguments');
   }
   if (params[0].type !== 'PathExpression') {
     throw new Error('The first argument to {{v-get}} must be a stream');
   }
 
-  var root = this.syntax.builders.path(params[i++].original + '.validations');
+  // (get model 'validations')
+  var root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+    params[0],
+    this.syntax.builders.string('validations')
+  ]);
 
-  if (params.length === 3) {
-    root = this.syntax.builders.path(root.original + '.attrs');
-    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [root, params[i++]]); // (get model.validations.attrs 'username')
+  // (get (get (get model 'validations') 'attrs') 'username')
+  if (numParams === 3) {
+    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+      root,
+      this.syntax.builders.string('attrs')
+    ]);
+    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+      root,
+      params[1]
+    ]);
   }
 
   node.path = this.syntax.builders.path('get');
-  node.params = [root, params[i]];
-
+  // (get root 'isValid')
+  node.params = [root, params[numParams - 1]];
 };
 
 // For compatibility with pre- and post-glimmer
