@@ -55,7 +55,9 @@ export function isObject(o) {
 }
 
 export function isDescriptor(o) {
-  return o && typeof o === 'object' && o.isDescriptor;
+  return (
+    o && (typeof o === 'object' || typeof o === 'function') && o.isDescriptor
+  );
 }
 
 export function isValidatable(value) {
