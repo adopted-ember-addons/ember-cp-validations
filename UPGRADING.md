@@ -1,6 +1,6 @@
 # Upgrading v3.x to 4.x
 
-This document is here to show breaking changes when upgrading from v2.x to v3.x
+This document is here to show breaking changes when upgrading from v3.x to v4.x.
 
 ## Support Latest 2 LTS Releases
 
