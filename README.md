@@ -44,8 +44,7 @@ If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentati
 
 - ### [Live Demo](http://offirgolan.github.io/ember-cp-validations)
 
-License
-------------------------------------------------------------------------------
+- ### Documentation
 
   - [4.x](http://offirgolan.github.io/ember-cp-validations/docs)
   - [3.x](https://rawgit.com/offirgolan/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html)
