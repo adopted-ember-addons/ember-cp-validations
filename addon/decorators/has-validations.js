@@ -16,14 +16,7 @@
  */
 
 export function hasValidations(validations) {
-  return desc => {
-    return {
-      ...desc,
-      finisher(klass) {
-        klass.prototype.reopen(validations);
-
-        return klass;
-      }
-    };
+  return function decorator(target) {
+    target.prototype.reopen(validations);
   };
 }
