@@ -1,18 +1,16 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import {
   hasValidations,
   validator,
   buildValidations
 } from 'ember-cp-validations';
 
-const { attr, Model } = DS;
-
 export const Validations = buildValidations({
   name: validator('presence', { presence: true, description: 'Name' })
 });
 
-export default
 @hasValidations(Validations)
-class Company extends Model {
+export default class Company extends Model {
   @attr('string') name;
 }
