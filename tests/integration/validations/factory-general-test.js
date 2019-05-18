@@ -694,13 +694,18 @@ module('Integration | Validations | Factory - General', function(hooks) {
   });
 
   test('disabled validations - cp with dependent key', function(assert) {
-    let Validations = buildValidations({
-      firstName: validator('inline', { validate: Validators.presence }),
-      lastName: validator('inline', {
-        validate: Validators.presence,
-        disabled: not('model.validateLastName')
-      })
-    });
+    let Validations = buildValidations(
+      {
+        firstName: validator('inline', { validate: Validators.presence }),
+        lastName: validator('inline', {
+          validate: Validators.presence,
+          disabled: not('model.validateLastName')
+        })
+      },
+      {
+        dependentKeys: ['model.validateLastName']
+      }
+    );
     let object = setupObject(
       this,
       EmberObject.extend(Validations, {
@@ -782,16 +787,21 @@ module('Integration | Validations | Factory - General', function(hooks) {
   test('attribute validation result options hash with cps', function(assert) {
     this.owner.register('validator:length', LengthValidator);
 
-    let Validations = buildValidations({
-      firstName: {
-        validators: [
-          validator('length', {
-            min: 1,
-            max: readOnly('model.max')
-          })
-        ]
+    let Validations = buildValidations(
+      {
+        firstName: {
+          validators: [
+            validator('length', {
+              min: 1,
+              max: readOnly('model.max')
+            })
+          ]
+        }
+      },
+      {
+        dependentKeys: ['model.max']
       }
-    });
+    );
     let object = setupObject(this, EmberObject.extend(Validations, { max: 5 }));
     let options = object.get('validations.attrs.firstName.options');
     assert.equal(options.length.max, 5);
@@ -1230,23 +1240,28 @@ module('Integration | Validations | Factory - General', function(hooks) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
-    let Validations = buildValidations({
-      password: {
-        description: 'Password',
-        lazy: false,
-        validators: [
-          validator('presence', {
-            presence: true,
-            isWarning: readOnly('model.isWarning'),
-            message: '{description} should not be empty'
-          }),
-          validator('length', {
-            min: 1,
-            max: 10
-          })
-        ]
+    let Validations = buildValidations(
+      {
+        password: {
+          description: 'Password',
+          lazy: false,
+          validators: [
+            validator('presence', {
+              presence: true,
+              isWarning: readOnly('model.isWarning'),
+              message: '{description} should not be empty'
+            }),
+            validator('length', {
+              min: 1,
+              max: 10
+            })
+          ]
+        }
+      },
+      {
+        dependentKeys: ['model.isWarning']
       }
-    });
+    );
 
     let object = setupObject(this, EmberObject.extend(Validations), {
       password: '',
@@ -1279,6 +1294,9 @@ module('Integration | Validations | Factory - General', function(hooks) {
       },
       {
         disabled: not('model.enabled')
+      },
+      {
+        dependentKeys: ['model.enabled', 'model.minLength', 'model.description']
       }
     );
 
