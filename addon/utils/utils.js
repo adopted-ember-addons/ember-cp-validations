@@ -13,6 +13,8 @@ const DS = requireModule('ember-data');
 
 const { canInvoke } = Ember;
 
+export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
+
 export function unwrapString(s) {
   if (isHTMLSafe(s)) {
     return s.toString();
@@ -52,10 +54,6 @@ export function isEmberObject(o) {
 
 export function isObject(o) {
   return typeOf(o) === 'object' || typeOf(o) === 'instance';
-}
-
-export function isDescriptor(o) {
-  return o && typeof o === 'object' && o.isDescriptor;
 }
 
 export function isValidatable(value) {

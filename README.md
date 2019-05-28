@@ -22,7 +22,6 @@ An EmberJS validation framework that is completely and utterly computed property
 - I18n support
 - Debounceable validations
 - Warning validations
-- Decorators for es6 style model/component classes
 
 [![Introduction to Ember CP Validations](https://cloud.githubusercontent.com/assets/2922250/21854491/ebda55b8-d7e8-11e6-8d13-00dff93be8d8.png)](https://embermap.com/video/ember-cp-validations)
 
