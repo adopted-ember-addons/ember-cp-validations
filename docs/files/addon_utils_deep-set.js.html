@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.8" target="_blank">
-                                  Tag: v4.0.0-beta.8
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.9" target="_blank">
+                                  Tag: v4.0.0-beta.9
                                 </a>
                             </h4>
                         </div>
@@ -191,8 +191,7 @@
  * the pathing requires it. If the given path is &#x60;foo.bar&#x60;, it will create a new object (obj.foo)
  * and assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.
  */
-import ComputedProperty from &#x27;@ember/object/computed&#x27;;
-
+import { isDescriptor } from &#x27;./utils&#x27;;
 import { isNone } from &#x27;@ember/utils&#x27;;
 import EmberObject, { defineProperty, set, get } from &#x27;@ember/object&#x27;;
 
@@ -218,7 +217,7 @@ export default function deepSet(
     currObj = get(currObj, key);
   }
 
-  if (value instanceof ComputedProperty) {
+  if (isDescriptor(value)) {
     defineProperty(currObj, keyPath[lastKeyIndex], value);
   } else {
     set(currObj, keyPath[lastKeyIndex], value);
