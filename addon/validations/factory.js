@@ -17,10 +17,11 @@ import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { flatten } from '../utils/array';
 import {
+  getDependentKeys,
+  isDescriptor,
   isDsModel,
   isValidatable,
   isPromise,
-  isDescriptor,
   mergeOptions
 } from '../utils/utils';
 import {
@@ -653,7 +654,7 @@ function extractOptionsDependentKeys(options) {
       let option = options[key];
 
       if (isDescriptor(option)) {
-        return arr.concat(option._dependentKeys || []);
+        return arr.concat(getDependentKeys(option) || []);
       }
 
       return arr;
