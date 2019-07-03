@@ -9,7 +9,7 @@ module.exports = {
     const dependencies = this.project.dependencies();
     let type;
 
-    if ('ember-cli-mocha' in dependencies) {
+    if (('ember-mocha' in dependencies) || ('ember-cli-mocha' in dependencies)) {
       type = 'mocha';
     } else if ('ember-cli-qunit' in dependencies) {
       type = 'qunit';
