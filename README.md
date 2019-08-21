@@ -29,6 +29,13 @@ You can also learn more by watching this Global Ember Meetup talk:
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v3.4 or above
+* Ember CLI v2.13 or above
+* Node.js v8 or above
+
 ## Installation
 
 ```shell
@@ -53,4 +60,14 @@ If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentati
 ## Looking for help?
 
 - If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
-- Ask a question in the `#e-cp-validations` channel at the [Ember.js Community Slack](https://embercommunity.slack.com)
+
+Contributing
+------------------------------------------------------------------------------
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).
