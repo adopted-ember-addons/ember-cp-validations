@@ -70,9 +70,9 @@ HasMany.reopenClass({
      */
     return [
       `model.${attribute}.[]`,
-      `model.${attribute}.@each.isDeleted`,
+      // `model.${attribute}.@each.isDeleted`, //TODO: GJ: causes a `Assertion Failed: When using @each, the value you are attempting to watch must be an array, was: [object Object]` error
       `model.${attribute}.content.@each.isDeleted`,
-      `model.${attribute}.@each.validations`,
+      // `model.${attribute}.@each.validations`,
       `model.${attribute}.content.@each.validations`
     ];
   }
