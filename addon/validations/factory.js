@@ -633,6 +633,9 @@ function getCPDependentKeysFor(attribute, model, validations) {
     dependentKeys.push('model.isDeleted');
   }
 
+  //TEMP: GJ: where are the null keys coming from in 3.13 beta?
+  dependentKeys = dependentKeys.filter(dependentKey => !!dependentKey)
+
   dependentKeys = dependentKeys.map(d => {
     return d.replace(/^model\./, `${ATTRS_MODEL}.`);
   });
