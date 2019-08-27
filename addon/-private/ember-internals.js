@@ -16,7 +16,8 @@ export function getDependentKeys(descriptorOrDecorator) {
       descriptorOrDecorator
     );
     //TODO: GJ: why is `descriptor._dependentKeys` null in 3.13.0-beta.4?
-    return descriptor._dependentKeys;
+    // - for now, fallback to `[descriptor.altKey]`
+    return descriptor._dependentKeys || [descriptor.altKey];
   } else {
     return descriptorOrDecorator._dependentKeys;
   }
