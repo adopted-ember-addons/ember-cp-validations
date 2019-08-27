@@ -1,8 +1,13 @@
 import Ember from 'ember';
 
 let __EMBER_METAL__;
-if (Ember.__loader.registry['@ember/-internals/metal']) {
-  __EMBER_METAL__ = Ember.__loader.require('@ember/-internals/metal');
+let emberMetalPaths = [
+  '@ember/-internals/metal', // ember-source from 3.10
+  '@ember/-internals/metal/index' // ember-source from 3.13
+];
+let metalPath = emberMetalPaths.find(path => Ember.__loader.registry[path]);
+if (metalPath) {
+  __EMBER_METAL__ = Ember.__loader.require(metalPath);
 }
 
 export function getDependentKeys(descriptorOrDecorator) {
@@ -10,6 +15,7 @@ export function getDependentKeys(descriptorOrDecorator) {
     let descriptor = __EMBER_METAL__.descriptorForDecorator(
       descriptorOrDecorator
     );
+    //TODO: GJ: why is `descriptor._dependentKeys` null in 3.13.0-beta.4?
     return descriptor._dependentKeys;
   } else {
     return descriptorOrDecorator._dependentKeys;
