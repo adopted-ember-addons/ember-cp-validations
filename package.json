@@ -61,7 +61,7 @@
     "ember-qunit": "^3.4.1",
     "ember-qunit-nice-errors": "^1.2.0",
     "ember-resolver": "^5.0.1",
-    "ember-source": "~3.8.0",
+    "ember-source": "~3.13.0-beta.5",
     "ember-source-channel-url": "^1.1.0",
     "ember-test-selectors": "^0.3.8",
     "ember-truth-helpers": "2.0.0",
