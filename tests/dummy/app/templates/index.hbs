@@ -1,5 +1,8 @@
 {{! template-lint-disable }}
 
+{{! Reproducing https://github.com/offirgolan/ember-cp-validations/issues/659 in the running app }}
+<MyComponent @model={{model}}/>
+
 <div class='form'>
   {{#unless isRegistered}}
     <div class='register'>
