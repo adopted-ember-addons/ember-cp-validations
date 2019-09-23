@@ -11,7 +11,7 @@ import DefaultMessages from 'dummy/validators/messages';
 import PresenceValidator from 'dummy/validators/presence';
 import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
-import { module, test } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { ATTRS_MODEL } from 'ember-cp-validations/-private/symbols';
 
@@ -1040,7 +1040,8 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(child.get('validations.errors.length'), 1);
   });
 
-  test('call super in validations class with no super property', function(assert) {
+  // https://github.com/offirgolan/ember-cp-validations/pull/656
+  skip('call super in validations class with no super property', function(assert) {
     // see https://github.com/offirgolan/ember-cp-validations/issues/149
     assert.expect(1);
 

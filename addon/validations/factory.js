@@ -633,6 +633,8 @@ function getCPDependentKeysFor(attribute, model, validations) {
     dependentKeys.push('model.isDeleted');
   }
 
+  dependentKeys = dependentKeys.filter(dependentKey => !!dependentKey);
+
   dependentKeys = dependentKeys.map(d => {
     return d.replace(/^model\./, `${ATTRS_MODEL}.`);
   });
