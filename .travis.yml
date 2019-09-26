@@ -53,8 +53,11 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-lts-3.4
     - env: EMBER_TRY_SCENARIO=ember-lts-3.8
     - env: EMBER_TRY_SCENARIO=ember-release
+      node_js: '8'
     - env: EMBER_TRY_SCENARIO=ember-beta
+      node_js: '8'
     - env: EMBER_TRY_SCENARIO=ember-canary
+      node_js: '8'
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
 
 before_install:
