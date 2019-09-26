@@ -105,5 +105,8 @@
     "configPath": "tests/dummy/config",
     "demoURL": "http://offirgolan.github.io/ember-cp-validations"
   },
-  "homepage": "https://github.com/offirgolan/ember-cp-validations"
+  "homepage": "https://github.com/offirgolan/ember-cp-validations",
+  "resolutions": {
+    "sass/chokidar": "^2.0.0"
+  }
 }
