@@ -107,6 +107,7 @@
   },
   "homepage": "https://github.com/offirgolan/ember-cp-validations",
   "resolutions": {
+    "**/engine.io": "~3.3.0",
     "sass/chokidar": "^2.0.0"
   }
 }
