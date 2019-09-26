@@ -72,7 +72,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-prettier": "^2.6.2",
     "loader.js": "^4.7.0",
-    "prettier": "^1.13.7",
+    "prettier": "1.17.1",
     "qunit-dom": "^0.8.0",
     "sass": "1.22.7",
     "yuidoc-ember-theme": "^2.0.1"
