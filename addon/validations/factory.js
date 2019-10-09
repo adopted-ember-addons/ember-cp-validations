@@ -98,7 +98,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
   let Validations, validationMixinCount;
 
-  let ValidationsMixin = Ember.Mixin.create({
+  return Ember.Mixin.create({
     init() {
       this._super(...arguments);
 
@@ -140,11 +140,6 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       get(this, 'validations').destroy();
     }
   });
-
-  // Label mixin under a named scope for Ember Inspector
-  ValidationsMixin[Ember.NAME_KEY] = 'Validations';
-
-  return ValidationsMixin;
 }
 
 /**
