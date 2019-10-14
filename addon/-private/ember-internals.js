@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import { A } from '@ember/array';
 
 let __EMBER_METAL__;
 let emberMetalPaths = [
   '@ember/-internals/metal', // ember-source from 3.10
   '@ember/-internals/metal/index' // ember-source from 3.13
 ];
-let metalPath = emberMetalPaths.find(path => Ember.__loader.registry[path]);
+let metalPath = A(emberMetalPaths).find(path => Ember.__loader.registry[path]);
 if (metalPath) {
   __EMBER_METAL__ = Ember.__loader.require(metalPath);
 }
