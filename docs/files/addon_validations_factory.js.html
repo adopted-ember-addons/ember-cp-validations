@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.9" target="_blank">
-                                  Tag: v4.0.0-beta.9
+                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
+                                  Tag: v4.0.0-beta.10
                                 </a>
                             </h4>
                         </div>
@@ -821,7 +821,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
     dependentKeys.push(&#x27;model.isDeleted&#x27;);
   }
 
-  dependentKeys = dependentKeys.map(d =&gt; {
+  dependentKeys = dependentKeys.filter(Boolean).map(d =&gt; {
     return d.replace(/^model\./, &#x60;${ATTRS_MODEL}.&#x60;);
   });
 
