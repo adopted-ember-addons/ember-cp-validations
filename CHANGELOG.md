@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.0.0-beta.10
+
+- [#668](https://github.com/offirgolan/ember-cp-validations/pull/668) Support Ember 3.13 [@jrjohnson](https://github.com/jrjohnson)
+- [#667](https://github.com/offirgolan/ember-cp-validations/pull/667) Drop Node 6 [@jrjohnson](https://github.com/jrjohnson)
+
 ## v4.0.0-beta.9
 
 - [#641](https://github.com/offirgolan/ember-cp-validations/pull/641) Support ember 3.10, drops support for decorators [@GavinJoyce](https://github.com/GavinJoyce)
