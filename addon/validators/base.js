@@ -441,7 +441,7 @@ export default Base;
  *         assert.expect(1);
  *         const validator = this.owner.lookup("validator:unique-username");
  *         assert.ok(validator);
- *     });          
+ *     })
  * });
  * ```
  *
