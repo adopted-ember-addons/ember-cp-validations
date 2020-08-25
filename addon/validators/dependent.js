@@ -1,8 +1,9 @@
-import { getProperties, getWithDefault, get } from '@ember/object';
+import { getProperties, get } from '@ember/object';
 import { assert } from '@ember/debug';
 import { isPresent, isEmpty, isNone } from '@ember/utils';
 import { isArray, A } from '@ember/array';
 import Base from 'ember-cp-validations/validators/base';
+import getWithDefault from '../utils/get-with-default';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
