@@ -190,9 +190,8 @@ import { deprecate } from '@ember/application/deprecations';
  * The message function is given the following arguments:
  *
  * - `type` (**String**): The error message type
- * - `options` (**Object**): The validator options that were defined in the model
  * - `value`: The current value being evaluated
- * - `context` (**Object**): Context for string replacement
+ * - `options` (**Object**): The validator options that were defined in the model
  *
  * The return value must be a `string`. If nothing is returned (`undefined`),
  * defaults to the default error message of the specified type.
