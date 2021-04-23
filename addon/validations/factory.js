@@ -1,6 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
-import EmberObject, { getWithDefault, computed, set, get } from '@ember/object';
+import EmberObject, { computed, set, get } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
@@ -16,6 +16,7 @@ import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { flatten } from '../utils/array';
+import getWithDefault from '../utils/get-with-default';
 import {
   getDependentKeys,
   isDescriptor,
