@@ -11,7 +11,7 @@
     "test:all": "ember try:each"
   },
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": "10.* || >= 12"
   },
   "contributors": [
     {
@@ -99,7 +99,7 @@
   "dependencies": {
     "ember-cli-babel": "^7.1.2",
     "ember-require-module": "^0.3.0",
-    "ember-validators": "^2.0.0"
+    "ember-validators": "^3.0.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
