@@ -110,8 +110,7 @@ class VGet {
    */
   processNodeParams(node) {
     if (node.params) {
-      for (let i = 0; i < node.params.length; i++) {
-        let param = node.params[i];
+      for (let param of node.params) {
         if (param.type === 'SubExpression') {
           if (param.path.original === 'v-get') {
             this.transformToGet(param);
@@ -129,8 +128,7 @@ class VGet {
    */
   processNodeHash(node) {
     if (node.hash && node.hash.pairs) {
-      for (let i = 0; i < node.hash.pairs.length; i++) {
-        let pair = node.hash.pairs[i];
+      for (let pair of node.hash.pairs) {
         if (pair.value.type === 'SubExpression') {
           if (pair.value.path.original === 'v-get') {
             this.transformToGet(pair.value);
@@ -148,17 +146,15 @@ class VGet {
    * @param  {AST.Node} node
    */
   processNodeAttributes(node) {
-    let i;
     if (node.attributes) {
-      for (i = 0; i < node.attributes.length; i++) {
-        let attr = node.attributes[i];
+      for (let attr of node.attributes) {
         this.processNode(attr.value);
       }
     }
 
     if (node.parts) {
-      for (i = 0; i < node.parts.length; i++) {
-        this.processNode(node.parts[i]);
+      for (let part of node.parts) {
+        this.processNode(part);
       }
     }
   }
