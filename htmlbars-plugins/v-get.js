@@ -70,8 +70,8 @@ class VGet {
   }
 
   transform(ast) {
-    var context = this;
-    var walker = new this.syntax.Walker();
+    let context = this;
+    let walker = new this.syntax.Walker();
 
     walker.visit(ast, function(node) {
       if (context.validate(node)) {
@@ -91,7 +91,7 @@ class VGet {
   }
 
   processNode(node) {
-    var type = node.type;
+    let type = node.type;
     node = unwrapNode(node);
 
     // {{v-get model 'username' 'isValid'}}
@@ -110,8 +110,8 @@ class VGet {
    */
   processNodeParams(node) {
     if (node.params) {
-      for (var i = 0; i < node.params.length; i++) {
-        var param = node.params[i];
+      for (let i = 0; i < node.params.length; i++) {
+        let param = node.params[i];
         if (param.type === 'SubExpression') {
           if (param.path.original === 'v-get') {
             this.transformToGet(param);
@@ -129,8 +129,8 @@ class VGet {
    */
   processNodeHash(node) {
     if (node.hash && node.hash.pairs) {
-      for (var i = 0; i < node.hash.pairs.length; i++) {
-        var pair = node.hash.pairs[i];
+      for (let i = 0; i < node.hash.pairs.length; i++) {
+        let pair = node.hash.pairs[i];
         if (pair.value.type === 'SubExpression') {
           if (pair.value.path.original === 'v-get') {
             this.transformToGet(pair.value);
@@ -148,10 +148,10 @@ class VGet {
    * @param  {AST.Node} node
    */
   processNodeAttributes(node) {
-    var i;
+    let i;
     if (node.attributes) {
       for (i = 0; i < node.attributes.length; i++) {
-        var attr = node.attributes[i];
+        let attr = node.attributes[i];
         this.processNode(attr.value);
       }
     }
@@ -173,8 +173,8 @@ class VGet {
    */
   transformToGet(node) {
     node = unwrapNode(node);
-    var params = node.params;
-    var numParams = params.length;
+    let params = node.params;
+    let numParams = params.length;
 
     if (numParams < 2) {
       throw new Error('{{v-get}} requires at least two arguments');
@@ -184,7 +184,7 @@ class VGet {
     }
 
     // (get model 'validations')
-    var root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+    let root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
       params[0],
       this.syntax.builders.string('validations')
     ]);
