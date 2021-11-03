@@ -83,10 +83,8 @@ class VGet {
   }
 
   validate(node) {
-    return (
-      ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(
-        node.type
-      ) > -1
+    return ['BlockStatement', 'MustacheStatement', 'ElementNode'].includes(
+      node.type
     );
   }
 
