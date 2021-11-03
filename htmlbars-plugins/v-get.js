@@ -63,146 +63,149 @@
 
 /* eslint-env node */
 
-function VGet(options) {
-  this.options = options;
-  this.syntax = null; // set by HTMLBars
+class VGet {
+  constructor(options) {
+    this.options = options;
+    this.syntax = null; // set by HTMLBars
+  }
+
+  transform(ast) {
+    var context = this;
+    var walker = new this.syntax.Walker();
+
+    walker.visit(ast, function(node) {
+      if (context.validate(node)) {
+        context.processNode(node);
+      }
+    });
+
+    return ast;
+  }
+
+  validate(node) {
+    return (
+      ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(
+        node.type
+      ) > -1
+    );
+  }
+
+  processNode(node) {
+    var type = node.type;
+    node = unwrapNode(node);
+
+    // {{v-get model 'username' 'isValid'}}
+    if (type === 'MustacheStatement' && node.path.original === 'v-get') {
+      this.transformToGet(node);
+    }
+
+    this.processNodeParams(node);
+    this.processNodeHash(node);
+    this.processNodeAttributes(node);
+  }
+
+  /**
+   * {{#if (v-get model 'username' 'isValid')}} {{/if}}
+   * @param  {AST.Node} node
+   */
+  processNodeParams(node) {
+    if (node.params) {
+      for (var i = 0; i < node.params.length; i++) {
+        var param = node.params[i];
+        if (param.type === 'SubExpression') {
+          if (param.path.original === 'v-get') {
+            this.transformToGet(param);
+          } else {
+            this.processNode(param);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * {{x-component prop=(v-get model 'isValid')}}
+   * @param  {AST.Node} node
+   */
+  processNodeHash(node) {
+    if (node.hash && node.hash.pairs) {
+      for (var i = 0; i < node.hash.pairs.length; i++) {
+        var pair = node.hash.pairs[i];
+        if (pair.value.type === 'SubExpression') {
+          if (pair.value.path.original === 'v-get') {
+            this.transformToGet(pair.value);
+          } else {
+            this.processNode(pair.value);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)
+   * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
+   * @param  {AST.Node} node
+   */
+  processNodeAttributes(node) {
+    var i;
+    if (node.attributes) {
+      for (i = 0; i < node.attributes.length; i++) {
+        var attr = node.attributes[i];
+        this.processNode(attr.value);
+      }
+    }
+
+    if (node.parts) {
+      for (i = 0; i < node.parts.length; i++) {
+        this.processNode(node.parts[i]);
+      }
+    }
+  }
+
+  /**
+   * Transform:
+   *  (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')
+   * OR
+   *  (v-get model 'isValid') to (get (get model 'validations') 'isValid')
+   * @param  {AST.Node} node
+   * @return {AST.Node}
+   */
+  transformToGet(node) {
+    node = unwrapNode(node);
+    var params = node.params;
+    var numParams = params.length;
+
+    if (numParams < 2) {
+      throw new Error('{{v-get}} requires at least two arguments');
+    }
+    if (params[0].type !== 'PathExpression') {
+      throw new Error('The first argument to {{v-get}} must be a stream');
+    }
+
+    // (get model 'validations')
+    var root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+      params[0],
+      this.syntax.builders.string('validations')
+    ]);
+
+    // (get (get (get model 'validations') 'attrs') 'username')
+    if (numParams === 3) {
+      root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+        root,
+        this.syntax.builders.string('attrs')
+      ]);
+      root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+        root,
+        params[1]
+      ]);
+    }
+
+    node.path = this.syntax.builders.path('get');
+    // (get root 'isValid')
+    node.params = [root, params[numParams - 1]];
+  }
 }
-
-VGet.prototype.transform = function(ast) {
-  var context = this;
-  var walker = new this.syntax.Walker();
-
-  walker.visit(ast, function(node) {
-    if (context.validate(node)) {
-      context.processNode(node);
-    }
-  });
-
-  return ast;
-};
-
-VGet.prototype.validate = function(node) {
-  return (
-    ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(node.type) >
-    -1
-  );
-};
-
-VGet.prototype.processNode = function(node) {
-  var type = node.type;
-  node = unwrapNode(node);
-
-  // {{v-get model 'username' 'isValid'}}
-  if (type === 'MustacheStatement' && node.path.original === 'v-get') {
-    this.transformToGet(node);
-  }
-
-  this.processNodeParams(node);
-  this.processNodeHash(node);
-  this.processNodeAttributes(node);
-};
-
-/**
- * {{#if (v-get model 'username' 'isValid')}} {{/if}}
- * @param  {AST.Node} node
- */
-VGet.prototype.processNodeParams = function(node) {
-  if (node.params) {
-    for (var i = 0; i < node.params.length; i++) {
-      var param = node.params[i];
-      if (param.type === 'SubExpression') {
-        if (param.path.original === 'v-get') {
-          this.transformToGet(param);
-        } else {
-          this.processNode(param);
-        }
-      }
-    }
-  }
-};
-
-/**
- * {{x-component prop=(v-get model 'isValid')}}
- * @param  {AST.Node} node
- */
-VGet.prototype.processNodeHash = function(node) {
-  if (node.hash && node.hash.pairs) {
-    for (var i = 0; i < node.hash.pairs.length; i++) {
-      var pair = node.hash.pairs[i];
-      if (pair.value.type === 'SubExpression') {
-        if (pair.value.path.original === 'v-get') {
-          this.transformToGet(pair.value);
-        } else {
-          this.processNode(pair.value);
-        }
-      }
-    }
-  }
-};
-
-/**
- * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)
- * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
- * @param  {AST.Node} node
- */
-VGet.prototype.processNodeAttributes = function(node) {
-  var i;
-  if (node.attributes) {
-    for (i = 0; i < node.attributes.length; i++) {
-      var attr = node.attributes[i];
-      this.processNode(attr.value);
-    }
-  }
-
-  if (node.parts) {
-    for (i = 0; i < node.parts.length; i++) {
-      this.processNode(node.parts[i]);
-    }
-  }
-};
-
-/**
- * Transform:
- *  (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')
- * OR
- *  (v-get model 'isValid') to (get (get model 'validations') 'isValid')
- * @param  {AST.Node} node
- * @return {AST.Node}
- */
-VGet.prototype.transformToGet = function(node) {
-  node = unwrapNode(node);
-  var params = node.params;
-  var numParams = params.length;
-
-  if (numParams < 2) {
-    throw new Error('{{v-get}} requires at least two arguments');
-  }
-  if (params[0].type !== 'PathExpression') {
-    throw new Error('The first argument to {{v-get}} must be a stream');
-  }
-
-  // (get model 'validations')
-  var root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
-    params[0],
-    this.syntax.builders.string('validations')
-  ]);
-
-  // (get (get (get model 'validations') 'attrs') 'username')
-  if (numParams === 3) {
-    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
-      root,
-      this.syntax.builders.string('attrs')
-    ]);
-    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
-      root,
-      params[1]
-    ]);
-  }
-
-  node.path = this.syntax.builders.path('get');
-  // (get root 'isValid')
-  node.params = [root, params[numParams - 1]];
-};
 
 // For compatibility with pre- and post-glimmer
 function unwrapNode(node) {
