@@ -70,22 +70,21 @@ class VGet {
   }
 
   transform(ast) {
-    let context = this;
-    let walker = new this.syntax.Walker();
+    let { traverse } = this.syntax;
 
-    walker.visit(ast, function(node) {
-      if (context.validate(node)) {
-        context.processNode(node);
+    traverse(ast, {
+      BlockStatement(node) {
+        this.processNode(node);
+      },
+      MustacheStatement(node) {
+        this.processNode(node);
+      },
+      ElementNode(node) {
+        this.processNode(node);
       }
     });
 
     return ast;
-  }
-
-  validate(node) {
-    return ['BlockStatement', 'MustacheStatement', 'ElementNode'].includes(
-      node.type
-    );
   }
 
   processNode(node) {
