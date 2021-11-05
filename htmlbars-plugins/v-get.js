@@ -63,56 +63,33 @@
 
 /* eslint-env node */
 
-class VGet {
-  constructor(options) {
-    this.options = options;
-    this.syntax = null; // set by HTMLBars
-  }
-
-  transform(ast) {
-    let { traverse } = this.syntax;
-
-    traverse(ast, {
-      BlockStatement(node) {
-        this.processNode(node);
-      },
-      MustacheStatement(node) {
-        this.processNode(node);
-      },
-      ElementNode(node) {
-        this.processNode(node);
-      }
-    });
-
-    return ast;
-  }
-
-  processNode(node) {
+function transform({ syntax }) {
+  function processNode(node) {
     let type = node.type;
     node = unwrapNode(node);
 
     // {{v-get model 'username' 'isValid'}}
     if (type === 'MustacheStatement' && node.path.original === 'v-get') {
-      this.transformToGet(node);
+      transformToGet(node);
     }
 
-    this.processNodeParams(node);
-    this.processNodeHash(node);
-    this.processNodeAttributes(node);
+    processNodeParams(node);
+    processNodeHash(node);
+    processNodeAttributes(node);
   }
 
   /**
    * {{#if (v-get model 'username' 'isValid')}} {{/if}}
    * @param  {AST.Node} node
    */
-  processNodeParams(node) {
+  function processNodeParams(node) {
     if (node.params) {
       for (let param of node.params) {
         if (param.type === 'SubExpression') {
           if (param.path.original === 'v-get') {
-            this.transformToGet(param);
+            transformToGet(param);
           } else {
-            this.processNode(param);
+            processNode(param);
           }
         }
       }
@@ -123,14 +100,14 @@ class VGet {
    * {{x-component prop=(v-get model 'isValid')}}
    * @param  {AST.Node} node
    */
-  processNodeHash(node) {
+  function processNodeHash(node) {
     if (node.hash && node.hash.pairs) {
       for (let pair of node.hash.pairs) {
         if (pair.value.type === 'SubExpression') {
           if (pair.value.path.original === 'v-get') {
-            this.transformToGet(pair.value);
+            transformToGet(pair.value);
           } else {
-            this.processNode(pair.value);
+            processNode(pair.value);
           }
         }
       }
@@ -142,16 +119,16 @@ class VGet {
    * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
    * @param  {AST.Node} node
    */
-  processNodeAttributes(node) {
+  function processNodeAttributes(node) {
     if (node.attributes) {
       for (let attr of node.attributes) {
-        this.processNode(attr.value);
+        processNode(attr.value);
       }
     }
 
     if (node.parts) {
       for (let part of node.parts) {
-        this.processNode(part);
+        processNode(part);
       }
     }
   }
@@ -164,7 +141,7 @@ class VGet {
    * @param  {AST.Node} node
    * @return {AST.Node}
    */
-  transformToGet(node) {
+  function transformToGet(node) {
     node = unwrapNode(node);
     let params = node.params;
     let numParams = params.length;
@@ -177,27 +154,42 @@ class VGet {
     }
 
     // (get model 'validations')
-    let root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+    let root = syntax.builders.sexpr(syntax.builders.path('get'), [
       params[0],
-      this.syntax.builders.string('validations')
+      syntax.builders.string('validations')
     ]);
 
     // (get (get (get model 'validations') 'attrs') 'username')
     if (numParams === 3) {
-      root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+      root = syntax.builders.sexpr(syntax.builders.path('get'), [
         root,
-        this.syntax.builders.string('attrs')
+        syntax.builders.string('attrs')
       ]);
-      root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+      root = syntax.builders.sexpr(syntax.builders.path('get'), [
         root,
         params[1]
       ]);
     }
 
-    node.path = this.syntax.builders.path('get');
+    node.path = syntax.builders.path('get');
     // (get root 'isValid')
     node.params = [root, params[numParams - 1]];
   }
+
+  return {
+    name: 'v-get',
+    visitor: {
+      BlockStatement(node) {
+        processNode(node);
+      },
+      MustacheStatement(node) {
+        processNode(node);
+      },
+      ElementNode(node) {
+        processNode(node);
+      }
+    }
+  };
 }
 
 // For compatibility with pre- and post-glimmer
@@ -209,4 +201,4 @@ function unwrapNode(node) {
   }
 }
 
-module.exports = VGet;
+module.exports = transform;
