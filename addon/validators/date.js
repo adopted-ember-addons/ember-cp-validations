@@ -13,11 +13,10 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *
  *  ```javascript
  *  validator('date', {
- *    after: 'now',
+ *    after: '25/12/2019',
  *    before: '1/1/2020',
- *    precision: 'day',
- *    format: 'M/D/YYY',
- *    errorFormat: 'M/D/YYY'
+ *    format: { dateStyle: 'long' },
+ *    errorFormat: { dateStyle: 'long' }
  *  })
  *  ```
  *
