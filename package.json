@@ -1,6 +1,6 @@
 {
   "name": "ember-cp-validations",
-  "version": "4.0.0-beta.13.0",
+  "version": "4.0.0-beta.13.1",
   "description": "Ember computed property based validation library",
   "scripts": {
     "build": "ember build",
