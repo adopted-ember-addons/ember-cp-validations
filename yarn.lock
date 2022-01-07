@@ -6185,10 +6185,10 @@ ember-try@^1.1.0:
     rsvp "^4.7.0"
     walk-sync "^1.1.3"
 
-ember-validators@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-4.0.0.tgz#b4edfff3e395201328e7fd2fab24ab63af4ae123"
-  integrity sha512-VuvLyY2J/DIaJ+pn782oVroBNv4fKlS7HGKsx6rqM9e1Ak3d62nSuH5Ii31FhXy4w2f0a6QFbgP5Z7eeeeldDQ==
+ember-validators@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-4.0.1.tgz#13beefdf185b00efd1b60e51b21380686d8994ba"
+  integrity sha512-QVHzzYQn17Ikz8EZVxEtjKRyr6fmwSUbjYpxjcuoZKN5Ub1jjU2LzPOXT6FJQet691UlBs35e6EjPkBOb+xOuA==
   dependencies:
     "@embroider/macros" "^0.41.0"
     ember-cli-babel "^7.26.3"
