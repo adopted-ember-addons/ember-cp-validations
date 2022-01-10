@@ -1,69 +1,59 @@
 // BEGIN-SNIPPET validated-input
-import {
-  not,
-  notEmpty,
-  and,
-  or,
-  readOnly,
-  alias
-} from '@ember/object/computed';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { isEmpty } from '@ember/utils';
 
-import Component from '@ember/component';
-import { defineProperty } from '@ember/object';
+export default class ValidatedInput extends Component {
+  @tracked showValidations = false;
 
-export default Component.extend({
-  classNames: ['validated-input'],
-  classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
-  model: null,
-  value: null,
-  type: 'text',
-  valuePath: '',
-  placeholder: '',
-  validation: null,
-  showValidations: false,
-  didValidate: false,
-
-  notValidating: not('validation.isValidating').readOnly(),
-  hasContent: notEmpty('value').readOnly(),
-  hasWarnings: notEmpty('validation.warnings').readOnly(),
-  isValid: and('hasContent', 'validation.isTruelyValid').readOnly(),
-  shouldDisplayValidations: or(
-    'showValidations',
-    'didValidate',
-    'hasContent'
-  ).readOnly(),
-
-  showErrorClass: and(
-    'notValidating',
-    'showErrorMessage',
-    'hasContent',
-    'validation'
-  ).readOnly(),
-  showErrorMessage: and(
-    'shouldDisplayValidations',
-    'validation.isInvalid'
-  ).readOnly(),
-  showWarningMessage: and(
-    'shouldDisplayValidations',
-    'hasWarnings',
-    'isValid'
-  ).readOnly(),
-
-  init() {
-    this._super(...arguments);
-    let valuePath = this.get('valuePath');
-
-    defineProperty(
-      this,
-      'validation',
-      readOnly(`model.validations.attrs.${valuePath}`)
-    );
-    defineProperty(this, 'value', alias(`model.${valuePath}`));
-  },
-
-  focusOut() {
-    this._super(...arguments);
-    this.set('showValidations', true);
+  get notValidating() {
+    return !this.validation.isValidating;
   }
-});
+
+  get hasContent() {
+    return !isEmpty(this.value);
+  }
+
+  get hasWarnings() {
+    return !isEmpty(this.validation.warnings);
+  }
+
+  get isValid() {
+    return this.hasContent && this.validation.isTruelyValid;
+  }
+
+  get shouldDisplayValidations() {
+    return this.showValidations || this.args.didValidate || this.hasContent;
+  }
+
+  get showErrorClass() {
+    return this.notValidating && this.showErrorMessage && this.validation;
+  }
+
+  get showErrorMessage() {
+    return this.shouldDisplayValidations && this.validation.isInvalid;
+  }
+
+  get showWarningMessage() {
+    this.shouldDisplayValidations && this.hasWarnings && this.isValid;
+  }
+
+  get validation() {
+    return this.args.model.validations.attrs[this.args.valuePath];
+  }
+
+  get value() {
+    return this.args.model[this.args.valuePath];
+  }
+
+  set value(value) {
+    return this.args.model[this.args.valuePath] = value;
+  }
+
+  @action
+  onFocusOut() {
+    this.showValidations = true;
+  }
+}
 // END-SNIPPET
