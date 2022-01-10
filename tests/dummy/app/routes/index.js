@@ -1,26 +1,28 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class ApplicationRoute extends Route {
+  @service store;
+
   model() {
     return this.store.createRecord('user', {
       details: this.store.createRecord('user-detail')
     });
-  },
+  }
 
-  setupController(controller) {
-    controller.setProperties({
+  setupController(controller, model) {
+    Object.assign(controller, {
       showAlert: false,
       isRegistered: false,
       showCode: false,
-      didValidate: false
+      didValidate: false,
+      model,
     });
-
-    this._super(...arguments);
-  },
-
-  actions: {
-    reset() {
-      this.refresh();
-    }
   }
-});
+
+  @action
+  reset() {
+    this.refresh();
+  }
+}
