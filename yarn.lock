@@ -2523,11 +2523,6 @@ ast-types@0.10.1:
   resolved "https://registry.yarnpkg.com/ast-types/-/ast-types-0.10.1.tgz#f52fca9715579a14f841d67d7f8d25432ab6a3dd"
   integrity sha512-UY7+9DPzlJ9VM8eY0b2TUZcZvF+1pO0hzMtAyjBYKhOmnvRlqYNYnWdtsMj0V16CGaMlpL0G1jnLbLo4AyotuQ==
 
-ast-types@0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/ast-types/-/ast-types-0.10.2.tgz#aef76a04fde54634976fc94defaad1a67e2eadb0"
-  integrity sha512-ufWX953VU1eIuWqxS0nRDMYlGyFH+yxln5CsmIHlpzEt3fdYqUnRtsFt0XAsQot8OaVCwFqxT1RiwvtzYjeYeg==
-
 ast-types@0.13.3:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/ast-types/-/ast-types-0.13.3.tgz#50da3f28d17bdbc7969a3a2d83a0e4a72ae755a7"
@@ -2652,7 +2647,7 @@ babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@^6.10.4, babel-core@^6.26.0, babel-core@^6.26.3:
+babel-core@^6.26.0, babel-core@^6.26.3:
   version "6.26.3"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.3.tgz#b2e2f09e342d0f0c88e2f02e067794125e75c207"
   integrity sha512-6jyFLuDmeidKmUEb3NM+/yawG0M2bDZ9Z1qbZP59cyHLz8kYGKYwpJP0UwUKKUiTRNvxfLesJnTedqczP7cTDA==
@@ -6345,16 +6340,6 @@ ember-popper@^0.11.3:
     ember-raf-scheduler "^0.1.0"
     fastboot-transform "^0.1.0"
     popper.js "^1.14.1"
-
-ember-qunit-nice-errors@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ember-qunit-nice-errors/-/ember-qunit-nice-errors-1.2.0.tgz#8db4468fbe761f42bec9adcddfd21efa31237267"
-  integrity sha512-DNvqrS6vSMf7VImW7RjlTbiUnYvyxNNeVMNBVyys7g8hgg/IqbWeXQjKUzeSp/dUbzVi9Fr/8cuLHH7S38DSOA==
-  dependencies:
-    babel-core "^6.10.4"
-    broccoli-persistent-filter "^1.4.3"
-    ember-cli-babel "^6.6.0"
-    recast "^0.13.0"
 
 ember-qunit@^5.1.4:
   version "5.1.5"
@@ -11897,16 +11882,6 @@ recast@^0.12.0:
   dependencies:
     ast-types "0.10.1"
     core-js "^2.4.1"
-    esprima "~4.0.0"
-    private "~0.1.5"
-    source-map "~0.6.1"
-
-recast@^0.13.0:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/recast/-/recast-0.13.2.tgz#919e7e856d5154f13284142ed1797753c6756137"
-  integrity sha512-Xqo0mKljGUWGUhnkdbODk7oJGFrMcpgKQ9cCyZ4y+G9VfoTKdum8nHbf/SxIdKx5aBSZ29VpVy20bTyt7jyC8w==
-  dependencies:
-    ast-types "0.10.2"
     esprima "~4.0.0"
     private "~0.1.5"
     source-map "~0.6.1"
