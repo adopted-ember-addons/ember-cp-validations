@@ -34,4 +34,9 @@ export default class ApplicationController extends Controller {
   reset() {
     this.send("reset");
   }
+
+  @action
+  preventDefault(e) {
+    e.preventDefault();
+  }
 }

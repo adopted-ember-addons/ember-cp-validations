@@ -11,7 +11,7 @@
           Please fix all the errors below before continuing.
         </div>
       {{/if}}
-      <form>
+      <form {{on "submit" this.preventDefault}}>
         <div class='section'>
           {{#unless this.showCode}}
             <div class='section-info left'>
