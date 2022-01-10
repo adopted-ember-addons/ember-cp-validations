@@ -9,13 +9,13 @@
   <div class='input-error'>
     {{#if showErrorMessage}}
       <div class='error'>
-        {{get model (concat "validations.attrs." valuePath ".message"}}
+        {{get model (concat "validations.attrs." valuePath ".message")}}
       </div>
     {{/if}}
 
     {{#if showWarningMessage}}
       <div class='warning'>
-        {{get model (concat "validations.attrs." valuePath ".warningMessage"}}
+        {{get model (concat "validations.attrs." valuePath ".warningMessage")}}
       </div>
     {{/if}}
   </div>
