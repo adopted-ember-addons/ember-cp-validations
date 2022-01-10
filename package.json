@@ -46,7 +46,6 @@
     "ember-cli": "~3.28.0",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-autoprefixer": "^2.0.0",
-    "ember-cli-changelog": "0.3.4",
     "ember-cli-code-coverage": "1.0.3",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-github-pages": "^0.2.0",
