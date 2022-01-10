@@ -4,7 +4,7 @@ import EmberObject, { computed, set, get } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
-import { run } from '@ember/runloop';
+import { cancel, debounce } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
@@ -281,7 +281,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
 
         if (!isNone(attrCache)) {
           // Itterate over each attribute and cancel all of its debounced validations
-          Object.keys(attrCache).forEach(v => run.cancel(attrCache[v]));
+          Object.keys(attrCache).forEach(v => cancel(attrCache[v]));
         }
       });
     }
@@ -502,17 +502,17 @@ function generateValidationResultsFor(
     let options = get(validator, 'options').toObject();
     let isWarning = getWithDefault(options, 'isWarning', false);
     let disabled = getWithDefault(options, 'disabled', false);
-    let debounce = getWithDefault(options, 'debounce', 0);
+    let debounceOption = getWithDefault(options, 'debounce', 0);
     let lazy = getWithDefault(options, 'lazy', true);
 
     if (disabled || (lazy && isInvalid) || !isModelValidatable) {
       value = true;
-    } else if (debounce > 0) {
+    } else if (debounceOption > 0) {
       let cache = getDebouncedValidationsCacheFor(attribute, model);
 
       // Return a promise and pass the resolve method to the debounce handler
       value = new Promise(resolve => {
-        let t = run.debounce(validator, resolveDebounce, resolve, debounce);
+        let t = debounce(validator, resolveDebounce, resolve, debounceOption);
 
         if (!opts.disableDebounceCache) {
           cache[guidFor(validator)] = t;
