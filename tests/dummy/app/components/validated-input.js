@@ -32,7 +32,7 @@ export default class ValidatedInput extends Component {
   }
 
   get validation() {
-    return this.args.model.validations.attrs[this.args.valuePath];
+    return this.args.model.get("validations.attrs")[this.args.valuePath];
   }
 
   get value() {
