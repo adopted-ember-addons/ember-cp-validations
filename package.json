@@ -64,7 +64,6 @@
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.2",
-    "ember-named-arguments-polyfill": "^1.0.0",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^5.1.4",
     "ember-qunit-nice-errors": "^1.2.0",
