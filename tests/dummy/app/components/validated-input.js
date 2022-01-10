@@ -7,16 +7,8 @@ import { isEmpty } from '@ember/utils';
 export default class ValidatedInput extends Component {
   @tracked showValidations = false;
 
-  get notValidating() {
-    return !this.validation.isValidating;
-  }
-
   get hasContent() {
     return !isEmpty(this.value);
-  }
-
-  get hasWarnings() {
-    return !isEmpty(this.validation.warnings);
   }
 
   get isValid() {
@@ -28,7 +20,7 @@ export default class ValidatedInput extends Component {
   }
 
   get showErrorClass() {
-    return this.notValidating && this.showErrorMessage && this.validation;
+    return !this.validation.isValidating && this.showErrorMessage && this.validation;
   }
 
   get showErrorMessage() {
@@ -36,7 +28,7 @@ export default class ValidatedInput extends Component {
   }
 
   get showWarningMessage() {
-    this.shouldDisplayValidations && this.hasWarnings && this.isValid;
+    this.shouldDisplayValidations && !isEmpty(this.validation.warnings) && this.isValid;
   }
 
   get validation() {

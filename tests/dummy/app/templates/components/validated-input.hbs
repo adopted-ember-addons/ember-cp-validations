@@ -5,7 +5,13 @@
   {{on "focusout" this.onFocusOut}}
 >
   <div class='form-group'>
-    {{input type=type value=value placeholder=placeholder class='form-control' name=@valuePath}}
+    <input
+      class="form-control"
+      value={{this.value}}
+      name={{@valuePath}}
+      {{on "input" @onInput}}
+      ...attributes
+    />
     {{#if isValid}}
       <span class='valid-input fa fa-check'></span>
     {{/if}}
