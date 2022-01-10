@@ -28,7 +28,7 @@ export default class ValidatedInput extends Component {
   }
 
   get showWarningMessage() {
-    this.shouldDisplayValidations && !isEmpty(this.validation.warnings) && this.isValid;
+    return this.shouldDisplayValidations && !isEmpty(this.validation.warnings) && this.isValid;
   }
 
   get validation() {
