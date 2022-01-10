@@ -39,10 +39,6 @@ export default class ValidatedInput extends Component {
     return this.args.model[this.args.valuePath];
   }
 
-  set value(value) {
-    return this.args.model[this.args.valuePath] = value;
-  }
-
   @action
   onFocusOut() {
     this.showValidations = true;

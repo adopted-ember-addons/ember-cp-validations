@@ -25,6 +25,7 @@
             @valuePath='username'
             placeholder='Username'
             @didValidate={{this.didValidate}}
+            {{on "input" (fn (mut this.model.username))}}
             data-test-username=''
           />
           <ValidatedInput
@@ -34,6 +35,7 @@
             placeholder='Password'
             @didValidate={{this.didValidate}}
             data-test-password=''
+            {{on "input" (fn (mut this.model.password))}}
           />
           <ValidatedInput
             @model={{this.model}}
@@ -41,6 +43,7 @@
             placeholder='Email'
             @didValidate={{this.didValidate}}
             data-test-email=''
+            {{on "input" (fn (mut this.model.email))}}
           />
           <ValidatedInput
             @model={{this.model}}
@@ -48,6 +51,7 @@
             placeholder='Verify Email'
             @didValidate={{this.didValidate}}
             data-test-email-confirmation=''
+            {{on "input" (fn (mut this.model.emailConfirmation))}}
           />
         </div>
 
@@ -67,6 +71,7 @@
             placeholder='First Name'
             @didValidate={{this.didValidate}}
             data-test-first-name=''
+            {{on "input" (fn (mut this.model.details.firstName))}}
           />
           <ValidatedInput
             @model={{this.model.details}}
@@ -74,6 +79,7 @@
             placeholder='Last Name'
             @didValidate={{this.didValidate}}
             data-test-last-name=''
+            {{on "input" (fn (mut this.model.details.lastName))}}
           />
           <ValidatedInput
             @model={{this.model.details}}
@@ -81,6 +87,7 @@
             placeholder='Date of Birth'
             @didValidate={{this.didValidate}}
             data-test-dob=''
+            {{on "input" (fn (mut this.model.details.dob))}}
           />
           <ValidatedInput
             @model={{this.model.details}}
@@ -88,6 +95,7 @@
             placeholder='Phone #'
             @didValidate={{this.didValidate}}
             data-test-phone=''
+            {{on "input" (fn (mut this.model.details.phone))}}
           />
           <ValidatedInput
             @model={{this.model.details}}
@@ -95,6 +103,7 @@
             placeholder='URL'
             @didValidate={{this.didValidate}}
             data-test-url=''
+            {{on "input" (fn (mut this.model.details.url))}}
           />
         </div>
         <div class='section'>
