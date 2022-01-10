@@ -5,11 +5,8 @@ import { isHTMLSafe } from '@ember/string';
 import EmberObject, { get } from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
-
 import Ember from 'ember';
-import requireModule from 'ember-require-module';
-
-const DS = requireModule('ember-data');
+import DS from 'ember-data';
 
 const { canInvoke } = Ember;
 

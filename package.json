@@ -112,7 +112,6 @@
   "dependencies": {
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^6.0.1",
-    "ember-require-module": "^0.3.0",
     "ember-validators": "^4.0.1"
   },
   "ember": {
