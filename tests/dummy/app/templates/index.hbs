@@ -22,36 +22,40 @@
 
           <ValidatedInput
             @model={{this.model}}
+            @value={{this.model.username}}
             @valuePath='username'
-            placeholder='Username'
+            @placeholder='Username'
             @didValidate={{this.didValidate}}
-            {{on "input" (fn (mut this.model.username))}}
             data-test-username=''
+            @onInput={{fn (mut this.model.username)}}
           />
           <ValidatedInput
             @type='password'
             @model={{this.model}}
+            @value={{this.model.password}}
             @valuePath='password'
-            placeholder='Password'
+            @placeholder='Password'
             @didValidate={{this.didValidate}}
             data-test-password=''
-            {{on "input" (fn (mut this.model.password))}}
+            @onInput={{fn (mut this.model.password)}}
           />
           <ValidatedInput
             @model={{this.model}}
+            @value={{this.model.email}}
             @valuePath='email'
-            placeholder='Email'
+            @placeholder='Email'
             @didValidate={{this.didValidate}}
             data-test-email=''
-            {{on "input" (fn (mut this.model.email))}}
+            @onInput={{fn (mut this.model.email)}}
           />
           <ValidatedInput
             @model={{this.model}}
+            @value={{this.model.emailConfirmation}}
             @valuePath='emailConfirmation'
-            placeholder='Verify Email'
+            @placeholder='Verify Email'
             @didValidate={{this.didValidate}}
             data-test-email-confirmation=''
-            {{on "input" (fn (mut this.model.emailConfirmation))}}
+            @onInput={{fn (mut this.model.emailConfirmation)}}
           />
         </div>
 
@@ -67,43 +71,48 @@
 
           <ValidatedInput
             @model={{this.model.details}}
+            @value={{this.model.details.firstName}}
             @valuePath='firstName'
-            placeholder='First Name'
+            @placeholder='First Name'
             @didValidate={{this.didValidate}}
             data-test-first-name=''
-            {{on "input" (fn (mut this.model.details.firstName))}}
+            @onInput={{fn (mut this.model.details.firstName)}}
           />
           <ValidatedInput
             @model={{this.model.details}}
+            @value={{this.model.details.lastName}}
             @valuePath='lastName'
-            placeholder='Last Name'
+            @placeholder='Last Name'
             @didValidate={{this.didValidate}}
             data-test-last-name=''
-            {{on "input" (fn (mut this.model.details.lastName))}}
+            @onInput={{fn (mut this.model.details.lastName)}}
           />
           <ValidatedInput
             @model={{this.model.details}}
+            @value={{this.model.details.dob}}
             @valuePath='dob'
-            placeholder='Date of Birth'
+            @placeholder='Date of Birth'
             @didValidate={{this.didValidate}}
             data-test-dob=''
-            {{on "input" (fn (mut this.model.details.dob))}}
+            @onInput={{fn (mut this.model.details.dob)}}
           />
           <ValidatedInput
             @model={{this.model.details}}
+            @value={{this.model.details.phone}}
             @valuePath='phone'
-            placeholder='Phone #'
+            @placeholder='Phone #'
             @didValidate={{this.didValidate}}
             data-test-phone=''
-            {{on "input" (fn (mut this.model.details.phone))}}
+            @onInput={{fn (mut this.model.details.phone)}}
           />
           <ValidatedInput
             @model={{this.model.details}}
+            @value={{this.model.details.url}}
             @valuePath='url'
-            placeholder='URL'
+            @placeholder='URL'
             @didValidate={{this.didValidate}}
             data-test-url=''
-            {{on "input" (fn (mut this.model.details.url))}}
+            @onInput={{fn (mut this.model.details.url)}}
           />
         </div>
         <div class='section'>

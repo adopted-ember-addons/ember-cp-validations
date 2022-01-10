@@ -3,13 +3,16 @@
 <div
   class="validated-input {{if this.showErrorClass "has-error"}} {{if this.isValid "has-success"}}"
   {{on "focusout" this.onFocusOut}}
+  ...attributes
 >
   <div class='form-group'>
     <input
       class="form-control"
-      value={{this.value}}
+      value={{@value}}
       name={{@valuePath}}
-      ...attributes
+      placeholder={{@placeholder}}
+      type={{@type}}
+      {{on "input" this.onInput}}
     />
     {{#if isValid}}
       <span class='valid-input fa fa-check'></span>

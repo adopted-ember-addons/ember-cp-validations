@@ -8,7 +8,7 @@ export default class ValidatedInput extends Component {
   @tracked showValidations = false;
 
   get hasContent() {
-    return !isEmpty(this.value);
+    return !isEmpty(this.args.value);
   }
 
   get isValid() {
@@ -35,13 +35,14 @@ export default class ValidatedInput extends Component {
     return this.args.model.get("validations.attrs")[this.args.valuePath];
   }
 
-  get value() {
-    return this.args.model[this.args.valuePath];
-  }
-
   @action
   onFocusOut() {
     this.showValidations = true;
+  }
+
+  @action
+  onInput({ target }) {
+    this.args.onInput(target?.value);
   }
 }
 // END-SNIPPET
