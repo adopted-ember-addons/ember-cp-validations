@@ -12,7 +12,7 @@
       name={{@valuePath}}
       placeholder={{@placeholder}}
       type={{@type}}
-      {{on "input" this.onInput}}
+      {{on "change" this.onInput}}
     />
     {{#if isValid}}
       <span class='valid-input fa fa-check'></span>

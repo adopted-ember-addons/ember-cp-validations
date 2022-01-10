@@ -16,7 +16,9 @@ const Validations = buildValidations(
       validators: [
         validator('presence', true),
         validator('date', {
-          before: 'now',
+          before: computed(function() {
+            return new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(new Date());
+          }),
           after: computed(function() {
             return moment()
               .subtract(120, 'years')
