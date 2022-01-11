@@ -1,45 +1,60 @@
-import EmberObject, { computed, set, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import { and, not, readOnly } from '@ember/object/computed';
 import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
 import ValidationError from '../validations/error';
 import { isPromise } from '../utils/utils';
+import { tracked } from '@glimmer/tracking';
 
-export default EmberObject.extend({
-  model: null,
-  isValid: true,
-  isValidating: false,
-  message: null,
-  warningMessage: null,
-  attribute: '',
+export default class InternalResultObject {
+  @tracked model;
+  @tracked isValid = true;
+  @tracked isValidating = false;
+  @tracked message;
+  @tracked warningMessage;
+  @tracked attribute = '';
+  @tracked _promise;
+  @tracked _validator;
 
-  _promise: null,
-  _validator: null,
-  _type: readOnly('_validator._type'),
+  get _type() {
+    return this.__validator._type;
+  }
 
-  init() {
-    this._super(...arguments);
-
-    if (this.get('isAsync')) {
+  constructor() {
+    if (this.isAsync) {
       this._handlePromise();
     }
-  },
+  }
 
-  isWarning: readOnly('_validator.isWarning'),
-  isInvalid: not('isValid'),
-  isNotValidating: not('isValidating'),
-  isTruelyValid: and('isNotValidating', 'isValid'),
-  isTruelyInvalid: and('isNotValidating', 'isInvalid'),
+  get isWarning() {
+    return this._validator.isWarning;
+  }
 
-  isAsync: computed('_promise', function() {
+  get isInvalid() {
+    return !this.isValid;
+  }
+
+  get isNotValidating() {
+    return !this.isValidating;
+  }
+
+  get isTruelyValid() {
+    return this.isNotValidating && this.isValid;
+  }
+
+  get isTruelyInvalid() {
+    return this.isNotValidating && this.isInvalid;
+  }
+
+  get isAsync() {
     return isPromise(get(this, '_promise'));
-  }),
+  }
 
-  messages: computed('message', function() {
+  get messages() {
     return makeArray(get(this, 'message'));
-  }),
+  }
 
-  error: computed('isInvalid', 'type', 'message', 'attribute', function() {
+  get error() {
     if (get(this, 'isInvalid')) {
       return ValidationError.create({
         type: get(this, '_type'),
@@ -49,37 +64,31 @@ export default EmberObject.extend({
     }
 
     return null;
-  }),
+  }
 
-  errors: computed('error', function() {
+  get errors() {
     return makeArray(get(this, 'error'));
-  }),
+  }
 
-  warningMessages: computed('warningMessage', function() {
+  get warningMessages() {
     return makeArray(get(this, 'warningMessage'));
-  }),
+  }
 
-  warning: computed(
-    'isWarning',
-    'type',
-    'warningMessage',
-    'attribute',
-    function() {
-      if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
-        return ValidationError.create({
-          type: get(this, '_type'),
-          message: get(this, 'warningMessage'),
-          attribute: get(this, 'attribute')
-        });
-      }
-
-      return null;
+  get warning() {
+    if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
+      return ValidationError.create({
+        type: get(this, '_type'),
+        message: get(this, 'warningMessage'),
+        attribute: get(this, 'attribute')
+      });
     }
-  ),
 
-  warnings: computed('warning', function() {
+    return null;
+  }
+
+  get warnings() {
     return makeArray(get(this, 'warning'));
-  }),
+  }
 
   _handlePromise() {
     set(this, 'isValidating', true);
@@ -88,4 +97,4 @@ export default EmberObject.extend({
       set(this, 'isValidating', false);
     });
   }
-});
+}
