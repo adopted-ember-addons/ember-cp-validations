@@ -1,36 +1,44 @@
-import EmberObject from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 /**
  * @module Validations
  * @class Error
  */
 
-export default EmberObject.extend({
+export default class ValidationsError {
   /**
    * The error validator type
    * @property type
    * @type {String}
    */
-  type: null,
+  @tracked type;
 
   /**
    * The error message
    * @property message
    * @type {String}
    */
-  message: null,
+  @tracked message;
 
   /**
    * The attribute that the error belongs to
    * @property attribute
    * @type {String}
    */
-  attribute: null,
+  @tracked attribute;
 
   /**
    * The parent attribute that the error belongs to
    * @property parentAttribute
    * @type {String}
    */
-  parentAttribute: null
-});
+  @tracked parentAttribute;
+
+  constructor(type, message, attribute) {
+    Object.assign(this, {
+      type,
+      message,
+      attribute,
+    });
+  }
+}
