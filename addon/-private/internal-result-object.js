@@ -1,5 +1,3 @@
-import { computed, set, get } from '@ember/object';
-import { and, not, readOnly } from '@ember/object/computed';
 import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
 import ValidationError from '../validations/error';
@@ -47,19 +45,19 @@ export default class InternalResultObject {
   }
 
   get isAsync() {
-    return isPromise(get(this, '_promise'));
+    return isPromise(this._promise);
   }
 
   get messages() {
-    return makeArray(get(this, 'message'));
+    return makeArray(this.message);
   }
 
   get error() {
-    if (get(this, 'isInvalid')) {
+    if (this.isInvalid) {
       return ValidationError.create({
-        type: get(this, '_type'),
-        message: get(this, 'message'),
-        attribute: get(this, 'attribute')
+        type: this._type,
+        message: this.message,
+        attribute: this.attribute,
       });
     }
 
@@ -67,19 +65,19 @@ export default class InternalResultObject {
   }
 
   get errors() {
-    return makeArray(get(this, 'error'));
+    return makeArray(this.error);
   }
 
   get warningMessages() {
-    return makeArray(get(this, 'warningMessage'));
+    return makeArray(this.warningMessage);
   }
 
   get warning() {
-    if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
+    if (this.isWarning && !isNone(this.warningMessage)) {
       return ValidationError.create({
-        type: get(this, '_type'),
-        message: get(this, 'warningMessage'),
-        attribute: get(this, 'attribute')
+        type: this._type,
+        message: this.warningMessage,
+        attribute: this.attribute,
       });
     }
 
@@ -87,14 +85,14 @@ export default class InternalResultObject {
   }
 
   get warnings() {
-    return makeArray(get(this, 'warning'));
+    return makeArray(this.warning);
   }
 
   _handlePromise() {
-    set(this, 'isValidating', true);
+    this.isValidating = true;
 
-    get(this, '_promise').finally(() => {
-      set(this, 'isValidating', false);
+    this._promise.finally(() => {
+      this.isValidating = false;
     });
   }
 }
