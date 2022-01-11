@@ -1,18 +1,9 @@
 import { isNone } from '@ember/utils';
-
 import { isArray } from '@ember/array';
-import EmberObject, {
-  getProperties,
-  setProperties,
-  computed,
-  set,
-  get
-} from '@ember/object';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
-
-const { readOnly } = computed;
+import { tracked } from '@glimmer/tracking';
 
 /**
  * __PRIVATE__
@@ -22,18 +13,18 @@ const { readOnly } = computed;
  * @private
  */
 
-const Result = EmberObject.extend({
+export default class Result {
   /**
    * @property model
    * @type {Object}
    */
-  model: null,
+  @tracked model;
 
   /**
    * @property attribute
    * @type {String}
    */
-  attribute: '',
+  @tracked attribute;
 
   /**
    * @property _promise
@@ -41,7 +32,7 @@ const Result = EmberObject.extend({
    * @private
    * @type {Promise}
    */
-  _promise: null,
+  @tracked _promise;
 
   /**
    * The validator that returned this result
@@ -49,7 +40,9 @@ const Result = EmberObject.extend({
    * @private
    * @type {Validator}
    */
-  _validator: null,
+  @tracked _validator;
+
+  @tracked _resultOverride;
 
   /**
    * Determines if the _result object is readOnly.
@@ -62,148 +55,176 @@ const Result = EmberObject.extend({
    * @readOnly
    * @type {Boolean}
    */
-  _isReadOnly: computed('_result', function() {
-    let validations = get(this, '_result');
-    return (
-      validations instanceof ResultCollection ||
-      get(validations, 'isValidations')
-    );
-  }).readOnly(),
+  get _isReadOnly() {
+    let validations = this._result;
+    return validations instanceof ResultCollection || validations.isValidations;
+  }
 
   /**
    * @property isWarning
    * @readOnly
    * @type {Boolean}
    */
-  isWarning: readOnly('_validator.isWarning'),
+  get isWarning() {
+    return this._validator.isWarning;
+  }
 
   /**
    * @property isValid
    * @readOnly
    * @type {Boolean}
    */
-  isValid: readOnly('_result.isValid'),
+  get isValid() {
+    return this._result.isValid;
+  }
 
   /**
    * @property isInvalid
    * @readOnly
    * @type {Boolean}
    */
-  isInvalid: readOnly('_result.isInvalid'),
+  get isInvalid() {
+    return this._result.isInvalid;
+  }
 
   /**
    * @property isValidating
    * @readOnly
    * @type {Boolean}
    */
-  isValidating: readOnly('_result.isValidating'),
+  get isValidating() {
+    return this._result.isValidating;
+  }
 
   /**
    * @property isTruelyValid
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyValid: readOnly('_result.isTruelyValid'),
+  get isTruelyValid() {
+    return this._result.isTruelyValid;
+  }
 
   /**
    * @property isTruelyInvalid
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyInvalid: readOnly('_result.isTruelyInvalid'),
+  get isTruelyInvalid() {
+    return this._result.isTruelyInvalid;
+  }
 
   /**
    * @property isAsync
    * @readOnly
    * @type {Boolean}
    */
-  isAsync: readOnly('_result.isAsync'),
+  get isAsync() {
+    return this._result.isAsync;
+  }
 
   /**
    * @property message
    * @readOnly
    * @type {String}
    */
-  message: readOnly('_result.message'),
+  get message() {
+    return this._result.message;
+  }
 
   /**
    * @property messages
    * @readOnly
    * @type {Array}
    */
-  messages: readOnly('_result.messages'),
+  get messages() {
+    return this._result.messages;
+  }
 
   /**
    * @property error
    * @readOnly
    * @type {Object}
    */
-  error: readOnly('_result.error'),
+  get error() {
+    return this._result.error;
+  }
 
   /**
    * @property errors
    * @readOnly
    * @type {Array}
    */
-  errors: readOnly('_result.errors'),
+  get errors() {
+    return this._result.errors;
+  }
 
   /**
    * @property warningMessage
    * @readOnly
    * @type {String}
    */
-  warningMessage: readOnly('_result.warningMessage'),
+  get warningMessage() {
+    return this._result.warningMessage;
+  }
 
   /**
    * @property warningMessages
    * @readOnly
    * @type {Array}
    */
-  warningMessages: readOnly('_result.warningMessages'),
+  get warningMessages() {
+    return this._result.warningMessages;
+  }
 
   /**
    * @property warning
    * @readOnly
    * @type {Object}
    */
-  warning: readOnly('_result.warning'),
+  get warning() {
+    return this._result.warning;
+  }
 
   /**
    * @property warnings
    * @readOnly
    * @type {Array}
    */
-  warnings: readOnly('_result.warnings'),
+  get warnings() {
+    return this._result.warnings;
+  }
 
   /**
-   * This hold all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
+   * This holds all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
    * @property _result
    * @private
    * @type {Result}
    */
-  _result: computed(
-    'model',
-    'attribute',
-    '_promise',
-    '_validator',
-    '_resultOverride',
-    function() {
-      return (
-        get(this, '_resultOverride') ||
-        InternalResultObject.create(
-          getProperties(this, ['model', 'attribute', '_promise', '_validator'])
-        )
-      );
-    }
-  ),
+  get _result() {
+    return (
+      this._resultOverride ||
+      new InternalResultObject(
+        this.model,
+        this.attribute,
+        this._promise,
+        this._validator
+      )
+    );
+  }
 
-  init() {
-    this._super(...arguments);
+  constructor(model, attribute, validator, promise) {
+    Object.assign(this, {
+      model,
+      attribute,
+      _validator: validator,
+      _promise: promise,
+    });
 
-    if (get(this, 'isAsync') && !get(this, '_isReadOnly')) {
+    if (this.isAsync && !this._isReadOnly) {
       this._handlePromise();
     }
-  },
+  }
 
   /**
    * Update the current validation result object with the given value
@@ -219,32 +240,32 @@ const Result = EmberObject.extend({
    * @param value
    */
   update(value) {
-    let result = get(this, '_result');
-    let attribute = get(this, 'attribute');
-    let isWarning = get(this, 'isWarning');
+    let result = this._result;
+    let attribute = this.attribute;
+    let isWarning = this.isWarning;
     let Collection = isWarning ? WarningResultCollection : ResultCollection;
 
     if (isNone(value)) {
       return this.update(false);
-    } else if (get(value, 'isValidations')) {
+    } else if (value.isValidations) {
       this._overrideResult(Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
       this._overrideResult(Collection.create({ attribute, content: value }));
-    } else if (!get(this, '_isReadOnly')) {
+    } else if (!this._isReadOnly) {
       this._overrideResult(undefined);
 
       if (typeof value === 'string') {
-        setProperties(get(this, '_result'), {
+        Object.assign(this._result, {
           [isWarning ? 'warningMessage' : 'message']: value,
-          isValid: isWarning ? true : false
+          isValid: isWarning ? true : false,
         });
       } else if (typeof value === 'boolean') {
-        set(result, 'isValid', value);
+        result.isValid = value;
       } else if (typeof value === 'object') {
-        setProperties(result, value);
+        Object.assign(result, value);
       }
     }
-  },
+  }
 
   /**
    * Override the internal _result property.
@@ -253,8 +274,8 @@ const Result = EmberObject.extend({
    * @private
    */
   _overrideResult(result) {
-    set(this, '_resultOverride', result);
-  },
+    this._resultOverride = result;
+  }
 
   /**
    * Promise handler
@@ -262,13 +283,14 @@ const Result = EmberObject.extend({
    * @private
    */
   _handlePromise() {
-    get(this, '_promise')
-      .then(value => this.update(value), value => this.update(value))
-      .catch(reason => {
+    this._promise
+      .then(
+        (value) => this.update(value),
+        (value) => this.update(value)
+      )
+      .catch((reason) => {
         // TODO: send into error state
         throw reason;
       });
   }
-});
-
-export default Result;
+}

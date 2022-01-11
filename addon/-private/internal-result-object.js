@@ -14,14 +14,19 @@ export default class InternalResultObject {
   @tracked _promise;
   @tracked _validator;
 
-  get _type() {
-    return this.__validator._type;
-  }
+  constructor(model, attribute, promise, validator) {
+    this.model = model;
+    this.attribute = attribute;
+    this._promise = promise;
+    this._validator = validator;
 
-  constructor() {
     if (this.isAsync) {
       this._handlePromise();
     }
+  }
+
+  get _type() {
+    return this.__validator._type;
   }
 
   get isWarning() {
