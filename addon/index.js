@@ -304,5 +304,5 @@ export const validator = Validator;
 
 export default {
   buildValidations,
-  validator
+  validator,
 };
