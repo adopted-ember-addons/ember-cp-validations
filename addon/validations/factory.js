@@ -32,7 +32,6 @@ import {
   ATTRS_PATH,
   ATTRS_RESULT_COLLECTION,
 } from '../-private/symbols';
-import { tracked } from '@glimmer/tracking';
 
 const VALIDATION_COUNT_MAP = new WeakMap();
 
@@ -315,11 +314,9 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   let rootPath = 'root';
 
   class AttrsClass {
-    @tracked [ATTRS_PATH] = rootPath;
+    [ATTRS_PATH] = rootPath;
 
-    init() {
-      super(...arguments);
-
+    constructor() {
       let model = this.get(ATTRS_MODEL);
       let path = this.get(ATTRS_PATH);
 
@@ -376,7 +373,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
 
       if (!_nestedClasses[key]) {
         _nestedClasses[key] = class extends AttrsClass {
-          @tracked [ATTRS_PATH] = currPath.join('.');
+          [ATTRS_PATH] = currPath.join('.');
         };
       }
 
