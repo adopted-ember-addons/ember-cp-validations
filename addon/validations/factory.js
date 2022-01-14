@@ -1,6 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
-import { computed, set } from '@ember/object';
+import { computed } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { assign } from '@ember/polyfills';
 import { cancel, debounce } from '@ember/runloop';
@@ -384,7 +384,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
         Instantiate the nested attrs classes for the current path
        */
       Object.keys(nestedClasses[path] || []).forEach((key) => {
-        set(this, key, new nestedClasses[path][key](model));
+        this[key] = new nestedClasses[path][key](model);
       });
     }
 
@@ -396,7 +396,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       /*
         Remove the model reference
        */
-      set(this, ATTRS_MODEL, null);
+      this[ATTRS_MODEL] = null;
 
       /*
         Destroy all nested classes
