@@ -1,6 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
-import EmberObject, { computed, set, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
@@ -123,7 +123,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     }).readOnly(),
 
     validations: computed(function () {
-      return new this[VALIDATIONS_CLASS]({ model: this });
+      return new this[VALIDATIONS_CLASS](this);
     }).readOnly(),
 
     validate() {
@@ -228,9 +228,6 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     return obj;
   }, validationRules);
 
-  // Create the mixin that holds all the top level validation props (isValid, messages, etc)
-  let TopLevelProps = createTopLevelPropsMixin(validatableAttributes);
-
   // Create the `attrs` class which will add the current model reference once instantiated
   let AttrsClass = createAttrsClass(
     validatableAttributes,
@@ -239,34 +236,109 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   );
 
   // Create `validations` class
-  let ValidationsClass = EmberObject.extend(TopLevelProps, {
-    model: null,
-    attrs: null,
-    isValidations: true,
+  return class ValidationsClass {
+    static [IS_VALIDATIONS_CLASS] = true;
+
+    model;
+    attrs;
+    isValidations = true;
 
     // Caches
-    _validators: null,
-    _debouncedValidations: null,
+    _validators;
+    _debouncedValidations;
 
     // Private
-    _validationRules: validationRules,
+    _validationRules = validationRules;
 
-    validate,
-    validateSync,
-    validateAttribute,
-    validatableAttributes,
+    validate;
+    validateSync;
+    validateAttribute;
+    validatableAttributes;
 
-    init() {
-      this._super(...arguments);
-      this.setProperties({
-        attrs: new AttrsClass(this.model),
+    get isValid() {
+      return this[ATTRS_RESULT_COLLECTION].isValid;
+    }
+
+    get isValidating() {
+      return this[ATTRS_RESULT_COLLECTION].isValidating;
+    }
+
+    get isAsync() {
+      return this[ATTRS_RESULT_COLLECTION].isAsync;
+    }
+
+    get isNotValidating() {
+      return this[ATTRS_RESULT_COLLECTION].isNotValidating;
+    }
+
+    get isInvalid() {
+      return this[ATTRS_RESULT_COLLECTION].isInvalid;
+    }
+
+    get isTruelyValid() {
+      return this[ATTRS_RESULT_COLLECTION].isTruelyValid;
+    }
+
+    get isTruelyInvalid() {
+      return this[ATTRS_RESULT_COLLECTION].isTruelyInvalid;
+    }
+
+    get hasWarnings() {
+      return this[ATTRS_RESULT_COLLECTION].hasWarnings;
+    }
+
+    get messages() {
+      return this[ATTRS_RESULT_COLLECTION].messages;
+    }
+
+    get message() {
+      return this[ATTRS_RESULT_COLLECTION].message;
+    }
+
+    get warningMessage() {
+      return this[ATTRS_RESULT_COLLECTION].warningMessage;
+    }
+
+    get warningMessages() {
+      return this[ATTRS_RESULT_COLLECTION].warningMessages;
+    }
+
+    get warnings() {
+      return this[ATTRS_RESULT_COLLECTION].warnings;
+    }
+
+    get warning() {
+      return this[ATTRS_RESULT_COLLECTION].warning;
+    }
+
+    get errors() {
+      return this[ATTRS_RESULT_COLLECTION].errors;
+    }
+
+    get error() {
+      return this[ATTRS_RESULT_COLLECTION].error;
+    }
+
+    get _promise() {
+      return this[ATTRS_RESULT_COLLECTION]._promise;
+    }
+
+    get [ATTRS_RESULT_COLLECTION]() {
+      return new ResultCollection({
+        attribute: `Model:${this}`,
+        content: validatableAttributes.map((attr) => this[`attrs.${attr}`]),
+      });
+    }
+
+    constructor(model) {
+      Object.assign(this, {
+        attrs: new AttrsClass(model),
         _validators: {},
         _debouncedValidations: {},
       });
-    },
+    }
 
-    destroy() {
-      this._super(...arguments);
+    willDestroy() {
       let validatableAttrs = this.validatableAttributes;
       let debouncedValidations = this._debouncedValidations;
 
@@ -282,14 +354,8 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
           Object.keys(attrCache).forEach((v) => cancel(attrCache[v]));
         }
       });
-    },
-  });
-
-  ValidationsClass.reopenClass({
-    [IS_VALIDATIONS_CLASS]: true,
-  });
-
-  return ValidationsClass;
+    }
+  };
 }
 
 /**
@@ -529,57 +595,6 @@ function generateValidationResultsFor(
     }
 
     return result;
-  });
-}
-
-/**
- * Create a mixin that will have all the top level CPs under the validations object.
- * These are computed collections on different properties of each attribute validations CP
- *
- * @method createTopLevelPropsMixin
- * @private
- * @param  {Object} validations
- */
-function createTopLevelPropsMixin(validatableAttrs) {
-  // Expose the following properties as public APIs via readOnly aliases
-  let aliases = [
-    'isValid',
-    'isValidating',
-    'isAsync',
-    'isNotValidating',
-    'isInvalid',
-    'isTruelyValid',
-    'isTruelyInvalid',
-    'hasWarnings',
-    'messages',
-    'message',
-    'warningMessages',
-    'warningMessage',
-    'warnings',
-    'warning',
-    'errors',
-    'error',
-    '_promise',
-  ];
-
-  let topLevelProps = aliases.reduce((props, alias) => {
-    props[alias] = readOnly(`${ATTRS_RESULT_COLLECTION}.${alias}`);
-    return props;
-  }, {});
-
-  return Mixin.create(topLevelProps, {
-    /*
-      Dedupe logic by creating a top level ResultCollection for all attr's ResultCollections
-     */
-    [ATTRS_RESULT_COLLECTION]: computed(
-      ...validatableAttrs.map((attr) => `attrs.${attr}`),
-      function () {
-        return new ResultCollection({
-          attribute: `Model:${this}`,
-          content: validatableAttrs.map((attr) => get(this, `attrs.${attr}`)),
-        });
-      }
-    ).readOnly(),
   });
 }
 
