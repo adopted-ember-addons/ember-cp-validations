@@ -23,14 +23,14 @@ import {
   isDsModel,
   isValidatable,
   isPromise,
-  mergeOptions
+  mergeOptions,
 } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
   IS_VALIDATIONS_CLASS,
   ATTRS_MODEL,
   ATTRS_PATH,
-  ATTRS_RESULT_COLLECTION
+  ATTRS_RESULT_COLLECTION,
 } from '../-private/symbols';
 
 const VALIDATION_COUNT_MAP = new WeakMap();
