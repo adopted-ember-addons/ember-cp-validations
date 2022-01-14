@@ -5,7 +5,11 @@
  */
 import { isDescriptor } from './utils';
 import { isNone } from '@ember/utils';
-import EmberObject, { defineProperty, set, get } from '@ember/object';
+import EmberObject, {
+  defineProperty,
+  set,
+  get
+} from '@ember/object';
 
 export default function deepSet(
   obj,

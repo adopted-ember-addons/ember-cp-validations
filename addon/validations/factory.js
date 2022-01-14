@@ -1,7 +1,11 @@
 import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
 import EmberObject, { computed, set, get } from '@ember/object';
-import { A as emberArray, makeArray, isArray } from '@ember/array';
+import {
+  A as emberArray,
+  makeArray,
+  isArray
+} from '@ember/array';
 import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import { cancel, debounce } from '@ember/runloop';
@@ -127,20 +131,20 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     }).readOnly(),
 
     validate() {
-      return get(this, 'validations').validate(...arguments);
+      return this.validations.validate(...arguments);
     },
 
     validateSync() {
-      return get(this, 'validations').validateSync(...arguments);
+      return this.validations.validateSync(...arguments);
     },
 
     validateAttribute() {
-      return get(this, 'validations').validateAttribute(...arguments);
+      return this.validations.validateAttribute(...arguments);
     },
 
     destroy() {
       this._super(...arguments);
-      get(this, 'validations').destroy();
+      this.validations.destroy();
     }
   });
 }
@@ -260,7 +264,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this._super(...arguments);
       this.setProperties({
         attrs: AttrsClass.create({
-          [ATTRS_MODEL]: this.get('model')
+          [ATTRS_MODEL]: this.model
         }),
         _validators: {},
         _debouncedValidations: {}
@@ -269,11 +273,11 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
 
     destroy() {
       this._super(...arguments);
-      let validatableAttrs = get(this, 'validatableAttributes');
-      let debouncedValidations = get(this, '_debouncedValidations');
+      let validatableAttrs = this.validatableAttributes;
+      let debouncedValidations = this._debouncedValidations;
 
       // Initiate attrs destroy to cleanup any remaining model references
-      this.get('attrs').destroy();
+      this.attrs.destroy();
 
       // Cancel all debounced timers
       validatableAttrs.forEach(attr => {
@@ -800,11 +804,11 @@ function resolveDebounce(resolve) {
  * @return {Promise or Object}  Promise if isAsync is true, object if isAsync is false
  */
 function validate(options = {}, isAsync = true) {
-  let model = get(this, 'model');
+  let model = this.model;
   let whiteList = makeArray(options.on);
   let blackList = makeArray(options.excludes);
 
-  let validationResults = get(this, 'validatableAttributes').reduce(
+  let validationResults = this.validatableAttributes.reduce(
     (v, name) => {
       if (!isEmpty(blackList) && blackList.indexOf(name) !== -1) {
         return v;
@@ -870,7 +874,7 @@ function validate(options = {}, isAsync = true) {
  * @async
  */
 function validateAttribute(attribute, value) {
-  let model = get(this, 'model');
+  let model = this.model;
   let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
   let validationResults = generateValidationResultsFor(

@@ -1067,7 +1067,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
           foo() {
             assert.ok(true);
             /* eslint-disable */
-            let validations = this.get('validations');
+            let validations = this.validations;
             /* eslint-enable */
           }
         }

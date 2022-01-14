@@ -202,7 +202,7 @@ module('Integration | Validators | Composable', function(hooks) {
       'validator:composed',
       BaseValidator.extend({
         validate(value) {
-          const cache = this.get('_testValidatorCache');
+          const cache = this._testValidatorCache;
 
           assert.notOk(cache.presence);
 
