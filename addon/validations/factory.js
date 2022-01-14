@@ -723,7 +723,7 @@ function getValidatorsFor(attribute, model) {
  * @return {Map}
  */
 function getDebouncedValidationsCacheFor(attribute, model) {
-  let debouncedValidations = get(model, 'validations._debouncedValidations');
+  let debouncedValidations = model.validations._debouncedValidations;
 
   if (isNone(get(debouncedValidations, attribute))) {
     deepSet(debouncedValidations, attribute, {});
