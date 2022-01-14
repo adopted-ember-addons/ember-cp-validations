@@ -9,7 +9,7 @@ import {
   unwrapString,
   getValidatableValue,
   mergeOptions,
-  isPromise
+  isPromise,
 } from 'ember-cp-validations/utils/utils';
 
 class TestResult {
@@ -133,7 +133,7 @@ const Base = EmberObject.extend({
     return new Options({
       model: this.model,
       attribute: this.attribute,
-      options: builtOptions
+      options: builtOptions,
     });
   },
 
@@ -215,7 +215,7 @@ const Base = EmberObject.extend({
    */
   createErrorMessage(type, value, options = {}) {
     let messages = this.errorMessages;
-    let message = unwrapString(get(options, 'message'));
+    let message = unwrapString(options.message);
 
     set(
       options,
@@ -293,11 +293,14 @@ const Base = EmberObject.extend({
     const result = cache[type].validate(...args);
 
     if (isPromise(result)) {
-      return result.then(r => new TestResult(r), r => new TestResult(r));
+      return result.then(
+        (r) => new TestResult(r),
+        (r) => new TestResult(r)
+      );
     }
 
     return new TestResult(result);
-  }
+  },
 });
 
 Base.reopenClass({
@@ -312,7 +315,7 @@ Base.reopenClass({
    */
   getDependentsFor() {
     return [];
-  }
+  },
 });
 
 export default Base;

@@ -6,12 +6,12 @@ var execSync = require('child_process').execSync;
 module.exports = {
   publish: true,
 
-  afterPublish: function(project, versions) {
+  afterPublish: function (project, versions) {
     runCommand(
       'ember github-pages:commit --message "Released ' + versions.next + '"'
     );
     runCommand('git push origin gh-pages:gh-pages');
-  }
+  },
 };
 
 function runCommand(command) {

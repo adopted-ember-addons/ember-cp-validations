@@ -7,7 +7,7 @@ export default class ApplicationRoute extends Route {
 
   model() {
     return this.store.createRecord('user', {
-      details: this.store.createRecord('user-detail')
+      details: this.store.createRecord('user-detail'),
     });
   }
 

@@ -49,20 +49,20 @@ const Dependent = Base.extend({
     }
 
     let dependentValidations = getWithDefault(options, 'on', A()).map(
-      dependent => get(model, `validations.attrs.${dependent}`)
+      (dependent) => get(model, `validations.attrs.${dependent}`)
     );
 
-    if (!isEmpty(dependentValidations.filter(v => get(v, 'isTruelyInvalid')))) {
+    if (!isEmpty(dependentValidations.filter((v) => v.isTruelyInvalid))) {
       return this.createErrorMessage('invalid', value, options);
     }
 
     return true;
-  }
+  },
 });
 
 Dependent.reopenClass({
   getDependentsFor(attribute, options) {
-    let dependents = get(options, 'on');
+    let dependents = options.on;
 
     assert(
       `[validator:dependent] [${attribute}] 'on' must be an array`,
@@ -70,11 +70,11 @@ Dependent.reopenClass({
     );
 
     if (!isEmpty(dependents)) {
-      return dependents.map(dependent => `${dependent}.isTruelyValid`);
+      return dependents.map((dependent) => `${dependent}.isTruelyValid`);
     }
 
     return [];
-  }
+  },
 });
 
 export default Dependent;

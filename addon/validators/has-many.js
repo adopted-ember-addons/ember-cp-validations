@@ -53,14 +53,14 @@ const HasMany = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then(models => this.validate(models, ...args));
+        return value.then((models) => this.validate(models, ...args));
       }
 
-      return value.map(m => get(m, 'validations'));
+      return value.map((m) => m.validations);
     }
 
     return true;
-  }
+  },
 });
 
 HasMany.reopenClass({
@@ -73,9 +73,9 @@ HasMany.reopenClass({
       `model.${attribute}.@each.isDeleted`,
       `model.${attribute}.content.@each.isDeleted`,
       `model.${attribute}.@each.validations`,
-      `model.${attribute}.content.@each.validations`
+      `model.${attribute}.content.@each.validations`,
     ];
-  }
+  },
 });
 
 export default HasMany;

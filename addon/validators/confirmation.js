@@ -24,12 +24,12 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @extends Base
  */
 const Confirmation = EmberValidator.extend({
-  _evType: 'confirmation'
+  _evType: 'confirmation',
 });
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    let on = get(options, 'on');
+    let on = options.on;
 
     assert(
       `[validator:confirmation] [${attribute}] 'on' must be a string`,
@@ -37,7 +37,7 @@ Confirmation.reopenClass({
     );
 
     return on ? [`model.${on}`] : [];
-  }
+  },
 });
 
 export default Confirmation;

@@ -20,7 +20,9 @@ export default class ValidatedInput extends Component {
   }
 
   get showErrorClass() {
-    return !this.validation.isValidating && this.showErrorMessage && this.validation;
+    return (
+      !this.validation.isValidating && this.showErrorMessage && this.validation
+    );
   }
 
   get showErrorMessage() {
@@ -28,11 +30,15 @@ export default class ValidatedInput extends Component {
   }
 
   get showWarningMessage() {
-    return this.shouldDisplayValidations && !isEmpty(this.validation.warnings) && this.isValid;
+    return (
+      this.shouldDisplayValidations &&
+      !isEmpty(this.validation.warnings) &&
+      this.isValid
+    );
   }
 
   get validation() {
-    return this.args.model.get("validations.attrs")[this.args.valuePath];
+    return this.args.model.get('validations.attrs')[this.args.valuePath];
   }
 
   @action

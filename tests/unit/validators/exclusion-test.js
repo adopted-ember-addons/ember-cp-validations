@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-module('Unit | Validator | exclusion', function(hooks) {
+module('Unit | Validator | exclusion', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:exclusion');
   });
 
-  test('no options', function(assert) {
+  test('no options', function (assert) {
     assert.expect(1);
 
     builtOptions = validator.buildOptions({}).toObject();
@@ -22,28 +22,28 @@ module('Unit | Validator | exclusion', function(hooks) {
     }
   });
 
-  test('allow blank', function(assert) {
+  test('allow blank', function (assert) {
     assert.expect(2);
 
     options = {
       allowBlank: true,
-      in: ['foo', 'bar', 'baz']
+      in: ['foo', 'bar', 'baz'],
     };
 
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('foo', builtOptions.toObject());
     assert.equal(message, 'This field is reserved');
   });
 
-  test('not in array', function(assert) {
+  test('not in array', function (assert) {
     assert.expect(4);
 
     options = {
-      in: ['foo', 'bar', 'baz']
+      in: ['foo', 'bar', 'baz'],
     };
 
     builtOptions = validator.buildOptions(options);
@@ -58,14 +58,14 @@ module('Unit | Validator | exclusion', function(hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('not in range', function(assert) {
+  test('not in range', function (assert) {
     assert.expect(5);
 
     options = {
-      range: [1, 10]
+      range: [1, 10],
     };
 
     builtOptions = validator.buildOptions(options);
@@ -80,17 +80,17 @@ module('Unit | Validator | exclusion', function(hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate(0, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(100, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('range type check - number', function(assert) {
+  test('range type check - number', function (assert) {
     assert.expect(4);
 
     options = {
-      range: [1, 10]
+      range: [1, 10],
     };
 
     builtOptions = validator.buildOptions(options);
@@ -102,17 +102,17 @@ module('Unit | Validator | exclusion', function(hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate('1', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('5', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('range type check - string', function(assert) {
+  test('range type check - string', function (assert) {
     assert.expect(4);
 
     options = {
-      range: ['a', 'z']
+      range: ['a', 'z'],
     };
 
     builtOptions = validator.buildOptions(options);
@@ -124,9 +124,9 @@ module('Unit | Validator | exclusion', function(hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate(97, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('zzz', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

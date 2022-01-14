@@ -1,3 +1,3 @@
-import RESTAPIAdapter from 'ember-data/adapters/rest';
+import RESTAPIAdapter from '@ember-data/adapter/rest';
 
 export default RESTAPIAdapter.extend({});

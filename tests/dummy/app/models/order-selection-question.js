@@ -5,24 +5,24 @@ const Validations = buildValidations(
   {
     order: {
       description: 'Order',
-      validators: [validator('ds-error'), validator('presence', true)]
+      validators: [validator('ds-error'), validator('presence', true)],
     },
     selection: {
       description: 'Order Selection',
-      validators: [validator('ds-error'), validator('presence', true)]
+      validators: [validator('ds-error'), validator('presence', true)],
     },
     text: {
       description: 'Question Text',
-      validators: [validator('ds-error'), validator('presence', true)]
-    }
+      validators: [validator('ds-error'), validator('presence', true)],
+    },
   },
   {
-    debounce: 10
+    debounce: 10,
   }
 );
 
 export default DS.Model.extend(Validations, {
   order: DS.belongsTo('order', { async: true }),
   selection: DS.belongsTo('order-selection', { async: true }),
-  text: DS.attr('string')
+  text: DS.attr('string'),
 });

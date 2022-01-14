@@ -47,7 +47,7 @@ const Alias = Base.extend({
 
     if (typeof options === 'string') {
       opts = {
-        alias: options
+        alias: options,
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
@@ -66,7 +66,7 @@ const Alias = Base.extend({
   validate(value, options, model, attribute) {
     let { alias, firstMessageOnly } = getProperties(options, [
       'alias',
-      'firstMessageOnly'
+      'firstMessageOnly',
     ]);
 
     assert(
@@ -76,15 +76,13 @@ const Alias = Base.extend({
 
     let aliasValidation = get(model, `validations.attrs.${alias}`);
 
-    return firstMessageOnly
-      ? get(aliasValidation, 'message')
-      : get(aliasValidation, 'content');
-  }
+    return firstMessageOnly ? aliasValidation.message : aliasValidation.content;
+  },
 });
 
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
-    let alias = typeof options === 'string' ? options : get(options, 'alias');
+    let alias = typeof options === 'string' ? options : options.alias;
 
     assert(
       `[validator:alias] [${attribute}] 'alias' must be a string`,
@@ -92,7 +90,7 @@ Alias.reopenClass({
     );
 
     return [`${alias}.messages.[]`, `${alias}.isTruelyValid`];
-  }
+  },
 });
 
 export default Alias;

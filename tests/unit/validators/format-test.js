@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-module('Unit | Validator | format', function(hooks) {
+module('Unit | Validator | format', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:format');
   });
 
-  test('no options', function(assert) {
+  test('no options', function (assert) {
     assert.expect(1);
 
     builtOptions = validator.buildOptions({}).toObject();
@@ -22,23 +22,23 @@ module('Unit | Validator | format', function(hooks) {
     }
   });
 
-  test('allow blank', function(assert) {
+  test('allow blank', function (assert) {
     assert.expect(2);
 
     options = {
       allowBlank: true,
-      type: 'email'
+      type: 'email',
     };
     options = validator.buildOptions(options, {}).toObject();
 
     message = validator.validate(undefined, options);
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('email', options);
     assert.equal(message, 'This field must be a valid email address');
   });
 
-  test('email no option', function(assert) {
+  test('email no option', function (assert) {
     let validAddresses = [
       'email@domain.com',
       'firstname.lastname@domain.com',
@@ -50,7 +50,7 @@ module('Unit | Validator | format', function(hooks) {
       'email@domain.name',
       'email@domain.co.jp',
       'firstname-lastname@domain.com',
-      'EMAIL@DOMAIN.COM'
+      'EMAIL@DOMAIN.COM',
     ];
     let invalidAddresses = [
       'plainaddress',
@@ -74,25 +74,24 @@ module('Unit | Validator | format', function(hooks) {
       'email@domain.com-',
       'email@domain.com-.',
       'email@-domain.com',
-      'email@domain..com'
+      'email@domain..com',
     ];
 
     assert.expect(validAddresses.length + invalidAddresses.length);
 
     options = {
-      type: 'email'
+      type: 'email',
     };
 
     options = validator.buildOptions(options, {}).toObject();
 
-    validAddresses.forEach(email =>
-      assert.equal(
+    validAddresses.forEach((email) =>
+      assert.true(
         validator.validate(email, options),
-        true,
         `validation of ${email} must succeed`
       )
     );
-    invalidAddresses.forEach(email =>
+    invalidAddresses.forEach((email) =>
       assert.equal(
         validator.validate(email, options),
         'This field must be a valid email address',
@@ -101,7 +100,7 @@ module('Unit | Validator | format', function(hooks) {
     );
   });
 
-  test('email option allowNonTld', function(assert) {
+  test('email option allowNonTld', function (assert) {
     let validAddresses = [
       'email@domain.com',
       'firstname.lastname@domain.com',
@@ -114,7 +113,7 @@ module('Unit | Validator | format', function(hooks) {
       'email@domain.co.jp',
       'firstname-lastname@domain.com',
       'EMAIL@DOMAIN.COM',
-      'email@domain'
+      'email@domain',
     ];
     let invalidAddresses = [
       'plainaddress',
@@ -137,26 +136,25 @@ module('Unit | Validator | format', function(hooks) {
       'email@domain.com-',
       'email@domain.com-.',
       'email@-domain.com',
-      'email@domain..com'
+      'email@domain..com',
     ];
 
     assert.expect(validAddresses.length + invalidAddresses.length);
 
     options = {
       type: 'email',
-      allowNonTld: true
+      allowNonTld: true,
     };
 
     options = validator.buildOptions(options, {}).toObject();
 
-    validAddresses.forEach(email =>
-      assert.equal(
+    validAddresses.forEach((email) =>
+      assert.true(
         validator.validate(email, options),
-        true,
         `validation of ${email} must succeed`
       )
     );
-    invalidAddresses.forEach(email =>
+    invalidAddresses.forEach((email) =>
       assert.equal(
         validator.validate(email, options),
         'This field must be a valid email address',
@@ -165,11 +163,11 @@ module('Unit | Validator | format', function(hooks) {
     );
   });
 
-  test('phone', function(assert) {
+  test('phone', function (assert) {
     assert.expect(2);
 
     options = {
-      type: 'phone'
+      type: 'phone',
     };
 
     options = validator.buildOptions(options, {}).toObject();
@@ -178,14 +176,14 @@ module('Unit | Validator | format', function(hooks) {
     assert.equal(message, 'This field must be a valid phone number');
 
     message = validator.validate('(408) 555-1234', options);
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('url', function(assert) {
+  test('url', function (assert) {
     assert.expect(2);
 
     options = {
-      type: 'url'
+      type: 'url',
     };
 
     options = validator.buildOptions(options, {}).toObject();
@@ -194,14 +192,14 @@ module('Unit | Validator | format', function(hooks) {
     assert.equal(message, 'This field must be a valid url');
 
     message = validator.validate('http://www.offirgolan.com', options);
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('custom', function(assert) {
+  test('custom', function (assert) {
     assert.expect(2);
 
     options = {
-      regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
+      regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
     };
 
     options = validator.buildOptions(options, {}).toObject();
@@ -210,6 +208,6 @@ module('Unit | Validator | format', function(hooks) {
     assert.equal(message, 'This field is invalid');
 
     message = validator.validate('Pass123', options);
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

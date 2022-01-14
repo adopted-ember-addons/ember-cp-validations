@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 
 let messages;
 
-module('Unit | Validator | messages', function(hooks) {
+module('Unit | Validator | messages', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     messages = this.owner.lookup('validator:messages');
   });
 
-  test('message strings present', function(assert) {
+  test('message strings present', function (assert) {
     assert.expect(2);
     assert.equal(messages.get('invalid'), '{description} is invalid');
     assert.equal(
@@ -19,10 +19,10 @@ module('Unit | Validator | messages', function(hooks) {
     );
   });
 
-  test('formatMessage', function(assert) {
+  test('formatMessage', function (assert) {
     assert.expect(3);
     let context = {
-      description: 'This field'
+      description: 'This field',
     };
     assert.equal(
       messages.formatMessage(undefined, context),
@@ -36,17 +36,17 @@ module('Unit | Validator | messages', function(hooks) {
       messages.formatMessage('{foo} {foo} {bar} {baz}', {
         foo: 'a',
         bar: 1,
-        baz: 'abc'
+        baz: 'abc',
       }),
       'a a 1 abc'
     );
   });
 
-  test('getMessageFor', function(assert) {
+  test('getMessageFor', function (assert) {
     assert.expect(2);
     let context = {
       description: 'This field',
-      min: 4
+      min: 4,
     };
     assert.equal(
       messages.getMessageFor('foo', context),

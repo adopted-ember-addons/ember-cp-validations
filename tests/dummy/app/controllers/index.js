@@ -18,7 +18,7 @@ export default class ApplicationController extends Controller {
       Object.assign(this, {
         showAlert: false,
         isRegistered: true,
-        showCode: false
+        showCode: false,
       });
     } else {
       this.showAlert = true;
@@ -32,7 +32,7 @@ export default class ApplicationController extends Controller {
 
   @action
   reset() {
-    this.send("reset");
+    this.send('reset');
   }
 
   @action

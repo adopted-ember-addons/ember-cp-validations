@@ -6,11 +6,11 @@ let Validations = buildValidations({
   acceptTerms: validator('inline', {
     validate(value) {
       return value || 'You must accept the terms.';
-    }
-  })
+    },
+  }),
 });
 
 export default DS.Model.extend(Validations, {
   name: DS.attr('string', { defaultValue: '' }),
-  acceptTerms: DS.attr('boolean', { defaultValue: false })
+  acceptTerms: DS.attr('boolean', { defaultValue: false }),
 });
