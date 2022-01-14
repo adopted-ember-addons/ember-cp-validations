@@ -10,15 +10,13 @@ import MetaData from './meta-data';
 export default function cycleBreaker(fn, value) {
   let key = MetaData.symbol('cycle');
 
-  return function () {
-    if (MetaData.getData(this, key)) {
-      return value;
-    }
-    MetaData.setData(this, key, true);
-    try {
-      return fn.apply(this, arguments);
-    } finally {
-      MetaData.setData(this, key, false);
-    }
-  };
+  if (MetaData.getData(this, key)) {
+    return value;
+  }
+  MetaData.setData(this, key, true);
+  try {
+    return fn.apply(this, arguments);
+  } finally {
+    MetaData.setData(this, key, false);
+  }
 }

@@ -1,42 +1,22 @@
-import { not, readOnly, notEmpty, mapBy } from '@ember/object/computed';
 import ArrayProxy from '@ember/array/proxy';
 import RSVP from 'rsvp';
-import { computed, set, get } from '@ember/object';
-import { isNone } from '@ember/utils';
+import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import cycleBreaker from '../utils/cycle-breaker';
 import { flatten, uniq, compact } from '../utils/array';
-
-/*
-  CP Macros
- */
-function isAny(collection, key, value, defaultValue) {
-  return computed(
-    `${collection}.@each.${key}`,
-    cycleBreaker(function() {
-      return get(this, collection).isAny(key, value);
-    }, defaultValue)
-  );
-}
-
-function isEvery(collection, key, value, defaultValue) {
-  return computed(
-    `${collection}.@each.${key}`,
-    cycleBreaker(function() {
-      return get(this, collection).isEvery(key, value);
-    }, defaultValue)
-  );
-}
+import { tracked } from '@glimmer/tracking';
 
 /**
  * @module Validations
  * @class ResultCollection
  */
-export default ArrayProxy.extend({
-  init() {
-    set(this, 'content', emberArray(compact(get(this, 'content'))));
-    this._super(...arguments);
-  },
+export default class ValidationsResultCollection extends ArrayProxy {
+  constructor() {
+    super(...arguments);
+    this.content = emberArray(compact(this.content));
+  }
+
+  @tracked content = [];
 
   /**
    * The attribute that this collection belongs to
@@ -44,7 +24,7 @@ export default ArrayProxy.extend({
    * @property attribute
    * @type {String}
    */
-  attribute: null,
+  @tracked attribute;
 
   /**
    * ```javascript
@@ -58,7 +38,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isInvalid: not('isValid').readOnly(),
+  get isInvalid() {
+    return !this.isValid;
+  }
 
   /**
    * ```javascript
@@ -72,7 +54,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isValid: isEvery('content', 'isValid', true, true).readOnly(),
+  get isValid() {
+    return cycleBreaker(() => this.content.isEvery('isValid', true), true);
+  }
 
   /**
    * This property is toggled only if there is an async validation
@@ -88,7 +72,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isValidating: isAny('content', 'isValidating', true, false).readOnly(),
+  get isValidating() {
+    return cycleBreaker(() => this.content.isAny('isValidating', true), false);
+  }
 
   /**
    * Will be true only if isValid is `true` and isValidating is `false`
@@ -104,7 +90,12 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyValid: isEvery('content', 'isTruelyValid', true, true).readOnly(),
+  get isTruelyValid() {
+    return cycleBreaker(
+      () => this.content.isEvery('isTruelyValid', true),
+      true
+    );
+  }
 
   /**
    * Will be true only if isValid is `false` and isValidating is `false`
@@ -120,7 +111,12 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isTruelyInvalid: isAny('content', 'isTruelyInvalid', true, false).readOnly(),
+  get isTruelyInvalid() {
+    return cycleBreaker(
+      () => this.content.isAny('isTruelyInvalid', true),
+      false
+    );
+  }
 
   /**
    * Will be `true` only if a validation returns a promise
@@ -136,7 +132,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Boolean}
    */
-  isAsync: isAny('content', 'isAsync', true, false).readOnly(),
+  get isAsync() {
+    return cycleBreaker(() => this.content.isAny('isAsync', true), false);
+  }
 
   /**
    * A collection of all error messages on the object in question
@@ -151,12 +149,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  messages: computed(
-    'content.@each.messages',
-    cycleBreaker(function() {
-      return uniq(compact(flatten(this.getEach('messages'))));
-    })
-  ).readOnly(),
+  get messages() {
+    return cycleBreaker(() => uniq(compact(flatten(this.getEach('messages')))));
+  }
 
   /**
    * An alias to the first message in the messages collection.
@@ -171,7 +166,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  message: readOnly('messages.firstObject'),
+  get message() {
+    return this.messages.firstObject;
+  }
 
   /**
    * Will be `true` if there are warnings in the collection.
@@ -186,7 +183,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  hasWarnings: notEmpty('warningMessages').readOnly(),
+  get hasWarnings() {
+    return isPresent(this.warningMessages);
+  }
 
   /**
    * A collection of all warning messages on the object in question
@@ -201,12 +200,11 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warningMessages: computed(
-    'content.@each.warningMessages',
-    cycleBreaker(function() {
-      return uniq(compact(flatten(this.getEach('warningMessages'))));
-    })
-  ).readOnly(),
+  get warningMessages() {
+    return cycleBreaker(() =>
+      uniq(compact(flatten(this.getEach('warningMessages'))))
+    );
+  }
 
   /**
    * An alias to the first message in the warningMessages collection.
@@ -221,7 +219,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {String}
    */
-  warningMessage: readOnly('warningMessages.firstObject'),
+  get warningMessage() {
+    return this.warningMessages.firstObject;
+  }
 
   /**
    * A collection of all {{#crossLink "Error"}}Warnings{{/crossLink}} on the object in question.
@@ -237,13 +237,11 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  warnings: computed(
-    'attribute',
-    'content.@each.warnings',
-    cycleBreaker(function() {
-      return this._computeErrorCollection(this.getEach('warnings'));
-    })
-  ).readOnly(),
+  get warnings() {
+    return cycleBreaker(() =>
+      this._computeErrorCollection(this.getEach('warnings'))
+    );
+  }
 
   /**
    * An alias to the first {{#crossLink "Warning"}}{{/crossLink}} in the warnings collection.
@@ -258,7 +256,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Error}
    */
-  warning: readOnly('warnings.firstObject'),
+  get warning() {
+    return this.warnings.firstObject;
+  }
 
   /**
    * A collection of all {{#crossLink "Error"}}Errors{{/crossLink}} on the object in question.
@@ -274,13 +274,11 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Array}
    */
-  errors: computed(
-    'attribute',
-    'content.@each.errors',
-    cycleBreaker(function() {
-      return this._computeErrorCollection(this.getEach('errors'));
-    })
-  ).readOnly(),
+  get errors() {
+    return cycleBreaker(() =>
+      this._computeErrorCollection(this.getEach('errors'))
+    );
+  }
 
   /**
    * An alias to the first {{#crossLink "Error"}}{{/crossLink}} in the errors collection.
@@ -295,7 +293,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Error}
    */
-  error: readOnly('errors.firstObject'),
+  get error() {
+    return this.errors.firstObject;
+  }
 
   /**
    * All built options of the validators associated with the results in this collection grouped by validator type
@@ -329,9 +329,9 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Object}
    */
-  options: computed('_contentValidators.@each.options', function() {
-    return this._groupValidatorOptions(get(this, '_contentValidators'));
-  }).readOnly(),
+  get options() {
+    return this._groupValidatorOptions(this._contentValidators);
+  }
 
   /**
    * @property _promise
@@ -339,49 +339,49 @@ export default ArrayProxy.extend({
    * @private
    * @type {Promise}
    */
-  _promise: computed(
-    'content.@each._promise',
-    '_contentResults.@each._promise',
-    cycleBreaker(function() {
-      return RSVP.allSettled(
+  get _promise() {
+    return cycleBreaker(() =>
+      RSVP.allSettled(
         compact(
           flatten([
-            this.get('_contentResults').getEach('_promise'),
-            this.getEach('_promise')
+            this._contentResults.getEach('_promise'),
+            this.getEach('_promise'),
           ])
         )
-      );
-    })
-  ).readOnly(),
+      )
+    );
+  }
 
   /**
    * @property _contentResults
    * @type {Array}
    * @private
    */
-  _contentResults: computed('content.@each._result', function() {
+  get _contentResults() {
     return emberArray(compact(this.getEach('_result')));
-  }).readOnly(),
+  }
 
   /**
    * @property _contentValidators
    * @type {Array}
    * @private
    */
-  _contentValidators: mapBy('content', '_validator').readOnly(),
+  get _contentValidators() {
+    return this.content.mapBy('_validator');
+  }
 
   _computeErrorCollection(collection = []) {
-    let attribute = get(this, 'attribute');
+    let attribute = this.attribute;
     let errors = uniq(compact(flatten(collection)));
 
-    errors.forEach(e => {
+    errors.forEach((e) => {
       if (attribute && e.get('attribute') !== attribute) {
         e.set('parentAttribute', attribute);
       }
     });
 
     return errors;
-  },
+  }
 
   /**
    * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
@@ -389,12 +389,12 @@ export default ArrayProxy.extend({
    */
   _groupValidatorOptions(validators = []) {
     return validators.reduce((options, v) => {
-      if (isNone(v) || isNone(get(v, '_type'))) {
+      if (isNone(v) || isNone(v._type)) {
         return options;
       }
 
-      let type = get(v, '_type');
-      let vOpts = get(v, 'options').toObject();
+      let type = v._type;
+      let vOpts = v.options.toObject();
 
       if (options[type]) {
         if (isArray(options[type])) {
@@ -408,4 +408,4 @@ export default ArrayProxy.extend({
       return options;
     }, {});
   }
-});
+}
