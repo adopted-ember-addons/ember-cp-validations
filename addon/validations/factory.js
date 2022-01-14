@@ -313,11 +313,11 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   let nestedClasses = {};
   let rootPath = 'root';
 
-  let AttrsClass = EmberObject.extend({
-    [ATTRS_PATH]: rootPath,
+  class AttrsClass {
+    [ATTRS_PATH] = rootPath;
 
     init() {
-      this._super(...arguments);
+      super(...arguments);
 
       let model = this.get(ATTRS_MODEL);
       let path = this.get(ATTRS_PATH);
@@ -332,10 +332,10 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
           nestedClasses[path][key].create({ [ATTRS_MODEL]: model })
         );
       });
-    },
+    }
 
     willDestroy() {
-      this._super(...arguments);
+      super.willDestroy(...arguments);
 
       let path = this.get(ATTRS_PATH);
 
@@ -350,8 +350,8 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       Object.keys(nestedClasses[path] || []).forEach((key) => {
         get(this, key).destroy();
       });
-    },
-  });
+    }
+  }
 
   /*
     Insert CPs + Create nested classes
@@ -374,9 +374,9 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       currPath.push(key);
 
       if (!_nestedClasses[key]) {
-        _nestedClasses[key] = AttrsClass.extend({
-          [ATTRS_PATH]: currPath.join('.'),
-        });
+        _nestedClasses[key] = class extends AttrsClass {
+          [ATTRS_PATH] = currPath.join('.');
+        };
       }
 
       currClass = _nestedClasses[key];
