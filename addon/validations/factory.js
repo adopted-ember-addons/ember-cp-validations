@@ -1,6 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
-import { computed, set, get } from '@ember/object';
+import { computed, set } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { assign } from '@ember/polyfills';
 import { cancel, debounce } from '@ember/runloop';
@@ -324,7 +324,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     get [ATTRS_RESULT_COLLECTION]() {
       return new ResultCollection({
         attribute: `Model:${this}`,
-        content: validatableAttributes.map((attr) => this[`attrs.${attr}`]),
+        content: validatableAttributes.map((attr) => this.attrs[attr]),
       });
     }
 
@@ -332,7 +332,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this.attrs = new AttrsClass(model);
     }
 
-    willDestroy() {
+    destroy() {
       let validatableAttrs = this.validatableAttributes;
       let debouncedValidations = this._debouncedValidations;
 
@@ -341,7 +341,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
 
       // Cancel all debounced timers
       validatableAttrs.forEach((attr) => {
-        let attrCache = get(debouncedValidations, attr);
+        let attrCache = debouncedValidations[attr];
 
         if (!isNone(attrCache)) {
           // Itterate over each attribute and cancel all of its debounced validations
@@ -402,7 +402,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
         Destroy all nested classes
        */
       Object.keys(nestedClasses[path] || []).forEach((key) => {
-        get(this, key).destroy();
+        this[key].destroy();
       });
     }
   }
@@ -441,7 +441,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       [attr]: createCPValidationFor(
         attribute,
         model,
-        get(validationRules, attribute)
+        validationRules[attribute]
       ),
     });
   });
@@ -468,7 +468,7 @@ function createCPValidationFor(attribute, model, validations) {
   let cp = computed(
     ...dependentKeys,
     cycleBreaker(function () {
-      let model = get(this, ATTRS_MODEL);
+      let model = this[ATTRS_MODEL];
       let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
       let validationResults = generateValidationResultsFor(
@@ -677,7 +677,7 @@ function validationReturnValueHandler(attribute, value, model, validator) {
  * @return {Array}
  */
 function getValidatorsFor(attribute, model) {
-  let validators = get(model, `validations._validators.${attribute}`);
+  let validators = model[`validations._validators.${attribute}`];
   return isNone(validators)
     ? createValidatorsFor(attribute, model)
     : validators;
@@ -695,11 +695,11 @@ function getValidatorsFor(attribute, model) {
 function getDebouncedValidationsCacheFor(attribute, model) {
   let debouncedValidations = model.validations._debouncedValidations;
 
-  if (isNone(get(debouncedValidations, attribute))) {
+  if (isNone(debouncedValidations[attribute])) {
     deepSet(debouncedValidations, attribute, {});
   }
 
-  return get(debouncedValidations, attribute);
+  return debouncedValidations[attribute];
 }
 
 /**
@@ -713,9 +713,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
  */
 function createValidatorsFor(attribute, model) {
   let validations = model.validations;
-  let validationRules = makeArray(
-    get(validations, `_validationRules.${attribute}`)
-  );
+  let validationRules = makeArray(validations[`_validationRules.${attribute}`]);
   let validatorCache = validations._validators;
   let owner = getOwner(model);
   let validators = [];
@@ -780,7 +778,7 @@ function validate(options = {}, isAsync = true) {
     }
 
     if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
-      let validationResult = get(this, `attrs.${name}`);
+      let validationResult = this.attrs[name];
 
       // If an async validation is found, throw an error
       if (!isAsync && validationResult.isAsync) {
