@@ -467,7 +467,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
         validate: Validators.presence,
         debounce: computed(function () {
           return initSetup ? 0 : 500; // Do not debounce on initial object creation
-        }).volatile(),
+        }),
       }),
     });
     let object = setupObject(this, EmberObject.extend(Validations));
@@ -539,7 +539,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let debouncedValidator = validator('inline', {
       debounce: computed(function () {
         return initSetup ? 0 : 500;
-      }).volatile(),
+      }),
       validate(value, options, model, attr) {
         model.set('foo', 'bar');
         return Validators.presence(value, options, model, attr);
@@ -1435,61 +1435,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
       obj.get('validations.errors').filterBy('type', 'presence').length,
       1,
       'number of errors was expected to be 1'
-    );
-  });
-
-  test('volatile validations should not recompute', function (assert) {
-    this.owner.register('validator:presence', PresenceValidator);
-    this.owner.register('validator:length', LengthValidator);
-
-    let Validations = buildValidations({
-      firstName: [
-        validator('presence', true),
-        validator('length', {
-          dependentKeys: ['model.foo'],
-          min: 5,
-          max: 35,
-          volatile: true,
-        }),
-      ],
-    });
-
-    let obj = setupObject(
-      this,
-      EmberObject.extend(Validations, {
-        isInvalid: not('validations.attrs.firstName.isValid'),
-        isInvalidGlobal: not('validations.attrs.isValid'),
-      }),
-      {
-        firstName: null,
-      }
-    );
-
-    assert.false(
-      obj.get('validations.attrs.firstName.isValid'),
-      'isValid was expected to be FALSE'
-    );
-    assert.equal(
-      obj.get('validations.attrs.firstName.message'),
-      "This field can't be blank"
-    );
-    assert.true(obj.get('isInvalid'), 'isInvalid was expected to be TRUE');
-    assert.true(
-      obj.get('isInvalidGlobal'),
-      'isInvalidGlobal was expected to be TRUE'
-    );
-
-    obj.set('firstName', 'Offir');
-    obj.set('foo', 'bar');
-
-    assert.true(obj.get('isInvalid'), 'isInvalid was expected to be TRUE');
-    assert.true(
-      obj.get('isInvalidGlobal'),
-      'isInvalidGlobal was expected to be TRUE'
-    );
-    assert.true(
-      obj.get('validations.attrs.firstName.isValid'),
-      'isValid was expected to be TRUE'
     );
   });
 

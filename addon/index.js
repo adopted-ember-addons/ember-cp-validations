@@ -245,7 +245,7 @@ import Validator from './validations/validator';
  *     description: Ember.computed(function() {
  *       // CPs have access to the `model` and `attribute`
  *       return this.get('model').generateDescription(this.get('attribute'));
- *     }).volatile() // Disable caching and force recompute on every get call
+ *     })
  *   })
  * });
  * ```

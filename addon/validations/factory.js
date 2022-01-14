@@ -469,10 +469,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  * @return {Ember.ComputedProperty} A computed property which is a ResultCollection
  */
 function createCPValidationFor(attribute, model, validations) {
-  let isVolatile = hasOption(validations, 'volatile', true);
-  let dependentKeys = isVolatile
-    ? []
-    : getCPDependentKeysFor(attribute, model, validations);
+  let dependentKeys = getCPDependentKeysFor(attribute, model, validations);
 
   let cp = computed(
     ...dependentKeys,
@@ -500,10 +497,6 @@ function createCPValidationFor(attribute, model, validations) {
       });
     })
   ).readOnly();
-
-  if (isVolatile) {
-    cp = cp.volatile();
-  }
 
   return cp;
 }

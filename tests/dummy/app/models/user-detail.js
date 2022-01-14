@@ -23,7 +23,7 @@ const Validations = buildValidations(
           }),
           after: computed(function () {
             return moment().subtract(120, 'years').format('M/D/YYYY');
-          }).volatile(),
+          }),
           format: 'M/D/YYYY',
           message(type, value /*, context */) {
             if (type === 'before') {

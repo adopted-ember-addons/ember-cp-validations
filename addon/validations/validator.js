@@ -117,26 +117,6 @@ import { deprecate } from '@ember/application/deprecations';
  * })
  * ```
  *
- * ### volatile
- *
- * Default: __false__
- *
- * If any validator sets the volatile option to **true** (including options, default options, and global options),
- * it will place the entire attribute's CP in a volatile state. This means that it will set it into non-cached mode.
- * When in this mode the computed property will not automatically cache the return value.
- *
- * Dependency keys have no effect on volatile properties as they are for cache invalidation and notification when
- * cached value is invalidated. Any changes to the dependents will not refire validations.
- *
- * __**WARNING: This option should only be used if you know what you're doing**__
- *
- * ```javascript
- * // Examples
- * validator('length', {
- *   volatile: true
- * })
- * ```
- *
  * ### value
  *
  * Used to retrieve the value to validate. This will overwrite the validator's default `value` method.
