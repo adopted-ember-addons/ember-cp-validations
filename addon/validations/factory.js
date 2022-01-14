@@ -2,7 +2,6 @@ import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
 import { computed, set, get } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
-import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import { cancel, debounce } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
@@ -23,7 +22,6 @@ import {
   isDsModel,
   isValidatable,
   isPromise,
-  mergeOptions,
 } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
@@ -244,16 +242,16 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     isValidations = true;
 
     // Caches
-    _validators;
-    _debouncedValidations;
+    _validators = {};
+    _debouncedValidations = {};
 
     // Private
     _validationRules = validationRules;
 
-    validate;
-    validateSync;
-    validateAttribute;
-    validatableAttributes;
+    validate = validate;
+    validateSync = validateSync;
+    validateAttribute = validateAttribute;
+    validatableAttributes = validatableAttributes;
 
     get isValid() {
       return this[ATTRS_RESULT_COLLECTION].isValid;
@@ -331,11 +329,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     }
 
     constructor(model) {
-      Object.assign(this, {
-        attrs: new AttrsClass(model),
-        _validators: {},
-        _debouncedValidations: {},
-      });
+      this.attrs = new AttrsClass(model);
     }
 
     willDestroy() {
@@ -499,30 +493,6 @@ function createCPValidationFor(attribute, model, validations) {
   ).readOnly();
 
   return cp;
-}
-
-/**
- * Check if a collection of validations have an option
- * equal to the given value
- *
- * @method hasOption
- * @private
- * @param {Array} validations
- * @param {String} option
- * @param {Boolean} [value=true]
- * @returns {Boolean}
- */
-function hasOption(validations, option, value = true) {
-  for (let i = 0; i < validations.length; i++) {
-    let { options, defaultOptions = {}, globalOptions = {} } = validations[i];
-    let mergedOptions = mergeOptions(options, defaultOptions, globalOptions);
-
-    if (mergedOptions[option] === value) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 /**
