@@ -36,7 +36,7 @@
     "@babel/eslint-parser": "7.16.5",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2",
-    "@embroider/test-setup": "^0.50.0",
+    "@embroider/test-setup": "^0.50.2",
     "@fortawesome/ember-fontawesome": "^0.2.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -81,8 +81,8 @@
     "prettier": "^2.3.2",
     "qunit": "^2.16.0",
     "qunit-dom": "^2.0.0",
-    "sass": "^1.15.3",
-    "webpack": "^5.65.0",
+    "sass": "^1.48.0",
+    "webpack": "^5.66.0",
     "yuidoc-ember-theme": "^2.0.1"
   },
   "keywords": [
