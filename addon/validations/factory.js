@@ -123,7 +123,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     }).readOnly(),
 
     validations: computed(function () {
-      return this.get(VALIDATIONS_CLASS).create({ model: this });
+      return new this[VALIDATIONS_CLASS]({ model: this });
     }).readOnly(),
 
     validate() {
@@ -209,7 +209,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     inheritedValidationsClass &&
     inheritedValidationsClass[IS_VALIDATIONS_CLASS]
   ) {
-    let inheritedValidations = inheritedValidationsClass.create();
+    let inheritedValidations = new inheritedValidationsClass();
 
     validationRules = assign(
       validationRules,
@@ -259,9 +259,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
     init() {
       this._super(...arguments);
       this.setProperties({
-        attrs: AttrsClass.create({
-          [ATTRS_MODEL]: this.model,
-        }),
+        attrs: new AttrsClass(this.model),
         _validators: {},
         _debouncedValidations: {},
       });
@@ -314,21 +312,19 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
   let rootPath = 'root';
 
   class AttrsClass {
+    [ATTRS_MODEL];
     [ATTRS_PATH] = rootPath;
 
-    constructor() {
-      let model = this.get(ATTRS_MODEL);
-      let path = this.get(ATTRS_PATH);
+    constructor(attrsModel, attrsPath) {
+      let model, path;
+      model = this[ATTRS_PATH] = attrsPath;
+      path = this[ATTRS_MODEL] = attrsModel;
 
       /*
         Instantiate the nested attrs classes for the current path
        */
       Object.keys(nestedClasses[path] || []).forEach((key) => {
-        set(
-          this,
-          key,
-          nestedClasses[path][key].create({ [ATTRS_MODEL]: model })
-        );
+        set(this, key, new nestedClasses[path][key](model));
       });
     }
 
@@ -432,7 +428,7 @@ function createCPValidationFor(attribute, model, validations) {
         }
       );
 
-      return ResultCollection.create({
+      return new ResultCollection({
         attribute,
         content: validationResults,
       });
@@ -578,7 +574,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     [ATTRS_RESULT_COLLECTION]: computed(
       ...validatableAttrs.map((attr) => `attrs.${attr}`),
       function () {
-        return ResultCollection.create({
+        return new ResultCollection({
           attribute: `Model:${this}`,
           content: validatableAttrs.map((attr) => get(this, `attrs.${attr}`)),
         });
@@ -677,18 +673,16 @@ function extractOptionsDependentKeys(options) {
  */
 function validationReturnValueHandler(attribute, value, model, validator) {
   let result;
-  let commonProps = {
-    model,
-    attribute,
-    _validator: validator,
-  };
 
   if (isPromise(value)) {
-    result = ValidationResult.create(commonProps, {
-      _promise: Promise.resolve(value),
-    });
+    result = new ValidationResult(
+      model,
+      attribute,
+      validator,
+      Promise.resolve(value)
+    );
   } else {
-    result = ValidationResult.create(commonProps);
+    result = new ValidationResult(model, attribute, validator);
     result.update(value);
   }
 
@@ -823,7 +817,7 @@ function validate(options = {}, isAsync = true) {
     return v;
   }, []);
 
-  let validations = ResultCollection.create({
+  let validations = new ResultCollection({
     attribute: `Validate:${model}`,
     content: validationResults,
   });
@@ -880,7 +874,7 @@ function validateAttribute(attribute, value) {
     }
   );
 
-  let validations = ResultCollection.create({
+  let validations = new ResultCollection({
     attribute,
     content: flatten(validationResults),
   });
