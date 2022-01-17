@@ -1,6 +1,5 @@
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
-import { get } from '@ember/object';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -49,7 +48,7 @@ import { get } from '@ember/object';
  *  @module Validators
  *  @extends Base
  */
-const HasMany = Base.extend({
+export default class ValidatorsHasMany extends Base {
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
@@ -60,7 +59,5 @@ const HasMany = Base.extend({
     }
 
     return true;
-  },
-});
-
-export default HasMany;
+  }
+}
