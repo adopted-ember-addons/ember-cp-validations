@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { only, module, test } from 'qunit';
+import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;

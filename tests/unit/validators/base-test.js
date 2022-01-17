@@ -105,7 +105,7 @@ module('Unit | Validator | base', function (hooks) {
       attribute: 'foo',
       options: {
         value() {
-          return this.get('model.bar');
+          return this.model.bar;
         },
       },
     });
