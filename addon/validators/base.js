@@ -24,7 +24,7 @@ class TestResult {
  * @class Base
  * @module Validators
  */
-class Base {
+export default class Base {
   /**
    * Options passed in to the validator when defined in the model
    * @property options
@@ -297,8 +297,6 @@ class Base {
     return new TestResult(result);
   }
 }
-
-export default Base;
 
 /**
  * Creating custom validators is very simple. To generate a validator named `unique-username` in Ember CLI

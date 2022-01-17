@@ -1,6 +1,5 @@
 import { assert } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import { getProperties, get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
 
 /**
@@ -24,7 +23,7 @@ import Base from 'ember-cp-validations/validators/base';
  *  @module Validators
  *  @extends Base
  */
-const Alias = Base.extend({
+export default class Alias extends Base {
   /**
    * Normalized options passed in.
    * ```js
@@ -49,8 +48,8 @@ const Alias = Base.extend({
         alias: options,
       };
     }
-    return this._super(opts, defaultOptions, globalOptions);
-  },
+    return super.buildOptions(opts, defaultOptions, globalOptions);
+  }
 
   /**
    * @method validate
@@ -63,20 +62,15 @@ const Alias = Base.extend({
    * @param {String} attribute
    */
   validate(value, options, model, attribute) {
-    let { alias, firstMessageOnly } = getProperties(options, [
-      'alias',
-      'firstMessageOnly',
-    ]);
+    const { alias, firstMessageOnly } = options;
 
     assert(
       `[validator:alias] [${attribute}] option 'alias' is required`,
       isPresent(alias)
     );
 
-    let aliasValidation = get(model, `validations.attrs.${alias}`);
+    let aliasValidation = model.validations.attrs[alias];
 
     return firstMessageOnly ? aliasValidation.message : aliasValidation.content;
-  },
-});
-
-export default Alias;
+  }
+}
