@@ -1,5 +1,4 @@
 import { htmlSafe } from '@ember/template';
-import EmberObject from '@ember/object';
 import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import { module, test } from 'qunit';
@@ -53,19 +52,16 @@ module('Unit | Validator | base', function (hooks) {
   });
 
   test('buildOptions - toObject', function (assert) {
-    assert.expect(4);
+    assert.expect(2);
 
     options = validator.buildOptions({
       foo: alias('bar'),
       bar: 'bar',
     });
 
-    assert.ok(options instanceof EmberObject);
-
     let optionsObj = options.toObject();
 
     assert.deepEqual(typeof optionsObj, 'object');
-    assert.notOk(optionsObj instanceof EmberObject);
     assert.deepEqual(optionsObj.foo, 'bar');
   });
 
@@ -86,7 +82,7 @@ module('Unit | Validator | base', function (hooks) {
     assert.expect(2);
 
     validator.setProperties({
-      model: EmberObject.create({ foo: 'bar' }),
+      model: { foo: 'bar' },
       attribute: 'foo',
       options: {},
     });
@@ -101,7 +97,7 @@ module('Unit | Validator | base', function (hooks) {
     assert.expect(3);
 
     validator.setProperties({
-      model: EmberObject.create({ foo: 'bar', bar: 'baz' }),
+      model: { foo: 'bar', bar: 'baz' },
       attribute: 'foo',
       options: {
         value() {

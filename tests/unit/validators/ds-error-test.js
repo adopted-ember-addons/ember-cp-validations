@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DS from 'ember-data';
 import { module, test } from 'qunit';
@@ -16,7 +15,7 @@ module('Unit | Validator | ds-error', function (hooks) {
   test('works with empty object', function (assert) {
     assert.expect(1);
 
-    model = EmberObject.create();
+    model = {};
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);
@@ -25,10 +24,10 @@ module('Unit | Validator | ds-error', function (hooks) {
   test('it works', function (assert) {
     assert.expect(2);
 
-    model = EmberObject.create({
+    model = {
       errors: DS.Errors.create(),
       username: null,
-    });
+    };
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);
@@ -42,10 +41,10 @@ module('Unit | Validator | ds-error', function (hooks) {
   test('gets last message', function (assert) {
     assert.expect(2);
 
-    model = EmberObject.create({
+    model = {
       errors: DS.Errors.create(),
       username: null,
-    });
+    };
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);

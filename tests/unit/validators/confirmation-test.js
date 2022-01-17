@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
@@ -17,9 +16,9 @@ module('Unit | Validator | confirmation', function (hooks) {
     options = { on: 'email' };
     builtOptions = validator.buildOptions(options);
 
-    model = EmberObject.create({
+    model = {
       email: 'foo@gmail.com',
-    });
+    };
 
     message = validator.validate(
       'bar@gmail.com',
