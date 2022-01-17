@@ -46,8 +46,8 @@ module('Unit | Validator | dependent', function (hooks) {
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
-    assert.equal(message, 'This field is invalid');
-    assert.equal(get(model, 'validations.messages.length'), 1);
+    assert.deepEqual(message, 'This field is invalid');
+    assert.deepEqual(get(model, 'validations.messages.length'), 1);
     assert.false(get(model, 'validations.isValid'));
   });
 
@@ -65,8 +65,8 @@ module('Unit | Validator | dependent', function (hooks) {
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
-    assert.equal(message, 'This field is invalid');
-    assert.equal(get(model, 'validations.messages.length'), 1);
+    assert.deepEqual(message, 'This field is invalid');
+    assert.deepEqual(get(model, 'validations.messages.length'), 1);
     assert.false(get(model, 'validations.isValid'));
   });
 
@@ -85,7 +85,7 @@ module('Unit | Validator | dependent', function (hooks) {
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.true(message);
-    assert.equal(get(model, 'validations.messages.length'), 0);
+    assert.deepEqual(get(model, 'validations.messages.length'), 0);
     assert.true(get(model, 'validations.isValid'));
   });
 });

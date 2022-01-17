@@ -21,8 +21,8 @@ module('Unit | Validator | inline', function (hooks) {
       options: {
         foo: 'bar',
         validate(value, options) {
-          assert.equal(this, validator, 'Context is preserved');
-          assert.equal(options.foo, 'bar', 'It receives options');
+          assert.deepEqual(this, validator, 'Context is preserved');
+          assert.deepEqual(options.foo, 'bar', 'It receives options');
           assert.notOk(
             options.validate,
             'Validate fn removed from the options'

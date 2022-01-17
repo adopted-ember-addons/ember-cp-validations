@@ -403,7 +403,7 @@ export default class ValidatorsBase {
  *     let done = assert.async();
  *
  *     validator.validate('johndoe42').then((message) => {
- *       assert.equal(message, true);
+ *       assert.deepEqual(message, true);
  *       done();
  *     });
  * });

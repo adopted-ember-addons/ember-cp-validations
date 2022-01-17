@@ -56,7 +56,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let { validations, model } = user.get('validations').validateSync();
 
-    assert.equal(model, user, 'expected model to be the correct model');
+    assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
       validations.get('content').getEach('attribute').sort(),
       ['friend'].sort()
@@ -66,7 +66,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.false(friend.get('isValid'));
     assert.false(friend.get('isValidating'));
-    assert.equal(friend.get('message'), 'lastName should be present');
+    assert.deepEqual(friend.get('message'), 'lastName should be present');
   });
 
   test('belong to validation - with cycle', function (assert) {
@@ -77,7 +77,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let { validations, model } = user.get('validations').validateSync();
 
-    assert.equal(model, user, 'expected model to be the correct model');
+    assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
       validations.get('content').getEach('attribute').sort(),
       ['friend'].sort()
@@ -87,7 +87,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.true(friend.get('isValid'));
     assert.false(friend.get('isValidating'));
-    assert.equal(friend.get('message'), undefined);
+    assert.deepEqual(friend.get('message'), undefined);
   });
 
   test('has-many relationship is sync', function (assert) {
@@ -103,7 +103,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let { validations, model } = user.get('validations').validateSync();
 
-    assert.equal(model, user, 'expected model to be the correct model');
+    assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
       validations.get('content').getEach('attribute').sort(),
       ['friends'].sort()
@@ -112,7 +112,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let friends = validations.get('content').findBy('attribute', 'friends');
 
     assert.false(friends.get('isValid'));
-    assert.equal(friends.get('message'), 'lastName should be present');
+    assert.deepEqual(friends.get('message'), 'lastName should be present');
   });
 
   test('has-many relationship is sync with proxy', function (assert) {
@@ -128,7 +128,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let { validations, model } = user.get('validations').validateSync();
 
-    assert.equal(model, user, 'expected model to be the correct model');
+    assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
       validations.get('content').getEach('attribute').sort(),
       ['friends'].sort()
@@ -137,7 +137,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let friends = validations.get('content').findBy('attribute', 'friends');
 
     assert.false(friends.get('isValid'));
-    assert.equal(friends.get('message'), 'lastName should be present');
+    assert.deepEqual(friends.get('message'), 'lastName should be present');
   });
 
   test('has-many relationship is async', function (assert) {
@@ -158,7 +158,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friends'].sort()
@@ -167,7 +167,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       let friends = validations.get('content').findBy('attribute', 'friends');
 
       assert.false(friends.get('isValid'));
-      assert.equal(friends.get('message'), 'lastName should be present');
+      assert.deepEqual(friends.get('message'), 'lastName should be present');
     });
 
     return validations;
@@ -195,7 +195,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friends'].sort()
@@ -203,11 +203,11 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       let friends = validations.get('content').findBy('attribute', 'friends');
 
-      assert.equal(
+      assert.deepEqual(
         friends.get('warning.message'),
         'lastName should be present'
       );
-      assert.equal(friends.get('warningMessage'), 'lastName should be present');
+      assert.deepEqual(friends.get('warningMessage'), 'lastName should be present');
       assert.true(friends.get('isValid'));
     });
 
@@ -232,7 +232,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friend'].sort()
@@ -241,7 +241,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       let friend = validations.get('content').findBy('attribute', 'friend');
 
       assert.false(friend.get('isValid'));
-      assert.equal(friend.get('message'), 'lastName should be present');
+      assert.deepEqual(friend.get('message'), 'lastName should be present');
     });
 
     return validations;
@@ -269,7 +269,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friend'].sort()
@@ -277,8 +277,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       let friend = validations.get('content').findBy('attribute', 'friend');
 
-      assert.equal(friend.get('warning.message'), 'lastName should be present');
-      assert.equal(friend.get('warningMessage'), 'lastName should be present');
+      assert.deepEqual(friend.get('warning.message'), 'lastName should be present');
+      assert.deepEqual(friend.get('warningMessage'), 'lastName should be present');
       assert.true(friend.get('isValid'));
     });
 
@@ -299,7 +299,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friend'].sort()
@@ -324,7 +324,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friends'].sort()
@@ -349,7 +349,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
-      assert.equal(model, user, 'expected model to be the correct model');
+      assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
         validations.get('content').getEach('attribute').sort(),
         ['friend'].sort()
@@ -358,7 +358,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       let friend = validations.get('content').findBy('attribute', 'friend');
 
       assert.false(friend.get('isValid'));
-      assert.equal(friend.get('message'), undefined);
+      assert.deepEqual(friend.get('message'), undefined);
     });
 
     return validations;
@@ -384,19 +384,19 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.false(user.get('validations.isValidating'));
     assert.false(user.get('validations.attrs.firstName.isValid'));
     assert.false(user.get('validations.attrs.fullName.isValid'));
-    assert.equal(
+    assert.deepEqual(
       user.get('validations.attrs.fullName.message'),
       'firstName should be present'
     );
-    assert.equal(
+    assert.deepEqual(
       user.get('validations.attrs.fullName.error.attribute'),
       'firstName'
     );
-    assert.equal(
+    assert.deepEqual(
       user.get('validations.attrs.fullName.error.parentAttribute'),
       'fullName'
     );
-    assert.equal(
+    assert.deepEqual(
       user.get('validations.attrs.fullName.error.message'),
       'firstName should be present'
     );
@@ -434,10 +434,10 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.false(user.get('validations.isValid'));
     assert.false(user.get('validations.isValidating'));
     assert.false(user.get('validations.attrs.firstName.isValid'));
-    assert.equal(user.get('validations.attrs.firstName.messages.length'), 2);
+    assert.deepEqual(user.get('validations.attrs.firstName.messages.length'), 2);
     assert.false(user.get('validations.attrs.fullName.isValid'));
-    assert.equal(user.get('validations.attrs.fullName.messages.length'), 1);
-    assert.equal(
+    assert.deepEqual(user.get('validations.attrs.fullName.messages.length'), 1);
+    assert.deepEqual(
       user.get('validations.attrs.fullName.message'),
       'First error message'
     );
@@ -506,7 +506,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let { validations, model } = user.get('validations').validateSync();
 
-    assert.equal(model, user, 'expected model to be the correct model');
+    assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
       validations.get('content').getEach('attribute').sort(),
       ['friend'].sort()
@@ -515,7 +515,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let friend = validations.get('content').findBy('attribute', 'friend');
 
     assert.false(friend.get('isValid'));
-    assert.equal(friend.get('message'), "This field can't be blank");
+    assert.deepEqual(friend.get('message'), "This field can't be blank");
   });
 
   test('presence on empty DS.PromiseArray', function (assert) {
@@ -531,7 +531,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let { validations, model } = user.get('validations').validateSync();
 
-    assert.equal(model, user, 'expected model to be the correct model');
+    assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
       validations.get('content').getEach('attribute').sort(),
       ['friends'].sort()
@@ -540,7 +540,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let friends = validations.get('content').findBy('attribute', 'friends');
 
     assert.false(friends.get('isValid'));
-    assert.equal(friends.get('message'), "This field can't be blank");
+    assert.deepEqual(friends.get('message'), "This field can't be blank");
   });
 
   test('debounce should work across nested HasMany relationships', function (assert) {

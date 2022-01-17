@@ -35,7 +35,7 @@ module('Unit | Validator | format', function (hooks) {
     assert.true(message);
 
     message = validator.validate('email', options);
-    assert.equal(message, 'This field must be a valid email address');
+    assert.deepEqual(message, 'This field must be a valid email address');
   });
 
   test('email no option', function (assert) {
@@ -92,7 +92,7 @@ module('Unit | Validator | format', function (hooks) {
       )
     );
     invalidAddresses.forEach((email) =>
-      assert.equal(
+      assert.deepEqual(
         validator.validate(email, options),
         'This field must be a valid email address',
         `validation of ${email} must fail`
@@ -155,7 +155,7 @@ module('Unit | Validator | format', function (hooks) {
       )
     );
     invalidAddresses.forEach((email) =>
-      assert.equal(
+      assert.deepEqual(
         validator.validate(email, options),
         'This field must be a valid email address',
         `validation of ${email} must fail`
@@ -173,7 +173,7 @@ module('Unit | Validator | format', function (hooks) {
     options = validator.buildOptions(options, {}).toObject();
 
     message = validator.validate('123', options);
-    assert.equal(message, 'This field must be a valid phone number');
+    assert.deepEqual(message, 'This field must be a valid phone number');
 
     message = validator.validate('(408) 555-1234', options);
     assert.true(message);
@@ -189,7 +189,7 @@ module('Unit | Validator | format', function (hooks) {
     options = validator.buildOptions(options, {}).toObject();
 
     message = validator.validate('offirgolan', options);
-    assert.equal(message, 'This field must be a valid url');
+    assert.deepEqual(message, 'This field must be a valid url');
 
     message = validator.validate('http://www.offirgolan.com', options);
     assert.true(message);
@@ -205,7 +205,7 @@ module('Unit | Validator | format', function (hooks) {
     options = validator.buildOptions(options, {}).toObject();
 
     message = validator.validate('password', options);
-    assert.equal(message, 'This field is invalid');
+    assert.deepEqual(message, 'This field is invalid');
 
     message = validator.validate('Pass123', options);
     assert.true(message);

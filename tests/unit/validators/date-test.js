@@ -33,7 +33,7 @@ module('Unit | Validator | date', function (hooks) {
     assert.true(message);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be before January 1, 2015');
+    assert.deepEqual(message, 'This field must be before January 1, 2015');
   });
 
   test('valid date', function (assert) {
@@ -44,7 +44,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('abc', builtOptions.toObject());
-    assert.equal(message, 'This field must be a valid date');
+    assert.deepEqual(message, 'This field must be a valid date');
 
     message = validator.validate(new Date(), builtOptions.toObject());
     assert.true(message);
@@ -60,7 +60,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('27/3/2015', builtOptions.toObject());
-    assert.equal(message, 'This field must be a valid date');
+    assert.deepEqual(message, 'This field must be a valid date');
 
     message = validator.validate('03/27/15', builtOptions.toObject());
     assert.true(message);
@@ -77,7 +77,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be before 1/1/2015');
+    assert.deepEqual(message, 'This field must be before 1/1/2015');
   });
 
   test('before', function (assert) {
@@ -90,7 +90,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be before January 1, 2015');
+    assert.deepEqual(message, 'This field must be before January 1, 2015');
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
     assert.true(message);
@@ -106,7 +106,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be on or before January 1, 2015');
+    assert.deepEqual(message, 'This field must be on or before January 1, 2015');
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
     assert.true(message);
@@ -143,7 +143,7 @@ module('Unit | Validator | date', function (hooks) {
         moment(now).add(1, precision).toDate(),
         builtOptions.toObject()
       );
-      assert.equal(message, `This field must be on or before ${nowMessage}`);
+      assert.deepEqual(message, `This field must be on or before ${nowMessage}`);
 
       if (i + 1 !== precisions.length) {
         builtOptions = validator.buildOptions({
@@ -170,7 +170,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
-    assert.equal(message, 'This field must be after January 1, 2015');
+    assert.deepEqual(message, 'This field must be after January 1, 2015');
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
     assert.true(message);
@@ -186,7 +186,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
-    assert.equal(message, 'This field must be on or after January 1, 2015');
+    assert.deepEqual(message, 'This field must be on or after January 1, 2015');
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
     assert.true(message);
@@ -223,7 +223,7 @@ module('Unit | Validator | date', function (hooks) {
         moment(now).subtract(1, precision).toDate(),
         builtOptions.toObject()
       );
-      assert.equal(message, `This field must be on or after ${nowMessage}`);
+      assert.deepEqual(message, `This field must be on or after ${nowMessage}`);
 
       if (i + 1 !== precisions.length) {
         builtOptions = validator.buildOptions({

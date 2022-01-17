@@ -35,7 +35,7 @@ module('Unit | Validator | inclusion', function (hooks) {
     assert.true(message);
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
   });
 
   test('in array', function (assert) {
@@ -47,7 +47,7 @@ module('Unit | Validator | inclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate('foo', builtOptions.toObject());
     assert.true(message);
@@ -68,10 +68,10 @@ module('Unit | Validator | inclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(0, builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate(100, builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate(1, builtOptions.toObject());
     assert.true(message);
@@ -92,16 +92,16 @@ module('Unit | Validator | inclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('0', builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate(0, builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate('1', builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate('5', builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate(1, builtOptions.toObject());
     assert.true(message);
@@ -122,10 +122,10 @@ module('Unit | Validator | inclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(97, builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate('zzz', builtOptions.toObject());
-    assert.equal(message, 'This field is not included in the list');
+    assert.deepEqual(message, 'This field is not included in the list');
 
     message = validator.validate('a', builtOptions.toObject());
     assert.true(message);

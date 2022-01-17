@@ -40,7 +40,7 @@ module('Unit | Validator | collection', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('foo', builtOptions.toObject());
-    assert.equal(message, 'This field must be a collection');
+    assert.deepEqual(message, 'This field must be a collection');
   });
 
   test('singular - value is singular', function (assert) {
@@ -60,6 +60,6 @@ module('Unit | Validator | collection', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(['foo', 'bar'], builtOptions.toObject());
-    assert.equal(message, "This field can't be a collection");
+    assert.deepEqual(message, "This field can't be a collection");
   });
 });

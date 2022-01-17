@@ -36,7 +36,7 @@ module(
       obj.get('array').removeObject('bar');
 
       assert.false(obj.get('validations.attrs.array.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.array.message'),
         'Array must have 2 items'
       );
@@ -59,7 +59,7 @@ module(
       obj.get('errors').add('username', 'Username is not unique');
 
       assert.false(obj.get('validations.attrs.username.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.username.message'),
         'Username is not unique'
       );
@@ -85,7 +85,7 @@ module(
       obj.get('model.errors').add('username', 'Username is not unique');
 
       assert.false(obj.get('validations.attrs.model.username.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.model.username.message'),
         'Username is not unique'
       );
@@ -110,7 +110,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.fullName.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.fullName.message'),
         'Full name requires first and last name'
       );
@@ -146,7 +146,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.fullName.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.fullName.message'),
         'Full name requires first and last name'
       );
@@ -188,7 +188,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.fullName.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.fullName.message'),
         'Full name requires first, middle, and last name'
       );
@@ -236,7 +236,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.page.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.page.message'),
         'Cannot exceed max page'
       );
@@ -267,7 +267,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.friends.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.friends.message'),
         'User must have a friend'
       );
@@ -281,7 +281,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.friends.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.friends.message'),
         'User must have a friend'
       );
@@ -312,7 +312,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.friends.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.friends.message'),
         'User must have a friend'
       );
@@ -330,7 +330,7 @@ module(
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.friends.isValid'));
-      assert.equal(
+      assert.deepEqual(
         obj.get('validations.attrs.friends.message'),
         'All friends must have a name'
       );
