@@ -1,6 +1,4 @@
-import Mixin from '@ember/object/mixin';
 import { Promise } from 'rsvp';
-import { computed } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { assign } from '@ember/polyfills';
 import { cancel, debounce } from '@ember/runloop';
@@ -10,19 +8,12 @@ import { getOwner } from '@ember/application';
 import deepSet from '../utils/deep-set';
 import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
-import BaseValidator from '../validators/base';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { flatten } from '../utils/array';
 import getWithDefault from '../utils/get-with-default';
-import {
-  getDependentKeys,
-  isDescriptor,
-  isDsModel,
-  isValidatable,
-  isPromise,
-} from '../utils/utils';
+import { isValidatable, isPromise } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
   IS_VALIDATIONS_CLASS,
@@ -116,11 +107,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
             inheritedClass = Object.getPrototypeOf(this.constructor);
           }
 
-          Validations = createValidationsClass(
-            inheritedClass,
-            validations,
-            this
-          );
+          Validations = createValidationsClass(inheritedClass, validations);
         }
         return Validations;
       }
@@ -201,10 +188,9 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
  * @private
  * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
- * @param  {Object} model
  * @return {Ember.Object}
  */
-function createValidationsClass(inheritedValidationsClass, validations, model) {
+function createValidationsClass(inheritedValidationsClass, validations) {
   let validationRules = {};
   let validatableAttributes = Object.keys(validations);
 
@@ -233,11 +219,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   }, validationRules);
 
   // Create the `attrs` class which will add the current model reference once instantiated
-  let AttrsClass = createAttrsClass(
-    validatableAttributes,
-    validationRules,
-    model
-  );
+  let AttrsClass = createAttrsClass(validatableAttributes);
 
   // Create `validations` class
   return class ValidationsClass {
@@ -369,11 +351,9 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
  * @method createAttrsClass
  * @private
  * @param  {Object} validatableAttributes
- * @param  {Object} validationRules
- * @param  {Object} model
  * @return {Ember.Object}
  */
-function createAttrsClass(validatableAttributes, validationRules, model) {
+function createAttrsClass(validatableAttributes) {
   let nestedClasses = {};
   let rootPath = 'root';
 
@@ -442,63 +422,38 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       currClass = _nestedClasses[key];
     }
 
-    // Add the final attr's CP to the class
-    currClass.reopen({
-      [attr]: createCPValidationFor(
-        attribute,
-        model,
-        validationRules[attribute]
-      ),
+    Object.defineProperty(currClass.prototype, attr, {
+      get() {
+        return cycleBreaker(function () {
+          let model = this[ATTRS_MODEL];
+          let validators = !isNone(model)
+            ? getValidatorsFor(attribute, model)
+            : [];
+
+          let validationResults = generateValidationResultsFor(
+            attribute,
+            model,
+            validators,
+            (validator, options) => {
+              return validator.validate(
+                validator.getValue(),
+                options,
+                model,
+                attribute
+              );
+            }
+          );
+
+          return new ResultCollection({
+            attribute,
+            content: validationResults,
+          });
+        });
+      },
     });
   });
 
-  model = null;
-
   return AttrsClass;
-}
-
-/**
- * CP generator for the given attribute
- *
- * @method createCPValidationFor
- * @private
- * @param  {String} attribute
- * @param  {Object} model         Since the CPs are created once per class on the first initialization,
- *                                this is the first model that was instantiated
- * @param  {Array} validations
- * @return {Ember.ComputedProperty} A computed property which is a ResultCollection
- */
-function createCPValidationFor(attribute, model, validations) {
-  let dependentKeys = getCPDependentKeysFor(attribute, model, validations);
-
-  let cp = computed(
-    ...dependentKeys,
-    cycleBreaker(function () {
-      let model = this[ATTRS_MODEL];
-      let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-
-      let validationResults = generateValidationResultsFor(
-        attribute,
-        model,
-        validators,
-        (validator, options) => {
-          return validator.validate(
-            validator.getValue(),
-            options,
-            model,
-            attribute
-          );
-        }
-      );
-
-      return new ResultCollection({
-        attribute,
-        content: validationResults,
-      });
-    })
-  ).readOnly();
-
-  return cp;
 }
 
 /**
@@ -565,84 +520,6 @@ function generateValidationResultsFor(
 
     return result;
   });
-}
-
-/**
- * CP dependency generator for a give attribute depending on its relationships
- *
- * @method getCPDependentKeysFor
- * @private
- * @param  {String} attribute
- * @param  {Object} model         Since the CPs are created once per class on the first initialization,
- *                                this is the first model that was instantiated
- * @param  {Array} validations
- * @return {Array} Unique list of dependencies
- */
-function getCPDependentKeysFor(attribute, model, validations) {
-  let owner = getOwner(model);
-
-  let dependentKeys = validations.map((validation) => {
-    let { options } = validation;
-    let type = validation._type;
-    let Validator =
-      type === 'function' ? BaseValidator : lookupValidator(owner, type).class;
-    let baseDependents =
-      BaseValidator.getDependentsFor(attribute, options) || [];
-    let dependents = Validator.getDependentsFor(attribute, options) || [];
-
-    return [
-      ...baseDependents,
-      ...dependents,
-
-      // Get all explicitly defined dependents
-      ...getWithDefault(options, 'dependentKeys', []),
-      ...getWithDefault(validation, 'defaultOptions.dependentKeys', []),
-      ...getWithDefault(validation, 'globalOptions.dependentKeys', []),
-
-      // Extract implicit dependents from CPs
-      ...extractOptionsDependentKeys(options),
-      ...extractOptionsDependentKeys(validation.defaultOptions),
-      ...extractOptionsDependentKeys(validation.globalOptions),
-    ];
-  });
-
-  dependentKeys = flatten(dependentKeys);
-
-  dependentKeys.push(`model.${attribute}`);
-
-  if (isDsModel(model)) {
-    dependentKeys.push('model.isDeleted');
-  }
-
-  dependentKeys = dependentKeys.filter(Boolean).map((d) => {
-    return d.replace(/^model\./, `${ATTRS_MODEL}.`);
-  });
-
-  return emberArray(dependentKeys).uniq();
-}
-
-/**
- * Extract all dependentKeys from any property that is a CP
- *
- * @method extractOptionsDependentKeys
- * @private
- * @param  {Object} options
- * @return {Array}  dependentKeys
- */
-function extractOptionsDependentKeys(options) {
-  if (options && typeof options === 'object') {
-    return Object.keys(options).reduce((arr, key) => {
-      let option = options[key];
-
-      if (isDescriptor(option)) {
-        return arr.concat(getDependentKeys(option) || []);
-      }
-
-      return arr;
-    }, []);
-  }
-
-  return [];
 }
 
 /**
