@@ -10,7 +10,3 @@ export function callable(method) {
 
 export const uniq = callable('uniq');
 export const compact = callable('compact');
-
-export function flatten(array = []) {
-  return array.flat(Infinity);
-}
