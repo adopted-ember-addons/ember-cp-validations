@@ -26,8 +26,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'presence',
+export default class ValidatorsPresence extends EmberValidator {
+  _evType = 'presence';
 
   /**
    * Normalized options passed in.
@@ -53,6 +53,6 @@ export default EmberValidator.extend({
         presence: options,
       };
     }
-    return this._super(opts, defaultOptions, globalOptions);
-  },
-});
+    return super.buildOptions(opts, defaultOptions, globalOptions);
+  }
+}
