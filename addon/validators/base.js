@@ -286,7 +286,7 @@ export default class ValidatorsBase {
       );
     }
 
-    cache[type] = cache[type] || lookupValidator(getOwner(this), type).create();
+    cache[type] = cache[type] ?? new lookupValidator(getOwner(this), type);
     const result = cache[type].validate(...args);
 
     if (isPromise(result)) {
