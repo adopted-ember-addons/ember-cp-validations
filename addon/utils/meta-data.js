@@ -1,11 +1,6 @@
 import Ember from 'ember';
 
-let id = 0;
-const dataKey = symbol('data');
-
-function symbol(key) {
-  return `_${key}_${new Date().getTime()}_${id++}`;
-}
+const dataKey = Symbol('data');
 
 function getData(obj, s) {
   let m = Ember.meta(obj);
@@ -23,4 +18,4 @@ function setData(obj, s, value) {
   data[s] = value;
 }
 
-export default { symbol, getData, setData };
+export default { getData, setData };

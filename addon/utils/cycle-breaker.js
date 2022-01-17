@@ -8,7 +8,7 @@
 import MetaData from './meta-data';
 
 export default function cycleBreaker(fn, value) {
-  let key = MetaData.symbol('cycle');
+  let key = Symbol('cycle');
 
   if (MetaData.getData(this, key)) {
     return value;
