@@ -5,18 +5,36 @@
  * would point back to John. This method tracks which models have been already visited and breaks the cycle.
  */
 
-import MetaData from './meta-data';
+import Ember from 'ember';
+
+const dataKey = Symbol('data');
+
+function getData(obj, s) {
+  let m = Ember.meta(obj);
+  let data = m[dataKey];
+
+  if (data) {
+    return data[s];
+  }
+}
+
+function setData(obj, s, value) {
+  let m = Ember.meta(obj);
+  let data = (m[dataKey] = m[dataKey] || {});
+
+  data[s] = value;
+}
 
 export default function cycleBreaker(fn, value) {
   let key = Symbol('cycle');
 
-  if (MetaData.getData(this, key)) {
+  if (getData(this, key)) {
     return value;
   }
-  MetaData.setData(this, key, true);
+  setData(this, key, true);
   try {
     return fn.apply(this, arguments);
   } finally {
-    MetaData.setData(this, key, false);
+    setData(this, key, false);
   }
 }
