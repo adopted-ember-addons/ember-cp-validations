@@ -95,53 +95,6 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * ## A Note on Testing & Object Containers
- *
- * To lookup validators, container access is required, which can cause an issue with `Ember.Object` creation
- * if the object is statically imported. The current fix for this is as follows.
- *
- * **Ember < 2.3.0**
- *
- * ```javascript
- * // routes/index.js
- *
- * import User from '../models/user';
- *
- * export default Ember.Route.extend({
- *   model() {
- *     const container = this.get('container');
- *     return User.create({ username: 'John', container })
- *   }
- * });
- * ```
- *
- * **Ember >= 2.3.0**
- *
- * ```javascript
- * // routes/index.js
- *
- * import User from '../models/user';
- *
- * export default Ember.Route.extend({
- *   model() {
- *     return User.create(
- *      Ember.getOwner(this).ownerInjection(),
- *      { username: 'John' }
- *     );
- *   }
- * });
- * ```
- *
- * This also has ramifications for Ember Data model tests. When using [Ember QUnit's `moduleForModel`](https://github.com/emberjs/ember-qunit#ember-data-tests)
- * (or [Ember Mocha's `setupModelTest`](https://github.com/emberjs/ember-mocha#setup-model-tests)), you will need to specify all validators
- * that your model depends on:
- *
- * ```javascript
- * moduleForModel('foo', 'Unit | Model | model', {
- *   needs: ['validator:presence']
- * });
- * ```
- *
  * @module Usage
  * @submodule Basic
  */

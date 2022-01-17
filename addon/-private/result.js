@@ -248,9 +248,9 @@ export default class Result {
     if (isNone(value)) {
       return this.update(false);
     } else if (value.isValidations) {
-      this._overrideResult(Collection.create({ attribute, content: [value] }));
+      this._overrideResult(new Collection({ attribute, content: [value] }));
     } else if (isArray(value)) {
-      this._overrideResult(Collection.create({ attribute, content: value }));
+      this._overrideResult(new Collection({ attribute, content: value }));
     } else if (!this._isReadOnly) {
       this._overrideResult(undefined);
 

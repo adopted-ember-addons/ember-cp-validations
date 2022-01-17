@@ -609,7 +609,7 @@ function createValidatorsFor(attribute, model) {
 
   validationRules.forEach((v) => {
     const copy = Object.assign({ attribute, model }, v);
-    validators.push(lookupValidator(owner, v._type).create(copy));
+    validators.push(new lookupValidator(owner, v._type)(copy));
   });
 
   // Add validators to model instance cache

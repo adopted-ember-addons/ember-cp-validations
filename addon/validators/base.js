@@ -93,10 +93,7 @@ export default class ValidatorsBase {
     return {};
   }
 
-  constructor() {
-    let globalOptions = this.globalOptions;
-    let defaultOptions = this.defaultOptions;
-    let options = this.options;
+  constructor(props) {
     let owner = getOwner(this);
     let errorMessages;
 
@@ -106,7 +103,12 @@ export default class ValidatorsBase {
     }
 
     Object.assign(this, {
-      options: this.buildOptions(options, defaultOptions, globalOptions),
+      ...props,
+      options: this.buildOptions(
+        props.options,
+        props.defaultOptions,
+        props.globalOptions
+      ),
       errorMessages: (errorMessages ?? Messages).create(),
     });
   }
