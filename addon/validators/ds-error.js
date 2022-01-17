@@ -1,5 +1,4 @@
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
-import { getPathAndKey } from 'ember-validators/ds-error';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -17,8 +16,6 @@ import { getPathAndKey } from 'ember-validators/ds-error';
  *  @module Validators
  *  @extends Base
  */
-const DSError = EmberValidator.extend({
-  _evType: 'ds-error',
-});
-
-export default DSError;
+export default class ValidationsDSError extends EmberValidator {
+  _evType = 'ds-error';
+}
