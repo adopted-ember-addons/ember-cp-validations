@@ -22,7 +22,7 @@ import { assert } from '@ember/debug';
  *  @module Validators
  *  @extends Base
  */
-export default Base.extend({
+export default class ValidatorsInline extends Base {
   /**
    * Override the validator's `validate` method with the one that was
    * passed in via the options.
@@ -44,6 +44,6 @@ export default Base.extend({
     this.validate = opts.validate;
     delete opts.validate;
 
-    return this._super(opts, ...args);
-  },
-});
+    return super.buildOptions(opts, ...args);
+  }
+}
