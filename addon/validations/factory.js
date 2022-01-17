@@ -12,7 +12,6 @@ import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { flatten } from '../utils/array';
-import getWithDefault from '../utils/get-with-default';
 import { isValidatable, isPromise } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
@@ -484,10 +483,10 @@ function generateValidationResultsFor(
 
   return validators.map((validator) => {
     let options = validator.options.toObject();
-    let isWarning = getWithDefault(options, 'isWarning', false);
-    let disabled = getWithDefault(options, 'disabled', false);
-    let debounceOption = getWithDefault(options, 'debounce', 0);
-    let lazy = getWithDefault(options, 'lazy', true);
+    let isWarning = options.isWarning ?? false;
+    let disabled = options.disabled ?? false;
+    let debounceOption = options.debounce ?? 0;
+    let lazy = options.lazy ?? true;
 
     if (disabled || (lazy && isInvalid) || !isModelValidatable) {
       value = true;
