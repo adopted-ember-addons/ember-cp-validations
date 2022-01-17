@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-
 import { isPresent } from '@ember/utils';
 import { getProperties, get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
