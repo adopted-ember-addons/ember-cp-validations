@@ -1,7 +1,6 @@
-import { getProperties, get } from '@ember/object';
 import { assert } from '@ember/debug';
 import { isPresent, isEmpty, isNone } from '@ember/utils';
-import { isArray, A } from '@ember/array';
+import { A } from '@ember/array';
 import Base from 'ember-cp-validations/validators/base';
 
 /**
@@ -22,7 +21,7 @@ import Base from 'ember-cp-validations/validators/base';
  *  @module Validators
  *  @extends Base
  */
-const Dependent = Base.extend({
+export default class ValidatorsDependent extends Base {
   /**
    * @method validate
    * @param {Any} value
@@ -32,7 +31,7 @@ const Dependent = Base.extend({
    * @param {String} attribute
    */
   validate(value, options, model, attribute) {
-    let { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
+    let { on, allowBlank } = options;
 
     assert(
       `[validator:dependent] [${attribute}] option 'on' is required`,
@@ -48,7 +47,7 @@ const Dependent = Base.extend({
     }
 
     let dependentValidations = (options.on ?? A()).map(
-      (dependent) => get(model, `validations.attrs.${dependent}`)
+      (dependent) => model.validations.attrs[dependent]
     );
 
     if (!isEmpty(dependentValidations.filter((v) => v.isTruelyInvalid))) {
@@ -56,7 +55,5 @@ const Dependent = Base.extend({
     }
 
     return true;
-  },
-});
-
-export default Dependent;
+  }
+}
