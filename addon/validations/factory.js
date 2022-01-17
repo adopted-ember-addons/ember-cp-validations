@@ -5,7 +5,6 @@ import { cancel, debounce } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
-import deepSet from '../utils/deep-set';
 import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
@@ -211,11 +210,9 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     ).uniq();
   }
 
-  // Normalize nested keys into actual objects and merge them with parent object
-  Object.keys(validations).reduce((obj, key) => {
-    deepSet(obj, key, validations[key]);
-    return obj;
-  }, validationRules);
+  validatableAttributes.forEach((key) => {
+    validationRules[key] = validations[key];
+  });
 
   // Create the `attrs` class which will add the current model reference once instantiated
   let AttrsClass = createAttrsClass(validatableAttributes);
@@ -578,7 +575,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
   let debouncedValidations = model.validations._debouncedValidations;
 
   if (isNone(debouncedValidations[attribute])) {
-    deepSet(debouncedValidations, attribute, {});
+    debouncedValidations[attribute] = {};
   }
 
   return debouncedValidations[attribute];
@@ -613,7 +610,7 @@ function createValidatorsFor(attribute, model) {
   });
 
   // Add validators to model instance cache
-  deepSet(validatorCache, attribute, validators);
+  validatorCache[attribute] = validators;
 
   return validators;
 }
