@@ -1,5 +1,9 @@
 'use strict';
 
 module.exports = function (/* environment, appConfig */) {
-  return {};
+  return {
+    EmberENV: {
+      EXTEND_PROTOTYPES: false,
+    },
+  };
 };
