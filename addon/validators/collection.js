@@ -21,7 +21,7 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export class Collection extends EmberValidator {
+export default class Collection extends EmberValidator {
   _evType = 'collection';
 
   /**

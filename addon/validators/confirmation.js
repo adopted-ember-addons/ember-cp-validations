@@ -1,5 +1,3 @@
-import { get } from '@ember/object';
-import { assert } from '@ember/debug';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
@@ -23,8 +21,6 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-const Confirmation = EmberValidator.extend({
-  _evType: 'confirmation',
-});
-
-export default Confirmation;
+export default class Confirmation extends EmberValidator {
+  _evType = 'confirmation';
+}
