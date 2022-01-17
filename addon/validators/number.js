@@ -21,6 +21,6 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'number',
-});
+export default class ValidatorsNumber extends EmberValidator {
+  _evType = 'number';
+}
