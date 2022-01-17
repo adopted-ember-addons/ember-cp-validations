@@ -1,13 +1,9 @@
 // BEGIN-SNIPPET user-detail-model
-import { computed } from '@ember/object';
-
-import DS from 'ember-data';
 import moment from 'moment';
 import { validator, buildValidations } from 'ember-cp-validations';
+import Model, { attr } from '@ember-data/model';
 
-const { attr } = DS;
-
-const Validations = buildValidations(
+@buildValidations(
   {
     firstName: validator('presence', true),
     lastName: validator('presence', true),
@@ -16,14 +12,14 @@ const Validations = buildValidations(
       validators: [
         validator('presence', true),
         validator('date', {
-          before: computed(function () {
+          get before() {
             return new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(
               new Date()
             );
-          }),
-          after: computed(function () {
+          },
+          get after() {
             return moment().subtract(120, 'years').format('M/D/YYYY');
-          }),
+          },
           format: 'M/D/YYYY',
           message(type, value /*, context */) {
             if (type === 'before') {
@@ -55,13 +51,12 @@ const Validations = buildValidations(
   {
     debounce: 500,
   }
-);
-
-export default DS.Model.extend(Validations, {
-  firstName: attr('string'),
-  lastName: attr('string'),
-  dob: attr('date'),
-  phone: attr('string'),
-  url: attr('string'),
-});
+)
+export default class UserDetail extends Model {
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('date') dob;
+  @attr('string') phone;
+  @attr('string') url;
+}
 // END-SNIPPET

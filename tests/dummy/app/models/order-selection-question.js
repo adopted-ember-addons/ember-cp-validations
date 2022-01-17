@@ -1,7 +1,7 @@
-import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-const Validations = buildValidations(
+@buildValidations(
   {
     order: {
       description: 'Order',
@@ -19,10 +19,9 @@ const Validations = buildValidations(
   {
     debounce: 10,
   }
-);
-
-export default DS.Model.extend(Validations, {
-  order: DS.belongsTo('order', { async: true }),
-  selection: DS.belongsTo('order-selection', { async: true }),
-  text: DS.attr('string'),
-});
+)
+export default class OrderSelectionQuestion extends Model {
+  @belongsTo('order', { async: true }) order;
+  @belongsTo('order-selection', { async: true }) selection;
+  @attr('string') text;
+}

@@ -1,10 +1,8 @@
 // BEGIN-SNIPPET user-model
-import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-const { attr } = DS;
-
-const Validations = buildValidations(
+@buildValidations(
   {
     username: {
       description: 'Username',
@@ -53,12 +51,11 @@ const Validations = buildValidations(
   {
     debounce: 500,
   }
-);
-
-export default DS.Model.extend(Validations, {
-  username: attr('string'),
-  password: attr('string'),
-  email: attr('string'),
-  details: DS.belongsTo('user-detail'),
-});
+)
+export default class User extends Model {
+  @attr('string') username;
+  @attr('string') password;
+  @attr('string') email;
+  @belongsTo('user-detail') details;
+}
 // END-SNIPPET

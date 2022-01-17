@@ -1,10 +1,9 @@
-import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
+import Model, { attr } from '@ember-data/model';
 
-export const Validations = buildValidations({
+@buildValidations({
   name: validator('presence', { presence: true, description: 'Name' }),
-});
-
-export default DS.Model.extend(Validations, {
-  name: DS.attr('string'),
-});
+})
+export default class Company extends Model {
+  @attr('string') name;
+}

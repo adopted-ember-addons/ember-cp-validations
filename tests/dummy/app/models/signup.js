@@ -1,16 +1,15 @@
-import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
+import Model, { attr } from '@ember-data/model';
 
-let Validations = buildValidations({
+@buildValidations({
   name: validator('presence', true),
   acceptTerms: validator('inline', {
     validate(value) {
       return value || 'You must accept the terms.';
     },
   }),
-});
-
-export default DS.Model.extend(Validations, {
-  name: DS.attr('string', { defaultValue: '' }),
-  acceptTerms: DS.attr('boolean', { defaultValue: false }),
-});
+})
+export default class Signup extends Model {
+  @attr('string', { defaultValue: '' }) name;
+  @attr('boolean', { defaultValue: false }) acceptTerms;
+}
