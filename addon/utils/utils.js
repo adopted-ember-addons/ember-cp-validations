@@ -5,6 +5,7 @@ import { isHTMLSafe } from '@ember/template';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import Ember from 'ember';
+// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DS, { PromiseManyArray } from 'ember-data';
 import Model from '@ember-data/model';
 

@@ -2,7 +2,8 @@ import { Promise as EmberPromise } from 'rsvp';
 import ArrayProxy from '@ember/array/proxy';
 import { isNone } from '@ember/utils';
 import { A as emberArray } from '@ember/array';
-import DS from 'ember-data';
+// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
+import { PromiseArray, PromiseObject } from 'ember-data';
 import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
 import BelongsToValidator from 'ember-cp-validations/validators/belongs-to';
@@ -512,7 +513,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     };
 
     let user = setupObject(this, Validations, {
-      friend: DS.PromiseObject.create(),
+      friend: PromiseObject.create(),
     });
 
     let { validations, model } = user.get('validations').validateSync();
@@ -537,7 +538,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     };
 
     let user = setupObject(this, Validations, {
-      friends: DS.PromiseArray.create(),
+      friends: PromiseArray.create(),
     });
 
     let { validations, model } = user.get('validations').validateSync();

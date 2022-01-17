@@ -161,6 +161,7 @@ module('Unit | Validator | date', function (hooks) {
           moment(now).add(1, precisions).toDate(),
           builtOptions.toObject()
         );
+        // eslint-disable-next-line qunit/no-conditional-assertions
         assert.true(message);
       }
     }
@@ -241,6 +242,7 @@ module('Unit | Validator | date', function (hooks) {
           moment(now).subtract(1, precisions).toDate(),
           builtOptions.toObject()
         );
+        // eslint-disable-next-line qunit/no-conditional-assertions
         assert.true(message);
       }
     }

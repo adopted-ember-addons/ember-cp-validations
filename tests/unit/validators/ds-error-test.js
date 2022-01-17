@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DS from 'ember-data';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
