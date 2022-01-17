@@ -10,8 +10,6 @@ import Model from '@ember-data/model';
 
 const { canInvoke } = Ember;
 
-export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
-
 export function unwrapString(s) {
   if (isHTMLSafe(s)) {
     return s.toString();
