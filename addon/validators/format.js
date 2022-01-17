@@ -41,7 +41,7 @@ import { regularExpressions } from 'ember-validators/format';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'format',
-  regularExpressions,
-});
+export default class ValidatorsFormat extends EmberValidator {
+  _evType = 'format';
+  regularExpressions = regularExpressions;
+}
