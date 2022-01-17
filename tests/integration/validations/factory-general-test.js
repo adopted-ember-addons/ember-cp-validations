@@ -200,7 +200,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
       .get('validations')
       .validate()
       .then(({ validations, model }) => {
-        assert.deepEqual(model, object, 'expected model to be the correct model');
+        assert.deepEqual(
+          model,
+          object,
+          'expected model to be the correct model'
+        );
         assert.deepEqual(
           validations.get('content').getEach('attribute').sort(),
           ['firstName', 'lastName'].sort()
@@ -240,7 +244,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
         assert.true(object.get('validations.attrs.firstName.isValid'));
         assert.false(object.get('validations.attrs.firstName.isValidating'));
-        assert.deepEqual(object.get('validations.attrs.firstName.message'), null);
+        assert.deepEqual(object.validations.attrs.firstName.message, null);
 
         assert.false(object.get('validations.attrs.lastName.isValid'));
         assert.false(object.get('validations.attrs.lastName.isValidating'));
@@ -331,7 +335,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.false(object.get('validations.attrs.firstName.isValid'));
     assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.deepEqual(object.get('validations.attrs.firstName.message'), undefined);
+    assert.deepEqual(object.validations.attrs.firstName.message, undefined);
   });
 
   test('shallow isAsync test', function (assert) {
@@ -636,7 +640,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
-        disabled: not('model.validateLastName'),
+        get disabled() {
+          return !this.model.validateLastName;
+        },
       }),
     };
     let object = setupObject(this, Validations, {
@@ -699,7 +705,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
       Object.keys(options).sort(),
       ['presence', 'length', 'inline'].sort()
     );
-    assert.ok(isArray(options['inline']) && options['inline'].length === 2);
+    assert.ok(isArray(options.inline));
+    assert.strictEqual(options.inline.length, 2);
     assert.ok(options.presence.presence);
     assert.deepEqual(options.length.min, 1);
     assert.ok(options['inline'][1].presence);
@@ -718,7 +725,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
         validators: [
           validator('length', {
             min: 1,
-            max: readOnly('model.max'),
+            get max() {
+              return this.model.max;
+            },
           }),
         ],
       },
@@ -853,7 +862,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
         assert.true(model.get('validations.isValid'));
         assert.false(validations.get('isValid'));
         assert.false(validations.get('isValidating'));
-        assert.deepEqual(validations.get('message'), 'firstName should be present');
+        assert.deepEqual(
+          validations.get('message'),
+          'firstName should be present'
+        );
       });
   });
 
@@ -924,7 +936,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
     );
 
     assert.false(object.get('validations.attrs.password.isValid'));
-    assert.deepEqual(object.get('validations.attrs.password.warnings.length'), 2);
+    assert.deepEqual(
+      object.get('validations.attrs.password.warnings.length'),
+      2
+    );
     assert.deepEqual(
       object.get('validations.attrs.password.warningMessage'),
       'Password should not be empty'
@@ -938,7 +953,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.get('validations.isValid'));
     assert.true(object.get('validations.attrs.password.isValid'));
-    assert.deepEqual(object.get('validations.attrs.password.warnings.length'), 1);
+    assert.deepEqual(
+      object.get('validations.attrs.password.warnings.length'),
+      1
+    );
     assert.deepEqual(
       object.get('validations.attrs.password.warningMessage'),
       'Password is weak'
@@ -956,8 +974,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
         validators: [
           validator('presence', {
             presence: true,
-            isWarning: readOnly('model.isWarning'),
             message: '{description} should not be empty',
+            get isWarning() {
+              return this.model.isWarning;
+            },
           }),
           validator('length', {
             min: 1,
@@ -988,10 +1008,17 @@ module('Integration | Validations | Factory - General', function (hooks) {
     @buildValidations(
       {
         firstName: {
-          description: readOnly('model.description'),
+          get description() {
+            return this.model.description;
+          },
           validators: [
             validator('length', {
-              min: alias('model.minLength'),
+              get min() {
+                return this.model.minLength;
+              },
+              set min(val) {
+                this.model.minLength = val;
+              },
             }),
           ],
         },
@@ -1118,7 +1145,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
       object.get('validations.attrs.password.message'),
       'Password is not valid'
     );
-    assert.deepEqual(customValidatorCount, 1, 'Last validator only executed once');
+    assert.deepEqual(
+      customValidatorCount,
+      1,
+      'Last validator only executed once'
+    );
   });
 
   test('none lazy validators are actually not lazy', function (assert) {
@@ -1185,7 +1216,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
       object.get('validations.attrs.password.message'),
       'Password is not valid'
     );
-    assert.deepEqual(customValidatorCount, 3, 'Last validator executed 3 times');
+    assert.deepEqual(
+      customValidatorCount,
+      3,
+      'Last validator executed 3 times'
+    );
   });
 
   test('validator should return correct error type', function (assert) {
