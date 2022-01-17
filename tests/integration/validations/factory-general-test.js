@@ -37,7 +37,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation – invalid', function (assert) {
-    let object = setupObject(this, EmberObject.extend(Validations));
+    @buildValidations(Validations)
+    class object {}
 
     assert.false(
       object.get('validations.isValid'),

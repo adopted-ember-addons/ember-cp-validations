@@ -6,7 +6,7 @@ import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import ValidationResult from '../-private/result';
-import ResultCollection from './result-collection';
+import ResultCollection from '../validations/result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidatorClass from '../utils/lookup-validator-class';
