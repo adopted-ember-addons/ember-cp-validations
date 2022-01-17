@@ -92,55 +92,61 @@ const VALIDATION_COUNT_MAP = new WeakMap();
  * @return {Ember.Mixin}
  */
 export default function buildValidations(validations = {}, globalOptions = {}) {
-  normalizeOptions(validations, globalOptions);
+  return function (DecoratedClass) {
+    normalizeOptions(validations, globalOptions);
+    let Validations, validationMixinCount;
 
-  let Validations, validationMixinCount;
+    return class ValidatedClass extends DecoratedClass {
+      constructor() {
+        super(...arguments);
 
-  return Mixin.create({
-    init() {
-      this._super(...arguments);
-
-      // Count number of mixins to bypass super check if there is more than 1
-      validationMixinCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
-      VALIDATION_COUNT_MAP.set(this, validationMixinCount);
-    },
-    [VALIDATIONS_CLASS]: computed(function () {
-      if (!Validations) {
-        let inheritedClass;
-
-        if (
-          shouldCallSuper(this, VALIDATIONS_CLASS) ||
-          validationMixinCount > 1
-        ) {
-          inheritedClass = this._super();
-        }
-
-        Validations = createValidationsClass(inheritedClass, validations, this);
+        // Count number of mixins to bypass super check if there is more than 1
+        validationMixinCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
+        VALIDATION_COUNT_MAP.set(this, validationMixinCount);
       }
-      return Validations;
-    }).readOnly(),
 
-    validations: computed(function () {
-      return new this[VALIDATIONS_CLASS](this);
-    }).readOnly(),
+      get [VALIDATIONS_CLASS]() {
+        if (!Validations) {
+          let inheritedClass;
 
-    validate() {
-      return this.validations.validate(...arguments);
-    },
+          if (
+            shouldCallSuper(this, VALIDATIONS_CLASS) ||
+            validationMixinCount > 1
+          ) {
+            inheritedClass = Object.getPrototypeOf(this.constructor);
+          }
 
-    validateSync() {
-      return this.validations.validateSync(...arguments);
-    },
+          Validations = createValidationsClass(
+            inheritedClass,
+            validations,
+            this
+          );
+        }
+        return Validations;
+      }
 
-    validateAttribute() {
-      return this.validations.validateAttribute(...arguments);
-    },
+      get validations() {
+        return new this[VALIDATIONS_CLASS](this);
+      }
 
-    destroy() {
-      this._super(...arguments);
-      this.validations.destroy();
-    },
-  });
+      validate() {
+        return this.validations.validate(...arguments);
+      }
+
+      validateSync() {
+        return this.validations.validateSync(...arguments);
+      }
+
+      validateAttribute() {
+        return this.validations.validateAttribute(...arguments);
+      }
+
+      destroy() {
+        super.destroy(...arguments);
+        this.validations.destroy();
+      }
+    };
+  };
 }
 
 /**
