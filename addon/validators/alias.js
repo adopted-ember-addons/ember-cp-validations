@@ -23,7 +23,7 @@ import Base from 'ember-cp-validations/validators/base';
  *  @module Validators
  *  @extends Base
  */
-export default class Alias extends Base {
+export default class ValidatorsAlias extends Base {
   /**
    * Normalized options passed in.
    * ```js

@@ -24,7 +24,7 @@ class TestResult {
  * @class Base
  * @module Validators
  */
-export default class Base {
+export default class ValidatorsBase {
   /**
    * Options passed in to the validator when defined in the model
    * @property options

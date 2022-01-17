@@ -21,6 +21,6 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default class Confirmation extends EmberValidator {
+export default class ValidatorsConfirmation extends EmberValidator {
   _evType = 'confirmation';
 }

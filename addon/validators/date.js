@@ -25,6 +25,6 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'date',
-});
+export default class ValidatorsDate extends EmberValidator {
+  _evType = 'date';
+}

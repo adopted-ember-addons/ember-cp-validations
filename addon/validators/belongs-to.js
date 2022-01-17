@@ -70,7 +70,7 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  @module Validators
  *  @extends Base
  */
-export default class BelongsTo extends Base {
+export default class ValidatorsBelongsTo extends Base {
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
