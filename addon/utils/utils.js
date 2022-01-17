@@ -2,7 +2,6 @@ import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { assign } from '@ember/polyfills';
 import { isHTMLSafe } from '@ember/template';
-import EmberObject, { get } from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import Ember from 'ember';
@@ -43,10 +42,6 @@ export function isDSManyArray(o) {
     isArray(o) &&
     (o instanceof PromiseManyArray || o instanceof DS.ManyArray)
   );
-}
-
-export function isEmberObject(o) {
-  return !!(o && o instanceof EmberObject);
 }
 
 export function isObject(o) {
