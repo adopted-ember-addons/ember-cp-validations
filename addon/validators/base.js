@@ -1,5 +1,3 @@
-import { bool } from '@ember/object/computed';
-import EmberObject, { set, get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import Messages from 'ember-cp-validations/validators/messages';
@@ -11,11 +9,14 @@ import {
   mergeOptions,
   isPromise,
 } from 'ember-cp-validations/utils/utils';
+import { tracked } from '@glimmer/tracking';
 
 class TestResult {
   constructor(result) {
-    this.isValid = result === true;
-    this.message = typeof result === 'string' ? result : null;
+    Object.assign(this, {
+      isValid: result === true,
+      message: typeof result === 'string' ? result : null,
+    });
   }
 }
 
@@ -23,54 +24,56 @@ class TestResult {
  * @class Base
  * @module Validators
  */
-const Base = EmberObject.extend({
+class Base {
   /**
    * Options passed in to the validator when defined in the model
    * @property options
    * @type {Object}
    */
-  options: null,
+  @tracked options;
 
   /**
    * Default validation options for this specific attribute
    * @property defaultOptions
    * @type {Object}
    */
-  defaultOptions: null,
+  @tracked defaultOptions;
 
   /**
    * Global validation options for this model
    * @property globalOptions
    * @type {Object}
    */
-  globalOptions: null,
+  @tracked globalOptions;
 
   /**
    * Model instance
    * @property model
    * @type {Model}
    */
-  model: null,
+  @tracked model;
 
   /**
    * Attributed name of the model this validator is attached to
    * @property attribute
    * @type {String}
    */
-  attribute: null,
+  @tracked attribute;
 
   /**
    * Error message object. Populated by validators/messages
    * @property errorMessages
    * @type {Object}
    */
-  errorMessages: null,
+  @tracked errorMessages;
 
   /**
    * @property isWarning
    * @type {Boolean}
    */
-  isWarning: bool('options.isWarning').readOnly(),
+  get isWarning() {
+    return this.options.isWarning;
+  }
 
   /**
    * Validator type
@@ -78,7 +81,7 @@ const Base = EmberObject.extend({
    * @private
    * @type {String}
    */
-  _type: null,
+  @tracked _type;
 
   /**
    * Validators cache used by `test` api
@@ -86,10 +89,11 @@ const Base = EmberObject.extend({
    * @private
    * @type {Object}
    */
-  _testValidatorCache: computed(() => ({})).readOnly(),
+  get _testValidatorCache() {
+    return {};
+  }
 
-  init() {
-    this._super(...arguments);
+  constructor() {
     let globalOptions = this.globalOptions;
     let defaultOptions = this.defaultOptions;
     let options = this.options;
@@ -101,16 +105,11 @@ const Base = EmberObject.extend({
       errorMessages = owner.factoryFor('validator:messages');
     }
 
-    // If for some reason, we can't find the messages object (i.e. unit tests), use default
-    errorMessages = errorMessages || Messages;
-
-    set(
-      this,
-      'options',
-      this.buildOptions(options, defaultOptions, globalOptions)
-    );
-    set(this, 'errorMessages', errorMessages.create());
-  },
+    Object.assign(this, {
+      options: this.buildOptions(options, defaultOptions, globalOptions),
+      errorMessages: (errorMessages ?? Messages).create(),
+    });
+  }
 
   /**
    * Build options hook. Merges default options into options object.
@@ -135,7 +134,7 @@ const Base = EmberObject.extend({
       attribute: this.attribute,
       options: builtOptions,
     });
-  },
+  }
 
   /**
    * Used to retrieve the value to validate.
@@ -148,8 +147,8 @@ const Base = EmberObject.extend({
    * @return The current value of `model[attribute]`
    */
   value(model, attribute) {
-    return get(model, attribute);
-  },
+    return model[attribute];
+  }
 
   /**
    * Wrapper method to `value` that passes the necessary parameters
@@ -161,7 +160,7 @@ const Base = EmberObject.extend({
   getValue() {
     let value = this.value(this.model, this.attribute);
     return getValidatableValue(value);
-  },
+  }
 
   /**
    * The validate method is where all of your logic should go.
@@ -180,7 +179,7 @@ const Base = EmberObject.extend({
    */
   validate() {
     return true;
-  },
+  }
 
   /**
    * Used by all pre-defined validators to build an error message that is present
@@ -217,11 +216,7 @@ const Base = EmberObject.extend({
     let messages = this.errorMessages;
     let message = unwrapString(options.message);
 
-    set(
-      options,
-      'description',
-      messages.getDescriptionFor(this.attribute, options)
-    );
+    options.description = messages.getDescriptionFor(this.attribute, options);
 
     if (message) {
       if (typeof message === 'string') {
@@ -237,7 +232,7 @@ const Base = EmberObject.extend({
     }
 
     return message.trim();
-  },
+  }
 
   /**
    * Easily compose complicated validations by using this method to validate
@@ -300,23 +295,8 @@ const Base = EmberObject.extend({
     }
 
     return new TestResult(result);
-  },
-});
-
-Base.reopenClass({
-  /**
-   * Generate the needed dependent keys for this validator
-   *
-   * @method getDependentsFor
-   * @static
-   * @param  {String} attribute
-   * @param  {Object} options
-   * @return {Array} dependent keys
-   */
-  getDependentsFor() {
-    return [];
-  },
-});
+  }
+}
 
 export default Base;
 
@@ -340,12 +320,6 @@ export default Base;
  * const UniqueUsername = BaseValidator.extend({
  *   validate(value, options, model, attribute) {
  *     return true;
- *   }
- * });
- *
- * UniqueUsername.reopenClass({
- *   getDependentsFor(attribute, options) {
- *     return [];
  *   }
  * });
  *
@@ -383,37 +357,6 @@ export default Base;
  *   }
  * });
  * ```
- *
- * ## Dependent Keys
- *
- * There will be times when your validator will be dependent on some other property or object. Instead of having to
- * include them in your option's `dependentKeys`, you can declare them in the static `getDependentsFor` hook. This hook
- * receives two parameters. The first is the `attribute` that this validator is being added to, and the second are the `options`
- * there were passed to this validator.
- *
- * From the above code sample:
- *
- * ```javascript
- * // app/validators/unique-username.js
- *
- * import BaseValidator from 'ember-cp-validations/validators/base';
- *
- * const UniqueUsername = BaseValidator.extend({});
- *
- * UniqueUsername.reopenClass({
- *   getDependentsFor(attribute, options) {
- *     return [];
- *   }
- * });
- *
- * export default UniqueUsername;
- * ```
- *
- * All dependent keys are in reference to the model's `validations.attrs` object. So when you return `['username']`,
- * it will add a dependent to `model.validations.attrs.username`. If you want to add a dependent on the model, your
- * key needs to be prefixed with `model`. So when you return `['model.username']`, it will add a dependent to `model.username` instead of `model.validations.attrs.username`.
- * This means that if you have a dependent on a service, that service must be injected into the model since returning `['model.myService.someProperty']`
- * will be interpreted as `model.myService.someProperty`.
  *
  * ## Usage
  *

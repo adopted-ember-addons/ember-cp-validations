@@ -79,17 +79,4 @@ const Alias = Base.extend({
   },
 });
 
-Alias.reopenClass({
-  getDependentsFor(attribute, options) {
-    let alias = typeof options === 'string' ? options : options.alias;
-
-    assert(
-      `[validator:alias] [${attribute}] 'alias' must be a string`,
-      typeof alias === 'string'
-    );
-
-    return [`${alias}.messages.[]`, `${alias}.isTruelyValid`];
-  },
-});
-
 export default Alias;

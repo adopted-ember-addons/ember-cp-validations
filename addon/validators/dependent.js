@@ -59,21 +59,4 @@ const Dependent = Base.extend({
   },
 });
 
-Dependent.reopenClass({
-  getDependentsFor(attribute, options) {
-    let dependents = options.on;
-
-    assert(
-      `[validator:dependent] [${attribute}] 'on' must be an array`,
-      isArray(dependents)
-    );
-
-    if (!isEmpty(dependents)) {
-      return dependents.map((dependent) => `${dependent}.isTruelyValid`);
-    }
-
-    return [];
-  },
-});
-
 export default Dependent;

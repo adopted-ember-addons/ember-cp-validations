@@ -63,19 +63,4 @@ const HasMany = Base.extend({
   },
 });
 
-HasMany.reopenClass({
-  getDependentsFor(attribute) {
-    /*
-      The content.@each.isDeleted must be added for older ember-data versions
-     */
-    return [
-      `model.${attribute}.[]`,
-      `model.${attribute}.@each.isDeleted`,
-      `model.${attribute}.content.@each.isDeleted`,
-      `model.${attribute}.@each.validations`,
-      `model.${attribute}.content.@each.validations`,
-    ];
-  },
-});
-
 export default HasMany;

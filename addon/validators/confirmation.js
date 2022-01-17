@@ -27,17 +27,4 @@ const Confirmation = EmberValidator.extend({
   _evType: 'confirmation',
 });
 
-Confirmation.reopenClass({
-  getDependentsFor(attribute, options) {
-    let on = options.on;
-
-    assert(
-      `[validator:confirmation] [${attribute}] 'on' must be a string`,
-      typeof on === 'string'
-    );
-
-    return on ? [`model.${on}`] : [];
-  },
-});
-
 export default Confirmation;

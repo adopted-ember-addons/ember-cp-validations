@@ -21,12 +21,4 @@ const DSError = EmberValidator.extend({
   _evType: 'ds-error',
 });
 
-DSError.reopenClass({
-  getDependentsFor(attribute) {
-    let { path, key } = getPathAndKey(attribute);
-
-    return [`model.${path}.${key}.[]`];
-  },
-});
-
 export default DSError;

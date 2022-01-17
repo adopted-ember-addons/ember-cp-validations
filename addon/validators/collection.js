@@ -53,12 +53,4 @@ const Collection = EmberValidator.extend({
   },
 });
 
-Collection.reopenClass({
-  getDependentsFor(attribute, options) {
-    return options === true || options.collection === true
-      ? [`model.${attribute}.[]`]
-      : [];
-  },
-});
-
 export default Collection;

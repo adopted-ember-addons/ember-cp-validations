@@ -85,15 +85,4 @@ const BelongsTo = Base.extend({
   },
 });
 
-BelongsTo.reopenClass({
-  getDependentsFor(attribute) {
-    return [
-      `model.${attribute}.isDeleted`,
-      `model.${attribute}.content.isDeleted`,
-      `model.${attribute}.validations`,
-      `model.${attribute}.content.validations`,
-    ];
-  },
-});
-
 export default BelongsTo;
