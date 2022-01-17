@@ -5,16 +5,10 @@
  */
 import { isDescriptor } from './utils';
 import { isNone } from '@ember/utils';
-import EmberObject, { defineProperty, set, get } from '@ember/object';
+import { defineProperty, set, get } from '@ember/object';
 
-export default function deepSet(
-  obj,
-  path,
-  value,
-  useEmberObject = false,
-  delimiter = '.'
-) {
-  let keyPath = path.split(delimiter);
+export default function deepSet(obj, path, value) {
+  let keyPath = path.split('.');
   let lastKeyIndex = keyPath.length - 1;
   let currObj = obj;
 
@@ -24,7 +18,7 @@ export default function deepSet(
 
     // Create a new object if it doesnt exist
     if (isNone(get(currObj, key))) {
-      set(currObj, key, useEmberObject ? EmberObject.create() : {});
+      set(currObj, key, {});
     }
     currObj = get(currObj, key);
   }
