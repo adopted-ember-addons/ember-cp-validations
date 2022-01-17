@@ -47,23 +47,6 @@ import { deprecate } from '@ember/application/deprecations';
  * })
  * ```
  *
- * ### dependentKeys
- *
- * A list of other model specific dependents for you validator.
- *
- * ```javascript
- * // Examples
- * validator('has-friends', {
- *   dependentKeys: ['model.friends.[]']
- * })
- * validator('has-valid-friends', {
- *   dependentKeys: ['model.friends.@each.username']
- * })
- * validator('x-validator', {
- *   dependentKeys: ['model.username', 'model.email', 'model.meta.foo.bar']
- * })
- * ```
- *
  * ### disabled
  *
  * Default: __false__
@@ -120,8 +103,7 @@ import { deprecate } from '@ember/application/deprecations';
  * ### value
  *
  * Used to retrieve the value to validate. This will overwrite the validator's default `value` method.
- * By default this returns `model[attribute]`. If you are dependent on other model attributes, you will
- * need to add them as `dependentKeys`.
+ * By default this returns `model[attribute]`.
  *
  * ```javascript
  * // Examples
@@ -132,7 +114,6 @@ import { deprecate } from '@ember/application/deprecations';
  *   }
  * })
  * validator('number', {
- *   dependentKeys: ['someOtherAttr'],
  *   value(model, attribute) {
  *    // Validate a value that is not the current attribute
  *    return this.get('model').get('someOtherAttr');

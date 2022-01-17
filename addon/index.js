@@ -148,8 +148,6 @@ import Validator from './validations/validator';
  * ### Global Options
  *
  * If you have  specific options you want to propagate through all your validation rules, you can do so by passing in a global options object.
- * This is ideal for when you have a dependent key that each validator requires such as the current locale from your i18n implementation, or
- * you want easily toggle your validations on/off. As of 3.x, all dependent keys must be prefixed with `model`.
  *
  * ```javascript
  * const Validations = buildValidations(validationRules, globalOptions);
@@ -165,23 +163,18 @@ import Validator from './validations/validator';
  *     validators: [
  *       validator('presence', {
  *         presence: true,
- *         dependentKeys: ['model.foo', 'model.bar']
  *       })
  *      ]
  *    },
  *   lastName: validator('presence', true)
  * }, {
  *   description: 'This field'
- *   dependentKeys: ['model.i18n.locale'],
  *   disabled: computed.readOnly('model.disableValidations')
  * });
  * ```
  *
  * Just like in the default options, locale validator options will always take precedence over default options and default options will always take precedence
  * over global options. This allows you to declare global rules while having the ability to override them in lower levels.
- *
- * This rule does not apply to `dependentKeys`, instead they all are merged. In the example above, __firstName__'s dependentKeys will be
- * `['model.i18n.locale', 'model.foo', 'model.bar']`
  *
  * ### Computed Options
  *
