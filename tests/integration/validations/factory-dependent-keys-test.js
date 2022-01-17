@@ -5,7 +5,7 @@ import setupObject from '../../helpers/setup-object';
 import CollectionValidator from 'dummy/validators/collection';
 import LengthValidator from 'dummy/validators/length';
 import DSErrorValidator from 'dummy/validators/ds-error';
-import { validator, buildValidations } from 'ember-cp-validations';
+import { validator } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
@@ -18,7 +18,7 @@ module(
       this.owner.register('validator:collection', CollectionValidator);
       this.owner.register('validator:length', LengthValidator);
 
-      let CollectionValidations = buildValidations({
+      let CollectionValidations = {
         array: [
           validator('collection', true),
           validator('length', {
@@ -26,8 +26,9 @@ module(
             message: 'Array must have {is} items',
           }),
         ],
-      });
-      let obj = setupObject(this, EmberObject.extend(CollectionValidations), {
+      };
+
+      let obj = setupObject(this, CollectionValidations, {
         array: A(['foo', 'bar']),
       });
 
@@ -46,10 +47,10 @@ module(
       this.owner.register('validator:ds-error', DSErrorValidator);
       this.owner.register('validator:length', LengthValidator);
 
-      let DSErrorValidations = buildValidations({
+      let DSErrorValidations = {
         username: validator('ds-error'),
-      });
-      let obj = setupObject(this, EmberObject.extend(DSErrorValidations), {
+      };
+      let obj = setupObject(this, DSErrorValidations, {
         errors: DS.Errors.create(),
         username: '',
       });
@@ -69,11 +70,11 @@ module(
       this.owner.register('validator:ds-error', DSErrorValidator);
       this.owner.register('validator:length', LengthValidator);
 
-      let DSErrorValidations = buildValidations({
+      let DSErrorValidations = {
         'model.username': validator('ds-error'),
-      });
+      };
 
-      let obj = setupObject(this, EmberObject.extend(DSErrorValidations), {
+      let obj = setupObject(this, DSErrorValidations, {
         model: EmberObject.create({
           errors: DS.Errors.create(),
           username: '',
@@ -92,7 +93,7 @@ module(
     });
 
     test('custom dependent keys - simple', function (assert) {
-      let Validations = buildValidations({
+      let Validations = {
         fullName: validator('inline', {
           dependentKeys: ['model.firstName', 'model.lastName'],
           validate(value, options, model) {
@@ -104,9 +105,9 @@ module(
             return true;
           },
         }),
-      });
+      };
 
-      let obj = setupObject(this, EmberObject.extend(Validations));
+      let obj = setupObject(this, Validations);
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.fullName.isValid'));
@@ -123,7 +124,7 @@ module(
     });
 
     test('custom dependent keys - default options', function (assert) {
-      let Validations = buildValidations({
+      let Validations = {
         fullName: {
           dependentKeys: ['model.firstName'],
           validators: [
@@ -140,9 +141,9 @@ module(
             }),
           ],
         },
-      });
+      };
 
-      let obj = setupObject(this, EmberObject.extend(Validations));
+      let obj = setupObject(this, Validations);
 
       assert.false(obj.get('validations.isValid'));
       assert.false(obj.get('validations.attrs.fullName.isValid'));
@@ -158,57 +159,9 @@ module(
       assert.true(obj.get('validations.attrs.fullName.isValid'));
     });
 
-    test('custom dependent keys - global options', function (assert) {
-      let Validations = buildValidations(
-        {
-          fullName: {
-            dependentKeys: ['model.firstName'],
-            validators: [
-              validator('inline', {
-                dependentKeys: ['model.lastName'],
-                validate(value, options, model) {
-                  let firstName = model.get('firstName');
-                  let lastName = model.get('lastName');
-                  let middleName = model.get('middleName');
-                  if (!firstName || !lastName || !middleName) {
-                    return 'Full name requires first, middle, and last name';
-                  }
-                  return true;
-                },
-              }),
-            ],
-          },
-        },
-        {
-          dependentKeys: ['model.middleName'],
-        }
-      );
-
-      let obj = setupObject(this, EmberObject.extend(Validations));
-
-      assert.false(obj.get('validations.isValid'));
-      assert.false(obj.get('validations.attrs.fullName.isValid'));
-      assert.deepEqual(
-        obj.get('validations.attrs.fullName.message'),
-        'Full name requires first, middle, and last name'
-      );
-
-      obj.set('firstName', 'Offir');
-      obj.set('lastName', 'Golan');
-
-      assert.false(obj.get('validations.isValid'));
-      assert.false(obj.get('validations.attrs.fullName.isValid'));
-
-      obj.set('middleName', 'David');
-
-      assert.true(obj.get('validations.isValid'));
-      assert.true(obj.get('validations.attrs.fullName.isValid'));
-    });
-
     test('custom dependent keys - nested object', function (assert) {
-      let Validations = buildValidations({
+      let Validations = {
         page: validator('inline', {
-          dependentKeys: ['model.currPage', 'model.meta.pages.last'],
           validate(value, options, model) {
             let currPage = model.get('currPage');
             let lastPage = model.get('meta.pages.last');
@@ -218,9 +171,9 @@ module(
             return true;
           },
         }),
-      });
+      };
 
-      let obj = setupObject(this, EmberObject.extend(Validations), {
+      let obj = setupObject(this, Validations, {
         meta: {
           pages: {
             last: 5,
@@ -248,9 +201,8 @@ module(
     });
 
     test('custom dependent keys - array', function (assert) {
-      let Validations = buildValidations({
+      let Validations = {
         friends: validator('inline', {
-          dependentKeys: ['model.friends.[]'],
           validate(value, options, model) {
             let friends = model.get('friends');
             if (!friends || friends.length === 0) {
@@ -259,9 +211,9 @@ module(
             return true;
           },
         }),
-      });
+      };
 
-      let obj = setupObject(this, EmberObject.extend(Validations), {
+      let obj = setupObject(this, Validations, {
         friends: A(),
       });
 
@@ -288,9 +240,8 @@ module(
     });
 
     test('custom dependent keys - array of objects', function (assert) {
-      let Validations = buildValidations({
+      let Validations = {
         friends: validator('inline', {
-          dependentKeys: ['model.friends.@each.name'],
           validate(value, options, model) {
             let friends = model.get('friends');
             if (!friends || friends.length === 0) {
@@ -304,9 +255,9 @@ module(
             return true;
           },
         }),
-      });
+      };
 
-      let obj = setupObject(this, EmberObject.extend(Validations), {
+      let obj = setupObject(this, Validations, {
         friends: A(),
       });
 

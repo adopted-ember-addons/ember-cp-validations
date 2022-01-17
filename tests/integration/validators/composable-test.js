@@ -4,14 +4,14 @@ import PresenceValidator from 'ember-cp-validations/validators/presence';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import EmberObject from '@ember/object';
 import setupObject from '../../helpers/setup-object';
-import { validator, buildValidations } from 'ember-cp-validations';
+import { validator } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { Promise } from 'rsvp';
 
-const ComposedValidations = buildValidations({
+const ComposedValidations = {
   value: validator('composed'),
-});
+};
 
 module('Integration | Validators | Composable', function (hooks) {
   setupTest(hooks);
@@ -26,20 +26,20 @@ module('Integration | Validators | Composable', function (hooks) {
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register(
       'validator:composed',
-      BaseValidator.extend({
+      class ComposedValidator extends BaseValidator {
         validate(value) {
           return this.test('presence', value, { presence: true });
-        },
-      })
+        }
+      }
     );
 
-    const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
+    const obj = setupObject(this, ComposedValidations, {
       value: '',
     });
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.deepEqual(obj.get('validations.message'), "This field can't be blank");
+    assert.deepEqual(obj.validations.message, "This field can't be blank");
 
     obj.set('value', 'foo');
 
@@ -73,13 +73,13 @@ module('Integration | Validators | Composable', function (hooks) {
       })
     );
 
-    const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
+    const obj = setupObject(this, ComposedValidations, {
       value: '',
     });
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.deepEqual(obj.get('validations.message'), "This field can't be blank");
+    assert.deepEqual(obj.validations.message, "This field can't be blank");
 
     obj.set('value', 'foobar');
 
@@ -142,7 +142,7 @@ module('Integration | Validators | Composable', function (hooks) {
       })
     );
 
-    const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
+    const obj = setupObject(this, ComposedValidations, {
       value: '',
     });
 
@@ -184,7 +184,7 @@ module('Integration | Validators | Composable', function (hooks) {
       })
     );
 
-    const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
+    const obj = setupObject(this, ComposedValidations, {
       value: '',
     });
 
@@ -218,7 +218,7 @@ module('Integration | Validators | Composable', function (hooks) {
       })
     );
 
-    const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
+    const obj = setupObject(this, ComposedValidations, {
       value: '',
     });
 
