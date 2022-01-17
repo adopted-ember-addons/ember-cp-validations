@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
@@ -22,8 +21,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-const Collection = EmberValidator.extend({
-  _evType: 'collection',
+export class Collection extends EmberValidator {
+  _evType = 'collection';
 
   /**
    * Normalized options passed in.
@@ -49,8 +48,6 @@ const Collection = EmberValidator.extend({
         collection: options,
       };
     }
-    return this._super(opts, defaultOptions, globalOptions);
-  },
-});
-
-export default Collection;
+    return super.buildOptions(opts, defaultOptions, globalOptions);
+  }
+}
