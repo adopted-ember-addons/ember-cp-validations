@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
 
@@ -71,7 +70,7 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  @module Validators
  *  @extends Base
  */
-const BelongsTo = Base.extend({
+export class BelongsTo extends Base {
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
@@ -82,7 +81,5 @@ const BelongsTo = Base.extend({
     }
 
     return true;
-  },
-});
-
-export default BelongsTo;
+  }
+}
