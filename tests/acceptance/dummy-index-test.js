@@ -44,6 +44,7 @@ module('Acceptance | Dummy | index', function (hooks) {
   });
 
   test('Valid form submit', async function (assert) {
+    assert.expect(Object.keys(validInputValues.length) + 2);
     await visit('/');
 
     for (let key in validInputValues) {
