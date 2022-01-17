@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import Messages from 'ember-validators/messages';
 
 /**
@@ -22,4 +21,8 @@ import Messages from 'ember-validators/messages';
  *  @class Messages
  *  @module Validators
  */
-export default EmberObject.extend(Messages);
+export default {
+  create() {
+    return { ...Messages };
+  },
+};
