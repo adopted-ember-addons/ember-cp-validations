@@ -20,6 +20,6 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'exclusion',
-});
+export default class ValidatorsExclusion extends EmberValidator {
+  _evType = 'exclusion';
+}
