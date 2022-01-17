@@ -2,7 +2,7 @@ import { A as emberArray } from '@ember/array';
 
 const A = emberArray();
 
-export function callable(method) {
+function callable(method) {
   return function (collection) {
     return A[method].apply(collection, arguments);
   };
