@@ -1,15 +1,14 @@
-import EmberObject, { get } from '@ember/object';
-import { validator, buildValidations } from 'ember-cp-validations';
+import { validator } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import setupObject from '../../helpers/setup-object';
 
 let Validator, message, model, options, builtOptions;
 
-let Validations = buildValidations({
+let Validations = {
   firstName: validator('presence', true),
   lastName: validator('presence', true),
-});
+};
 
 let defaultOptions = {
   on: ['firstName', 'lastName'],
@@ -40,15 +39,15 @@ module('Unit | Validator | dependent', function (hooks) {
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
-    model = setupObject(this, EmberObject.extend(Validations));
+    model = setupObject(this, Validations);
 
-    assert.false(get(model, 'validations.isValid'));
+    assert.false(model.validations.isValid);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.deepEqual(message, 'This field is invalid');
-    assert.deepEqual(get(model, 'validations.messages.length'), 1);
-    assert.false(get(model, 'validations.isValid'));
+    assert.deepEqual(model.validations.messages.length, 1);
+    assert.false(model.validations.isValid);
   });
 
   test('one dependent error', function (assert) {
@@ -57,17 +56,17 @@ module('Unit | Validator | dependent', function (hooks) {
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
-    model = setupObject(this, EmberObject.extend(Validations), {
+    model = setupObject(this, Validations, {
       firstName: 'Offir',
     });
 
-    assert.false(get(model, 'validations.isValid'));
+    assert.false(model.validations.isValid);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.deepEqual(message, 'This field is invalid');
-    assert.deepEqual(get(model, 'validations.messages.length'), 1);
-    assert.false(get(model, 'validations.isValid'));
+    assert.deepEqual(model.validations.messages.length, 1);
+    assert.false(model.validations.isValid);
   });
 
   test('no dependent errors', function (assert) {
@@ -75,17 +74,17 @@ module('Unit | Validator | dependent', function (hooks) {
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
-    model = setupObject(this, EmberObject.extend(Validations), {
+    model = setupObject(this, Validations, {
       firstName: 'Offir',
       lastName: 'Golan',
     });
 
-    assert.true(get(model, 'validations.isValid'));
+    assert.true(model.validations.isValid);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.true(message);
-    assert.deepEqual(get(model, 'validations.messages.length'), 0);
-    assert.true(get(model, 'validations.isValid'));
+    assert.deepEqual(model.validations.messages.length, 0);
+    assert.true(model.validations.isValid);
   });
 });

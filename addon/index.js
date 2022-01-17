@@ -196,34 +196,6 @@ import Validator from './validations/validator';
  * });
  * ```
  *
- * ### Nested Keys
- *
- * When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.
- *
- * ```javascript
- * import Ember from 'ember';
- * import { validator, buildValidations } from 'ember-cp-validations';
- *
- * const Validations = buildValidations({
- *   'acceptTerms': validator('inclusion', { in: [ true ] }),
- *   'user.firstName': validator('presence', true),
- *   'user.lastName': validator('presence', true),
- *   'user.account.number': validator('number')
- * });
- *
- * export default Ember.Component.extend(Validations, {
- *   acceptTerms: false,
- *   user:  {
- *     firstName: 'John',
- *     lastName: 'Doe' ,
- *     account: {
- *       number: 123456,
- *     }
- *   },
- *   isFormValid: Ember.computed.alias('validations.isValid'),
- * });
- * ```
- *
  * @module Usage
  * @submodule Advanced
  */

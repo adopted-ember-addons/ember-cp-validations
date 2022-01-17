@@ -177,7 +177,6 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
 /**
  * Creates the validations class that will become `model.validations`.
  *   - Setup parent validation inheritance
- *   - Normalize nested keys (i.e. 'details.dob') into objects (i.e { details: { dob: validator() }})
  *   - Merge normalized validations with parent
  *   - Create global CPs (i.e. 'isValid', 'messages', etc...)
  *
