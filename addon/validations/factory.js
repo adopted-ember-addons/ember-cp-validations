@@ -10,7 +10,6 @@ import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidatorClass from '../utils/lookup-validator-class';
-import { flatten } from '../utils/array';
 import { isValidatable, isPromise } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
@@ -731,7 +730,7 @@ function validateAttribute(attribute, value) {
 
   let validations = new ResultCollection({
     attribute,
-    content: flatten(validationResults),
+    content: validationResults?.flat(Infinity),
   });
 
   let result = { model, validations };

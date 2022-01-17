@@ -3,7 +3,7 @@ import RSVP from 'rsvp';
 import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import cycleBreaker from '../utils/cycle-breaker';
-import { flatten, uniq, compact } from '../utils/array';
+import { uniq, compact } from '../utils/array';
 import { tracked } from '@glimmer/tracking';
 
 /**
@@ -150,7 +150,9 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Array}
    */
   get messages() {
-    return cycleBreaker(() => uniq(compact(flatten(this.getEach('messages')))));
+    return cycleBreaker(() =>
+      uniq(compact(this.getEach('messages').flat(Infinity)))
+    );
   }
 
   /**
@@ -202,7 +204,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    */
   get warningMessages() {
     return cycleBreaker(() =>
-      uniq(compact(flatten(this.getEach('warningMessages'))))
+      uniq(compact(this.getEach('warningMessages').flat(Infinity)))
     );
   }
 
@@ -343,10 +345,10 @@ export default class ValidationsResultCollection extends ArrayProxy {
     return cycleBreaker(() =>
       RSVP.allSettled(
         compact(
-          flatten([
+          [
             this._contentResults.getEach('_promise'),
             this.getEach('_promise'),
-          ])
+          ].flat(Infinity)
         )
       )
     );
@@ -372,7 +374,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
 
   _computeErrorCollection(collection = []) {
     let attribute = this.attribute;
-    let errors = uniq(compact(flatten(collection)));
+    let errors = uniq(compact(collection.flat(Infinity)));
 
     errors.forEach((e) => {
       if (attribute && e.get('attribute') !== attribute) {

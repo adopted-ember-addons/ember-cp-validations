@@ -1,6 +1,6 @@
 import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
-import { flatten, uniq, compact } from '../utils/array';
+import { uniq, compact } from '../utils/array';
 
 export default class WarningResultCollection extends ResultCollection {
   get isValid() {
@@ -23,7 +23,9 @@ export default class WarningResultCollection extends ResultCollection {
     return cycleBreaker(function () {
       return uniq(
         compact(
-          flatten([this.getEach('messages'), this.getEach('warningMessages')])
+          [this.getEach('messages'), this.getEach('warningMessages')].flat(
+            Infinity
+          )
         )
       );
     });
@@ -32,7 +34,7 @@ export default class WarningResultCollection extends ResultCollection {
   get warnings() {
     return cycleBreaker(function () {
       return this._computeErrorCollection(
-        flatten([this.getEach('errors'), this.getEach('warnings')])
+        [this.getEach('errors'), this.getEach('warnings')].flat(Infinity)
       );
     });
   }
