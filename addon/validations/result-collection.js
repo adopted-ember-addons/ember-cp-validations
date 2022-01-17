@@ -3,7 +3,6 @@ import RSVP from 'rsvp';
 import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import cycleBreaker from '../utils/cycle-breaker';
-import { uniq, compact } from '../utils/array';
 import { tracked } from '@glimmer/tracking';
 
 /**
@@ -13,7 +12,7 @@ import { tracked } from '@glimmer/tracking';
 export default class ValidationsResultCollection extends ArrayProxy {
   constructor() {
     super(...arguments);
-    this.content = emberArray(compact(this.content));
+    this.content = emberArray(this.content).compact();
   }
 
   @tracked content = [];
@@ -151,7 +150,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    */
   get messages() {
     return cycleBreaker(() =>
-      uniq(compact(this.getEach('messages').flat(Infinity)))
+      emberArray(this.getEach('messages')).flat(Infinity).compact().uniq()
     );
   }
 
@@ -204,7 +203,10 @@ export default class ValidationsResultCollection extends ArrayProxy {
    */
   get warningMessages() {
     return cycleBreaker(() =>
-      uniq(compact(this.getEach('warningMessages').flat(Infinity)))
+      emberArray(this.getEach('warningMessages'))
+        .flat(Infinity)
+        .compact()
+        .uniq()
     );
   }
 
@@ -344,12 +346,12 @@ export default class ValidationsResultCollection extends ArrayProxy {
   get _promise() {
     return cycleBreaker(() =>
       RSVP.allSettled(
-        compact(
-          [
-            this._contentResults.getEach('_promise'),
-            this.getEach('_promise'),
-          ].flat(Infinity)
-        )
+        emberArray([
+          this._contentResults.getEach('_promise'),
+          this.getEach('_promise'),
+        ])
+          .flat(Infinity)
+          .compact()
       )
     );
   }
@@ -360,7 +362,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @private
    */
   get _contentResults() {
-    return emberArray(compact(this.getEach('_result')));
+    return emberArray(this.getEach('_result')).compact();
   }
 
   /**
@@ -374,7 +376,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
 
   _computeErrorCollection(collection = []) {
     let attribute = this.attribute;
-    let errors = uniq(compact(collection.flat(Infinity)));
+    let errors = emberArray(collection).flat(Infinity).compact().uniq();
 
     errors.forEach((e) => {
       if (attribute && e.get('attribute') !== attribute) {

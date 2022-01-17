@@ -1,6 +1,6 @@
 import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
-import { uniq, compact } from '../utils/array';
+import { A as emberArray } from '@ember/array';
 
 export default class WarningResultCollection extends ResultCollection {
   get isValid() {
@@ -21,13 +21,10 @@ export default class WarningResultCollection extends ResultCollection {
 
   get warningMessages() {
     return cycleBreaker(function () {
-      return uniq(
-        compact(
-          [this.getEach('messages'), this.getEach('warningMessages')].flat(
-            Infinity
-          )
-        )
-      );
+      emberArray([this.getEach('messages'), this.getEach('warningMessages')])
+        .flat(Infinity)
+        .compact()
+        .uniq();
     });
   }
 

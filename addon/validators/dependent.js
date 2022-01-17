@@ -1,6 +1,6 @@
 import { assert } from '@ember/debug';
 import { isPresent, isEmpty, isNone } from '@ember/utils';
-import { A } from '@ember/array';
+import { A as emberArray } from '@ember/array';
 import Base from 'ember-cp-validations/validators/base';
 
 /**
@@ -46,7 +46,7 @@ export default class ValidatorsDependent extends Base {
       return true;
     }
 
-    let dependentValidations = (options.on ?? A()).map(
+    let dependentValidations = (options.on ?? emberArray()).map(
       (dependent) => model.validations.attrs[dependent]
     );
 
