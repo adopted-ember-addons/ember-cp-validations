@@ -6,10 +6,10 @@
  * @throws {Error} Validator not found
  * @return {Class} Validator class
  */
-export default function lookupValidator(owner, type) {
+export default function lookupValidatorClass(owner, type) {
   if (!owner) {
     throw new Error(
-      `[ember-cp-validations] \`lookupValidator\` requires owner/container access.`
+      `[ember-cp-validations] \`lookupValidatorClass\` requires owner/container access.`
     );
   }
 

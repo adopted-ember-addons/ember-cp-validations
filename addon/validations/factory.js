@@ -10,7 +10,7 @@ import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
 import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
-import lookupValidator from '../utils/lookup-validator';
+import lookupValidatorClass from '../utils/lookup-validator-class';
 import { flatten } from '../utils/array';
 import { isValidatable, isPromise } from '../utils/utils';
 import {
@@ -609,7 +609,7 @@ function createValidatorsFor(attribute, model) {
 
   validationRules.forEach((v) => {
     const copy = Object.assign({ attribute, model }, v);
-    validators.push(new lookupValidator(owner, v._type)(copy));
+    validators.push(new lookupValidatorClass(owner, v._type)(copy));
   });
 
   // Add validators to model instance cache
