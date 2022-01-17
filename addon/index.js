@@ -1,4 +1,4 @@
-import Factory from './validations/factory';
+import Factory from './decorators/factory';
 import Validator from './validations/validator';
 
 /**
