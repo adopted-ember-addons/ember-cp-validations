@@ -1,21 +1,21 @@
 import { htmlSafe } from '@ember/template';
-import { alias } from '@ember/object/computed';
-import BaseValidator from 'ember-cp-validations/validators/base';
+import Validator from 'ember-cp-validations/validators/base';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import setupObject from '../../helpers/setup-object';
+import { setOwner } from '@ember/application';
 
 let defaultOptions, options, validator, message;
 
-module('Unit | Validator | base', function (hooks) {
+module.only('Unit | Validator | base', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    validator = setupObject(this, BaseValidator);
+    validator = new Validator();
+    setOwner(validator, this.owner);
   });
 
   test('buildOptions - merge all options', function (assert) {
-    assert.expect(1);
+    assert.expect(2);
 
     options = {
       foo: 'a',
@@ -26,14 +26,12 @@ module('Unit | Validator | base', function (hooks) {
     };
 
     options = validator.buildOptions(options, defaultOptions);
-    assert.deepEqual(options.getProperties(['foo', 'bar']), {
-      foo: 'a',
-      bar: 'b',
-    });
+    assert.strictEqual(options.foo, 'a');
+    assert.strictEqual(options.bar, 'b');
   });
 
   test('buildOptions - does not overwrite options', function (assert) {
-    assert.expect(1);
+    assert.expect(2);
 
     options = {
       foo: 'a',
@@ -45,17 +43,17 @@ module('Unit | Validator | base', function (hooks) {
     };
 
     options = validator.buildOptions(options, defaultOptions);
-    assert.deepEqual(options.getProperties(['foo', 'bar']), {
-      foo: 'a',
-      bar: 'b',
-    });
+    assert.strictEqual(options.foo, 'a');
+    assert.strictEqual(options.bar, 'b');
   });
 
   test('buildOptions - toObject', function (assert) {
     assert.expect(2);
 
     options = validator.buildOptions({
-      foo: alias('bar'),
+      get foo() {
+        return this.bar;
+      },
       bar: 'bar',
     });
 
@@ -81,36 +79,33 @@ module('Unit | Validator | base', function (hooks) {
   test('value - default gets model value', function (assert) {
     assert.expect(2);
 
-    validator.setProperties({
+    Object.assign(validator, {
       model: { foo: 'bar' },
       attribute: 'foo',
       options: {},
     });
 
-    validator.init();
-
-    assert.deepEqual(validator.get('attribute'), 'foo');
+    assert.deepEqual(validator.attribute, 'foo');
     assert.deepEqual(validator.getValue(), 'bar');
   });
 
   test('value - overwrite value method via options', function (assert) {
     assert.expect(3);
 
-    validator.setProperties({
+    Object.assign(validator, {
       model: { foo: 'bar', bar: 'baz' },
       attribute: 'foo',
-      options: {
-        value() {
-          return this.model.bar;
-        },
+    });
+
+    validator.options = validator.buildOptions({
+      value() {
+        return this.model.bar;
       },
     });
 
-    validator.init();
-
-    assert.deepEqual(validator.get('attribute'), 'foo');
+    assert.deepEqual(validator.attribute, 'foo');
     assert.deepEqual(validator.getValue(), 'baz');
-    assert.notOk(validator.get('options.value'));
+    assert.notOk(validator.options.value);
   });
 
   test('message - handles SafeString', function (assert) {
