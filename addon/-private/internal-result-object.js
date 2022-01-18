@@ -15,10 +15,12 @@ export default class InternalResultObject {
   @tracked _validator;
 
   constructor(model, attribute, promise, validator) {
-    this.model = model;
-    this.attribute = attribute;
-    this._promise = promise;
-    this._validator = validator;
+    Object.assign(this, {
+      model,
+      attribute,
+      _promise: promise,
+      _validator: validator,
+    });
 
     if (this.isAsync) {
       this._handlePromise();

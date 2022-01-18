@@ -11,14 +11,12 @@ import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidatorClass from '../utils/lookup-validator-class';
 import { isValidatable, isPromise } from '../utils/utils';
-import {
-  VALIDATIONS_CLASS,
-  IS_VALIDATIONS_CLASS,
-  ATTRS_MODEL,
-  ATTRS_PATH,
-  ATTRS_RESULT_COLLECTION,
-} from '../-private/symbols';
 
+const VALIDATIONS_CLASS = '__VALIDATIONS_CLASS__';
+const IS_VALIDATIONS_CLASS = '__IS_VALIDATIONS_CLASS__';
+const ATTRS_MODEL = '__ATTRS_MODEL__';
+const ATTRS_PATH = '__ATTRS_PATH__';
+const ATTRS_RESULT_COLLECTION = '__ATTRS_RESULT_COLLECTION__';
 const VALIDATION_COUNT_MAP = new WeakMap();
 
 /**

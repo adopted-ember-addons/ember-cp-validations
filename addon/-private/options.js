@@ -5,6 +5,7 @@ const OPTION_KEYS = '__option_keys__';
 export default class Options {
   @tracked model;
   @tracked attribute;
+  [OPTION_KEYS];
 
   constructor({ model, attribute, options = {} }) {
     Object.assign(this, {
