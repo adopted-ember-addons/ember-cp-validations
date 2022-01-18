@@ -18,11 +18,11 @@ module('Unit | Validator | presence', function (hooks) {
 
     options = true;
     builtOptions = validator.buildOptions(options, {});
-    assert.true(builtOptions.presence);
+    assert.true(builtOptions.get('presence'));
 
     options = { presence: true };
     builtOptions = validator.buildOptions(options, {});
-    assert.true(builtOptions.presence);
+    assert.true(builtOptions.get('presence'));
   });
 
   test('presence - value present', function (assert) {
