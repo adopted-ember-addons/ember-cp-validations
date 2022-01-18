@@ -10,7 +10,8 @@ module('Unit | Validator | presence', function (hooks) {
     validator = this.owner.lookup('validator:presence');
   });
 
-  test.only('buildOptions', function (assert) {
+  test('buildOptions', function (assert) {
+    console.log(validator);
     assert.expect(2);
 
     options = true;

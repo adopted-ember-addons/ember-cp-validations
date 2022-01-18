@@ -46,4 +46,8 @@ export default class ValidatorsInline extends Base {
 
     return super.buildOptions(opts, ...args);
   }
+
+  static create(props) {
+    return new ValidatorsInline(props);
+  }
 }

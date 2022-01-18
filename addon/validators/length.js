@@ -23,4 +23,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  */
 export default class ValidatorsLength extends EmberValidator {
   _evType = 'length';
+
+  static create(props) {
+    return new ValidatorsLength(props);
+  }
 }

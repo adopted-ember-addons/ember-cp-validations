@@ -60,4 +60,8 @@ export default class ValidatorsHasMany extends Base {
 
     return true;
   }
+
+  static create(props) {
+    return new ValidatorsHasMany(props);
+  }
 }

@@ -22,4 +22,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  */
 export default class ValidatorsExclusion extends EmberValidator {
   _evType = 'exclusion';
+
+  static create(props) {
+    return new ValidatorsExclusion(props);
+  }
 }

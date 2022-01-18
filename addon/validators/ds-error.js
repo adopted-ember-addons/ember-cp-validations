@@ -16,6 +16,10 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default class ValidationsDSError extends EmberValidator {
+export default class ValidatorsDsError extends EmberValidator {
   _evType = 'ds-error';
+
+  static create(props) {
+    return new ValidatorsDsError(props);
+  }
 }

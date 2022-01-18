@@ -23,4 +23,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  */
 export default class ValidatorsConfirmation extends EmberValidator {
   _evType = 'confirmation';
+
+  static create(props) {
+    return new ValidatorsConfirmation(props);
+  }
 }

@@ -37,4 +37,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  */
 export default class ValidatorsInclusion extends EmberValidator {
   _evType = 'inclusion';
+
+  static create(props) {
+    return new ValidatorsInclusion(props);
+  }
 }

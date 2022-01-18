@@ -50,4 +50,8 @@ export default class ValidatorsCollection extends EmberValidator {
     }
     return super.buildOptions(opts, defaultOptions, globalOptions);
   }
+
+  static create(props) {
+    return new ValidatorsCollection(props);
+  }
 }

@@ -56,4 +56,8 @@ export default class ValidatorsDependent extends Base {
 
     return true;
   }
+
+  static create(props) {
+    return new ValidatorsDependent(props);
+  }
 }

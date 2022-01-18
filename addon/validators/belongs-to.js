@@ -82,4 +82,8 @@ export default class ValidatorsBelongsTo extends Base {
 
     return true;
   }
+
+  static create(props) {
+    return new ValidatorsBelongsTo(props);
+  }
 }

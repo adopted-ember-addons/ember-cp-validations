@@ -55,4 +55,8 @@ export default class ValidatorsPresence extends EmberValidator {
     }
     return super.buildOptions(opts, defaultOptions, globalOptions);
   }
+
+  static create(props) {
+    return new ValidatorsPresence(props);
+  }
 }

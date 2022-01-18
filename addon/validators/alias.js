@@ -73,4 +73,8 @@ export default class ValidatorsAlias extends Base {
 
     return firstMessageOnly ? aliasValidation.message : aliasValidation.content;
   }
+
+  static create(props) {
+    return new ValidatorsAlias(props);
+  }
 }
