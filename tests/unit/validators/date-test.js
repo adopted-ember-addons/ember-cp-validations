@@ -1,6 +1,8 @@
 import moment from 'moment';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import Validator from 'ember-cp-validations/validators/date';
+import { setOwner } from '@ember/application';
 
 let options, builtOptions, validator, message;
 
@@ -8,7 +10,8 @@ module('Unit | Validator | date', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    validator = this.owner.lookup('validator:date');
+    validator = new Validator();
+    setOwner(validator, this.owner);
   });
 
   test('no options', function (assert) {
