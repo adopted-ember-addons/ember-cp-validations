@@ -2,7 +2,7 @@ import { isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import Messages from 'ember-cp-validations/validators/messages';
 import Options from 'ember-cp-validations/-private/options';
-import lookupValidatorClass from 'ember-cp-validations/utils/lookup-validator-class';
+import lookupValidator from 'ember-cp-validations/utils/lookup-validator';
 import {
   unwrapString,
   getValidatableValue,
@@ -290,7 +290,7 @@ export default class ValidatorsBase {
       );
     }
 
-    cache[type] = cache[type] ?? new lookupValidatorClass(getOwner(this), type);
+    cache[type] = cache[type] ?? lookupValidator(getOwner(this), type).create();
     const result = cache[type].validate(...args);
 
     if (isPromise(result)) {

@@ -8,7 +8,7 @@ import { getOwner } from '@ember/application';
 import ValidationResult from '../-private/result';
 import ResultCollection from '../validations/result-collection';
 import shouldCallSuper from '../utils/should-call-super';
-import lookupValidatorClass from '../utils/lookup-validator-class';
+import lookupValidator from '../utils/lookup-validator';
 import { isValidatable, isPromise } from '../utils/utils';
 import { tracked } from '@glimmer/tracking';
 
@@ -574,8 +574,9 @@ function createValidatorsFor(attribute, model) {
   }
 
   validationRules.forEach((v) => {
-    const copy = Object.assign({ attribute, model }, v);
-    validators.push(new lookupValidatorClass(owner, v._type)(copy));
+    v.attribute = attribute;
+    v.model = model;
+    validators.push(lookupValidator(owner, v._type).create(v));
   });
 
   // Add validators to model instance cache
