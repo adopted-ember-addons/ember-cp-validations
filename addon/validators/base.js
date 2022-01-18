@@ -104,7 +104,7 @@ export default class ValidatorsBase {
 
     Object.assign(this, {
       ...props,
-      errorMessages: (errorMessages ?? Messages).create(),
+      errorMessages: errorMessages.create() ?? new Messages(),
       options: this.buildOptions(
         props.options,
         props.defaultOptions,

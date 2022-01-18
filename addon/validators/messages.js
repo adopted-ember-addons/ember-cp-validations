@@ -21,8 +21,8 @@ import Messages from 'ember-validators/messages';
  *  @class Messages
  *  @module Validators
  */
-export default {
-  create() {
-    return { ...Messages };
-  },
-};
+export default class ValidatorsMessages {
+  constructor() {
+    Object.assign(this, Messages);
+  }
+}

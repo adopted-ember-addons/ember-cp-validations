@@ -353,10 +353,11 @@ function createAttrsClass(validatableAttributes) {
     @tracked __ATTRS_PATH__ = rootPath;
 
     constructor(model, path) {
-      Object.assign(this, {
-        __ATTRS_PATH__: path,
-        __ATTRS_MODEL__: model,
-      });
+      if (path) {
+        this.__ATTRS_PATH__ = path;
+      }
+
+      this.__ATTRS_MODEL__ = model;
 
       /*
         Instantiate the nested attrs classes for the current path
