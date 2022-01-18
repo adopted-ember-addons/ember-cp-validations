@@ -20,8 +20,8 @@ export default class WarningResultCollection extends ResultCollection {
 
   get warningMessages() {
     return emberArray([
-      this.getEach('messages'),
-      this.getEach('warningMessages'),
+      this.collection.mapBy('messages'),
+      this.collection.mapBy('warningMessages'),
     ])
       .flat(Infinity)
       .compact()
@@ -30,7 +30,9 @@ export default class WarningResultCollection extends ResultCollection {
 
   get warnings() {
     return this._computeErrorCollection(
-      [this.getEach('errors'), this.getEach('warnings')].flat(Infinity)
+      [this.collection.mapBy('errors'), this.collection.mapBy('warnings')].flat(
+        Infinity
+      )
     );
   }
 }

@@ -143,7 +143,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get messages() {
-    return emberArray(this.getEach('messages')).flat(Infinity).compact().uniq();
+    return this.collection.mapBy('messages').flat(Infinity).compact().uniq();
   }
 
   /**
@@ -194,7 +194,8 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get warningMessages() {
-    return emberArray(this.getEach('warningMessages'))
+    return this.collection
+      .mapBy('warningMessages')
       .flat(Infinity)
       .compact()
       .uniq();
@@ -232,7 +233,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get warnings() {
-    return this._computeErrorCollection(this.getEach('warnings'));
+    return this._computeErrorCollection(this.collection.mapBy('warnings'));
   }
 
   /**
@@ -267,7 +268,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get errors() {
-    return this._computeErrorCollection(this.getEach('errors'));
+    return this._computeErrorCollection(this.collection.mapBy('errors'));
   }
 
   /**
@@ -350,8 +351,8 @@ export default class ValidationsResultCollection {
   get _promise() {
     return RSVP.allSettled(
       emberArray([
-        emberArray(this.getEach('_result')).compact().getEach('_promise'),
-        this.getEach('_promise'),
+        this.collection.mapBy('_result').compact().mapBy('_promise'),
+        this.collection.mapBy('_promise'),
       ])
         .flat(Infinity)
         .compact()
@@ -360,10 +361,10 @@ export default class ValidationsResultCollection {
 
   _computeErrorCollection(collection = []) {
     let attribute = this.attribute;
-    let errors = emberArray(collection).flat(Infinity).compact().uniq();
+    let errors = collection.flat(Infinity).compact().uniq();
 
     errors.forEach((e) => {
-      if (attribute && e.get('attribute') !== attribute) {
+      if (attribute && e.attribute !== attribute) {
         e.set('parentAttribute', attribute);
       }
     });
