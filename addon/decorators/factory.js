@@ -366,9 +366,7 @@ function createAttrsClass(validatableAttributes) {
       });
     }
 
-    willDestroy() {
-      super.willDestroy(...arguments);
-
+    destroy() {
       this.__ATTRS_MODEL__ = null;
 
       // Destroy all nested classes
