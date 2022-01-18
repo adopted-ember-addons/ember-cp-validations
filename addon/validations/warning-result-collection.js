@@ -1,5 +1,4 @@
 import ResultCollection from './result-collection';
-import cycleBreaker from '../utils/cycle-breaker';
 import { A as emberArray } from '@ember/array';
 
 export default class WarningResultCollection extends ResultCollection {
@@ -20,19 +19,18 @@ export default class WarningResultCollection extends ResultCollection {
   }
 
   get warningMessages() {
-    return cycleBreaker(() =>
-      emberArray([this.getEach('messages'), this.getEach('warningMessages')])
-        .flat(Infinity)
-        .compact()
-        .uniq()
-    );
+    return emberArray([
+      this.getEach('messages'),
+      this.getEach('warningMessages'),
+    ])
+      .flat(Infinity)
+      .compact()
+      .uniq();
   }
 
   get warnings() {
-    return cycleBreaker(() =>
-      this._computeErrorCollection(
-        [this.getEach('errors'), this.getEach('warnings')].flat(Infinity)
-      )
+    return this._computeErrorCollection(
+      [this.getEach('errors'), this.getEach('warnings')].flat(Infinity)
     );
   }
 }

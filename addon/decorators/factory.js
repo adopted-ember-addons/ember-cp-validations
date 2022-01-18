@@ -7,7 +7,6 @@ import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import ValidationResult from '../-private/result';
 import ResultCollection from '../validations/result-collection';
-import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidatorClass from '../utils/lookup-validator-class';
 import { isValidatable, isPromise } from '../utils/utils';
@@ -383,57 +382,32 @@ function createAttrsClass(validatableAttributes) {
     Insert CPs + Create nested classes
    */
   validatableAttributes.forEach((attribute) => {
-    let path = attribute.split('.');
-    let attr = path.pop();
-    let currPath = [rootPath];
     let currClass = AttrsClass;
 
-    // Iterate over the path and create the necessary nested classes along the way
-    for (let i = 0; i < path.length; i++) {
-      let key = path[i];
-      let currPathStr = currPath.join('.');
-      let _nestedClasses;
-
-      nestedClasses[currPathStr] = nestedClasses[currPathStr] || {};
-      _nestedClasses = nestedClasses[currPathStr];
-
-      currPath.push(key);
-
-      if (!_nestedClasses[key]) {
-        _nestedClasses[key] = class extends AttrsClass {
-          @tracked __ATTRS_PATH__ = currPath.join('.');
-        };
-      }
-
-      currClass = _nestedClasses[key];
-    }
-
-    Object.defineProperty(currClass.prototype, attr, {
+    Object.defineProperty(currClass.prototype, attribute, {
       get() {
-        return cycleBreaker(() => {
-          let model = this.__ATTRS_MODEL__;
-          let validators = !isNone(model)
-            ? getValidatorsFor(attribute, model)
-            : [];
+        let model = this.__ATTRS_MODEL__;
+        let validators = !isNone(model)
+          ? getValidatorsFor(attribute, model)
+          : [];
 
-          let validationResults = generateValidationResultsFor(
-            attribute,
-            model,
-            validators,
-            (validator, options) => {
-              return validator.validate(
-                validator.getValue(),
-                options,
-                model,
-                attribute
-              );
-            }
-          );
+        let validationResults = generateValidationResultsFor(
+          attribute,
+          model,
+          validators,
+          (validator, options) => {
+            return validator.validate(
+              validator.getValue(),
+              options,
+              model,
+              attribute
+            );
+          }
+        );
 
-          return new ResultCollection({
-            attribute,
-            content: validationResults,
-          });
+        return new ResultCollection({
+          attribute,
+          content: validationResults,
         });
       },
     });

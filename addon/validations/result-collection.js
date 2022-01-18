@@ -2,7 +2,6 @@ import ArrayProxy from '@ember/array/proxy';
 import RSVP from 'rsvp';
 import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
-import cycleBreaker from '../utils/cycle-breaker';
 import { tracked } from '@glimmer/tracking';
 
 /**
@@ -54,7 +53,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Boolean}
    */
   get isValid() {
-    return cycleBreaker(() => this.content.isEvery('isValid', true), true);
+    return this.content.isEvery('isValid', true);
   }
 
   /**
@@ -72,7 +71,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Boolean}
    */
   get isValidating() {
-    return cycleBreaker(() => this.content.isAny('isValidating', true), false);
+    return this.content.isAny('isValidating', true);
   }
 
   /**
@@ -90,10 +89,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Boolean}
    */
   get isTruelyValid() {
-    return cycleBreaker(
-      () => this.content.isEvery('isTruelyValid', true),
-      true
-    );
+    return this.content.isEvery('isTruelyValid', true);
   }
 
   /**
@@ -111,10 +107,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Boolean}
    */
   get isTruelyInvalid() {
-    return cycleBreaker(
-      () => this.content.isAny('isTruelyInvalid', true),
-      false
-    );
+    return this.content.isAny('isTruelyInvalid', true);
   }
 
   /**
@@ -132,7 +125,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Boolean}
    */
   get isAsync() {
-    return cycleBreaker(() => this.content.isAny('isAsync', true), false);
+    return this.content.isAny('isAsync', true);
   }
 
   /**
@@ -149,9 +142,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Array}
    */
   get messages() {
-    return cycleBreaker(() =>
-      emberArray(this.getEach('messages')).flat(Infinity).compact().uniq()
-    );
+    return emberArray(this.getEach('messages')).flat(Infinity).compact().uniq();
   }
 
   /**
@@ -202,12 +193,10 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Array}
    */
   get warningMessages() {
-    return cycleBreaker(() =>
-      emberArray(this.getEach('warningMessages'))
-        .flat(Infinity)
-        .compact()
-        .uniq()
-    );
+    return emberArray(this.getEach('warningMessages'))
+      .flat(Infinity)
+      .compact()
+      .uniq();
   }
 
   /**
@@ -242,9 +231,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Array}
    */
   get warnings() {
-    return cycleBreaker(() =>
-      this._computeErrorCollection(this.getEach('warnings'))
-    );
+    return this._computeErrorCollection(this.getEach('warnings'));
   }
 
   /**
@@ -279,9 +266,7 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Array}
    */
   get errors() {
-    return cycleBreaker(() =>
-      this._computeErrorCollection(this.getEach('errors'))
-    );
+    return this._computeErrorCollection(this.getEach('errors'));
   }
 
   /**
@@ -344,15 +329,13 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Promise}
    */
   get _promise() {
-    return cycleBreaker(() =>
-      RSVP.allSettled(
-        emberArray([
-          this._contentResults.getEach('_promise'),
-          this.getEach('_promise'),
-        ])
-          .flat(Infinity)
-          .compact()
-      )
+    return RSVP.allSettled(
+      emberArray([
+        this._contentResults.getEach('_promise'),
+        this.getEach('_promise'),
+      ])
+        .flat(Infinity)
+        .compact()
     );
   }
 
