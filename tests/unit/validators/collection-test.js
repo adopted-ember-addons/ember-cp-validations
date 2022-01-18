@@ -1,7 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import Validator from 'ember-cp-validations/validators/collection';
-import { setOwner } from '@ember/application';
 
 let options, builtOptions, validator, message;
 
@@ -9,8 +7,7 @@ module('Unit | Validator | collection', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    validator = new Validator();
-    setOwner(validator, this.owner);
+    validator = this.owner.lookup('validator:collection');
   });
 
   test('buildOptions', function (assert) {
@@ -19,11 +16,11 @@ module('Unit | Validator | collection', function (hooks) {
     options = true;
     builtOptions = validator.buildOptions(options, {});
 
-    assert.true(builtOptions.collection);
+    assert.true(builtOptions.get('collection'));
 
     options = { collection: true };
     builtOptions = validator.buildOptions(options, {});
-    assert.true(builtOptions.collection);
+    assert.true(builtOptions.get('collection'));
   });
 
   test('value is collection', function (assert) {
