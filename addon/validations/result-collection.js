@@ -320,8 +320,7 @@ export default class ValidationsResultCollection {
    * @type {Object}
    */
   get options() {
-    const validators = this._contentValidators ?? [];
-    return validators.reduce((options, v) => {
+    return this.content.reduce((options, { _validator: v }) => {
       if (isNone(v) || isNone(v._type)) {
         return options;
       }
@@ -351,30 +350,12 @@ export default class ValidationsResultCollection {
   get _promise() {
     return RSVP.allSettled(
       emberArray([
-        this._contentResults.getEach('_promise'),
+        emberArray(this.getEach('_result')).compact().getEach('_promise'),
         this.getEach('_promise'),
       ])
         .flat(Infinity)
         .compact()
     );
-  }
-
-  /**
-   * @property _contentResults
-   * @type {Array}
-   * @private
-   */
-  get _contentResults() {
-    return emberArray(this.getEach('_result')).compact();
-  }
-
-  /**
-   * @property _contentValidators
-   * @type {Array}
-   * @private
-   */
-  get _contentValidators() {
-    return this.content.mapBy('_validator');
   }
 
   _computeErrorCollection(collection = []) {
