@@ -213,9 +213,8 @@ function createValidationsClass(inheritedValidationsClass, validations) {
   return class ValidationsClass {
     static __IS_VALIDATIONS_CLASS__ = true;
 
-    model;
+    @tracked model;
     @tracked attrs;
-    isValidations = true;
 
     // Caches
     _validators = {};
@@ -228,6 +227,10 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     validateSync = validateSync;
     validateAttribute = validateAttribute;
     validatableAttributes = validatableAttributes;
+
+    get isValidations() {
+      return true;
+    }
 
     get isValid() {
       return this.__ATTRS_RESULT_COLLECTION__.isValid;
