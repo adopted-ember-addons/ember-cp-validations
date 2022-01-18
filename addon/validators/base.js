@@ -93,7 +93,7 @@ export default class ValidatorsBase {
     return {};
   }
 
-  constructor(props) {
+  constructor(props = {}) {
     let owner = getOwner(this);
     let errorMessages;
 
@@ -104,7 +104,7 @@ export default class ValidatorsBase {
 
     Object.assign(this, {
       ...props,
-      errorMessages: errorMessages.create() ?? new Messages(),
+      errorMessages: errorMessages?.create() ?? new Messages(),
       options: this.buildOptions(
         props.options,
         props.defaultOptions,
