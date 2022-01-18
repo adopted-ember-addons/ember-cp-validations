@@ -1,7 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import Validator from 'ember-cp-validations/validators/confirmation';
-import { setOwner } from '@ember/application';
 
 let model, options, builtOptions, validator, message;
 
@@ -9,8 +7,7 @@ module('Unit | Validator | confirmation', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    validator = new Validator();
-    setOwner(validator, this.owner);
+    validator = this.owner.lookup('validator:confirmation');
   });
 
   test('attribute', function (assert) {
@@ -30,7 +27,7 @@ module('Unit | Validator | confirmation', function (hooks) {
     );
     assert.deepEqual(message, "This field doesn't match email");
 
-    model.emailConfirmation = 'foo@gmail.com';
+    model.set('emailConfirmation', 'foo@gmail.com');
 
     message = validator.validate(
       'foo@gmail.com',
