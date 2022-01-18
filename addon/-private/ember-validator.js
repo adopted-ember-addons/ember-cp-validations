@@ -1,9 +1,9 @@
 import Base from 'ember-cp-validations/validators/base';
-import { validate as _validate } from 'ember-validators';
+import { validate } from 'ember-validators';
 
 export default class EmberValidator extends Base {
   validate() {
-    let result = _validate(this._evType, ...arguments);
+    let result = validate(this._evType, ...arguments);
 
     if (result && typeof result === 'object') {
       return result.message

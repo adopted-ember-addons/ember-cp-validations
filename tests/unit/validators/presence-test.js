@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import PresenceValidator from 'ember-cp-validations/validators/presence';
+import { setOwner } from '@ember/application';
 
 let options, builtOptions, validator, message;
 
@@ -7,7 +9,8 @@ module('Unit | Validator | presence', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    validator = this.owner.lookup('validator:presence');
+    validator = new PresenceValidator();
+    setOwner(validator, this.owner);
   });
 
   test('buildOptions', function (assert) {

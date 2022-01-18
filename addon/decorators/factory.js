@@ -518,7 +518,7 @@ function validationReturnValueHandler(attribute, value, model, validator) {
  * @return {Array}
  */
 function getValidatorsFor(attribute, model) {
-  let validators = model[`validations._validators.${attribute}`];
+  let validators = model.validations?._validators?.[attribute];
   return isNone(validators)
     ? createValidatorsFor(attribute, model)
     : validators;
@@ -554,7 +554,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
  */
 function createValidatorsFor(attribute, model) {
   let validations = model.validations;
-  let validationRules = makeArray(validations[`_validationRules.${attribute}`]);
+  let validationRules = makeArray(validations._validationRules[attribute]);
   let validatorCache = validations._validators;
   let owner = getOwner(model);
   let validators = [];
