@@ -306,8 +306,12 @@ function createValidationsClass(inheritedValidationsClass, validations) {
       });
     }
 
-    constructor(model) {
-      this.attrs = new AttrsClass(model);
+    static create(props) {
+      return new ValidationsClass(props);
+    }
+
+    constructor(props = {}) {
+      Object.assign(this, props, { attrs: new AttrsClass(props.model) });
     }
 
     destroy() {
@@ -351,18 +355,21 @@ function createAttrsClass(validatableAttributes) {
     @tracked __ATTRS_MODEL__;
     @tracked __ATTRS_PATH__ = rootPath;
 
-    constructor(model, path) {
-      if (path) {
-        this.__ATTRS_PATH__ = path;
-      }
+    static create(props) {
+      return new AttrsClass(props);
+    }
 
-      this.__ATTRS_MODEL__ = model;
+    constructor(props = {}) {
+      Object.assign(this, props, {
+        __ATTRS_PATH__: props.path,
+        __ATTRS_MODEL__: props.model,
+      });
 
       /*
         Instantiate the nested attrs classes for the current path
        */
-      Object.keys(nestedClasses[path] ?? {}).forEach((key) => {
-        this[key] = new nestedClasses[path][key](model);
+      Object.keys(nestedClasses[props.path] ?? {}).forEach((key) => {
+        this[key] = new nestedClasses[props.path][key](props.model);
       });
     }
 

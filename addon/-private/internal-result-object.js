@@ -14,13 +14,12 @@ export default class InternalResultObject {
   @tracked _promise;
   @tracked _validator;
 
-  constructor(model, attribute, promise, validator) {
-    Object.assign(this, {
-      model,
-      attribute,
-      _promise: promise,
-      _validator: validator,
-    });
+  static create(props) {
+    return new InternalResultObject(props);
+  }
+
+  constructor(props) {
+    Object.assign(this, props);
 
     if (this.isAsync) {
       this._handlePromise();

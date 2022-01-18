@@ -213,13 +213,12 @@ export default class Result {
     );
   }
 
-  constructor(model, attribute, validator, promise) {
-    Object.assign(this, {
-      model,
-      attribute,
-      _validator: validator,
-      _promise: promise,
-    });
+  static create(props) {
+    return new Result(props);
+  }
+
+  constructor(props = {}) {
+    Object.assign(this, props);
 
     if (this.isAsync && !this._isReadOnly) {
       this._handlePromise();

@@ -34,11 +34,11 @@ export default class ValidationsError {
    */
   @tracked parentAttribute;
 
-  constructor(type, message, attribute) {
-    Object.assign(this, {
-      type,
-      message,
-      attribute,
-    });
+  static create(props) {
+    return new ValidationsError(props);
+  }
+
+  constructor(props = {}) {
+    Object.assign(this, props);
   }
 }

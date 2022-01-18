@@ -18,10 +18,14 @@ export default class ValidationsResultCollection {
    */
   @tracked attribute;
 
-  constructor(attribute, content) {
-    Object.assign(this, {
-      attribute,
-      content: emberArray(content).compact(),
+  static create(props) {
+    return new ValidationsResultCollection(props);
+  }
+
+  constructor(props = {}) {
+    Object.assign(this, props, {
+      attribute: props.attribute,
+      content: emberArray(props.content ?? []).compact(),
     });
   }
 

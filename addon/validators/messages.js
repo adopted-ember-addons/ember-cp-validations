@@ -22,7 +22,11 @@ import Messages from 'ember-validators/messages';
  *  @module Validators
  */
 export default class ValidatorsMessages {
-  constructor() {
-    Object.assign(this, Messages);
+  static create(props) {
+    return new ValidatorsMessages(props);
+  }
+
+  constructor(props = {}) {
+    Object.assign(this, props, Messages);
   }
 }
