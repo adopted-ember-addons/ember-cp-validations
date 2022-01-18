@@ -410,7 +410,7 @@ function createAttrsClass(validatableAttributes) {
 
     Object.defineProperty(currClass.prototype, attr, {
       get() {
-        return cycleBreaker(function () {
+        return cycleBreaker(() => {
           let model = this.__ATTRS_MODEL__;
           let validators = !isNone(model)
             ? getValidatorsFor(attribute, model)

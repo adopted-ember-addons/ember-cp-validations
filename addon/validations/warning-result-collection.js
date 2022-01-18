@@ -20,19 +20,19 @@ export default class WarningResultCollection extends ResultCollection {
   }
 
   get warningMessages() {
-    return cycleBreaker(function () {
+    return cycleBreaker(() =>
       emberArray([this.getEach('messages'), this.getEach('warningMessages')])
         .flat(Infinity)
         .compact()
-        .uniq();
-    });
+        .uniq()
+    );
   }
 
   get warnings() {
-    return cycleBreaker(function () {
-      return this._computeErrorCollection(
+    return cycleBreaker(() =>
+      this._computeErrorCollection(
         [this.getEach('errors'), this.getEach('warnings')].flat(Infinity)
-      );
-    });
+      )
+    );
   }
 }
