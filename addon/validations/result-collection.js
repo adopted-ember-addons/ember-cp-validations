@@ -1,4 +1,3 @@
-import ArrayProxy from '@ember/array/proxy';
 import RSVP from 'rsvp';
 import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
@@ -8,12 +7,7 @@ import { tracked } from '@glimmer/tracking';
  * @module Validations
  * @class ResultCollection
  */
-export default class ValidationsResultCollection extends ArrayProxy {
-  constructor() {
-    super(...arguments);
-    this.content = emberArray(this.content).compact();
-  }
-
+export default class ValidationsResultCollection {
   @tracked content = [];
 
   /**
@@ -23,6 +17,13 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {String}
    */
   @tracked attribute;
+
+  constructor(attribute, content) {
+    Object.assign(this, {
+      attribute,
+      content: emberArray(content).compact(),
+    });
+  }
 
   /**
    * ```javascript
@@ -319,7 +320,26 @@ export default class ValidationsResultCollection extends ArrayProxy {
    * @type {Object}
    */
   get options() {
-    return this._groupValidatorOptions(this._contentValidators);
+    const validators = this._contentValidators ?? [];
+    return validators.reduce((options, v) => {
+      if (isNone(v) || isNone(v._type)) {
+        return options;
+      }
+
+      let type = v._type;
+      let vOpts = v.options.toObject();
+
+      if (options[type]) {
+        if (isArray(options[type])) {
+          options[type].push(vOpts);
+        } else {
+          options[type] = [options[type], vOpts];
+        }
+      } else {
+        options[type] = vOpts;
+      }
+      return options;
+    }, {});
   }
 
   /**
@@ -368,31 +388,5 @@ export default class ValidationsResultCollection extends ArrayProxy {
     });
 
     return errors;
-  }
-
-  /**
-   * Used by the `options` property to create a hash from the `content` that is grouped by validator type.
-   * If there is more than 1 of a type, it groups it into an array of option objects.
-   */
-  _groupValidatorOptions(validators = []) {
-    return validators.reduce((options, v) => {
-      if (isNone(v) || isNone(v._type)) {
-        return options;
-      }
-
-      let type = v._type;
-      let vOpts = v.options.toObject();
-
-      if (options[type]) {
-        if (isArray(options[type])) {
-          options[type].push(vOpts);
-        } else {
-          options[type] = [options[type], vOpts];
-        }
-      } else {
-        options[type] = vOpts;
-      }
-      return options;
-    }, {});
   }
 }
