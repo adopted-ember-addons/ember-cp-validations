@@ -11,7 +11,7 @@ export default class ValidationsResultCollection {
   @tracked content = [];
 
   /**
-   * The attribute that this collection belongs to
+   * The attribute that this.content belongs to
    *
    * @property attribute
    * @type {String}
@@ -143,7 +143,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get messages() {
-    return this.collection.mapBy('messages').flat(Infinity).compact().uniq();
+    return this.content.mapBy('messages').flat(Infinity).compact().uniq();
   }
 
   /**
@@ -194,7 +194,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get warningMessages() {
-    return this.collection
+    return this.content
       .mapBy('warningMessages')
       .flat(Infinity)
       .compact()
@@ -233,7 +233,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get warnings() {
-    return this._computeErrorCollection(this.collection.mapBy('warnings'));
+    return this._computeErrorCollection(this.content.mapBy('warnings'));
   }
 
   /**
@@ -268,7 +268,7 @@ export default class ValidationsResultCollection {
    * @type {Array}
    */
   get errors() {
-    return this._computeErrorCollection(this.collection.mapBy('errors'));
+    return this._computeErrorCollection(this.content.mapBy('errors'));
   }
 
   /**
@@ -289,7 +289,7 @@ export default class ValidationsResultCollection {
   }
 
   /**
-   * All built options of the validators associated with the results in this collection grouped by validator type
+   * All built options of the validators associated with the results in this.content grouped by validator type
    *
    * ```javascript
    * // Given the following validators
@@ -351,8 +351,8 @@ export default class ValidationsResultCollection {
   get _promise() {
     return RSVP.allSettled(
       emberArray([
-        this.collection.mapBy('_result').compact().mapBy('_promise'),
-        this.collection.mapBy('_promise'),
+        this.content.mapBy('_result').compact().mapBy('_promise'),
+        this.content.mapBy('_promise'),
       ])
         .flat(Infinity)
         .compact()
