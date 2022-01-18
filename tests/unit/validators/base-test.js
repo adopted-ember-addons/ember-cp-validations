@@ -6,7 +6,7 @@ import { setOwner } from '@ember/application';
 
 let defaultOptions, options, validator, message;
 
-module.only('Unit | Validator | base', function (hooks) {
+module('Unit | Validator | base', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
