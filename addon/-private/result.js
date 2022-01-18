@@ -204,12 +204,12 @@ export default class Result {
   get _result() {
     return (
       this._resultOverride ||
-      new InternalResultObject(
-        this.model,
-        this.attribute,
-        this._promise,
-        this._validator
-      )
+      InternalResultObject.create({
+        model: this.model,
+        attribute: this.attribute,
+        _promise: this._promise,
+        _validator: this._validator,
+      })
     );
   }
 
@@ -247,9 +247,9 @@ export default class Result {
     if (isNone(value)) {
       return this.update(false);
     } else if (value.isValidations) {
-      this._overrideResult(new Collection({ attribute, content: [value] }));
+      this._overrideResult(Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
-      this._overrideResult(new Collection({ attribute, content: value }));
+      this._overrideResult(Collection.create({ attribute, content: value }));
     } else if (!this._isReadOnly) {
       this._overrideResult(undefined);
 

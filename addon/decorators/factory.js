@@ -103,7 +103,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       }
 
       get validations() {
-        return new this.__VALIDATIONS_CLASS__(this);
+        return this.__VALIDATIONS_CLASS__.create({ model: this });
       }
 
       validate() {
@@ -188,7 +188,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     inheritedValidationsClass &&
     inheritedValidationsClass.__IS_VALIDATIONS_CLASS__
   ) {
-    let inheritedValidations = new inheritedValidationsClass();
+    let inheritedValidations = inheritedValidationsClass.create();
 
     validationRules = assign(
       validationRules,
@@ -300,7 +300,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     }
 
     get __ATTRS_RESULT_COLLECTION__() {
-      return new ResultCollection({
+      return ResultCollection.create({
         attribute: `Model:${this}`,
         content: validatableAttributes.map((attr) => this.attrs[attr]),
       });
@@ -311,7 +311,11 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     }
 
     constructor(props = {}) {
-      Object.assign(this, props, { attrs: new AttrsClass(props.model) });
+      Object.assign(this, props, {
+        attrs: AttrsClass.create({
+          __ATTRS_MODEL__: props.model,
+        }),
+      });
     }
 
     destroy() {
@@ -360,16 +364,14 @@ function createAttrsClass(validatableAttributes) {
     }
 
     constructor(props = {}) {
-      Object.assign(this, props, {
-        __ATTRS_PATH__: props.path,
-        __ATTRS_MODEL__: props.model,
-      });
+      Object.assign(this, props);
 
-      /*
-        Instantiate the nested attrs classes for the current path
-       */
-      Object.keys(nestedClasses[props.path] ?? {}).forEach((key) => {
-        this[key] = new nestedClasses[props.path][key](props.model);
+      let model = this.__ATTRS_MODEL__;
+      let path = this.__ATTRS_PATH__;
+
+      // Instantiate the nested attrs classes for the current path
+      Object.keys(nestedClasses[path] ?? []).forEach((key) => {
+        this[key] = nestedClasses[path][key].create({ __ATTRS_MODEL__: model });
       });
     }
 
@@ -410,7 +412,7 @@ function createAttrsClass(validatableAttributes) {
           }
         );
 
-        return new ResultCollection({
+        return ResultCollection.create({
           attribute,
           content: validationResults,
         });
@@ -500,15 +502,18 @@ function generateValidationResultsFor(
 function validationReturnValueHandler(attribute, value, model, validator) {
   let result;
 
+  let commonProps = {
+    model,
+    attribute,
+    _validator: validator,
+  };
+
   if (isPromise(value)) {
-    result = new ValidationResult(
-      model,
-      attribute,
-      validator,
-      Promise.resolve(value)
-    );
+    result = ValidationResult.create(commonProps, {
+      _promise: Promise.resolve(value),
+    });
   } else {
-    result = new ValidationResult(model, attribute, validator);
+    result = ValidationResult.create(commonProps);
     result.update(value);
   }
 
@@ -642,7 +647,7 @@ function validate(options = {}, isAsync = true) {
     return v;
   }, []);
 
-  let validations = new ResultCollection({
+  let validations = ResultCollection.create({
     attribute: `Validate:${model}`,
     content: validationResults,
   });
@@ -699,7 +704,7 @@ function validateAttribute(attribute, value) {
     }
   );
 
-  let validations = new ResultCollection({
+  let validations = ResultCollection.create({
     attribute,
     content: validationResults?.flat(Infinity),
   });

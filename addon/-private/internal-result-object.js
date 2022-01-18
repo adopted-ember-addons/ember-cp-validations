@@ -60,7 +60,11 @@ export default class InternalResultObject {
 
   get error() {
     if (this.isInvalid) {
-      return new ValidationError(this._type, this.message, this.attribute);
+      return ValidationError.create({
+        type: this._type,
+        message: this.message,
+        attribute: this.attribute,
+      });
     }
 
     return null;
@@ -76,11 +80,11 @@ export default class InternalResultObject {
 
   get warning() {
     if (this.isWarning && !isNone(this.warningMessage)) {
-      return new ValidationError(
-        this._type,
-        this.warningMessage,
-        this.attribute
-      );
+      return ValidationError.create({
+        type: this._type,
+        message: this.warningMessage,
+        attribute: this.attribute,
+      });
     }
 
     return null;
