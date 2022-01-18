@@ -1,15 +1,13 @@
 import { tracked } from '@glimmer/tracking';
 
-const OPTION_KEYS = '__option_keys__';
-
 export default class Options {
   @tracked model;
   @tracked attribute;
-  [OPTION_KEYS];
+  __OPTION_KEYS__;
 
   constructor({ model, attribute, options = {} }) {
     Object.assign(this, {
-      [OPTION_KEYS]: Object.keys(options),
+      __OPTION_KEYS__: Object.keys(options),
       model,
       attribute,
       ...options,
@@ -17,7 +15,7 @@ export default class Options {
   }
 
   toObject() {
-    return this[OPTION_KEYS].reduce((obj, key) => {
+    return this.__OPTION_KEYS__.reduce((obj, key) => {
       obj[key] = this[key];
       return obj;
     }, {});
