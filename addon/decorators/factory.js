@@ -11,12 +11,8 @@ import cycleBreaker from '../utils/cycle-breaker';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidatorClass from '../utils/lookup-validator-class';
 import { isValidatable, isPromise } from '../utils/utils';
+import { tracked } from '@glimmer/tracking';
 
-const VALIDATIONS_CLASS = '__VALIDATIONS_CLASS__';
-const IS_VALIDATIONS_CLASS = '__IS_VALIDATIONS_CLASS__';
-const ATTRS_MODEL = '__ATTRS_MODEL__';
-const ATTRS_PATH = '__ATTRS_PATH__';
-const ATTRS_RESULT_COLLECTION = '__ATTRS_RESULT_COLLECTION__';
 const VALIDATION_COUNT_MAP = new WeakMap();
 
 /**
@@ -91,12 +87,12 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
         VALIDATION_COUNT_MAP.set(this, validationMixinCount);
       }
 
-      get [VALIDATIONS_CLASS]() {
+      get __VALIDATIONS_CLASS__() {
         if (!Validations) {
           let inheritedClass;
 
           if (
-            shouldCallSuper(this, VALIDATIONS_CLASS) ||
+            shouldCallSuper(this, '__VALIDATIONS_CLASS__') ||
             validationMixinCount > 1
           ) {
             inheritedClass = Object.getPrototypeOf(this.constructor);
@@ -108,7 +104,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       }
 
       get validations() {
-        return new this[VALIDATIONS_CLASS](this);
+        return new this.__VALIDATIONS_CLASS__(this);
       }
 
       validate() {
@@ -191,7 +187,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
   // Setup validation inheritance
   if (
     inheritedValidationsClass &&
-    inheritedValidationsClass[IS_VALIDATIONS_CLASS]
+    inheritedValidationsClass.__IS_VALIDATIONS_CLASS__
   ) {
     let inheritedValidations = new inheritedValidationsClass();
 
@@ -215,10 +211,10 @@ function createValidationsClass(inheritedValidationsClass, validations) {
 
   // Create `validations` class
   return class ValidationsClass {
-    static [IS_VALIDATIONS_CLASS] = true;
+    static __IS_VALIDATIONS_CLASS__ = true;
 
     model;
-    attrs;
+    @tracked attrs;
     isValidations = true;
 
     // Caches
@@ -234,74 +230,74 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     validatableAttributes = validatableAttributes;
 
     get isValid() {
-      return this[ATTRS_RESULT_COLLECTION].isValid;
+      return this.__ATTRS_RESULT_COLLECTION__.isValid;
     }
 
     get isValidating() {
-      return this[ATTRS_RESULT_COLLECTION].isValidating;
+      return this.__ATTRS_RESULT_COLLECTION__.isValidating;
     }
 
     get isAsync() {
-      return this[ATTRS_RESULT_COLLECTION].isAsync;
+      return this.__ATTRS_RESULT_COLLECTION__.isAsync;
     }
 
     get isNotValidating() {
-      return this[ATTRS_RESULT_COLLECTION].isNotValidating;
+      return this.__ATTRS_RESULT_COLLECTION__.isNotValidating;
     }
 
     get isInvalid() {
-      return this[ATTRS_RESULT_COLLECTION].isInvalid;
+      return this.__ATTRS_RESULT_COLLECTION__.isInvalid;
     }
 
     get isTruelyValid() {
-      return this[ATTRS_RESULT_COLLECTION].isTruelyValid;
+      return this.__ATTRS_RESULT_COLLECTION__.isTruelyValid;
     }
 
     get isTruelyInvalid() {
-      return this[ATTRS_RESULT_COLLECTION].isTruelyInvalid;
+      return this.__ATTRS_RESULT_COLLECTION__.isTruelyInvalid;
     }
 
     get hasWarnings() {
-      return this[ATTRS_RESULT_COLLECTION].hasWarnings;
+      return this.__ATTRS_RESULT_COLLECTION__.hasWarnings;
     }
 
     get messages() {
-      return this[ATTRS_RESULT_COLLECTION].messages;
+      return this.__ATTRS_RESULT_COLLECTION__.messages;
     }
 
     get message() {
-      return this[ATTRS_RESULT_COLLECTION].message;
+      return this.__ATTRS_RESULT_COLLECTION__.message;
     }
 
     get warningMessage() {
-      return this[ATTRS_RESULT_COLLECTION].warningMessage;
+      return this.__ATTRS_RESULT_COLLECTION__.warningMessage;
     }
 
     get warningMessages() {
-      return this[ATTRS_RESULT_COLLECTION].warningMessages;
+      return this.__ATTRS_RESULT_COLLECTION__.warningMessages;
     }
 
     get warnings() {
-      return this[ATTRS_RESULT_COLLECTION].warnings;
+      return this.__ATTRS_RESULT_COLLECTION__.warnings;
     }
 
     get warning() {
-      return this[ATTRS_RESULT_COLLECTION].warning;
+      return this.__ATTRS_RESULT_COLLECTION__.warning;
     }
 
     get errors() {
-      return this[ATTRS_RESULT_COLLECTION].errors;
+      return this.__ATTRS_RESULT_COLLECTION__.errors;
     }
 
     get error() {
-      return this[ATTRS_RESULT_COLLECTION].error;
+      return this.__ATTRS_RESULT_COLLECTION__.error;
     }
 
     get _promise() {
-      return this[ATTRS_RESULT_COLLECTION]._promise;
+      return this.__ATTRS_RESULT_COLLECTION__._promise;
     }
 
-    get [ATTRS_RESULT_COLLECTION]() {
+    get __ATTRS_RESULT_COLLECTION__() {
       return new ResultCollection({
         attribute: `Model:${this}`,
         content: validatableAttributes.map((attr) => this.attrs[attr]),
@@ -350,18 +346,19 @@ function createAttrsClass(validatableAttributes) {
   let rootPath = 'root';
 
   class AttrsClass {
-    [ATTRS_MODEL];
-    [ATTRS_PATH] = rootPath;
+    @tracked __ATTRS_MODEL__;
+    @tracked __ATTRS_PATH__ = rootPath;
 
-    constructor(attrsModel, attrsPath) {
-      let model, path;
-      model = this[ATTRS_PATH] = attrsPath;
-      path = this[ATTRS_MODEL] = attrsModel;
+    constructor(model, path) {
+      Object.assign(this, {
+        __ATTRS_PATH__: path,
+        __ATTRS_MODEL__: model,
+      });
 
       /*
         Instantiate the nested attrs classes for the current path
        */
-      Object.keys(nestedClasses[path] || []).forEach((key) => {
+      Object.keys(nestedClasses[path] ?? {}).forEach((key) => {
         this[key] = new nestedClasses[path][key](model);
       });
     }
@@ -369,17 +366,10 @@ function createAttrsClass(validatableAttributes) {
     willDestroy() {
       super.willDestroy(...arguments);
 
-      let path = this.get(ATTRS_PATH);
+      this.__ATTRS_MODEL__ = null;
 
-      /*
-        Remove the model reference
-       */
-      this[ATTRS_MODEL] = null;
-
-      /*
-        Destroy all nested classes
-       */
-      Object.keys(nestedClasses[path] || []).forEach((key) => {
+      // Destroy all nested classes
+      Object.keys(nestedClasses[this.__ATTRS_PATH__] ?? {}).forEach((key) => {
         this[key].destroy();
       });
     }
@@ -407,7 +397,7 @@ function createAttrsClass(validatableAttributes) {
 
       if (!_nestedClasses[key]) {
         _nestedClasses[key] = class extends AttrsClass {
-          [ATTRS_PATH] = currPath.join('.');
+          @tracked __ATTRS_PATH__ = currPath.join('.');
         };
       }
 
@@ -417,7 +407,7 @@ function createAttrsClass(validatableAttributes) {
     Object.defineProperty(currClass.prototype, attr, {
       get() {
         return cycleBreaker(function () {
-          let model = this[ATTRS_MODEL];
+          let model = this.__ATTRS_MODEL__;
           let validators = !isNone(model)
             ? getValidatorsFor(attribute, model)
             : [];
