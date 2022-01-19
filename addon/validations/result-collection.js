@@ -369,7 +369,7 @@ export default class ValidationsResultCollection {
 
     errors.forEach((e) => {
       if (attribute && e.attribute !== attribute) {
-        e.set('parentAttribute', attribute);
+        e.parentAttribute = attribute;
       }
     });
 
