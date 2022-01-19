@@ -31,6 +31,6 @@ module('Unit | Validator | inline', function (hooks) {
       },
     });
 
-    validator.validate('foo', validator.get('options').toObject());
+    validator.validate('foo', validator.options.toObject());
   });
 });

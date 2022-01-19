@@ -12,9 +12,9 @@ module('Unit | Validator | messages', function (hooks) {
 
   test('message strings present', function (assert) {
     assert.expect(2);
-    assert.deepEqual(messages.get('invalid'), '{description} is invalid');
+    assert.deepEqual(messages.invalid, '{description} is invalid');
     assert.deepEqual(
-      messages.get('tooShort'),
+      messages.tooShort,
       '{description} is too short (minimum is {min} characters)'
     );
   });
