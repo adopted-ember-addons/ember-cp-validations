@@ -32,7 +32,7 @@ module('Unit | Validator | ds-error', function (hooks) {
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);
 
-    model.get('errors').add('username', 'Username is not unique');
+    model.errors.add('username', 'Username is not unique');
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.deepEqual(message, 'Username is not unique');
@@ -49,8 +49,8 @@ module('Unit | Validator | ds-error', function (hooks) {
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);
 
-    model.get('errors').add('username', 'Username is not unique');
-    model.get('errors').add('username', 'Username is too long');
+    model.errors.add('username', 'Username is not unique');
+    model.errors.add('username', 'Username is too long');
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.deepEqual(message, 'Username is too long');
