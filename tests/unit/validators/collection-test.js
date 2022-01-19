@@ -16,11 +16,11 @@ module('Unit | Validator | collection', function (hooks) {
     options = true;
     builtOptions = validator.buildOptions(options, {});
 
-    assert.true(builtOptions.get('collection'));
+    assert.true(builtOptions.collection);
 
     options = { collection: true };
     builtOptions = validator.buildOptions(options, {});
-    assert.true(builtOptions.get('collection'));
+    assert.true(builtOptions.collection);
   });
 
   test('value is collection', function (assert) {
