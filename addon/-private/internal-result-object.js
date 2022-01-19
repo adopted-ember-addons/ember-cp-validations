@@ -27,7 +27,7 @@ export default class InternalResultObject {
   }
 
   get _type() {
-    return this.__validator._type;
+    return this._validator._type;
   }
 
   get isWarning() {

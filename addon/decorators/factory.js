@@ -192,12 +192,10 @@ function createValidationsClass(inheritedValidationsClass, validations) {
 
     validationRules = assign(
       validationRules,
-      inheritedValidations.get('_validationRules')
+      inheritedValidations._validationRules
     );
     validatableAttributes = emberArray(
-      inheritedValidations
-        .get('validatableAttributes')
-        .concat(validatableAttributes)
+      inheritedValidations.validatableAttributes.concat(validatableAttributes)
     ).uniq();
   }
 
@@ -208,7 +206,6 @@ function createValidationsClass(inheritedValidationsClass, validations) {
   // Create the `attrs` class which will add the current model reference once instantiated
   let AttrsClass = createAttrsClass(validatableAttributes);
 
-  // Create `validations` class
   return class ValidationsClass {
     static __IS_VALIDATIONS_CLASS__ = true;
 
@@ -389,9 +386,7 @@ function createAttrsClass(validatableAttributes) {
     Insert CPs + Create nested classes
    */
   validatableAttributes.forEach((attribute) => {
-    let currClass = AttrsClass;
-
-    Object.defineProperty(currClass.prototype, attribute, {
+    Object.defineProperty(AttrsClass.prototype, attribute, {
       get() {
         let model = this.__ATTRS_MODEL__;
         let validators = !isNone(model)

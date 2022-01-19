@@ -42,7 +42,7 @@ export default class Result {
    */
   @tracked _validator;
 
-  @tracked _resultOverride;
+  @tracked _result;
 
   /**
    * Determines if the _result object is readOnly.
@@ -195,30 +195,19 @@ export default class Result {
     return this._result.warnings;
   }
 
-  /**
-   * This holds all the logic for the above CPs. We do this so we can easily switch this object out with a different validations object
-   * @property _result
-   * @private
-   * @type {Result}
-   */
-  get _result() {
-    return (
-      this._resultOverride ||
-      InternalResultObject.create({
-        model: this.model,
-        attribute: this.attribute,
-        _promise: this._promise,
-        _validator: this._validator,
-      })
-    );
-  }
-
   static create(props) {
     return new Result(props);
   }
 
   constructor(props = {}) {
     Object.assign(this, props);
+
+    this._result = InternalResultObject.create({
+      model: this.model,
+      attribute: this.attribute,
+      _promise: this._promise,
+      _validator: this._validator,
+    });
 
     if (this.isAsync && !this._isReadOnly) {
       this._handlePromise();
@@ -251,8 +240,6 @@ export default class Result {
     } else if (isArray(value)) {
       this._overrideResult(Collection.create({ attribute, content: value }));
     } else if (!this._isReadOnly) {
-      this._overrideResult(undefined);
-
       if (typeof value === 'string') {
         Object.assign(this._result, {
           [isWarning ? 'warningMessage' : 'message']: value,
@@ -273,7 +260,7 @@ export default class Result {
    * @private
    */
   _overrideResult(result) {
-    this._resultOverride = result;
+    this._result = result;
   }
 
   /**
