@@ -15,14 +15,14 @@ module('Unit | Validations | DS.Model', function (hooks) {
       'isValid was expected to be FALSE'
     );
 
-    // run(() => {
-    //   object.set('acceptTerms', true);
-    // });
+    run(() => {
+      object.set('acceptTerms', true);
+    });
 
-    // assert.true(
-    //   object.validations.attrs.acceptTerms.isValid,
-    //   'isValid was expected to be TRUE'
-    // );
+    assert.true(
+      object.validations.attrs.acceptTerms.isValid,
+      'isValid was expected to be TRUE'
+    );
   });
 
   test('create model overriding defaults', function (assert) {
