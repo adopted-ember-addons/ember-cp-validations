@@ -11,7 +11,6 @@ module('Unit | Validator | presence', function (hooks) {
   });
 
   test('buildOptions', function (assert) {
-    console.log(validator);
     assert.expect(2);
 
     options = true;

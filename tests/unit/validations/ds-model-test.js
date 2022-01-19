@@ -11,7 +11,7 @@ module('Unit | Validations | DS.Model', function (hooks) {
     );
 
     assert.false(
-      object.get('validations.attrs.acceptTerms.isValid'),
+      object.validations.attrs.acceptTerms.isValid,
       'isValid was expected to be FALSE'
     );
 
@@ -20,7 +20,7 @@ module('Unit | Validations | DS.Model', function (hooks) {
     });
 
     assert.true(
-      object.get('validations.attrs.acceptTerms.isValid'),
+      object.validations.attrs.acceptTerms.isValid,
       'isValid was expected to be TRUE'
     );
   });
@@ -33,7 +33,7 @@ module('Unit | Validations | DS.Model', function (hooks) {
     );
 
     assert.true(
-      object.get('validations.attrs.acceptTerms.isValid'),
+      object.validations.attrs.acceptTerms.isValid,
       'isValid was expected to be TRUE'
     );
 
@@ -42,7 +42,7 @@ module('Unit | Validations | DS.Model', function (hooks) {
     });
 
     assert.false(
-      object.get('validations.attrs.acceptTerms.isValid'),
+      object.validations.attrs.acceptTerms.isValid,
       'isValid was expected to be FALSE'
     );
   });

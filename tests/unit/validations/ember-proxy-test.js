@@ -20,7 +20,7 @@ module('Unit | Validations | Ember ObjectProxy', function (hooks) {
       })
       class Proxy extends ObjectProxy {}
 
-      const proxy = new Proxy(container, { content: company });
+      const proxy = Proxy.create(container, { content: company });
 
       assert.notOk(proxy.get('validations.isValid'));
       assert.notOk(company.get('validations.isValid'));
