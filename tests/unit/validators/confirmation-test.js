@@ -27,7 +27,7 @@ module('Unit | Validator | confirmation', function (hooks) {
     );
     assert.deepEqual(message, "This field doesn't match email");
 
-    model.set('emailConfirmation', 'foo@gmail.com');
+    model.emailConfirmation = 'foo@gmail.com';
 
     message = validator.validate(
       'foo@gmail.com',
