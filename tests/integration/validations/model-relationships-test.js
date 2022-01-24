@@ -58,7 +58,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.get('content').mapBy('attribute').sort(),
       ['friend'].sort()
     );
 
@@ -79,7 +79,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.get('content').mapBy('attribute').sort(),
       ['friend'].sort()
     );
 
@@ -105,7 +105,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.get('content').mapBy('attribute').sort(),
       ['friends'].sort()
     );
 
@@ -130,7 +130,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.get('content').mapBy('attribute').sort(),
       ['friends'].sort()
     );
 
@@ -161,7 +161,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friends'].sort()
       );
 
@@ -199,7 +199,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friends'].sort()
       );
 
@@ -240,7 +240,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friend'].sort()
       );
 
@@ -278,7 +278,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friend'].sort()
       );
 
@@ -315,7 +315,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friend'].sort()
       );
       assert.true(user.get('validations.isValid'));
@@ -341,7 +341,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friends'].sort()
       );
       assert.true(user.get('validations.isValid'));
@@ -367,7 +367,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     validations.then(({ model, validations }) => {
       assert.deepEqual(model, user, 'expected model to be the correct model');
       assert.deepEqual(
-        validations.get('content').getEach('attribute').sort(),
+        validations.get('content').mapBy('attribute').sort(),
         ['friend'].sort()
       );
 
@@ -520,7 +520,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.get('content').mapBy('attribute').sort(),
       ['friend'].sort()
     );
 
@@ -545,7 +545,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.get('content').mapBy('attribute').sort(),
       ['friends'].sort()
     );
 
