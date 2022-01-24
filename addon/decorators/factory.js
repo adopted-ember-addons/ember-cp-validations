@@ -648,7 +648,7 @@ function validate(options = {}, isAsync = true) {
   let resultObject = { model, validations };
 
   if (isAsync) {
-    return validations._promise.then(() => {
+    return Promise.resolve(validations._promise).then(() => {
       /*
         NOTE: When dealing with belongsTo and hasMany relationships, there are cases
         where we have to resolve the actual models and only then resolve all the underlying
@@ -704,7 +704,7 @@ function validateAttribute(attribute, value) {
 
   let result = { model, validations };
 
-  return validations._promise.then(() => {
+  return Promise.resolve(validations._promise).then(() => {
     /*
       NOTE: When dealing with belongsTo and hasMany relationships, there are cases
       where we have to resolve the actual models and only then resolve all the underlying
