@@ -1,15 +1,10 @@
-import ArrayProxy from '@ember/array/proxy';
-import ObjectProxy from '@ember/object/proxy';
 import { assign } from '@ember/polyfills';
 import { isHTMLSafe } from '@ember/template';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
-import Ember from 'ember';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DS, { PromiseManyArray } from 'ember-data';
 import Model from '@ember-data/model';
-
-const { canInvoke } = Ember;
 
 export function unwrapString(s) {
   if (isHTMLSafe(s)) {
@@ -19,23 +14,15 @@ export function unwrapString(s) {
   return s;
 }
 
-export function unwrapProxy(o) {
-  return isProxy(o) ? unwrapProxy(o.content) : o;
-}
-
-export function isProxy(o) {
-  return !!(o && (o instanceof ObjectProxy || o instanceof ArrayProxy));
-}
-
 export function isPromise(p) {
-  return !!(p && canInvoke(p, 'then'));
+  return !!(p && p.then);
 }
 
-export function isDsModel(o) {
+function isDsModel(o) {
   return !!(o && o instanceof Model);
 }
 
-export function isDSManyArray(o) {
+function isDSManyArray(o) {
   return !!(
     o &&
     isArray(o) &&
@@ -43,13 +30,12 @@ export function isDSManyArray(o) {
   );
 }
 
-export function isObject(o) {
+function isObject(o) {
   return typeOf(o) === 'object' || typeOf(o) === 'instance';
 }
 
 export function isValidatable(value) {
-  let v = unwrapProxy(value);
-  return isDsModel(v) ? !v.isDeleted : true;
+  return isDsModel(value) ? !value.isDeleted : true;
 }
 
 export function getValidatableValue(value) {

@@ -10,7 +10,6 @@ import {
   isPromise,
 } from 'ember-cp-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
-import { get } from '@ember/object';
 
 class TestResult {
   constructor(result) {
@@ -155,7 +154,7 @@ export default class ValidatorsBase {
    * @return The current value of `model[attribute]`
    */
   value(model, attribute) {
-    return get(model, attribute);
+    return model[attribute];
   }
 
   /**
