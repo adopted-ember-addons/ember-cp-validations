@@ -852,10 +852,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
         assert.true(model.validations.isValid);
         assert.false(validations.isValid);
         assert.false(validations.isValidating);
-        assert.deepEqual(
-          validations.message,
-          'firstName should be present'
-        );
+        assert.deepEqual(validations.message, 'firstName should be present');
       });
   });
 
@@ -926,10 +923,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     );
 
     assert.false(object.validations.attrs.password.isValid);
-    assert.deepEqual(
-      object.validations.attrs.password.warnings.length,
-      2
-    );
+    assert.deepEqual(object.validations.attrs.password.warnings.length, 2);
     assert.deepEqual(
       object.validations.attrs.password.warningMessage,
       'Password should not be empty'
@@ -943,10 +937,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.validations.isValid);
     assert.true(object.validations.attrs.password.isValid);
-    assert.deepEqual(
-      object.validations.attrs.password.warnings.length,
-      1
-    );
+    assert.deepEqual(object.validations.attrs.password.warnings.length, 1);
     assert.deepEqual(
       object.validations.attrs.password.warningMessage,
       'Password is weak'
@@ -1067,10 +1058,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     object.set('enabled', false);
 
     assert.true(object.validations.attrs.firstName.isValid);
-    assert.true(
-      object.validations.isValid,
-      'isValid was expected to be FALSE'
-    );
+    assert.true(object.validations.isValid, 'isValid was expected to be FALSE');
   });
 
   test('lazy validators are actually lazy', function (assert) {
