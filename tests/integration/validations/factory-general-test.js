@@ -73,8 +73,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     );
     assert.ok(
       object.validations.errors[1].message,
-      object.validations.attrs.lastName.errors[0].message,
-      'errors was expected to contain lastName error'
+      object.validations.attrs.lastName.errors[0].message
     );
     assert.deepEqual(
       object.validations.errors[0].attribute,
