@@ -66,16 +66,14 @@ module('Integration | Validations | Factory - General', function (hooks) {
       2,
       'errors length was expected to be 2'
     );
-    assert.ok(
-      object.validations.errors.indexOf(
-        object.validations.attrs.firstName.errors[0]
-      ) > -1,
+    assert.deepEqual(
+      object.validations.errors[0].message,
+      object.validations.attrs.firstName.errors[0].message,
       'errors was expected to contain firstName error'
     );
     assert.ok(
-      object.validations.errors.indexOf(
-        object.validations.attrs.lastName.errors[0]
-      ) > -1,
+      object.validations.errors[1].message,
+      object.validations.attrs.lastName.errors[0].message,
       'errors was expected to contain lastName error'
     );
     assert.deepEqual(
@@ -110,11 +108,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.validations.attrs.firstName.isValid);
     assert.false(object.validations.attrs.firstName.isValidating);
-    assert.deepEqual(object.validations.attrs.firstName.message, null);
+    assert.deepEqual(object.validations.attrs.firstName.message, undefined);
 
     assert.true(object.validations.attrs.lastName.isValid);
     assert.false(object.validations.attrs.lastName.isValidating);
-    assert.deepEqual(object.validations.attrs.lastName.message, null);
+    assert.deepEqual(object.validations.attrs.lastName.message, undefined);
 
     assert.deepEqual(
       object.validations.errors.length,
