@@ -36,14 +36,14 @@ module('Integration | Validators | Composable', function (hooks) {
       value: '',
     });
 
-    assert.false(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
+    assert.false(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
     assert.deepEqual(obj.validations.message, "This field can't be blank");
 
     obj.set('value', 'foo');
 
-    assert.true(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
+    assert.true(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
   });
 
   test('Composability - multiple', function (assert) {
@@ -76,23 +76,23 @@ module('Integration | Validators | Composable', function (hooks) {
       value: '',
     });
 
-    assert.false(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
+    assert.false(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
     assert.deepEqual(obj.validations.message, "This field can't be blank");
 
     obj.set('value', 'foobar');
 
-    assert.false(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
+    assert.false(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
     assert.deepEqual(
-      obj.get('validations.message'),
+      obj.validations.message,
       'This field is too long (maximum is 5 characters)'
     );
 
     obj.set('value', 'foo');
 
-    assert.true(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
+    assert.true(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
   });
 
   test('Composability - async', async function (assert) {
@@ -147,22 +147,22 @@ module('Integration | Validators | Composable', function (hooks) {
 
     await obj.validate();
 
-    assert.false(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
-    assert.deepEqual(obj.get('validations.message'), 'Must include foo!');
+    assert.false(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
+    assert.deepEqual(obj.validations.message, 'Must include foo!');
 
     obj.set('value', 'foo');
     await obj.validate();
 
-    assert.false(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
-    assert.deepEqual(obj.get('validations.message'), 'Must include bar!');
+    assert.false(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
+    assert.deepEqual(obj.validations.message, 'Must include bar!');
 
     obj.set('value', 'foobar');
     await obj.validate();
 
-    assert.true(obj.get('validations.isValid'));
-    assert.false(obj.get('validations.isValidating'));
+    assert.true(obj.validations.isValid);
+    assert.false(obj.validations.isValidating);
   });
 
   test('Composability - unsupported types', function (assert) {
