@@ -158,30 +158,30 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.true(object.get('validations.attrs.firstName.isValid'));
-    assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.deepEqual(object.get('validations.attrs.firstName.message'), null);
+    assert.true(object.validations.attrs.firstName.isValid);
+    assert.false(object.validations.attrs.firstName.isValidating);
+    assert.deepEqual(object.validations.attrs.firstName.message, null);
 
-    assert.false(object.get('validations.attrs.lastName.isValid'));
-    assert.false(object.get('validations.attrs.lastName.isValidating'));
+    assert.false(object.validations.attrs.lastName.isValid);
+    assert.false(object.validations.attrs.lastName.isValidating);
     assert.deepEqual(
-      object.get('validations.attrs.lastName.message'),
+      object.validations.attrs.lastName.message,
       'lastName should be present'
     );
   });
@@ -192,63 +192,52 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Stef',
     });
 
-    return object
-      .get('validations')
-      .validate()
-      .then(({ validations, model }) => {
-        assert.deepEqual(
-          model,
-          object,
-          'expected model to be the correct model'
-        );
-        assert.deepEqual(
-          validations.get('content').getEach('attribute').sort(),
-          ['firstName', 'lastName'].sort()
-        );
+    return object.validations.validate().then(({ validations, model }) => {
+      assert.deepEqual(model, object, 'expected model to be the correct model');
+      assert.deepEqual(
+        validations.content.mapBy('attribute').sort(),
+        ['firstName', 'lastName'].sort()
+      );
 
-        let firstName = validations
-          .get('content')
-          .findBy('attribute', 'firstName');
-        let lastName = validations
-          .get('content')
-          .findBy('attribute', 'lastName');
+      let firstName = validations.content.findBy('attribute', 'firstName');
+      let lastName = validations.content.findBy('attribute', 'lastName');
 
-        assert.true(firstName.get('isValid'));
-        assert.false(firstName.get('isValidating'));
-        assert.deepEqual(firstName.get('message'), undefined);
+      assert.true(firstName.isValid);
+      assert.false(firstName.isValidating);
+      assert.deepEqual(firstName.message, undefined);
 
-        assert.false(lastName.get('isValid'));
-        assert.false(lastName.get('isValidating'));
-        assert.deepEqual(lastName.get('message'), 'lastName should be present');
+      assert.false(lastName.isValid);
+      assert.false(lastName.isValidating);
+      assert.deepEqual(lastName.message, 'lastName should be present');
 
-        assert.false(
-          object.get('validations.isValid'),
-          'isValid was expected to be FALSE'
-        );
-        assert.false(
-          object.get('validations.isValidating'),
-          'isValidating was expected to be FALSE'
-        );
-        assert.false(
-          object.get('validations.isTruelyValid'),
-          'isTruelyValid was expected to be FALSE'
-        );
-        assert.true(
-          object.get('validations.isTruelyInvalid'),
-          'isTruelyInvalid was expected to be TRUE'
-        );
+      assert.false(
+        object.validations.isValid,
+        'isValid was expected to be FALSE'
+      );
+      assert.false(
+        object.validations.isValidating,
+        'isValidating was expected to be FALSE'
+      );
+      assert.false(
+        object.validations.isTruelyValid,
+        'isTruelyValid was expected to be FALSE'
+      );
+      assert.true(
+        object.validations.isTruelyInvalid,
+        'isTruelyInvalid was expected to be TRUE'
+      );
 
-        assert.true(object.get('validations.attrs.firstName.isValid'));
-        assert.false(object.get('validations.attrs.firstName.isValidating'));
-        assert.deepEqual(object.validations.attrs.firstName.message, null);
+      assert.true(object.validations.attrs.firstName.isValid);
+      assert.false(object.validations.attrs.firstName.isValidating);
+      assert.deepEqual(object.validations.attrs.firstName.message, null);
 
-        assert.false(object.get('validations.attrs.lastName.isValid'));
-        assert.false(object.get('validations.attrs.lastName.isValidating'));
-        assert.deepEqual(
-          object.get('validations.attrs.lastName.message'),
-          'lastName should be present'
-        );
-      });
+      assert.false(object.validations.attrs.lastName.isValid);
+      assert.false(object.validations.attrs.lastName.isValidating);
+      assert.deepEqual(
+        object.validations.attrs.lastName.message,
+        'lastName should be present'
+      );
+    });
   });
 
   test('basic sync validation - API - #validationSync', function (assert) {
@@ -256,50 +245,50 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Stef',
     });
 
-    let { validations, model } = object.get('validations').validateSync();
+    let { validations, model } = object.validations.validateSync();
 
     assert.deepEqual(model, object, 'expected model to be the correct model');
     assert.deepEqual(
-      validations.get('content').getEach('attribute').sort(),
+      validations.content.mapBy('attribute').sort(),
       ['firstName', 'lastName'].sort()
     );
 
-    let firstName = validations.get('content').findBy('attribute', 'firstName');
-    let lastName = validations.get('content').findBy('attribute', 'lastName');
+    let firstName = validations.content.findBy('attribute', 'firstName');
+    let lastName = validations.content.findBy('attribute', 'lastName');
 
-    assert.true(firstName.get('isValid'));
-    assert.false(firstName.get('isValidating'));
-    assert.deepEqual(firstName.get('message'), undefined);
+    assert.true(firstName.isValid);
+    assert.false(firstName.isValidating);
+    assert.deepEqual(firstName.message, undefined);
 
-    assert.false(lastName.get('isValid'));
-    assert.false(lastName.get('isValidating'));
-    assert.deepEqual(lastName.get('message'), 'lastName should be present');
+    assert.false(lastName.isValid);
+    assert.false(lastName.isValidating);
+    assert.deepEqual(lastName.message, 'lastName should be present');
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.true(object.get('validations.attrs.firstName.isValid'));
-    assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.deepEqual(object.get('validations.attrs.firstName.message'), null);
+    assert.true(object.validations.attrs.firstName.isValid);
+    assert.false(object.validations.attrs.firstName.isValidating);
+    assert.deepEqual(object.validations.attrs.firstName.message, null);
 
-    assert.false(object.get('validations.attrs.lastName.isValid'));
-    assert.false(object.get('validations.attrs.lastName.isValidating'));
+    assert.false(object.validations.attrs.lastName.isValid);
+    assert.false(object.validations.attrs.lastName.isValidating);
     assert.deepEqual(
-      object.get('validations.attrs.lastName.message'),
+      object.validations.attrs.lastName.message,
       'lastName should be present'
     );
   });
@@ -313,24 +302,24 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.false(object.get('validations.attrs.firstName.isValid'));
-    assert.false(object.get('validations.attrs.firstName.isValidating'));
+    assert.false(object.validations.attrs.firstName.isValid);
+    assert.false(object.validations.attrs.firstName.isValidating);
     assert.deepEqual(object.validations.attrs.firstName.message, undefined);
   });
 
@@ -348,12 +337,12 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let obj = setupObject(this, Validations);
 
-    assert.true(obj.get('validations.attrs.firstName.isAsync'));
-    assert.true(obj.get('validations.attrs.firstName.isValidating'));
+    assert.true(obj.validations.attrs.firstName.isAsync);
+    assert.true(obj.validations.attrs.firstName.isValidating);
 
     return obj.validate().then(({ model }) => {
-      assert.true(model.get('validations.isValid'));
-      assert.false(model.get('validations.isValidating'));
+      assert.true(model.validations.isValid);
+      assert.false(model.validations.isValidating);
     });
   });
 
@@ -370,7 +359,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let object = setupObject(this, Validations, {
       firstName: '',
     });
-    let rules = A(object.get('validations._validationRules.firstName'));
+    let rules = A(object.validations._validationRules.firstName);
     assert.false(rules.isAny('defaultOptions', undefined));
     assert.deepEqual(rules[0].defaultOptions.description, 'Test field');
   });
@@ -397,15 +386,20 @@ module('Integration | Validations | Factory - General', function (hooks) {
     Object.assign(object, this.owner.ownerInjection(), { firstName: '' });
 
     // Global options present in rules
-    let rules = A(object.get('validations._validationRules.firstName'));
+    let rules = A(object.validations._validationRules.firstName);
     assert.false(rules.isAny('globalOptions', undefined));
     assert.deepEqual(rules[0].globalOptions.max, 10);
 
-    assert.ok(object.get('validations.attrs.firstName.isInvalid'));
+    assert.ok(object.validations.attrs.firstName.isInvalid);
 
-    let v = object.get('validations._validators.firstName.0');
+    let v = object.validations._validators.firstName[0];
     assert.deepEqual(
-      v.get('options').getProperties(['message', 'description', 'min', 'max']),
+      {
+        message: v.options.message,
+        description: v.options.description,
+        min: v.options.min,
+        max: v.options.max,
+      },
       {
         message: 'Global error message',
         description: 'Test field',
@@ -427,10 +421,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let object = setupObject(this, Validations);
 
-    assert.false(object.get('validations.attrs.firstName.isValid'));
-    assert.false(object.get('validations.attrs.firstName.isValidating'));
+    assert.false(object.validations.attrs.firstName.isValid);
+    assert.false(object.validations.attrs.firstName.isValidating);
     assert.deepEqual(
-      object.get('validations.attrs.firstName.message'),
+      object.validations.attrs.firstName.message,
       'Test error message'
     );
   });
@@ -447,7 +441,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let object = setupObject(this, Validations);
 
     assert.deepEqual(
-      object.get('validations.attrs.firstName.message'),
+      object.validations.attrs.firstName.message,
       "This field can't be blank"
     );
   });
@@ -467,37 +461,37 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let object = setupObject(this, Validations);
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be TRUE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.false(object.get('validations.attrs.lastName.isValid'));
-    assert.false(object.get('validations.attrs.lastName.isValidating'));
+    assert.false(object.validations.attrs.lastName.isValid);
+    assert.false(object.validations.attrs.lastName.isValidating);
     assert.deepEqual(
-      object.get('validations.attrs.lastName.message'),
+      object.validations.attrs.lastName.message,
       'lastName should be present'
     );
 
     initSetup = false;
     object.set('lastName', 'Golan');
-    assert.true(object.get('validations.attrs.lastName.isValidating'));
+    assert.true(object.validations.attrs.lastName.isValidating);
 
     await run.later(() => {
-      assert.true(object.get('validations.attrs.lastName.isValid'));
-      assert.false(object.get('validations.attrs.lastName.isValidating'));
-      assert.deepEqual(object.get('validations.attrs.lastName.message'), null);
+      assert.true(object.validations.attrs.lastName.isValid);
+      assert.false(object.validations.attrs.lastName.isValidating);
+      assert.deepEqual(object.validations.attrs.lastName.message, null);
     }, 505);
   });
 
@@ -514,13 +508,13 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let object = setupObject(this, Validations);
 
     object.set('firstName', 'O');
-    object.get('validations.attrs.firstName.isValid');
+    object.validations.attrs.firstName.isValid;
 
     object.set('firstName', 'Off');
-    object.get('validations.attrs.firstName.isValid');
+    object.validations.attrs.firstName.isValid;
 
     object.set('firstName', 'Offir');
-    object.get('validations.attrs.firstName.isValid');
+    object.validations.attrs.firstName.isValid;
 
     await run.later(() => {
       assert.deepEqual(count, 1);
@@ -552,26 +546,26 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be TRUE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.false(object.get('validations.attrs.lastName.isValid'));
-    assert.false(object.get('validations.attrs.lastName.isValidating'));
+    assert.false(object.validations.attrs.lastName.isValid);
+    assert.false(object.validations.attrs.lastName.isValidating);
     assert.deepEqual(
-      object.get('validations.attrs.lastName.message'),
+      object.validations.attrs.lastName.message,
       'lastName should be present'
     );
 
@@ -580,8 +574,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
       lastName: 'Golan',
       'details.url': 'github.com',
     });
-    assert.true(object.get('validations.attrs.lastName.isValidating'));
-    assert.true(object.get('validations.attrs.details.url.isValidating'));
+    assert.true(object.validations.attrs.lastName.isValidating);
+    assert.true(object.validations.attrs.details.url.isValidating);
 
     run.later(() => {
       try {
@@ -607,28 +601,28 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let object = setupObject(this, Validations);
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be TRUE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.true(object.get('validations.attrs.lastName.isValid'));
-    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.true(object.validations.attrs.lastName.isValid);
+    assert.false(object.validations.attrs.firstName.isValid);
 
     object.set('firstName', 'Offir');
 
-    assert.true(object.get('validations.isValid'));
+    assert.true(object.validations.isValid);
   });
 
   test('disabled validations - cp with dependent key', function (assert) {
@@ -647,29 +641,29 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be TRUE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.false(object.get('validations.attrs.lastName.isValid'));
-    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.validations.attrs.lastName.isValid);
+    assert.true(object.validations.attrs.firstName.isValid);
 
     object.set('validateLastName', false);
 
-    assert.true(object.get('validations.attrs.lastName.isValid'));
-    assert.true(object.get('validations.isValid'));
+    assert.true(object.validations.attrs.lastName.isValid);
+    assert.true(object.validations.isValid);
   });
 
   test('attribute validation result options hash', function (assert) {
@@ -694,7 +688,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       },
     };
     let object = setupObject(this, Validations, { max: 5 });
-    let options = object.get('validations.attrs.firstName.options');
+    let options = object.validations.attrs.firstName.options;
 
     assert.ok(options);
     assert.deepEqual(
@@ -729,12 +723,12 @@ module('Integration | Validations | Factory - General', function (hooks) {
       },
     };
     let object = setupObject(this, Validations, { max: 5 });
-    let options = object.get('validations.attrs.firstName.options');
+    let options = object.validations.attrs.firstName.options;
     assert.deepEqual(options.length.max, 5);
 
     run(() => object.set('max', 3));
 
-    options = object.get('validations.attrs.firstName.options');
+    options = object.validations.attrs.firstName.options;
     assert.deepEqual(options.length.max, 3);
   });
 
@@ -756,10 +750,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     child.validateSync();
 
-    assert.deepEqual(child.get('validations.errors.length'), 4);
-    assert.false(child.get('validations.isValid'));
+    assert.deepEqual(child.validations.errors.length, 4);
+    assert.false(child.validations.isValid);
     assert.deepEqual(
-      child.get('validations.validatableAttributes').sort(),
+      child.validations.validatableAttributes.sort(),
       ['firstName', 'lastName', 'middleName', 'dob'].sort()
     );
 
@@ -768,15 +762,15 @@ module('Integration | Validations | Factory - General', function (hooks) {
       dob: '10/22/16',
     });
 
-    assert.deepEqual(child.get('validations.errors.length'), 2);
+    assert.deepEqual(child.validations.errors.length, 2);
 
     child.setProperties({
       firstName: 'Joe',
       lastName: 'Jenkins',
     });
 
-    assert.true(child.get('validations.isValid'));
-    assert.deepEqual(child.get('validations.errors.length'), 0);
+    assert.true(child.validations.isValid);
+    assert.deepEqual(child.validations.errors.length, 0);
   });
 
   test('validations persist with deep inheritance', function (assert) {
@@ -803,10 +797,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     baby.validateSync();
 
-    assert.deepEqual(baby.get('validations.errors.length'), 6);
-    assert.false(baby.get('validations.isValid'));
+    assert.deepEqual(baby.validations.errors.length, 6);
+    assert.false(baby.validations.isValid);
     assert.deepEqual(
-      baby.get('validations.validatableAttributes').sort(),
+      baby.validations.validatableAttributes.sort(),
       [
         'firstName',
         'lastName',
@@ -822,22 +816,22 @@ module('Integration | Validations | Factory - General', function (hooks) {
       dob: '10/22/16',
     });
 
-    assert.deepEqual(baby.get('validations.errors.length'), 4);
+    assert.deepEqual(baby.validations.errors.length, 4);
 
     baby.setProperties({
       firstName: 'Joe',
       lastName: 'Jenkins',
     });
 
-    assert.deepEqual(baby.get('validations.errors.length'), 2);
+    assert.deepEqual(baby.validations.errors.length, 2);
 
     baby.setProperties({
       diaper: 'soiled',
       favParent: 'mom',
     });
 
-    assert.true(baby.get('validations.isValid'));
-    assert.deepEqual(baby.get('validations.errors.length'), 0);
+    assert.true(baby.validations.isValid);
+    assert.deepEqual(baby.validations.errors.length, 0);
   });
 
   test('validateAttribute - sync validations', function (assert) {
@@ -855,11 +849,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
     return object
       .validateAttribute('firstName', undefined)
       .then(({ validations, model }) => {
-        assert.true(model.get('validations.isValid'));
-        assert.false(validations.get('isValid'));
-        assert.false(validations.get('isValidating'));
+        assert.true(model.validations.isValid);
+        assert.false(validations.isValid);
+        assert.false(validations.isValidating);
         assert.deepEqual(
-          validations.get('message'),
+          validations.message,
           'firstName should be present'
         );
       });
@@ -884,9 +878,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
     return object
       .validateAttribute('firstName', 'foo')
       .then(({ validations }) => {
-        assert.false(validations.get('isValid'));
-        assert.false(validations.get('isValidating'));
-        assert.deepEqual(validations.get('message'), 'firstName is invalid');
+        assert.false(validations.isValid);
+        assert.false(validations.isValidating);
+        assert.deepEqual(validations.message, 'firstName is invalid');
       });
   });
 
@@ -920,41 +914,41 @@ module('Integration | Validations | Factory - General', function (hooks) {
       password: '',
     });
 
-    assert.false(object.get('validations.isValid'));
-    assert.deepEqual(object.get('validations.warnings.length'), 2);
+    assert.false(object.validations.isValid);
+    assert.deepEqual(object.validations.warnings.length, 2);
     assert.deepEqual(
-      object.get('validations.warningMessage'),
+      object.validations.warningMessage,
       'Password should not be empty'
     );
     assert.deepEqual(
-      object.get('validations.message'),
+      object.validations.message,
       'Password is too short (minimum is 1 characters)'
     );
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.warnings.length'),
+      object.validations.attrs.password.warnings.length,
       2
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.warningMessage'),
+      object.validations.attrs.password.warningMessage,
       'Password should not be empty'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       'Password is too short (minimum is 1 characters)'
     );
 
     object.set('password', 'wat');
 
-    assert.true(object.get('validations.isValid'));
-    assert.true(object.get('validations.attrs.password.isValid'));
+    assert.true(object.validations.isValid);
+    assert.true(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.warnings.length'),
+      object.validations.attrs.password.warnings.length,
       1
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.warningMessage'),
+      object.validations.attrs.password.warningMessage,
       'Password is weak'
     );
   });
@@ -988,14 +982,14 @@ module('Integration | Validations | Factory - General', function (hooks) {
       isWarning: false,
     });
 
-    assert.false(object.get('validations.isValid'));
-    assert.deepEqual(object.get('validations.warnings.length'), 0);
-    assert.deepEqual(object.get('validations.errors.length'), 2);
+    assert.false(object.validations.isValid);
+    assert.deepEqual(object.validations.warnings.length, 0);
+    assert.deepEqual(object.validations.errors.length, 2);
 
     object.set('isWarning', true);
 
-    assert.deepEqual(object.get('validations.warnings.length'), 1);
-    assert.deepEqual(object.get('validations.errors.length'), 1);
+    assert.deepEqual(object.validations.warnings.length, 1);
+    assert.deepEqual(object.validations.errors.length, 1);
   });
 
   test('options CP changes trigger attribute revalidation', function (assert) {
@@ -1037,25 +1031,25 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.false(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isValidating'),
+      object.validations.isValidating,
       'isValidating was expected to be FALSE'
     );
     assert.false(
-      object.get('validations.isTruelyValid'),
+      object.validations.isTruelyValid,
       'isTruelyValid was expected to be FALSE'
     );
     assert.true(
-      object.get('validations.isTruelyInvalid'),
+      object.validations.isTruelyInvalid,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.validations.attrs.firstName.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.firstName.message'),
+      object.validations.attrs.firstName.message,
       'First Name is too short (minimum is 6 characters)'
     );
 
@@ -1064,17 +1058,17 @@ module('Integration | Validations | Factory - General', function (hooks) {
       minLength: 10,
     });
 
-    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.validations.attrs.firstName.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.firstName.message'),
+      object.validations.attrs.firstName.message,
       'Name is too short (minimum is 10 characters)'
     );
 
     object.set('enabled', false);
 
-    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.true(object.validations.attrs.firstName.isValid);
     assert.true(
-      object.get('validations.isValid'),
+      object.validations.isValid,
       'isValid was expected to be FALSE'
     );
   });
@@ -1105,40 +1099,40 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let object = setupObject(this, Validations);
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.messages.length'),
+      object.validations.attrs.password.messages.length,
       1,
       'Only 1 error message should be present'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       "Password can't be blank"
     );
 
     object.set('password', '1234');
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.messages.length'),
+      object.validations.attrs.password.messages.length,
       1,
       'Only 1 error message should be present'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       'Password is too short (minimum is 5 characters)'
     );
 
     object.set('password', '12345');
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.messages.length'),
+      object.validations.attrs.password.messages.length,
       1,
       'Only 1 error message should be present'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       'Password is not valid'
     );
     assert.deepEqual(
@@ -1176,40 +1170,40 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let object = setupObject(this, Validations);
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.messages.length'),
+      object.validations.attrs.password.messages.length,
       2,
       'Only 2 error message should be present'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       "Password can't be blank"
     );
 
     object.set('password', '1234');
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.messages.length'),
+      object.validations.attrs.password.messages.length,
       2,
       'Only 2 error message should be present'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       'Password is too short (minimum is 5 characters)'
     );
 
     object.set('password', '12345');
 
-    assert.false(object.get('validations.attrs.password.isValid'));
+    assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
-      object.get('validations.attrs.password.messages.length'),
+      object.validations.attrs.password.messages.length,
       1,
       'Only 1 error message should be present'
     );
     assert.deepEqual(
-      object.get('validations.attrs.password.message'),
+      object.validations.attrs.password.message,
       'Password is not valid'
     );
     assert.deepEqual(
@@ -1240,21 +1234,21 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.false(
-      obj.get('validations.attrs.firstName.isValid'),
+      obj.validations.attrs.firstName.isValid,
       'isValid was expected to be FALSE'
     );
     assert.deepEqual(
-      obj.get('validations.attrs.lastName.error.type'),
+      obj.validations.attrs.lastName.error.type,
       'presence',
       'error type was expected to be `presence`'
     );
     assert.deepEqual(
-      obj.get('validations.errors.length'),
+      obj.validations.errors.length,
       2,
       'number of errors was expected to be 2'
     );
     assert.deepEqual(
-      obj.get('validations.errors').filterBy('type', 'presence').length,
+      obj.validations.errors.filterBy('type', 'presence').length,
       1,
       'number of errors was expected to be 1'
     );
