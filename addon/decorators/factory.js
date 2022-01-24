@@ -495,24 +495,22 @@ function generateValidationResultsFor(
  * @return {ValidationResult}
  */
 function validationReturnValueHandler(attribute, value, model, validator) {
-  let result;
-
-  let commonProps = {
-    model,
-    attribute,
-    _validator: validator,
-  };
-
   if (isPromise(value)) {
-    result = ValidationResult.create(commonProps, {
-      _promise: Promise.resolve(value),
+    return ValidationResult.create({
+      model,
+      attribute,
+      _validator: validator,
+      _promise: value,
     });
   } else {
-    result = ValidationResult.create(commonProps);
+    const result = ValidationResult.create({
+      model,
+      attribute,
+      _validator: validator,
+    });
     result.update(value);
+    return result;
   }
-
-  return result;
 }
 
 /**
@@ -650,7 +648,7 @@ function validate(options = {}, isAsync = true) {
   let resultObject = { model, validations };
 
   if (isAsync) {
-    return Promise.resolve(validations._promise).then(() => {
+    return validations._promise.then(() => {
       /*
         NOTE: When dealing with belongsTo and hasMany relationships, there are cases
         where we have to resolve the actual models and only then resolve all the underlying
@@ -706,7 +704,7 @@ function validateAttribute(attribute, value) {
 
   let result = { model, validations };
 
-  return Promise.resolve(validations._promise).then(() => {
+  return validations._promise.then(() => {
     /*
       NOTE: When dealing with belongsTo and hasMany relationships, there are cases
       where we have to resolve the actual models and only then resolve all the underlying

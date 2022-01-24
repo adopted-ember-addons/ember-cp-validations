@@ -280,7 +280,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.validations.attrs.firstName.isValid);
     assert.false(object.validations.attrs.firstName.isValidating);
-    assert.deepEqual(object.validations.attrs.firstName.message, null);
+    assert.deepEqual(object.validations.attrs.firstName.message, undefined);
 
     assert.false(object.validations.attrs.lastName.isValid);
     assert.false(object.validations.attrs.lastName.isValidating);
