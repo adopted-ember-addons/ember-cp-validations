@@ -1,15 +1,12 @@
-import { Promise } from 'rsvp';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { assign } from '@ember/polyfills';
-import { cancel, debounce } from '@ember/runloop';
-import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import ValidationResult from '../-private/result';
 import ResultCollection from '../validations/result-collection';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
-import { isValidatable, isPromise } from '../utils/utils';
+import { isValidatable } from '../utils/utils';
 import { tracked, cached } from '@glimmer/tracking';
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 
@@ -21,8 +18,7 @@ const VALIDATION_COUNT_MAP = new WeakMap();
  * Although validations are lazily computed, there are times where we might want to force all or
  * specific validations to happen. For this reason we have exposed three methods:
  *
- * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Will always return a promise and should be used if asynchronous validations are present
- * - {{#crossLink "Factory/validateSync:method"}}{{/crossLink}}: Should only be used if all validations are synchronous. It will throw an error if any of the validations are asynchronous
+ * - {{#crossLink "Factory/validate:method"}}{{/crossLink}}: Validates the object
  * - {{#crossLink "Factory/validateAttribute:method"}}{{/crossLink}}: A functional approach to validating an attribute without changing its state
  *
  * @module Validations
@@ -110,10 +106,6 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
       validate() {
         return this.validations.validate(...arguments);
-      }
-
-      validateSync() {
-        return this.validations.validateSync(...arguments);
       }
 
       validateAttribute() {
@@ -216,13 +208,11 @@ function createValidationsClass(inheritedValidationsClass, validations) {
 
     // Caches
     _validators = {};
-    _debouncedValidations = {};
 
     // Private
     _validationRules = validationRules;
 
     validate = validate;
-    validateSync = validateSync;
     validateAttribute = validateAttribute;
     validatableAttributes = validatableAttributes;
 
@@ -234,28 +224,8 @@ function createValidationsClass(inheritedValidationsClass, validations) {
       return this.__ATTRS_RESULT_COLLECTION__.isValid;
     }
 
-    get isValidating() {
-      return this.__ATTRS_RESULT_COLLECTION__.isValidating;
-    }
-
-    get isAsync() {
-      return this.__ATTRS_RESULT_COLLECTION__.isAsync;
-    }
-
-    get isNotValidating() {
-      return this.__ATTRS_RESULT_COLLECTION__.isNotValidating;
-    }
-
     get isInvalid() {
       return this.__ATTRS_RESULT_COLLECTION__.isInvalid;
-    }
-
-    get isTruelyValid() {
-      return this.__ATTRS_RESULT_COLLECTION__.isTruelyValid;
-    }
-
-    get isTruelyInvalid() {
-      return this.__ATTRS_RESULT_COLLECTION__.isTruelyInvalid;
     }
 
     get hasWarnings() {
@@ -294,10 +264,6 @@ function createValidationsClass(inheritedValidationsClass, validations) {
       return this.__ATTRS_RESULT_COLLECTION__.error;
     }
 
-    get _promise() {
-      return this.__ATTRS_RESULT_COLLECTION__._promise;
-    }
-
     get __ATTRS_RESULT_COLLECTION__() {
       return ResultCollection.create({
         attribute: `Model:${this}`,
@@ -318,21 +284,8 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     }
 
     destroy() {
-      let validatableAttrs = this.validatableAttributes;
-      let debouncedValidations = this._debouncedValidations;
-
       // Initiate attrs destroy to cleanup any remaining model references
       this.attrs.destroy();
-
-      // Cancel all debounced timers
-      validatableAttrs.forEach((attr) => {
-        let attrCache = debouncedValidations[attr];
-
-        if (!isNone(attrCache)) {
-          // Itterate over each attribute and cancel all of its debounced validations
-          Object.keys(attrCache).forEach((v) => cancel(attrCache[v]));
-        }
-      });
     }
   };
 }
@@ -398,14 +351,8 @@ function createAttrsClass(validatableAttributes) {
         attribute,
         model,
         validators,
-        (validator, options) => {
-          return validator.validate(
-            validator.getValue(),
-            options,
-            model,
-            attribute
-          );
-        }
+        (validator, options) =>
+          validator.validate(validator.getValue(), options, model, attribute)
       );
 
       return ResultCollection.create({
@@ -439,17 +386,9 @@ function createAttrsClass(validatableAttributes) {
  * @param  {Object} model
  * @param  {Array} validators
  * @param  {Function} validate
- * @param  {Object} opts
- *                    - disableDebounceCache {Boolean}
  * @return {Array}
  */
-function generateValidationResultsFor(
-  attribute,
-  model,
-  validators,
-  validate,
-  opts = {}
-) {
+function generateValidationResultsFor(attribute, model, validators, validate) {
   let isModelValidatable = isValidatable(model);
   let isInvalid = false;
   let value, result;
@@ -458,24 +397,10 @@ function generateValidationResultsFor(
     let options = validator.options.toObject();
     let isWarning = options.isWarning ?? false;
     let disabled = options.disabled ?? false;
-    let debounceOption = options.debounce ?? 0;
     let lazy = options.lazy ?? true;
 
     if (disabled || (lazy && isInvalid) || !isModelValidatable) {
       value = true;
-    } else if (debounceOption > 0) {
-      let cache = getDebouncedValidationsCacheFor(attribute, model);
-
-      // Return a promise and pass the resolve method to the debounce handler
-      value = new Promise((resolve) => {
-        let t = debounce(validator, resolveDebounce, resolve, debounceOption);
-
-        if (!opts.disableDebounceCache) {
-          cache[guidFor(validator)] = t;
-        }
-      }).then(() => {
-        return validate(validator, validator.options.toObject());
-      });
     } else {
       value = validate(validator, options);
     }
@@ -505,22 +430,13 @@ function generateValidationResultsFor(
  * @return {ValidationResult}
  */
 function validationReturnValueHandler(attribute, value, model, validator) {
-  if (isPromise(value)) {
-    return ValidationResult.create({
-      model,
-      attribute,
-      _validator: validator,
-      _promise: value,
-    });
-  } else {
-    const result = ValidationResult.create({
-      model,
-      attribute,
-      _validator: validator,
-    });
-    result.update(value);
-    return result;
-  }
+  const result = ValidationResult.create({
+    model,
+    attribute,
+    _validator: validator,
+  });
+  result.update(value);
+  return result;
 }
 
 /**
@@ -537,25 +453,6 @@ function getValidatorsFor(attribute, model) {
   return isNone(validators)
     ? createValidatorsFor(attribute, model)
     : validators;
-}
-
-/**
- * Get debounced validation cache for the given attribute. If it doesn't exist, create a new one.
- *
- * @method getValidatorCacheFor
- * @private
- * @param  {String} attribute
- * @param  {Object} model
- * @return {Map}
- */
-function getDebouncedValidationsCacheFor(attribute, model) {
-  let debouncedValidations = model.validations._debouncedValidations;
-
-  if (isNone(debouncedValidations[attribute])) {
-    debouncedValidations[attribute] = {};
-  }
-
-  return debouncedValidations[attribute];
 }
 
 /**
@@ -594,25 +491,12 @@ function createValidatorsFor(attribute, model) {
 }
 
 /**
- * Call the passed resolve method. This is needed as run.debounce expects a
- * static method to work properly.
- *
- * @method resolveDebounce
- * @private
- * @param  {Function} resolve
- */
-function resolveDebounce(resolve) {
-  resolve();
-}
-
-/**
  * ```javascript
- * model.validate({ on: ['username', 'email'] }).then(({ m, validations }) => {
- *   validations.get('isValid'); // true or false
- *   validations.get('isValidating'); // false
+ * const { model, validations } = model.validate({ on: ['username', 'email'] })
+ * validations.isValid; // true or false
  *
- *   let usernameValidations = m.get('validations.attrs.username');
- *   usernameValidations.get('isValid') // true or false
+ * let usernameValidations = model.validations.attrs.username;
+ * usernameValidations.isValid // true or false
  * });
  * ```
  *
@@ -620,11 +504,9 @@ function resolveDebounce(resolve) {
  * @param  {Object} options
  * @param  {Array} options.on Only validate the given attributes. If empty, will validate over all validatable attribute
  * @param  {Array} options.excludes Exclude validation on the given attributes
- * @param  {Boolean} isAsync      If `false`, will get all validations and will error if an async validations is found.
- *                              If `true`, will get all validations and wrap them in a promise hash
- * @return {Promise or Object}  Promise if isAsync is true, object if isAsync is false
+ * @return {Object}
  */
-function validate(options = {}, isAsync = true) {
+function validate(options = {}) {
   let model = this.model;
   let whiteList = makeArray(options.on);
   let blackList = makeArray(options.excludes);
@@ -635,16 +517,7 @@ function validate(options = {}, isAsync = true) {
     }
 
     if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
-      let validationResult = this.attrs[name];
-
-      // If an async validation is found, throw an error
-      if (!isAsync && validationResult.isAsync) {
-        throw new Error(
-          `[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`
-        );
-      }
-
-      v.push(validationResult);
+      v.push(this.attrs[name]);
     }
 
     return v;
@@ -655,41 +528,22 @@ function validate(options = {}, isAsync = true) {
     content: validationResults,
   });
 
-  let resultObject = { model, validations };
-
-  if (isAsync) {
-    return Promise.resolve(validations._promise).then(() => {
-      /*
-        NOTE: When dealing with belongsTo and hasMany relationships, there are cases
-        where we have to resolve the actual models and only then resolve all the underlying
-        validation promises. This is the reason that `validate` must be called recursively.
-       */
-      return validations.isValidating
-        ? this.validate(options, isAsync)
-        : resultObject;
-    });
-  }
-
-  return resultObject;
+  return { model, validations };
 }
 
 /**
  * A functional approach to check if a given attribute on a model is valid independently of the
- * model attribute's validations. This method will always return a promise which will then resolve
- * to a {{#crossLink "ResultCollection"}}{{/crossLink}}.
+ * model attribute's validations. This method returns a {{#crossLink "ResultCollection"}}{{/crossLink}}.
  *
  * ```javascript
- * model.validateAttribute('username', 'offirgolan').then(({ m, validations }) => {
- *   validations.get('isValid'); // true or false
- *   validations.get('isValidating'); // false
- * });
+ * const { validations } = model.validateAttribute('username', 'offirgolan');
+ * validations.isValid; // true or false
  * ```
  *
  * @method validateAttribute
- * @param  {String}   attribute
- * @param  {Mixed}  value
- * @return {Promise}
- * @async
+ * @param  {String} attribute
+ * @param  {Mixed} value
+ * @return {Object}
  */
 function validateAttribute(attribute, value) {
   let model = this.model;
@@ -699,12 +553,7 @@ function validateAttribute(attribute, value) {
     attribute,
     model,
     validators,
-    (validator, options) => {
-      return validator.validate(value, options, model, attribute);
-    },
-    {
-      disableDebounceCache: true,
-    }
+    (validator, options) => validator.validate(value, options, model, attribute)
   );
 
   let validations = ResultCollection.create({
@@ -712,32 +561,5 @@ function validateAttribute(attribute, value) {
     content: validationResults?.flat(Infinity),
   });
 
-  let result = { model, validations };
-
-  return Promise.resolve(validations._promise).then(() => {
-    /*
-      NOTE: When dealing with belongsTo and hasMany relationships, there are cases
-      where we have to resolve the actual models and only then resolve all the underlying
-      validation promises. This is the reason that `validateAttribute` must be called recursively.
-     */
-    return validations.isValidating
-      ? this.validateAttribute(attribute, value)
-      : result;
-  });
-}
-
-/**
- * ```javascript
- * let { m, validations } = model.validateSync();
- * validations.get('isValid') // true or false
- * ```
- *
- * @method validateSync
- * @param  {Object}  options
- * @param  {Array} options.on Only validate the given attributes. If empty, will validate over all validatable attribute
- * @param  {Array} options.excludes Exclude validation on the given attributes
- * @return {Object}
- */
-function validateSync(options) {
-  return this.validate(options, false);
+  return { model, validations };
 }

@@ -3,7 +3,7 @@ import { isHTMLSafe } from '@ember/template';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
-import DS, { PromiseManyArray } from 'ember-data';
+import DS from 'ember-data';
 import Model from '@ember-data/model';
 
 export function unwrapString(s) {
@@ -14,20 +14,12 @@ export function unwrapString(s) {
   return s;
 }
 
-export function isPromise(p) {
-  return !!(p && p.then);
-}
-
 function isDsModel(o) {
   return !!(o && o instanceof Model);
 }
 
 function isDSManyArray(o) {
-  return !!(
-    o &&
-    isArray(o) &&
-    (o instanceof PromiseManyArray || o instanceof DS.ManyArray)
-  );
+  return !!(o && isArray(o) && o instanceof DS.ManyArray);
 }
 
 function isObject(o) {

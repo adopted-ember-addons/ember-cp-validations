@@ -37,8 +37,7 @@ import { deprecate } from '@ember/application/deprecations';
  * buildValidations({
  *  username: [
  *    validator('presence', true),
- *    validator('length', { min: 5 }),
- *    validator('custom-promise-based-validator') // Will only be executed if the above two have passed
+ *    validator('length', { min: 5 }) // Will only be executed if the above has passed
  *  ]
  * });
  *
@@ -62,23 +61,6 @@ import { deprecate } from '@ember/application/deprecations';
  * validator('presence', {
  *   presence: true,
  *   disabled: computed.not('model.shouldValidate')
- * })
- * ```
- *
- * ### debounce
- *
- * Default: __0__
- *
- * Debounces the validation with the given time in `milliseconds`. All debounced validations will
- * be handled asynchronously (wrapped in a promise).
- *
- * ```javascript
- * // Examples
- * validator('length', {
- *   debounce: 500
- * })
- * validator('x-validator', {
- *   debounce: 250
  * })
  * ```
  *

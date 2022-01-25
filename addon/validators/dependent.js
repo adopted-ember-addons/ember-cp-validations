@@ -50,7 +50,7 @@ export default class ValidatorsDependent extends Base {
       (dependent) => model.validations.attrs[dependent]
     );
 
-    if (!isEmpty(dependentValidations.filter((v) => v.isTruelyInvalid))) {
+    if (!isEmpty(dependentValidations.filter((v) => v.isInvalid))) {
       return this.createErrorMessage('invalid', value, options);
     }
 

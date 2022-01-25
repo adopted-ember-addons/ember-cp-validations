@@ -6,10 +6,6 @@ export default class WarningResultCollection extends ResultCollection {
     return true;
   }
 
-  get isTruelyValid() {
-    return !this.isValidating;
-  }
-
   get messages() {
     return [];
   }

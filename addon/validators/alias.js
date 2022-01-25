@@ -7,7 +7,7 @@ import Base from 'ember-cp-validations/validators/base';
  *
  *  Creates an alias between a single attribute's validations to another.
  *  This copies all messages, errors, etc., to the current attribute as well as
- *  its validation state (isValid, isValidating, etc.)
+ *  its validation state (isValid etc.)
  *
  *  ## Examples
  *

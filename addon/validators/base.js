@@ -7,7 +7,6 @@ import {
   unwrapString,
   getValidatableValue,
   mergeOptions,
-  isPromise,
 } from 'ember-cp-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
 
@@ -180,7 +179,6 @@ export default class ValidatorsBase {
    * One of the following types:
    * - `Boolean`:  `true` if the current value passed the validation
    * - `String`: The error message
-   * - `Promise`: A promise that will either resolve or reject, and will finally return either `true` or the final error message string.
    */
   validate() {
     return true;
@@ -276,8 +274,7 @@ export default class ValidatorsBase {
    *                            'alias', 'belongs-to', 'dependent', 'has-many'
    * @param  {...args} args   The arguments to pass through to the validator
    * @return {Object}         The test result object which will contain `isValid`
-   *                          and `message`. If the validator is async, then the
-   *                          return value will be a promise.
+   *                          and `message`.
    */
   test(type, ...args) {
     const cache = this._testValidatorCache;
@@ -291,13 +288,6 @@ export default class ValidatorsBase {
 
     cache[type] = cache[type] ?? lookupValidator(getOwner(this), type).create();
     const result = cache[type].validate(...args);
-
-    if (isPromise(result)) {
-      return result.then(
-        (r) => new TestResult(r),
-        (r) => new TestResult(r)
-      );
-    }
 
     return new TestResult(result);
   }
@@ -393,22 +383,6 @@ export default class ValidatorsBase {
  * test('it works', function(assert) {
  *     const validator =  this.subject();
  *     assert.ok(validator);
- * });
- * ```
- *
- * A simple test for our validation method can be as such
- *
- * ```javascript
- * test('username is unique', function(assert) {
- *     assert.expect(1);
- *
- *     let validator =  this.subject();
- *     let done = assert.async();
- *
- *     validator.validate('johndoe42').then((message) => {
- *       assert.deepEqual(message, true);
- *       done();
- *     });
  * });
  * ```
  *  @class Custom

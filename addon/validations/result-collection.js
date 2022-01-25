@@ -1,4 +1,3 @@
-import RSVP from 'rsvp';
 import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import { tracked } from '@glimmer/tracking';
@@ -59,78 +58,6 @@ export default class ValidationsResultCollection {
    */
   get isValid() {
     return this.content.isEvery('isValid', true);
-  }
-
-  /**
-   * This property is toggled only if there is an async validation
-   *
-   * ```javascript
-   * // Examples
-   * get(user, 'validations.isValidating')
-   * get(user, 'validations.attrs.username.isValidating')
-   * ```
-   *
-   * @property isValidating
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isValidating() {
-    return this.content.isAny('isValidating', true);
-  }
-
-  /**
-   * Will be true only if isValid is `true` and isValidating is `false`
-   *
-   * ```javascript
-   * // Examples
-   * get(user, 'validations.isTruelyValid')
-   * get(user, 'validations.attrs.username.isTruelyValid')
-   * ```
-   *
-   * @property isTruelyValid
-   * @default true
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isTruelyValid() {
-    return this.content.isEvery('isTruelyValid', true);
-  }
-
-  /**
-   * Will be true only if isValid is `false` and isValidating is `false`
-   *
-   * ```javascript
-   * // Examples
-   * get(user, 'validations.isTruelyInvalid')
-   * get(user, 'validations.attrs.username.isTruelyInvalid')
-   * ```
-   *
-   * @property isTruelyInvalid
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isTruelyInvalid() {
-    return this.content.isAny('isTruelyInvalid', true);
-  }
-
-  /**
-   * Will be `true` only if a validation returns a promise
-   *
-   * ```javascript
-   * // Examples
-   * get(user, 'validations.isAsync')
-   * get(user, 'validations.attrs.username.isAsync')
-   * ```
-   *
-   * @property isAsync
-   * @default false
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isAsync() {
-    return this.content.isAny('isAsync', true);
   }
 
   /**
@@ -344,23 +271,6 @@ export default class ValidationsResultCollection {
       }
       return options;
     }, {});
-  }
-
-  /**
-   * @property _promise
-   * @async
-   * @private
-   * @type {Promise}
-   */
-  get _promise() {
-    return RSVP.allSettled(
-      emberArray([
-        this.content.mapBy('_result').compact().mapBy('_promise'),
-        this.content.mapBy('_promise'),
-      ])
-        .flat(Infinity)
-        .compact()
-    );
   }
 
   _computeErrorCollection(collection = []) {

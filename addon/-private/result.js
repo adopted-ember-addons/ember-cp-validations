@@ -27,14 +27,6 @@ export default class Result {
   @tracked attribute;
 
   /**
-   * @property _promise
-   * @async
-   * @private
-   * @type {Promise}
-   */
-  @tracked _promise;
-
-  /**
    * The validator that returned this result
    * @property _validator
    * @private
@@ -85,42 +77,6 @@ export default class Result {
    */
   get isInvalid() {
     return this._result.isInvalid;
-  }
-
-  /**
-   * @property isValidating
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isValidating() {
-    return this._result.isValidating;
-  }
-
-  /**
-   * @property isTruelyValid
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isTruelyValid() {
-    return this._result.isTruelyValid;
-  }
-
-  /**
-   * @property isTruelyInvalid
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isTruelyInvalid() {
-    return this._result.isTruelyInvalid;
-  }
-
-  /**
-   * @property isAsync
-   * @readOnly
-   * @type {Boolean}
-   */
-  get isAsync() {
-    return this._result.isAsync;
   }
 
   /**
@@ -202,7 +158,6 @@ export default class Result {
       InternalResultObject.create({
         model: this.model,
         attribute: this.attribute,
-        _promise: this._promise,
         _validator: this._validator,
       })
     );
@@ -214,10 +169,6 @@ export default class Result {
 
   constructor(props = {}) {
     Object.assign(this, props);
-
-    if (this.isAsync && !this._isReadOnly) {
-      this._handlePromise();
-    }
   }
 
   /**
@@ -267,22 +218,5 @@ export default class Result {
    */
   _overrideResult(result) {
     this._resultOverride = result;
-  }
-
-  /**
-   * Promise handler
-   * @method _handlePromise
-   * @private
-   */
-  _handlePromise() {
-    this._promise
-      .then(
-        (value) => this.update(value),
-        (value) => this.update(value)
-      )
-      .catch((reason) => {
-        // TODO: send into error state
-        throw reason;
-      });
   }
 }

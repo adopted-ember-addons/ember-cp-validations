@@ -1,5 +1,4 @@
 import Base from 'ember-cp-validations/validators/base';
-import { isPromise } from 'ember-cp-validations/utils/utils';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -49,12 +48,8 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  @extends Base
  */
 export default class ValidatorsHasMany extends Base {
-  validate(value, ...args) {
+  validate(value) {
     if (value) {
-      if (isPromise(value)) {
-        return value.then((models) => this.validate(models, ...args));
-      }
-
       return value.map((m) => m.validations);
     }
 
