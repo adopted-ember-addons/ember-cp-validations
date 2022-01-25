@@ -30,7 +30,7 @@ module('Integration | Validators | Composable', function (hooks) {
   });
 
   test('Composability - simple', function (assert) {
-    assert.expect(5);
+    assert.expect(3);
 
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register(
@@ -58,7 +58,7 @@ module('Integration | Validators | Composable', function (hooks) {
   });
 
   test('Composability - multiple', function (assert) {
-    assert.expect(8);
+    assert.expect(5);
 
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register('validator:length', LengthValidator);
