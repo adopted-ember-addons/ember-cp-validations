@@ -397,9 +397,8 @@ function generateValidationResultsFor(attribute, model, validators, validate) {
     let options = validator.options.toObject();
     let isWarning = options.isWarning ?? false;
     let disabled = options.disabled ?? false;
-    let lazy = options.lazy ?? true;
 
-    if (disabled || (lazy && isInvalid) || !isModelValidatable) {
+    if (disabled || isInvalid || !isModelValidatable) {
       value = true;
     } else {
       value = validate(validator, options);
@@ -409,7 +408,7 @@ function generateValidationResultsFor(attribute, model, validators, validate) {
 
     /*
       If the current result is invalid, the rest of the validations do not need to be
-      triggered (if lazy) since the attribute is already in an invalid state.
+      triggered since the attribute is already in an invalid state.
      */
     if (!isInvalid && !isWarning && result.isInvalid) {
       isInvalid = true;

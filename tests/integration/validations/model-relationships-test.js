@@ -174,23 +174,19 @@ module('Integration | Validations | Model Relationships', function (hooks) {
   test('alias validation - firstMessageOnly', function (assert) {
     this.owner.register('validator:alias', AliasValidator);
 
-    @buildValidations(
-      {
-        firstName: [
-          validator('inline', { validate: () => 'First error message' }),
-          validator('inline', { validate: () => 'Second error message' }),
-        ],
-        fullName: validator('alias', {
-          alias: 'firstName',
-          firstMessageOnly: true,
-        }),
-      },
-      { lazy: false }
-    )
-    class User {}
+    @buildValidations({
+      firstName: [
+        validator('inline', { validate: () => 'First error message' }),
+        validator('inline', { validate: () => 'Second error message' }),
+      ],
+      fullName: validator('alias', {
+        alias: 'firstName',
+        firstMessageOnly: true,
+      }),
+    })
+    class User extends ObjClassBase {}
 
-    const user = new User();
-    Object.assign(user, this.owner.ownerInjection());
+    const user = new User(this.owner);
 
     user.validations.validate();
 
@@ -208,21 +204,17 @@ module('Integration | Validations | Model Relationships', function (hooks) {
   test('alias validation - multiple', function (assert) {
     this.owner.register('validator:alias', AliasValidator);
 
-    @buildValidations(
-      {
-        firstName: validator('inline', { validate: Validators.presence }),
-        lastName: validator('inline', { validate: Validators.presence }),
-        fullName: [
-          validator('alias', 'firstName'),
-          validator('alias', 'lastName'),
-        ],
-      },
-      { lazy: false }
-    )
-    class User {}
+    @buildValidations({
+      firstName: validator('inline', { validate: Validators.presence }),
+      lastName: validator('inline', { validate: Validators.presence }),
+      fullName: [
+        validator('alias', 'firstName'),
+        validator('alias', 'lastName'),
+      ],
+    })
+    class User extends ObjClassBase {}
 
-    const user = new User();
-    Object.assign(user, this.owner.ownerInjection());
+    const user = new User(this.owner);
 
     user.validations.validate();
 

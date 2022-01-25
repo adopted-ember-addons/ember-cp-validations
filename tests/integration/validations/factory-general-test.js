@@ -667,7 +667,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
     @buildValidations({
       password: {
         description: 'Password',
-        lazy: false,
         validators: [
           validator('presence', {
             presence: true,
@@ -767,7 +766,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     assert.true(object.validations.isValid, 'isValid was expected to be FALSE');
   });
 
-  test('lazy validators are actually lazy', function (assert) {
+  test('validators are lazy', function (assert) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -834,78 +833,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
       customValidatorCount,
       1,
       'Last validator only executed once'
-    );
-  });
-
-  test('none lazy validators are actually not lazy', function (assert) {
-    this.owner.register('validator:length', LengthValidator);
-    this.owner.register('validator:presence', PresenceValidator);
-
-    let customValidatorCount = 0;
-
-    @buildValidations({
-      password: {
-        description: 'Password',
-        validators: [
-          validator('presence', true),
-          validator('length', {
-            min: 5,
-            lazy: false,
-          }),
-          validator('inline', {
-            lazy: false,
-            validate() {
-              customValidatorCount++;
-              return 'Password is not valid';
-            },
-          }),
-        ],
-      },
-    })
-    class ObjClass extends ObjClassBase {}
-
-    let object = new ObjClass(this.owner);
-
-    assert.false(object.validations.attrs.password.isValid);
-    assert.deepEqual(
-      object.validations.attrs.password.messages.length,
-      2,
-      'Only 2 error message should be present'
-    );
-    assert.deepEqual(
-      object.validations.attrs.password.message,
-      "Password can't be blank"
-    );
-
-    object.password = '1234';
-
-    assert.false(object.validations.attrs.password.isValid);
-    assert.deepEqual(
-      object.validations.attrs.password.messages.length,
-      2,
-      'Only 2 error message should be present'
-    );
-    assert.deepEqual(
-      object.validations.attrs.password.message,
-      'Password is too short (minimum is 5 characters)'
-    );
-
-    object.password = '12345';
-
-    assert.false(object.validations.attrs.password.isValid);
-    assert.deepEqual(
-      object.validations.attrs.password.messages.length,
-      1,
-      'Only 1 error message should be present'
-    );
-    assert.deepEqual(
-      object.validations.attrs.password.message,
-      'Password is not valid'
-    );
-    assert.deepEqual(
-      customValidatorCount,
-      3,
-      'Last validator executed 3 times'
     );
   });
 

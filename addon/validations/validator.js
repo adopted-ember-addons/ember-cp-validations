@@ -23,29 +23,6 @@ import { deprecate } from '@ember/application/deprecations';
  * // 'Date of birth can't be blank'
  * ```
  *
- * ### lazy
- *
- * Default: __true__
- *
- * Only validate the given validator if the attribute is not already in an invalid
- * state. When you have multiple validators on an attribute, it will only validate subsequent
- * validators if the preceding validators have passed. When set to __false__, the validator
- * will always be executed, even if its preceding validators are invalid.
- *
- * ```javascript
- * // Examples
- * buildValidations({
- *  username: [
- *    validator('presence', true),
- *    validator('length', { min: 5 }) // Will only be executed if the above has passed
- *  ]
- * });
- *
- * validator('custom-validator-that-must-executed', {
- *   lazy: false
- * })
- * ```
- *
  * ### disabled
  *
  * Default: __false__
