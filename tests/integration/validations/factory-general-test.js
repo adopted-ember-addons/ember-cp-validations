@@ -467,7 +467,14 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', { validate: Validators.presence }),
     })
-    class Parent extends ObjClassBase {}
+    class Parent {
+      @tracked firstName;
+      @tracked lastName;
+
+      constructor(owner, props = {}) {
+        Object.assign(this, owner.ownerInjection(), props);
+      }
+    }
 
     @buildValidations({
       middleName: validator('inline', { validate: Validators.presence }),

@@ -88,10 +88,10 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
           let inheritedClass;
 
           if (
-            shouldCallSuper(this, '__VALIDATIONS_CLASS__') ||
-            validationDecoratorCount > 1
+            validationDecoratorCount > 1 ||
+            shouldCallSuper(this, '__VALIDATIONS_CLASS__')
           ) {
-            inheritedClass = Object.getPrototypeOf(this.constructor);
+            inheritedClass = Object.getPrototypeOf(DecoratedClass);
           }
 
           Validations = createValidationsClass(inheritedClass, validations);
