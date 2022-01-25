@@ -480,7 +480,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     const child = new Child(this.owner);
 
-    child.validat();
+    child.validate();
 
     assert.deepEqual(child.validations.errors.length, 4);
     assert.false(child.validations.isValid);
@@ -572,7 +572,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('validateAttribute - sync validations', function (assert) {
-    assert.expect(4);
+    assert.expect(3);
 
     @buildValidations({
       firstName: [
@@ -903,7 +903,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let items = A([]);
     for (let i = 0; i < 50; i++) {
       items.push(
-        new ObjClass({
+        new ObjClass(this.owner, {
           a: i,
           b: i,
           c: i,
