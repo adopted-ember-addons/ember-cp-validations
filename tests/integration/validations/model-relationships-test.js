@@ -90,7 +90,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     this.owner.register('validator:belongs-to', BelongsToValidator);
 
     let user = new BelongsToClass(this.owner);
-    user.set('friend', user);
+    user.friend = user;
 
     let { validations, model } = user.validations.validate();
 
@@ -165,7 +165,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       'firstName should be present'
     );
 
-    user.set('firstName', 'Offir');
+    user.firstName = 'Offir';
 
     assert.true(user.validations.attrs.firstName.isValid);
     assert.true(user.validations.attrs.fullName.isValid);
@@ -241,13 +241,13 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       )
     );
 
-    user.set('firstName', 'Offir');
+    user.firstName = 'Offir';
 
     assert.true(user.validations.attrs.firstName.isValid);
     assert.false(user.validations.attrs.lastName.isValid);
     assert.false(user.validations.attrs.fullName.isValid);
 
-    user.set('lastName', 'Golan');
+    user.lastName = 'Golan';
 
     assert.true(user.validations.attrs.lastName.isValid);
     assert.true(user.validations.attrs.fullName.isValid);

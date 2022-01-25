@@ -49,7 +49,7 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.false(obj.validations.isValid);
     assert.deepEqual(obj.validations.message, "This field can't be blank");
 
-    obj.set('value', 'foo');
+    obj.value = 'foo';
 
     assert.true(obj.validations.isValid);
   });
@@ -87,7 +87,7 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.false(obj.validations.isValid);
     assert.deepEqual(obj.validations.message, "This field can't be blank");
 
-    obj.set('value', 'foobar');
+    obj.value = 'foobar';
 
     assert.false(obj.validations.isValid);
     assert.deepEqual(
@@ -95,7 +95,7 @@ module('Integration | Validators | Composable', function (hooks) {
       'This field is too long (maximum is 5 characters)'
     );
 
-    obj.set('value', 'foo');
+    obj.value = 'foo';
 
     assert.true(obj.validations.isValid);
   });
@@ -123,7 +123,7 @@ module('Integration | Validators | Composable', function (hooks) {
     });
 
     unsupportedTypes.forEach((type) => {
-      obj.set('value', type);
+      obj.value = type;
       assert.throws(() => obj.validate(), new RegExp(type));
     });
   });
