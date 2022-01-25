@@ -36,6 +36,9 @@ module('Integration | Validators | Composable', function (hooks) {
     this.owner.register(
       'validator:composed',
       class ComposedValidator extends BaseValidator {
+        static create(props) {
+          return new ComposedValidator(props);
+        }
         validate(value) {
           return this.test('presence', value, { presence: true });
         }
@@ -61,7 +64,10 @@ module('Integration | Validators | Composable', function (hooks) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register(
       'validator:composed',
-      class extends BaseValidator {
+      class ComposedValidator extends BaseValidator {
+        static create(props) {
+          return new ComposedValidator(props);
+        }
         validate(value) {
           let result = this.test('presence', value, { presence: true });
 
@@ -111,7 +117,10 @@ module('Integration | Validators | Composable', function (hooks) {
 
     this.owner.register(
       'validator:composed',
-      class extends BaseValidator {
+      class ComposedValidator extends BaseValidator {
+        static create(props) {
+          return new ComposedValidator(props);
+        }
         validate(type) {
           this.test(type);
         }
@@ -134,7 +143,10 @@ module('Integration | Validators | Composable', function (hooks) {
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register(
       'validator:composed',
-      class extends BaseValidator {
+      class ComposedValidator extends BaseValidator {
+        static create(props) {
+          return new ComposedValidator(props);
+        }
         validate(value) {
           const cache = this._testValidatorCache;
 
