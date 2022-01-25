@@ -107,7 +107,7 @@ module('Integration | Validators | Composable', function (hooks) {
   });
 
   test('Composability - unsupported types', function (assert) {
-    const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
+    const unsupportedTypes = ['belongs-to', 'dependent', 'has-many'];
 
     assert.expect(unsupportedTypes.length);
 

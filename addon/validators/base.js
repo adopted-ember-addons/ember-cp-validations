@@ -270,14 +270,14 @@ export default class ValidatorsBase {
    * @method test
    * @param  {String} type    The validator type (e.x. 'presence', 'length', etc.)
    *                          The following types are unsupported:
-   *                            'alias', 'belongs-to', 'dependent', 'has-many'
+   *                            'belongs-to', 'dependent', 'has-many'
    * @param  {...args} args   The arguments to pass through to the validator
    * @return {Object}         The test result object which will contain `isValid`
    *                          and `message`.
    */
   test(type, ...args) {
     const cache = this._testValidatorCache;
-    const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
+    const unsupportedTypes = ['belongs-to', 'dependent', 'has-many'];
 
     if (unsupportedTypes.includes(type)) {
       throw new Error(
