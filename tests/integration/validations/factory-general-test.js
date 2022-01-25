@@ -354,7 +354,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     assert.true(object.validations.attrs.lastName.isValid);
     assert.false(object.validations.attrs.firstName.isValid);
 
-    object.set('firstName', 'Offir');
+    object.firstName = 'Offir';
 
     assert.true(object.validations.isValid);
   });
@@ -369,7 +369,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
         },
       }),
     })
-    class ObjClass extends ObjClassBase {}
+    class ObjClass extends ObjClassBase {
+      @tracked validateLastName;
+    }
 
     let object = new ObjClass(this.owner, {
       firstName: 'Offir',
@@ -384,7 +386,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     assert.false(object.validations.attrs.lastName.isValid);
     assert.true(object.validations.attrs.firstName.isValid);
 
-    object.set('validateLastName', false);
+    object.validateLastName = false;
 
     assert.true(object.validations.attrs.lastName.isValid);
     assert.true(object.validations.isValid);
@@ -454,7 +456,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let options = object.validations.attrs.firstName.options;
     assert.deepEqual(options.length.max, 5);
 
-    run(() => object.set('max', 3));
+    run(() => (object.max = 3));
 
     options = object.validations.attrs.firstName.options;
     assert.deepEqual(options.length.max, 3);
@@ -487,14 +489,14 @@ module('Integration | Validations | Factory - General', function (hooks) {
       ['firstName', 'lastName', 'middleName', 'dob'].sort()
     );
 
-    child.setProperties({
+    Object.assign(child, {
       middleName: 'John',
       dob: '10/22/16',
     });
 
     assert.deepEqual(child.validations.errors.length, 2);
 
-    child.setProperties({
+    Object.assign(child, {
       firstName: 'Joe',
       lastName: 'Jenkins',
     });
@@ -546,21 +548,21 @@ module('Integration | Validations | Factory - General', function (hooks) {
       ].sort()
     );
 
-    baby.setProperties({
+    Object.assign(this, {
       middleName: 'John',
       dob: '10/22/16',
     });
 
     assert.deepEqual(baby.validations.errors.length, 4);
 
-    baby.setProperties({
+    Object.assign(this, {
       firstName: 'Joe',
       lastName: 'Jenkins',
     });
 
     assert.deepEqual(baby.validations.errors.length, 2);
 
-    baby.setProperties({
+    Object.assign(this, {
       diaper: 'soiled',
       favParent: 'mom',
     });
@@ -647,7 +649,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'Password is too short (minimum is 1 characters)'
     );
 
-    object.set('password', 'wat');
+    object.password = 'wat';
 
     assert.true(object.validations.isValid);
     assert.true(object.validations.attrs.password.isValid);
@@ -759,7 +761,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'Name is too short (minimum is 10 characters)'
     );
 
-    object.set('enabled', false);
+    object.enabled = false;
 
     assert.true(object.validations.attrs.firstName.isValid);
     assert.true(object.validations.isValid, 'isValid was expected to be FALSE');
@@ -803,7 +805,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       "Password can't be blank"
     );
 
-    object.set('password', '1234');
+    object.password = '1234';
 
     assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
@@ -888,7 +890,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'Password is too short (minimum is 5 characters)'
     );
 
-    object.set('password', '12345');
+    object.password = '12345';
 
     assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
@@ -989,7 +991,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     console.timeEnd('init');
 
     items.forEach((item, i) => {
-      item.setProperties({
+      Object.assign(item, {
         a: i + 1000,
         b: i + 1000,
         c: i + 1000,
