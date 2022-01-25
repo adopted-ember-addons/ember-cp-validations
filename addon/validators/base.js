@@ -95,6 +95,8 @@ export default class ValidatorsBase {
   }
 
   constructor(props = {}) {
+    Object.assign(this, props);
+
     let owner = getOwner(this);
     let errorMessages;
 
@@ -103,10 +105,7 @@ export default class ValidatorsBase {
       errorMessages = owner.factoryFor('validator:messages');
     }
 
-    Object.assign(this, {
-      ...props,
-      errorMessages: (errorMessages ?? Messages).create(),
-    });
+    this.errorMessages = (errorMessages ?? Messages).create();
 
     this.options = this.buildOptions(
       props.options,

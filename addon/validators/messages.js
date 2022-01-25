@@ -27,6 +27,6 @@ export default class ValidatorsMessages {
   }
 
   constructor(props = {}) {
-    Object.assign(this, props, Messages);
+    Object.assign(this, Messages, props);
   }
 }
