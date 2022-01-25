@@ -1,7 +1,7 @@
-import { validator } from 'ember-cp-validations';
+import { buildValidations, validator } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import setupObject from '../../helpers/setup-object';
+import { tracked } from '@glimmer/tracking';
 
 let Validator, message, model, options, builtOptions;
 
@@ -9,6 +9,18 @@ let Validations = {
   firstName: validator('presence', true),
   lastName: validator('presence', true),
 };
+
+class ObjClassBase {
+  @tracked firstName;
+  @tracked lastName;
+
+  constructor(owner, props = {}) {
+    Object.assign(this, owner.ownerInjection(), props);
+  }
+}
+
+@buildValidations(Validations)
+class ObjClass extends ObjClassBase {}
 
 let defaultOptions = {
   on: ['firstName', 'lastName'],
@@ -39,7 +51,7 @@ module('Unit | Validator | dependent', function (hooks) {
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
-    model = setupObject(this, Validations);
+    model = new ObjClass(this.owner);
 
     assert.false(model.validations.isValid);
 
@@ -56,7 +68,7 @@ module('Unit | Validator | dependent', function (hooks) {
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
-    model = setupObject(this, Validations, {
+    model = new ObjClass(this.owner, {
       firstName: 'Offir',
     });
 
@@ -74,7 +86,7 @@ module('Unit | Validator | dependent', function (hooks) {
     options = defaultOptions;
     builtOptions = Validator.buildOptions(options);
 
-    model = setupObject(this, Validations, {
+    model = new ObjClass(this.owner, {
       firstName: 'Offir',
       lastName: 'Golan',
     });
