@@ -89,9 +89,7 @@ export default class ValidatorsBase {
    * @private
    * @type {Object}
    */
-  get _testValidatorCache() {
-    return {};
-  }
+  _testValidatorCache = {};
 
   static create(props) {
     return new ValidatorsBase(props);
