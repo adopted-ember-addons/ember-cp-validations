@@ -51,6 +51,6 @@ export default class User extends Model {
   @attr('string') username;
   @attr('string') password;
   @attr('string') email;
-  @belongsTo('user-detail') details;
+  @belongsTo('user-detail', { async: false }) details;
 }
 // END-SNIPPET

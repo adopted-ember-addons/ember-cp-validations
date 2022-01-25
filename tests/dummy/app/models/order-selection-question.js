@@ -16,7 +16,7 @@ import Model, { attr, belongsTo } from '@ember-data/model';
   },
 })
 export default class OrderSelectionQuestion extends Model {
-  @belongsTo('order', { async: true }) order;
-  @belongsTo('order-selection', { async: true }) selection;
+  @belongsTo('order', { async: false }) order;
+  @belongsTo('order-selection', { async: false }) selection;
   @attr('string') text;
 }
