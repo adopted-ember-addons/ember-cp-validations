@@ -2,14 +2,25 @@ import DefaultMessages from 'dummy/validators/messages';
 import LengthValidator from 'ember-cp-validations/validators/length';
 import PresenceValidator from 'ember-cp-validations/validators/presence';
 import BaseValidator from 'ember-cp-validations/validators/base';
-import setupObject from '../../helpers/setup-object';
-import { validator } from 'ember-cp-validations';
+import { buildValidations, validator } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { tracked } from '@glimmer/tracking';
 
 const ComposedValidations = {
   value: validator('composed'),
 };
+
+class ObjClassBase {
+  @tracked value;
+
+  constructor(owner, props = {}) {
+    Object.assign(this, owner.ownerInjection(), props);
+  }
+}
+
+@buildValidations(ComposedValidations)
+class ObjClass extends ObjClassBase {}
 
 module('Integration | Validators | Composable', function (hooks) {
   setupTest(hooks);
@@ -31,7 +42,7 @@ module('Integration | Validators | Composable', function (hooks) {
       }
     );
 
-    const obj = setupObject(this, ComposedValidations, {
+    const obj = new ObjClass(this.owner, {
       value: '',
     });
 
@@ -50,7 +61,7 @@ module('Integration | Validators | Composable', function (hooks) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register(
       'validator:composed',
-      BaseValidator.extend({
+      class extends BaseValidator {
         validate(value) {
           let result = this.test('presence', value, { presence: true });
 
@@ -65,11 +76,11 @@ module('Integration | Validators | Composable', function (hooks) {
           }
 
           return true;
-        },
-      })
+        }
+      }
     );
 
-    const obj = setupObject(this, ComposedValidations, {
+    const obj = new ObjClass(this.owner, {
       value: '',
     });
 
@@ -100,14 +111,14 @@ module('Integration | Validators | Composable', function (hooks) {
 
     this.owner.register(
       'validator:composed',
-      BaseValidator.extend({
+      class extends BaseValidator {
         validate(type) {
           this.test(type);
-        },
-      })
+        }
+      }
     );
 
-    const obj = setupObject(this, ComposedValidations, {
+    const obj = new ObjClass(this.owner, {
       value: '',
     });
 
@@ -123,7 +134,7 @@ module('Integration | Validators | Composable', function (hooks) {
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register(
       'validator:composed',
-      BaseValidator.extend({
+      class extends BaseValidator {
         validate(value) {
           const cache = this._testValidatorCache;
 
@@ -137,11 +148,11 @@ module('Integration | Validators | Composable', function (hooks) {
           this.test('presence', value, { presence: false });
 
           assert.deepEqual(presenceValidator, cache.presence);
-        },
-      })
+        }
+      }
     );
 
-    const obj = setupObject(this, ComposedValidations, {
+    const obj = new ObjClass(this.owner, {
       value: '',
     });
 
