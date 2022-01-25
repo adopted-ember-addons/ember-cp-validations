@@ -1,13 +1,13 @@
 import { A, isArray } from '@ember/array';
 import { isNone } from '@ember/utils';
 import { run } from '@ember/runloop';
-import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
 import PresenceValidator from 'dummy/validators/presence';
 import LengthValidator from 'dummy/validators/length';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { tracked } from '@glimmer/tracking';
 
 const Validators = {
   presence(value, options, model, attr) {
@@ -23,11 +23,24 @@ let Validations = {
   lastName: validator('inline', { validate: Validators.presence }),
 };
 
+class ObjClassBase {
+  @tracked firstName;
+  @tracked lastName;
+  @tracked password;
+
+  constructor(owner, props = {}) {
+    Object.assign(this, owner.ownerInjection(), props);
+  }
+}
+
+@buildValidations(Validations)
+class ObjClass extends ObjClassBase {}
+
 module('Integration | Validations | Factory - General', function (hooks) {
   setupTest(hooks);
 
   test('basic sync validation – invalid', function (assert) {
-    let object = setupObject(this, Validations);
+    let object = new ObjClass(this.owner);
 
     assert.false(
       object.validations.isValid,
@@ -91,7 +104,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - valid', function (assert) {
-    let object = setupObject(this, Validations, {
+    let object = new ObjClass(this.owner, {
       firstName: 'Stef',
       lastName: 'Penner',
     });
@@ -105,7 +118,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - 50% invalid', function (assert) {
-    let object = setupObject(this, Validations, {
+    let object = new ObjClass(this.owner, {
       firstName: 'Stef',
     });
 
@@ -125,8 +138,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - API - #validation', function (assert) {
-    assert.expect(18);
-    let object = setupObject(this, Validations, {
+    assert.expect(11);
+    let object = new ObjClass(this.owner, {
       firstName: 'Stef',
     });
 
@@ -162,7 +175,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - API - #validationSync', function (assert) {
-    let object = setupObject(this, Validations, {
+    let object = new ObjClass(this.owner, {
       firstName: 'Stef',
     });
 
@@ -199,10 +212,12 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation returns null', function (assert) {
-    let Validations = {
+    @buildValidations({
       firstName: validator('inline', { validate: () => null }),
-    };
-    let object = setupObject(this, Validations, {
+    })
+    class ObjClass extends ObjClassBase {}
+
+    let object = new ObjClass(this.owner, {
       firstName: 'Offir',
     });
 
@@ -216,7 +231,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('default options', function (assert) {
-    let Validations = {
+    @buildValidations({
       firstName: {
         description: 'Test field',
         validators: [
@@ -224,10 +239,13 @@ module('Integration | Validations | Factory - General', function (hooks) {
           validator('inline', { validate: () => false }),
         ],
       },
-    };
-    let object = setupObject(this, Validations, {
+    })
+    class ObjClass extends ObjClassBase {}
+
+    let object = new ObjClass(this.owner, {
       firstName: '',
     });
+
     let rules = A(object.validations._validationRules.firstName);
     assert.false(rules.isAny('defaultOptions', undefined));
     assert.deepEqual(rules[0].defaultOptions.description, 'Test field');
@@ -249,10 +267,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
         max: 10,
       }
     )
-    class ObjClass {}
+    class ObjClass extends ObjClassBase {}
 
-    const object = new ObjClass();
-    Object.assign(object, this.owner.ownerInjection(), { firstName: '' });
+    const object = new ObjClass(this.owner, { firstName: '' });
 
     // Global options present in rules
     let rules = A(object.validations._validationRules.firstName);
@@ -280,15 +297,17 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
   test('custom messages object', function (assert) {
     this.owner.register('validator:messages', DefaultMessages);
-    let Validations = {
+
+    @buildValidations({
       firstName: validator('inline', {
         validate(value) {
           return this.createErrorMessage('test', value);
         },
       }),
-    };
+    })
+    class ObjClass extends ObjClassBase {}
 
-    let object = setupObject(this, Validations);
+    let object = new ObjClass(this.owner);
 
     assert.false(object.validations.attrs.firstName.isValid);
     assert.deepEqual(
@@ -299,14 +318,15 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
   test('null message object', function (assert) {
     this.owner.register('validator:messages', DefaultMessages);
-    let Validations = {
+    @buildValidations({
       firstName: validator('presence', {
         presence: true,
         message: null,
       }),
-    };
+    })
+    class ObjClass extends ObjClassBase {}
 
-    let object = setupObject(this, Validations);
+    const object = new ObjClass(this.owner);
 
     assert.deepEqual(
       object.validations.attrs.firstName.message,
@@ -315,14 +335,16 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('disabled validations - simple', function (assert) {
-    let Validations = {
+    @buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
         disabled: true,
       }),
-    };
-    let object = setupObject(this, Validations);
+    })
+    class ObjClass extends ObjClassBase {}
+
+    const object = new ObjClass(this.owner);
 
     assert.false(
       object.validations.isValid,
@@ -338,7 +360,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('disabled validations - cp with dependent key', function (assert) {
-    let Validations = {
+    @buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
@@ -346,8 +368,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
           return !this.model.validateLastName;
         },
       }),
-    };
-    let object = setupObject(this, Validations, {
+    })
+    class ObjClass extends ObjClassBase {}
+
+    let object = new ObjClass(this.owner, {
       firstName: 'Offir',
       validateLastName: true,
     });
@@ -370,7 +394,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
-    let Validations = {
+    @buildValidations({
       firstName: {
         description: 'First Name',
         validators: [
@@ -386,8 +410,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
           }),
         ],
       },
-    };
-    let object = setupObject(this, Validations, { max: 5 });
+    })
+    class ObjClass extends ObjClassBase {}
+
+    let object = new ObjClass(this.owner, { max: 5 });
     let options = object.validations.attrs.firstName.options;
 
     assert.ok(options);
@@ -410,7 +436,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
   test('attribute validation result options hash with cps', function (assert) {
     this.owner.register('validator:length', LengthValidator);
 
-    let Validations = {
+    @buildValidations({
       firstName: {
         validators: [
           validator('length', {
@@ -421,8 +447,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
           }),
         ],
       },
-    };
-    let object = setupObject(this, Validations, { max: 5 });
+    })
+    class ObjClass extends ObjClassBase {}
+
+    let object = new ObjClass(this.owner, { max: 5 });
     let options = object.validations.attrs.firstName.options;
     assert.deepEqual(options.length.max, 5);
 
@@ -437,16 +465,18 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', { validate: Validators.presence }),
     })
-    class Parent {}
+    class Parent extends ObjClassBase {}
 
     @buildValidations({
       middleName: validator('inline', { validate: Validators.presence }),
       dob: validator('inline', { validate: Validators.presence }),
     })
-    class Child extends Parent {}
+    class Child extends Parent {
+      @tracked middleName;
+      @tracked dob;
+    }
 
-    const child = new Child();
-    Object.assign(child, this.owner.ownerInjection());
+    const child = new Child(this.owner);
 
     child.validat();
 
@@ -478,22 +508,27 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', { validate: Validators.presence }),
     })
-    class Parent {}
+    class Parent extends ObjClassBase {}
 
     @buildValidations({
       middleName: validator('inline', { validate: Validators.presence }),
       dob: validator('inline', { validate: Validators.presence }),
     })
-    class Child extends Parent {}
+    class Child extends Parent {
+      @tracked middleName;
+      @tracked dob;
+    }
 
     @buildValidations({
       diaper: validator('inline', { validate: Validators.presence }),
       favParent: validator('inline', { validate: Validators.presence }),
     })
-    class Baby extends Child {}
+    class Baby extends Child {
+      @tracked diaper;
+      @tracked favParent;
+    }
 
-    const baby = new Baby();
-    Object.assign(baby, this.owner.ownerInjection());
+    const baby = new Baby(this.owner);
 
     baby.validate();
 
@@ -536,13 +571,16 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
   test('validateAttribute - sync validations', function (assert) {
     assert.expect(4);
-    let Validations = {
+
+    @buildValidations({
       firstName: [
         validator('inline', { validate: Validators.presence }),
         validator('inline', { validate: () => true }),
       ],
-    };
-    let object = setupObject(this, Validations, {
+    })
+    class ObjClass extends ObjClassBase {}
+
+    let object = new ObjClass(this.owner, {
       firstName: 'Offir',
     });
 
@@ -560,7 +598,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
-    let Validations = {
+    @buildValidations({
       password: {
         description: 'Password',
         validators: [
@@ -580,9 +618,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
           }),
         ],
       },
-    };
+    })
+    class ObjClass extends ObjClassBase {}
 
-    let object = setupObject(this, Validations, {
+    let object = new ObjClass(this.owner, {
       password: '',
     });
 
@@ -623,7 +662,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
-    let Validations = {
+    @buildValidations({
       password: {
         description: 'Password',
         lazy: false,
@@ -641,18 +680,18 @@ module('Integration | Validations | Factory - General', function (hooks) {
           }),
         ],
       },
-    };
+    })
+    class ObjClass extends ObjClassBase {
+      @tracked isWarning = false;
+    }
 
-    let object = setupObject(this, Validations, {
-      password: '',
-      isWarning: false,
-    });
+    const object = new ObjClass(this.owner);
 
     assert.false(object.validations.isValid);
     assert.deepEqual(object.validations.warnings.length, 0);
     assert.deepEqual(object.validations.errors.length, 2);
 
-    object.set('isWarning', true);
+    object.isWarning = true;
 
     assert.deepEqual(object.validations.warnings.length, 1);
     assert.deepEqual(object.validations.errors.length, 1);
@@ -685,11 +724,13 @@ module('Integration | Validations | Factory - General', function (hooks) {
         },
       }
     )
-    class ObjClass {}
+    class ObjClass extends ObjClassBase {
+      @tracked enabled;
+      @tracked description;
+      @tracked minLength;
+    }
 
-    let object = new ObjClass();
-
-    Object.assign(object, this.owner.ownerInjection(), {
+    const object = new ObjClass(this.owner, {
       enabled: true,
       description: 'First Name',
       minLength: 6,
@@ -707,7 +748,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'First Name is too short (minimum is 6 characters)'
     );
 
-    object.setProperties({
+    Object.assign(object, {
       description: 'Name',
       minLength: 10,
     });
@@ -730,7 +771,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let customValidatorCount = 0;
 
-    let Validations = {
+    @buildValidations({
       password: {
         description: 'Password',
         validators: [
@@ -746,9 +787,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
           }),
         ],
       },
-    };
+    })
+    class ObjClass extends ObjClassBase {}
 
-    let object = setupObject(this, Validations);
+    let object = new ObjClass(this.owner);
 
     assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
@@ -774,7 +816,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'Password is too short (minimum is 5 characters)'
     );
 
-    object.set('password', '12345');
+    object.password = '12345';
 
     assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
@@ -799,7 +841,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let customValidatorCount = 0;
 
-    let Validations = {
+    @buildValidations({
       password: {
         description: 'Password',
         validators: [
@@ -817,9 +859,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
           }),
         ],
       },
-    };
+    })
+    class ObjClass extends ObjClassBase {}
 
-    let object = setupObject(this, Validations);
+    let object = new ObjClass(this.owner);
 
     assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
@@ -832,7 +875,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       "Password can't be blank"
     );
 
-    object.set('password', '1234');
+    object.password = '1234';
 
     assert.false(object.validations.attrs.password.isValid);
     assert.deepEqual(
@@ -868,7 +911,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register('validator:length', LengthValidator);
 
-    let Validations = {
+    @buildValidations({
       firstName: [
         validator('presence', true),
         validator('length', { min: 5, max: 35 }),
@@ -877,9 +920,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
         validator('presence', true),
         validator('length', { min: 5, max: 35 }),
       ],
-    };
+    })
+    class ObjClass extends ObjClassBase {}
 
-    let obj = setupObject(this, Validations, {
+    let obj = new ObjClass(this.owner, {
       firstName: 'Foo',
       lastName: null,
     });
@@ -908,24 +952,36 @@ module('Integration | Validations | Factory - General', function (hooks) {
   test('load test', function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
 
-    let Validations = {
+    @buildValidations({
       a: validator('presence', true),
       b: validator('presence', true),
       c: validator('presence', true),
       d: validator('presence', true),
       e: validator('presence', true),
-    };
+    })
+    class ObjClass {
+      @tracked a;
+      @tracked b;
+      @tracked c;
+      @tracked d;
+      @tracked e;
+
+      constructor(owner, props = {}) {
+        Object.assign(this, owner.ownerInjection(), props);
+      }
+    }
 
     let items = A([]);
     for (let i = 0; i < 50; i++) {
-      let obj = setupObject(this, Validations, {
-        a: i,
-        b: i,
-        c: i,
-        d: i,
-        e: i,
-      });
-      items.push(obj);
+      items.push(
+        new ObjClass({
+          a: i,
+          b: i,
+          c: i,
+          d: i,
+          e: i,
+        })
+      );
     }
     /* eslint-disable no-console */
     console.time('init');
