@@ -3,7 +3,7 @@ import { isArray } from '@ember/array';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
-import { tracked } from '@glimmer/tracking';
+import { tracked, cached } from '@glimmer/tracking';
 
 /**
  * __PRIVATE__
@@ -42,7 +42,7 @@ export default class Result {
    */
   @tracked _validator;
 
-  @tracked _result;
+  @tracked _resultOverride;
 
   /**
    * Determines if the _result object is readOnly.
@@ -195,19 +195,25 @@ export default class Result {
     return this._result.warnings;
   }
 
+  @cached
+  get _result() {
+    return (
+      this._resultOverride ??
+      InternalResultObject.create({
+        model: this.model,
+        attribute: this.attribute,
+        _promise: this._promise,
+        _validator: this._validator,
+      })
+    );
+  }
+
   static create(props) {
     return new Result(props);
   }
 
   constructor(props = {}) {
     Object.assign(this, props);
-
-    this._result = InternalResultObject.create({
-      model: this.model,
-      attribute: this.attribute,
-      _promise: this._promise,
-      _validator: this._validator,
-    });
 
     if (this.isAsync && !this._isReadOnly) {
       this._handlePromise();
@@ -260,7 +266,7 @@ export default class Result {
    * @private
    */
   _overrideResult(result) {
-    this._result = result;
+    this._resultOverride = result;
   }
 
   /**

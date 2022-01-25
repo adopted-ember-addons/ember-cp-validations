@@ -11,6 +11,7 @@ import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { isValidatable, isPromise } from '../utils/utils';
 import { tracked, cached } from '@glimmer/tracking';
+import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 
 const VALIDATION_COUNT_MAP = new WeakMap();
 
@@ -387,31 +388,39 @@ function createAttrsClass(validatableAttributes) {
     Insert CPs + Create nested classes
    */
   validatableAttributes.forEach((attribute) => {
+    const caches = new WeakMap();
+
+    const getter = function () {
+      let model = this.__ATTRS_MODEL__;
+      let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
+
+      const validationResults = generateValidationResultsFor(
+        attribute,
+        model,
+        validators,
+        (validator, options) => {
+          return validator.validate(
+            validator.getValue(),
+            options,
+            model,
+            attribute
+          );
+        }
+      );
+
+      return ResultCollection.create({
+        attribute,
+        content: validationResults,
+      });
+    };
+
     Object.defineProperty(AttrsClass.prototype, attribute, {
       get() {
-        let model = this.__ATTRS_MODEL__;
-        let validators = !isNone(model)
-          ? getValidatorsFor(attribute, model)
-          : [];
+        if (!caches.has(this)) {
+          caches.set(this, createCache(getter.bind(this)));
+        }
 
-        let validationResults = generateValidationResultsFor(
-          attribute,
-          model,
-          validators,
-          (validator, options) => {
-            return validator.validate(
-              validator.getValue(),
-              options,
-              model,
-              attribute
-            );
-          }
-        );
-
-        return ResultCollection.create({
-          attribute,
-          content: validationResults,
-        });
+        return getValue(caches.get(this));
       },
     });
   });
