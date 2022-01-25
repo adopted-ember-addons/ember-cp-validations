@@ -62,7 +62,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let friend = validations.content.findBy('attribute', 'friend');
 
     assert.false(friend.isValid);
-    assert.false(friend.isValidating);
     assert.deepEqual(friend.message, 'lastName should be present');
   });
 
@@ -83,7 +82,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let friend = validations.content.findBy('attribute', 'friend');
 
     assert.true(friend.isValid);
-    assert.false(friend.isValidating);
     assert.deepEqual(friend.message, undefined);
   });
 
@@ -149,7 +147,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     user.validations.validate();
 
     assert.false(user.validations.isValid);
-    assert.false(user.validations.isValidating);
     assert.false(user.validations.attrs.firstName.isValid);
     assert.false(user.validations.attrs.fullName.isValid);
     assert.deepEqual(
@@ -199,7 +196,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     user.validations.validate();
 
     assert.false(user.validations.isValid);
-    assert.false(user.validations.isValidating);
     assert.false(user.validations.attrs.firstName.isValid);
     assert.deepEqual(user.validations.attrs.firstName.messages.length, 2);
     assert.false(user.validations.attrs.fullName.isValid);
@@ -232,7 +228,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     user.validations.validate();
 
     assert.false(user.validations.isValid);
-    assert.false(user.validations.isValidating);
     assert.false(user.validations.attrs.firstName.isValid);
     assert.false(user.validations.attrs.lastName.isValid);
     assert.false(user.validations.attrs.fullName.isValid);

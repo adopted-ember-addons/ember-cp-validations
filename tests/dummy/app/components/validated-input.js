@@ -12,7 +12,7 @@ export default class ValidatedInput extends Component {
   }
 
   get isValid() {
-    return this.hasContent && this.validation.isTruelyValid;
+    return this.hasContent && this.validation.isValid;
   }
 
   get shouldDisplayValidations() {
@@ -20,9 +20,7 @@ export default class ValidatedInput extends Component {
   }
 
   get showErrorClass() {
-    return (
-      !this.validation.isValidating && this.showErrorMessage && this.validation
-    );
+    return this.showErrorMessage && this.validation;
   }
 
   get showErrorMessage() {

@@ -36,13 +36,11 @@ module('Integration | Validators | Composable', function (hooks) {
     });
 
     assert.false(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
     assert.deepEqual(obj.validations.message, "This field can't be blank");
 
     obj.set('value', 'foo');
 
     assert.true(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
   });
 
   test('Composability - multiple', function (assert) {
@@ -76,13 +74,11 @@ module('Integration | Validators | Composable', function (hooks) {
     });
 
     assert.false(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
     assert.deepEqual(obj.validations.message, "This field can't be blank");
 
     obj.set('value', 'foobar');
 
     assert.false(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
     assert.deepEqual(
       obj.validations.message,
       'This field is too long (maximum is 5 characters)'
@@ -91,7 +87,6 @@ module('Integration | Validators | Composable', function (hooks) {
     obj.set('value', 'foo');
 
     assert.true(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
   });
 
   test('Composability - unsupported types', function (assert) {
