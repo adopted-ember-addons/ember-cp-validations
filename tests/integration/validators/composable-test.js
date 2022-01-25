@@ -6,7 +6,6 @@ import setupObject from '../../helpers/setup-object';
 import { validator } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { Promise } from 'rsvp';
 
 const ComposedValidations = {
   value: validator('composed'),
@@ -95,76 +94,6 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.false(obj.validations.isValidating);
   });
 
-  test('Composability - async', async function (assert) {
-    assert.expect(8);
-
-    this.owner.register(
-      'validator:async-resolve',
-      BaseValidator.extend({
-        validate(value) {
-          return Promise.resolve(
-            value.includes('foo') ? true : 'Must include foo!'
-          );
-        },
-      })
-    );
-
-    this.owner.register(
-      'validator:async-reject',
-      BaseValidator.extend({
-        validate(value) {
-          return Promise.reject(
-            value.includes('bar') ? true : 'Must include bar!'
-          );
-        },
-      })
-    );
-
-    this.owner.register(
-      'validator:composed',
-      BaseValidator.extend({
-        async validate(value) {
-          let result = await this.test('async-resolve', value);
-
-          if (!result.isValid) {
-            return result.message;
-          }
-
-          result = await this.test('async-reject', value);
-
-          if (!result.isValid) {
-            return result.message;
-          }
-
-          return true;
-        },
-      })
-    );
-
-    const obj = setupObject(this, ComposedValidations, {
-      value: '',
-    });
-
-    await obj.validate();
-
-    assert.false(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
-    assert.deepEqual(obj.validations.message, 'Must include foo!');
-
-    obj.set('value', 'foo');
-    await obj.validate();
-
-    assert.false(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
-    assert.deepEqual(obj.validations.message, 'Must include bar!');
-
-    obj.set('value', 'foobar');
-    await obj.validate();
-
-    assert.true(obj.validations.isValid);
-    assert.false(obj.validations.isValidating);
-  });
-
   test('Composability - unsupported types', function (assert) {
     const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
 
@@ -189,7 +118,7 @@ module('Integration | Validators | Composable', function (hooks) {
 
     unsupportedTypes.forEach((type) => {
       obj.set('value', type);
-      assert.throws(() => obj.validateSync(), new RegExp(type));
+      assert.throws(() => obj.validate(), new RegExp(type));
     });
   });
 
@@ -221,6 +150,6 @@ module('Integration | Validators | Composable', function (hooks) {
       value: '',
     });
 
-    obj.validateSync();
+    obj.validate();
   });
 });

@@ -1,5 +1,4 @@
 import { A, isArray } from '@ember/array';
-import { Promise as EmberPromise } from 'rsvp';
 import { isNone } from '@ember/utils';
 import { run } from '@ember/runloop';
 import setupObject from '../../helpers/setup-object';
@@ -189,52 +188,51 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Stef',
     });
 
-    return object.validations.validate().then(({ validations, model }) => {
-      assert.deepEqual(model, object, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['firstName', 'lastName'].sort()
-      );
+    const { validations, model } = object.validations.validate();
+    assert.deepEqual(model, object, 'expected model to be the correct model');
+    assert.deepEqual(
+      validations.content.mapBy('attribute').sort(),
+      ['firstName', 'lastName'].sort()
+    );
 
-      let firstName = validations.content.findBy('attribute', 'firstName');
-      let lastName = validations.content.findBy('attribute', 'lastName');
+    let firstName = validations.content.findBy('attribute', 'firstName');
+    let lastName = validations.content.findBy('attribute', 'lastName');
 
-      assert.true(firstName.isValid);
-      assert.false(firstName.isValidating);
-      assert.deepEqual(firstName.message, undefined);
+    assert.true(firstName.isValid);
+    assert.false(firstName.isValidating);
+    assert.deepEqual(firstName.message, undefined);
 
-      assert.false(lastName.isValid);
-      assert.false(lastName.isValidating);
-      assert.deepEqual(lastName.message, 'lastName should be present');
+    assert.false(lastName.isValid);
+    assert.false(lastName.isValidating);
+    assert.deepEqual(lastName.message, 'lastName should be present');
 
-      assert.false(
-        object.validations.isValid,
-        'isValid was expected to be FALSE'
-      );
-      assert.false(
-        object.validations.isValidating,
-        'isValidating was expected to be FALSE'
-      );
-      assert.false(
-        object.validations.isTruelyValid,
-        'isTruelyValid was expected to be FALSE'
-      );
-      assert.true(
-        object.validations.isTruelyInvalid,
-        'isTruelyInvalid was expected to be TRUE'
-      );
+    assert.false(
+      object.validations.isValid,
+      'isValid was expected to be FALSE'
+    );
+    assert.false(
+      object.validations.isValidating,
+      'isValidating was expected to be FALSE'
+    );
+    assert.false(
+      object.validations.isTruelyValid,
+      'isTruelyValid was expected to be FALSE'
+    );
+    assert.true(
+      object.validations.isTruelyInvalid,
+      'isTruelyInvalid was expected to be TRUE'
+    );
 
-      assert.true(object.validations.attrs.firstName.isValid);
-      assert.false(object.validations.attrs.firstName.isValidating);
-      assert.deepEqual(object.validations.attrs.firstName.message, undefined);
+    assert.true(object.validations.attrs.firstName.isValid);
+    assert.false(object.validations.attrs.firstName.isValidating);
+    assert.deepEqual(object.validations.attrs.firstName.message, undefined);
 
-      assert.false(object.validations.attrs.lastName.isValid);
-      assert.false(object.validations.attrs.lastName.isValidating);
-      assert.deepEqual(
-        object.validations.attrs.lastName.message,
-        'lastName should be present'
-      );
-    });
+    assert.false(object.validations.attrs.lastName.isValid);
+    assert.false(object.validations.attrs.lastName.isValidating);
+    assert.deepEqual(
+      object.validations.attrs.lastName.message,
+      'lastName should be present'
+    );
   });
 
   test('basic sync validation - API - #validationSync', function (assert) {
@@ -242,7 +240,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Stef',
     });
 
-    let { validations, model } = object.validations.validateSync();
+    let { validations, model } = object.validations.validate();
 
     assert.deepEqual(model, object, 'expected model to be the correct model');
     assert.deepEqual(
@@ -318,29 +316,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
     assert.false(object.validations.attrs.firstName.isValid);
     assert.false(object.validations.attrs.firstName.isValidating);
     assert.deepEqual(object.validations.attrs.firstName.message, undefined);
-  });
-
-  test('shallow isAsync test', function (assert) {
-    assert.expect(4);
-    let Validations = {
-      firstName: validator('inline', {
-        validate() {
-          return new EmberPromise((resolve) => {
-            resolve(true);
-          });
-        },
-      }),
-    };
-
-    let obj = setupObject(this, Validations);
-
-    assert.true(obj.validations.attrs.firstName.isAsync);
-    assert.true(obj.validations.attrs.firstName.isValidating);
-
-    return obj.validate().then(({ model }) => {
-      assert.true(model.validations.isValid);
-      assert.false(model.validations.isValidating);
-    });
   });
 
   test('default options', function (assert) {
@@ -441,150 +416,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
       object.validations.attrs.firstName.message,
       "This field can't be blank"
     );
-  });
-
-  test('debounced validations', async function (assert) {
-    assert.expect(11);
-    let initSetup = true;
-    let Validations = {
-      firstName: validator('inline', { validate: Validators.presence }),
-      lastName: validator('inline', {
-        validate: Validators.presence,
-        get debounce() {
-          return initSetup ? 0 : 500; // Do not debounce on initial object creation
-        },
-      }),
-    };
-    let object = setupObject(this, Validations);
-
-    assert.false(
-      object.validations.isValid,
-      'isValid was expected to be FALSE'
-    );
-    assert.false(
-      object.validations.isValidating,
-      'isValidating was expected to be TRUE'
-    );
-    assert.false(
-      object.validations.isTruelyValid,
-      'isTruelyValid was expected to be FALSE'
-    );
-    assert.true(
-      object.validations.isTruelyInvalid,
-      'isTruelyInvalid was expected to be TRUE'
-    );
-
-    assert.false(object.validations.attrs.lastName.isValid);
-    assert.false(object.validations.attrs.lastName.isValidating);
-    assert.deepEqual(
-      object.validations.attrs.lastName.message,
-      'lastName should be present'
-    );
-
-    initSetup = false;
-    object.set('lastName', 'Golan');
-    assert.true(object.validations.attrs.lastName.isValidating);
-
-    await run.later(() => {
-      assert.true(object.validations.attrs.lastName.isValid);
-      assert.false(object.validations.attrs.lastName.isValidating);
-      assert.deepEqual(object.validations.attrs.lastName.message, null);
-    }, 505);
-  });
-
-  test('debounced validator should only be called once', async function (assert) {
-    assert.expect(1);
-    let count = 0;
-    let Validations = {
-      firstName: validator('inline', {
-        validate: () => count++,
-        debounce: 500,
-      }),
-    };
-
-    let object = setupObject(this, Validations);
-
-    object.set('firstName', 'O');
-    object.validations.attrs.firstName.isValid;
-
-    object.set('firstName', 'Off');
-    object.validations.attrs.firstName.isValid;
-
-    object.set('firstName', 'Offir');
-    object.validations.attrs.firstName.isValid;
-
-    await run.later(() => {
-      assert.deepEqual(count, 1);
-    }, 505);
-  });
-
-  test('debounced validations should cleanup on object destroy', function (assert) {
-    assert.expect(10);
-    let done = assert.async();
-    let initSetup = true;
-
-    let debouncedValidator = validator('inline', {
-      get debounce() {
-        return initSetup ? 0 : 500;
-      },
-      validate(value, options, model, attr) {
-        model.set('foo', 'bar');
-        return Validators.presence(value, options, model, attr);
-      },
-    });
-
-    let Validations = {
-      firstName: validator('inline', { validate: Validators.presence }),
-      lastName: debouncedValidator,
-      'details.url': debouncedValidator,
-    };
-    let object = setupObject(this, Validations, {
-      details: {},
-    });
-
-    assert.false(
-      object.validations.isValid,
-      'isValid was expected to be FALSE'
-    );
-    assert.false(
-      object.validations.isValidating,
-      'isValidating was expected to be TRUE'
-    );
-    assert.false(
-      object.validations.isTruelyValid,
-      'isTruelyValid was expected to be FALSE'
-    );
-    assert.true(
-      object.validations.isTruelyInvalid,
-      'isTruelyInvalid was expected to be TRUE'
-    );
-
-    assert.false(object.validations.attrs.lastName.isValid);
-    assert.false(object.validations.attrs.lastName.isValidating);
-    assert.deepEqual(
-      object.validations.attrs.lastName.message,
-      'lastName should be present'
-    );
-
-    initSetup = false;
-    object.setProperties({
-      lastName: 'Golan',
-      'details.url': 'github.com',
-    });
-    assert.true(object.validations.attrs.lastName.isValidating);
-    assert.true(object.validations.attrs.details.url.isValidating);
-
-    run.later(() => {
-      try {
-        object.destroy();
-        assert.ok(true, 'Object destroy was clean');
-      } catch (e) {
-        /* noop */
-      }
-      run.later(() => {
-        done();
-      }, 400);
-    }, 200);
   });
 
   test('disabled validations - simple', function (assert) {
@@ -745,7 +576,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     const child = new Child();
     Object.assign(child, this.owner.ownerInjection());
 
-    child.validateSync();
+    child.validat();
 
     assert.deepEqual(child.validations.errors.length, 4);
     assert.false(child.validations.isValid);
@@ -792,7 +623,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     const baby = new Baby();
     Object.assign(baby, this.owner.ownerInjection());
 
-    baby.validateSync();
+    baby.validate();
 
     assert.deepEqual(baby.validations.errors.length, 6);
     assert.false(baby.validations.isValid);
@@ -843,39 +674,15 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Offir',
     });
 
-    return object
-      .validateAttribute('firstName', undefined)
-      .then(({ validations, model }) => {
-        assert.true(model.validations.isValid);
-        assert.false(validations.isValid);
-        assert.false(validations.isValidating);
-        assert.deepEqual(validations.message, 'firstName should be present');
-      });
-  });
+    const { validations, model } = object.validateAttribute(
+      'firstName',
+      undefined
+    );
 
-  test('validateAttribute - async validations', function (assert) {
-    assert.expect(3);
-    let Validations = {
-      firstName: [
-        validator('inline', {
-          validate: () => EmberPromise.resolve('firstName is invalid'),
-        }),
-        validator('inline', {
-          validate: () => EmberPromise.resolve('firstName is really invalid'),
-        }),
-      ],
-    };
-    let object = setupObject(this, Validations, {
-      firstName: 'Offir',
-    });
-
-    return object
-      .validateAttribute('firstName', 'foo')
-      .then(({ validations }) => {
-        assert.false(validations.isValid);
-        assert.false(validations.isValidating);
-        assert.deepEqual(validations.message, 'firstName is invalid');
-      });
+    assert.true(model.validations.isValid);
+    assert.false(validations.isValid);
+    assert.false(validations.isValidating);
+    assert.deepEqual(validations.message, 'firstName should be present');
   });
 
   test('warning validators api', function (assert) {

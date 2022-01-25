@@ -1,15 +1,12 @@
-import { Promise as EmberPromise } from 'rsvp';
 import ArrayProxy from '@ember/array/proxy';
 import { isNone } from '@ember/utils';
 import { A as emberArray } from '@ember/array';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
-import { PromiseArray, PromiseObject } from 'ember-data';
 import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
 import BelongsToValidator from 'ember-cp-validations/validators/belongs-to';
 import HasManyValidator from 'ember-cp-validations/validators/has-many';
 import AliasValidator from 'ember-cp-validations/validators/alias';
-import PresenceValidator from 'ember-cp-validations/validators/presence';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -54,7 +51,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       friend: user2,
     });
 
-    let { validations, model } = user.validations.validateSync();
+    let { validations, model } = user.validations.validate();
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
@@ -75,7 +72,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     let user = setupObject(this, BelongsToValidations);
     user.set('friend', user);
 
-    let { validations, model } = user.validations.validateSync();
+    let { validations, model } = user.validations.validate();
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
@@ -101,7 +98,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       friends: [friend],
     });
 
-    let { validations, model } = user.validations.validateSync();
+    let { validations, model } = user.validations.validate();
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
@@ -126,7 +123,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       friends: ArrayProxy.create({ content: emberArray([friend]) }),
     });
 
-    let { validations, model } = user.validations.validateSync();
+    let { validations, model } = user.validations.validate();
 
     assert.deepEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
@@ -140,234 +137,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.deepEqual(friends.message, 'lastName should be present');
   });
 
-  test('has-many relationship is async', function (assert) {
-    assert.expect(6);
-    this.owner.register('validator:has-many', HasManyValidator);
-
-    let friend = setupObject(this, Validations, {
-      firstName: 'Offir',
-    });
-
-    let user = setupObject(this, HasManyValidations, {
-      friends: new EmberPromise((resolve) => {
-        resolve([friend]);
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friends'].sort()
-      );
-
-      let friends = validations.content.findBy('attribute', 'friends');
-
-      assert.false(friends.isValid);
-      assert.deepEqual(friends.message, 'lastName should be present');
-    });
-
-    return validations;
-  });
-
-  test('has-many relationship is async and isWarning', function (assert) {
-    assert.expect(7);
-    this.owner.register('validator:has-many', HasManyValidator);
-
-    let HasManyValidations = {
-      friends: validator('has-many', { isWarning: true }),
-    };
-
-    let friend = setupObject(this, Validations, {
-      firstName: 'Offir',
-    });
-
-    let user = setupObject(this, HasManyValidations, {
-      friends: new EmberPromise((resolve) => {
-        resolve([friend]);
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friends'].sort()
-      );
-
-      let friends = validations.content.findBy('attribute', 'friends');
-
-      assert.deepEqual(friends.warning.message, 'lastName should be present');
-      assert.deepEqual(friends.warningMessage, 'lastName should be present');
-      assert.true(friends.isValid);
-    });
-
-    return validations;
-  });
-
-  test('belongs-to relationship is async', function (assert) {
-    assert.expect(6);
-    this.owner.register('validator:belongs-to', BelongsToValidator);
-
-    let friend = setupObject(this, Validations, {
-      firstName: 'Offir',
-    });
-
-    let user = setupObject(this, BelongsToValidations, {
-      friend: new EmberPromise((resolve) => {
-        resolve(friend);
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friend'].sort()
-      );
-
-      let friend = validations.content.findBy('attribute', 'friend');
-
-      assert.false(friend.isValid);
-      assert.deepEqual(friend.message, 'lastName should be present');
-    });
-
-    return validations;
-  });
-
-  test('belongs-to relationship is async and isWarning', function (assert) {
-    assert.expect(7);
-    this.owner.register('validator:belongs-to', BelongsToValidator);
-
-    let BelongsToValidations = {
-      friend: validator('belongs-to', { isWarning: true }),
-    };
-
-    let friend = setupObject(this, Validations, {
-      firstName: 'Offir',
-    });
-
-    let user = setupObject(this, BelongsToValidations, {
-      friend: new EmberPromise((resolve) => {
-        resolve(friend);
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friend'].sort()
-      );
-
-      let friend = validations.content.findBy('attribute', 'friend');
-
-      assert.deepEqual(friend.warning.message, 'lastName should be present');
-      assert.deepEqual(friend.warningMessage, 'lastName should be present');
-      assert.true(friend.isValid);
-    });
-
-    return validations;
-  });
-
-  test('belongs-to relationship is async and does not exist', function (assert) {
-    assert.expect(5);
-    this.owner.register('validator:belongs-to', BelongsToValidator);
-
-    let user = setupObject(this, BelongsToValidations, {
-      friend: new EmberPromise((resolve) => {
-        resolve();
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friend'].sort()
-      );
-      assert.true(user.validations.isValid);
-    });
-
-    return validations;
-  });
-
-  test('has-many relationship is async and does not exist', function (assert) {
-    assert.expect(5);
-    this.owner.register('validator:has-many', HasManyValidator);
-
-    let user = setupObject(this, HasManyValidations, {
-      friends: new EmberPromise((resolve) => {
-        resolve();
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friends'].sort()
-      );
-      assert.true(user.validations.isValid);
-    });
-
-    return validations;
-  });
-
-  test('belongs-to relationship returns undefined', function (assert) {
-    assert.expect(6);
-    this.owner.register('validator:belongs-to', BelongsToValidator);
-
-    let user = setupObject(this, BelongsToValidations, {
-      friend: new EmberPromise((resolve) => {
-        resolve({}); // validations object will be undefined
-      }),
-    });
-
-    let validations = user.validations.validate();
-    assert.true(user.validations.isAsync);
-    assert.true(user.validations.isValidating);
-
-    validations.then(({ model, validations }) => {
-      assert.deepEqual(model, user, 'expected model to be the correct model');
-      assert.deepEqual(
-        validations.content.mapBy('attribute').sort(),
-        ['friend'].sort()
-      );
-
-      let friend = validations.content.findBy('attribute', 'friend');
-
-      assert.false(friend.isValid);
-      assert.deepEqual(friend.message, undefined);
-    });
-
-    return validations;
-  });
-
   test('alias validation - simple', function (assert) {
     this.owner.register('validator:alias', AliasValidator);
 
@@ -377,7 +146,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
       fullName: validator('alias', 'firstName'),
     });
 
-    user.validations.validateSync();
+    user.validations.validate();
 
     assert.false(user.validations.isValid);
     assert.false(user.validations.isValidating);
@@ -427,7 +196,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     const user = new User();
     Object.assign(user, this.owner.ownerInjection());
 
-    user.validations.validateSync();
+    user.validations.validate();
 
     assert.false(user.validations.isValid);
     assert.false(user.validations.isValidating);
@@ -460,7 +229,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     const user = new User();
     Object.assign(user, this.owner.ownerInjection());
 
-    user.validations.validateSync();
+    user.validations.validate();
 
     assert.false(user.validations.isValid);
     assert.false(user.validations.isValidating);
@@ -488,92 +257,5 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     assert.true(user.validations.attrs.lastName.isValid);
     assert.true(user.validations.attrs.fullName.isValid);
-  });
-
-  test('presence on empty DS.PromiseObject', function (assert) {
-    this.owner.register('validator:presence', PresenceValidator);
-
-    let Validations = {
-      friend: validator('presence', true),
-    };
-
-    let user = setupObject(this, Validations, {
-      friend: PromiseObject.create(),
-    });
-
-    let { validations, model } = user.validations.validateSync();
-
-    assert.deepEqual(model, user, 'expected model to be the correct model');
-    assert.deepEqual(
-      validations.content.mapBy('attribute').sort(),
-      ['friend'].sort()
-    );
-
-    let friend = validations.content.findBy('attribute', 'friend');
-
-    assert.false(friend.isValid);
-    assert.deepEqual(friend.message, "This field can't be blank");
-  });
-
-  test('presence on empty DS.PromiseArray', function (assert) {
-    this.owner.register('validator:presence', PresenceValidator);
-
-    let Validations = {
-      friends: validator('presence', true),
-    };
-
-    let user = setupObject(this, Validations, {
-      friends: PromiseArray.create(),
-    });
-
-    let { validations, model } = user.validations.validateSync();
-
-    assert.deepEqual(model, user, 'expected model to be the correct model');
-    assert.deepEqual(
-      validations.content.mapBy('attribute').sort(),
-      ['friends'].sort()
-    );
-
-    let friends = validations.content.findBy('attribute', 'friends');
-
-    assert.false(friends.isValid);
-    assert.deepEqual(friends.message, "This field can't be blank");
-  });
-
-  test('Validations should work across two-way BelongsTo relationships', function (assert) {
-    assert.expect(4);
-    this.owner.register('validator:presence', PresenceValidator);
-    this.owner.register('validator:belongs-to', BelongsToValidator);
-
-    let done = assert.async();
-
-    let user2 = setupObject(this, BelongsToValidations);
-
-    let user = setupObject(this, BelongsToValidations, {
-      friend: new EmberPromise((resolve) => {
-        resolve(user2);
-      }),
-    });
-
-    user2.set(
-      'friend',
-      new EmberPromise((resolve) => {
-        resolve(user);
-      })
-    );
-
-    user.validate().then(({ validations }) => {
-      assert.false(
-        user.validations.isValidating,
-        'All promises should be resolved'
-      );
-      assert.false(
-        user2.validations.isValidating,
-        'All promises should be resolved'
-      );
-      assert.false(validations.isValidating, 'All promises should be resolved');
-      assert.true(validations.isValid, 'User should be valid');
-      done();
-    });
   });
 });
