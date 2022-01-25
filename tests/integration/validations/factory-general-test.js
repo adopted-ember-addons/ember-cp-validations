@@ -320,7 +320,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     assert.deepEqual(object.validations.attrs.firstName.message, undefined);
   });
 
-  test('shallow isAsync test', function (assert) {
+  test.only('shallow isAsync test', function (assert) {
     assert.expect(4);
     let Validations = {
       firstName: validator('inline', {

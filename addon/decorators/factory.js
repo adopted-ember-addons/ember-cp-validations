@@ -10,7 +10,7 @@ import ResultCollection from '../validations/result-collection';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { isValidatable, isPromise } from '../utils/utils';
-import { tracked } from '@glimmer/tracking';
+import { tracked, cached } from '@glimmer/tracking';
 
 const VALIDATION_COUNT_MAP = new WeakMap();
 
@@ -70,20 +70,20 @@ const VALIDATION_COUNT_MAP = new WeakMap();
  *
  * @method  buildValidations
  * @param  {Object} validations  Validation rules
- * @return {Ember.Mixin}
+ * @return {Decorator}
  */
 export default function buildValidations(validations = {}, globalOptions = {}) {
   return function (DecoratedClass) {
     normalizeOptions(validations, globalOptions);
-    let Validations, validationMixinCount;
+    let Validations, validationDecoratorCount;
 
     return class ValidatedClass extends DecoratedClass {
       constructor() {
         super(...arguments);
 
-        // Count number of mixins to bypass super check if there is more than 1
-        validationMixinCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
-        VALIDATION_COUNT_MAP.set(this, validationMixinCount);
+        // Count number of decorators to bypass super check if there is more than 1
+        validationDecoratorCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
+        VALIDATION_COUNT_MAP.set(this, validationDecoratorCount);
       }
 
       get __VALIDATIONS_CLASS__() {
@@ -92,7 +92,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
           if (
             shouldCallSuper(this, '__VALIDATIONS_CLASS__') ||
-            validationMixinCount > 1
+            validationDecoratorCount > 1
           ) {
             inheritedClass = Object.getPrototypeOf(this.constructor);
           }
@@ -102,6 +102,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
         return Validations;
       }
 
+      @cached
       get validations() {
         return this.__VALIDATIONS_CLASS__.create({ model: this });
       }
