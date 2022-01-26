@@ -109,9 +109,8 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
           if (shouldCallSuper(this, '__VALIDATIONS_CLASS__')) {
             inheritedClass =
-              Object.getPrototypeOf(
-                DecoratedClass
-              ).__VALIDATIONS_CLASS__.get.call(this);
+              Object.getPrototypeOf(DecoratedClass).prototype
+                .__VALIDATIONS_CLASS__;
           }
 
           Validations = createValidationsClass(inheritedClass, validations);
