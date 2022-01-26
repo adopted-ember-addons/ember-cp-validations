@@ -493,7 +493,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
     }
 
     const child = new Child(this.owner);
-    console.log(child.yo);
 
     child.validate();
 
