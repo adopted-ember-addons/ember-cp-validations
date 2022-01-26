@@ -4,18 +4,8 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Validator | inline', function (hooks) {
   setupTest(hooks);
 
-  test('no options', function (assert) {
-    assert.expect(1);
-
-    try {
-      this.owner.lookup('validator:inline');
-    } catch (e) {
-      assert.ok(true);
-    }
-  });
-
   test('it works', function (assert) {
-    assert.expect(3);
+    assert.expect(2);
 
     const validator = this.owner.factoryFor('validator:inline').create({
       options: {
@@ -23,10 +13,6 @@ module('Unit | Validator | inline', function (hooks) {
         validate(value, options) {
           assert.deepEqual(this, validator, 'Context is preserved');
           assert.deepEqual(options.foo, 'bar', 'It receives options');
-          assert.notOk(
-            options.validate,
-            'Validate fn removed from the options'
-          );
         },
       },
     });

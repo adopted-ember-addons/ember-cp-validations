@@ -123,20 +123,20 @@ export default class ValidatorsBase {
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    let builtOptions = Object.assign(options, defaultOptions, globalOptions);
-
     // Overwrite the validator's value method if it exists in the options and remove it since
     // there is no need for it to be passed around
-    if (builtOptions.value) {
-      this.value = builtOptions.value;
-      delete builtOptions.value;
+    if (options.value) {
+      this.value = options.value;
+      delete options.value;
     }
 
-    return new Options({
-      model: this.model,
-      attribute: this.attribute,
-      options: builtOptions,
-    });
+    return new Options(
+      this.model,
+      this.attribute,
+      options,
+      defaultOptions,
+      globalOptions
+    );
   }
 
   /**

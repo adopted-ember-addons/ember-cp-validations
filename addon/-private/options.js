@@ -1,23 +1,40 @@
 import { tracked } from '@glimmer/tracking';
 
+function applyProps(target, ...sources) {
+  for (const source of sources) {
+    const props = Object.keys(source);
+    for (const prop of props) {
+      const descriptor = Object.getOwnPropertyDescriptor(source, prop);
+      Object.defineProperty(target, prop, descriptor);
+    }
+  }
+}
+
 export default class Options {
   @tracked model;
   @tracked attribute;
-  __OPTION_KEYS__;
 
-  constructor({ model, attribute, options = {} }) {
+  constructor(
+    model,
+    attribute,
+    options = {},
+    defaultOptions = {},
+    globalOptions = {}
+  ) {
     Object.assign(this, {
-      __OPTION_KEYS__: Object.keys(options),
       model,
       attribute,
-      ...options,
     });
+
+    applyProps(this, globalOptions, defaultOptions, options);
   }
 
   toObject() {
-    return this.__OPTION_KEYS__.reduce((obj, key) => {
-      obj[key] = this[key];
-      return obj;
-    }, {});
+    let obj = {
+      model: this.model,
+      attribute: this.attribute,
+    };
+    applyProps(obj, this);
+    return obj;
   }
 }

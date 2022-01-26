@@ -22,7 +22,7 @@ import Base from 'ember-cp-validations/validators/base';
  */
 export default class ValidatorsInline extends Base {
   validate() {
-    return this.options.validate(...arguments);
+    return this.options.validate.call(this, ...arguments);
   }
 
   static create(props) {
