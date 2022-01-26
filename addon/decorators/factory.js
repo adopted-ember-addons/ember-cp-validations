@@ -72,25 +72,14 @@ const VALIDATION_COUNT_MAP = new WeakMap();
 export default function buildValidations(validations = {}, globalOptions = {}) {
   return function (DecoratedClass) {
     normalizeOptions(validations, globalOptions);
-    let Validations, validationDecoratorCount;
+    let Validations;
 
     return class ValidatedClass extends DecoratedClass {
-      constructor() {
-        super(...arguments);
-
-        // Count number of decorators to bypass super check if there is more than 1
-        validationDecoratorCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
-        VALIDATION_COUNT_MAP.set(this, validationDecoratorCount);
-      }
-
       get __VALIDATIONS_CLASS__() {
         if (!Validations) {
           let inheritedClass;
 
-          if (
-            validationDecoratorCount > 1 ||
-            shouldCallSuper(this, '__VALIDATIONS_CLASS__')
-          ) {
+          if (shouldCallSuper(this, '__VALIDATIONS_CLASS__')) {
             inheritedClass = Object.getPrototypeOf(DecoratedClass);
           }
 
