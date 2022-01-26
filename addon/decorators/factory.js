@@ -112,7 +112,6 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
               Object.getPrototypeOf(
                 DecoratedClass
               ).__VALIDATIONS_CLASS__.get.call(this);
-            console.log(inheritedClass);
           }
 
           Validations = createValidationsClass(inheritedClass, validations);
