@@ -470,9 +470,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
     class Parent {
       @tracked firstName;
       @tracked lastName;
-      get herp() {
-        return 'a';
-      }
 
       constructor(owner, props = {}) {
         Object.assign(this, owner.ownerInjection(), props);
@@ -486,10 +483,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
     class Child extends Parent {
       @tracked middleName;
       @tracked dob;
-
-      get herp() {
-        return 'b';
-      }
     }
 
     const child = new Child(this.owner);
