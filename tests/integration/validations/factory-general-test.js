@@ -489,7 +489,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     child.validate();
 
-    assert.deepEqual(child.validations.errors.length, 4);
+    assert.strictEqual(child.validations.errors.length, 4);
     assert.false(child.validations.isValid);
     assert.deepEqual(
       child.validations.validatableAttributes.sort(),
@@ -501,7 +501,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       dob: '10/22/16',
     });
 
-    assert.deepEqual(child.validations.errors.length, 2);
+    assert.strictEqual(child.validations.errors.length, 2);
 
     Object.assign(child, {
       firstName: 'Joe',
@@ -509,7 +509,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
 
     assert.true(child.validations.isValid);
-    assert.deepEqual(child.validations.errors.length, 0);
+    assert.strictEqual(child.validations.errors.length, 0);
   });
 
   test('validations persist with deep inheritance', function (assert) {
@@ -517,7 +517,14 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', { validate: Validators.presence }),
     })
-    class Parent extends ObjClassBase {}
+    class Parent {
+      @tracked firstName;
+      @tracked lastName;
+
+      constructor(owner, props = {}) {
+        Object.assign(this, owner.ownerInjection(), props);
+      }
+    }
 
     @buildValidations({
       middleName: validator('inline', { validate: Validators.presence }),

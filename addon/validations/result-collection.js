@@ -22,7 +22,7 @@ export default class ValidationsResultCollection {
   }
 
   constructor(props = {}) {
-    Object.assign(this, props, {
+    Object.assign(this, {
       attribute: props.attribute,
       content: emberArray(props.content ?? []).compact(),
     });

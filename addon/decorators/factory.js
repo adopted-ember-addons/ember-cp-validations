@@ -198,7 +198,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     ).uniq();
   }
 
-  validatableAttributes.forEach((key) => {
+  Object.keys(validations).forEach((key) => {
     validationRules[key] = validations[key];
   });
 
