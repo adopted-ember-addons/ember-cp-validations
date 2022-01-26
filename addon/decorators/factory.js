@@ -70,7 +70,7 @@ import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 export default function buildValidations(validations = {}, globalOptions = {}) {
   return function (DecoratedClass) {
     normalizeOptions(validations, globalOptions);
-    let Validations;
+    let ValidationsClass;
 
     DecoratedClass.prototype.validate = function () {
       return this.validations.validate(...arguments);
@@ -93,7 +93,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
           caches.set(
             this,
             createCache(() => {
-              return this.__VALIDATIONS_CLASS__.create({ model: this });
+              return new this.__VALIDATIONS_CLASS__(this);
             })
           );
         }
@@ -104,18 +104,22 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 
     Object.defineProperty(DecoratedClass.prototype, '__VALIDATIONS_CLASS__', {
       get() {
-        if (!Validations) {
+        if (!ValidationsClass) {
           let inheritedClass;
 
           if (shouldCallSuper(this, '__VALIDATIONS_CLASS__')) {
-            inheritedClass =
-              Object.getPrototypeOf(DecoratedClass).prototype
-                .__VALIDATIONS_CLASS__;
+            inheritedClass = Object.getOwnPropertyDescriptor(
+              DecoratedClass.prototype,
+              '__VALIDATIONS_CLASS__'
+            )?.get();
           }
 
-          Validations = createValidationsClass(inheritedClass, validations);
+          ValidationsClass = createValidationsClass(
+            inheritedClass,
+            validations
+          );
         }
-        return Validations;
+        return ValidationsClass;
       },
     });
   };
@@ -183,7 +187,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     inheritedValidationsClass &&
     inheritedValidationsClass.__IS_VALIDATIONS_CLASS__
   ) {
-    let inheritedValidations = inheritedValidationsClass.create();
+    let inheritedValidations = new inheritedValidationsClass();
 
     validationRules = assign(
       validationRules,
@@ -272,14 +276,11 @@ function createValidationsClass(inheritedValidationsClass, validations) {
       });
     }
 
-    static create(props) {
-      return new ValidationsClass(props);
-    }
-
-    constructor(props = {}) {
-      Object.assign(this, props, {
+    constructor(model) {
+      Object.assign(this, {
+        model,
         attrs: AttrsClass.create({
-          __ATTRS_MODEL__: props.model,
+          __ATTRS_MODEL__: model,
         }),
       });
     }
