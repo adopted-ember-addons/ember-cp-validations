@@ -6,7 +6,6 @@ import lookupValidator from 'ember-cp-validations/utils/lookup-validator';
 import {
   unwrapString,
   getValidatableValue,
-  mergeOptions,
 } from 'ember-cp-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
 
@@ -105,13 +104,12 @@ export default class ValidatorsBase {
       errorMessages = owner.factoryFor('validator:messages');
     }
 
-    this.errorMessages = (errorMessages ?? Messages).create();
-
     this.options = this.buildOptions(
       props.options,
       props.defaultOptions,
       props.globalOptions
     );
+    this.errorMessages = (errorMessages ?? Messages).create();
   }
 
   /**
@@ -125,12 +123,14 @@ export default class ValidatorsBase {
    * @return {Object}
    */
   buildOptions(options = {}, defaultOptions = {}, globalOptions = {}) {
-    let builtOptions = mergeOptions(options, defaultOptions, globalOptions);
+    let builtOptions = Object.assign(options, defaultOptions, globalOptions);
 
     // Overwrite the validator's value method if it exists in the options and remove it since
     // there is no need for it to be passed around
-    this.value = builtOptions.value || this.value;
-    delete builtOptions.value;
+    if (builtOptions.value) {
+      this.value = builtOptions.value;
+      delete builtOptions.value;
+    }
 
     return new Options({
       model: this.model,
