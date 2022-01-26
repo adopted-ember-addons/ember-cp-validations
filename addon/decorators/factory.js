@@ -108,10 +108,10 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
           let inheritedClass;
 
           if (shouldCallSuper(this, '__VALIDATIONS_CLASS__')) {
-            inheritedClass = Object.getOwnPropertyDescriptor(
-              DecoratedClass.prototype,
+            inheritedClass = Reflect.get(
+              Object.getPrototypeOf(Object.getPrototypeOf(this)),
               '__VALIDATIONS_CLASS__'
-            )?.get();
+            );
           }
 
           ValidationsClass = createValidationsClass(
