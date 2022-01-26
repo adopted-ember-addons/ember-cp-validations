@@ -7,10 +7,8 @@ import ResultCollection from '../validations/result-collection';
 import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { isValidatable } from '../utils/utils';
-import { tracked, cached } from '@glimmer/tracking';
+import { tracked } from '@glimmer/tracking';
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
-
-const VALIDATION_COUNT_MAP = new WeakMap();
 
 /**
  * ## Running Manual Validations
@@ -74,38 +72,54 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     normalizeOptions(validations, globalOptions);
     let Validations;
 
-    return class ValidatedClass extends DecoratedClass {
-      get __VALIDATIONS_CLASS__() {
+    DecoratedClass.prototype.validate = function () {
+      return this.validations.validate(...arguments);
+    };
+
+    DecoratedClass.prototype.validateAttribute = function () {
+      return this.validations.validateAttribute(...arguments);
+    };
+
+    const destroySuper = DecoratedClass.prototype.destroy;
+    DecoratedClass.prototype.destroy = function () {
+      destroySuper?.call(this, ...arguments);
+      this.validations.destroy();
+    };
+
+    const caches = new WeakMap();
+    Object.defineProperty(DecoratedClass.prototype, 'validations', {
+      get() {
+        if (!caches.has(this)) {
+          caches.set(
+            this,
+            createCache(() => {
+              return this.__VALIDATIONS_CLASS__.create({ model: this });
+            })
+          );
+        }
+
+        return getValue(caches.get(this));
+      },
+    });
+
+    Object.defineProperty(DecoratedClass.prototype, '__VALIDATIONS_CLASS__', {
+      get() {
         if (!Validations) {
           let inheritedClass;
 
           if (shouldCallSuper(this, '__VALIDATIONS_CLASS__')) {
-            inheritedClass = Object.getPrototypeOf(DecoratedClass);
+            inheritedClass =
+              Object.getPrototypeOf(
+                DecoratedClass
+              ).__VALIDATIONS_CLASS__.get.call(this);
+            console.log(inheritedClass);
           }
 
           Validations = createValidationsClass(inheritedClass, validations);
         }
         return Validations;
-      }
-
-      @cached
-      get validations() {
-        return this.__VALIDATIONS_CLASS__.create({ model: this });
-      }
-
-      validate() {
-        return this.validations.validate(...arguments);
-      }
-
-      validateAttribute() {
-        return this.validations.validateAttribute(...arguments);
-      }
-
-      destroy() {
-        super.destroy(...arguments);
-        this.validations.destroy();
-      }
-    };
+      },
+    });
   };
 }
 
@@ -332,28 +346,36 @@ function createAttrsClass(validatableAttributes) {
   validatableAttributes.forEach((attribute) => {
     const caches = new WeakMap();
 
-    const getter = function () {
-      let model = this.__ATTRS_MODEL__;
-      let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
-
-      const validationResults = generateValidationResultsFor(
-        attribute,
-        model,
-        validators,
-        (validator, options) =>
-          validator.validate(validator.getValue(), options, model, attribute)
-      );
-
-      return ResultCollection.create({
-        attribute,
-        content: validationResults,
-      });
-    };
-
     Object.defineProperty(AttrsClass.prototype, attribute, {
       get() {
         if (!caches.has(this)) {
-          caches.set(this, createCache(getter.bind(this)));
+          caches.set(
+            this,
+            createCache(() => {
+              let model = this.__ATTRS_MODEL__;
+              let validators = !isNone(model)
+                ? getValidatorsFor(attribute, model)
+                : [];
+
+              const validationResults = generateValidationResultsFor(
+                attribute,
+                model,
+                validators,
+                (validator, options) =>
+                  validator.validate(
+                    validator.getValue(),
+                    options,
+                    model,
+                    attribute
+                  )
+              );
+
+              return ResultCollection.create({
+                attribute,
+                content: validationResults,
+              });
+            })
+          );
         }
 
         return getValue(caches.get(this));

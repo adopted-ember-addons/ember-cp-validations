@@ -1,5 +1,4 @@
 import { isNone } from '@ember/utils';
-import { A as emberArray } from '@ember/array';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DefaultMessages from 'dummy/validators/messages';
 import BelongsToValidator from 'ember-cp-validations/validators/belongs-to';
