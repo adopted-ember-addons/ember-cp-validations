@@ -130,15 +130,14 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
  * @return
  */
 function normalizeOptions(validations = {}, globalOptions = {}) {
-  let validatableAttrs = Object.keys(validations);
-
-  validatableAttrs.forEach((attribute) => {
+  Object.keys(validations).forEach((attribute) => {
     let rules = validations[attribute];
 
     if (rules && typeof rules === 'object' && isArray(rules.validators)) {
       let options = Object.keys(rules).reduce((o, k) => {
         if (k !== 'validators') {
-          o[k] = rules[k];
+          const descriptor = Object.getOwnPropertyDescriptor(rules, k);
+          Object.defineProperty(o, k, descriptor);
         }
         return o;
       }, {});
