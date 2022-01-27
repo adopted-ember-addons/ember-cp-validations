@@ -110,13 +110,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
             Object.getPrototypeOf(this)
           );
 
-          if (
-            parentProto &&
-            Object.getOwnPropertyDescriptor(
-              parentProto,
-              '__VALIDATIONS_CLASS__'
-            )
-          ) {
+          if (parentProto) {
             inheritedClass = Reflect.get(parentProto, '__VALIDATIONS_CLASS__');
           }
 
