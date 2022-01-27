@@ -33,13 +33,13 @@ class ObjClassBase {
   }
 }
 
-@buildValidations(Validations)
-class ObjClass extends ObjClassBase {}
-
 module('Integration | Validations | Factory - General', function (hooks) {
   setupTest(hooks);
 
   test('basic sync validation – invalid', function (assert) {
+    @buildValidations(Validations)
+    class ObjClass extends ObjClassBase {}
+
     let object = new ObjClass(this.owner);
 
     assert.false(
@@ -104,6 +104,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - valid', function (assert) {
+    @buildValidations(Validations)
+    class ObjClass extends ObjClassBase {}
+
     let object = new ObjClass(this.owner, {
       firstName: 'Stef',
       lastName: 'Penner',
@@ -118,6 +121,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - 50% invalid', function (assert) {
+    @buildValidations(Validations)
+    class ObjClass extends ObjClassBase {}
+
     let object = new ObjClass(this.owner, {
       firstName: 'Stef',
     });
@@ -139,6 +145,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
   test('basic sync validation - API - #validation', function (assert) {
     assert.expect(11);
+
+    @buildValidations(Validations)
+    class ObjClass extends ObjClassBase {}
+
     let object = new ObjClass(this.owner, {
       firstName: 'Stef',
     });
@@ -175,6 +185,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('basic sync validation - API - #validationSync', function (assert) {
+    @buildValidations(Validations)
+    class ObjClass extends ObjClassBase {}
+
     let object = new ObjClass(this.owner, {
       firstName: 'Stef',
     });
