@@ -4,7 +4,6 @@ import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import ValidationResult from '../-private/result';
 import ResultCollection from '../validations/result-collection';
-import shouldCallSuper from '../utils/should-call-super';
 import lookupValidator from '../utils/lookup-validator';
 import { isValidatable } from '../utils/utils';
 import { tracked } from '@glimmer/tracking';
@@ -107,11 +106,18 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
         if (!ValidationsClass) {
           let inheritedClass;
 
-          if (shouldCallSuper(this, '__VALIDATIONS_CLASS__')) {
-            inheritedClass = Reflect.get(
-              Object.getPrototypeOf(Object.getPrototypeOf(this)),
+          const parentProto = Object.getPrototypeOf(
+            Object.getPrototypeOf(this)
+          );
+
+          if (
+            parentProto &&
+            Object.getOwnPropertyDescriptor(
+              parentProto,
               '__VALIDATIONS_CLASS__'
-            );
+            )
+          ) {
+            inheritedClass = Reflect.get(parentProto, '__VALIDATIONS_CLASS__');
           }
 
           ValidationsClass = createValidationsClass(
