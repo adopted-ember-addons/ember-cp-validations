@@ -10,15 +10,6 @@ module('Unit | Validator | length', function (hooks) {
     validator = this.owner.lookup('validator:length');
   });
 
-  test('no options', function (assert) {
-    assert.expect(1);
-
-    builtOptions = validator.buildOptions({});
-
-    message = validator.validate(undefined, builtOptions.toObject());
-    assert.true(message);
-  });
-
   test('allow blank', function (assert) {
     assert.expect(2);
 

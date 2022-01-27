@@ -10,18 +10,6 @@ module('Unit | Validator | number', function (hooks) {
     validator = this.owner.lookup('validator:number');
   });
 
-  test('no options', function (assert) {
-    assert.expect(2);
-
-    builtOptions = validator.buildOptions({});
-
-    message = validator.validate(undefined, builtOptions.toObject());
-    assert.true(message);
-
-    message = validator.validate(22, builtOptions.toObject());
-    assert.true(message);
-  });
-
   test('allow string', function (assert) {
     assert.expect(6);
 

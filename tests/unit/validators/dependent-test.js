@@ -33,18 +33,6 @@ module('Unit | Validator | dependent', function (hooks) {
     Validator = this.owner.lookup('validator:dependent');
   });
 
-  test('no options', function (assert) {
-    assert.expect(1);
-
-    builtOptions = Validator.buildOptions({}).toObject();
-
-    try {
-      message = Validator.validate(undefined, builtOptions);
-    } catch (e) {
-      assert.ok(true);
-    }
-  });
-
   test('all empty attributes', function (assert) {
     assert.expect(4);
 

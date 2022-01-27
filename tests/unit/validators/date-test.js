@@ -11,14 +11,6 @@ module('Unit | Validator | date', function (hooks) {
     validator = this.owner.lookup('validator:date');
   });
 
-  test('no options', function (assert) {
-    assert.expect(1);
-
-    options = {};
-    message = validator.validate(undefined, options);
-    assert.true(message);
-  });
-
   test('allow blank', function (assert) {
     assert.expect(2);
 

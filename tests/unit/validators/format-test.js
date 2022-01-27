@@ -1,25 +1,13 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-let options, builtOptions, validator, message;
+let options, validator, message;
 
 module('Unit | Validator | format', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:format');
-  });
-
-  test('no options', function (assert) {
-    assert.expect(1);
-
-    builtOptions = validator.buildOptions({}).toObject();
-
-    try {
-      message = validator.validate(undefined, builtOptions);
-    } catch (e) {
-      assert.ok(true);
-    }
   });
 
   test('allow blank', function (assert) {
