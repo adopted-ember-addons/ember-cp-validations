@@ -104,18 +104,8 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     Object.defineProperty(DecoratedClass.prototype, '__VALIDATIONS_CLASS__', {
       get() {
         if (!ValidationsClass) {
-          let inheritedClass;
-
-          const parentProto = Object.getPrototypeOf(
-            Object.getPrototypeOf(this)
-          );
-
-          if (parentProto) {
-            inheritedClass = Reflect.get(parentProto, '__VALIDATIONS_CLASS__');
-          }
-
           ValidationsClass = createValidationsClass(
-            inheritedClass,
+            Object.getPrototypeOf(this)?.__VALIDATIONS_CLASS__,
             validations
           );
         }
