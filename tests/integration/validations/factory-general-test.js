@@ -575,21 +575,21 @@ module('Integration | Validations | Factory - General', function (hooks) {
       ].sort()
     );
 
-    Object.assign(this, {
+    Object.assign(baby, {
       middleName: 'John',
       dob: '10/22/16',
     });
 
     assert.deepEqual(baby.validations.errors.length, 4);
 
-    Object.assign(this, {
+    Object.assign(baby, {
       firstName: 'Joe',
       lastName: 'Jenkins',
     });
 
     assert.deepEqual(baby.validations.errors.length, 2);
 
-    Object.assign(this, {
+    Object.assign(baby, {
       diaper: 'soiled',
       favParent: 'mom',
     });
