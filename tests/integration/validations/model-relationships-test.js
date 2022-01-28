@@ -84,26 +84,6 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.deepEqual(friend.message, 'lastName should be present');
   });
 
-  test('belong to validation - with cycle', function (assert) {
-    this.owner.register('validator:belongs-to', BelongsToValidator);
-
-    let user = new BelongsToClass(this.owner);
-    user.friend = user;
-
-    let { validations, model } = user.validations.validate();
-
-    assert.deepEqual(model, user, 'expected model to be the correct model');
-    assert.deepEqual(
-      validations.content.mapBy('attribute').sort(),
-      ['friend'].sort()
-    );
-
-    let friend = validations.content.findBy('attribute', 'friend');
-
-    assert.true(friend.isValid);
-    assert.deepEqual(friend.message, undefined);
-  });
-
   test('has-many relationship is sync', function (assert) {
     this.owner.register('validator:has-many', HasManyValidator);
 

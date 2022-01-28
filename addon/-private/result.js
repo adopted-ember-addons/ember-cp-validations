@@ -185,7 +185,6 @@ export default class Result {
    * @param value
    */
   update(value) {
-    let result = this._result;
     let attribute = this.attribute;
     let isWarning = this.isWarning;
     let Collection = isWarning ? WarningResultCollection : ResultCollection;
@@ -193,9 +192,9 @@ export default class Result {
     if (isNone(value)) {
       return this.update(false);
     } else if (value.isValidations) {
-      this._overrideResult(Collection.create({ attribute, content: [value] }));
+      this._resultOverride = Collection.create({ attribute, content: [value] });
     } else if (isArray(value)) {
-      this._overrideResult(Collection.create({ attribute, content: value }));
+      this._resultOverride = Collection.create({ attribute, content: value });
     } else if (!this._isReadOnly) {
       if (typeof value === 'string') {
         Object.assign(this._result, {
@@ -203,20 +202,10 @@ export default class Result {
           isValid: isWarning ? true : false,
         });
       } else if (typeof value === 'boolean') {
-        result.isValid = value;
+        this._result.isValid = value;
       } else if (typeof value === 'object') {
-        Object.assign(result, value);
+        Object.assign(this._result, value);
       }
     }
-  }
-
-  /**
-   * Override the internal _result property.
-   * @method _overrideResult
-   * @param result
-   * @private
-   */
-  _overrideResult(result) {
-    this._resultOverride = result;
   }
 }
