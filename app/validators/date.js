@@ -1,1 +1,1 @@
-export { default } from 'ember-cp-validations/validators/date';
+export { default } from '@eflexsystems/ember-tracked-validations/validators/date';

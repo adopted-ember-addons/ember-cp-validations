@@ -1,1 +1,1 @@
-export { default } from 'ember-cp-validations/validators/ds-error';
+export { default } from '@eflexsystems/ember-tracked-validations/validators/ds-error';

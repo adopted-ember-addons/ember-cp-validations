@@ -1,1 +1,1 @@
-export { default } from 'ember-cp-validations/validators/has-many';
+export { default } from '@eflexsystems/ember-tracked-validations/validators/has-many';

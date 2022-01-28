@@ -481,7 +481,7 @@ function createValidatorsFor(attribute, model) {
   // We must have an owner to be able to lookup our validators
   if (isNone(owner)) {
     throw new TypeError(
-      `[ember-cp-validations] ${model.toString()} is missing a container or owner.`
+      `[@eflexsystems/ember-tracked-validations] ${model.toString()} is missing a container or owner.`
     );
   }
 

@@ -1,1 +1,1 @@
-export { default } from 'ember-cp-validations/validators/dependent';
+export { default } from '@eflexsystems/ember-tracked-validations/validators/dependent';

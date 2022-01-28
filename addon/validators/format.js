@@ -1,4 +1,4 @@
-import EmberValidator from 'ember-cp-validations/-private/ember-validator';
+import EmberValidator from '@eflexsystems/ember-tracked-validations/-private/ember-validator';
 import { regularExpressions } from 'ember-validators/format';
 
 /**

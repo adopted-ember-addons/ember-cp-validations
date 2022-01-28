@@ -1,5 +1,5 @@
 {
-  "name": "@eflexsystems/ember-getter-validations",
+  "name": "@eflexsystems/ember-tracked-validations",
   "version": "5.0.0",
   "description": "Ember computed property based validation library",
   "scripts": {

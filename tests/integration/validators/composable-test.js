@@ -1,8 +1,8 @@
 import DefaultMessages from 'dummy/validators/messages';
-import LengthValidator from 'ember-cp-validations/validators/length';
-import PresenceValidator from 'ember-cp-validations/validators/presence';
-import BaseValidator from 'ember-cp-validations/validators/base';
-import { buildValidations, validator } from 'ember-cp-validations';
+import LengthValidator from '@eflexsystems/ember-tracked-validations/validators/length';
+import PresenceValidator from '@eflexsystems/ember-tracked-validations/validators/presence';
+import BaseValidator from '@eflexsystems/ember-tracked-validations/validators/base';
+import { buildValidations, validator } from '@eflexsystems/ember-tracked-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { tracked } from '@glimmer/tracking';

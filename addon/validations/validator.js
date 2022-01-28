@@ -132,11 +132,11 @@ export default function (arg1, options) {
 
   if (typeof arg1 === 'function') {
     deprecate(
-      '[ember-cp-validations] `validator` no longer directly accepts ' +
+      '[@eflexsystems/ember-tracked-validations] `validator` no longer directly accepts ' +
         'a function. Please use the inline validator syntax:' +
         "\n\nvalidator('inline', { validate() {} )\n\n",
       false,
-      { id: 'ember-cp-validations.inline-validator', until: '4.2.0' }
+      { id: '@eflexsystems/ember-tracked-validations.inline-validator', until: '4.2.0' }
     );
     props.options.validate = arg1;
     props._type = 'inline';
@@ -144,7 +144,7 @@ export default function (arg1, options) {
     props._type = arg1;
   } else {
     throw new TypeError(
-      '[ember-cp-validations] Unexpected type for first validator argument — It must be a string.'
+      '[@eflexsystems/ember-tracked-validations] Unexpected type for first validator argument — It must be a string.'
     );
   }
 

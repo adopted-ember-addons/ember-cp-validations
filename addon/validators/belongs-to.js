@@ -1,4 +1,4 @@
-import Base from 'ember-cp-validations/validators/base';
+import Base from '@eflexsystems/ember-tracked-validations/validators/base';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)

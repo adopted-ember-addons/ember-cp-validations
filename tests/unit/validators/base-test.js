@@ -1,5 +1,5 @@
 import { htmlSafe } from '@ember/template';
-import BaseValidator from 'ember-cp-validations/validators/base';
+import BaseValidator from '@eflexsystems/ember-tracked-validations/validators/base';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 

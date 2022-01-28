@@ -1,9 +1,9 @@
 import { isNone } from '@ember/utils';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DefaultMessages from 'dummy/validators/messages';
-import BelongsToValidator from 'ember-cp-validations/validators/belongs-to';
-import HasManyValidator from 'ember-cp-validations/validators/has-many';
-import { validator, buildValidations } from 'ember-cp-validations';
+import BelongsToValidator from '@eflexsystems/ember-tracked-validations/validators/belongs-to';
+import HasManyValidator from '@eflexsystems/ember-tracked-validations/validators/has-many';
+import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { tracked } from '@glimmer/tracking';

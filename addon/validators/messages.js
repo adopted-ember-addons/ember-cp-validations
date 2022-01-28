@@ -7,7 +7,7 @@ import Messages from 'ember-validators/messages';
  *  ```javascript
  *  // app/validators/messages.js
  *
- *  import Messages from 'ember-cp-validations/validators/messages';
+ *  import Messages from '@eflexsystems/ember-tracked-validations/validators/messages';
  *
  *  export default Messages.extend({
  *    uniqueUsername: '{description} {username} already exists'

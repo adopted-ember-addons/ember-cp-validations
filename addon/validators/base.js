@@ -1,12 +1,12 @@
 import { isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
-import Messages from 'ember-cp-validations/validators/messages';
-import Options from 'ember-cp-validations/-private/options';
-import lookupValidator from 'ember-cp-validations/utils/lookup-validator';
+import Messages from '@eflexsystems/ember-tracked-validations/validators/messages';
+import Options from '@eflexsystems/ember-tracked-validations/-private/options';
+import lookupValidator from '@eflexsystems/ember-tracked-validations/utils/lookup-validator';
 import {
   unwrapString,
   getValidatableValue,
-} from 'ember-cp-validations/utils/utils';
+} from '@eflexsystems/ember-tracked-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
 
 class TestResult {
@@ -281,7 +281,7 @@ export default class ValidatorsBase {
 
     if (unsupportedTypes.includes(type)) {
       throw new Error(
-        `[ember-cp-validations] The \`test\` API does not support validators of type: ${type}.`
+        `[@eflexsystems/ember-tracked-validations] The \`test\` API does not support validators of type: ${type}.`
       );
     }
 
@@ -307,7 +307,7 @@ export default class ValidatorsBase {
  * ```javascript
  * // app/validators/unique-username.js
  *
- * import BaseValidator from 'ember-cp-validations/validators/base';
+ * import BaseValidator from '@eflexsystems/ember-tracked-validations/validators/base';
  *
  * const UniqueUsername = BaseValidator.extend({
  *   validate(value, options, model, attribute) {
@@ -327,7 +327,7 @@ export default class ValidatorsBase {
  * // app/validators/unique-username.js
  *
  * import Ember from 'ember';
- * import BaseValidator from 'ember-cp-validations/validators/base';
+ * import BaseValidator from '@eflexsystems/ember-tracked-validations/validators/base';
  *
  * const UniqueUsername = BaseValidator.extend({
  *   store: Ember.inject.service(),

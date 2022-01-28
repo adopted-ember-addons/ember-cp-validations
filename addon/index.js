@@ -29,7 +29,7 @@ import Validator from './validations/validator';
  *
  * import Ember from 'ember';
  * import DS from 'ember-data';
- * import { validator, buildValidations } from 'ember-cp-validations';
+ * import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
  *
  * const Validations = buildValidations({
  *   username: validator('presence', true),
@@ -76,7 +76,7 @@ import Validator from './validations/validator';
  * // components/x-foo.js
  *
  * import Ember from 'ember';
- * import { validator, buildValidations } from 'ember-cp-validations';
+ * import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
  *
  * const Validations = buildValidations({
  *   bar: validator('presence', true)
@@ -155,7 +155,7 @@ import Validator from './validations/validator';
  *
  * ```javascript
  * import Ember from 'ember';
- * import { validator, buildValidations } from 'ember-cp-validations';
+ * import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
  *
  * const Validations = buildValidations({
  *   firstName: {

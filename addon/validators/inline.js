@@ -1,4 +1,4 @@
-import Base from 'ember-cp-validations/validators/base';
+import Base from '@eflexsystems/ember-tracked-validations/validators/base';
 
 /**
  *  Accepts a custom `validate` function.
