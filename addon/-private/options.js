@@ -1,15 +1,5 @@
 import { tracked } from '@glimmer/tracking';
 
-function applyProps(target, ...sources) {
-  for (const source of sources) {
-    const props = Object.keys(source);
-    for (const prop of props) {
-      const descriptor = Object.getOwnPropertyDescriptor(source, prop);
-      Object.defineProperty(target, prop, descriptor);
-    }
-  }
-}
-
 export default class Options {
   @tracked model;
   @tracked attribute;
@@ -26,15 +16,18 @@ export default class Options {
       attribute,
     });
 
-    applyProps(this, globalOptions, defaultOptions, options);
+    for (const source of [globalOptions, defaultOptions, options]) {
+      const props = Object.keys(source);
+      for (const prop of props) {
+        const descriptor = Object.getOwnPropertyDescriptor(source, prop);
+        Object.defineProperty(this, prop, descriptor);
+      }
+    }
   }
 
   toObject() {
-    let obj = {
-      model: this.model,
-      attribute: this.attribute,
-    };
-    applyProps(obj, this);
-    return obj;
+    // eslint-disable-next-line no-unused-vars
+    const { model, attribute, ...options } = this;
+    return options;
   }
 }
