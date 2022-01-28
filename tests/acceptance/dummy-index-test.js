@@ -44,7 +44,7 @@ module('Acceptance | Dummy | index', function (hooks) {
   });
 
   test('Valid form submit', async function (assert) {
-    assert.expect(Object.keys(validInputValues.length) + 2);
+    assert.expect(Object.keys(validInputValues).length) + 2;
     await visit('/');
 
     for (let key in validInputValues) {
@@ -57,7 +57,6 @@ module('Acceptance | Dummy | index', function (hooks) {
     }
 
     await click('[data-test-sign-up]');
-    // assert.dom('[data-test-tomster]').exists();
     assert.dom('.form .registered .icon-success').exists();
     assert.dom('.form .registered h2.success').hasText('Success');
   });
