@@ -1,6 +1,6 @@
 {
-  "name": "ember-cp-validations",
-  "version": "4.0.0-beta.12",
+  "name": "@eflexsystems/ember-getter-validations",
+  "version": "5.0.0",
   "description": "Ember computed property based validation library",
   "scripts": {
     "build": "ember build --environment=production",
@@ -18,20 +18,6 @@
   "engines": {
     "node": "12.* || 14.* || >= 16"
   },
-  "contributors": [
-    {
-      "name": "Stefan Penner",
-      "email": "stefan.penner@gmail.com"
-    },
-    {
-      "name": "Ben Limmer",
-      "email": "hello@benlimmer.com"
-    },
-    {
-      "name": "Robert Jackson",
-      "email": "me@rwjblue.com"
-    }
-  ],
   "devDependencies": {
     "@babel/eslint-parser": "7.16.5",
     "@ember/optional-features": "^2.0.0",
@@ -94,10 +80,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/offirgolan/ember-cp-validations.git"
+    "url": "http://github.com/eflexsystems/ember-cp-validations.git"
   },
   "license": "MIT",
-  "author": "Offir Golan <offirgolan@gmail.com>",
+  "author": "Jacob Jewell <jacobjewell@eflexsystems.com>",
   "directories": {
     "doc": "doc",
     "test": "tests"
