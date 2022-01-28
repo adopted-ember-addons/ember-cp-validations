@@ -702,27 +702,28 @@ module('Integration | Validations | Factory - General', function (hooks) {
               return this.model.isWarning;
             },
           }),
-          validator('length', {
-            min: 1,
-            max: 10,
-          }),
         ],
       },
     })
-    class ObjClass extends ObjClassBase {
+    class ObjClass {
       @tracked isWarning = false;
+      @tracked password;
+
+      constructor(owner, props = {}) {
+        Object.assign(this, owner.ownerInjection(), props);
+      }
     }
 
     const object = new ObjClass(this.owner);
 
     assert.false(object.validations.isValid);
     assert.deepEqual(object.validations.warnings.length, 0);
-    assert.deepEqual(object.validations.errors.length, 2);
+    assert.deepEqual(object.validations.errors.length, 1);
 
     object.isWarning = true;
 
     assert.deepEqual(object.validations.warnings.length, 1);
-    assert.deepEqual(object.validations.errors.length, 1);
+    assert.deepEqual(object.validations.errors.length, 0);
   });
 
   test('options CP changes trigger attribute revalidation', function (assert) {
