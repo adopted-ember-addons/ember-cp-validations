@@ -6,7 +6,7 @@ import ValidationResult from '../-private/result';
 import ResultCollection from '../validations/result-collection';
 import lookupValidator from '../utils/lookup-validator';
 import { isValidatable } from '../utils/utils';
-import { tracked } from '@glimmer/tracking';
+import { tracked, cached } from '@glimmer/tracking';
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 
 /**
@@ -222,6 +222,14 @@ function createValidationsClass(inheritedValidationsClass, validations) {
       return this.__ATTRS_RESULT_COLLECTION__.isInvalid;
     }
 
+    get isTruelyValid() {
+      return this.__ATTRS_RESULT_COLLECTION__.isValid;
+    }
+
+    get isTruelyInvalid() {
+      return this.__ATTRS_RESULT_COLLECTION__.isInvalid;
+    }
+
     get hasWarnings() {
       return this.__ATTRS_RESULT_COLLECTION__.hasWarnings;
     }
@@ -258,6 +266,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
       return this.__ATTRS_RESULT_COLLECTION__.error;
     }
 
+    @cached
     get __ATTRS_RESULT_COLLECTION__() {
       return ResultCollection.create({
         attribute: `Model:${this}`,
