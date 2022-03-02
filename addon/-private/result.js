@@ -4,6 +4,7 @@ import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
 import { tracked, cached } from '@glimmer/tracking';
+import { dependentKeyCompat } from '@ember/object/compat';
 
 /**
  * __PRIVATE__
@@ -47,6 +48,7 @@ export default class Result {
    * @readOnly
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get _isReadOnly() {
     let validations = this._result;
     return validations instanceof ResultCollection || validations.isValidations;
@@ -57,6 +59,7 @@ export default class Result {
    * @readOnly
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get isWarning() {
     return this._validator.isWarning;
   }
@@ -66,6 +69,7 @@ export default class Result {
    * @readOnly
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get isValid() {
     return this._result.isValid;
   }
@@ -75,6 +79,7 @@ export default class Result {
    * @readOnly
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get isInvalid() {
     return this._result.isInvalid;
   }
@@ -84,6 +89,7 @@ export default class Result {
    * @readOnly
    * @type {String}
    */
+  @dependentKeyCompat
   get message() {
     return this._result.message;
   }
@@ -93,6 +99,7 @@ export default class Result {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get messages() {
     return this._result.messages;
   }
@@ -102,6 +109,7 @@ export default class Result {
    * @readOnly
    * @type {Object}
    */
+  @dependentKeyCompat
   get error() {
     return this._result.error;
   }
@@ -111,6 +119,7 @@ export default class Result {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get errors() {
     return this._result.errors;
   }
@@ -120,6 +129,7 @@ export default class Result {
    * @readOnly
    * @type {String}
    */
+  @dependentKeyCompat
   get warningMessage() {
     return this._result.warningMessage;
   }
@@ -129,6 +139,7 @@ export default class Result {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get warningMessages() {
     return this._result.warningMessages;
   }
@@ -138,6 +149,7 @@ export default class Result {
    * @readOnly
    * @type {Object}
    */
+  @dependentKeyCompat
   get warning() {
     return this._result.warning;
   }
@@ -147,6 +159,7 @@ export default class Result {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get warnings() {
     return this._result.warnings;
   }

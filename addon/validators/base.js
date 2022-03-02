@@ -8,6 +8,7 @@ import {
   getValidatableValue,
 } from '@eflexsystems/ember-tracked-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
+  import { dependentKeyCompat } from '@ember/object/compat';
 
 class TestResult {
   constructor(result) {
@@ -69,6 +70,7 @@ export default class ValidatorsBase {
    * @property isWarning
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get isWarning() {
     return this.options.isWarning;
   }

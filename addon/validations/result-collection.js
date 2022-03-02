@@ -1,6 +1,7 @@
 import { isNone, isPresent } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 import { tracked } from '@glimmer/tracking';
+import { dependentKeyCompat } from '@ember/object/compat';
 
 /**
  * @module Validations
@@ -40,6 +41,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get isInvalid() {
     return !this.isValid;
   }
@@ -56,6 +58,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Boolean}
    */
+  @dependentKeyCompat
   get isValid() {
     return this.content.isEvery('isValid', true);
   }
@@ -73,6 +76,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get messages() {
     return this.content.mapBy('messages').flat(Infinity).compact().uniq();
   }
@@ -90,6 +94,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {String}
    */
+  @dependentKeyCompat
   get message() {
     return this.messages.firstObject;
   }
@@ -107,6 +112,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {String}
    */
+  @dependentKeyCompat
   get hasWarnings() {
     return isPresent(this.warningMessages);
   }
@@ -124,6 +130,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get warningMessages() {
     return this.content
       .mapBy('warningMessages')
@@ -145,6 +152,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {String}
    */
+  @dependentKeyCompat
   get warningMessage() {
     return this.warningMessages.firstObject;
   }
@@ -163,6 +171,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get warnings() {
     return this._computeErrorCollection(this.content.mapBy('warnings'));
   }
@@ -180,6 +189,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Error}
    */
+  @dependentKeyCompat
   get warning() {
     return this.warnings.firstObject;
   }
@@ -198,6 +208,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Array}
    */
+  @dependentKeyCompat
   get errors() {
     return this._computeErrorCollection(this.content.mapBy('errors'));
   }
@@ -215,6 +226,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Error}
    */
+  @dependentKeyCompat
   get error() {
     return this.errors.firstObject;
   }
@@ -251,6 +263,7 @@ export default class ValidationsResultCollection {
    * @readOnly
    * @type {Object}
    */
+  @dependentKeyCompat
   get options() {
     return this.content.reduce((options, { _validator: v }) => {
       if (isNone(v) || isNone(v._type)) {

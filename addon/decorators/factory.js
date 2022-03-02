@@ -8,6 +8,7 @@ import lookupValidator from '../utils/lookup-validator';
 import { isValidatable } from '../utils/utils';
 import { tracked, cached } from '@glimmer/tracking';
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
+import { dependentKeyCompat } from '@ember/object/compat';
 
 /**
  * ## Running Manual Validations
@@ -210,58 +211,72 @@ function createValidationsClass(inheritedValidationsClass, validations) {
     validateAttribute = validateAttribute;
     validatableAttributes = validatableAttributes;
 
+    @dependentKeyCompat
     get isValidations() {
       return true;
     }
 
+    @dependentKeyCompat
     get isValid() {
       return this.__ATTRS_RESULT_COLLECTION__.isValid;
     }
 
+    @dependentKeyCompat
     get isInvalid() {
       return this.__ATTRS_RESULT_COLLECTION__.isInvalid;
     }
 
+    @dependentKeyCompat
     get isTruelyValid() {
       return this.__ATTRS_RESULT_COLLECTION__.isValid;
     }
 
+    @dependentKeyCompat
     get isTruelyInvalid() {
       return this.__ATTRS_RESULT_COLLECTION__.isInvalid;
     }
 
+    @dependentKeyCompat
     get hasWarnings() {
       return this.__ATTRS_RESULT_COLLECTION__.hasWarnings;
     }
 
+    @dependentKeyCompat
     get messages() {
       return this.__ATTRS_RESULT_COLLECTION__.messages;
     }
 
+    @dependentKeyCompat
     get message() {
       return this.__ATTRS_RESULT_COLLECTION__.message;
     }
 
+    @dependentKeyCompat
     get warningMessage() {
       return this.__ATTRS_RESULT_COLLECTION__.warningMessage;
     }
 
+    @dependentKeyCompat
     get warningMessages() {
       return this.__ATTRS_RESULT_COLLECTION__.warningMessages;
     }
 
+    @dependentKeyCompat
     get warnings() {
       return this.__ATTRS_RESULT_COLLECTION__.warnings;
     }
 
+    @dependentKeyCompat
     get warning() {
       return this.__ATTRS_RESULT_COLLECTION__.warning;
     }
 
+    @dependentKeyCompat
     get errors() {
       return this.__ATTRS_RESULT_COLLECTION__.errors;
     }
 
+    @dependentKeyCompat
     get error() {
       return this.__ATTRS_RESULT_COLLECTION__.error;
     }

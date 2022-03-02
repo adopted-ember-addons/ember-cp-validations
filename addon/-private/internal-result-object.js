@@ -2,6 +2,7 @@ import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
 import ValidationError from '../validations/error';
 import { tracked } from '@glimmer/tracking';
+import { dependentKeyCompat } from '@ember/object/compat';
 
 export default class InternalResultObject {
   @tracked model;
@@ -19,22 +20,27 @@ export default class InternalResultObject {
     Object.assign(this, props);
   }
 
+  @dependentKeyCompat
   get _type() {
     return this._validator._type;
   }
 
+  @dependentKeyCompat
   get isWarning() {
     return this._validator.isWarning;
   }
 
+  @dependentKeyCompat
   get isInvalid() {
     return !this.isValid;
   }
 
+  @dependentKeyCompat
   get messages() {
     return makeArray(this.message);
   }
 
+  @dependentKeyCompat
   get error() {
     if (this.isInvalid) {
       return ValidationError.create({
@@ -47,14 +53,17 @@ export default class InternalResultObject {
     return null;
   }
 
+  @dependentKeyCompat
   get errors() {
     return makeArray(this.error);
   }
 
+  @dependentKeyCompat
   get warningMessages() {
     return makeArray(this.warningMessage);
   }
 
+  @dependentKeyCompat
   get warning() {
     if (this.isWarning && !isNone(this.warningMessage)) {
       return ValidationError.create({
@@ -67,6 +76,7 @@ export default class InternalResultObject {
     return null;
   }
 
+  @dependentKeyCompat
   get warnings() {
     return makeArray(this.warning);
   }
