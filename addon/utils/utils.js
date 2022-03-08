@@ -3,16 +3,8 @@ import { A as emberArray, isArray } from '@ember/array';
 import DS from 'ember-data';
 import Model from '@ember-data/model';
 
-function isDsModel(o) {
-  return !!(o && o instanceof Model);
-}
-
-function isDSManyArray(o) {
-  return !!(o && isArray(o) && o instanceof DS.ManyArray);
-}
-
 export function isValidatable(value) {
-  return isDsModel(value) ? !value.isDeleted : true;
+  return value && value instanceof Model ? !value.isDeleted : true;
 }
 
 export function getValidatableValue(value) {
@@ -20,7 +12,7 @@ export function getValidatableValue(value) {
     return value;
   }
 
-  if (isDSManyArray(value)) {
+  if (value && isArray(value) && value instanceof DS.ManyArray) {
     return emberArray(value.filter((v) => isValidatable(v)));
   }
 
