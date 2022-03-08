@@ -29,6 +29,12 @@ You can also learn more by watching this Global Ember Meetup talk:
 
 [![Introduction to ember-cp-validations](https://i.vimeocdn.com/video/545445254.png?mw=1920&mh=1080&q=70)](https://vimeo.com/146857699)
 
+## Requirements
+
+* Ember.js v3.16 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
+
 ## Installation
 
 ```shell

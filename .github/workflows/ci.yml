@@ -33,7 +33,7 @@ jobs:
           cache: yarn
 
       - run: yarn install
-      - run: yarn test
+      - run: yarn test:ember
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
@@ -44,8 +44,8 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.4
-          - ember-lts-3.8
+          - ember-lts-3.24
+          - ember-lts-3.28
           # temporarily disabled because they are currently failing
           # - ember-release
           # - ember-beta
