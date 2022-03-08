@@ -104,5 +104,9 @@
     "configPath": "tests/dummy/config",
     "demoURL": "http://offirgolan.github.io/ember-cp-validations"
   },
-  "homepage": "https://github.com/offirgolan/ember-cp-validations"
+  "homepage": "https://github.com/offirgolan/ember-cp-validations",
+  "volta": {
+    "node": "14.19.0",
+    "yarn": "1.22.17"
+  }
 }
