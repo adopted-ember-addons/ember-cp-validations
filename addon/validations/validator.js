@@ -1,5 +1,3 @@
-import { isNone } from '@ember/utils';
-
 /**
  * @module Validators
  * @main Validators
@@ -124,18 +122,9 @@ import { isNone } from '@ember/utils';
  * @submodule Common Options
  */
 
-export default function (arg1, options) {
-  let props = {
-    options: isNone(options) ? {} : options,
+export default function (_type, options = {}) {
+  return {
+    options,
+    _type,
   };
-
-  if (typeof arg1 === 'string') {
-    props._type = arg1;
-  } else {
-    throw new TypeError(
-      '[@eflexsystems/ember-tracked-validations] Unexpected type for first validator argument — It must be a string.'
-    );
-  }
-
-  return props;
 }
