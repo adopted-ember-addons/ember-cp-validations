@@ -1,16 +1,7 @@
-import { isHTMLSafe } from '@ember/template';
 import { A as emberArray, isArray } from '@ember/array';
 // eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 import DS from 'ember-data';
 import Model from '@ember-data/model';
-
-export function unwrapString(s) {
-  if (isHTMLSafe(s)) {
-    return s.toString();
-  }
-
-  return s;
-}
 
 function isDsModel(o) {
   return !!(o && o instanceof Model);

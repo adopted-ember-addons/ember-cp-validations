@@ -3,12 +3,10 @@ import { getOwner } from '@ember/application';
 import Messages from '@eflexsystems/ember-tracked-validations/validators/messages';
 import Options from '@eflexsystems/ember-tracked-validations/-private/options';
 import lookupValidator from '@eflexsystems/ember-tracked-validations/utils/lookup-validator';
-import {
-  unwrapString,
-  getValidatableValue,
-} from '@eflexsystems/ember-tracked-validations/utils/utils';
+import { getValidatableValue } from '@eflexsystems/ember-tracked-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
-  import { dependentKeyCompat } from '@ember/object/compat';
+import { dependentKeyCompat } from '@ember/object/compat';
+import { isHTMLSafe } from '@ember/template';
 
 class TestResult {
   constructor(result) {
@@ -218,7 +216,11 @@ export default class ValidatorsBase {
    */
   createErrorMessage(type, value, options = {}) {
     let messages = this.errorMessages;
-    let message = unwrapString(options.message);
+    let message = options.message;
+
+    if (isHTMLSafe(message)) {
+      message = message.toString();
+    }
 
     options.description = messages.getDescriptionFor(this.attribute, options);
 
