@@ -13,7 +13,9 @@ export default function lookupValidator(owner, type) {
     );
   }
 
-  const validatorClass = owner.factoryFor(`validator:${type}`);
+  const validatorClass = owner.factoryFor === 'function'
+    ? owner.factoryFor(`validator:${type}`)
+    : owner.resolveRegistration(`validator:${type}`);
 
   if (!validatorClass) {
     throw new Error(
