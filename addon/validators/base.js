@@ -291,7 +291,8 @@ const Base = EmberObject.extend({
       );
     }
 
-    cache[type] = cache[type] || lookupValidator(getOwner(this), type).create();
+    const owner = getOwner(this);
+    cache[type] = cache[type] || lookupValidator(owner, type).create(owner.ownerInjection());
     const result = cache[type].validate(...args);
 
     if (isPromise(result)) {

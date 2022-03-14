@@ -20,6 +20,7 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~3.24.4',
+            'ember-bootstrap': '3.0.0-rc.6',
           },
         },
       },
@@ -36,6 +37,12 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': await getChannelURL('release'),
+            'ember-bootstrap': '5.0.0',
+            'ember-test-selectors': '6.0.0',
+            'ember-data': '^4.1.0',
+          },
+          dependencies: {
+            'ember-cli-htmlbars': '^6.0.1',
           },
         },
       },

@@ -17,9 +17,11 @@ module('Unit | Validator | inline', function(hooks) {
   test('it works', function(assert) {
     assert.expect(3);
 
-    const validator = this.owner
-      .resolveRegistration('validator:inline')
-      .create({
+     const ValidatorClass = typeof this.owner.factoryFor === 'function'
+      ? this.owner.factoryFor('validator:inline')
+      : this.owner.resolveRegistration('validator:inline');
+
+    const validator = ValidatorClass.create({
         options: {
           foo: 'bar',
           validate(value, options) {
