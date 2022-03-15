@@ -1,6 +1,6 @@
 {
   "name": "@eflexsystems/ember-tracked-validations",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Ember computed property based validation library",
   "scripts": {
     "build": "ember build --environment=production",
