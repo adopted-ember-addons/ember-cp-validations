@@ -605,7 +605,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
     let { options } = validation;
     let type = validation._type;
     let Validator =
-      type === 'function' ? BaseValidator : lookupValidator(owner, type).class;
+      type === 'function' ? BaseValidator : (lookupValidator(owner, type).class || lookupValidator(owner, type));
     let baseDependents =
       BaseValidator.getDependentsFor(attribute, options) || [];
     let dependents = Validator.getDependentsFor(attribute, options) || [];
@@ -758,7 +758,7 @@ function createValidatorsFor(attribute, model) {
   validationRules.forEach(v => {
     v.attribute = attribute;
     v.model = model;
-    validators.push(lookupValidator(owner, v._type).create(v));
+    validators.push(lookupValidator(owner, v._type).create(owner.ownerInjection(), v));
   });
 
   // Add validators to model instance cache

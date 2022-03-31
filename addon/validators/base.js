@@ -98,7 +98,9 @@ const Base = EmberObject.extend({
 
     if (!isNone(owner)) {
       // Since default error messages are stored in app/validators/messages, we have to look it up via the owner
-      errorMessages = owner.factoryFor('validator:messages');
+      errorMessages = typeof owner.factoryFor === 'function'
+        ? owner.factoryFor('validator:messages')
+        : owner.resolveRegistration('validator:messages');
     }
 
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
@@ -289,7 +291,8 @@ const Base = EmberObject.extend({
       );
     }
 
-    cache[type] = cache[type] || lookupValidator(getOwner(this), type).create();
+    const owner = getOwner(this);
+    cache[type] = cache[type] || lookupValidator(owner, type).create(owner.ownerInjection());
     const result = cache[type].validate(...args);
 
     if (isPromise(result)) {

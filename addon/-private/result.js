@@ -1,6 +1,7 @@
 import { isNone } from '@ember/utils';
 
 import { isArray } from '@ember/array';
+import { readOnly } from '@ember/object/computed';
 import EmberObject, {
   getProperties,
   setProperties,
@@ -11,8 +12,6 @@ import EmberObject, {
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
-
-const { readOnly } = computed;
 
 /**
  * __PRIVATE__

@@ -1,4 +1,4 @@
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import EmberObject from '@ember/object';
 import { alias } from '@ember/object/computed';
 import BaseValidator from 'ember-cp-validations/validators/base';

@@ -17,19 +17,23 @@ module('Unit | Validator | inline', function(hooks) {
   test('it works', function(assert) {
     assert.expect(3);
 
-    const validator = this.owner.factoryFor('validator:inline').create({
-      options: {
-        foo: 'bar',
-        validate(value, options) {
-          assert.equal(this, validator, 'Context is preserved');
-          assert.equal(options.foo, 'bar', 'It receives options');
-          assert.notOk(
-            options.validate,
-            'Validate fn removed from the options'
-          );
-        }
-      }
-    });
+     const ValidatorClass = typeof this.owner.factoryFor === 'function'
+      ? this.owner.factoryFor('validator:inline')
+      : this.owner.resolveRegistration('validator:inline');
+
+    const validator = ValidatorClass.create({
+        options: {
+          foo: 'bar',
+          validate(value, options) {
+            assert.equal(this, validator, 'Context is preserved');
+            assert.equal(options.foo, 'bar', 'It receives options');
+            assert.notOk(
+              options.validate,
+              'Validate fn removed from the options'
+            );
+          },
+        },
+      });
 
     validator.validate('foo', validator.get('options').toObject());
   });

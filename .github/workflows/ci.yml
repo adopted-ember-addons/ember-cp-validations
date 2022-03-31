@@ -7,6 +7,10 @@ on:
       - master
   pull_request:
 
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -33,23 +37,23 @@ jobs:
           cache: yarn
 
       - run: yarn install
-      - run: yarn test
+      - run: yarn test:ember
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
-    needs: ['lint', 'test']
+    needs: 'test'
 
     strategy:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.4
-          - ember-lts-3.8
-          # temporarily disabled because they are currently failing
-          # - ember-release
-          # - ember-beta
-          # - ember-canary
+          - ember-lts-3.16
+          - ember-lts-3.24
+          - ember-lts-3.28
+          - ember-release
+          - ember-beta
+          - ember-canary
           - ember-default-with-jquery
 
     steps:
