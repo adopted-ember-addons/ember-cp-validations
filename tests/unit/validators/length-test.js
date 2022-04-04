@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-module('Unit | Validator | length', function(hooks) {
+module('Unit | Validator | length', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:length');
   });
 
-  test('no options', function(assert) {
+  test('no options', function (assert) {
     assert.expect(1);
 
     builtOptions = validator.buildOptions({});
@@ -19,12 +19,12 @@ module('Unit | Validator | length', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('allow blank', function(assert) {
+  test('allow blank', function (assert) {
     assert.expect(2);
 
     options = {
       allowBlank: true,
-      min: 5
+      min: 5,
     };
 
     builtOptions = validator.buildOptions(options);
@@ -36,7 +36,7 @@ module('Unit | Validator | length', function(hooks) {
     assert.equal(message, 'This field is too short (minimum is 5 characters)');
   });
 
-  test('allow none', function(assert) {
+  test('allow none', function (assert) {
     assert.expect(2);
 
     options = {
@@ -55,11 +55,11 @@ module('Unit | Validator | length', function(hooks) {
     assert.equal(message, 'This field is invalid');
   });
 
-  test('is', function(assert) {
+  test('is', function (assert) {
     assert.expect(2);
 
     options = {
-      is: 4
+      is: 4,
     };
 
     builtOptions = validator.buildOptions(options);
@@ -74,11 +74,11 @@ module('Unit | Validator | length', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('min', function(assert) {
+  test('min', function (assert) {
     assert.expect(2);
 
     options = {
-      min: 5
+      min: 5,
     };
 
     builtOptions = validator.buildOptions(options);
@@ -90,11 +90,11 @@ module('Unit | Validator | length', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('max', function(assert) {
+  test('max', function (assert) {
     assert.expect(2);
 
     options = {
-      max: 5
+      max: 5,
     };
 
     builtOptions = validator.buildOptions(options);
@@ -106,11 +106,11 @@ module('Unit | Validator | length', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('array', function(assert) {
+  test('array', function (assert) {
     assert.expect(2);
 
     options = {
-      min: 1
+      min: 1,
     };
 
     builtOptions = validator.buildOptions(options);

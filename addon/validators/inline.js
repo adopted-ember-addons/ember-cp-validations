@@ -45,5 +45,5 @@ export default Base.extend({
     delete opts.validate;
 
     return this._super(opts, ...args);
-  }
+  },
 });

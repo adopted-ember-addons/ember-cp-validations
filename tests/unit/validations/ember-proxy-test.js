@@ -4,16 +4,16 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { Validations } from 'dummy/models/company';
 
-module('Unit | Validations | Ember ObjectProxy', function(hooks) {
+module('Unit | Validations | Ember ObjectProxy', function (hooks) {
   setupTest(hooks);
 
-  test('extend ObjectProxy with validations', function(assert) {
+  test('extend ObjectProxy with validations', function (assert) {
     run(() => {
       let company = this.owner.lookup('service:store').createRecord('company');
 
       const container = this.owner.ownerInjection();
       const proxy = ObjectProxy.extend(Validations).create(container, {
-        content: company
+        content: company,
       });
 
       assert.notOk(proxy.get('validations.isValid'));

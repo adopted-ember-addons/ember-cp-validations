@@ -1,8 +1,6 @@
 // BEGIN-SNIPPET user-model
-import DS from 'ember-data';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
-
-const { attr } = DS;
 
 const Validations = buildValidations(
   {
@@ -12,9 +10,9 @@ const Validations = buildValidations(
         validator('presence', true),
         validator('length', {
           min: 5,
-          max: 15
-        })
-      ]
+          max: 15,
+        }),
+      ],
     },
     password: {
       description: 'Password',
@@ -22,43 +20,43 @@ const Validations = buildValidations(
         validator('presence', true),
         validator('length', {
           min: 4,
-          max: 10
+          max: 10,
         }),
         validator('format', {
           regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,10}$/,
           message:
-            '{description} must include at least one upper case letter, one lower case letter, and a number'
+            '{description} must include at least one upper case letter, one lower case letter, and a number',
         }),
         validator('length', {
           isWarning: true,
           min: 6,
-          message: 'What kind of weak password is that?'
-        })
-      ]
+          message: 'What kind of weak password is that?',
+        }),
+      ],
     },
     email: {
       validators: [
         validator('presence', true),
         validator('format', {
-          type: 'email'
-        })
-      ]
+          type: 'email',
+        }),
+      ],
     },
     emailConfirmation: validator('confirmation', {
       on: 'email',
-      message: 'Email addresses do not match'
+      message: 'Email addresses do not match',
     }),
-    details: validator('belongs-to')
+    details: validator('belongs-to'),
   },
   {
-    debounce: 500
+    debounce: 500,
   }
 );
 
-export default DS.Model.extend(Validations, {
+export default Model.extend(Validations, {
   username: attr('string'),
   password: attr('string'),
   email: attr('string'),
-  details: DS.belongsTo('user-detail')
+  details: belongsTo('user-detail'),
 });
 // END-SNIPPET

@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-module('Unit | Validator | date', function(hooks) {
+module('Unit | Validator | date', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:date');
   });
 
-  test('no options', function(assert) {
+  test('no options', function (assert) {
     assert.expect(1);
 
     options = {};
@@ -18,12 +18,12 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('allow blank', function(assert) {
+  test('allow blank', function (assert) {
     assert.expect(2);
 
     options = {
       allowBlank: true,
-      before: '1/1/2015'
+      before: '1/1/2015',
     };
 
     builtOptions = validator.buildOptions(options);
@@ -35,7 +35,7 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, 'This field must be before January 1, 2015');
   });
 
-  test('valid date', function(assert) {
+  test('valid date', function (assert) {
     assert.expect(2);
 
     options = {};
@@ -49,11 +49,11 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('valid input date format', function(assert) {
+  test('valid input date format', function (assert) {
     assert.expect(2);
 
     options = {
-      format: { dateStyle: 'long' }
+      format: { dateStyle: 'long' },
     };
 
     builtOptions = validator.buildOptions(options);
@@ -65,12 +65,12 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, 'This field must be a valid date');
   });
 
-  test('error date format', function(assert) {
+  test('error date format', function (assert) {
     assert.expect(1);
 
     options = {
       errorFormat: { dateStyle: 'long' },
-      before: '1/1/2015'
+      before: '1/1/2015',
     };
 
     builtOptions = validator.buildOptions(options);
@@ -79,11 +79,11 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, 'This field must be before January 1, 2015');
   });
 
-  test('before', function(assert) {
+  test('before', function (assert) {
     assert.expect(2);
 
     options = {
-      before: '1/1/2015'
+      before: '1/1/2015',
     };
 
     builtOptions = validator.buildOptions(options);
@@ -95,11 +95,11 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('before or on', function(assert) {
+  test('before or on', function (assert) {
     assert.expect(3);
 
     options = {
-      onOrBefore: '1/1/2015'
+      onOrBefore: '1/1/2015',
     };
 
     builtOptions = validator.buildOptions(options);
@@ -114,11 +114,11 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('after', function(assert) {
+  test('after', function (assert) {
     assert.expect(2);
 
     options = {
-      after: '1/1/2015'
+      after: '1/1/2015',
     };
 
     builtOptions = validator.buildOptions(options);
@@ -130,11 +130,11 @@ module('Unit | Validator | date', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('after or on', function(assert) {
+  test('after or on', function (assert) {
     assert.expect(3);
 
     options = {
-      onOrAfter: '1/1/2015'
+      onOrAfter: '1/1/2015',
     };
 
     builtOptions = validator.buildOptions(options);

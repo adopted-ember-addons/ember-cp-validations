@@ -2,10 +2,11 @@ import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { assign } from '@ember/polyfills';
 import { isHTMLSafe } from '@ember/template';
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
-import DS from 'ember-data';
+import Model from '@ember-data/model';
+import { ManyArray, PromiseManyArray } from '@ember-data/model/-private';
 
 import Ember from 'ember';
 
@@ -22,7 +23,7 @@ export function unwrapString(s) {
 }
 
 export function unwrapProxy(o) {
-  return isProxy(o) ? unwrapProxy(get(o, 'content')) : o;
+  return isProxy(o) ? unwrapProxy(o.content) : o;
 }
 
 export function isProxy(o) {
@@ -34,15 +35,14 @@ export function isPromise(p) {
 }
 
 export function isDsModel(o) {
-  return !!(DS && o && o instanceof DS.Model);
+  return !!(o && o instanceof Model);
 }
 
 export function isDSManyArray(o) {
   return !!(
-    DS &&
     o &&
     isArray(o) &&
-    (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
+    (o instanceof PromiseManyArray || o instanceof ManyArray)
   );
 }
 
@@ -56,7 +56,7 @@ export function isObject(o) {
 
 export function isValidatable(value) {
   let v = unwrapProxy(value);
-  return isDsModel(v) ? !get(v, 'isDeleted') : true;
+  return isDsModel(v) ? !v.isDeleted : true;
 }
 
 export function getValidatableValue(value) {
@@ -65,7 +65,7 @@ export function getValidatableValue(value) {
   }
 
   if (isDSManyArray(value)) {
-    return emberArray(value.filter(v => isValidatable(v)));
+    return emberArray(value.filter((v) => isValidatable(v)));
   }
 
   return isValidatable(value) ? value : undefined;

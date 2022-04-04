@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-actions-hash */
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
@@ -6,7 +7,7 @@ export default Route.extend({
 
   model() {
     return this.store.createRecord('user', {
-      details: this.store.createRecord('user-detail')
+      details: this.store.createRecord('user-detail'),
     });
   },
 
@@ -15,7 +16,7 @@ export default Route.extend({
       showAlert: false,
       isRegistered: false,
       showCode: false,
-      didValidate: false
+      didValidate: false,
     });
 
     this._super(...arguments);
@@ -24,6 +25,6 @@ export default Route.extend({
   actions: {
     reset() {
       this.refresh();
-    }
-  }
+    },
+  },
 });

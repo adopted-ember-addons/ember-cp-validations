@@ -10,7 +10,7 @@ const OptionsObject = EmberObject.extend({
       obj[key] = get(this, key);
       return obj;
     }, {});
-  }
+  },
 });
 
 export default class Options {
@@ -19,7 +19,7 @@ export default class Options {
     const createParams = { [OPTION_KEYS]: optionKeys, model, attribute };
 
     // If any of the options is a CP, we need to create a custom class for it
-    if (optionKeys.some(key => isDescriptor(options[key]))) {
+    if (optionKeys.some((key) => isDescriptor(options[key]))) {
       return OptionsObject.extend(options).create(createParams);
     }
 

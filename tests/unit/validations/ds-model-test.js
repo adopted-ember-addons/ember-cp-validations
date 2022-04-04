@@ -2,10 +2,10 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Validations | DS.Model', function(hooks) {
+module('Unit | Validations | DS.Model', function (hooks) {
   setupTest(hooks);
 
-  test('create model with defaults', function(assert) {
+  test('create model with defaults', function (assert) {
     let object = run(() =>
       this.owner.lookup('service:store').createRecord('signup')
     );
@@ -27,7 +27,7 @@ module('Unit | Validations | DS.Model', function(hooks) {
     );
   });
 
-  test('create model overriding defaults', function(assert) {
+  test('create model overriding defaults', function (assert) {
     let object = run(() =>
       this.owner
         .lookup('service:store')

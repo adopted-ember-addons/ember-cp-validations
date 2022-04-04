@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-classic-components */
 // BEGIN-SNIPPET validated-input
 import {
   not,
@@ -5,12 +6,13 @@ import {
   and,
   or,
   readOnly,
-  alias
+  alias,
 } from '@ember/object/computed';
 
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 
+// eslint-disable-next-line ember/require-tagless-components
 export default Component.extend({
   classNames: ['validated-input'],
   classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
@@ -51,7 +53,7 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    let valuePath = this.get('valuePath');
+    let valuePath = this.valuePath;
 
     defineProperty(
       this,
@@ -64,6 +66,6 @@ export default Component.extend({
   focusOut() {
     this._super(...arguments);
     this.set('showValidations', true);
-  }
+  },
 });
 // END-SNIPPET
