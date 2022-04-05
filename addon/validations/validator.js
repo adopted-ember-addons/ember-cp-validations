@@ -205,9 +205,9 @@ import { deprecate } from '@ember/debug';
  * @submodule Common Options
  */
 
-export default function(arg1, options) {
+export default function (arg1, options) {
   let props = {
-    options: isNone(options) ? {} : options
+    options: isNone(options) ? {} : options,
   };
 
   if (typeof arg1 === 'function') {

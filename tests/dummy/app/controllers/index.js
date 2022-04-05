@@ -6,27 +6,26 @@ export default Controller.extend({
   showCode: false,
   didValidate: false,
 
+  // eslint-disable-next-line ember/no-actions-hash
   actions: {
     validate() {
-      this.get('model')
-        .validate()
-        .then(({ validations }) => {
-          this.set('didValidate', true);
+      this.model.validate().then(({ validations }) => {
+        this.set('didValidate', true);
 
-          if (validations.get('isValid')) {
-            this.setProperties({
-              showAlert: false,
-              isRegistered: true,
-              showCode: false
-            });
-          } else {
-            this.set('showAlert', true);
-          }
-        });
+        if (validations.get('isValid')) {
+          this.setProperties({
+            showAlert: false,
+            isRegistered: true,
+            showCode: false,
+          });
+        } else {
+          this.set('showAlert', true);
+        }
+      });
     },
 
     toggleProperty(p) {
       this.toggleProperty(p);
-    }
-  }
+    },
+  },
 });

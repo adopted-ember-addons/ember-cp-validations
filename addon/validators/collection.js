@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
@@ -46,19 +45,19 @@ const Collection = EmberValidator.extend({
 
     if (typeof options === 'boolean') {
       opts = {
-        collection: options
+        collection: options,
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
-  }
+  },
 });
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return options === true || get(options, 'collection') === true
+    return options === true || options.collection === true
       ? [`model.${attribute}.[]`]
       : [];
-  }
+  },
 });
 
 export default Collection;

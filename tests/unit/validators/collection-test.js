@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-module('Unit | Validator | collection', function(hooks) {
+module('Unit | Validator | collection', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:collection');
   });
 
-  test('buildOptions', function(assert) {
+  test('buildOptions', function (assert) {
     assert.expect(2);
 
     options = true;
@@ -23,7 +23,7 @@ module('Unit | Validator | collection', function(hooks) {
     assert.equal(builtOptions.get('collection'), true);
   });
 
-  test('value is collection', function(assert) {
+  test('value is collection', function (assert) {
     assert.expect(1);
 
     options = { collection: true };
@@ -33,7 +33,7 @@ module('Unit | Validator | collection', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('value not collection', function(assert) {
+  test('value not collection', function (assert) {
     assert.expect(1);
 
     options = { collection: true };
@@ -43,7 +43,7 @@ module('Unit | Validator | collection', function(hooks) {
     assert.equal(message, 'This field must be a collection');
   });
 
-  test('singular - value is singular', function(assert) {
+  test('singular - value is singular', function (assert) {
     assert.expect(1);
 
     options = { collection: false };
@@ -53,7 +53,7 @@ module('Unit | Validator | collection', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('singular - value not singular', function(assert) {
+  test('singular - value not singular', function (assert) {
     assert.expect(1);
 
     options = { collection: false };

@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
 
@@ -75,14 +74,14 @@ const BelongsTo = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then(model => this.validate(model, ...args));
+        return value.then((model) => this.validate(model, ...args));
       }
 
-      return get(value, 'validations');
+      return value.validations;
     }
 
     return true;
-  }
+  },
 });
 
 BelongsTo.reopenClass({
@@ -91,9 +90,9 @@ BelongsTo.reopenClass({
       `model.${attribute}.isDeleted`,
       `model.${attribute}.content.isDeleted`,
       `model.${attribute}.validations`,
-      `model.${attribute}.content.validations`
+      `model.${attribute}.content.validations`,
     ];
-  }
+  },
 });
 
 export default BelongsTo;

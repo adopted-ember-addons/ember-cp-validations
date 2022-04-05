@@ -2,13 +2,7 @@ import { isNone } from '@ember/utils';
 
 import { isArray } from '@ember/array';
 import { readOnly } from '@ember/object/computed';
-import EmberObject, {
-  getProperties,
-  setProperties,
-  computed,
-  set,
-  get
-} from '@ember/object';
+import EmberObject, { setProperties, computed, set } from '@ember/object';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
@@ -61,12 +55,9 @@ const Result = EmberObject.extend({
    * @readOnly
    * @type {Boolean}
    */
-  _isReadOnly: computed('_result', function() {
-    let validations = get(this, '_result');
-    return (
-      validations instanceof ResultCollection ||
-      get(validations, 'isValidations')
-    );
+  _isReadOnly: computed('_result', function () {
+    let validations = this._result;
+    return validations instanceof ResultCollection || validations.isValidations;
   }).readOnly(),
 
   /**
@@ -186,20 +177,26 @@ const Result = EmberObject.extend({
     '_promise',
     '_validator',
     '_resultOverride',
-    function() {
-      return (
-        get(this, '_resultOverride') ||
-        InternalResultObject.create(
-          getProperties(this, ['model', 'attribute', '_promise', '_validator'])
-        )
-      );
+    function () {
+      if (this._resultOverride) {
+        return this._resultOverride;
+      }
+
+      let { model, attribute, _promise, _validator } = this;
+
+      return InternalResultObject.create({
+        model,
+        attribute,
+        _promise,
+        _validator,
+      });
     }
   ),
 
   init() {
     this._super(...arguments);
 
-    if (get(this, 'isAsync') && !get(this, '_isReadOnly')) {
+    if (this.isAsync && !this._isReadOnly) {
       this._handlePromise();
     }
   },
@@ -218,24 +215,24 @@ const Result = EmberObject.extend({
    * @param value
    */
   update(value) {
-    let result = get(this, '_result');
-    let attribute = get(this, 'attribute');
-    let isWarning = get(this, 'isWarning');
+    let result = this._result;
+    let attribute = this.attribute;
+    let isWarning = this.isWarning;
     let Collection = isWarning ? WarningResultCollection : ResultCollection;
 
     if (isNone(value)) {
       return this.update(false);
-    } else if (get(value, 'isValidations')) {
+    } else if (value.isValidations) {
       this._overrideResult(Collection.create({ attribute, content: [value] }));
     } else if (isArray(value)) {
       this._overrideResult(Collection.create({ attribute, content: value }));
-    } else if (!get(this, '_isReadOnly')) {
+    } else if (!this._isReadOnly) {
       this._overrideResult(undefined);
 
       if (typeof value === 'string') {
-        setProperties(get(this, '_result'), {
+        setProperties(this._result, {
           [isWarning ? 'warningMessage' : 'message']: value,
-          isValid: isWarning ? true : false
+          isValid: isWarning ? true : false,
         });
       } else if (typeof value === 'boolean') {
         set(result, 'isValid', value);
@@ -261,13 +258,16 @@ const Result = EmberObject.extend({
    * @private
    */
   _handlePromise() {
-    get(this, '_promise')
-      .then(value => this.update(value), value => this.update(value))
-      .catch(reason => {
+    this._promise
+      .then(
+        (value) => this.update(value),
+        (value) => this.update(value)
+      )
+      .catch((reason) => {
         // TODO: send into error state
         throw reason;
       });
-  }
+  },
 });
 
 export default Result;

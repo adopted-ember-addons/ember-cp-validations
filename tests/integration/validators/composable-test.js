@@ -10,17 +10,17 @@ import { setupTest } from 'ember-qunit';
 import { Promise } from 'rsvp';
 
 const ComposedValidations = buildValidations({
-  value: validator('composed')
+  value: validator('composed'),
 });
 
-module('Integration | Validators | Composable', function(hooks) {
+module('Integration | Validators | Composable', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.owner.register('validator:messages', DefaultMessages);
   });
 
-  test('Composability - simple', function(assert) {
+  test('Composability - simple', function (assert) {
     assert.expect(5);
 
     this.owner.register('validator:presence', PresenceValidator);
@@ -29,12 +29,12 @@ module('Integration | Validators | Composable', function(hooks) {
       BaseValidator.extend({
         validate(value) {
           return this.test('presence', value, { presence: true });
-        }
+        },
       })
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
-      value: ''
+      value: '',
     });
 
     assert.equal(obj.get('validations.isValid'), false);
@@ -47,7 +47,7 @@ module('Integration | Validators | Composable', function(hooks) {
     assert.equal(obj.get('validations.isValidating'), false);
   });
 
-  test('Composability - multiple', function(assert) {
+  test('Composability - multiple', function (assert) {
     assert.expect(8);
 
     this.owner.register('validator:presence', PresenceValidator);
@@ -69,12 +69,12 @@ module('Integration | Validators | Composable', function(hooks) {
           }
 
           return true;
-        }
+        },
       })
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
-      value: ''
+      value: '',
     });
 
     assert.equal(obj.get('validations.isValid'), false);
@@ -96,7 +96,7 @@ module('Integration | Validators | Composable', function(hooks) {
     assert.equal(obj.get('validations.isValidating'), false);
   });
 
-  test('Composability - async', async function(assert) {
+  test('Composability - async', async function (assert) {
     assert.expect(8);
 
     this.owner.register(
@@ -106,7 +106,7 @@ module('Integration | Validators | Composable', function(hooks) {
           return Promise.resolve(
             value.includes('foo') ? true : 'Must include foo!'
           );
-        }
+        },
       })
     );
 
@@ -117,7 +117,7 @@ module('Integration | Validators | Composable', function(hooks) {
           return Promise.reject(
             value.includes('bar') ? true : 'Must include bar!'
           );
-        }
+        },
       })
     );
 
@@ -138,12 +138,12 @@ module('Integration | Validators | Composable', function(hooks) {
           }
 
           return true;
-        }
+        },
       })
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
-      value: ''
+      value: '',
     });
 
     await obj.validate();
@@ -166,12 +166,12 @@ module('Integration | Validators | Composable', function(hooks) {
     assert.equal(obj.get('validations.isValidating'), false);
   });
 
-  test('Composability - unsupported types', function(assert) {
+  test('Composability - unsupported types', function (assert) {
     const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
 
     assert.expect(unsupportedTypes.length);
 
-    unsupportedTypes.forEach(type =>
+    unsupportedTypes.forEach((type) =>
       this.owner.register(`validator:${type}`, BaseValidator)
     );
 
@@ -180,21 +180,21 @@ module('Integration | Validators | Composable', function(hooks) {
       BaseValidator.extend({
         validate(type) {
           this.test(type);
-        }
+        },
       })
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
-      value: ''
+      value: '',
     });
 
-    unsupportedTypes.forEach(type => {
+    unsupportedTypes.forEach((type) => {
       obj.set('value', type);
       assert.throws(() => obj.validateSync(), new RegExp(type));
     });
   });
 
-  test('Validators get cached', function(assert) {
+  test('Validators get cached', function (assert) {
     assert.expect(3);
 
     this.owner.register('validator:presence', PresenceValidator);
@@ -202,7 +202,7 @@ module('Integration | Validators | Composable', function(hooks) {
       'validator:composed',
       BaseValidator.extend({
         validate(value) {
-          const cache = this.get('_testValidatorCache');
+          const cache = this._testValidatorCache;
 
           assert.notOk(cache.presence);
 
@@ -214,12 +214,12 @@ module('Integration | Validators | Composable', function(hooks) {
           this.test('presence', value, { presence: false });
 
           assert.equal(presenceValidator, cache.presence);
-        }
+        },
       })
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
-      value: ''
+      value: '',
     });
 
     obj.validateSync();

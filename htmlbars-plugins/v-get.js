@@ -156,18 +156,18 @@ function transform({ syntax }) {
     // (get model 'validations')
     let root = syntax.builders.sexpr(syntax.builders.path('get'), [
       params[0],
-      syntax.builders.string('validations')
+      syntax.builders.string('validations'),
     ]);
 
     // (get (get (get model 'validations') 'attrs') 'username')
     if (numParams === 3) {
       root = syntax.builders.sexpr(syntax.builders.path('get'), [
         root,
-        syntax.builders.string('attrs')
+        syntax.builders.string('attrs'),
       ]);
       root = syntax.builders.sexpr(syntax.builders.path('get'), [
         root,
-        params[1]
+        params[1],
       ]);
     }
 
@@ -187,8 +187,8 @@ function transform({ syntax }) {
       },
       ElementNode(node) {
         processNode(node);
-      }
-    }
+      },
+    },
   };
 }
 

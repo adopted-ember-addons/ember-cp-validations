@@ -17,5 +17,5 @@ module.exports = {
      groupSort: function(commits) { return { commits: commits }; },
      format: function(commit) { return commit.title; },
      */
-  }
+  },
 };

@@ -1,3 +1,5 @@
+// False positive: the native class that exists in the document does not use CPs
+/* eslint-disable ember/no-computed-properties-in-native-classes */
 import { bool } from '@ember/object/computed';
 import EmberObject, { set, get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
@@ -9,7 +11,7 @@ import {
   unwrapString,
   getValidatableValue,
   mergeOptions,
-  isPromise
+  isPromise,
 } from 'ember-cp-validations/utils/utils';
 
 class TestResult {
@@ -86,21 +88,24 @@ const Base = EmberObject.extend({
    * @private
    * @type {Object}
    */
-  _testValidatorCache: computed(() => ({})).readOnly(),
+  _testValidatorCache: computed(function () {
+    return {};
+  }).readOnly(),
 
   init() {
     this._super(...arguments);
-    let globalOptions = get(this, 'globalOptions');
-    let defaultOptions = get(this, 'defaultOptions');
-    let options = get(this, 'options');
+    let globalOptions = this.globalOptions;
+    let defaultOptions = this.defaultOptions;
+    let options = this.options;
     let owner = getOwner(this);
     let errorMessages;
 
     if (!isNone(owner)) {
       // Since default error messages are stored in app/validators/messages, we have to look it up via the owner
-      errorMessages = typeof owner.factoryFor === 'function'
-        ? owner.factoryFor('validator:messages')
-        : owner.resolveRegistration('validator:messages');
+      errorMessages =
+        typeof owner.factoryFor === 'function'
+          ? owner.factoryFor('validator:messages')
+          : owner.resolveRegistration('validator:messages');
     }
 
     // If for some reason, we can't find the messages object (i.e. unit tests), use default
@@ -133,9 +138,9 @@ const Base = EmberObject.extend({
     delete builtOptions.value;
 
     return new Options({
-      model: get(this, 'model'),
-      attribute: get(this, 'attribute'),
-      options: builtOptions
+      model: this.model,
+      attribute: this.attribute,
+      options: builtOptions,
     });
   },
 
@@ -161,7 +166,7 @@ const Base = EmberObject.extend({
    * @return {Mixed} value
    */
   getValue() {
-    let value = this.value(get(this, 'model'), get(this, 'attribute'));
+    let value = this.value(this.model, this.attribute);
     return getValidatableValue(value);
   },
 
@@ -216,13 +221,13 @@ const Base = EmberObject.extend({
    * @return {String}             The generated message
    */
   createErrorMessage(type, value, options = {}) {
-    let messages = this.get('errorMessages');
-    let message = unwrapString(get(options, 'message'));
+    let messages = this.errorMessages;
+    let message = unwrapString(options.message);
 
     set(
       options,
       'description',
-      messages.getDescriptionFor(get(this, 'attribute'), options)
+      messages.getDescriptionFor(this.attribute, options)
     );
 
     if (message) {
@@ -282,7 +287,7 @@ const Base = EmberObject.extend({
    *                          return value will be a promise.
    */
   test(type, ...args) {
-    const cache = this.get('_testValidatorCache');
+    const cache = this._testValidatorCache;
     const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
 
     if (unsupportedTypes.includes(type)) {
@@ -292,15 +297,20 @@ const Base = EmberObject.extend({
     }
 
     const owner = getOwner(this);
-    cache[type] = cache[type] || lookupValidator(owner, type).create(owner.ownerInjection());
+    cache[type] =
+      cache[type] ||
+      lookupValidator(owner, type).create(owner.ownerInjection());
     const result = cache[type].validate(...args);
 
     if (isPromise(result)) {
-      return result.then(r => new TestResult(r), r => new TestResult(r));
+      return result.then(
+        (r) => new TestResult(r),
+        (r) => new TestResult(r)
+      );
     }
 
     return new TestResult(result);
-  }
+  },
 });
 
 Base.reopenClass({
@@ -315,7 +325,7 @@ Base.reopenClass({
    */
   getDependentsFor() {
     return [];
-  }
+  },
 });
 
 export default Base;

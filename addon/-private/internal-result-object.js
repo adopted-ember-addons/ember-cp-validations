@@ -1,4 +1,4 @@
-import EmberObject, { computed, set, get } from '@ember/object';
+import EmberObject, { computed, set } from '@ember/object';
 import { and, not, readOnly } from '@ember/object/computed';
 import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
@@ -20,7 +20,7 @@ export default EmberObject.extend({
   init() {
     this._super(...arguments);
 
-    if (this.get('isAsync')) {
+    if (this.isAsync) {
       this._handlePromise();
     }
   },
@@ -31,45 +31,26 @@ export default EmberObject.extend({
   isTruelyValid: and('isNotValidating', 'isValid'),
   isTruelyInvalid: and('isNotValidating', 'isInvalid'),
 
-  isAsync: computed('_promise', function() {
-    return isPromise(get(this, '_promise'));
+  isAsync: computed('_promise', function () {
+    return isPromise(this._promise);
   }),
 
-  messages: computed('message', function() {
-    return makeArray(get(this, 'message'));
+  messages: computed('message', function () {
+    return makeArray(this.message);
   }),
 
-  error: computed('isInvalid', 'type', 'message', 'attribute', function() {
-    if (get(this, 'isInvalid')) {
-      return ValidationError.create({
-        type: get(this, '_type'),
-        message: get(this, 'message'),
-        attribute: get(this, 'attribute')
-      });
-    }
-
-    return null;
-  }),
-
-  errors: computed('error', function() {
-    return makeArray(get(this, 'error'));
-  }),
-
-  warningMessages: computed('warningMessage', function() {
-    return makeArray(get(this, 'warningMessage'));
-  }),
-
-  warning: computed(
-    'isWarning',
-    'type',
-    'warningMessage',
+  error: computed(
+    '_type',
     'attribute',
-    function() {
-      if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
+    'isInvalid',
+    'message',
+    'type',
+    function () {
+      if (this.isInvalid) {
         return ValidationError.create({
-          type: get(this, '_type'),
-          message: get(this, 'warningMessage'),
-          attribute: get(this, 'attribute')
+          type: this._type,
+          message: this.message,
+          attribute: this.attribute,
         });
       }
 
@@ -77,15 +58,42 @@ export default EmberObject.extend({
     }
   ),
 
-  warnings: computed('warning', function() {
-    return makeArray(get(this, 'warning'));
+  errors: computed('error', function () {
+    return makeArray(this.error);
+  }),
+
+  warningMessages: computed('warningMessage', function () {
+    return makeArray(this.warningMessage);
+  }),
+
+  warning: computed(
+    '_type',
+    'attribute',
+    'isWarning',
+    'type',
+    'warningMessage',
+    function () {
+      if (this.isWarning && !isNone(this.warningMessage)) {
+        return ValidationError.create({
+          type: this._type,
+          message: this.warningMessage,
+          attribute: this.attribute,
+        });
+      }
+
+      return null;
+    }
+  ),
+
+  warnings: computed('warning', function () {
+    return makeArray(this.warning);
   }),
 
   _handlePromise() {
     set(this, 'isValidating', true);
 
-    get(this, '_promise').finally(() => {
+    this._promise.finally(() => {
       set(this, 'isValidating', false);
     });
-  }
+  },
 });

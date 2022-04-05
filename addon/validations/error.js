@@ -32,5 +32,5 @@ export default EmberObject.extend({
    * @property parentAttribute
    * @type {String}
    */
-  parentAttribute: null
+  parentAttribute: null,
 });
