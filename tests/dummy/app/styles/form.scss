@@ -76,7 +76,9 @@ input.form-control:focus {
 }
 
 .form .alert {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: #f3f3f3;
   color: #666666;
   font-size: 12px;
@@ -87,18 +89,15 @@ input.form-control:focus {
 
 .form .alert .icon-remove {
   cursor: pointer;
-  position: absolute;
-  top: 50%;
-  right: 10px;
   display: block;
   width: 16px;
   height: 16px;
   line-height: 16px;
-  margin-top: -8px;
-  float: right;
+  padding: 0;
+  font-size: 0.8rem;
 }
 
-.form button {
+.form .ember-cp-validations-button {
   cursor: pointer;
   outline: none;
   background: $accent-color;
@@ -250,8 +249,10 @@ input.form-control:focus {
   color: rgb(255, 165, 31);
 }
 
-a.show-code {
+.show-code {
   cursor: pointer;
+  padding: 0;
+  font-size: 0.8rem;
 }
 
 @-webkit-keyframes peek {

@@ -10,12 +10,13 @@
 
       {{#if this.showAlert}}
         <div class='alert'>
+          Please fix all the errors below before continuing.
+
           <button
             type='button'
-            class='fa fa-times icon-remove'
+            class='fa fa-times icon-remove btn btn-link text-decoration-none text-secondary'
             {{on 'click' (fn this.toggleProperty 'showAlert')}}
           ></button>
-          Please fix all the errors below before continuing.
         </div>
       {{/if}}
       <form>
@@ -124,6 +125,7 @@
           <button
             id='signup'
             type='button'
+            class="ember-cp-validations-button"
             {{on 'click' this.validate}}
             data-test-sign-up
           >
@@ -136,13 +138,17 @@
 
   <footer>
     {{#if this.isRegistered}}
-      <button type='button' class='show-code bottom' {{on 'click' this.resetModel}}>
+      <button
+        type='button'
+        class='show-code bottom btn btn-link text-secondary text-decoration-none'
+        {{on 'click' this.resetModel}}
+      >
         Reset Form
       </button>
     {{else}}
       <button
         type='button'
-        class='show-code bottom'
+        class='show-code bottom btn btn-link text-secondary text-decoration-none'
         {{on 'click' (fn this.toggleProperty 'showCode')}}
       >
         <i class='fa fa-code'></i>

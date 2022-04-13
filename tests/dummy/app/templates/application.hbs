@@ -1,4 +1,4 @@
-<BsNavbar @fluid={{true}} @collapsed={{true}} as |navbar|>
+<BsNavbar class='d-flex flex-md-row' as |navbar|>
   <div class='navbar-header'>
     {{navbar.toggle}}
     <LinkTo @route='index' class='navbar-brand'>
@@ -8,33 +8,27 @@
   </div>
 
   <navbar.content>
-    <navbar.nav @class='navbar-right' as |nav|>
+    <navbar.nav class='navbar-right ml-md-auto' as |nav|>
       <nav.dropdown as |dd|>
         <dd.toggle>Documentation <span class='caret'></span></dd.toggle>
-        <dd.menu as |ddm|>
-          <ddm.item>
-            <a href='docs'>v4.x</a>
-          </ddm.item>
-
-          <ddm.item>
-            <a
-              href='https://rawgit.com/offirgolan/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html'
-            >
-              v3.x
-            </a>
-          </ddm.item>
-
-          <ddm.item>
-            <a
-              href='https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/index.html'
-            >
-              v2.x
-            </a>
-          </ddm.item>
+        <dd.menu>
+          <a class='dropdown-item' href='docs'>v4.x</a>
+          <a
+            class='dropdown-item'
+            href='https://rawgit.com/offirgolan/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html'
+          >
+            v3.x
+          </a>
+          <a
+            class='dropdown-item'
+            href='https://rawgit.com/offirgolan/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/index.html'
+          >
+            v2.x
+          </a>
         </dd.menu>
       </nav.dropdown>
 
-      <nav.item>
+      <nav.item class='d-flex flex-md-row align-items-center'>
         <a
           href='https://github.com/offirgolan/ember-cp-validations'
           class='fa fa-github github'
