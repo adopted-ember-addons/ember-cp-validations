@@ -1,23 +1,29 @@
-{{! template-lint-disable }}
-{{!-- BEGIN-SNIPPET validated-input --}}
+{{! BEGIN-SNIPPET validated-input }}
 <div class='form-group'>
-  {{input type=type value=value placeholder=placeholder class='form-control' name=valuePath}}
-  {{#if isValid}}
+  <Input
+    @type={{this.type}}
+    @value={{this.value}}
+    placeholder={{this.placeholder}}
+    class='form-control'
+    name={{this.valuePath}}
+    ...attributes
+  />
+  {{#if this.isValid}}
     <span class='valid-input fa fa-check'></span>
   {{/if}}
 
   <div class='input-error'>
-    {{#if showErrorMessage}}
+    {{#if this.showErrorMessage}}
       <div class='error'>
-        {{v-get model valuePath 'message'}}
+        {{v-get this.model this.valuePath 'message'}}
       </div>
     {{/if}}
 
-    {{#if showWarningMessage}}
+    {{#if this.showWarningMessage}}
       <div class='warning'>
-        {{v-get model valuePath 'warningMessage'}}
+        {{v-get this.model this.valuePath 'warningMessage'}}
       </div>
     {{/if}}
   </div>
 </div>
-{{!-- END-SNIPPET --}}
+{{! END-SNIPPET }}
