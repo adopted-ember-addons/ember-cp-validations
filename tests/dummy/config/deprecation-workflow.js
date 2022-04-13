@@ -2,7 +2,7 @@
 self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
   workflow: [
-    { handler: 'silence', matchId: 'ember-global' },
+    { handler: 'throw', matchId: 'ember-global' },
     { handler: 'throw', matchId: 'ember.component.reopen' },
     {
       handler: 'throw',
