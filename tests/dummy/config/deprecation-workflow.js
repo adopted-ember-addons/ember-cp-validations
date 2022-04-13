@@ -3,12 +3,12 @@ self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
   workflow: [
     { handler: 'silence', matchId: 'ember-global' },
-    { handler: 'silence', matchId: 'ember.component.reopen' },
+    { handler: 'throw', matchId: 'ember.component.reopen' },
     {
-      handler: 'silence',
+      handler: 'throw',
       matchId: 'deprecated-run-loop-and-computed-dot-access',
     },
     { handler: 'silence', matchId: 'computed-property.volatile' },
-    { handler: 'silence', matchId: 'this-property-fallback' },
+    { handler: 'throw', matchId: 'this-property-fallback' },
   ],
 };
