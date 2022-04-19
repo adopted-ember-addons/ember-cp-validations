@@ -26,7 +26,6 @@ import {
   isDsModel,
   isValidatable,
   isPromise,
-  mergeOptions,
 } from '../utils/utils';
 import {
   VALIDATIONS_CLASS,
@@ -410,10 +409,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  * @return {Ember.ComputedProperty} A computed property which is a ResultCollection
  */
 function createCPValidationFor(attribute, model, validations) {
-  let isVolatile = hasOption(validations, 'volatile', true);
-  let dependentKeys = isVolatile
-    ? []
-    : getCPDependentKeysFor(attribute, model, validations);
+  let dependentKeys = getCPDependentKeysFor(attribute, model, validations);
 
   let cp = computed(
     ...dependentKeys,
@@ -442,35 +438,7 @@ function createCPValidationFor(attribute, model, validations) {
     })
   ).readOnly();
 
-  if (isVolatile) {
-    cp = cp.volatile();
-  }
-
   return cp;
-}
-
-/**
- * Check if a collection of validations have an option
- * equal to the given value
- *
- * @method hasOption
- * @private
- * @param {Array} validations
- * @param {String} option
- * @param {Boolean} [value=true]
- * @returns {Boolean}
- */
-function hasOption(validations, option, value = true) {
-  for (let i = 0; i < validations.length; i++) {
-    let { options, defaultOptions = {}, globalOptions = {} } = validations[i];
-    let mergedOptions = mergeOptions(options, defaultOptions, globalOptions);
-
-    if (mergedOptions[option] === value) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 /**
