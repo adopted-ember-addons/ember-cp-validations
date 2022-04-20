@@ -1,5 +1,12 @@
 # Changelog
 
+## v4.0.0-beta.14.2
+
+- [#16](https://github.com/qonto/ember-cp-validations/pull/16) Add missing changelog entries [@zeppelin](https://github.com/zeppelin)
+- [#15](https://github.com/qonto/ember-cp-validations/pull/15) Fix all deprecations except `computed-property.volatile` & `ember-global` [@zeppelin](https://github.com/zeppelin)
+- [#14](https://github.com/qonto/ember-cp-validations/pull/14) Set up deprecation workflow [@zeppelin](https://github.com/zeppelin)
+- [#12](https://github.com/qonto/ember-cp-validations/pull/12) Lint HBS files [@zeppelin](https://github.com/zeppelin)
+
 ## v4.0.0-beta.14.1
 
 - [#11](https://github.com/qonto/ember-cp-validations/pull/11) Replace `run.*` with direct imports of run loop methods [@bekzod](https://github.com/bekzod)
