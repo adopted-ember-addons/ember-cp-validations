@@ -1,5 +1,39 @@
 # Changelog
 
+## v4.0.0-beta.14.1
+
+- [#11](https://github.com/qonto/ember-cp-validations/pull/11) Replace `run.*` with direct imports of run loop methods [@bekzod](https://github.com/bekzod)
+- [#10](https://github.com/qonto/ember-cp-validations/pull/10) Fix lint issues for JS files [@zeppelin](https://github.com/zeppelin)
+- [#9](https://github.com/qonto/ember-cp-validations/pull/9) Setup GitHub CI for 3.x LTS releases [@zeppelin](https://github.com/zeppelin)
+
+## v4.0.0-beta.13.1
+
+- [#7](https://github.com/qonto/ember-cp-validations/pull/7) Bump ember-validators from 4.0.0 to 4.0.1 [@herzzanu](https://github.com/herzzanu)
+
+## v4.0.0-beta.13
+
+- [#6](https://github.com/qonto/ember-cp-validations/pull/6) Remove ember-require-module dependency [@herzzanu](https://github.com/herzzanu)
+- [#5](https://github.com/qonto/ember-cp-validations/pull/5) Bump ember-validators from 3.0.1 to 4.0.0 [@herzzanu](https://github.com/herzzanu)
+
+## v4.0.0-beta.12.2
+
+- [#4](https://github.com/qonto/ember-cp-validations/pull/4) Drop support for Ember.js v2.x [@Turbo87](https://github.com/Turbo87)
+- [#3](https://github.com/qonto/ember-cp-validations/pull/3) Convert class based template compilation plugin to functional style [@Turbo87](https://github.com/Turbo87)
+- [#2](https://github.com/qonto/ember-cp-validations/pull/2) CI: Add GitHub Actions config [@Turbo87](https://github.com/Turbo87)
+- [#1](https://github.com/qonto/ember-cp-validations/pull/1) v-get: Use modern JS syntax [@Turbo87](https://github.com/Turbo87)
+
+## v4.0.0-beta.12.1
+
+- Fix `isHTMLSafe` import [@lolmaus](https://github.com/lolmaus)
+
+## v4.0.0-beta.12
+
+- [#688](https://github.com/offirgolan/ember-cp-validations/pull/688) Bump node version and ember-validators from ^2.0.0 to ^3.0.1 [@gilest](https://github.com/gilest)
+
+## v4.0.0-beta.11
+
+- [#681](https://github.com/offirgolan/ember-cp-validations/pull/681) Replace `getWithDefault` function [@dbendaou](https://github.com/dbendaou)
+
 ## v4.0.0-beta.10
 
 - [#668](https://github.com/offirgolan/ember-cp-validations/pull/668) Support Ember 3.13 [@jrjohnson](https://github.com/jrjohnson)
