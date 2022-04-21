@@ -103,7 +103,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/offirgolan/ember-cp-validations.git"
+    "url": "http://github.com/qonto/ember-cp-validations.git"
   },
   "license": "MIT",
   "author": "Offir Golan <offirgolan@gmail.com>",
@@ -128,7 +128,7 @@
     "**/@embroider/macros": "^1.0.0",
     "**/@embroider/util": "^1.6.0"
   },
-  "homepage": "https://github.com/offirgolan/ember-cp-validations",
+  "homepage": "https://github.com/qonto/ember-cp-validations",
   "volta": {
     "node": "14.19.0",
     "yarn": "1.22.17"
