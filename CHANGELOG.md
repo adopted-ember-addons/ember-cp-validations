@@ -1,5 +1,10 @@
 # Changelog
 
+## v5.0.0-beta.1
+
+- [#18](https://github.com/qonto/ember-cp-validations/pull/18) 💥 Breaking: Remove volatile support & enable Ember 4 tests [@zeppelin](https://github.com/zeppelin)
+- [#17](https://github.com/qonto/ember-cp-validations/pull/17) Remove support for Ember < 3.28 [@zeppelin](https://github.com/zeppelin)
+
 ## v4.0.0-beta.14.2
 
 - [#16](https://github.com/qonto/ember-cp-validations/pull/16) Add missing changelog entries [@zeppelin](https://github.com/zeppelin)
