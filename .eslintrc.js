@@ -22,7 +22,6 @@ module.exports = {
   rules: {
     'ember/no-classic-classes': 'off',
     'ember/no-new-mixins': 'off',
-    'ember/no-volatile-computed-properties': 'off',
   },
   overrides: [
     // node files

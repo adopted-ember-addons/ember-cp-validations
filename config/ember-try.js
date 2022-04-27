@@ -16,7 +16,6 @@ module.exports = async function () {
       },
       {
         name: 'ember-release',
-        allowedToFail: true,
         npm: {
           devDependencies: {
             'ember-source': await getChannelURL('release'),
@@ -26,10 +25,10 @@ module.exports = async function () {
       },
       {
         name: 'ember-beta',
-        allowedToFail: true,
         npm: {
           devDependencies: {
             'ember-source': await getChannelURL('beta'),
+            'ember-data': '^4.1.0',
           },
         },
       },
@@ -39,6 +38,7 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': await getChannelURL('canary'),
+            'ember-data': '^4.1.0',
           },
         },
       },

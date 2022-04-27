@@ -1,6 +1,4 @@
 // BEGIN-SNIPPET user-detail-model
-import { computed } from '@ember/object';
-
 import Model, { attr } from '@ember-data/model';
 import moment from 'moment';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -14,9 +12,9 @@ const Validations = buildValidations(
       validators: [
         validator('presence', true),
         validator('date', {
-          after: computed(function () {
+          get after() {
             return moment().subtract(120, 'years').format('M/D/YYYY');
-          }).volatile(),
+          },
           format: 'M/D/YYYY',
           message(type, value /*, context */) {
             if (type === 'before') {

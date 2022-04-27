@@ -8,7 +8,7 @@ self.deprecationWorkflow.config = {
       handler: 'throw',
       matchId: 'deprecated-run-loop-and-computed-dot-access',
     },
-    { handler: 'silence', matchId: 'computed-property.volatile' },
+    { handler: 'throw', matchId: 'computed-property.volatile' },
     { handler: 'throw', matchId: 'this-property-fallback' },
   ],
 };
