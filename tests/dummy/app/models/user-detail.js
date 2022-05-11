@@ -1,6 +1,9 @@
 // BEGIN-SNIPPET user-detail-model
 import moment from 'moment';
-import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
+import {
+  validator,
+  buildValidations,
+} from '@eflexsystems/ember-tracked-validations';
 import Model, { attr } from '@ember-data/model';
 
 @buildValidations({

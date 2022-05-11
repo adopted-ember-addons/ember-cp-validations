@@ -4,7 +4,10 @@ import { run } from '@ember/runloop';
 import DefaultMessages from 'dummy/validators/messages';
 import PresenceValidator from 'dummy/validators/presence';
 import LengthValidator from 'dummy/validators/length';
-import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
+import {
+  validator,
+  buildValidations,
+} from '@eflexsystems/ember-tracked-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { tracked } from '@glimmer/tracking';

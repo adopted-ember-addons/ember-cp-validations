@@ -3,7 +3,10 @@ import { isNone } from '@ember/utils';
 import DefaultMessages from 'dummy/validators/messages';
 import BelongsToValidator from '@eflexsystems/ember-tracked-validations/validators/belongs-to';
 import HasManyValidator from '@eflexsystems/ember-tracked-validations/validators/has-many';
-import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
+import {
+  validator,
+  buildValidations,
+} from '@eflexsystems/ember-tracked-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { tracked } from '@glimmer/tracking';

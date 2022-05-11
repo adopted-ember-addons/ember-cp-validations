@@ -1,4 +1,7 @@
-import { buildValidations, validator } from '@eflexsystems/ember-tracked-validations';
+import {
+  buildValidations,
+  validator,
+} from '@eflexsystems/ember-tracked-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { tracked } from '@glimmer/tracking';

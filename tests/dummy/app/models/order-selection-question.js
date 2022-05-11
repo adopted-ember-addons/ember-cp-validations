@@ -1,4 +1,7 @@
-import { validator, buildValidations } from '@eflexsystems/ember-tracked-validations';
+import {
+  validator,
+  buildValidations,
+} from '@eflexsystems/ember-tracked-validations';
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 @buildValidations({
