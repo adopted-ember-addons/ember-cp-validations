@@ -80,7 +80,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/eflexsystems/ember-cp-validations.git"
+    "url": "http://github.com/eflexsystems/ember-tracked-validations.git"
   },
   "license": "MIT",
   "author": "Jacob Jewell <jacobjewell@eflexsystems.com>",
