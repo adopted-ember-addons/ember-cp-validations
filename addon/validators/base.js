@@ -5,7 +5,6 @@ import Options from '@eflexsystems/ember-tracked-validations/-private/options';
 import lookupValidator from '@eflexsystems/ember-tracked-validations/utils/lookup-validator';
 import { getValidatableValue } from '@eflexsystems/ember-tracked-validations/utils/utils';
 import { tracked } from '@glimmer/tracking';
-import { dependentKeyCompat } from '@ember/object/compat';
 import { isHTMLSafe } from '@ember/template';
 
 class TestResult {
@@ -68,7 +67,6 @@ export default class ValidatorsBase {
    * @property isWarning
    * @type {Boolean}
    */
-  @dependentKeyCompat
   get isWarning() {
     return this.options.isWarning;
   }
