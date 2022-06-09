@@ -1,6 +1,6 @@
 # Ember CP Validations
 
-[![Build Status](https://travis-ci.org/offirgolan/ember-cp-validations.svg?branch=master)](https://travis-ci.org/offirgolan/ember-cp-validations)
+[![Build Status](https://travis-ci.org/adopted-ember-addons/ember-cp-validations.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-cp-validations)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Download Total](https://img.shields.io/npm/dt/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-cp-validations.svg)](http://emberobserver.com/addons/ember-cp-validations)
@@ -41,16 +41,16 @@ If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentati
 
 ## Helpful Links
 
-- ### [Live Demo](http://offirgolan.github.io/ember-cp-validations)
+- ### [Live Demo](http://adopted-ember-addons.github.io/ember-cp-validations)
 
 - ### Documentation
 
-  - [4.x](http://offirgolan.github.io/ember-cp-validations/docs)
-  - [3.x](https://rawgit.com/offirgolan/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html)
+  - [4.x](http://adopted-ember-addons.github.io/ember-cp-validations/docs)
+  - [3.x](https://rawgit.com/adopted-ember-addons/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html)
 
 - ### [Changelog](CHANGELOG.md)
 
 ## Looking for help?
 
-- If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
+- If it is a bug [please open an issue on GitHub](http://github.com/adopted-ember-addons/ember-cp-validations/issues).
 - Ask a question in the `#e-cp-validations` channel at the [Ember.js Community Slack](https://embercommunity.slack.com)
