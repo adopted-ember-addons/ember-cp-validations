@@ -1,5 +1,4 @@
 import { A as emberArray, makeArray, isArray } from '@ember/array';
-import { assign } from '@ember/polyfills';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import ValidationResult from '../-private/result';
@@ -178,7 +177,7 @@ function createValidationsClass(inheritedValidationsClass, validations) {
   ) {
     let inheritedValidations = new inheritedValidationsClass();
 
-    validationRules = assign(
+    validationRules = Object.assign(
       validationRules,
       inheritedValidations._validationRules
     );
