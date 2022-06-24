@@ -86,7 +86,9 @@ const Base = EmberObject.extend({
    * @private
    * @type {Object}
    */
-  _testValidatorCache: computed(() => ({})).readOnly(),
+  _testValidatorCache: computed(function () {
+    return {};
+  }).readOnly(),
 
   init() {
     this._super(...arguments);

@@ -21,7 +21,9 @@ module('Unit | Utils | deepSet', function () {
     deepSet(
       obj,
       'foo.bar',
-      computed(() => 1),
+      computed(function () {
+        return 1;
+      }),
       true
     );
     assert.ok(obj.foo instanceof EmberObject);

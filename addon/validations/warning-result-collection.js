@@ -5,11 +5,17 @@ import cycleBreaker from '../utils/cycle-breaker';
 import { flatten, uniq, compact } from '../utils/array';
 
 export default ResultCollection.extend({
-  isValid: computed(() => true).readOnly(),
+  isValid: computed(function () {
+    return true;
+  }).readOnly(),
   isTruelyValid: not('isValidating').readOnly(),
 
-  messages: computed(() => []).readOnly(),
-  errors: computed(() => []).readOnly(),
+  messages: computed(function () {
+    return [];
+  }).readOnly(),
+  errors: computed(function () {
+    return [];
+  }).readOnly(),
 
   warningMessages: computed(
     'content.@each.{messages,warningMessages}',
