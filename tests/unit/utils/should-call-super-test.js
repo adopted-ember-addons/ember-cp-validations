@@ -5,12 +5,15 @@ import shouldCallSuper from 'ember-cp-validations/utils/should-call-super';
 module('Unit | Utils | shouldCallSuper', function () {
   test('shouldCallSuper - true', function (assert) {
     let Parent = EmberObject.extend({
-      foo: computed(function () {}),
+      foo: computed(function () {
+        return null;
+      }),
     });
 
     let Child = Parent.extend({
       foo: computed(function () {
         assert.ok(shouldCallSuper(this, 'foo'));
+        return null;
       }),
     });
 
@@ -24,6 +27,7 @@ module('Unit | Utils | shouldCallSuper', function () {
     let Child = Parent.extend({
       foo: computed(function () {
         assert.notOk(shouldCallSuper(this, 'foo'));
+        return null;
       }),
     });
 
