@@ -1,28 +1,39 @@
 {{! template-lint-disable }}
 
-{{#bs-navbar fluid=true collapsed=true as |navbar|}}
+<BsNavbar fluid=true collapsed=true as |navbar|>
   <div class="navbar-header">
-    {{navbar.toggle}}
+    <navbar.toggle />
     <LinkTo @route='index' class='navbar-brand'>
       <img src='images/ember-logo.png' alt=''>
       <span>CP Validations</span>
     </LinkTo>
   </div>
 
-  {{#navbar.content}}
-    {{#navbar.nav class="navbar-right" as |nav|}}
-      {{#nav.dropdown as |dd|}}
-        {{#dd.toggle}}Documentation <span class="caret"></span>{{/dd.toggle}}
-        {{#dd.menu as |ddm|}}
-          {{#ddm.item}}<a href='docs'>v4.x</a>{{/ddm.item}}
-          {{#ddm.item}}<a href='https://rawgit.com/adopted-ember-addons/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html'>v3.x</a>{{/ddm.item}}
-          {{#ddm.item}}<a href='https://rawgit.com/adopted-ember-addons/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/index.html'>v2.x</a>{{/ddm.item}}
-        {{/dd.menu}}
-      {{/nav.dropdown}}
-      {{#nav.item}}<a href='https://github.com/adopted-ember-addons/ember-cp-validations' class='fa fa-github github'></a>{{/nav.item}}
-    {{/navbar.nav}}
-  {{/navbar.content}}
-{{/bs-navbar}}
+  <navbar.content>
+    <navbar.nav class="ml-auto" as |nav|>
+      <nav.dropdown as |dd|>
+        <dd.toggle>Documentation <span class="caret"></span></dd.toggle>
+        <dd.menu as |ddm|>
+          <ddm.item>
+            <a class="dropdown-item" href='docs'>v4.x</a>
+          </ddm.item>
+          <ddm.item>
+            <a class="dropdown-item" href='https://rawgit.com/adopted-ember-addons/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html'>v3.x</a>
+          </ddm.item>
+          <ddm.item>
+            <a class="dropdown-item" href='https://rawgit.com/adopted-ember-addons/ember-cp-validations/c08fedbf3dcfff1e8904a6469c8defd1fc2bfdf5/docs/index.html'>v2.x</a>
+          </ddm.item>
+        </dd.menu>
+      </nav.dropdown>
+    </navbar.nav>
+
+    <navbar.nav as |nav|>
+      <nav.item>
+        <a href='https://github.com/adopted-ember-addons/ember-cp-validations' class='fa fa-github github'></a>
+      </nav.item>
+    </navbar.nav>
+  </navbar.content>
+</BsNavbar>
 
 <div class='content'>
   {{outlet}}

@@ -1,4 +1,4 @@
-.navbar.navbar-default {
+.navbar.navbar-light {
   background-color: white;
   margin: 0;
   border-radius: 0;
@@ -21,20 +21,22 @@
       color: #444444;
     }
   }
-  .navbar-nav > li > a {
+  .navbar-nav a {
     font-size: 14px;
     font-weight: 200;
+    color: #444444;
 
-   > .fa-caret-down {
-     margin-left: 3px;
-   }
+    .fa-caret-down {
+      margin-left: 3px;
+      margin-right: 3px;
+    }
 
     &.github {
       font-size: 24px;
     }
   }
-  .navbar-nav > li > a:focus,
-  .navbar-nav > li > a:hover {
+  .navbar-nav a:focus,
+  .navbar-nav a:hover {
     color: $accent-color;
   }
   .navbar-nav > .active > a,
