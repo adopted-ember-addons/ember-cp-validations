@@ -1,11 +1,9 @@
 // BEGIN-SNIPPET user-detail-model
 import { computed } from '@ember/object';
 
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
 import moment from 'moment';
 import { validator, buildValidations } from 'ember-cp-validations';
-
-const { attr } = DS;
 
 const Validations = buildValidations(
   {
@@ -53,7 +51,7 @@ const Validations = buildValidations(
   }
 );
 
-export default DS.Model.extend(Validations, {
+export default Model.extend(Validations, {
   firstName: attr('string'),
   lastName: attr('string'),
   dob: attr('date'),

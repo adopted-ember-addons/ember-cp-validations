@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -16,7 +16,7 @@ const Validations = buildValidations({
   },
 });
 
-export default DS.Model.extend(Validations, {
-  source: DS.attr('string'),
-  lines: DS.hasMany('order-line', { async: true }),
+export default Model.extend(Validations, {
+  source: attr('string'),
+  lines: hasMany('order-line', { async: true }),
 });

@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations(
@@ -21,8 +21,8 @@ const Validations = buildValidations(
   }
 );
 
-export default DS.Model.extend(Validations, {
-  order: DS.belongsTo('order', { async: true }),
-  selection: DS.belongsTo('order-selection', { async: true }),
-  text: DS.attr('string'),
+export default Model.extend(Validations, {
+  order: belongsTo('order', { async: true }),
+  selection: belongsTo('order-selection', { async: true }),
+  text: attr('string'),
 });

@@ -1,8 +1,6 @@
 // BEGIN-SNIPPET user-model
-import DS from 'ember-data';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
-
-const { attr } = DS;
 
 const Validations = buildValidations(
   {
@@ -55,10 +53,10 @@ const Validations = buildValidations(
   }
 );
 
-export default DS.Model.extend(Validations, {
+export default Model.extend(Validations, {
   username: attr('string'),
   password: attr('string'),
   email: attr('string'),
-  details: DS.belongsTo('user-detail'),
+  details: belongsTo('user-detail'),
 });
 // END-SNIPPET

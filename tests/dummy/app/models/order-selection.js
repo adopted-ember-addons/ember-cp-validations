@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -35,9 +35,9 @@ const Validations = buildValidations({
   },
 });
 
-export default DS.Model.extend(Validations, {
-  order: DS.belongsTo('order', { async: true }),
-  line: DS.belongsTo('order-line', { async: true }),
-  questions: DS.hasMany('order-selection-question', { async: true }),
-  quantity: DS.attr('number'),
+export default Model.extend(Validations, {
+  order: belongsTo('order', { async: true }),
+  line: belongsTo('order-line', { async: true }),
+  questions: hasMany('order-selection-question', { async: true }),
+  quantity: attr('number'),
 });
