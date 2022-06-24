@@ -20,7 +20,19 @@ module.exports = {
     browser: true,
   },
   rules: {
-    'prettier/prettier': ['error', { singleQuote: true }]
+    'ember/no-actions-hash': 'off',
+    'ember/no-arrow-function-computed-properties': 'off',
+    'ember/no-classic-classes': 'off',
+    'ember/no-classic-components': 'off',
+    'ember/no-computed-properties-in-native-classes': 'off',
+    'ember/no-get': 'off',
+    'ember/no-new-mixins': 'off',
+    'ember/no-volatile-computed-properties': 'off',
+    'ember/require-computed-property-dependencies': 'off',
+    'ember/require-return-from-computed': 'off',
+    'ember/require-tagless-components': 'off',
+    'ember/use-ember-data-rfc-395-imports': 'off',
+    'prettier/prettier': 'off',
   },
   overrides: [
     // node files
@@ -50,6 +62,13 @@ module.exports = {
       // Test files:
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
+      rules: {
+        'qunit/no-assert-equal-boolean': 'off',
+        'qunit/no-assert-logical-expression': 'off',
+        'qunit/no-conditional-assertions': 'off',
+        'qunit/no-negated-ok': 'off',
+        'qunit/require-expect': 'off',
+      },
     },
   ],
 };
