@@ -1,13 +1,9 @@
 /* eslint-env node */
 
 var execSync = require('child_process').execSync;
-// eslint-disable-next-line node/no-unpublished-require
-var generateChangelog = require('ember-cli-changelog/lib/tasks/release-with-changelog');
 
 module.exports = {
   publish: true,
-
-  beforeCommit: generateChangelog,
 
   afterPublish: function (project, versions) {
     runCommand(
