@@ -12,6 +12,10 @@ module.exports = function (defaults) {
       importBootstrapFont: true,
       importBootstrapCSS: false,
     },
+
+    'ember-prism': {
+      'components': ['javascript', 'markup'],
+    },
   });
 
   /*
