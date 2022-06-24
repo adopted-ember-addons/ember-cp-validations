@@ -8,56 +8,56 @@ import setupObject from '../../helpers/setup-object';
 
 let defaultOptions, options, validator, message;
 
-module('Unit | Validator | base', function(hooks) {
+module('Unit | Validator | base', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = setupObject(this, BaseValidator);
   });
 
-  test('buildOptions - merge all options', function(assert) {
+  test('buildOptions - merge all options', function (assert) {
     assert.expect(1);
 
     options = {
-      foo: 'a'
+      foo: 'a',
     };
 
     defaultOptions = {
-      bar: 'b'
+      bar: 'b',
     };
 
     options = validator.buildOptions(options, defaultOptions);
     assert.deepEqual(options.getProperties(['foo', 'bar']), {
       foo: 'a',
-      bar: 'b'
+      bar: 'b',
     });
   });
 
-  test('buildOptions - does not overwrite options', function(assert) {
+  test('buildOptions - does not overwrite options', function (assert) {
     assert.expect(1);
 
     options = {
       foo: 'a',
-      bar: 'b'
+      bar: 'b',
     };
 
     defaultOptions = {
-      bar: 'c'
+      bar: 'c',
     };
 
     options = validator.buildOptions(options, defaultOptions);
     assert.deepEqual(options.getProperties(['foo', 'bar']), {
       foo: 'a',
-      bar: 'b'
+      bar: 'b',
     });
   });
 
-  test('buildOptions - toObject', function(assert) {
+  test('buildOptions - toObject', function (assert) {
     assert.expect(4);
 
     options = validator.buildOptions({
       foo: alias('bar'),
-      bar: 'bar'
+      bar: 'bar',
     });
 
     assert.ok(options instanceof EmberObject);
@@ -69,26 +69,26 @@ module('Unit | Validator | base', function(hooks) {
     assert.equal(optionsObj.foo, 'bar');
   });
 
-  test('createErrorMessage - message function', function(assert) {
+  test('createErrorMessage - message function', function (assert) {
     assert.expect(1);
 
     options = {
       message() {
         return '{description} has some sort of error';
-      }
+      },
     };
 
     message = validator.createErrorMessage(undefined, undefined, options);
     assert.equal(message, 'This field has some sort of error');
   });
 
-  test('value - default gets model value', function(assert) {
+  test('value - default gets model value', function (assert) {
     assert.expect(2);
 
     validator.setProperties({
       model: EmberObject.create({ foo: 'bar' }),
       attribute: 'foo',
-      options: {}
+      options: {},
     });
 
     validator.init();
@@ -97,7 +97,7 @@ module('Unit | Validator | base', function(hooks) {
     assert.equal(validator.getValue(), 'bar');
   });
 
-  test('value - overwrite value method via options', function(assert) {
+  test('value - overwrite value method via options', function (assert) {
     assert.expect(3);
 
     validator.setProperties({
@@ -106,8 +106,8 @@ module('Unit | Validator | base', function(hooks) {
       options: {
         value() {
           return this.get('model.bar');
-        }
-      }
+        },
+      },
     });
 
     validator.init();
@@ -117,11 +117,11 @@ module('Unit | Validator | base', function(hooks) {
     assert.notOk(validator.get('options.value'));
   });
 
-  test('message - handles SafeString', function(assert) {
+  test('message - handles SafeString', function (assert) {
     assert.expect(1);
 
     options = {
-      message: htmlSafe('should be more than &euro;15')
+      message: htmlSafe('should be more than &euro;15'),
     };
 
     message = validator.createErrorMessage(undefined, undefined, options);

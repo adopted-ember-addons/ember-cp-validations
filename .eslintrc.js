@@ -32,7 +32,7 @@ module.exports = {
     'ember/require-return-from-computed': 'off',
     'ember/require-tagless-components': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
-    'prettier/prettier': 'off',
+    'prettier/prettier': ['error', { singleQuote: true }],
   },
   overrides: [
     // node files

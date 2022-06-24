@@ -13,7 +13,7 @@ export default ResultCollection.extend({
 
   warningMessages: computed(
     'content.@each.{messages,warningMessages}',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return uniq(
         compact(
           flatten([this.getEach('messages'), this.getEach('warningMessages')])
@@ -25,10 +25,10 @@ export default ResultCollection.extend({
   warnings: computed(
     'attribute',
     'content.@each.{errors,warnings}',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return this._computeErrorCollection(
         flatten([this.getEach('errors'), this.getEach('warnings')])
       );
     })
-  ).readOnly()
+  ).readOnly(),
 });

@@ -21,22 +21,22 @@ const Validators = {
       return `${attr} should be present`;
     }
     return true;
-  }
+  },
 };
 
 let Validations = buildValidations({
   firstName: validator('inline', { validate: Validators.presence }),
-  lastName: validator('inline', { validate: Validators.presence })
+  lastName: validator('inline', { validate: Validators.presence }),
 });
 
-module('Integration | Validations | Factory - General', function(hooks) {
+module('Integration | Validations | Factory - General', function (hooks) {
   setupTest(hooks);
 
-  test('it works', function(assert) {
+  test('it works', function (assert) {
     assert.ok(buildValidations());
   });
 
-  test('basic sync validation – invalid', function(assert) {
+  test('basic sync validation – invalid', function (assert) {
     let object = setupObject(this, EmberObject.extend(Validations));
 
     assert.equal(
@@ -141,10 +141,10 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('basic sync validation - valid', function(assert) {
+  test('basic sync validation - valid', function (assert) {
     let object = setupObject(this, EmberObject.extend(Validations), {
       firstName: 'Stef',
-      lastName: 'Penner'
+      lastName: 'Penner',
     });
 
     assert.equal(
@@ -177,9 +177,9 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.attrs.lastName.message'), null);
   });
 
-  test('basic sync validation - 50% invalid', function(assert) {
+  test('basic sync validation - 50% invalid', function (assert) {
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: 'Stef'
+      firstName: 'Stef',
     });
 
     assert.equal(
@@ -215,9 +215,9 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('basic sync validation - API - #validation', function(assert) {
+  test('basic sync validation - API - #validation', function (assert) {
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: 'Stef'
+      firstName: 'Stef',
     });
 
     return object
@@ -226,10 +226,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
       .then(({ validations, model }) => {
         assert.equal(model, object, 'expected model to be the correct model');
         assert.deepEqual(
-          validations
-            .get('content')
-            .getEach('attribute')
-            .sort(),
+          validations.get('content').getEach('attribute').sort(),
           ['firstName', 'lastName'].sort()
         );
 
@@ -288,19 +285,16 @@ module('Integration | Validations | Factory - General', function(hooks) {
       });
   });
 
-  test('basic sync validation - API - #validationSync', function(assert) {
+  test('basic sync validation - API - #validationSync', function (assert) {
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: 'Stef'
+      firstName: 'Stef',
     });
 
     let { validations, model } = object.get('validations').validateSync();
 
     assert.equal(model, object, 'expected model to be the correct model');
     assert.deepEqual(
-      validations
-        .get('content')
-        .getEach('attribute')
-        .sort(),
+      validations.get('content').getEach('attribute').sort(),
       ['firstName', 'lastName'].sort()
     );
 
@@ -348,12 +342,12 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('basic sync validation returns null', function(assert) {
+  test('basic sync validation returns null', function (assert) {
     let Validations = buildValidations({
-      firstName: validator('inline', { validate: () => null })
+      firstName: validator('inline', { validate: () => null }),
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: 'Offir'
+      firstName: 'Offir',
     });
 
     assert.equal(
@@ -382,15 +376,15 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.attrs.firstName.message'), undefined);
   });
 
-  test('shallow isAsync test', function(assert) {
+  test('shallow isAsync test', function (assert) {
     let Validations = buildValidations({
       firstName: validator('inline', {
         validate() {
-          return new EmberPromise(resolve => {
+          return new EmberPromise((resolve) => {
             resolve(true);
           });
-        }
-      })
+        },
+      }),
     });
 
     let obj = setupObject(this, EmberObject.extend(Validations));
@@ -404,43 +398,43 @@ module('Integration | Validations | Factory - General', function(hooks) {
     });
   });
 
-  test('default options', function(assert) {
+  test('default options', function (assert) {
     let Validations = buildValidations({
       firstName: {
         description: 'Test field',
         validators: [
           validator('inline', { validate: Validators.presence }),
-          validator('inline', { validate: () => false })
-        ]
-      }
+          validator('inline', { validate: () => false }),
+        ],
+      },
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: ''
+      firstName: '',
     });
     let rules = A(object.get('validations._validationRules.firstName'));
     assert.equal(rules.isAny('defaultOptions', undefined), false);
     assert.equal(rules[0].defaultOptions.description, 'Test field');
   });
 
-  test('global options', function(assert) {
+  test('global options', function (assert) {
     this.owner.register('validator:length', LengthValidator);
 
     let Validations = buildValidations(
       {
         firstName: {
           description: 'Test field',
-          validators: [validator('length', { min: 1, max: 5 })]
-        }
+          validators: [validator('length', { min: 1, max: 5 })],
+        },
       },
       {
         message: 'Global error message',
         description: 'Default field',
-        max: 10
+        max: 10,
       }
     );
 
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: ''
+      firstName: '',
     });
 
     // Global options present in rules
@@ -457,19 +451,19 @@ module('Integration | Validations | Factory - General', function(hooks) {
         message: 'Global error message',
         description: 'Test field',
         min: 1,
-        max: 5
+        max: 5,
       }
     );
   });
 
-  test('custom messages object', function(assert) {
+  test('custom messages object', function (assert) {
     this.owner.register('validator:messages', DefaultMessages);
     let Validations = buildValidations({
       firstName: validator('inline', {
         validate(value) {
           return this.createErrorMessage('test', value);
-        }
-      })
+        },
+      }),
     });
 
     let object = setupObject(this, EmberObject.extend(Validations));
@@ -482,13 +476,13 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('null message object', function(assert) {
+  test('null message object', function (assert) {
     this.owner.register('validator:messages', DefaultMessages);
     let Validations = buildValidations({
       firstName: validator('presence', {
         presence: true,
-        message: null
-      })
+        message: null,
+      }),
     });
 
     let object = setupObject(this, EmberObject.extend(Validations));
@@ -499,16 +493,16 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('debounced validations', async function(assert) {
+  test('debounced validations', async function (assert) {
     let initSetup = true;
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
-        debounce: computed(function() {
+        debounce: computed(function () {
           return initSetup ? 0 : 500; // Do not debounce on initial object creation
-        }).volatile()
-      })
+        }).volatile(),
+      }),
     });
     let object = setupObject(this, EmberObject.extend(Validations));
 
@@ -554,13 +548,13 @@ module('Integration | Validations | Factory - General', function(hooks) {
     }, 505);
   });
 
-  test('debounced validator should only be called once', async function(assert) {
+  test('debounced validator should only be called once', async function (assert) {
     let count = 0;
     let Validations = buildValidations({
       firstName: validator('inline', {
         validate: () => count++,
-        debounce: 500
-      })
+        debounce: 500,
+      }),
     });
 
     let object = setupObject(this, EmberObject.extend(Validations));
@@ -579,27 +573,27 @@ module('Integration | Validations | Factory - General', function(hooks) {
     }, 505);
   });
 
-  test('debounced validations should cleanup on object destroy', function(assert) {
+  test('debounced validations should cleanup on object destroy', function (assert) {
     let done = assert.async();
     let initSetup = true;
 
     let debouncedValidator = validator('inline', {
-      debounce: computed(function() {
+      debounce: computed(function () {
         return initSetup ? 0 : 500;
       }).volatile(),
       validate(value, options, model, attr) {
         model.set('foo', 'bar');
         return Validators.presence(value, options, model, attr);
-      }
+      },
     });
 
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: debouncedValidator,
-      'details.url': debouncedValidator
+      'details.url': debouncedValidator,
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
-      details: {}
+      details: {},
     });
 
     assert.equal(
@@ -633,7 +627,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     initSetup = false;
     object.setProperties({
       lastName: 'Golan',
-      'details.url': 'github.com'
+      'details.url': 'github.com',
     });
     assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
     assert.equal(
@@ -654,13 +648,13 @@ module('Integration | Validations | Factory - General', function(hooks) {
     }, 200);
   });
 
-  test('disabled validations - simple', function(assert) {
+  test('disabled validations - simple', function (assert) {
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
-        disabled: true
-      })
+        disabled: true,
+      }),
     });
     let object = setupObject(this, EmberObject.extend(Validations));
 
@@ -693,19 +687,19 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.isValid'), true);
   });
 
-  test('disabled validations - cp with dependent key', function(assert) {
+  test('disabled validations - cp with dependent key', function (assert) {
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
-        disabled: not('model.validateLastName')
-      })
+        disabled: not('model.validateLastName'),
+      }),
     });
     let object = setupObject(
       this,
       EmberObject.extend(Validations, {
         firstName: 'Offir',
-        validateLastName: true
+        validateLastName: true,
       })
     );
 
@@ -739,7 +733,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.isValid'), true);
   });
 
-  test('attribute validation result options hash', function(assert) {
+  test('attribute validation result options hash', function (assert) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -750,15 +744,15 @@ module('Integration | Validations | Factory - General', function(hooks) {
           validator('inline', { validate: Validators.presence }),
           validator('inline', {
             validate: Validators.presence,
-            presence: true
+            presence: true,
           }),
           validator('presence', true),
           validator('length', {
             min: 1,
-            max: 5
-          })
-        ]
-      }
+            max: 5,
+          }),
+        ],
+      },
     });
     let object = setupObject(this, EmberObject.extend(Validations, { max: 5 }));
     let options = object.get('validations.attrs.firstName.options');
@@ -779,7 +773,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(options['inline'][0].description, 'First Name');
   });
 
-  test('attribute validation result options hash with cps', function(assert) {
+  test('attribute validation result options hash with cps', function (assert) {
     this.owner.register('validator:length', LengthValidator);
 
     let Validations = buildValidations({
@@ -787,10 +781,10 @@ module('Integration | Validations | Factory - General', function(hooks) {
         validators: [
           validator('length', {
             min: 1,
-            max: readOnly('model.max')
-          })
-        ]
-      }
+            max: readOnly('model.max'),
+          }),
+        ],
+      },
     });
     let object = setupObject(this, EmberObject.extend(Validations, { max: 5 }));
     let options = object.get('validations.attrs.firstName.options');
@@ -802,18 +796,18 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(options.length.max, 3);
   });
 
-  test('validations persist with inheritance', function(assert) {
+  test('validations persist with inheritance', function (assert) {
     let Parent = EmberObject.extend(
       buildValidations({
         firstName: validator('inline', { validate: Validators.presence }),
-        lastName: validator('inline', { validate: Validators.presence })
+        lastName: validator('inline', { validate: Validators.presence }),
       })
     );
 
     let Child = Parent.extend(
       buildValidations({
         middleName: validator('inline', { validate: Validators.presence }),
-        dob: validator('inline', { validate: Validators.presence })
+        dob: validator('inline', { validate: Validators.presence }),
       })
     );
 
@@ -830,39 +824,39 @@ module('Integration | Validations | Factory - General', function(hooks) {
 
     child.setProperties({
       middleName: 'John',
-      dob: '10/22/16'
+      dob: '10/22/16',
     });
 
     assert.equal(child.get('validations.errors.length'), 2);
 
     child.setProperties({
       firstName: 'Joe',
-      lastName: 'Jenkins'
+      lastName: 'Jenkins',
     });
 
     assert.equal(child.get('validations.isValid'), true);
     assert.equal(child.get('validations.errors.length'), 0);
   });
 
-  test('validations persist with deep inheritance', function(assert) {
+  test('validations persist with deep inheritance', function (assert) {
     let Parent = EmberObject.extend(
       buildValidations({
         firstName: validator('inline', { validate: Validators.presence }),
-        lastName: validator('inline', { validate: Validators.presence })
+        lastName: validator('inline', { validate: Validators.presence }),
       })
     );
 
     let Child = Parent.extend(
       buildValidations({
         middleName: validator('inline', { validate: Validators.presence }),
-        dob: validator('inline', { validate: Validators.presence })
+        dob: validator('inline', { validate: Validators.presence }),
       })
     );
 
     let Baby = Child.extend(
       buildValidations({
         diaper: validator('inline', { validate: Validators.presence }),
-        favParent: validator('inline', { validate: Validators.presence })
+        favParent: validator('inline', { validate: Validators.presence }),
       })
     );
 
@@ -880,40 +874,40 @@ module('Integration | Validations | Factory - General', function(hooks) {
         'middleName',
         'dob',
         'diaper',
-        'favParent'
+        'favParent',
       ].sort()
     );
 
     baby.setProperties({
       middleName: 'John',
-      dob: '10/22/16'
+      dob: '10/22/16',
     });
 
     assert.equal(baby.get('validations.errors.length'), 4);
 
     baby.setProperties({
       firstName: 'Joe',
-      lastName: 'Jenkins'
+      lastName: 'Jenkins',
     });
 
     assert.equal(baby.get('validations.errors.length'), 2);
 
     baby.setProperties({
       diaper: 'soiled',
-      favParent: 'mom'
+      favParent: 'mom',
     });
 
     assert.equal(baby.get('validations.isValid'), true);
     assert.equal(baby.get('validations.errors.length'), 0);
   });
 
-  test('nested keys - simple', function(assert) {
+  test('nested keys - simple', function (assert) {
     let Validations = buildValidations({
       'user.firstName': validator('inline', { validate: Validators.presence }),
-      'user.lastName': validator('inline', { validate: Validators.presence })
+      'user.lastName': validator('inline', { validate: Validators.presence }),
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
-      user: {}
+      user: {},
     });
 
     assert.equal(object.get('validations.attrs.user.firstName.isValid'), false);
@@ -931,13 +925,13 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.isValid'), true);
   });
 
-  test('nested keys - complex', function(assert) {
+  test('nested keys - complex', function (assert) {
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       'user.foo.bar.baz': validator('inline', {
-        validate: Validators.presence
+        validate: Validators.presence,
       }),
-      'user.foo.boop': validator('inline', { validate: Validators.presence })
+      'user.foo.boop': validator('inline', { validate: Validators.presence }),
     });
     let object = setupObject(this, EmberObject.extend(Validations));
 
@@ -983,16 +977,16 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.notOk(object.get(`validations.attrs.user.foo.${ATTRS_MODEL}`));
   });
 
-  test('nested keys - inheritance', function(assert) {
+  test('nested keys - inheritance', function (assert) {
     let Parent = EmberObject.extend(
       buildValidations({
         firstName: validator('inline', { validate: Validators.presence }),
         'user.firstName': validator('inline', {
-          validate: Validators.presence
+          validate: Validators.presence,
         }),
         'user.middleName': validator('inline', {
-          validate: Validators.presence
-        })
+          validate: Validators.presence,
+        }),
       })
     );
 
@@ -1002,8 +996,8 @@ module('Integration | Validations | Factory - General', function(hooks) {
         'user.middleName': validator('inline', {
           validate() {
             return 'Middle name invalid';
-          }
-        })
+          },
+        }),
       })
     );
 
@@ -1022,8 +1016,8 @@ module('Integration | Validations | Factory - General', function(hooks) {
       user: {
         firstName: 'Offir',
         middleName: 'David',
-        lastName: 'Golan'
-      }
+        lastName: 'Golan',
+      },
     });
 
     assert.equal(child.get('validations.errors.length'), 2);
@@ -1033,7 +1027,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
 
     child.setProperties({
-      firstName: 'John'
+      firstName: 'John',
     });
 
     assert.equal(child.get('validations.isValid'), false);
@@ -1041,12 +1035,12 @@ module('Integration | Validations | Factory - General', function(hooks) {
   });
 
   // https://github.com/adopted-ember-addons/ember-cp-validations/pull/656
-  skip('call super in validations class with no super property', function(assert) {
+  skip('call super in validations class with no super property', function (assert) {
     // see https://github.com/adopted-ember-addons/ember-cp-validations/issues/149
     assert.expect(1);
 
     let Validations = buildValidations({
-      firstName: validator('inline', { validate: Validators.presence })
+      firstName: validator('inline', { validate: Validators.presence }),
     });
 
     let mixin = Mixin.create({
@@ -1056,8 +1050,8 @@ module('Integration | Validations | Factory - General', function(hooks) {
           // this is no __validationsClass__ method on the super, it is wrapped
           // with the closest context which is the 'foo' action
           assert.ok(false); // should not reach here
-        }
-      }
+        },
+      },
     });
 
     let controller = setupObject(
@@ -1069,25 +1063,25 @@ module('Integration | Validations | Factory - General', function(hooks) {
             /* eslint-disable */
             let validations = this.get('validations');
             /* eslint-enable */
-          }
-        }
+          },
+        },
       })
     );
 
     controller.send('foo');
   });
 
-  test('multiple mixins', function(assert) {
+  test('multiple mixins', function (assert) {
     let Validations1 = buildValidations({
-      firstName: validator('inline', { validate: Validators.presence })
+      firstName: validator('inline', { validate: Validators.presence }),
     });
 
     let Validations2 = buildValidations({
-      middleName: validator('inline', { validate: Validators.presence })
+      middleName: validator('inline', { validate: Validators.presence }),
     });
 
     let Validations3 = buildValidations({
-      lastName: validator('inline', { validate: Validators.presence })
+      lastName: validator('inline', { validate: Validators.presence }),
     });
 
     let object = setupObject(
@@ -1119,15 +1113,15 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.isValid'), true);
   });
 
-  test('validateAttribute - sync validations', function(assert) {
+  test('validateAttribute - sync validations', function (assert) {
     let Validations = buildValidations({
       firstName: [
         validator('inline', { validate: Validators.presence }),
-        validator('inline', { validate: () => true })
-      ]
+        validator('inline', { validate: () => true }),
+      ],
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: 'Offir'
+      firstName: 'Offir',
     });
 
     return object
@@ -1140,19 +1134,19 @@ module('Integration | Validations | Factory - General', function(hooks) {
       });
   });
 
-  test('validateAttribute - async validations', function(assert) {
+  test('validateAttribute - async validations', function (assert) {
     let Validations = buildValidations({
       firstName: [
         validator('inline', {
-          validate: () => EmberPromise.resolve('firstName is invalid')
+          validate: () => EmberPromise.resolve('firstName is invalid'),
         }),
         validator('inline', {
-          validate: () => EmberPromise.resolve('firstName is really invalid')
-        })
-      ]
+          validate: () => EmberPromise.resolve('firstName is really invalid'),
+        }),
+      ],
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
-      firstName: 'Offir'
+      firstName: 'Offir',
     });
 
     return object
@@ -1164,7 +1158,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
       });
   });
 
-  test('warning validators api', function(assert) {
+  test('warning validators api', function (assert) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -1175,23 +1169,23 @@ module('Integration | Validations | Factory - General', function(hooks) {
           validator('presence', {
             presence: true,
             isWarning: true,
-            message: '{description} should not be empty'
+            message: '{description} should not be empty',
           }),
           validator('length', {
             min: 4,
             isWarning: true,
-            message: '{description} is weak'
+            message: '{description} is weak',
           }),
           validator('length', {
             min: 1,
-            max: 10
-          })
-        ]
-      }
+            max: 10,
+          }),
+        ],
+      },
     });
 
     let object = setupObject(this, EmberObject.extend(Validations), {
-      password: ''
+      password: '',
     });
 
     assert.equal(object.get('validations.isValid'), false);
@@ -1227,7 +1221,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('computed isWarning option', function(assert) {
+  test('computed isWarning option', function (assert) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -1239,19 +1233,19 @@ module('Integration | Validations | Factory - General', function(hooks) {
           validator('presence', {
             presence: true,
             isWarning: readOnly('model.isWarning'),
-            message: '{description} should not be empty'
+            message: '{description} should not be empty',
           }),
           validator('length', {
             min: 1,
-            max: 10
-          })
-        ]
-      }
+            max: 10,
+          }),
+        ],
+      },
     });
 
     let object = setupObject(this, EmberObject.extend(Validations), {
       password: '',
-      isWarning: false
+      isWarning: false,
     });
 
     assert.equal(object.get('validations.isValid'), false);
@@ -1264,7 +1258,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(object.get('validations.errors.length'), 1);
   });
 
-  test('options CP changes trigger attribute revalidation', function(assert) {
+  test('options CP changes trigger attribute revalidation', function (assert) {
     this.owner.register('validator:length', LengthValidator);
 
     let Validations = buildValidations(
@@ -1273,13 +1267,13 @@ module('Integration | Validations | Factory - General', function(hooks) {
           description: readOnly('model.description'),
           validators: [
             validator('length', {
-              min: alias('model.minLength')
-            })
-          ]
-        }
+              min: alias('model.minLength'),
+            }),
+          ],
+        },
       },
       {
-        disabled: not('model.enabled')
+        disabled: not('model.enabled'),
       }
     );
 
@@ -1289,7 +1283,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
         enabled: true,
         description: 'First Name',
         minLength: 6,
-        firstName: 'Offir'
+        firstName: 'Offir',
       })
     );
 
@@ -1322,7 +1316,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
 
     object.setProperties({
       description: 'Name',
-      minLength: 10
+      minLength: 10,
     });
 
     assert.equal(object.get('validations.attrs.firstName.isValid'), false);
@@ -1341,7 +1335,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('lazy validators are actually lazy', function(assert) {
+  test('lazy validators are actually lazy', function (assert) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -1353,16 +1347,16 @@ module('Integration | Validations | Factory - General', function(hooks) {
         validators: [
           validator('presence', true),
           validator('length', {
-            min: 5
+            min: 5,
           }),
           validator('inline', {
             validate() {
               customValidatorCount++;
               return 'Password is not valid';
-            }
-          })
-        ]
-      }
+            },
+          }),
+        ],
+      },
     });
 
     let object = setupObject(this, EmberObject.extend(Validations));
@@ -1406,7 +1400,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(customValidatorCount, 1, 'Last validator only executed once');
   });
 
-  test('none lazy validators are actually not lazy', function(assert) {
+  test('none lazy validators are actually not lazy', function (assert) {
     this.owner.register('validator:length', LengthValidator);
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -1419,17 +1413,17 @@ module('Integration | Validations | Factory - General', function(hooks) {
           validator('presence', true),
           validator('length', {
             min: 5,
-            lazy: false
+            lazy: false,
           }),
           validator('inline', {
             lazy: false,
             validate() {
               customValidatorCount++;
               return 'Password is not valid';
-            }
-          })
-        ]
-      }
+            },
+          }),
+        ],
+      },
     });
 
     let object = setupObject(this, EmberObject.extend(Validations));
@@ -1473,24 +1467,24 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(customValidatorCount, 3, 'Last validator executed 3 times');
   });
 
-  test('validator should return correct error type', function(assert) {
+  test('validator should return correct error type', function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register('validator:length', LengthValidator);
 
     let Validations = buildValidations({
       firstName: [
         validator('presence', true),
-        validator('length', { min: 5, max: 35 })
+        validator('length', { min: 5, max: 35 }),
       ],
       lastName: [
         validator('presence', true),
-        validator('length', { min: 5, max: 35 })
-      ]
+        validator('length', { min: 5, max: 35 }),
+      ],
     });
 
     let obj = setupObject(this, EmberObject.extend(Validations), {
       firstName: 'Foo',
-      lastName: null
+      lastName: null,
     });
 
     assert.equal(
@@ -1515,7 +1509,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('volatile validations should not recompute', function(assert) {
+  test('volatile validations should not recompute', function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
     this.owner.register('validator:length', LengthValidator);
 
@@ -1526,19 +1520,19 @@ module('Integration | Validations | Factory - General', function(hooks) {
           dependentKeys: ['model.foo'],
           min: 5,
           max: 35,
-          volatile: true
-        })
-      ]
+          volatile: true,
+        }),
+      ],
     });
 
     let obj = setupObject(
       this,
       EmberObject.extend(Validations, {
         isInvalid: not('validations.attrs.firstName.isValid'),
-        isInvalidGlobal: not('validations.attrs.isValid')
+        isInvalidGlobal: not('validations.attrs.isValid'),
       }),
       {
-        firstName: null
+        firstName: null,
       }
     );
 
@@ -1582,7 +1576,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
     );
   });
 
-  test('load test', function(assert) {
+  test('load test', function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
 
     let Validations = buildValidations({
@@ -1590,7 +1584,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
       b: validator('presence', true),
       c: validator('presence', true),
       d: validator('presence', true),
-      e: validator('presence', true)
+      e: validator('presence', true),
     });
 
     let Klass = EmberObject.extend(Validations, {
@@ -1598,7 +1592,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
       b: null,
       c: null,
       d: null,
-      e: null
+      e: null,
     });
 
     let items = A([]);
@@ -1608,7 +1602,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
         b: i,
         c: i,
         d: i,
-        e: i
+        e: i,
       });
       items.push(obj);
     }
@@ -1623,7 +1617,7 @@ module('Integration | Validations | Factory - General', function(hooks) {
         b: i + 1000,
         c: i + 1000,
         d: i + 1000,
-        e: i + 1000
+        e: i + 1000,
       });
     });
 

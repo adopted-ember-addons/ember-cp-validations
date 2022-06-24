@@ -17,7 +17,7 @@ export default Controller.extend({
             this.setProperties({
               showAlert: false,
               isRegistered: true,
-              showCode: false
+              showCode: false,
             });
           } else {
             this.set('showAlert', true);
@@ -27,6 +27,6 @@ export default Controller.extend({
 
     toggleProperty(p) {
       this.toggleProperty(p);
-    }
-  }
+    },
+  },
 });

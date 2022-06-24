@@ -12,5 +12,5 @@ export default Base.extend({
     }
 
     return result;
-  }
+  },
 });

@@ -17,10 +17,8 @@ const Validations = buildValidations(
         validator('presence', true),
         validator('date', {
           before: 'now',
-          after: computed(function() {
-            return moment()
-              .subtract(120, 'years')
-              .format('M/D/YYYY');
+          after: computed(function () {
+            return moment().subtract(120, 'years').format('M/D/YYYY');
           }).volatile(),
           format: 'M/D/YYYY',
           message(type, value /*, context */) {
@@ -33,25 +31,25 @@ const Validations = buildValidations(
                 'years'
               )} years old`;
             }
-          }
-        })
-      ]
+          },
+        }),
+      ],
     },
     phone: [
       validator('format', {
         allowBlank: true,
-        type: 'phone'
-      })
+        type: 'phone',
+      }),
     ],
     url: [
       validator('format', {
         allowBlank: true,
-        type: 'url'
-      })
-    ]
+        type: 'url',
+      }),
+    ],
   },
   {
-    debounce: 500
+    debounce: 500,
   }
 );
 
@@ -60,6 +58,6 @@ export default DS.Model.extend(Validations, {
   lastName: attr('string'),
   dob: attr('date'),
   phone: attr('string'),
-  url: attr('string')
+  url: attr('string'),
 });
 // END-SNIPPET

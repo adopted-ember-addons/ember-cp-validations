@@ -49,15 +49,17 @@ const Dependent = Base.extend({
     }
 
     let dependentValidations = getWithDefault(options, 'on', A()).map(
-      dependent => get(model, `validations.attrs.${dependent}`)
+      (dependent) => get(model, `validations.attrs.${dependent}`)
     );
 
-    if (!isEmpty(dependentValidations.filter(v => get(v, 'isTruelyInvalid')))) {
+    if (
+      !isEmpty(dependentValidations.filter((v) => get(v, 'isTruelyInvalid')))
+    ) {
       return this.createErrorMessage('invalid', value, options);
     }
 
     return true;
-  }
+  },
 });
 
 Dependent.reopenClass({
@@ -70,11 +72,11 @@ Dependent.reopenClass({
     );
 
     if (!isEmpty(dependents)) {
-      return dependents.map(dependent => `${dependent}.isTruelyValid`);
+      return dependents.map((dependent) => `${dependent}.isTruelyValid`);
     }
 
     return [];
-  }
+  },
 });
 
 export default Dependent;

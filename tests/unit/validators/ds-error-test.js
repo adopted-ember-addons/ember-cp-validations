@@ -5,14 +5,14 @@ import { setupTest } from 'ember-qunit';
 
 let model, validator, message;
 
-module('Unit | Validator | ds-error', function(hooks) {
+module('Unit | Validator | ds-error', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:ds-error');
   });
 
-  test('works with empty object', function(assert) {
+  test('works with empty object', function (assert) {
     assert.expect(1);
 
     model = EmberObject.create();
@@ -21,12 +21,12 @@ module('Unit | Validator | ds-error', function(hooks) {
     assert.equal(message, true);
   });
 
-  test('it works', function(assert) {
+  test('it works', function (assert) {
     assert.expect(2);
 
     model = EmberObject.create({
       errors: DS.Errors.create(),
-      username: null
+      username: null,
     });
 
     message = validator.validate(undefined, undefined, model, 'username');
@@ -38,12 +38,12 @@ module('Unit | Validator | ds-error', function(hooks) {
     assert.equal(message, 'Username is not unique');
   });
 
-  test('gets last message', function(assert) {
+  test('gets last message', function (assert) {
     assert.expect(2);
 
     model = EmberObject.create({
       errors: DS.Errors.create(),
-      username: null
+      username: null,
     });
 
     message = validator.validate(undefined, undefined, model, 'username');
