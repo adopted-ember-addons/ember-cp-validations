@@ -23,7 +23,7 @@ module('Unit | Utils | shouldCallSuper', function () {
 
     let Child = Parent.extend({
       foo: computed(function () {
-        assert.ok(!shouldCallSuper(this, 'foo'));
+        assert.notOk(shouldCallSuper(this, 'foo'));
       }),
     });
 

@@ -706,7 +706,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
       Object.keys(options).sort(),
       ['presence', 'length', 'inline'].sort()
     );
-    assert.ok(isArray(options['inline']) && options['inline'].length === 2);
+    assert.ok(isArray(options['inline']));
+    assert.strictEqual(options['inline'].length, 2);
     assert.ok(options.presence.presence);
     assert.equal(options.length.min, 1);
     assert.ok(options['inline'][1].presence);
