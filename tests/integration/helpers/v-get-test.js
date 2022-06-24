@@ -86,7 +86,7 @@ module('Integration | Helper | v-get', function (hooks) {
     );
 
     assert.dom(this.element).hasText('Button');
-    assert.equal(this.element.querySelector('button').disabled, true);
+    assert.true(this.element.querySelector('button').disabled);
   });
 
   test('element node attribute in class string', async function (assert) {

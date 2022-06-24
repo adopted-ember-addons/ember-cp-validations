@@ -33,7 +33,7 @@ module('Unit | Validator | exclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('foo', builtOptions.toObject());
     assert.equal(message, 'This field is reserved');
@@ -58,7 +58,7 @@ module('Unit | Validator | exclusion', function (hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('not in range', function (assert) {
@@ -80,10 +80,10 @@ module('Unit | Validator | exclusion', function (hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate(0, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(100, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('range type check - number', function (assert) {
@@ -102,10 +102,10 @@ module('Unit | Validator | exclusion', function (hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate('1', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('5', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('range type check - string', function (assert) {
@@ -124,9 +124,9 @@ module('Unit | Validator | exclusion', function (hooks) {
     assert.equal(message, 'This field is reserved');
 
     message = validator.validate(97, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('zzz', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

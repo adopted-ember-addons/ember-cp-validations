@@ -64,8 +64,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let friend = validations.get('content').findBy('attribute', 'friend');
 
-    assert.equal(friend.get('isValid'), false);
-    assert.equal(friend.get('isValidating'), false);
+    assert.false(friend.get('isValid'));
+    assert.false(friend.get('isValidating'));
     assert.equal(friend.get('message'), 'lastName should be present');
   });
 
@@ -85,8 +85,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let friend = validations.get('content').findBy('attribute', 'friend');
 
-    assert.equal(friend.get('isValid'), true);
-    assert.equal(friend.get('isValidating'), false);
+    assert.true(friend.get('isValid'));
+    assert.false(friend.get('isValidating'));
     assert.equal(friend.get('message'), undefined);
   });
 
@@ -111,7 +111,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let friends = validations.get('content').findBy('attribute', 'friends');
 
-    assert.equal(friends.get('isValid'), false);
+    assert.false(friends.get('isValid'));
     assert.equal(friends.get('message'), 'lastName should be present');
   });
 
@@ -136,7 +136,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let friends = validations.get('content').findBy('attribute', 'friends');
 
-    assert.equal(friends.get('isValid'), false);
+    assert.false(friends.get('isValid'));
     assert.equal(friends.get('message'), 'lastName should be present');
   });
 
@@ -154,8 +154,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -166,7 +166,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       let friends = validations.get('content').findBy('attribute', 'friends');
 
-      assert.equal(friends.get('isValid'), false);
+      assert.false(friends.get('isValid'));
       assert.equal(friends.get('message'), 'lastName should be present');
     });
 
@@ -191,8 +191,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -208,7 +208,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
         'lastName should be present'
       );
       assert.equal(friends.get('warningMessage'), 'lastName should be present');
-      assert.equal(friends.get('isValid'), true);
+      assert.true(friends.get('isValid'));
     });
 
     return validations;
@@ -228,8 +228,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -240,7 +240,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       let friend = validations.get('content').findBy('attribute', 'friend');
 
-      assert.equal(friend.get('isValid'), false);
+      assert.false(friend.get('isValid'));
       assert.equal(friend.get('message'), 'lastName should be present');
     });
 
@@ -265,8 +265,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -279,7 +279,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       assert.equal(friend.get('warning.message'), 'lastName should be present');
       assert.equal(friend.get('warningMessage'), 'lastName should be present');
-      assert.equal(friend.get('isValid'), true);
+      assert.true(friend.get('isValid'));
     });
 
     return validations;
@@ -295,8 +295,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -304,7 +304,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
         validations.get('content').getEach('attribute').sort(),
         ['friend'].sort()
       );
-      assert.equal(user.get('validations.isValid'), true);
+      assert.true(user.get('validations.isValid'));
     });
 
     return validations;
@@ -320,8 +320,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -329,7 +329,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
         validations.get('content').getEach('attribute').sort(),
         ['friends'].sort()
       );
-      assert.equal(user.get('validations.isValid'), true);
+      assert.true(user.get('validations.isValid'));
     });
 
     return validations;
@@ -345,8 +345,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     });
 
     let validations = user.get('validations').validate();
-    assert.equal(user.get('validations.isAsync'), true);
-    assert.equal(user.get('validations.isValidating'), true);
+    assert.true(user.get('validations.isAsync'));
+    assert.true(user.get('validations.isValidating'));
 
     validations.then(({ model, validations }) => {
       assert.equal(model, user, 'expected model to be the correct model');
@@ -357,7 +357,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       let friend = validations.get('content').findBy('attribute', 'friend');
 
-      assert.equal(friend.get('isValid'), false);
+      assert.false(friend.get('isValid'));
       assert.equal(friend.get('message'), undefined);
     });
 
@@ -380,10 +380,10 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     user.get('validations').validateSync();
 
-    assert.equal(user.get('validations.isValid'), false);
-    assert.equal(user.get('validations.isValidating'), false);
-    assert.equal(user.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+    assert.false(user.get('validations.isValid'));
+    assert.false(user.get('validations.isValidating'));
+    assert.false(user.get('validations.attrs.firstName.isValid'));
+    assert.false(user.get('validations.attrs.fullName.isValid'));
     assert.equal(
       user.get('validations.attrs.fullName.message'),
       'firstName should be present'
@@ -403,8 +403,8 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     user.set('firstName', 'Offir');
 
-    assert.equal(user.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(user.get('validations.attrs.fullName.isValid'), true);
+    assert.true(user.get('validations.attrs.firstName.isValid'));
+    assert.true(user.get('validations.attrs.fullName.isValid'));
   });
 
   test('alias validation - firstMessageOnly', function (assert) {
@@ -431,11 +431,11 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     user.get('validations').validateSync();
 
-    assert.equal(user.get('validations.isValid'), false);
-    assert.equal(user.get('validations.isValidating'), false);
-    assert.equal(user.get('validations.attrs.firstName.isValid'), false);
+    assert.false(user.get('validations.isValid'));
+    assert.false(user.get('validations.isValidating'));
+    assert.false(user.get('validations.attrs.firstName.isValid'));
     assert.equal(user.get('validations.attrs.firstName.messages.length'), 2);
-    assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+    assert.false(user.get('validations.attrs.fullName.isValid'));
     assert.equal(user.get('validations.attrs.fullName.messages.length'), 1);
     assert.equal(
       user.get('validations.attrs.fullName.message'),
@@ -465,11 +465,11 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     user.get('validations').validateSync();
 
-    assert.equal(user.get('validations.isValid'), false);
-    assert.equal(user.get('validations.isValidating'), false);
-    assert.equal(user.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(user.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+    assert.false(user.get('validations.isValid'));
+    assert.false(user.get('validations.isValidating'));
+    assert.false(user.get('validations.attrs.firstName.isValid'));
+    assert.false(user.get('validations.attrs.lastName.isValid'));
+    assert.false(user.get('validations.attrs.fullName.isValid'));
     assert.deepEqual(
       user.get('validations.attrs.fullName.messages').sort(),
       ['firstName should be present', 'lastName should be present'].sort()
@@ -483,14 +483,14 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     user.set('firstName', 'Offir');
 
-    assert.equal(user.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(user.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(user.get('validations.attrs.fullName.isValid'), false);
+    assert.true(user.get('validations.attrs.firstName.isValid'));
+    assert.false(user.get('validations.attrs.lastName.isValid'));
+    assert.false(user.get('validations.attrs.fullName.isValid'));
 
     user.set('lastName', 'Golan');
 
-    assert.equal(user.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(user.get('validations.attrs.fullName.isValid'), true);
+    assert.true(user.get('validations.attrs.lastName.isValid'));
+    assert.true(user.get('validations.attrs.fullName.isValid'));
   });
 
   test('presence on empty DS.PromiseObject', function (assert) {
@@ -514,7 +514,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let friend = validations.get('content').findBy('attribute', 'friend');
 
-    assert.equal(friend.get('isValid'), false);
+    assert.false(friend.get('isValid'));
     assert.equal(friend.get('message'), "This field can't be blank");
   });
 
@@ -539,7 +539,7 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
     let friends = validations.get('content').findBy('attribute', 'friends');
 
-    assert.equal(friends.get('isValid'), false);
+    assert.false(friends.get('isValid'));
     assert.equal(friends.get('message'), "This field can't be blank");
   });
 
@@ -563,47 +563,37 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     user
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           friend.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           user.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
-          validations.get('isValid'),
-          false,
-          'User should not be valid'
-        );
+        assert.false(validations.get('isValid'), 'User should not be valid');
 
         friend.set('name', 'Offir');
         return user.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           friend.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           user.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(validations.get('isValid'), true, 'User should be valid');
+        assert.true(validations.get('isValid'), 'User should be valid');
         done();
       });
   });
@@ -629,47 +619,37 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     user
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           friend.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           user.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
-          validations.get('isValid'),
-          false,
-          'User should not be valid'
-        );
+        assert.false(validations.get('isValid'), 'User should not be valid');
 
         friend.set('name', 'Offir');
         return user.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           friend.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           user.get('validations.isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(validations.get('isValid'), true, 'User should be valid');
+        assert.true(validations.get('isValid'), 'User should be valid');
         done();
       });
   });
@@ -696,22 +676,19 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     );
 
     user.validate().then(({ validations }) => {
-      assert.equal(
+      assert.false(
         user.get('validations.isValidating'),
-        false,
         'All promises should be resolved'
       );
-      assert.equal(
+      assert.false(
         user2.get('validations.isValidating'),
-        false,
         'All promises should be resolved'
       );
-      assert.equal(
+      assert.false(
         validations.get('isValidating'),
-        false,
         'All promises should be resolved'
       );
-      assert.equal(validations.get('isValid'), true, 'User should be valid');
+      assert.true(validations.get('isValid'), 'User should be valid');
       done();
     });
   });

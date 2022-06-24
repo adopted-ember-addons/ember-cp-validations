@@ -51,53 +51,45 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
     order
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order should not be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Line should not be valid because of Order Selection Question'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection should not be valid because of Order Selection Question'
         );
         return orderSelectionQuestion.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection Question should not be valid'
         );
         done();
@@ -146,53 +138,45 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
     order
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order should be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Line should be valid because of Order Selection Question'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection should be valid because of Order Selection Question'
         );
         return orderSelectionQuestion.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection Question should be valid'
         );
         done();
@@ -240,53 +224,45 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
     orderSelectionQuestion
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection Question should not be valid'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection should not be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Line should not be valid because of Order Selection Question'
         );
         return order.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order should not be valid because of Order Selection Question'
         );
         done();
@@ -335,53 +311,45 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
     orderSelectionQuestion
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection Question should be valid'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection should be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Line should be valid because of Order Selection Question'
         );
         return order.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order should be valid because of Order Selection Question'
         );
         done();
@@ -455,27 +423,24 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
     orderSelectionQuestion2
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection Question 2 should be invalid'
         );
 
         return orderSelectionQuestion.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection Question should be valid'
         );
 
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection should be invalid because of Order Selection Question 2'
         );
         orderSelectionQuestion2.deleteRecord();
@@ -483,9 +448,8 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection should be valid because invalid Order Selection Question 2 was marked deleted'
         );
 
@@ -493,9 +457,8 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
         return orderSelection.validate();
       })
       .then(() => {
-        assert.equal(
+        assert.false(
           orderSelection.get('validations.attrs.questions.isValid'),
-          false,
           'Order Selection should not be valid because all Order Selection Questions have been marked deleted'
         );
 
@@ -503,9 +466,8 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
         return orderSelection.validate();
       })
       .then(() => {
-        assert.equal(
+        assert.false(
           orderSelection.get('validations.attrs.order.isValid'),
-          false,
           'Order Selection should not be valid because Order was marked for deletion'
         );
 

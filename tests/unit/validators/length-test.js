@@ -16,7 +16,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions({});
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('allow blank', function (assert) {
@@ -30,7 +30,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('test', builtOptions.toObject());
     assert.equal(message, 'This field is too short (minimum is 5 characters)');
@@ -46,7 +46,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     options.allowNone = false;
     builtOptions = validator.buildOptions(options);
@@ -71,7 +71,7 @@ module('Unit | Validator | length', function (hooks) {
     );
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('min', function (assert) {
@@ -87,7 +87,7 @@ module('Unit | Validator | length', function (hooks) {
     assert.equal(message, 'This field is too short (minimum is 5 characters)');
 
     message = validator.validate('testing', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('max', function (assert) {
@@ -103,7 +103,7 @@ module('Unit | Validator | length', function (hooks) {
     assert.equal(message, 'This field is too long (maximum is 5 characters)');
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('array', function (assert) {
@@ -119,6 +119,6 @@ module('Unit | Validator | length', function (hooks) {
     assert.equal(message, 'This field is too short (minimum is 1 characters)');
 
     message = validator.validate([1], builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

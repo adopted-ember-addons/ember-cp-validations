@@ -42,13 +42,13 @@ module('Unit | Validator | dependent', function (hooks) {
 
     model = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(get(model, 'validations.isValid'), false);
+    assert.false(get(model, 'validations.isValid'));
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.equal(message, 'This field is invalid');
     assert.equal(get(model, 'validations.messages.length'), 1);
-    assert.equal(get(model, 'validations.isValid'), false);
+    assert.false(get(model, 'validations.isValid'));
   });
 
   test('one dependent error', function (assert) {
@@ -61,13 +61,13 @@ module('Unit | Validator | dependent', function (hooks) {
       firstName: 'Offir',
     });
 
-    assert.equal(get(model, 'validations.isValid'), false);
+    assert.false(get(model, 'validations.isValid'));
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.equal(message, 'This field is invalid');
     assert.equal(get(model, 'validations.messages.length'), 1);
-    assert.equal(get(model, 'validations.isValid'), false);
+    assert.false(get(model, 'validations.isValid'));
   });
 
   test('no dependent errors', function (assert) {
@@ -80,12 +80,12 @@ module('Unit | Validator | dependent', function (hooks) {
       lastName: 'Golan',
     });
 
-    assert.equal(get(model, 'validations.isValid'), true);
+    assert.true(get(model, 'validations.isValid'));
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
-    assert.equal(message, true);
+    assert.true(message);
     assert.equal(get(model, 'validations.messages.length'), 0);
-    assert.equal(get(model, 'validations.isValid'), true);
+    assert.true(get(model, 'validations.isValid'));
   });
 });

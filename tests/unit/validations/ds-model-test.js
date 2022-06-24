@@ -10,9 +10,8 @@ module('Unit | Validations | DS.Model', function (hooks) {
       this.owner.lookup('service:store').createRecord('signup')
     );
 
-    assert.equal(
+    assert.false(
       object.get('validations.attrs.acceptTerms.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
 
@@ -20,9 +19,8 @@ module('Unit | Validations | DS.Model', function (hooks) {
       object.set('acceptTerms', true);
     });
 
-    assert.equal(
+    assert.true(
       object.get('validations.attrs.acceptTerms.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
   });
@@ -34,9 +32,8 @@ module('Unit | Validations | DS.Model', function (hooks) {
         .createRecord('signup', { acceptTerms: true })
     );
 
-    assert.equal(
+    assert.true(
       object.get('validations.attrs.acceptTerms.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
 
@@ -44,9 +41,8 @@ module('Unit | Validations | DS.Model', function (hooks) {
       object.set('acceptTerms', false);
     });
 
-    assert.equal(
+    assert.false(
       object.get('validations.attrs.acceptTerms.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
   });

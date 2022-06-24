@@ -31,11 +31,11 @@ module(
         array: A(['foo', 'bar']),
       });
 
-      assert.equal(obj.get('validations.attrs.array.isValid'), true);
+      assert.true(obj.get('validations.attrs.array.isValid'));
 
       obj.get('array').removeObject('bar');
 
-      assert.equal(obj.get('validations.attrs.array.isValid'), false);
+      assert.false(obj.get('validations.attrs.array.isValid'));
       assert.equal(
         obj.get('validations.attrs.array.message'),
         'Array must have 2 items'
@@ -54,11 +54,11 @@ module(
         username: '',
       });
 
-      assert.equal(obj.get('validations.attrs.username.isValid'), true);
+      assert.true(obj.get('validations.attrs.username.isValid'));
 
       obj.get('errors').add('username', 'Username is not unique');
 
-      assert.equal(obj.get('validations.attrs.username.isValid'), false);
+      assert.false(obj.get('validations.attrs.username.isValid'));
       assert.equal(
         obj.get('validations.attrs.username.message'),
         'Username is not unique'
@@ -80,11 +80,11 @@ module(
         }),
       });
 
-      assert.equal(obj.get('validations.attrs.model.username.isValid'), true);
+      assert.true(obj.get('validations.attrs.model.username.isValid'));
 
       obj.get('model.errors').add('username', 'Username is not unique');
 
-      assert.equal(obj.get('validations.attrs.model.username.isValid'), false);
+      assert.false(obj.get('validations.attrs.model.username.isValid'));
       assert.equal(
         obj.get('validations.attrs.model.username.message'),
         'Username is not unique'
@@ -108,8 +108,8 @@ module(
 
       let obj = setupObject(this, EmberObject.extend(Validations));
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.fullName.isValid'));
       assert.equal(
         obj.get('validations.attrs.fullName.message'),
         'Full name requires first and last name'
@@ -118,8 +118,8 @@ module(
       obj.set('firstName', 'Offir');
       obj.set('lastName', 'Golan');
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.fullName.isValid'));
     });
 
     test('custom dependent keys - default options', function (assert) {
@@ -144,8 +144,8 @@ module(
 
       let obj = setupObject(this, EmberObject.extend(Validations));
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.fullName.isValid'));
       assert.equal(
         obj.get('validations.attrs.fullName.message'),
         'Full name requires first and last name'
@@ -154,8 +154,8 @@ module(
       obj.set('firstName', 'Offir');
       obj.set('lastName', 'Golan');
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.fullName.isValid'));
     });
 
     test('custom dependent keys - global options', function (assert) {
@@ -186,8 +186,8 @@ module(
 
       let obj = setupObject(this, EmberObject.extend(Validations));
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.fullName.isValid'));
       assert.equal(
         obj.get('validations.attrs.fullName.message'),
         'Full name requires first, middle, and last name'
@@ -196,13 +196,13 @@ module(
       obj.set('firstName', 'Offir');
       obj.set('lastName', 'Golan');
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.fullName.isValid'));
 
       obj.set('middleName', 'David');
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.fullName.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.fullName.isValid'));
     });
 
     test('custom dependent keys - nested object', function (assert) {
@@ -229,13 +229,13 @@ module(
         currPage: 4,
       });
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.page.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.page.isValid'));
 
       obj.set('currPage', 6);
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.page.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.page.isValid'));
       assert.equal(
         obj.get('validations.attrs.page.message'),
         'Cannot exceed max page'
@@ -243,8 +243,8 @@ module(
 
       obj.set('meta.pages.last', 7);
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.page.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.page.isValid'));
     });
 
     test('custom dependent keys - array', function (assert) {
@@ -265,8 +265,8 @@ module(
         friends: A(),
       });
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.friends.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.equal(
         obj.get('validations.attrs.friends.message'),
         'User must have a friend'
@@ -274,13 +274,13 @@ module(
 
       obj.get('friends').pushObject('Offir');
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.friends.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.friends.isValid'));
 
       obj.get('friends').removeObject('Offir');
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.friends.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.equal(
         obj.get('validations.attrs.friends.message'),
         'User must have a friend'
@@ -310,8 +310,8 @@ module(
         friends: A(),
       });
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.friends.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.equal(
         obj.get('validations.attrs.friends.message'),
         'User must have a friend'
@@ -323,13 +323,13 @@ module(
         })
       );
 
-      assert.equal(obj.get('validations.isValid'), true);
-      assert.equal(obj.get('validations.attrs.friends.isValid'), true);
+      assert.true(obj.get('validations.isValid'));
+      assert.true(obj.get('validations.attrs.friends.isValid'));
 
       obj.get('friends.0').set('name', undefined);
 
-      assert.equal(obj.get('validations.isValid'), false);
-      assert.equal(obj.get('validations.attrs.friends.isValid'), false);
+      assert.false(obj.get('validations.isValid'));
+      assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.equal(
         obj.get('validations.attrs.friends.message'),
         'All friends must have a name'

@@ -16,10 +16,10 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions({});
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('allow string', function (assert) {
@@ -31,10 +31,10 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('22', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('22.22', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('test', builtOptions.toObject());
     assert.equal(message, 'This field must be a number');
@@ -61,7 +61,7 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(22.22, builtOptions.toObject());
     assert.equal(message, 'This field must be an integer');
@@ -82,7 +82,7 @@ module('Unit | Validator | number', function (hooks) {
     assert.equal(message, 'This field must be equal to 22');
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('lt', function (assert) {
@@ -94,7 +94,7 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(21, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(22, builtOptions.toObject());
     assert.equal(message, 'This field must be less than 22');
@@ -112,10 +112,10 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(21, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(23, builtOptions.toObject());
     assert.equal(message, 'This field must be less than or equal to 22');
@@ -136,7 +136,7 @@ module('Unit | Validator | number', function (hooks) {
     assert.equal(message, 'This field must be greater than 22');
 
     message = validator.validate(23, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('gte', function (assert) {
@@ -151,10 +151,10 @@ module('Unit | Validator | number', function (hooks) {
     assert.equal(message, 'This field must be greater than or equal to 22');
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(23, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('positive', function (assert) {
@@ -172,10 +172,10 @@ module('Unit | Validator | number', function (hooks) {
     assert.equal(message, 'This field must be positive');
 
     message = validator.validate(0, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('odd', function (assert) {
@@ -193,10 +193,10 @@ module('Unit | Validator | number', function (hooks) {
     assert.equal(message, 'This field must be odd');
 
     message = validator.validate(21, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(-21, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('even', function (assert) {
@@ -208,10 +208,10 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(-22, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(22.22, builtOptions.toObject());
     assert.equal(message, 'This field must be even');
@@ -232,12 +232,12 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(null, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

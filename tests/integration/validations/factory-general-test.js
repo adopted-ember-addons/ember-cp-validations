@@ -39,36 +39,32 @@ module('Integration | Validations | Factory - General', function (hooks) {
   test('basic sync validation – invalid', function (assert) {
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(
       object.get('validations.attrs.firstName.message'),
       'firstName should be present'
     );
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(
       object.get('validations.attrs.lastName.message'),
       'lastName should be present'
@@ -105,33 +101,29 @@ module('Integration | Validations | Factory - General', function (hooks) {
     object.set('firstName', 'stef');
     object.set('lastName', 'penner');
 
-    assert.equal(
+    assert.true(
       object.get('validations.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be TRUE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyValid'),
-      true,
       'isTruelyValid was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyInvalid'),
-      false,
       'isTruelyInvalid was expected to be FALSE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(object.get('validations.attrs.firstName.message'), null);
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.true(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(object.get('validations.attrs.lastName.message'), null);
 
     assert.equal(
@@ -147,33 +139,29 @@ module('Integration | Validations | Factory - General', function (hooks) {
       lastName: 'Penner',
     });
 
-    assert.equal(
+    assert.true(
       object.get('validations.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyValid'),
-      true,
       'isTruelyValid was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyInvalid'),
-      false,
       'isTruelyInvalid was expected to be FALSE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(object.get('validations.attrs.firstName.message'), null);
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.true(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(object.get('validations.attrs.lastName.message'), null);
   });
 
@@ -182,33 +170,29 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Stef',
     });
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(object.get('validations.attrs.firstName.message'), null);
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(
       object.get('validations.attrs.lastName.message'),
       'lastName should be present'
@@ -237,47 +221,37 @@ module('Integration | Validations | Factory - General', function (hooks) {
           .get('content')
           .findBy('attribute', 'lastName');
 
-        assert.equal(firstName.get('isValid'), true);
-        assert.equal(firstName.get('isValidating'), false);
+        assert.true(firstName.get('isValid'));
+        assert.false(firstName.get('isValidating'));
         assert.equal(firstName.get('message'), undefined);
 
-        assert.equal(lastName.get('isValid'), false);
-        assert.equal(lastName.get('isValidating'), false);
+        assert.false(lastName.get('isValid'));
+        assert.false(lastName.get('isValidating'));
         assert.equal(lastName.get('message'), 'lastName should be present');
 
-        assert.equal(
+        assert.false(
           object.get('validations.isValid'),
-          false,
           'isValid was expected to be FALSE'
         );
-        assert.equal(
+        assert.false(
           object.get('validations.isValidating'),
-          false,
           'isValidating was expected to be FALSE'
         );
-        assert.equal(
+        assert.false(
           object.get('validations.isTruelyValid'),
-          false,
           'isTruelyValid was expected to be FALSE'
         );
-        assert.equal(
+        assert.true(
           object.get('validations.isTruelyInvalid'),
-          true,
           'isTruelyInvalid was expected to be TRUE'
         );
 
-        assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-        assert.equal(
-          object.get('validations.attrs.firstName.isValidating'),
-          false
-        );
+        assert.true(object.get('validations.attrs.firstName.isValid'));
+        assert.false(object.get('validations.attrs.firstName.isValidating'));
         assert.equal(object.get('validations.attrs.firstName.message'), null);
 
-        assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-        assert.equal(
-          object.get('validations.attrs.lastName.isValidating'),
-          false
-        );
+        assert.false(object.get('validations.attrs.lastName.isValid'));
+        assert.false(object.get('validations.attrs.lastName.isValidating'));
         assert.equal(
           object.get('validations.attrs.lastName.message'),
           'lastName should be present'
@@ -301,41 +275,37 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let firstName = validations.get('content').findBy('attribute', 'firstName');
     let lastName = validations.get('content').findBy('attribute', 'lastName');
 
-    assert.equal(firstName.get('isValid'), true);
-    assert.equal(firstName.get('isValidating'), false);
+    assert.true(firstName.get('isValid'));
+    assert.false(firstName.get('isValidating'));
     assert.equal(firstName.get('message'), undefined);
 
-    assert.equal(lastName.get('isValid'), false);
-    assert.equal(lastName.get('isValidating'), false);
+    assert.false(lastName.get('isValid'));
+    assert.false(lastName.get('isValidating'));
     assert.equal(lastName.get('message'), 'lastName should be present');
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(object.get('validations.attrs.firstName.message'), null);
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(
       object.get('validations.attrs.lastName.message'),
       'lastName should be present'
@@ -350,29 +320,25 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'Offir',
     });
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(object.get('validations.attrs.firstName.message'), undefined);
   });
 
@@ -389,12 +355,12 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let obj = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(obj.get('validations.attrs.firstName.isAsync'), true);
-    assert.equal(obj.get('validations.attrs.firstName.isValidating'), true);
+    assert.true(obj.get('validations.attrs.firstName.isAsync'));
+    assert.true(obj.get('validations.attrs.firstName.isValidating'));
 
     return obj.validate().then(({ model }) => {
-      assert.equal(model.get('validations.isValid'), true);
-      assert.equal(model.get('validations.isValidating'), false);
+      assert.true(model.get('validations.isValid'));
+      assert.false(model.get('validations.isValidating'));
     });
   });
 
@@ -412,7 +378,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: '',
     });
     let rules = A(object.get('validations._validationRules.firstName'));
-    assert.equal(rules.isAny('defaultOptions', undefined), false);
+    assert.false(rules.isAny('defaultOptions', undefined));
     assert.equal(rules[0].defaultOptions.description, 'Test field');
   });
 
@@ -439,7 +405,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     // Global options present in rules
     let rules = A(object.get('validations._validationRules.firstName'));
-    assert.equal(rules.isAny('globalOptions', undefined), false);
+    assert.false(rules.isAny('globalOptions', undefined));
     assert.equal(rules[0].globalOptions.max, 10);
 
     assert.ok(object.get('validations.attrs.firstName.isInvalid'));
@@ -468,8 +434,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(object.get('validations.attrs.firstName.isValidating'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValidating'));
     assert.equal(
       object.get('validations.attrs.firstName.message'),
       'Test error message'
@@ -506,29 +472,25 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(
       object.get('validations.attrs.lastName.message'),
       'lastName should be present'
@@ -536,14 +498,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     initSetup = false;
     object.set('lastName', 'Golan');
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
+    assert.true(object.get('validations.attrs.lastName.isValidating'));
 
     await run.later(() => {
-      assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-      assert.equal(
-        object.get('validations.attrs.lastName.isValidating'),
-        false
-      );
+      assert.true(object.get('validations.attrs.lastName.isValid'));
+      assert.false(object.get('validations.attrs.lastName.isValidating'));
       assert.equal(object.get('validations.attrs.lastName.message'), null);
     }, 505);
   });
@@ -596,29 +555,25 @@ module('Integration | Validations | Factory - General', function (hooks) {
       details: {},
     });
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), false);
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValidating'));
     assert.equal(
       object.get('validations.attrs.lastName.message'),
       'lastName should be present'
@@ -629,11 +584,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
       lastName: 'Golan',
       'details.url': 'github.com',
     });
-    assert.equal(object.get('validations.attrs.lastName.isValidating'), true);
-    assert.equal(
-      object.get('validations.attrs.details.url.isValidating'),
-      true
-    );
+    assert.true(object.get('validations.attrs.lastName.isValidating'));
+    assert.true(object.get('validations.attrs.details.url.isValidating'));
 
     run.later(() => {
       try {
@@ -658,33 +610,29 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+    assert.true(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.attrs.firstName.isValid'));
 
     object.set('firstName', 'Offir');
 
-    assert.equal(object.get('validations.isValid'), true);
+    assert.true(object.get('validations.isValid'));
   });
 
   test('disabled validations - cp with dependent key', function (assert) {
@@ -703,34 +651,30 @@ module('Integration | Validations | Factory - General', function (hooks) {
       })
     );
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be TRUE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.true(object.get('validations.attrs.firstName.isValid'));
 
     object.set('validateLastName', false);
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(object.get('validations.isValid'), true);
+    assert.true(object.get('validations.attrs.lastName.isValid'));
+    assert.true(object.get('validations.isValid'));
   });
 
   test('attribute validation result options hash', function (assert) {
@@ -816,7 +760,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     child.validateSync();
 
     assert.equal(child.get('validations.errors.length'), 4);
-    assert.equal(child.get('validations.isValid'), false);
+    assert.false(child.get('validations.isValid'));
     assert.deepEqual(
       child.get('validations.validatableAttributes').sort(),
       ['firstName', 'lastName', 'middleName', 'dob'].sort()
@@ -834,7 +778,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       lastName: 'Jenkins',
     });
 
-    assert.equal(child.get('validations.isValid'), true);
+    assert.true(child.get('validations.isValid'));
     assert.equal(child.get('validations.errors.length'), 0);
   });
 
@@ -865,7 +809,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     baby.validateSync();
 
     assert.equal(baby.get('validations.errors.length'), 6);
-    assert.equal(baby.get('validations.isValid'), false);
+    assert.false(baby.get('validations.isValid'));
     assert.deepEqual(
       baby.get('validations.validatableAttributes').sort(),
       [
@@ -897,7 +841,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       favParent: 'mom',
     });
 
-    assert.equal(baby.get('validations.isValid'), true);
+    assert.true(baby.get('validations.isValid'));
     assert.equal(baby.get('validations.errors.length'), 0);
   });
 
@@ -910,19 +854,19 @@ module('Integration | Validations | Factory - General', function (hooks) {
       user: {},
     });
 
-    assert.equal(object.get('validations.attrs.user.firstName.isValid'), false);
-    assert.equal(object.get('validations.attrs.user.lastName.isValid'), false);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.false(object.get('validations.attrs.user.firstName.isValid'));
+    assert.false(object.get('validations.attrs.user.lastName.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('user.firstName', 'Offir');
 
-    assert.equal(object.get('validations.attrs.user.firstName.isValid'), true);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.true(object.get('validations.attrs.user.firstName.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('user.lastName', 'Golan');
 
-    assert.equal(object.get('validations.attrs.user.lastName.isValid'), true);
-    assert.equal(object.get('validations.isValid'), true);
+    assert.true(object.get('validations.attrs.user.lastName.isValid'));
+    assert.true(object.get('validations.isValid'));
   });
 
   test('nested keys - complex', function (assert) {
@@ -935,40 +879,31 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(
-      object.get('validations.attrs.user.foo.bar.baz.isValid'),
-      false
-    );
-    assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), false);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.user.foo.bar.baz.isValid'));
+    assert.false(object.get('validations.attrs.user.foo.boop.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('user', { foo: { bar: {} } });
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(
-      object.get('validations.attrs.user.foo.bar.baz.isValid'),
-      false
-    );
-    assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), false);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.user.foo.bar.baz.isValid'));
+    assert.false(object.get('validations.attrs.user.foo.boop.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('firstName', 'Offir');
     object.set('user.foo.bar.baz', 'blah');
     object.set('user.foo.boop', 'blah');
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(
-      object.get('validations.attrs.user.foo.bar.baz.isValid'),
-      true
-    );
-    assert.equal(object.get('validations.attrs.user.foo.boop.isValid'), true);
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.true(object.get('validations.attrs.user.foo.bar.baz.isValid'));
+    assert.true(object.get('validations.attrs.user.foo.boop.isValid'));
 
     assert.ok(object.get(`validations.attrs.${ATTRS_MODEL}`));
     assert.ok(object.get(`validations.attrs.user.foo.bar.${ATTRS_MODEL}`));
     assert.ok(object.get(`validations.attrs.user.foo.${ATTRS_MODEL}`));
 
-    assert.equal(object.get('validations.isValid'), true);
+    assert.true(object.get('validations.isValid'));
 
     run(() => object.destroy());
 
@@ -1006,7 +941,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     child.validateSync();
 
     assert.equal(child.get('validations.errors.length'), 4);
-    assert.equal(child.get('validations.isValid'), false);
+    assert.false(child.get('validations.isValid'));
     assert.deepEqual(
       child.get('validations.validatableAttributes').sort(),
       ['firstName', 'user.firstName', 'user.middleName', 'user.lastName'].sort()
@@ -1030,7 +965,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       firstName: 'John',
     });
 
-    assert.equal(child.get('validations.isValid'), false);
+    assert.false(child.get('validations.isValid'));
     assert.equal(child.get('validations.errors.length'), 1);
   });
 
@@ -1093,24 +1028,24 @@ module('Integration | Validations | Factory - General', function (hooks) {
       object.get('validations.validatableAttributes').sort(),
       ['firstName', 'middleName', 'lastName'].sort()
     );
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
-    assert.equal(object.get('validations.attrs.lastName.isValid'), false);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.attrs.lastName.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('firstName', 'Offir');
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('middleName', 'David');
 
-    assert.equal(object.get('validations.attrs.middleName.isValid'), true);
-    assert.equal(object.get('validations.isValid'), false);
+    assert.true(object.get('validations.attrs.middleName.isValid'));
+    assert.false(object.get('validations.isValid'));
 
     object.set('lastName', 'Golan');
 
-    assert.equal(object.get('validations.attrs.lastName.isValid'), true);
-    assert.equal(object.get('validations.isValid'), true);
+    assert.true(object.get('validations.attrs.lastName.isValid'));
+    assert.true(object.get('validations.isValid'));
   });
 
   test('validateAttribute - sync validations', function (assert) {
@@ -1127,9 +1062,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
     return object
       .validateAttribute('firstName', undefined)
       .then(({ validations, model }) => {
-        assert.equal(model.get('validations.isValid'), true);
-        assert.equal(validations.get('isValid'), false);
-        assert.equal(validations.get('isValidating'), false);
+        assert.true(model.get('validations.isValid'));
+        assert.false(validations.get('isValid'));
+        assert.false(validations.get('isValidating'));
         assert.equal(validations.get('message'), 'firstName should be present');
       });
   });
@@ -1152,8 +1087,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
     return object
       .validateAttribute('firstName', 'foo')
       .then(({ validations }) => {
-        assert.equal(validations.get('isValid'), false);
-        assert.equal(validations.get('isValidating'), false);
+        assert.false(validations.get('isValid'));
+        assert.false(validations.get('isValidating'));
         assert.equal(validations.get('message'), 'firstName is invalid');
       });
   });
@@ -1188,7 +1123,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       password: '',
     });
 
-    assert.equal(object.get('validations.isValid'), false);
+    assert.false(object.get('validations.isValid'));
     assert.equal(object.get('validations.warnings.length'), 2);
     assert.equal(
       object.get('validations.warningMessage'),
@@ -1199,7 +1134,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'Password is too short (minimum is 1 characters)'
     );
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(object.get('validations.attrs.password.warnings.length'), 2);
     assert.equal(
       object.get('validations.attrs.password.warningMessage'),
@@ -1212,8 +1147,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     object.set('password', 'wat');
 
-    assert.equal(object.get('validations.isValid'), true);
-    assert.equal(object.get('validations.attrs.password.isValid'), true);
+    assert.true(object.get('validations.isValid'));
+    assert.true(object.get('validations.attrs.password.isValid'));
     assert.equal(object.get('validations.attrs.password.warnings.length'), 1);
     assert.equal(
       object.get('validations.attrs.password.warningMessage'),
@@ -1248,7 +1183,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       isWarning: false,
     });
 
-    assert.equal(object.get('validations.isValid'), false);
+    assert.false(object.get('validations.isValid'));
     assert.equal(object.get('validations.warnings.length'), 0);
     assert.equal(object.get('validations.errors.length'), 2);
 
@@ -1287,28 +1222,24 @@ module('Integration | Validations | Factory - General', function (hooks) {
       })
     );
 
-    assert.equal(
+    assert.false(
       object.get('validations.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isValidating'),
-      false,
       'isValidating was expected to be FALSE'
     );
-    assert.equal(
+    assert.false(
       object.get('validations.isTruelyValid'),
-      false,
       'isTruelyValid was expected to be FALSE'
     );
-    assert.equal(
+    assert.true(
       object.get('validations.isTruelyInvalid'),
-      true,
       'isTruelyInvalid was expected to be TRUE'
     );
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
     assert.equal(
       object.get('validations.attrs.firstName.message'),
       'First Name is too short (minimum is 6 characters)'
@@ -1319,7 +1250,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       minLength: 10,
     });
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), false);
+    assert.false(object.get('validations.attrs.firstName.isValid'));
     assert.equal(
       object.get('validations.attrs.firstName.message'),
       'Name is too short (minimum is 10 characters)'
@@ -1327,10 +1258,9 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     object.set('enabled', false);
 
-    assert.equal(object.get('validations.attrs.firstName.isValid'), true);
-    assert.equal(
+    assert.true(object.get('validations.attrs.firstName.isValid'));
+    assert.true(
       object.get('validations.isValid'),
-      true,
       'isValid was expected to be FALSE'
     );
   });
@@ -1361,7 +1291,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(
       object.get('validations.attrs.password.messages.length'),
       1,
@@ -1374,7 +1304,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     object.set('password', '1234');
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(
       object.get('validations.attrs.password.messages.length'),
       1,
@@ -1387,7 +1317,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     object.set('password', '12345');
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(
       object.get('validations.attrs.password.messages.length'),
       1,
@@ -1428,7 +1358,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     let object = setupObject(this, EmberObject.extend(Validations));
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(
       object.get('validations.attrs.password.messages.length'),
       2,
@@ -1441,7 +1371,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     object.set('password', '1234');
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(
       object.get('validations.attrs.password.messages.length'),
       2,
@@ -1454,7 +1384,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     object.set('password', '12345');
 
-    assert.equal(object.get('validations.attrs.password.isValid'), false);
+    assert.false(object.get('validations.attrs.password.isValid'));
     assert.equal(
       object.get('validations.attrs.password.messages.length'),
       1,
@@ -1487,9 +1417,8 @@ module('Integration | Validations | Factory - General', function (hooks) {
       lastName: null,
     });
 
-    assert.equal(
+    assert.false(
       obj.get('validations.attrs.firstName.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
     assert.equal(
@@ -1536,42 +1465,30 @@ module('Integration | Validations | Factory - General', function (hooks) {
       }
     );
 
-    assert.equal(
+    assert.false(
       obj.get('validations.attrs.firstName.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
     assert.equal(
       obj.get('validations.attrs.firstName.message'),
       "This field can't be blank"
     );
-    assert.equal(
-      obj.get('isInvalid'),
-      true,
-      'isInvalid was expected to be TRUE'
-    );
-    assert.equal(
+    assert.true(obj.get('isInvalid'), 'isInvalid was expected to be TRUE');
+    assert.true(
       obj.get('isInvalidGlobal'),
-      true,
       'isInvalidGlobal was expected to be TRUE'
     );
 
     obj.set('firstName', 'Offir');
     obj.set('foo', 'bar');
 
-    assert.equal(
-      obj.get('isInvalid'),
-      true,
-      'isInvalid was expected to be TRUE'
-    );
-    assert.equal(
+    assert.true(obj.get('isInvalid'), 'isInvalid was expected to be TRUE');
+    assert.true(
       obj.get('isInvalidGlobal'),
-      true,
       'isInvalidGlobal was expected to be TRUE'
     );
-    assert.equal(
+    assert.true(
       obj.get('validations.attrs.firstName.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
   });

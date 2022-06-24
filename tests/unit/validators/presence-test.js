@@ -15,11 +15,11 @@ module('Unit | Validator | presence', function (hooks) {
 
     options = true;
     builtOptions = validator.buildOptions(options, {});
-    assert.equal(builtOptions.get('presence'), true);
+    assert.true(builtOptions.get('presence'));
 
     options = { presence: true };
     builtOptions = validator.buildOptions(options, {});
-    assert.equal(builtOptions.get('presence'), true);
+    assert.true(builtOptions.get('presence'));
   });
 
   test('presence - value present', function (assert) {
@@ -30,7 +30,7 @@ module('Unit | Validator | presence', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('value', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('presence - value blank', function (assert) {
@@ -41,7 +41,7 @@ module('Unit | Validator | presence', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(' ', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('presence with ignoreBlank - value blank', function (assert) {
@@ -82,6 +82,6 @@ module('Unit | Validator | presence', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

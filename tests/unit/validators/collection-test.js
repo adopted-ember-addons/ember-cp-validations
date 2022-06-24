@@ -16,11 +16,11 @@ module('Unit | Validator | collection', function (hooks) {
     options = true;
     builtOptions = validator.buildOptions(options, {});
 
-    assert.equal(builtOptions.get('collection'), true);
+    assert.true(builtOptions.get('collection'));
 
     options = { collection: true };
     builtOptions = validator.buildOptions(options, {});
-    assert.equal(builtOptions.get('collection'), true);
+    assert.true(builtOptions.get('collection'));
   });
 
   test('value is collection', function (assert) {
@@ -30,7 +30,7 @@ module('Unit | Validator | collection', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(['foo', 'bar'], builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('value not collection', function (assert) {
@@ -50,7 +50,7 @@ module('Unit | Validator | collection', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('value', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('singular - value not singular', function (assert) {

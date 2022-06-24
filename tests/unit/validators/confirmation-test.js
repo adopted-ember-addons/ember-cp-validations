@@ -35,6 +35,6 @@ module('Unit | Validator | confirmation', function (hooks) {
       builtOptions.toObject(),
       model
     );
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

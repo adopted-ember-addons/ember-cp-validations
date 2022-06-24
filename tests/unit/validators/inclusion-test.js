@@ -32,7 +32,7 @@ module('Unit | Validator | inclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('test', builtOptions.toObject());
     assert.equal(message, 'This field is not included in the list');
@@ -50,13 +50,13 @@ module('Unit | Validator | inclusion', function (hooks) {
     assert.equal(message, 'This field is not included in the list');
 
     message = validator.validate('foo', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('bar', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('baz', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('in range', function (assert) {
@@ -74,13 +74,13 @@ module('Unit | Validator | inclusion', function (hooks) {
     assert.equal(message, 'This field is not included in the list');
 
     message = validator.validate(1, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(5, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(10, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('range type check - number', function (assert) {
@@ -104,13 +104,13 @@ module('Unit | Validator | inclusion', function (hooks) {
     assert.equal(message, 'This field is not included in the list');
 
     message = validator.validate(1, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(5, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate(10, builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('range type check - string', function (assert) {
@@ -128,12 +128,12 @@ module('Unit | Validator | inclusion', function (hooks) {
     assert.equal(message, 'This field is not included in the list');
 
     message = validator.validate('a', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('o', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('z', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

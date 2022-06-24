@@ -32,7 +32,7 @@ module('Unit | Validator | format', function (hooks) {
     options = validator.buildOptions(options, {}).toObject();
 
     message = validator.validate(undefined, options);
-    assert.equal(message, true);
+    assert.true(message);
 
     message = validator.validate('email', options);
     assert.equal(message, 'This field must be a valid email address');
@@ -86,9 +86,8 @@ module('Unit | Validator | format', function (hooks) {
     options = validator.buildOptions(options, {}).toObject();
 
     validAddresses.forEach((email) =>
-      assert.equal(
+      assert.true(
         validator.validate(email, options),
-        true,
         `validation of ${email} must succeed`
       )
     );
@@ -150,9 +149,8 @@ module('Unit | Validator | format', function (hooks) {
     options = validator.buildOptions(options, {}).toObject();
 
     validAddresses.forEach((email) =>
-      assert.equal(
+      assert.true(
         validator.validate(email, options),
-        true,
         `validation of ${email} must succeed`
       )
     );
@@ -178,7 +176,7 @@ module('Unit | Validator | format', function (hooks) {
     assert.equal(message, 'This field must be a valid phone number');
 
     message = validator.validate('(408) 555-1234', options);
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('url', function (assert) {
@@ -194,7 +192,7 @@ module('Unit | Validator | format', function (hooks) {
     assert.equal(message, 'This field must be a valid url');
 
     message = validator.validate('http://www.offirgolan.com', options);
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('custom', function (assert) {
@@ -210,6 +208,6 @@ module('Unit | Validator | format', function (hooks) {
     assert.equal(message, 'This field is invalid');
 
     message = validator.validate('Pass123', options);
-    assert.equal(message, true);
+    assert.true(message);
   });
 });

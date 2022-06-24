@@ -18,7 +18,7 @@ module('Unit | Validator | ds-error', function (hooks) {
     model = EmberObject.create();
 
     message = validator.validate(undefined, undefined, model, 'username');
-    assert.equal(message, true);
+    assert.true(message);
   });
 
   test('it works', function (assert) {
@@ -30,7 +30,7 @@ module('Unit | Validator | ds-error', function (hooks) {
     });
 
     message = validator.validate(undefined, undefined, model, 'username');
-    assert.equal(message, true);
+    assert.true(message);
 
     model.get('errors').add('username', 'Username is not unique');
 
@@ -47,7 +47,7 @@ module('Unit | Validator | ds-error', function (hooks) {
     });
 
     message = validator.validate(undefined, undefined, model, 'username');
-    assert.equal(message, true);
+    assert.true(message);
 
     model.get('errors').add('username', 'Username is not unique');
     model.get('errors').add('username', 'Username is too long');
