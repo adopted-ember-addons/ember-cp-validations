@@ -115,7 +115,7 @@ const Base = EmberObject.extend({
   /**
    * Build options hook. Merges default options into options object.
    * This method gets called on init and is the ideal place to normalize your options.
-   * The [presence validator](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/presence.js) is a good example to checkout
+   * The [presence validator](https://github.com/adopted-ember-addons/ember-cp-validations/blob/master/addon/validators/presence.js) is a good example to checkout
    * @method buildOptions
    * @param  {Object} options
    * @param  {Object} defaultOptions

@@ -1040,9 +1040,9 @@ module('Integration | Validations | Factory - General', function(hooks) {
     assert.equal(child.get('validations.errors.length'), 1);
   });
 
-  // https://github.com/offirgolan/ember-cp-validations/pull/656
+  // https://github.com/adopted-ember-addons/ember-cp-validations/pull/656
   skip('call super in validations class with no super property', function(assert) {
-    // see https://github.com/offirgolan/ember-cp-validations/issues/149
+    // see https://github.com/adopted-ember-addons/ember-cp-validations/issues/149
     assert.expect(1);
 
     let Validations = buildValidations({

@@ -15,7 +15,7 @@ import Messages from 'ember-validators/messages';
  *  });
  *  ```
  *
- *  Within this object, you can overwrite the [default messages](https://github.com/offirgolan/ember-cp-validations/blob/master/addon/validators/messages.js) or create new messages just like in the example above.
+ *  Within this object, you can overwrite the [default messages](https://github.com/adopted-ember-addons/ember-cp-validations/blob/master/addon/validators/messages.js) or create new messages just like in the example above.
  *  If a message of a given type is not found, it will default to the `invalid` message.
  *  Usage examples can be found {{#crossLink "Base/createErrorMessage:method"}}here{{/crossLink}}
  *
