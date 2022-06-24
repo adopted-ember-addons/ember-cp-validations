@@ -39,17 +39,24 @@ export default EmberObject.extend({
     return makeArray(get(this, 'message'));
   }),
 
-  error: computed('isInvalid', 'type', 'message', 'attribute', function () {
-    if (get(this, 'isInvalid')) {
-      return ValidationError.create({
-        type: get(this, '_type'),
-        message: get(this, 'message'),
-        attribute: get(this, 'attribute'),
-      });
-    }
+  error: computed(
+    '_type',
+    'attribute',
+    'isInvalid',
+    'message',
+    'type',
+    function () {
+      if (get(this, 'isInvalid')) {
+        return ValidationError.create({
+          type: get(this, '_type'),
+          message: get(this, 'message'),
+          attribute: get(this, 'attribute'),
+        });
+      }
 
-    return null;
-  }),
+      return null;
+    }
+  ),
 
   errors: computed('error', function () {
     return makeArray(get(this, 'error'));
@@ -60,10 +67,11 @@ export default EmberObject.extend({
   }),
 
   warning: computed(
+    '_type',
+    'attribute',
     'isWarning',
     'type',
     'warningMessage',
-    'attribute',
     function () {
       if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
         return ValidationError.create({

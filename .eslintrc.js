@@ -27,7 +27,6 @@ module.exports = {
     'ember/no-get': 'off',
     'ember/no-new-mixins': 'off',
     'ember/no-volatile-computed-properties': 'off',
-    'ember/require-computed-property-dependencies': 'off',
     'ember/require-return-from-computed': 'off',
     'ember/require-tagless-components': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
