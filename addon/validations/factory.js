@@ -4,7 +4,7 @@ import EmberObject, { computed, set, get } from '@ember/object';
 import { A as emberArray, makeArray, isArray } from '@ember/array';
 import { readOnly } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
-import { run } from '@ember/runloop';
+import { cancel, debounce as debounced } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
@@ -281,7 +281,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
 
         if (!isNone(attrCache)) {
           // Itterate over each attribute and cancel all of its debounced validations
-          Object.keys(attrCache).forEach((v) => run.cancel(attrCache[v]));
+          Object.keys(attrCache).forEach((v) => cancel(attrCache[v]));
         }
       });
     },
@@ -510,7 +510,7 @@ function generateValidationResultsFor(
 
       // Return a promise and pass the resolve method to the debounce handler
       value = new Promise((resolve) => {
-        let t = run.debounce(validator, resolveDebounce, resolve, debounce);
+        let t = debounced(validator, resolveDebounce, resolve, debounce);
 
         if (!opts.disableDebounceCache) {
           cache[guidFor(validator)] = t;
@@ -768,7 +768,7 @@ function createValidatorsFor(attribute, model) {
 }
 
 /**
- * Call the passed resolve method. This is needed as run.debounce expects a
+ * Call the passed resolve method. This is needed as debounced expects a
  * static method to work properly.
  *
  * @method resolveDebounce

@@ -8,11 +8,10 @@ import EmberObject, {
   set,
   get,
 } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
-
-const { readOnly } = computed;
 
 /**
  * __PRIVATE__

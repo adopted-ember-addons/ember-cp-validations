@@ -22,7 +22,12 @@ export default class ValidatedInput extends Component {
     return this.showValidations || this.args.didValidate || this.hasContent;
   }
   get showErrorClass() {
-    return this.notValidating && this.showErrorMessage && this.hasContent && this.validation;
+    return (
+      this.notValidating &&
+      this.showErrorMessage &&
+      this.hasContent &&
+      this.validation
+    );
   }
   get showErrorMessage() {
     return this.shouldDisplayValidations && this.validation.isInvalid;
@@ -34,7 +39,7 @@ export default class ValidatedInput extends Component {
     return this.args.model.get(`validations.attrs.${this.args.valuePath}`);
   }
   get value() {
-    return this.args.model.get(this.args.valuePath)
+    return this.args.model.get(this.args.valuePath);
   }
 
   get classes() {
@@ -58,7 +63,6 @@ export default class ValidatedInput extends Component {
 
   @action
   updateValue(event) {
-    console.log(event);
     this.args.model.set(this.args.valuePath, event.target.value);
   }
 }

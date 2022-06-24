@@ -3,10 +3,10 @@
 {{#bs-navbar fluid=true collapsed=true as |navbar|}}
   <div class="navbar-header">
     {{navbar.toggle}}
-    {{#link-to 'index' class='navbar-brand'}}
+    <LinkTo @route='index' class='navbar-brand'>
       <img src='images/ember-logo.png' alt=''>
       <span>CP Validations</span>
-    {{/link-to}}
+    </LinkTo>
   </div>
 
   {{#navbar.content}}

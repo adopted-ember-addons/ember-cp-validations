@@ -30,27 +30,27 @@ module('Integration | Helper | v-get', function (hooks) {
   test('it renders', async function (assert) {
     assert.expect(1);
 
-    await render(hbs`{{v-get model 'isValid'}}`);
+    await render(hbs`{{v-get this.model 'isValid'}}`);
     assert.dom(this.element).hasText('false');
   });
 
   test('access attribute validations', async function (assert) {
     assert.expect(3);
 
-    await render(hbs`{{v-get model 'username' 'isValid'}}`);
+    await render(hbs`{{v-get this.model 'username' 'isValid'}}`);
     assert.dom(this.element).hasText('false');
 
-    await render(hbs`{{v-get model 'username' 'message'}}`);
+    await render(hbs`{{v-get this.model 'username' 'message'}}`);
     assert.dom(this.element).hasText('This field is invalid');
 
-    await render(hbs`{{v-get model 'email' 'isValid'}}`);
+    await render(hbs`{{v-get this.model 'email' 'isValid'}}`);
     assert.dom(this.element).hasText('true');
   });
 
   test('updating validation should rerender', async function (assert) {
     assert.expect(2);
 
-    await render(hbs`{{v-get model 'username' 'isValid'}}`);
+    await render(hbs`{{v-get this.model 'username' 'isValid'}}`);
     assert.dom(this.element).hasText('false');
 
     this.set('model.validations.attrs.username.isValid', true);
@@ -62,7 +62,7 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-      {{#if (v-get model 'email' 'isValid')}}
+      {{#if (v-get this.model 'email' 'isValid')}}
         Email address is valid
       {{/if}}
     `);
@@ -70,8 +70,8 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.dom(this.element).hasText('Email address is valid');
 
     await render(hbs`
-      {{#unless (v-get model 'username' 'isValid')}}
-        {{v-get model 'username' 'message'}}
+      {{#unless (v-get this.model 'username' 'isValid')}}
+        {{v-get this.model 'username' 'message'}}
       {{/unless}}
     `);
 
@@ -82,7 +82,7 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.expect(2);
 
     await render(
-      hbs`<button type="button" disabled={{v-get model 'isInvalid'}}>Button</button>`
+      hbs`<button type="button" disabled={{v-get this.model 'isInvalid'}}>Button</button>`
     );
 
     assert.dom(this.element).hasText('Button');
@@ -93,7 +93,7 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.expect(3);
 
     await render(
-      hbs`<span class="base {{if (v-get model 'isInvalid') 'has-error'}}">Text</span>`
+      hbs`<span class="base {{if (v-get this.model 'isInvalid') 'has-error'}}">Text</span>`
     );
 
     assert.dom(this.element).hasText('Text');
@@ -108,11 +108,11 @@ module('Integration | Helper | v-get', function (hooks) {
   test('access validations with named args', async function (assert) {
     assert.expect(2);
 
-    await render(hbs`{{named-v-get model=model field='isValid'}}`);
+    await render(hbs`<NamedVGet @model={{this.model}} @field='isValid' />`);
     assert.dom(this.element).hasText('false');
 
     await render(
-      hbs`{{named-v-get model=model attr='username' field='isValid'}}`
+      hbs`<NamedVGet @model={{this.model}} @attr='username' @field='isValid' />`
     );
     assert.dom(this.element).hasText('false');
   });

@@ -10,19 +10,17 @@ export default class extends Controller {
 
   @action
   validate() {
-    this.model
-      .validate()
-      .then(({ validations }) => {
-        this.didValidate = true;
+    this.model.validate().then(({ validations }) => {
+      this.didValidate = true;
 
-        if (validations.get('isValid')) {
-          this.showAlert = false;
-          this.isRegistered = true;
-          this.showCode = false;
-        } else {
-          this.showAlert = true;
-        }
-      });
+      if (validations.get('isValid')) {
+        this.showAlert = false;
+        this.isRegistered = true;
+        this.showCode = false;
+      } else {
+        this.showAlert = true;
+      }
+    });
   }
 
   @action
