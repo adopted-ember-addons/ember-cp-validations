@@ -1,69 +1,65 @@
 // BEGIN-SNIPPET validated-input
-import {
-  not,
-  notEmpty,
-  and,
-  or,
-  readOnly,
-  alias,
-} from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-import Component from '@ember/component';
-import { defineProperty } from '@ember/object';
+export default class ValidatedInput extends Component {
+  @tracked showValidations = false;
 
-export default Component.extend({
-  classNames: ['validated-input'],
-  classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
-  model: null,
-  value: null,
-  type: 'text',
-  valuePath: '',
-  placeholder: '',
-  validation: null,
-  showValidations: false,
-  didValidate: false,
+  get notValidating() {
+    return !this.validation.isValidating;
+  }
+  get hasContent() {
+    return !!this.value;
+  }
+  get hasWarnings() {
+    return !!this.validation.warnings;
+  }
+  get isValid() {
+    return this.hasContent && this.validation.isTruelyValid;
+  }
+  get shouldDisplayValidations() {
+    return this.showValidations || this.args.didValidate || this.hasContent;
+  }
+  get showErrorClass() {
+    return this.notValidating && this.showErrorMessage && this.hasContent && this.validation;
+  }
+  get showErrorMessage() {
+    return this.shouldDisplayValidations && this.validation.isInvalid;
+  }
+  get showWarningMessage() {
+    return this.shouldDisplayValidations && this.hasWarnings && this.isValid;
+  }
+  get validation() {
+    return this.args.model.get(`validations.attrs.${this.args.valuePath}`);
+  }
+  get value() {
+    return this.args.model.get(this.args.valuePath)
+  }
 
-  notValidating: not('validation.isValidating').readOnly(),
-  hasContent: notEmpty('value').readOnly(),
-  hasWarnings: notEmpty('validation.warnings').readOnly(),
-  isValid: and('hasContent', 'validation.isTruelyValid').readOnly(),
-  shouldDisplayValidations: or(
-    'showValidations',
-    'didValidate',
-    'hasContent'
-  ).readOnly(),
+  get classes() {
+    let classes = [];
 
-  showErrorClass: and(
-    'notValidating',
-    'showErrorMessage',
-    'hasContent',
-    'validation'
-  ).readOnly(),
-  showErrorMessage: and(
-    'shouldDisplayValidations',
-    'validation.isInvalid'
-  ).readOnly(),
-  showWarningMessage: and(
-    'shouldDisplayValidations',
-    'hasWarnings',
-    'isValid'
-  ).readOnly(),
+    if (this.showErrorClass) {
+      classes.push('has-error');
+    }
 
-  init() {
-    this._super(...arguments);
-    let valuePath = this.get('valuePath');
+    if (this.isValid) {
+      classes.push('has-success');
+    }
 
-    defineProperty(
-      this,
-      'validation',
-      readOnly(`model.validations.attrs.${valuePath}`)
-    );
-    defineProperty(this, 'value', alias(`model.${valuePath}`));
-  },
+    return classes.join(' ');
+  }
 
+  @action
   focusOut() {
-    this._super(...arguments);
-    this.set('showValidations', true);
-  },
-});
+    this.showValidations = true;
+  }
+
+  @action
+  updateValue(event) {
+    console.log(event);
+    this.args.model.set(this.args.valuePath, event.target.value);
+  }
+}
 // END-SNIPPET

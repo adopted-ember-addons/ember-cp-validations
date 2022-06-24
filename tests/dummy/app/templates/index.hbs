@@ -20,10 +20,10 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model valuePath='username' placeholder='Username' didValidate=didValidate data-test-username=''}}
-          {{validated-input type='password' model=model valuePath='password' placeholder='Password' didValidate=didValidate data-test-password=''}}
-          {{validated-input model=model valuePath='email' placeholder='Email' didValidate=didValidate data-test-email=''}}
-          {{validated-input model=model valuePath='emailConfirmation' placeholder='Verify Email' didValidate=didValidate data-test-email-confirmation=''}}
+          <ValidatedInput @model={{this.model}} @valuePath='username' @placeholder='Username' @didValidate={{this.didValidate}} data-test-username='' />
+          <ValidatedInput @model={{this.model}} @valuePath='password' @placeholder='Password' @type='password' @didValidate={{this.didValidate}} data-test-password='' />
+          <ValidatedInput @model={{this.model}} @valuePath='email' @placeholder='Email' @didValidate={{this.didValidate}} data-test-email='' />
+          <ValidatedInput @model={{this.model}} @valuePath='emailConfirmation' @placeholder='Verify Email' @didValidate={{this.didValidate}} data-test-email-confirmation='' />
         </div>
 
         <h4> About Me</h4>
@@ -36,11 +36,11 @@
             </div>
           {{/unless}}
 
-          {{validated-input model=model.details valuePath='firstName' placeholder='First Name' didValidate=didValidate data-test-first-name=''}}
-          {{validated-input model=model.details valuePath='lastName' placeholder='Last Name' didValidate=didValidate data-test-last-name=''}}
-          {{validated-input model=model.details valuePath='dob' placeholder='Date of Birth' didValidate=didValidate data-test-dob=''}}
-          {{validated-input model=model.details valuePath='phone' placeholder='Phone #' didValidate=didValidate data-test-phone=''}}
-          {{validated-input model=model.details valuePath='url' placeholder='URL' didValidate=didValidate data-test-url=''}}
+          <ValidatedInput @model={{this.model.details}} @valuePath='firstName' @placeholder='First Name' @didValidate={{this.didValidate}} data-test-first-name='' />
+          <ValidatedInput @model={{this.model.details}} @valuePath='lastName' @placeholder='Last Name' @didValidate={{this.didValidate}} data-test-last-name='' />
+          <ValidatedInput @model={{this.model.details}} @valuePath='dob' @placeholder='Date of Birth' @didValidate={{this.didValidate}} data-test-dob='' />
+          <ValidatedInput @model={{this.model.details}} @valuePath='phone' @placeholder='Phone #' @didValidate={{this.didValidate}} data-test-phone='' />
+          <ValidatedInput @model={{this.model.details}} @valuePath='url' @placeholder='URL' @didValidate={{this.didValidate}} data-test-url='' />
         </div>
         <div class='section'>
           {{#unless showCode}}
