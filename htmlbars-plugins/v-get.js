@@ -63,6 +63,25 @@
 
 /* eslint-env node */
 
+var plugin = function ({ syntax }) {
+  return {
+    visitor: {
+      BlockStatement(node) {
+        processNode(node, syntax);
+      },
+
+      ElementNode(node) {
+        processNode(node, syntax);
+      },
+
+      MustacheStatement(node) {
+        processNode(node, syntax);
+      },
+    },
+  };
+};
+
+// Legacy implementation
 function VGet(options) {
   this.options = options;
   this.syntax = null; // set by HTMLBars
@@ -73,93 +92,88 @@ VGet.prototype.transform = function (ast) {
   var walker = new this.syntax.Walker();
 
   walker.visit(ast, function (node) {
-    if (context.validate(node)) {
-      context.processNode(node);
+    let validNodeTypes = ['BlockStatement', 'MustacheStatement', 'ElementNode'];
+
+    if (validNodeTypes.indexOf(node.type) > -1) {
+      processNode(node, context.syntax);
     }
   });
 
   return ast;
 };
 
-VGet.prototype.validate = function (node) {
-  return (
-    ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(node.type) >
-    -1
-  );
-};
-
-VGet.prototype.processNode = function (node) {
+function processNode(node, syntax) {
   var type = node.type;
   node = unwrapNode(node);
 
   // {{v-get model 'username' 'isValid'}}
   if (type === 'MustacheStatement' && node.path.original === 'v-get') {
-    this.transformToGet(node);
+    transformToGet(node, syntax);
   }
 
-  this.processNodeParams(node);
-  this.processNodeHash(node);
-  this.processNodeAttributes(node);
-};
+  processNodeParams(node, syntax);
+  processNodeHash(node, syntax);
+  processNodeAttributes(node, syntax);
+}
 
 /**
  * {{#if (v-get model 'username' 'isValid')}} {{/if}}
  * @param  {AST.Node} node
  */
-VGet.prototype.processNodeParams = function (node) {
+function processNodeParams(node, syntax) {
   if (node.params) {
     for (var i = 0; i < node.params.length; i++) {
       var param = node.params[i];
       if (param.type === 'SubExpression') {
         if (param.path.original === 'v-get') {
-          this.transformToGet(param);
+          transformToGet(param, syntax);
         } else {
-          this.processNode(param);
+          processNode(param, syntax);
         }
       }
     }
   }
-};
+}
 
 /**
  * {{x-component prop=(v-get model 'isValid')}}
  * @param  {AST.Node} node
  */
-VGet.prototype.processNodeHash = function (node) {
+function processNodeHash(node, syntax) {
   if (node.hash && node.hash.pairs) {
     for (var i = 0; i < node.hash.pairs.length; i++) {
       var pair = node.hash.pairs[i];
       if (pair.value.type === 'SubExpression') {
         if (pair.value.path.original === 'v-get') {
-          this.transformToGet(pair.value);
+          transformToGet(pair.value, syntax);
         } else {
-          this.processNode(pair.value);
+          processNode(pair.value, syntax);
         }
       }
     }
   }
-};
+}
 
 /**
  * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)
  * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
  * @param  {AST.Node} node
  */
-VGet.prototype.processNodeAttributes = function (node) {
+function processNodeAttributes(node, syntax) {
   var i;
   if (node.attributes) {
     for (i = 0; i < node.attributes.length; i++) {
       var attr = node.attributes[i];
-      this.processNode(attr.value);
+      processNode(attr.value, syntax);
     }
   }
 
   if (node.parts) {
     for (i = 0; i < node.parts.length; i++) {
-      this.processNode(node.parts[i]);
+      processNode(node.parts[i], syntax);
     }
   }
-};
+}
 
 /**
  * Transform:
@@ -169,7 +183,7 @@ VGet.prototype.processNodeAttributes = function (node) {
  * @param  {AST.Node} node
  * @return {AST.Node}
  */
-VGet.prototype.transformToGet = function (node) {
+function transformToGet(node, syntax) {
   node = unwrapNode(node);
   var params = node.params;
   var numParams = params.length;
@@ -182,27 +196,27 @@ VGet.prototype.transformToGet = function (node) {
   }
 
   // (get model 'validations')
-  var root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+  var root = syntax.builders.sexpr(syntax.builders.path('get'), [
     params[0],
-    this.syntax.builders.string('validations'),
+    syntax.builders.string('validations'),
   ]);
 
   // (get (get (get model 'validations') 'attrs') 'username')
   if (numParams === 3) {
-    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+    root = syntax.builders.sexpr(syntax.builders.path('get'), [
       root,
-      this.syntax.builders.string('attrs'),
+      syntax.builders.string('attrs'),
     ]);
-    root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
+    root = syntax.builders.sexpr(syntax.builders.path('get'), [
       root,
       params[1],
     ]);
   }
 
-  node.path = this.syntax.builders.path('get');
+  node.path = syntax.builders.path('get');
   // (get root 'isValid')
   node.params = [root, params[numParams - 1]];
-};
+}
 
 // For compatibility with pre- and post-glimmer
 function unwrapNode(node) {
@@ -213,4 +227,7 @@ function unwrapNode(node) {
   }
 }
 
-module.exports = VGet;
+module.exports = {
+  plugin: plugin,
+  legacy: VGet,
+};

@@ -16,11 +16,12 @@ module.exports = {
   },
 
   _buildPlugin() {
+    // We may need to use VGet.legacy for older versions
     const VGet = require('./htmlbars-plugins/v-get');
 
     return {
       name: 'v-get',
-      plugin: VGet,
+      plugin: VGet.plugin,
       baseDir: function () {
         return __dirname;
       },
