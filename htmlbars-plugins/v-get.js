@@ -63,147 +63,129 @@
 
 /* eslint-env node */
 
-var plugin = function ({ syntax }) {
+const transform = ({ syntax }) => {
+  const processNode = (node) => {
+    let type = node.type;
+    node = unwrapNode(node);
+
+    type === 'MustacheStatement' &&
+      node.path.original === 'v-get' &&
+      transformToGet(node);
+
+    processNodeParams(node);
+    processNodeHash(node);
+    processNodeAttributes(node);
+  };
+
+  /**
+   * {{#if (v-get model 'username' 'isValid')}} {{/if}}
+   * @param  {AST.Node} node
+   */
+  const processNodeParams = (node) => {
+    if (node.params) {
+      for (let param of node.params) {
+        param.type === 'SubExpression' && param.path.original === 'v-get'
+          ? transformToGet(param)
+          : processNode(param);
+      }
+    }
+  };
+
+  /**
+   * {{x-component prop=(v-get model 'isValid')}}
+   * @param  {AST.Node} node
+   */
+  const processNodeHash = (node) => {
+    if (node?.hash?.pairs) {
+      for (let pair of node.hash.pairs) {
+        pair.value.type === 'SubExpression' &&
+        pair.value.path.original === 'v-get'
+          ? transformToGet(pair.value)
+          : processNode(pair.value);
+      }
+    }
+  };
+
+  /**
+   * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)
+   * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
+   * @param  {AST.Node} node
+   */
+  const processNodeAttributes = (node) => {
+    if (node?.attributes) {
+      for (let attribute of node.attributes) {
+        processNode(attribute.value);
+      }
+    }
+    if (node?.parts) {
+      for (let part of node.parts) {
+        processNode(part);
+      }
+    }
+  };
+
+  /**
+   * Transform:
+   *  (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')
+   * OR
+   *  (v-get model 'isValid') to (get (get model 'validations') 'isValid')
+   * @param  {AST.Node} node
+   * @return {AST.Node}
+   */
+  const transformToGet = (node) => {
+    node = unwrapNode(node);
+    let params = node.params;
+    let numParams = params.length;
+
+    if (numParams < 2) {
+      throw new Error('{{v-get}} requires at least two arguments');
+    }
+    if (params[0].type !== 'PathExpression') {
+      throw new Error('The first argument to {{v-get}} must be a stream');
+    }
+
+    let root = syntax.builders.sexpr(syntax.builders.path('get'), [
+      params[0],
+      syntax.builders.string('validations'),
+    ]);
+
+    if (numParams === 3) {
+      root = syntax.builders.sexpr(syntax.builders.path('get'), [
+        root,
+        syntax.builders.string('attrs'),
+      ]);
+      root = syntax.builders.sexpr(syntax.builders.path('get'), [
+        root,
+        params[1],
+      ]);
+    }
+
+    node.path = syntax.builders.path('get');
+    node.params = [root, params[numParams - 1]];
+  };
+
   return {
+    name: 'v-get',
     visitor: {
       BlockStatement(node) {
-        processNode(node, syntax);
+        processNode(node);
       },
-
-      ElementNode(node) {
-        processNode(node, syntax);
-      },
-
       MustacheStatement(node) {
-        processNode(node, syntax);
+        processNode(node);
+      },
+      ElementNode(node) {
+        processNode(node);
       },
     },
   };
 };
 
-function processNode(node, syntax) {
-  var type = node.type;
-  node = unwrapNode(node);
-
-  // {{v-get model 'username' 'isValid'}}
-  if (type === 'MustacheStatement' && node.path.original === 'v-get') {
-    transformToGet(node, syntax);
-  }
-
-  processNodeParams(node, syntax);
-  processNodeHash(node, syntax);
-  processNodeAttributes(node, syntax);
-}
-
-/**
- * {{#if (v-get model 'username' 'isValid')}} {{/if}}
- * @param  {AST.Node} node
- */
-function processNodeParams(node, syntax) {
-  if (node.params) {
-    for (var i = 0; i < node.params.length; i++) {
-      var param = node.params[i];
-      if (param.type === 'SubExpression') {
-        if (param.path.original === 'v-get') {
-          transformToGet(param, syntax);
-        } else {
-          processNode(param, syntax);
-        }
-      }
-    }
-  }
-}
-
-/**
- * {{x-component prop=(v-get model 'isValid')}}
- * @param  {AST.Node} node
- */
-function processNodeHash(node, syntax) {
-  if (node.hash && node.hash.pairs) {
-    for (var i = 0; i < node.hash.pairs.length; i++) {
-      var pair = node.hash.pairs[i];
-      if (pair.value.type === 'SubExpression') {
-        if (pair.value.path.original === 'v-get') {
-          transformToGet(pair.value, syntax);
-        } else {
-          processNode(pair.value, syntax);
-        }
-      }
-    }
-  }
-}
-
-/**
- * <button type="submit" disabled={{v-get model 'isInvalid'}}>Submit</button> (node.attributes)
- * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
- * @param  {AST.Node} node
- */
-function processNodeAttributes(node, syntax) {
-  var i;
-  if (node.attributes) {
-    for (i = 0; i < node.attributes.length; i++) {
-      var attr = node.attributes[i];
-      processNode(attr.value, syntax);
-    }
-  }
-
-  if (node.parts) {
-    for (i = 0; i < node.parts.length; i++) {
-      processNode(node.parts[i], syntax);
-    }
-  }
-}
-
-/**
- * Transform:
- *  (v-get model 'username' 'isValid') to (get (get (get (get model 'validations') 'attrs') 'username') 'isValid')
- * OR
- *  (v-get model 'isValid') to (get (get model 'validations') 'isValid')
- * @param  {AST.Node} node
- * @return {AST.Node}
- */
-function transformToGet(node, syntax) {
-  node = unwrapNode(node);
-  var params = node.params;
-  var numParams = params.length;
-
-  if (numParams < 2) {
-    throw new Error('{{v-get}} requires at least two arguments');
-  }
-  if (params[0].type !== 'PathExpression') {
-    throw new Error('The first argument to {{v-get}} must be a stream');
-  }
-
-  // (get model 'validations')
-  var root = syntax.builders.sexpr(syntax.builders.path('get'), [
-    params[0],
-    syntax.builders.string('validations'),
-  ]);
-
-  // (get (get (get model 'validations') 'attrs') 'username')
-  if (numParams === 3) {
-    root = syntax.builders.sexpr(syntax.builders.path('get'), [
-      root,
-      syntax.builders.string('attrs'),
-    ]);
-    root = syntax.builders.sexpr(syntax.builders.path('get'), [
-      root,
-      params[1],
-    ]);
-  }
-
-  node.path = syntax.builders.path('get');
-  // (get root 'isValid')
-  node.params = [root, params[numParams - 1]];
-}
-
 // For compatibility with pre- and post-glimmer
-function unwrapNode(node) {
+const unwrapNode = (node) => {
   if (node.sexpr) {
     return node.sexpr;
-  } else {
-    return node;
   }
-}
+  return node;
+};
 
-module.exports = plugin;
+module.exports = transform;
