@@ -40,6 +40,16 @@ module.exports = async function () {
         },
       },
       {
+        name: 'ember-4.0',
+        npm: {
+          devDependencies: {
+            'ember-source': '~4.0.0',
+            'ember-auto-import': '^2.4.0',
+            webpack: '^5.0.0',
+          },
+        },
+      },
+      {
         name: 'ember-release',
         npm: {
           devDependencies: {
