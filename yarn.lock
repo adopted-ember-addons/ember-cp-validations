@@ -5879,14 +5879,6 @@ ember-modifier@^2.1.0, ember-modifier@^2.1.1:
     ember-destroyable-polyfill "^2.0.2"
     ember-modifier-manager-polyfill "^1.2.0"
 
-ember-named-arguments-polyfill@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-named-arguments-polyfill/-/ember-named-arguments-polyfill-1.0.0.tgz#0b81fb81a7cef2c89e9e1d0278b579e708bf4ded"
-  integrity sha512-G/tj2UrRf9EgsC90h6trtofQIPjIYd8wDioHASf021RdUq9/YlWjuTsl/ljFSCDZ2pGtIu2DjoxUOOYxqGh7lQ==
-  dependencies:
-    ember-cli-babel "^6.6.0"
-    ember-cli-version-checker "^2.1.2"
-
 ember-named-blocks-polyfill@^0.2.4:
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/ember-named-blocks-polyfill/-/ember-named-blocks-polyfill-0.2.5.tgz#d5841406277026a221f479c815cfbac6cdcaeecb"
