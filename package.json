@@ -45,7 +45,7 @@
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^2.7.0",
-    "ember-auto-import": "^1.12.0",
+    "ember-auto-import": "^2.4.2",
     "ember-cli": "~3.28.5",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-autoprefixer": "^0.7.0",
@@ -66,7 +66,7 @@
     "ember-font-awesome": "^3.0.5",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^1.0.0",
-    "ember-prism": "0.10.0",
+    "ember-prism": "0.12.0",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
     "ember-source": "~3.28.8",
@@ -86,6 +86,7 @@
     "qunit": "^2.17.2",
     "qunit-dom": "^1.6.0",
     "sass": "^1.15.3",
+    "webpack": "^5.0.0",
     "yuidoc-ember-theme": "^2.0.1"
   },
   "keywords": [
