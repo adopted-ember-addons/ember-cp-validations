@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -7,21 +7,21 @@ const Validations = buildValidations({
     validators: [
       validator('ds-error'),
       validator('number', {
-        gte: 1
-      })
-    ]
+        gte: 1,
+      }),
+    ],
   },
   order: {
     description: 'Order',
     validators: [
       validator('ds-error'),
       validator('belongs-to'),
-      validator('presence', true)
-    ]
+      validator('presence', true),
+    ],
   },
   line: {
     description: 'Order Line',
-    validators: [validator('ds-error'), validator('presence', true)]
+    validators: [validator('ds-error'), validator('presence', true)],
   },
   questions: {
     description: 'Order Selection Questions',
@@ -29,15 +29,15 @@ const Validations = buildValidations({
       validator('ds-error'),
       validator('has-many'),
       validator('length', {
-        min: 1
-      })
-    ]
-  }
+        min: 1,
+      }),
+    ],
+  },
 });
 
-export default DS.Model.extend(Validations, {
-  order: DS.belongsTo('order', { async: true }),
-  line: DS.belongsTo('order-line', { async: true }),
-  questions: DS.hasMany('order-selection-question', { async: true }),
-  quantity: DS.attr('number')
+export default Model.extend(Validations, {
+  order: belongsTo('order', { async: true }),
+  line: belongsTo('order-line', { async: true }),
+  questions: hasMany('order-selection-question', { async: true }),
+  quantity: attr('number'),
 });

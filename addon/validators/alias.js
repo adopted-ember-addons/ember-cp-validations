@@ -47,7 +47,7 @@ const Alias = Base.extend({
 
     if (typeof options === 'string') {
       opts = {
-        alias: options
+        alias: options,
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
@@ -66,7 +66,7 @@ const Alias = Base.extend({
   validate(value, options, model, attribute) {
     let { alias, firstMessageOnly } = getProperties(options, [
       'alias',
-      'firstMessageOnly'
+      'firstMessageOnly',
     ]);
 
     assert(
@@ -79,7 +79,7 @@ const Alias = Base.extend({
     return firstMessageOnly
       ? get(aliasValidation, 'message')
       : get(aliasValidation, 'content');
-  }
+  },
 });
 
 Alias.reopenClass({
@@ -92,7 +92,7 @@ Alias.reopenClass({
     );
 
     return [`${alias}.messages.[]`, `${alias}.isTruelyValid`];
-  }
+  },
 });
 
 export default Alias;

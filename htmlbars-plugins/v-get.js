@@ -68,11 +68,11 @@ function VGet(options) {
   this.syntax = null; // set by HTMLBars
 }
 
-VGet.prototype.transform = function(ast) {
+VGet.prototype.transform = function (ast) {
   var context = this;
   var walker = new this.syntax.Walker();
 
-  walker.visit(ast, function(node) {
+  walker.visit(ast, function (node) {
     if (context.validate(node)) {
       context.processNode(node);
     }
@@ -81,14 +81,14 @@ VGet.prototype.transform = function(ast) {
   return ast;
 };
 
-VGet.prototype.validate = function(node) {
+VGet.prototype.validate = function (node) {
   return (
     ['BlockStatement', 'MustacheStatement', 'ElementNode'].indexOf(node.type) >
     -1
   );
 };
 
-VGet.prototype.processNode = function(node) {
+VGet.prototype.processNode = function (node) {
   var type = node.type;
   node = unwrapNode(node);
 
@@ -106,7 +106,7 @@ VGet.prototype.processNode = function(node) {
  * {{#if (v-get model 'username' 'isValid')}} {{/if}}
  * @param  {AST.Node} node
  */
-VGet.prototype.processNodeParams = function(node) {
+VGet.prototype.processNodeParams = function (node) {
   if (node.params) {
     for (var i = 0; i < node.params.length; i++) {
       var param = node.params[i];
@@ -125,7 +125,7 @@ VGet.prototype.processNodeParams = function(node) {
  * {{x-component prop=(v-get model 'isValid')}}
  * @param  {AST.Node} node
  */
-VGet.prototype.processNodeHash = function(node) {
+VGet.prototype.processNodeHash = function (node) {
   if (node.hash && node.hash.pairs) {
     for (var i = 0; i < node.hash.pairs.length; i++) {
       var pair = node.hash.pairs[i];
@@ -145,7 +145,7 @@ VGet.prototype.processNodeHash = function(node) {
  * <div class="form-group {{if (v-get model 'isInvalid') 'has-error'}}">
  * @param  {AST.Node} node
  */
-VGet.prototype.processNodeAttributes = function(node) {
+VGet.prototype.processNodeAttributes = function (node) {
   var i;
   if (node.attributes) {
     for (i = 0; i < node.attributes.length; i++) {
@@ -169,7 +169,7 @@ VGet.prototype.processNodeAttributes = function(node) {
  * @param  {AST.Node} node
  * @return {AST.Node}
  */
-VGet.prototype.transformToGet = function(node) {
+VGet.prototype.transformToGet = function (node) {
   node = unwrapNode(node);
   var params = node.params;
   var numParams = params.length;
@@ -184,18 +184,18 @@ VGet.prototype.transformToGet = function(node) {
   // (get model 'validations')
   var root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
     params[0],
-    this.syntax.builders.string('validations')
+    this.syntax.builders.string('validations'),
   ]);
 
   // (get (get (get model 'validations') 'attrs') 'username')
   if (numParams === 3) {
     root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
       root,
-      this.syntax.builders.string('attrs')
+      this.syntax.builders.string('attrs'),
     ]);
     root = this.syntax.builders.sexpr(this.syntax.builders.path('get'), [
       root,
-      params[1]
+      params[1],
     ]);
   }
 

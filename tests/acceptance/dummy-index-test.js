@@ -10,13 +10,13 @@ const validInputValues = {
   emailConfirmation: 'offirgolan@gmail.com',
   firstName: 'Offir',
   lastName: 'Golan',
-  dob: '1/1/1930'
+  dob: '1/1/1930',
 };
 
-module('Acceptance | Dummy | index', function(hooks) {
+module('Acceptance | Dummy | index', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('Page Loads', async function(assert) {
+  test('Page Loads', async function (assert) {
     assert.expect(2);
     await visit('/');
 
@@ -24,7 +24,7 @@ module('Acceptance | Dummy | index', function(hooks) {
     assert.dom('.form .register h2').hasText('Create an Account');
   });
 
-  test('Helper tooltips', async function(assert) {
+  test('Helper tooltips', async function (assert) {
     assert.expect(2);
     await visit('/');
 
@@ -34,7 +34,7 @@ module('Acceptance | Dummy | index', function(hooks) {
       .includesText('These form inputs are bound to the User model');
   });
 
-  test('Invalid form submit', async function(assert) {
+  test('Invalid form submit', async function (assert) {
     await visit('/');
     await click('[data-test-sign-up]');
 
@@ -43,7 +43,7 @@ module('Acceptance | Dummy | index', function(hooks) {
       .hasText('Please fix all the errors below before continuing.');
   });
 
-  test('Valid form submit', async function(assert) {
+  test('Valid form submit', async function (assert) {
     await visit('/');
 
     for (let key in validInputValues) {
@@ -61,7 +61,7 @@ module('Acceptance | Dummy | index', function(hooks) {
     assert.dom('.form .registered h2.success').hasText('Success');
   });
 
-  test('Invalid to valid email', async function(assert) {
+  test('Invalid to valid email', async function (assert) {
     assert.expect(4);
     await visit('/');
 

@@ -43,5 +43,5 @@ import { regularExpressions } from 'ember-validators/format';
  */
 export default EmberValidator.extend({
   _evType: 'format',
-  regularExpressions
+  regularExpressions,
 });

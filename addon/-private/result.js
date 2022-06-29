@@ -6,13 +6,12 @@ import EmberObject, {
   setProperties,
   computed,
   set,
-  get
+  get,
 } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
 import ResultCollection from '../validations/result-collection';
 import WarningResultCollection from '../validations/warning-result-collection';
 import InternalResultObject from './internal-result-object';
-
-const { readOnly } = computed;
 
 /**
  * __PRIVATE__
@@ -62,7 +61,7 @@ const Result = EmberObject.extend({
    * @readOnly
    * @type {Boolean}
    */
-  _isReadOnly: computed('_result', function() {
+  _isReadOnly: computed('_result', function () {
     let validations = get(this, '_result');
     return (
       validations instanceof ResultCollection ||
@@ -187,7 +186,7 @@ const Result = EmberObject.extend({
     '_promise',
     '_validator',
     '_resultOverride',
-    function() {
+    function () {
       return (
         get(this, '_resultOverride') ||
         InternalResultObject.create(
@@ -236,7 +235,7 @@ const Result = EmberObject.extend({
       if (typeof value === 'string') {
         setProperties(get(this, '_result'), {
           [isWarning ? 'warningMessage' : 'message']: value,
-          isValid: isWarning ? true : false
+          isValid: isWarning ? true : false,
         });
       } else if (typeof value === 'boolean') {
         set(result, 'isValid', value);
@@ -263,12 +262,15 @@ const Result = EmberObject.extend({
    */
   _handlePromise() {
     get(this, '_promise')
-      .then(value => this.update(value), value => this.update(value))
-      .catch(reason => {
+      .then(
+        (value) => this.update(value),
+        (value) => this.update(value)
+      )
+      .catch((reason) => {
         // TODO: send into error state
         throw reason;
       });
-  }
+  },
 });
 
 export default Result;

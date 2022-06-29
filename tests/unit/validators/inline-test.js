@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Validator | inline', function(hooks) {
+module('Unit | Validator | inline', function (hooks) {
   setupTest(hooks);
 
-  test('no options', function(assert) {
+  test('no options', function (assert) {
     assert.expect(1);
 
     try {
@@ -14,7 +14,7 @@ module('Unit | Validator | inline', function(hooks) {
     }
   });
 
-  test('it works', function(assert) {
+  test('it works', function (assert) {
     assert.expect(3);
 
     const validator = this.owner.factoryFor('validator:inline').create({
@@ -27,8 +27,8 @@ module('Unit | Validator | inline', function(hooks) {
             options.validate,
             'Validate fn removed from the options'
           );
-        }
-      }
+        },
+      },
     });
 
     validator.validate('foo', validator.get('options').toObject());

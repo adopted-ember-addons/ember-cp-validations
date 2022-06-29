@@ -57,11 +57,6 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-2.16
-          - ember-lts-2.18
-          - ember-lts-3.4
-          - ember-lts-3.8
-          - ember-lts-3.12
           - ember-lts-3.16
           - ember-lts-3.20
           - ember-lts-3.24
@@ -72,7 +67,7 @@ jobs:
           - ember-default-with-jquery
           - ember-classic
           - embroider-safe
-          - embroider-optimized
+          # - embroider-optimized
 
     steps:
       - uses: actions/checkout@v3

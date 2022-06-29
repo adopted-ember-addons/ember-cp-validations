@@ -1,27 +1,27 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   type: {
     description: 'Order Line Type',
-    validators: [validator('ds-error'), validator('presence', true)]
+    validators: [validator('ds-error'), validator('presence', true)],
   },
   order: {
     description: 'Order',
-    validators: [validator('ds-error'), validator('presence', true)]
+    validators: [validator('ds-error'), validator('presence', true)],
   },
   selections: {
     description: 'Order Selections',
     validators: [
       validator('ds-error'),
       validator('has-many'),
-      validator('presence', true)
-    ]
-  }
+      validator('presence', true),
+    ],
+  },
 });
 
-export default DS.Model.extend(Validations, {
-  order: DS.belongsTo('order', { async: true }),
-  selections: DS.hasMany('order-selection', { async: true }),
-  type: DS.attr('string')
+export default Model.extend(Validations, {
+  order: belongsTo('order', { async: true }),
+  selections: hasMany('order-selection', { async: true }),
+  type: attr('string'),
 });

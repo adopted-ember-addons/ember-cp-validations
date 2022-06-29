@@ -3,37 +3,37 @@ import { setupTest } from 'ember-qunit';
 
 let options, builtOptions, validator, message;
 
-module('Unit | Validator | collection', function(hooks) {
+module('Unit | Validator | collection', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     validator = this.owner.lookup('validator:collection');
   });
 
-  test('buildOptions', function(assert) {
+  test('buildOptions', function (assert) {
     assert.expect(2);
 
     options = true;
     builtOptions = validator.buildOptions(options, {});
 
-    assert.equal(builtOptions.get('collection'), true);
+    assert.true(builtOptions.get('collection'));
 
     options = { collection: true };
     builtOptions = validator.buildOptions(options, {});
-    assert.equal(builtOptions.get('collection'), true);
+    assert.true(builtOptions.get('collection'));
   });
 
-  test('value is collection', function(assert) {
+  test('value is collection', function (assert) {
     assert.expect(1);
 
     options = { collection: true };
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(['foo', 'bar'], builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('value not collection', function(assert) {
+  test('value not collection', function (assert) {
     assert.expect(1);
 
     options = { collection: true };
@@ -43,17 +43,17 @@ module('Unit | Validator | collection', function(hooks) {
     assert.equal(message, 'This field must be a collection');
   });
 
-  test('singular - value is singular', function(assert) {
+  test('singular - value is singular', function (assert) {
     assert.expect(1);
 
     options = { collection: false };
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('value', builtOptions.toObject());
-    assert.equal(message, true);
+    assert.true(message);
   });
 
-  test('singular - value not singular', function(assert) {
+  test('singular - value not singular', function (assert) {
     assert.expect(1);
 
     options = { collection: false };

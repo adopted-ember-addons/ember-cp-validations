@@ -1,32 +1,30 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  showAlert: false,
-  isRegistered: false,
-  showCode: false,
-  didValidate: false,
+export default class extends Controller {
+  @tracked showAlert = false;
+  @tracked isRegistered = false;
+  @tracked showCode = false;
+  @tracked didValidate = false;
 
-  actions: {
-    validate() {
-      this.get('model')
-        .validate()
-        .then(({ validations }) => {
-          this.set('didValidate', true);
+  @action
+  validate() {
+    this.model.validate().then(({ validations }) => {
+      this.didValidate = true;
 
-          if (validations.get('isValid')) {
-            this.setProperties({
-              showAlert: false,
-              isRegistered: true,
-              showCode: false
-            });
-          } else {
-            this.set('showAlert', true);
-          }
-        });
-    },
-
-    toggleProperty(p) {
-      this.toggleProperty(p);
-    }
+      if (validations.get('isValid')) {
+        this.showAlert = false;
+        this.isRegistered = true;
+        this.showCode = false;
+      } else {
+        this.showAlert = true;
+      }
+    });
   }
-});
+
+  @action
+  toggleProperty(p) {
+    this[p] = !this[p];
+  }
+}
