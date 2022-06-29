@@ -3,6 +3,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class extends Controller {
+  queryParams = ['file'];
+  @tracked file = 'user-model.js';
+
   @tracked showAlert = false;
   @tracked isRegistered = false;
   @tracked showCode = false;

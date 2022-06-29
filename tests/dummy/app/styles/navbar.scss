@@ -1,19 +1,35 @@
-.navbar.navbar-light {
+.navbar {
   background-color: white;
   margin: 0;
   border-radius: 0;
   border-width: 0;
   border-bottom-width: 1px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  font-size: 16px;
+  padding: 0 20px;
+
+  a {
+    text-decoration: none;
+  }
 
   .navbar-brand {
     color: #797979;
-    font-size: 16px;
     font-weight: 400;
+    display: block;
+    height: 50px;
+    display: flex;
+    align-items: end;
+    padding-bottom: 10px;
+
     img {
       height: 32px;
       display: inline-block;
-      margin-top: -15px;
     }
+
     span {
       font-size: 12px;
       vertical-align: super;
@@ -21,28 +37,9 @@
       color: #444444;
     }
   }
-  .navbar-nav a {
-    font-size: 14px;
-    font-weight: 200;
-    color: #444444;
 
-    .fa-caret-down {
-      margin-left: 3px;
-      margin-right: 3px;
-    }
-
-    &.github {
-      font-size: 24px;
-    }
-  }
-  .navbar-nav a:focus,
-  .navbar-nav a:hover {
-    color: $accent-color;
-  }
-  .navbar-nav > .active > a,
-  .navbar-nav > .active > a:focus,
-  .navbar-nav > .active > a:hover {
-    color: $accent-color;
-    background-color: transparent;
+  .github {
+    font-size: 24px;
+    color: #333;
   }
 }

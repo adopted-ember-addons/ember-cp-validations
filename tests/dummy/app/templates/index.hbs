@@ -72,22 +72,14 @@
 
 {{#unless this.isRegistered}}
   <div class='snippet-container {{if this.showCode 'show'}}'>
-    {{#bs-tab as |tab|}}
-      {{#tab.pane title="models/user.js"}}
-        {{code-snippet name='user-model.js'}}
-      {{/tab.pane}}
-
-      {{#tab.pane title="models/user-detail.js"}}
-        {{code-snippet name='user-detail-model.js'}}
-      {{/tab.pane}}
-
-      {{#tab.pane title="validated-input.js"}}
-        {{code-snippet name='validated-input.js'}}
-      {{/tab.pane}}
-
-      {{#tab.pane title="validated-input.hbs"}}
-        {{code-snippet name='validated-input.hbs'}}
-      {{/tab.pane}}
-    {{/bs-tab}}
+    <ul class="nav nav-tabs">
+      <li><LinkTo @route="index" @query={{hash file="user-model.js"}}>models/user.js</LinkTo></li>
+      <li><LinkTo @route="index" @query={{hash file="user-detail-model.js"}}>models/user-detail.js</LinkTo></li>
+      <li><LinkTo @route="index" @query={{hash file="validated-input.js"}}>validated-input.js</LinkTo></li>
+      <li><LinkTo @route="index" @query={{hash file="validated-input.hbs"}}>validated-input.hbs</LinkTo></li>
+    </ul>
+    <div class="tab-content">
+      {{code-snippet name=this.file}}
+    </div>
   </div>
 {{/unless}}

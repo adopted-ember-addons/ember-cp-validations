@@ -1,9 +1,12 @@
 $accent-color: #f23818;
 
-@import 'ember-bootstrap/bootstrap';
 @import './navbar';
 @import './form';
 @import './code-snippet';
+
+*, ::after, ::before {
+  box-sizing: border-box;
+}
 
 body,
 html {
@@ -14,12 +17,17 @@ html {
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
 
-  > div.ember-view {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+body {
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333;
+}
+
+dl, ol, ul {
+  margin-top: 0;
 }
 
 .content {

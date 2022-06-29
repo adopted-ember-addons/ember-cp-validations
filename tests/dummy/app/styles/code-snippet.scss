@@ -17,40 +17,70 @@ $background-color: #fdfdfd;
   z-index: 0;
 
   &.show {
+    display: block;
     width: 600px;
     margin-left: -2px;
     box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.15);
   }
 
+  .nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+
+  .nav::after,
+  .nav::before {
+    display: table;
+    content: " ";
+  }
+
+  .nav > li,
+  .nav > li > a {
+    display: block;
+  }
+
+  .nav > li > a {
+    padding: 10px 15px;
+    text-decoration: none;
+  }
+
   .nav-tabs {
+    border-bottom: 1px solid #ddd;
+
+    li {
+      display: inline-block;
+      margin-bottom: -1px;
+    }
+
     li > a {
       color: #8A8A8A;
       border-radius: 2px 2px 0 0;
       font-size: 12px;
-    }
-    li.active > a {
-      background-color: $background-color;
-      color: #696969;
+      line-height: 1.428571429;
+      margin-right: 2px;
+      border: 1px solid transparent;
+
+      &.active {
+        background-color: $background-color !important;
+        color: #696969;
+        cursor: default;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+      }
     }
   }
+
   .tab-content {
     background-color: $background-color;
     max-height: 600px;
     overflow: auto;
     height: 100%;
-
-    > .tab-pane {
-      height: 100%;
-
-      &.active {
-        padding: 15px 15px 0;
-      }
-    }
+    font-size: 12px;
+    line-height: 1.428571429;
   }
+
   pre {
-    border: none;
-    margin: 0;
-    padding: 0;
     background-color: $background-color;
     height: 100%;
   }
