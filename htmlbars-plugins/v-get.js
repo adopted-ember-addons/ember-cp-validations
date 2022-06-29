@@ -81,27 +81,6 @@ var plugin = function ({ syntax }) {
   };
 };
 
-// Legacy implementation
-function VGet(options) {
-  this.options = options;
-  this.syntax = null; // set by HTMLBars
-}
-
-VGet.prototype.transform = function (ast) {
-  var context = this;
-  var walker = new this.syntax.Walker();
-
-  walker.visit(ast, function (node) {
-    let validNodeTypes = ['BlockStatement', 'MustacheStatement', 'ElementNode'];
-
-    if (validNodeTypes.indexOf(node.type) > -1) {
-      processNode(node, context.syntax);
-    }
-  });
-
-  return ast;
-};
-
 function processNode(node, syntax) {
   var type = node.type;
   node = unwrapNode(node);
@@ -227,7 +206,4 @@ function unwrapNode(node) {
   }
 }
 
-module.exports = {
-  plugin: plugin,
-  legacy: VGet,
-};
+module.exports = plugin;
