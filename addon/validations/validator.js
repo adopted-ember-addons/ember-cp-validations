@@ -1,5 +1,5 @@
 import { isNone } from '@ember/utils';
-import { deprecate } from '@ember/application/deprecations';
+import { deprecate } from '@ember/debug';
 
 /**
  * @module Validators
