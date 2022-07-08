@@ -7,12 +7,6 @@ module.exports = function (defaults) {
     snippetSearchPaths: ['addon', 'tests/dummy/app'],
     snippetPaths: ['snippets', 'tests/dummy/snippets'],
 
-    'ember-bootstrap': {
-      bootstrapVersion: 4,
-      importBootstrapFont: true,
-      importBootstrapCSS: false,
-    },
-
     'ember-prism': {
       components: ['javascript', 'markup'],
     },
