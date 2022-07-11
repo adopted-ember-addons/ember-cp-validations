@@ -24,7 +24,7 @@ module('Unit | Validator | date', function (hooks) {
 
     options = {
       allowBlank: true,
-      before: '1/1/2015',
+      before: new Date('1/1/2015'),
     };
 
     builtOptions = validator.buildOptions(options);
@@ -33,7 +33,7 @@ module('Unit | Validator | date', function (hooks) {
     assert.true(message);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be before Jan 1st, 2015');
+    assert.equal(message, 'This field must be before January 1, 2015');
   });
 
   test('valid date', function (assert) {
@@ -54,15 +54,18 @@ module('Unit | Validator | date', function (hooks) {
     assert.expect(2);
 
     options = {
-      format: 'DD/M/YYYY',
+      format: { year: 'numeric', month: 'numeric', day: '2-digit' },
     };
 
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('27/3/15', builtOptions.toObject());
-    assert.equal(message, 'This field must be in the format of DD/M/YYYY');
+    assert.equal(message, 'This field must be a valid date');
 
-    message = validator.validate('27/3/2015', builtOptions.toObject());
+    message = validator.validate(
+      new Date('3/27/2015'),
+      builtOptions.toObject()
+    );
     assert.true(message);
   });
 
@@ -90,7 +93,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be before Jan 1st, 2015');
+    assert.equal(message, 'This field must be before January 1, 2015');
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
     assert.true(message);
@@ -98,9 +101,13 @@ module('Unit | Validator | date', function (hooks) {
 
   test('before now', function (assert) {
     assert.expect(2);
-    let now = moment().format('MMM Do, YYYY');
+    let now = new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(
+      new Date('1/1/3015')
+    );
     options = {
-      before: 'now',
+      before: new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(
+        new Date('1/1/3015')
+      ),
     };
 
     builtOptions = validator.buildOptions(options);
@@ -122,7 +129,7 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.equal(message, 'This field must be on or before Jan 1st, 2015');
+    assert.equal(message, 'This field must be on or before January 1, 2015');
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
     assert.true(message);
@@ -133,20 +140,25 @@ module('Unit | Validator | date', function (hooks) {
 
   test('before now or on', function (assert) {
     assert.expect(3);
-    let now = moment().format('MMM Do, YYYY');
+    let now = new Date();
     options = {
-      onOrBefore: 'now',
+      onOrBefore: new Date(),
     };
 
     builtOptions = validator.buildOptions(options);
 
-    message = validator.validate('1/1/3015', builtOptions.toObject());
-    assert.equal(message, `This field must be on or before ${now}`);
+    message = validator.validate(new Date('1/1/3015'), builtOptions.toObject());
+    assert.equal(
+      message,
+      `This field must be on or before ${new Intl.DateTimeFormat('en', {
+        dateStyle: 'long',
+      }).format(now)}`
+    );
 
-    message = validator.validate('1/1/2014', builtOptions.toObject());
+    message = validator.validate(new Date('1/1/2014'), builtOptions.toObject());
     assert.true(message);
 
-    message = validator.validate('now', builtOptions.toObject());
+    message = validator.validate(now, builtOptions.toObject());
     assert.true(message);
   });
 
@@ -162,9 +174,11 @@ module('Unit | Validator | date', function (hooks) {
     ];
 
     assert.expect(precisions.length * 3 - 1);
-    let now = moment(new Date('2013-02-08T09:30:26'));
+    let now = new Date('2013-02-08T09:30:26');
     let dateString = now.toString();
-    let nowMessage = now.format('MMM Do, YYYY');
+    let nowMessage = new Intl.DateTimeFormat('en', {
+      dateStyle: 'long',
+    }).format(now);
 
     for (let i = 0; i < precisions.length; i++) {
       let precision = precisions[i];
@@ -199,13 +213,13 @@ module('Unit | Validator | date', function (hooks) {
     assert.expect(2);
 
     options = {
-      after: '1/1/2015',
+      after: new Date('1/1/2015'),
     };
 
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
-    assert.equal(message, 'This field must be after Jan 1st, 2015');
+    assert.equal(message, 'This field must be after January 1, 2015');
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
     assert.true(message);
@@ -213,9 +227,9 @@ module('Unit | Validator | date', function (hooks) {
 
   test('after now', function (assert) {
     assert.expect(2);
-    let now = moment().format('MMM Do, YYYY');
+    let now = new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format();
     options = {
-      after: 'now',
+      after: new Date(),
     };
 
     builtOptions = validator.buildOptions(options);
@@ -231,13 +245,13 @@ module('Unit | Validator | date', function (hooks) {
     assert.expect(3);
 
     options = {
-      onOrAfter: '1/1/2015',
+      onOrAfter: new Date('1/1/2015'),
     };
 
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
-    assert.equal(message, 'This field must be on or after Jan 1st, 2015');
+    assert.equal(message, 'This field must be on or after January 1, 2015');
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
     assert.true(message);
@@ -248,9 +262,9 @@ module('Unit | Validator | date', function (hooks) {
 
   test('after now or on', function (assert) {
     assert.expect(3);
-    let now = moment().format('MMM Do, YYYY');
+    let now = new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format();
     options = {
-      onOrAfter: 'now',
+      onOrAfter: new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(),
       precision: 'second',
     };
 
@@ -262,7 +276,7 @@ module('Unit | Validator | date', function (hooks) {
     message = validator.validate('1/1/3015', builtOptions.toObject());
     assert.true(message);
 
-    message = validator.validate('now', builtOptions.toObject());
+    message = validator.validate(now, builtOptions.toObject());
     assert.true(message);
   });
 
@@ -278,9 +292,11 @@ module('Unit | Validator | date', function (hooks) {
     ];
 
     assert.expect(precisions.length * 3 - 1);
-    let now = moment(new Date('2013-02-08T09:30:26'));
+    let now = new Date('2013-02-08T09:30:26');
     let dateString = now.toString();
-    let nowMessage = now.format('MMM Do, YYYY');
+    let nowMessage = new Intl.DateTimeFormat('en', {
+      dateStyle: 'long',
+    }).format(now);
 
     for (let i = 0; i < precisions.length; i++) {
       let precision = precisions[i];
