@@ -1966,11 +1966,7 @@
     ember-cli-version-checker "^5.1.2"
     semver "^7.3.5"
 
-<<<<<<< HEAD
-"@embroider/macros@1.8.0", "@embroider/macros@^0.50.0 || ^1.0.0", "@embroider/macros@^1.6.0":
-=======
 "@embroider/macros@1.8.0", "@embroider/macros@^0.50.0 || ^1.0.0", "@embroider/macros@^1.0.0", "@embroider/macros@^1.6.0":
->>>>>>> bf1481a... reset lock file
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-1.8.0.tgz#9e947e6292f0d7768a0f743d883c3e794457eaec"
   integrity sha512-jeRoUMPbZ/ADBU0FsyBGS1UgV5vQmwIPnpbVUsJ0XcZFZq/8ZHV6Ts4yeubvH/lePnUpHaKogs4dDvGk5tpQKw==
@@ -1984,23 +1980,6 @@
     resolve "^1.20.0"
     semver "^7.3.2"
 
-<<<<<<< HEAD
-"@embroider/macros@^1.0.0":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-1.8.3.tgz#2f0961ab8871f6ad819630208031d705b357757e"
-  integrity sha512-gnIOfTL/pUkoD6oI7JyWOqXlVIUgZM+CnbH10/YNtZr2K0hij9eZQMdgjOZZVgN0rKOFw9dIREqc1ygrJHRYQA==
-  dependencies:
-    "@embroider/shared-internals" "1.8.3"
-    assert-never "^1.2.1"
-    babel-import-util "^1.1.0"
-    ember-cli-babel "^7.26.6"
-    find-up "^5.0.0"
-    lodash "^4.17.21"
-    resolve "^1.20.0"
-    semver "^7.3.2"
-
-=======
->>>>>>> bf1481a... reset lock file
 "@embroider/shared-internals@1.8.0", "@embroider/shared-internals@^1.0.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-1.8.0.tgz#4c9b563e5f155410d982a30667b027a227be7312"
@@ -6092,11 +6071,7 @@ ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.1:
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.1.tgz#5016b80cdef37036c4282eef2d863e1d73576879"
   integrity sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==
 
-<<<<<<< HEAD
-ember-cli-babel@^6.6.0:
-=======
 ember-cli-babel@^6.6.0, ember-cli-babel@^6.9.2:
->>>>>>> bf1481a... reset lock file
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
@@ -6688,8 +6663,6 @@ ember-qunit@^5.1.5:
     silent-error "^1.1.1"
     validate-peer-dependencies "^1.2.0"
 
-<<<<<<< HEAD
-=======
 ember-require-module@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.3.0.tgz#65aff7908b5b846467e4526594d33cfe0c23456b"
@@ -6697,7 +6670,6 @@ ember-require-module@^0.3.0:
   dependencies:
     ember-cli-babel "^6.9.2"
 
->>>>>>> bf1481a... reset lock file
 ember-require-module@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.4.0.tgz#2f86bae244f70c3d4cb8b9ef8abbd617e7a95218"
