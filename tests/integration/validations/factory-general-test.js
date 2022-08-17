@@ -120,11 +120,17 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.get('validations.attrs.firstName.isValid'));
     assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.firstName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.firstName.message'),
+      undefined
+    );
 
     assert.true(object.get('validations.attrs.lastName.isValid'));
     assert.false(object.get('validations.attrs.lastName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.lastName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.lastName.message'),
+      undefined
+    );
 
     assert.strictEqual(
       object.get('validations.errors.length'),
@@ -158,11 +164,17 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.get('validations.attrs.firstName.isValid'));
     assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.firstName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.firstName.message'),
+      undefined
+    );
 
     assert.true(object.get('validations.attrs.lastName.isValid'));
     assert.false(object.get('validations.attrs.lastName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.lastName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.lastName.message'),
+      undefined
+    );
   });
 
   test('basic sync validation - 50% invalid', function (assert) {
@@ -189,7 +201,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.get('validations.attrs.firstName.isValid'));
     assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.firstName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.firstName.message'),
+      undefined
+    );
 
     assert.false(object.get('validations.attrs.lastName.isValid'));
     assert.false(object.get('validations.attrs.lastName.isValidating'));
@@ -208,7 +223,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
       .get('validations')
       .validate()
       .then(({ validations, model }) => {
-        assert.strictEqual(model, object, 'expected model to be the correct model');
+        assert.strictEqual(
+          model,
+          object,
+          'expected model to be the correct model'
+        );
         assert.deepEqual(
           validations.get('content').getEach('attribute').sort(),
           ['firstName', 'lastName'].sort()
@@ -227,7 +246,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
         assert.false(lastName.get('isValid'));
         assert.false(lastName.get('isValidating'));
-        assert.strictEqual(lastName.get('message'), 'lastName should be present');
+        assert.strictEqual(
+          lastName.get('message'),
+          'lastName should be present'
+        );
 
         assert.false(
           object.get('validations.isValid'),
@@ -248,7 +270,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
         assert.true(object.get('validations.attrs.firstName.isValid'));
         assert.false(object.get('validations.attrs.firstName.isValidating'));
-        assert.strictEqual(object.get('validations.attrs.firstName.message'), undefined);
+        assert.strictEqual(
+          object.get('validations.attrs.firstName.message'),
+          undefined
+        );
 
         assert.false(object.get('validations.attrs.lastName.isValid'));
         assert.false(object.get('validations.attrs.lastName.isValidating'));
@@ -302,7 +327,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.get('validations.attrs.firstName.isValid'));
     assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.firstName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.firstName.message'),
+      undefined
+    );
 
     assert.false(object.get('validations.attrs.lastName.isValid'));
     assert.false(object.get('validations.attrs.lastName.isValidating'));
@@ -339,7 +367,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.false(object.get('validations.attrs.firstName.isValid'));
     assert.false(object.get('validations.attrs.firstName.isValidating'));
-    assert.strictEqual(object.get('validations.attrs.firstName.message'), undefined);
+    assert.strictEqual(
+      object.get('validations.attrs.firstName.message'),
+      undefined
+    );
   });
 
   test('shallow isAsync test', function (assert) {
@@ -503,7 +534,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
     await run.later(() => {
       assert.true(object.get('validations.attrs.lastName.isValid'));
       assert.false(object.get('validations.attrs.lastName.isValidating'));
-      assert.strictEqual(object.get('validations.attrs.lastName.message'), undefined);
+      assert.strictEqual(
+        object.get('validations.attrs.lastName.message'),
+        undefined
+      );
     }, 505);
   });
 
@@ -1066,7 +1100,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
         assert.true(model.get('validations.isValid'));
         assert.false(validations.get('isValid'));
         assert.false(validations.get('isValidating'));
-        assert.strictEqual(validations.get('message'), 'firstName should be present');
+        assert.strictEqual(
+          validations.get('message'),
+          'firstName should be present'
+        );
       });
   });
 
@@ -1136,7 +1173,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
     );
 
     assert.false(object.get('validations.attrs.password.isValid'));
-    assert.strictEqual(object.get('validations.attrs.password.warnings.length'), 2);
+    assert.strictEqual(
+      object.get('validations.attrs.password.warnings.length'),
+      2
+    );
     assert.strictEqual(
       object.get('validations.attrs.password.warningMessage'),
       'Password should not be empty'
@@ -1150,7 +1190,10 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     assert.true(object.get('validations.isValid'));
     assert.true(object.get('validations.attrs.password.isValid'));
-    assert.strictEqual(object.get('validations.attrs.password.warnings.length'), 1);
+    assert.strictEqual(
+      object.get('validations.attrs.password.warnings.length'),
+      1
+    );
     assert.strictEqual(
       object.get('validations.attrs.password.warningMessage'),
       'Password is weak'
@@ -1328,7 +1371,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
       object.get('validations.attrs.password.message'),
       'Password is not valid'
     );
-    assert.strictEqual(customValidatorCount, 1, 'Last validator only executed once');
+    assert.strictEqual(
+      customValidatorCount,
+      1,
+      'Last validator only executed once'
+    );
   });
 
   test('none lazy validators are actually not lazy', function (assert) {
@@ -1395,7 +1442,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
       object.get('validations.attrs.password.message'),
       'Password is not valid'
     );
-    assert.strictEqual(customValidatorCount, 3, 'Last validator executed 3 times');
+    assert.strictEqual(
+      customValidatorCount,
+      3,
+      'Last validator executed 3 times'
+    );
   });
 
   test('validator should return correct error type', function (assert) {

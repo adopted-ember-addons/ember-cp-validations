@@ -129,7 +129,10 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
-    assert.strictEqual(message, 'This field must be on or before January 1, 2015');
+    assert.strictEqual(
+      message,
+      'This field must be on or before January 1, 2015'
+    );
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
     assert.true(message);
@@ -192,7 +195,10 @@ module('Unit | Validator | date', function (hooks) {
         moment(now).add(1, precision),
         builtOptions.toObject()
       );
-      assert.strictEqual(message, `This field must be on or before ${nowMessage}`);
+      assert.strictEqual(
+        message,
+        `This field must be on or before ${nowMessage}`
+      );
 
       if (i + 1 !== precisions.length) {
         builtOptions = validator.buildOptions({
@@ -251,7 +257,10 @@ module('Unit | Validator | date', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('1/1/2014', builtOptions.toObject());
-    assert.strictEqual(message, 'This field must be on or after January 1, 2015');
+    assert.strictEqual(
+      message,
+      'This field must be on or after January 1, 2015'
+    );
 
     message = validator.validate('1/1/2016', builtOptions.toObject());
     assert.true(message);
@@ -310,7 +319,10 @@ module('Unit | Validator | date', function (hooks) {
         moment(now).subtract(1, precision),
         builtOptions.toObject()
       );
-      assert.strictEqual(message, `This field must be on or after ${nowMessage}`);
+      assert.strictEqual(
+        message,
+        `This field must be on or after ${nowMessage}`
+      );
 
       if (i + 1 !== precisions.length) {
         builtOptions = validator.buildOptions({

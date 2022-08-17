@@ -207,7 +207,10 @@ module('Integration | Validations | Model Relationships', function (hooks) {
         friends.get('warning.message'),
         'lastName should be present'
       );
-      assert.strictEqual(friends.get('warningMessage'), 'lastName should be present');
+      assert.strictEqual(
+        friends.get('warningMessage'),
+        'lastName should be present'
+      );
       assert.true(friends.get('isValid'));
     });
 
@@ -277,8 +280,14 @@ module('Integration | Validations | Model Relationships', function (hooks) {
 
       let friend = validations.get('content').findBy('attribute', 'friend');
 
-      assert.strictEqual(friend.get('warning.message'), 'lastName should be present');
-      assert.strictEqual(friend.get('warningMessage'), 'lastName should be present');
+      assert.strictEqual(
+        friend.get('warning.message'),
+        'lastName should be present'
+      );
+      assert.strictEqual(
+        friend.get('warningMessage'),
+        'lastName should be present'
+      );
       assert.true(friend.get('isValid'));
     });
 
@@ -434,9 +443,15 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.false(user.get('validations.isValid'));
     assert.false(user.get('validations.isValidating'));
     assert.false(user.get('validations.attrs.firstName.isValid'));
-    assert.strictEqual(user.get('validations.attrs.firstName.messages.length'), 2);
+    assert.strictEqual(
+      user.get('validations.attrs.firstName.messages.length'),
+      2
+    );
     assert.false(user.get('validations.attrs.fullName.isValid'));
-    assert.strictEqual(user.get('validations.attrs.fullName.messages.length'), 1);
+    assert.strictEqual(
+      user.get('validations.attrs.fullName.messages.length'),
+      1
+    );
     assert.strictEqual(
       user.get('validations.attrs.fullName.message'),
       'First error message'

@@ -148,7 +148,10 @@ module('Unit | Validator | number', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(21, builtOptions.toObject());
-    assert.strictEqual(message, 'This field must be greater than or equal to 22');
+    assert.strictEqual(
+      message,
+      'This field must be greater than or equal to 22'
+    );
 
     message = validator.validate(22, builtOptions.toObject());
     assert.true(message);

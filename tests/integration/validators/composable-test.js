@@ -39,7 +39,10 @@ module('Integration | Validators | Composable', function (hooks) {
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.strictEqual(obj.get('validations.message'), "This field can't be blank");
+    assert.strictEqual(
+      obj.get('validations.message'),
+      "This field can't be blank"
+    );
 
     obj.set('value', 'foo');
 
@@ -79,7 +82,10 @@ module('Integration | Validators | Composable', function (hooks) {
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.strictEqual(obj.get('validations.message'), "This field can't be blank");
+    assert.strictEqual(
+      obj.get('validations.message'),
+      "This field can't be blank"
+    );
 
     obj.set('value', 'foobar');
 
