@@ -7,6 +7,7 @@ import { cancel, debounce as debounced } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
+import { deprecate } from '@ember/debug';
 import deepSet from '../utils/deep-set';
 import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
@@ -407,6 +408,19 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  */
 function createCPValidationFor(attribute, model, validations) {
   let isVolatile = hasOption(validations, 'volatile', true);
+
+  deprecate(
+    '[ember-cp-validations] The `volatile` option should no longer be used ' +
+      'as it was removed in ember 4.0',
+    !isVolatile,
+    {
+      id: 'ember-cp-validations.volatile',
+      for: 'ember-cp-validations',
+      since: '3.1.0',
+      until: '5.0.0',
+    }
+  );
+
   let dependentKeys = isVolatile
     ? []
     : getCPDependentKeysFor(attribute, model, validations);
