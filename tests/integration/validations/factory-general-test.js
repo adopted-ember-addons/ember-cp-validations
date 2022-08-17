@@ -4,7 +4,7 @@ import Mixin from '@ember/object/mixin';
 import { A, isArray } from '@ember/array';
 import { Promise as EmberPromise } from 'rsvp';
 import { isNone } from '@ember/utils';
-import { run } from '@ember/runloop';
+import { later, run } from '@ember/runloop';
 import EmberObject, { computed } from '@ember/object';
 import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
@@ -531,7 +531,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     object.set('lastName', 'Golan');
     assert.true(object.get('validations.attrs.lastName.isValidating'));
 
-    await run.later(() => {
+    await later(() => {
       assert.true(object.get('validations.attrs.lastName.isValid'));
       assert.false(object.get('validations.attrs.lastName.isValidating'));
       assert.strictEqual(
@@ -561,7 +561,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     object.set('firstName', 'Offir');
     object.get('validations.attrs.firstName.isValid');
 
-    await run.later(() => {
+    await later(() => {
       assert.strictEqual(count, 1);
     }, 505);
   });
@@ -621,14 +621,14 @@ module('Integration | Validations | Factory - General', function (hooks) {
     assert.true(object.get('validations.attrs.lastName.isValidating'));
     assert.true(object.get('validations.attrs.details.url.isValidating'));
 
-    run.later(() => {
+    later(() => {
       try {
         object.destroy();
         assert.ok(true, 'Object destroy was clean');
       } catch (e) {
         /* noop */
       }
-      run.later(() => {
+      later(() => {
         done();
       }, 400);
     }, 200);
