@@ -8,13 +8,13 @@ import Validator from './validations/validator';
  * ```
  *
  * ## Changelog
- * Changelog can be found [here](https://github.com/offirgolan/ember-cp-validations/blob/master/CHANGELOG.md)
+ * Changelog can be found [here](https://github.com/adopted-ember-addons/ember-cp-validations/blob/master/CHANGELOG.md)
  *
  * ## Live Demo
- * A live demo can be found [here](http://offirgolan.github.io/ember-cp-validations/)
+ * A live demo can be found [here](http://adopted-ember-addons.github.io/ember-cp-validations/)
  *
  * ## Looking for help?
- * If it is a bug [please open an issue on GitHub](http://github.com/offirgolan/ember-cp-validations/issues).
+ * If it is a bug [please open an issue on GitHub](http://github.com/adopted-ember-addons/ember-cp-validations/issues).
  *
  * @module Usage
  */
@@ -234,7 +234,7 @@ import Validator from './validations/validator';
  *
  * All options can also be Computed Properties. These CPs have access to the `model` and `attribute` that is associated with the validator.
  *
- * Please note that the `message` option of a validator can also be a function with [the following signature](http://offirgolan.github.io/ember-cp-validations/docs/modules/Validators.html#message).
+ * Please note that the `message` option of a validator can also be a function with [the following signature](http://adopted-ember-addons.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
  * ```javascript
  * const Validations = buildValidations({
@@ -304,5 +304,5 @@ export const validator = Validator;
 
 export default {
   buildValidations,
-  validator
+  validator,
 };

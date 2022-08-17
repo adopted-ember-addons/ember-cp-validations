@@ -2,10 +2,10 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Validations | Nested Model Relationships', function(hooks) {
+module('Unit | Validations | Nested Model Relationships', function (hooks) {
   setupTest(hooks);
 
-  test('order with invalid question shows invalid', function(assert) {
+  test('order with invalid question shows invalid', function (assert) {
     assert.expect(11);
     let order = run(() =>
       this.owner
@@ -21,16 +21,16 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
       orderSelection = store.createRecord('order-selection', {
         order,
         line: orderLine,
-        quantity: 1
+        quantity: 1,
       });
       orderSelectionQuestion = store.createRecord('order-selection-question', {
         order,
-        selection: orderSelection
+        selection: orderSelection,
       });
       store.createRecord('order-selection-question', {
         order,
         selection: orderSelection,
-        text: 'foo'
+        text: 'foo',
       });
     });
 
@@ -51,60 +51,52 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
     order
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order should not be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Line should not be valid because of Order Selection Question'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection should not be valid because of Order Selection Question'
         );
         return orderSelectionQuestion.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection Question should not be valid'
         );
         done();
       });
   });
 
-  test('order with valid question shows valid', function(assert) {
+  test('order with valid question shows valid', function (assert) {
     assert.expect(11);
     let order = run(() =>
       this.owner
@@ -120,12 +112,12 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
       orderSelection = store.createRecord('order-selection', {
         order,
         line: orderLine,
-        quantity: 1
+        quantity: 1,
       });
       orderSelectionQuestion = store.createRecord('order-selection-question', {
         order,
         selection: orderSelection,
-        text: 'answer'
+        text: 'answer',
       });
     });
 
@@ -146,60 +138,52 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
     order
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order should be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Line should be valid because of Order Selection Question'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection should be valid because of Order Selection Question'
         );
         return orderSelectionQuestion.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection Question should be valid'
         );
         done();
       });
   });
 
-  test('order with invalid question shows invalid if validated in reverse order', function(assert) {
+  test('order with invalid question shows invalid if validated in reverse order', function (assert) {
     assert.expect(11);
     let order = run(() =>
       this.owner
@@ -215,11 +199,11 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
       orderSelection = store.createRecord('order-selection', {
         order,
         line: orderLine,
-        quantity: 1
+        quantity: 1,
       });
       orderSelectionQuestion = store.createRecord('order-selection-question', {
         order,
-        selection: orderSelection
+        selection: orderSelection,
       });
     });
 
@@ -240,60 +224,52 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
     orderSelectionQuestion
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection Question should not be valid'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection should not be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Line should not be valid because of Order Selection Question'
         );
         return order.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order should not be valid because of Order Selection Question'
         );
         done();
       });
   });
 
-  test('order with valid question shows valid if validated in reverse order', function(assert) {
+  test('order with valid question shows valid if validated in reverse order', function (assert) {
     assert.expect(11);
     let order = run(() =>
       this.owner
@@ -309,12 +285,12 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
       orderSelection = store.createRecord('order-selection', {
         order,
         line: orderLine,
-        quantity: 1
+        quantity: 1,
       });
       orderSelectionQuestion = store.createRecord('order-selection-question', {
         order,
         selection: orderSelection,
-        text: 'answer'
+        text: 'answer',
       });
     });
 
@@ -335,60 +311,52 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
     orderSelectionQuestion
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection Question should be valid'
         );
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection should be valid because of Order Selection Question'
         );
         return orderLine.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Line should be valid because of Order Selection Question'
         );
         return order.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValidating'),
-          false,
           'All promises should be resolved'
         );
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order should be valid because of Order Selection Question'
         );
         done();
       });
   });
 
-  test('order with invalid question shows valid if invalid question is deleted in reverse order', function(assert) {
+  test('order with invalid question shows valid if invalid question is deleted in reverse order', function (assert) {
     assert.expect(9);
     let order = run(() =>
       this.owner
@@ -403,7 +371,7 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
 
     let store = this.owner.lookup('service:store');
     run(() => {
-      let fakeSave = function(model) {
+      let fakeSave = function (model) {
         model.get('_internalModel').adapterWillCommit();
         model.get('_internalModel').adapterDidCommit();
       };
@@ -411,24 +379,24 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
       orderLine = store.createRecord('order-line', {
         id: 1,
         order,
-        type: 'item'
+        type: 'item',
       });
       orderSelection = store.createRecord('order-selection', {
         id: 1,
         order,
         line: orderLine,
-        quantity: 1
+        quantity: 1,
       });
       orderSelectionQuestion = store.createRecord('order-selection-question', {
         id: 1,
         order,
         selection: orderSelection,
-        text: 'answer'
+        text: 'answer',
       });
       orderSelectionQuestion2 = store.createRecord('order-selection-question', {
         id: 2,
         order,
-        selection: orderSelection
+        selection: orderSelection,
       });
 
       fakeSave(order);
@@ -455,27 +423,24 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
     orderSelectionQuestion2
       .validate()
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection Question 2 should be invalid'
         );
 
         return orderSelectionQuestion.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection Question should be valid'
         );
 
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.false(
           validations.get('isValid'),
-          false,
           'Order Selection should be invalid because of Order Selection Question 2'
         );
         orderSelectionQuestion2.deleteRecord();
@@ -483,9 +448,8 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
         return orderSelection.validate();
       })
       .then(({ validations }) => {
-        assert.equal(
+        assert.true(
           validations.get('isValid'),
-          true,
           'Order Selection should be valid because invalid Order Selection Question 2 was marked deleted'
         );
 
@@ -493,9 +457,8 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
         return orderSelection.validate();
       })
       .then(() => {
-        assert.equal(
+        assert.false(
           orderSelection.get('validations.attrs.questions.isValid'),
-          false,
           'Order Selection should not be valid because all Order Selection Questions have been marked deleted'
         );
 
@@ -503,9 +466,8 @@ module('Unit | Validations | Nested Model Relationships', function(hooks) {
         return orderSelection.validate();
       })
       .then(() => {
-        assert.equal(
+        assert.false(
           orderSelection.get('validations.attrs.order.isValid'),
-          false,
           'Order Selection should not be valid because Order was marked for deletion'
         );
 

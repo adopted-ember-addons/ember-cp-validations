@@ -13,7 +13,7 @@ import { flatten, uniq, compact } from '../utils/array';
 function isAny(collection, key, value, defaultValue) {
   return computed(
     `${collection}.@each.${key}`,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return get(this, collection).isAny(key, value);
     }, defaultValue)
   );
@@ -22,7 +22,7 @@ function isAny(collection, key, value, defaultValue) {
 function isEvery(collection, key, value, defaultValue) {
   return computed(
     `${collection}.@each.${key}`,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return get(this, collection).isEvery(key, value);
     }, defaultValue)
   );
@@ -153,7 +153,7 @@ export default ArrayProxy.extend({
    */
   messages: computed(
     'content.@each.messages',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return uniq(compact(flatten(this.getEach('messages'))));
     })
   ).readOnly(),
@@ -203,7 +203,7 @@ export default ArrayProxy.extend({
    */
   warningMessages: computed(
     'content.@each.warningMessages',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return uniq(compact(flatten(this.getEach('warningMessages'))));
     })
   ).readOnly(),
@@ -240,7 +240,7 @@ export default ArrayProxy.extend({
   warnings: computed(
     'attribute',
     'content.@each.warnings',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return this._computeErrorCollection(this.getEach('warnings'));
     })
   ).readOnly(),
@@ -277,7 +277,7 @@ export default ArrayProxy.extend({
   errors: computed(
     'attribute',
     'content.@each.errors',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return this._computeErrorCollection(this.getEach('errors'));
     })
   ).readOnly(),
@@ -329,7 +329,7 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Object}
    */
-  options: computed('_contentValidators.@each.options', function() {
+  options: computed('_contentValidators.@each.options', function () {
     return this._groupValidatorOptions(get(this, '_contentValidators'));
   }).readOnly(),
 
@@ -342,12 +342,12 @@ export default ArrayProxy.extend({
   _promise: computed(
     'content.@each._promise',
     '_contentResults.@each._promise',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return RSVP.allSettled(
         compact(
           flatten([
             this.get('_contentResults').getEach('_promise'),
-            this.getEach('_promise')
+            this.getEach('_promise'),
           ])
         )
       );
@@ -359,7 +359,7 @@ export default ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentResults: computed('content.@each._result', function() {
+  _contentResults: computed('content.@each._result', function () {
     return emberArray(compact(this.getEach('_result')));
   }).readOnly(),
 
@@ -374,7 +374,7 @@ export default ArrayProxy.extend({
     let attribute = get(this, 'attribute');
     let errors = uniq(compact(flatten(collection)));
 
-    errors.forEach(e => {
+    errors.forEach((e) => {
       if (attribute && e.get('attribute') !== attribute) {
         e.set('parentAttribute', attribute);
       }
@@ -407,5 +407,5 @@ export default ArrayProxy.extend({
       }
       return options;
     }, {});
-  }
+  },
 });

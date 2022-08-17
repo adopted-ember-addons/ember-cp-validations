@@ -1,5 +1,5 @@
 import { isNone } from '@ember/utils';
-import { deprecate } from '@ember/application/deprecations';
+import { deprecate } from '@ember/debug';
 
 /**
  * @module Validators
@@ -205,9 +205,9 @@ import { deprecate } from '@ember/application/deprecations';
  * @submodule Common Options
  */
 
-export default function(arg1, options) {
+export default function (arg1, options) {
   let props = {
-    options: isNone(options) ? {} : options
+    options: isNone(options) ? {} : options,
   };
 
   if (typeof arg1 === 'function') {

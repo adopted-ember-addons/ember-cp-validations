@@ -2,17 +2,16 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Validations | DS.Model', function(hooks) {
+module('Unit | Validations | DS.Model', function (hooks) {
   setupTest(hooks);
 
-  test('create model with defaults', function(assert) {
+  test('create model with defaults', function (assert) {
     let object = run(() =>
       this.owner.lookup('service:store').createRecord('signup')
     );
 
-    assert.equal(
+    assert.false(
       object.get('validations.attrs.acceptTerms.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
 
@@ -20,23 +19,21 @@ module('Unit | Validations | DS.Model', function(hooks) {
       object.set('acceptTerms', true);
     });
 
-    assert.equal(
+    assert.true(
       object.get('validations.attrs.acceptTerms.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
   });
 
-  test('create model overriding defaults', function(assert) {
+  test('create model overriding defaults', function (assert) {
     let object = run(() =>
       this.owner
         .lookup('service:store')
         .createRecord('signup', { acceptTerms: true })
     );
 
-    assert.equal(
+    assert.true(
       object.get('validations.attrs.acceptTerms.isValid'),
-      true,
       'isValid was expected to be TRUE'
     );
 
@@ -44,9 +41,8 @@ module('Unit | Validations | DS.Model', function(hooks) {
       object.set('acceptTerms', false);
     });
 
-    assert.equal(
+    assert.false(
       object.get('validations.attrs.acceptTerms.isValid'),
-      false,
       'isValid was expected to be FALSE'
     );
   });

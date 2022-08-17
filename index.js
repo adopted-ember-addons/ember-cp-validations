@@ -3,27 +3,24 @@
 module.exports = {
   name: require('./package').name,
 
-  setupPreprocessorRegistry: function(type, registry) {
-    const plugin = this._buildPlugin();
-
-    plugin.parallelBabel = {
-      requireFile: __filename,
-      buildUsing: '_buildPlugin',
-      params: {}
-    };
-
-    registry.add('htmlbars-ast-plugin', plugin);
+  setupPreprocessorRegistry: function (type, registry) {
+    registry.add('htmlbars-ast-plugin', this._buildPlugin());
   },
 
   _buildPlugin() {
-    const VGet = require('./htmlbars-plugins/v-get');
+    const vGetPlugin = require('./htmlbars-plugins/v-get');
 
     return {
       name: 'v-get',
-      plugin: VGet,
-      baseDir: function() {
+      baseDir: function () {
         return __dirname;
-      }
+      },
+      parallelBabel: {
+        requireFile: __filename,
+        buildUsing: '_buildPlugin',
+        params: {},
+      },
+      plugin: vGetPlugin,
     };
-  }
+  },
 };

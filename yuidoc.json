@@ -1,12 +1,12 @@
 {
   "name": "Ember CP Validations",
   "description": "Ember computed property based validations",
-  "url": "https://github.com/offirgolan/ember-cp-validations",
+  "url": "https://github.com/adopted-ember-addons/ember-cp-validations",
   "indexModule": "Usage",
   "externalDocs": [{
       "name": "ember-validators",
       "path": "node_modules/ember-validators",
-      "url": "https://github.com/offirgolan/ember-validators",
+      "url": "https://github.com/adopted-ember-addons/ember-validators",
       "version": "master"
   }],
   "options": {

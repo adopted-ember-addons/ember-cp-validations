@@ -50,9 +50,9 @@ export default EmberValidator.extend({
 
     if (typeof options === 'boolean') {
       opts = {
-        presence: options
+        presence: options,
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
-  }
+  },
 });

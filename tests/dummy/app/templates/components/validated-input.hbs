@@ -1,23 +1,35 @@
 {{! template-lint-disable }}
+
 {{!-- BEGIN-SNIPPET validated-input --}}
-<div class='form-group'>
-  {{input type=type value=value placeholder=placeholder class='form-control' name=valuePath}}
-  {{#if isValid}}
-    <span class='valid-input fa fa-check'></span>
-  {{/if}}
+<div class="validated-input {{this.classes}}" ...attributes>
+  <div class='form-group'>
+    <input
+      type={{@type}}
+      value={{this.value}}
+      placeholder={{@placeholder}}
+      class='form-control'
+      name={{@valuePath}}
+      {{on "input" this.updateValue}}
+      {{on "focusout" this.focusOut}}
+    />
 
-  <div class='input-error'>
-    {{#if showErrorMessage}}
-      <div class='error'>
-        {{v-get model valuePath 'message'}}
-      </div>
+    {{#if this.isValid}}
+      <span class='valid-input fa fa-check'></span>
     {{/if}}
 
-    {{#if showWarningMessage}}
-      <div class='warning'>
-        {{v-get model valuePath 'warningMessage'}}
-      </div>
-    {{/if}}
+    <div class='input-error'>
+      {{#if this.showErrorMessage}}
+        <div class='error'>
+          {{v-get @model @valuePath 'message'}}
+        </div>
+      {{/if}}
+
+      {{#if this.showWarningMessage}}
+        <div class='warning'>
+          {{v-get @model @valuePath 'warningMessage'}}
+        </div>
+      {{/if}}
+    </div>
   </div>
 </div>
 {{!-- END-SNIPPET --}}

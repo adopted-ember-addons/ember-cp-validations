@@ -1,5 +1,4 @@
 import Base from 'ember-cp-validations/validators/base';
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 
 /**
@@ -39,11 +38,11 @@ export default Base.extend({
       options && typeof options.validate === 'function'
     );
 
-    const opts = assign({}, options);
+    const opts = Object.assign({}, options);
 
     this.validate = opts.validate;
     delete opts.validate;
 
     return this._super(opts, ...args);
-  }
+  },
 });

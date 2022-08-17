@@ -5,15 +5,21 @@ import cycleBreaker from '../utils/cycle-breaker';
 import { flatten, uniq, compact } from '../utils/array';
 
 export default ResultCollection.extend({
-  isValid: computed(() => true).readOnly(),
+  isValid: computed(function () {
+    return true;
+  }).readOnly(),
   isTruelyValid: not('isValidating').readOnly(),
 
-  messages: computed(() => []).readOnly(),
-  errors: computed(() => []).readOnly(),
+  messages: computed(function () {
+    return [];
+  }).readOnly(),
+  errors: computed(function () {
+    return [];
+  }).readOnly(),
 
   warningMessages: computed(
     'content.@each.{messages,warningMessages}',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return uniq(
         compact(
           flatten([this.getEach('messages'), this.getEach('warningMessages')])
@@ -25,10 +31,10 @@ export default ResultCollection.extend({
   warnings: computed(
     'attribute',
     'content.@each.{errors,warnings}',
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return this._computeErrorCollection(
         flatten([this.getEach('errors'), this.getEach('warnings')])
       );
     })
-  ).readOnly()
+  ).readOnly(),
 });

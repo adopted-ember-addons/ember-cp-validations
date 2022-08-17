@@ -34,6 +34,10 @@
   margin: 0 0 20px;
 }
 
+.form-control {
+  height: 34px;
+}
+
 .has-error .form-control:focus,
 .has-success .form-control:focus {
   box-shadow: none;

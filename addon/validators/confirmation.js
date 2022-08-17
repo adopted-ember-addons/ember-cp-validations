@@ -24,7 +24,7 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @extends Base
  */
 const Confirmation = EmberValidator.extend({
-  _evType: 'confirmation'
+  _evType: 'confirmation',
 });
 
 Confirmation.reopenClass({
@@ -37,7 +37,7 @@ Confirmation.reopenClass({
     );
 
     return on ? [`model.${on}`] : [];
-  }
+  },
 });
 
 export default Confirmation;
