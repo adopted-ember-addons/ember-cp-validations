@@ -6071,7 +6071,7 @@ ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.1:
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.1.tgz#5016b80cdef37036c4282eef2d863e1d73576879"
   integrity sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==
 
-ember-cli-babel@^6.6.0, ember-cli-babel@^6.9.2:
+ember-cli-babel@^6.6.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
@@ -6663,13 +6663,6 @@ ember-qunit@^5.1.5:
     silent-error "^1.1.1"
     validate-peer-dependencies "^1.2.0"
 
-ember-require-module@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.3.0.tgz#65aff7908b5b846467e4526594d33cfe0c23456b"
-  integrity sha512-rYN4YoWbR9VlJISSmx0ZcYZOgMcXZLGR7kdvp3zDerjIvYmHm/3p+K56fEAYmJILA6W4F+cBe41Tq2HuQAZizA==
-  dependencies:
-    ember-cli-babel "^6.9.2"
-
 ember-require-module@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.4.0.tgz#2f86bae244f70c3d4cb8b9ef8abbd617e7a95218"
@@ -6825,13 +6818,13 @@ ember-try@^1.4.0:
     rsvp "^4.7.0"
     walk-sync "^1.1.3"
 
-ember-validators@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-3.0.1.tgz#9e0f7ed4ce6817aa05f7d46e95a0267c03f1f043"
-  integrity sha512-GbvvECDG9N7U+4LXxPWNgiSnGbOzgvGBIxtS4kw2uyEIy7kymtgszhpSnm8lGMKYnhCKBqFingh8qnVKlCi0lg==
+ember-validators@^4.1.1:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-4.1.2.tgz#e70c0ac80f6b66c8288ffe5860c96e81bf621691"
+  integrity sha512-aNyJW52eWvWhdcRfnb0pGYSDuQU4i4XjA682aDG1ocmz7eUEDw7bXXvKEYGtVsPTtPLtUPvTtaH9mXKpMG+1xA==
   dependencies:
-    ember-cli-babel "^6.9.2"
-    ember-require-module "^0.3.0"
+    "@embroider/macros" "^1.0.0"
+    ember-cli-babel "^7.26.11"
 
 emit-function@0.0.2:
   version "0.0.2"
