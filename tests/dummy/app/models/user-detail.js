@@ -14,7 +14,7 @@ const Validations = buildValidations(
       validators: [
         validator('presence', true),
         validator('date', {
-          before: 'now',
+          before: new Date(),
           after: computed(function () {
             return moment().subtract(120, 'years').format('M/D/YYYY');
           }).volatile(),
