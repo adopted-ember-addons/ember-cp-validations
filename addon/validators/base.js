@@ -462,7 +462,7 @@ export default Base;
  *     let done = assert.async();
  *
  *     validator.validate('johndoe42').then((message) => {
- *       assert.equal(message, true);
+ *       assert.strictEqual(message, true);
  *       done();
  *     });
  * });

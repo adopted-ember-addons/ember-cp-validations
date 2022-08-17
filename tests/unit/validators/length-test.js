@@ -33,7 +33,7 @@ module('Unit | Validator | length', function (hooks) {
     assert.true(message);
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, 'This field is too short (minimum is 5 characters)');
+    assert.strictEqual(message, 'This field is too short (minimum is 5 characters)');
   });
 
   test('allow none', function (assert) {
@@ -52,7 +52,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(null, builtOptions.toObject());
-    assert.equal(message, 'This field is invalid');
+    assert.strictEqual(message, 'This field is invalid');
   });
 
   test('is', function (assert) {
@@ -65,7 +65,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('testing', builtOptions.toObject());
-    assert.equal(
+    assert.strictEqual(
       message,
       'This field is the wrong length (should be 4 characters)'
     );
@@ -84,7 +84,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('test', builtOptions.toObject());
-    assert.equal(message, 'This field is too short (minimum is 5 characters)');
+    assert.strictEqual(message, 'This field is too short (minimum is 5 characters)');
 
     message = validator.validate('testing', builtOptions.toObject());
     assert.true(message);
@@ -100,7 +100,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('testing', builtOptions.toObject());
-    assert.equal(message, 'This field is too long (maximum is 5 characters)');
+    assert.strictEqual(message, 'This field is too long (maximum is 5 characters)');
 
     message = validator.validate('test', builtOptions.toObject());
     assert.true(message);
@@ -116,7 +116,7 @@ module('Unit | Validator | length', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate([], builtOptions.toObject());
-    assert.equal(message, 'This field is too short (minimum is 1 characters)');
+    assert.strictEqual(message, 'This field is too short (minimum is 1 characters)');
 
     message = validator.validate([1], builtOptions.toObject());
     assert.true(message);

@@ -39,7 +39,7 @@ module('Integration | Validators | Composable', function (hooks) {
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.equal(obj.get('validations.message'), "This field can't be blank");
+    assert.strictEqual(obj.get('validations.message'), "This field can't be blank");
 
     obj.set('value', 'foo');
 
@@ -79,13 +79,13 @@ module('Integration | Validators | Composable', function (hooks) {
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.equal(obj.get('validations.message'), "This field can't be blank");
+    assert.strictEqual(obj.get('validations.message'), "This field can't be blank");
 
     obj.set('value', 'foobar');
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.equal(
+    assert.strictEqual(
       obj.get('validations.message'),
       'This field is too long (maximum is 5 characters)'
     );
@@ -150,14 +150,14 @@ module('Integration | Validators | Composable', function (hooks) {
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.equal(obj.get('validations.message'), 'Must include foo!');
+    assert.strictEqual(obj.get('validations.message'), 'Must include foo!');
 
     obj.set('value', 'foo');
     await obj.validate();
 
     assert.false(obj.get('validations.isValid'));
     assert.false(obj.get('validations.isValidating'));
-    assert.equal(obj.get('validations.message'), 'Must include bar!');
+    assert.strictEqual(obj.get('validations.message'), 'Must include bar!');
 
     obj.set('value', 'foobar');
     await obj.validate();
@@ -213,7 +213,7 @@ module('Integration | Validators | Composable', function (hooks) {
 
           this.test('presence', value, { presence: false });
 
-          assert.equal(presenceValidator, cache.presence);
+          assert.strictEqual(presenceValidator, cache.presence);
         },
       })
     );

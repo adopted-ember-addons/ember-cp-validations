@@ -12,8 +12,8 @@ module('Unit | Validator | messages', function (hooks) {
 
   test('message strings present', function (assert) {
     assert.expect(2);
-    assert.equal(messages.get('invalid'), '{description} is invalid');
-    assert.equal(
+    assert.strictEqual(messages.get('invalid'), '{description} is invalid');
+    assert.strictEqual(
       messages.get('tooShort'),
       '{description} is too short (minimum is {min} characters)'
     );
@@ -24,15 +24,15 @@ module('Unit | Validator | messages', function (hooks) {
     let context = {
       description: 'This field',
     };
-    assert.equal(
+    assert.strictEqual(
       messages.formatMessage(undefined, context),
       'This field is invalid'
     );
-    assert.equal(
+    assert.strictEqual(
       messages.formatMessage('{foo} is undefined'),
       'undefined is undefined'
     );
-    assert.equal(
+    assert.strictEqual(
       messages.formatMessage('{foo} {foo} {bar} {baz}', {
         foo: 'a',
         bar: 1,
@@ -48,11 +48,11 @@ module('Unit | Validator | messages', function (hooks) {
       description: 'This field',
       min: 4,
     };
-    assert.equal(
+    assert.strictEqual(
       messages.getMessageFor('foo', context),
       'This field is invalid'
     );
-    assert.equal(
+    assert.strictEqual(
       messages.getMessageFor('tooShort', context),
       'This field is too short (minimum is 4 characters)'
     );
