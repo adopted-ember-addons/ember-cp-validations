@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -188,14 +188,14 @@
     <pre class="prettyprint linenums">
 import Mixin from &#x27;@ember/object/mixin&#x27;;
 import { Promise } from &#x27;rsvp&#x27;;
-import EmberObject, { getWithDefault, computed, set, get } from &#x27;@ember/object&#x27;;
+import EmberObject, { computed, set, get } from &#x27;@ember/object&#x27;;
 import { A as emberArray, makeArray, isArray } from &#x27;@ember/array&#x27;;
 import { readOnly } from &#x27;@ember/object/computed&#x27;;
-import { assign } from &#x27;@ember/polyfills&#x27;;
-import { run } from &#x27;@ember/runloop&#x27;;
+import { cancel, debounce as debounced } from &#x27;@ember/runloop&#x27;;
 import { guidFor } from &#x27;@ember/object/internals&#x27;;
 import { isEmpty, isNone } from &#x27;@ember/utils&#x27;;
 import { getOwner } from &#x27;@ember/application&#x27;;
+import { deprecate } from &#x27;@ember/debug&#x27;;
 import deepSet from &#x27;../utils/deep-set&#x27;;
 import ValidationResult from &#x27;../-private/result&#x27;;
 import ResultCollection from &#x27;./result-collection&#x27;;
@@ -204,20 +204,21 @@ import cycleBreaker from &#x27;../utils/cycle-breaker&#x27;;
 import shouldCallSuper from &#x27;../utils/should-call-super&#x27;;
 import lookupValidator from &#x27;../utils/lookup-validator&#x27;;
 import { flatten } from &#x27;../utils/array&#x27;;
+import getWithDefault from &#x27;../utils/get-with-default&#x27;;
 import {
   getDependentKeys,
   isDescriptor,
   isDsModel,
   isValidatable,
   isPromise,
-  mergeOptions
+  mergeOptions,
 } from &#x27;../utils/utils&#x27;;
 import {
   VALIDATIONS_CLASS,
   IS_VALIDATIONS_CLASS,
   ATTRS_MODEL,
   ATTRS_PATH,
-  ATTRS_RESULT_COLLECTION
+  ATTRS_RESULT_COLLECTION,
 } from &#x27;../-private/symbols&#x27;;
 
 const VALIDATION_COUNT_MAP = new WeakMap();
@@ -293,7 +294,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       validationMixinCount = (VALIDATION_COUNT_MAP.get(this) || 0) + 1;
       VALIDATION_COUNT_MAP.set(this, validationMixinCount);
     },
-    [VALIDATIONS_CLASS]: computed(function() {
+    [VALIDATIONS_CLASS]: computed(function () {
       if (!Validations) {
         let inheritedClass;
 
@@ -309,7 +310,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
       return Validations;
     }).readOnly(),
 
-    validations: computed(function() {
+    validations: computed(function () {
       return this.get(VALIDATIONS_CLASS).create({ model: this });
     }).readOnly(),
 
@@ -328,7 +329,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     destroy() {
       this._super(...arguments);
       get(this, &#x27;validations&#x27;).destroy();
-    }
+    },
   });
 }
 
@@ -349,7 +350,7 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
 function normalizeOptions(validations = {}, globalOptions = {}) {
   let validatableAttrs = Object.keys(validations);
 
-  validatableAttrs.forEach(attribute =&gt; {
+  validatableAttrs.forEach((attribute) =&gt; {
     let rules = validations[attribute];
 
     if (rules &amp;&amp; typeof rules === &#x27;object&#x27; &amp;&amp; isArray(rules.validators)) {
@@ -361,13 +362,13 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
       }, {});
 
       let { validators } = rules;
-      validators.forEach(v =&gt; {
+      validators.forEach((v) =&gt; {
         v.defaultOptions = options;
       });
       validations[attribute] = validators;
     }
     validations[attribute] = makeArray(validations[attribute]);
-    validations[attribute].forEach(v =&gt; {
+    validations[attribute].forEach((v) =&gt; {
       v.globalOptions = globalOptions;
     });
   });
@@ -398,7 +399,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   ) {
     let inheritedValidations = inheritedValidationsClass.create();
 
-    validationRules = assign(
+    validationRules = Object.assign(
       validationRules,
       inheritedValidations.get(&#x27;_validationRules&#x27;)
     );
@@ -447,10 +448,10 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this._super(...arguments);
       this.setProperties({
         attrs: AttrsClass.create({
-          [ATTRS_MODEL]: this.get(&#x27;model&#x27;)
+          [ATTRS_MODEL]: this.get(&#x27;model&#x27;),
         }),
         _validators: {},
-        _debouncedValidations: {}
+        _debouncedValidations: {},
       });
     },
 
@@ -463,19 +464,19 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this.get(&#x27;attrs&#x27;).destroy();
 
       // Cancel all debounced timers
-      validatableAttrs.forEach(attr =&gt; {
+      validatableAttrs.forEach((attr) =&gt; {
         let attrCache = get(debouncedValidations, attr);
 
         if (!isNone(attrCache)) {
           // Itterate over each attribute and cancel all of its debounced validations
-          Object.keys(attrCache).forEach(v =&gt; run.cancel(attrCache[v]));
+          Object.keys(attrCache).forEach((v) =&gt; cancel(attrCache[v]));
         }
       });
-    }
+    },
   });
 
   ValidationsClass.reopenClass({
-    [IS_VALIDATIONS_CLASS]: true
+    [IS_VALIDATIONS_CLASS]: true,
   });
 
   return ValidationsClass;
@@ -512,7 +513,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       /*
         Instantiate the nested attrs classes for the current path
        */
-      Object.keys(nestedClasses[path] || []).forEach(key =&gt; {
+      Object.keys(nestedClasses[path] || []).forEach((key) =&gt; {
         set(
           this,
           key,
@@ -534,16 +535,16 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       /*
         Destroy all nested classes
        */
-      Object.keys(nestedClasses[path] || []).forEach(key =&gt; {
+      Object.keys(nestedClasses[path] || []).forEach((key) =&gt; {
         get(this, key).destroy();
       });
-    }
+    },
   });
 
   /*
     Insert CPs + Create nested classes
    */
-  validatableAttributes.forEach(attribute =&gt; {
+  validatableAttributes.forEach((attribute) =&gt; {
     let path = attribute.split(&#x27;.&#x27;);
     let attr = path.pop();
     let currPath = [rootPath];
@@ -562,7 +563,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
 
       if (!_nestedClasses[key]) {
         _nestedClasses[key] = AttrsClass.extend({
-          [ATTRS_PATH]: currPath.join(&#x27;.&#x27;)
+          [ATTRS_PATH]: currPath.join(&#x27;.&#x27;),
         });
       }
 
@@ -575,7 +576,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
         attribute,
         model,
         get(validationRules, attribute)
-      )
+      ),
     });
   });
 
@@ -595,13 +596,26 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  */
 function createCPValidationFor(attribute, model, validations) {
   let isVolatile = hasOption(validations, &#x27;volatile&#x27;, true);
+
+  deprecate(
+    &#x27;[ember-cp-validations] The &#x60;volatile&#x60; option should no longer be used &#x27; +
+      &#x27;as it was removed in ember 4.0&#x27;,
+    !isVolatile,
+    {
+      id: &#x27;ember-cp-validations.volatile&#x27;,
+      for: &#x27;ember-cp-validations&#x27;,
+      since: &#x27;3.1.0&#x27;,
+      until: &#x27;5.0.0&#x27;,
+    }
+  );
+
   let dependentKeys = isVolatile
     ? []
     : getCPDependentKeysFor(attribute, model, validations);
 
   let cp = computed(
     ...dependentKeys,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       let model = get(this, ATTRS_MODEL);
       let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
@@ -621,7 +635,7 @@ function createCPValidationFor(attribute, model, validations) {
 
       return ResultCollection.create({
         attribute,
-        content: validationResults
+        content: validationResults,
       });
     })
   ).readOnly();
@@ -683,7 +697,7 @@ function generateValidationResultsFor(
   let isInvalid = false;
   let value, result;
 
-  return validators.map(validator =&gt; {
+  return validators.map((validator) =&gt; {
     let options = get(validator, &#x27;options&#x27;).toObject();
     let isWarning = getWithDefault(options, &#x27;isWarning&#x27;, false);
     let disabled = getWithDefault(options, &#x27;disabled&#x27;, false);
@@ -696,8 +710,8 @@ function generateValidationResultsFor(
       let cache = getDebouncedValidationsCacheFor(attribute, model);
 
       // Return a promise and pass the resolve method to the debounce handler
-      value = new Promise(resolve =&gt; {
-        let t = run.debounce(validator, resolveDebounce, resolve, debounce);
+      value = new Promise((resolve) =&gt; {
+        let t = debounced(validator, resolveDebounce, resolve, debounce);
 
         if (!opts.disableDebounceCache) {
           cache[guidFor(validator)] = t;
@@ -750,7 +764,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
     &#x27;warning&#x27;,
     &#x27;errors&#x27;,
     &#x27;error&#x27;,
-    &#x27;_promise&#x27;
+    &#x27;_promise&#x27;,
   ];
 
   let topLevelProps = aliases.reduce((props, alias) =&gt; {
@@ -763,14 +777,14 @@ function createTopLevelPropsMixin(validatableAttrs) {
       Dedupe logic by creating a top level ResultCollection for all attr&#x27;s ResultCollections
      */
     [ATTRS_RESULT_COLLECTION]: computed(
-      ...validatableAttrs.map(attr =&gt; &#x60;attrs.${attr}&#x60;),
-      function() {
+      ...validatableAttrs.map((attr) =&gt; &#x60;attrs.${attr}&#x60;),
+      function () {
         return ResultCollection.create({
           attribute: &#x60;Model:${this}&#x60;,
-          content: validatableAttrs.map(attr =&gt; get(this, &#x60;attrs.${attr}&#x60;))
+          content: validatableAttrs.map((attr) =&gt; get(this, &#x60;attrs.${attr}&#x60;)),
         });
       }
-    ).readOnly()
+    ).readOnly(),
   });
 }
 
@@ -788,7 +802,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
 function getCPDependentKeysFor(attribute, model, validations) {
   let owner = getOwner(model);
 
-  let dependentKeys = validations.map(validation =&gt; {
+  let dependentKeys = validations.map((validation) =&gt; {
     let { options } = validation;
     let type = validation._type;
     let Validator =
@@ -809,7 +823,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
       // Extract implicit dependents from CPs
       ...extractOptionsDependentKeys(options),
       ...extractOptionsDependentKeys(get(validation, &#x27;defaultOptions&#x27;)),
-      ...extractOptionsDependentKeys(get(validation, &#x27;globalOptions&#x27;))
+      ...extractOptionsDependentKeys(get(validation, &#x27;globalOptions&#x27;)),
     ];
   });
 
@@ -821,7 +835,7 @@ function getCPDependentKeysFor(attribute, model, validations) {
     dependentKeys.push(&#x27;model.isDeleted&#x27;);
   }
 
-  dependentKeys = dependentKeys.filter(Boolean).map(d =&gt; {
+  dependentKeys = dependentKeys.filter(Boolean).map((d) =&gt; {
     return d.replace(/^model\./, &#x60;${ATTRS_MODEL}.&#x60;);
   });
 
@@ -867,12 +881,12 @@ function validationReturnValueHandler(attribute, value, model, validator) {
   let commonProps = {
     model,
     attribute,
-    _validator: validator
+    _validator: validator,
   };
 
   if (isPromise(value)) {
     result = ValidationResult.create(commonProps, {
-      _promise: Promise.resolve(value)
+      _promise: Promise.resolve(value),
     });
   } else {
     result = ValidationResult.create(commonProps);
@@ -942,7 +956,7 @@ function createValidatorsFor(attribute, model) {
     );
   }
 
-  validationRules.forEach(v =&gt; {
+  validationRules.forEach((v) =&gt; {
     v.attribute = attribute;
     v.model = model;
     validators.push(lookupValidator(owner, v._type).create(v));
@@ -955,7 +969,7 @@ function createValidatorsFor(attribute, model) {
 }
 
 /**
- * Call the passed resolve method. This is needed as run.debounce expects a
+ * Call the passed resolve method. This is needed as debounced expects a
  * static method to work properly.
  *
  * @method resolveDebounce
@@ -1016,7 +1030,7 @@ function validate(options = {}, isAsync = true) {
 
   let validations = ResultCollection.create({
     attribute: &#x60;Validate:${model}&#x60;,
-    content: validationResults
+    content: validationResults,
   });
 
   let resultObject = { model, validations };
@@ -1067,13 +1081,13 @@ function validateAttribute(attribute, value) {
       return validator.validate(value, options, model, attribute);
     },
     {
-      disableDebounceCache: true
+      disableDebounceCache: true,
     }
   );
 
   let validations = ResultCollection.create({
     attribute,
-    content: flatten(validationResults)
+    content: flatten(validationResults),
   });
 
   let result = { model, validations };

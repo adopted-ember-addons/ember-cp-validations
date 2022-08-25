@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -201,7 +201,7 @@ import { flatten, uniq, compact } from &#x27;../utils/array&#x27;;
 function isAny(collection, key, value, defaultValue) {
   return computed(
     &#x60;${collection}.@each.${key}&#x60;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return get(this, collection).isAny(key, value);
     }, defaultValue)
   );
@@ -210,7 +210,7 @@ function isAny(collection, key, value, defaultValue) {
 function isEvery(collection, key, value, defaultValue) {
   return computed(
     &#x60;${collection}.@each.${key}&#x60;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return get(this, collection).isEvery(key, value);
     }, defaultValue)
   );
@@ -341,7 +341,7 @@ export default ArrayProxy.extend({
    */
   messages: computed(
     &#x27;content.@each.messages&#x27;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return uniq(compact(flatten(this.getEach(&#x27;messages&#x27;))));
     })
   ).readOnly(),
@@ -391,7 +391,7 @@ export default ArrayProxy.extend({
    */
   warningMessages: computed(
     &#x27;content.@each.warningMessages&#x27;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return uniq(compact(flatten(this.getEach(&#x27;warningMessages&#x27;))));
     })
   ).readOnly(),
@@ -428,7 +428,7 @@ export default ArrayProxy.extend({
   warnings: computed(
     &#x27;attribute&#x27;,
     &#x27;content.@each.warnings&#x27;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return this._computeErrorCollection(this.getEach(&#x27;warnings&#x27;));
     })
   ).readOnly(),
@@ -465,7 +465,7 @@ export default ArrayProxy.extend({
   errors: computed(
     &#x27;attribute&#x27;,
     &#x27;content.@each.errors&#x27;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return this._computeErrorCollection(this.getEach(&#x27;errors&#x27;));
     })
   ).readOnly(),
@@ -517,7 +517,7 @@ export default ArrayProxy.extend({
    * @readOnly
    * @type {Object}
    */
-  options: computed(&#x27;_contentValidators.@each.options&#x27;, function() {
+  options: computed(&#x27;_contentValidators.@each.options&#x27;, function () {
     return this._groupValidatorOptions(get(this, &#x27;_contentValidators&#x27;));
   }).readOnly(),
 
@@ -530,12 +530,12 @@ export default ArrayProxy.extend({
   _promise: computed(
     &#x27;content.@each._promise&#x27;,
     &#x27;_contentResults.@each._promise&#x27;,
-    cycleBreaker(function() {
+    cycleBreaker(function () {
       return RSVP.allSettled(
         compact(
           flatten([
             this.get(&#x27;_contentResults&#x27;).getEach(&#x27;_promise&#x27;),
-            this.getEach(&#x27;_promise&#x27;)
+            this.getEach(&#x27;_promise&#x27;),
           ])
         )
       );
@@ -547,7 +547,7 @@ export default ArrayProxy.extend({
    * @type {Array}
    * @private
    */
-  _contentResults: computed(&#x27;content.@each._result&#x27;, function() {
+  _contentResults: computed(&#x27;content.@each._result&#x27;, function () {
     return emberArray(compact(this.getEach(&#x27;_result&#x27;)));
   }).readOnly(),
 
@@ -562,7 +562,7 @@ export default ArrayProxy.extend({
     let attribute = get(this, &#x27;attribute&#x27;);
     let errors = uniq(compact(flatten(collection)));
 
-    errors.forEach(e =&gt; {
+    errors.forEach((e) =&gt; {
       if (attribute &amp;&amp; e.get(&#x27;attribute&#x27;) !== attribute) {
         e.set(&#x27;parentAttribute&#x27;, attribute);
       }
@@ -595,7 +595,7 @@ export default ArrayProxy.extend({
       }
       return options;
     }, {});
-  }
+  },
 });
 
     </pre>

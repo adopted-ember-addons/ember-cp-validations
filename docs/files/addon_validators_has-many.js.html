@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -241,14 +241,14 @@ const HasMany = Base.extend({
   validate(value, ...args) {
     if (value) {
       if (isPromise(value)) {
-        return value.then(models =&gt; this.validate(models, ...args));
+        return value.then((models) =&gt; this.validate(models, ...args));
       }
 
-      return value.map(m =&gt; get(m, &#x27;validations&#x27;));
+      return value.map((m) =&gt; get(m, &#x27;validations&#x27;));
     }
 
     return true;
-  }
+  },
 });
 
 HasMany.reopenClass({
@@ -261,9 +261,9 @@ HasMany.reopenClass({
       &#x60;model.${attribute}.@each.isDeleted&#x60;,
       &#x60;model.${attribute}.content.@each.isDeleted&#x60;,
       &#x60;model.${attribute}.@each.validations&#x60;,
-      &#x60;model.${attribute}.content.@each.validations&#x60;
+      &#x60;model.${attribute}.content.@each.validations&#x60;,
     ];
-  }
+  },
 });
 
 export default HasMany;

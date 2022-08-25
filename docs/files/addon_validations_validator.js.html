@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -187,7 +187,7 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import { isNone } from &#x27;@ember/utils&#x27;;
-import { deprecate } from &#x27;@ember/application/deprecations&#x27;;
+import { deprecate } from &#x27;@ember/debug&#x27;;
 
 /**
  * @module Validators
@@ -393,9 +393,9 @@ import { deprecate } from &#x27;@ember/application/deprecations&#x27;;
  * @submodule Common Options
  */
 
-export default function(arg1, options) {
+export default function (arg1, options) {
   let props = {
-    options: isNone(options) ? {} : options
+    options: isNone(options) ? {} : options,
   };
 
   if (typeof arg1 === &#x27;function&#x27;) {

@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -194,13 +194,12 @@ import EmberObject, {
   setProperties,
   computed,
   set,
-  get
+  get,
 } from &#x27;@ember/object&#x27;;
+import { readOnly } from &#x27;@ember/object/computed&#x27;;
 import ResultCollection from &#x27;../validations/result-collection&#x27;;
 import WarningResultCollection from &#x27;../validations/warning-result-collection&#x27;;
 import InternalResultObject from &#x27;./internal-result-object&#x27;;
-
-const { readOnly } = computed;
 
 /**
  * __PRIVATE__
@@ -250,7 +249,7 @@ const Result = EmberObject.extend({
    * @readOnly
    * @type {Boolean}
    */
-  _isReadOnly: computed(&#x27;_result&#x27;, function() {
+  _isReadOnly: computed(&#x27;_result&#x27;, function () {
     let validations = get(this, &#x27;_result&#x27;);
     return (
       validations instanceof ResultCollection ||
@@ -375,7 +374,7 @@ const Result = EmberObject.extend({
     &#x27;_promise&#x27;,
     &#x27;_validator&#x27;,
     &#x27;_resultOverride&#x27;,
-    function() {
+    function () {
       return (
         get(this, &#x27;_resultOverride&#x27;) ||
         InternalResultObject.create(
@@ -424,7 +423,7 @@ const Result = EmberObject.extend({
       if (typeof value === &#x27;string&#x27;) {
         setProperties(get(this, &#x27;_result&#x27;), {
           [isWarning ? &#x27;warningMessage&#x27; : &#x27;message&#x27;]: value,
-          isValid: isWarning ? true : false
+          isValid: isWarning ? true : false,
         });
       } else if (typeof value === &#x27;boolean&#x27;) {
         set(result, &#x27;isValid&#x27;, value);
@@ -451,12 +450,15 @@ const Result = EmberObject.extend({
    */
   _handlePromise() {
     get(this, &#x27;_promise&#x27;)
-      .then(value =&gt; this.update(value), value =&gt; this.update(value))
-      .catch(reason =&gt; {
+      .then(
+        (value) =&gt; this.update(value),
+        (value) =&gt; this.update(value)
+      )
+      .catch((reason) =&gt; {
         // TODO: send into error state
         throw reason;
       });
-  }
+  },
 });
 
 export default Result;

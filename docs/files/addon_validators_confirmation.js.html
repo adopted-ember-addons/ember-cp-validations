@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -212,7 +212,7 @@ import EmberValidator from &#x27;ember-cp-validations/-private/ember-validator&#
  *  @extends Base
  */
 const Confirmation = EmberValidator.extend({
-  _evType: &#x27;confirmation&#x27;
+  _evType: &#x27;confirmation&#x27;,
 });
 
 Confirmation.reopenClass({
@@ -225,7 +225,7 @@ Confirmation.reopenClass({
     );
 
     return on ? [&#x60;model.${on}&#x60;] : [];
-  }
+  },
 });
 
 export default Confirmation;

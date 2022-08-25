@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -186,11 +186,12 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import { getProperties, getWithDefault, get } from &#x27;@ember/object&#x27;;
+import { getProperties, get } from &#x27;@ember/object&#x27;;
 import { assert } from &#x27;@ember/debug&#x27;;
 import { isPresent, isEmpty, isNone } from &#x27;@ember/utils&#x27;;
 import { isArray, A } from &#x27;@ember/array&#x27;;
 import Base from &#x27;ember-cp-validations/validators/base&#x27;;
+import getWithDefault from &#x27;../utils/get-with-default&#x27;;
 
 /**
  *  &lt;i class=&quot;fa fa-hand-o-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; [See All Options](#method_validate)
@@ -236,15 +237,17 @@ const Dependent = Base.extend({
     }
 
     let dependentValidations = getWithDefault(options, &#x27;on&#x27;, A()).map(
-      dependent =&gt; get(model, &#x60;validations.attrs.${dependent}&#x60;)
+      (dependent) =&gt; get(model, &#x60;validations.attrs.${dependent}&#x60;)
     );
 
-    if (!isEmpty(dependentValidations.filter(v =&gt; get(v, &#x27;isTruelyInvalid&#x27;)))) {
+    if (
+      !isEmpty(dependentValidations.filter((v) =&gt; get(v, &#x27;isTruelyInvalid&#x27;)))
+    ) {
       return this.createErrorMessage(&#x27;invalid&#x27;, value, options);
     }
 
     return true;
-  }
+  },
 });
 
 Dependent.reopenClass({
@@ -257,11 +260,11 @@ Dependent.reopenClass({
     );
 
     if (!isEmpty(dependents)) {
-      return dependents.map(dependent =&gt; &#x60;${dependent}.isTruelyValid&#x60;);
+      return dependents.map((dependent) =&gt; &#x60;${dependent}.isTruelyValid&#x60;);
     }
 
     return [];
-  }
+  },
 });
 
 export default Dependent;

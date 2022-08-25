@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -234,11 +234,11 @@ const Collection = EmberValidator.extend({
 
     if (typeof options === &#x27;boolean&#x27;) {
       opts = {
-        collection: options
+        collection: options,
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
-  }
+  },
 });
 
 Collection.reopenClass({
@@ -246,7 +246,7 @@ Collection.reopenClass({
     return options === true || get(options, &#x27;collection&#x27;) === true
       ? [&#x60;model.${attribute}.[]&#x60;]
       : [];
-  }
+  },
 });
 
 export default Collection;

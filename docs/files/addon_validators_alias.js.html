@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="nav">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/offirgolan/ember-cp-validations" class="fa fa-github github"></a></li>
+            <li><a href="https://github.com/adopted-ember-addons/ember-cp-validations" class="fa fa-github github"></a></li>
           </ul>
         </div>
       </div>
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/offirgolan/ember-cp-validations/commits/v4.0.0-beta.10" target="_blank">
-                                  Tag: v4.0.0-beta.10
+                                <a role="button" href="https://github.com/adopted-ember-addons/ember-cp-validations/commits/v4.0.0-beta.13" target="_blank">
+                                  Tag: v4.0.0-beta.13
                                 </a>
                             </h4>
                         </div>
@@ -235,7 +235,7 @@ const Alias = Base.extend({
 
     if (typeof options === &#x27;string&#x27;) {
       opts = {
-        alias: options
+        alias: options,
       };
     }
     return this._super(opts, defaultOptions, globalOptions);
@@ -254,7 +254,7 @@ const Alias = Base.extend({
   validate(value, options, model, attribute) {
     let { alias, firstMessageOnly } = getProperties(options, [
       &#x27;alias&#x27;,
-      &#x27;firstMessageOnly&#x27;
+      &#x27;firstMessageOnly&#x27;,
     ]);
 
     assert(
@@ -267,7 +267,7 @@ const Alias = Base.extend({
     return firstMessageOnly
       ? get(aliasValidation, &#x27;message&#x27;)
       : get(aliasValidation, &#x27;content&#x27;);
-  }
+  },
 });
 
 Alias.reopenClass({
@@ -280,7 +280,7 @@ Alias.reopenClass({
     );
 
     return [&#x60;${alias}.messages.[]&#x60;, &#x60;${alias}.isTruelyValid&#x60;];
-  }
+  },
 });
 
 export default Alias;
