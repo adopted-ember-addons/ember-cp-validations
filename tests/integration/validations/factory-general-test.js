@@ -1028,6 +1028,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     let controller = setupObject(
       this,
       Controller.extend(Validations, mixin, {
+        // eslint-disable-next-line ember/no-actions-hash
         actions: {
           foo() {
             assert.ok(true);

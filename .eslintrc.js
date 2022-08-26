@@ -20,7 +20,6 @@ module.exports = {
     browser: true,
   },
   rules: {
-    'ember/no-actions-hash': 'off',
     'ember/no-classic-classes': 'off',
     'ember/no-classic-components': 'off',
     'ember/no-computed-properties-in-native-classes': 'off',
