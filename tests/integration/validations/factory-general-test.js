@@ -1551,7 +1551,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
         presence: true,
         description: computed('model', 'attribute', function () {
           // CPs have access to the `model` and `attribute`
-          return this.get('model').generateDescription(this.get('attribute'));
+          return this.model.generateDescription(this.attribute);
         }),
       }),
     });

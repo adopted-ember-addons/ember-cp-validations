@@ -1,4 +1,4 @@
-import { getProperties, get } from '@ember/object';
+import { get } from '@ember/object';
 import { assert } from '@ember/debug';
 import { isPresent, isEmpty, isNone } from '@ember/utils';
 import { isArray, A } from '@ember/array';
@@ -33,7 +33,7 @@ const Dependent = Base.extend({
    * @param {String} attribute
    */
   validate(value, options, model, attribute) {
-    let { on, allowBlank } = getProperties(options, ['on', 'allowBlank']);
+    let { on, allowBlank } = options;
 
     assert(
       `[validator:dependent] [${attribute}] option 'on' is required`,
@@ -52,9 +52,7 @@ const Dependent = Base.extend({
       (dependent) => get(model, `validations.attrs.${dependent}`)
     );
 
-    if (
-      !isEmpty(dependentValidations.filter((v) => get(v, 'isTruelyInvalid')))
-    ) {
+    if (!isEmpty(dependentValidations.filter((v) => v.isTruelyInvalid))) {
       return this.createErrorMessage('invalid', value, options);
     }
 
@@ -64,7 +62,7 @@ const Dependent = Base.extend({
 
 Dependent.reopenClass({
   getDependentsFor(attribute, options) {
-    let dependents = get(options, 'on');
+    let dependents = options.on;
 
     assert(
       `[validator:dependent] [${attribute}] 'on' must be an array`,

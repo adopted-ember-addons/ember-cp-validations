@@ -1,4 +1,4 @@
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -42,13 +42,13 @@ module('Unit | Validator | dependent', function (hooks) {
 
     model = setupObject(this, EmberObject.extend(Validations));
 
-    assert.false(get(model, 'validations.isValid'));
+    assert.false(model.validations.isValid);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.strictEqual(message, 'This field is invalid');
-    assert.strictEqual(get(model, 'validations.messages.length'), 1);
-    assert.false(get(model, 'validations.isValid'));
+    assert.strictEqual(model.validations.messages.length, 1);
+    assert.false(model.validations.isValid);
   });
 
   test('one dependent error', function (assert) {
@@ -61,13 +61,13 @@ module('Unit | Validator | dependent', function (hooks) {
       firstName: 'Offir',
     });
 
-    assert.false(get(model, 'validations.isValid'));
+    assert.false(model.validations.isValid);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.strictEqual(message, 'This field is invalid');
-    assert.strictEqual(get(model, 'validations.messages.length'), 1);
-    assert.false(get(model, 'validations.isValid'));
+    assert.strictEqual(model.validations.messages.length, 1);
+    assert.false(model.validations.isValid);
   });
 
   test('no dependent errors', function (assert) {
@@ -80,12 +80,12 @@ module('Unit | Validator | dependent', function (hooks) {
       lastName: 'Golan',
     });
 
-    assert.true(get(model, 'validations.isValid'));
+    assert.true(model.validations.isValid);
 
     message = Validator.validate(undefined, builtOptions.toObject(), model);
 
     assert.true(message);
-    assert.strictEqual(get(model, 'validations.messages.length'), 0);
-    assert.true(get(model, 'validations.isValid'));
+    assert.strictEqual(model.validations.messages.length, 0);
+    assert.true(model.validations.isValid);
   });
 });

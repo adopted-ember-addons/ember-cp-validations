@@ -127,20 +127,20 @@ export default function buildValidations(validations = {}, globalOptions = {}) {
     }).readOnly(),
 
     validate() {
-      return get(this, 'validations').validate(...arguments);
+      return this.validations.validate(...arguments);
     },
 
     validateSync() {
-      return get(this, 'validations').validateSync(...arguments);
+      return this.validations.validateSync(...arguments);
     },
 
     validateAttribute() {
-      return get(this, 'validations').validateAttribute(...arguments);
+      return this.validations.validateAttribute(...arguments);
     },
 
     destroy() {
       this._super(...arguments);
-      get(this, 'validations').destroy();
+      this.validations.destroy();
     },
   });
 }
@@ -260,7 +260,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
       this._super(...arguments);
       this.setProperties({
         attrs: AttrsClass.create({
-          [ATTRS_MODEL]: this.get('model'),
+          [ATTRS_MODEL]: this.model,
         }),
         _validators: {},
         _debouncedValidations: {},
@@ -269,11 +269,11 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
 
     destroy() {
       this._super(...arguments);
-      let validatableAttrs = get(this, 'validatableAttributes');
-      let debouncedValidations = get(this, '_debouncedValidations');
+      let validatableAttrs = this.validatableAttributes;
+      let debouncedValidations = this._debouncedValidations;
 
       // Initiate attrs destroy to cleanup any remaining model references
-      this.get('attrs').destroy();
+      this.attrs.destroy();
 
       // Cancel all debounced timers
       validatableAttrs.forEach((attr) => {
@@ -494,7 +494,7 @@ function generateValidationResultsFor(
   let value, result;
 
   return validators.map((validator) => {
-    let options = get(validator, 'options').toObject();
+    let options = validator.options.toObject();
     let isWarning = getWithDefault(options, 'isWarning', false);
     let disabled = getWithDefault(options, 'disabled', false);
     let debounce = getWithDefault(options, 'debounce', 0);
@@ -513,7 +513,7 @@ function generateValidationResultsFor(
           cache[guidFor(validator)] = t;
         }
       }).then(() => {
-        return validate(validator, get(validator, 'options').toObject());
+        return validate(validator, validator.options.toObject());
       });
     } else {
       value = validate(validator, options);
@@ -525,7 +525,7 @@ function generateValidationResultsFor(
       If the current result is invalid, the rest of the validations do not need to be
       triggered (if lazy) since the attribute is already in an invalid state.
      */
-    if (!isInvalid && !isWarning && get(result, 'isInvalid')) {
+    if (!isInvalid && !isWarning && result.isInvalid) {
       isInvalid = true;
     }
 
@@ -618,8 +618,8 @@ function getCPDependentKeysFor(attribute, model, validations) {
 
       // Extract implicit dependents from CPs
       ...extractOptionsDependentKeys(options),
-      ...extractOptionsDependentKeys(get(validation, 'defaultOptions')),
-      ...extractOptionsDependentKeys(get(validation, 'globalOptions')),
+      ...extractOptionsDependentKeys(validation.defaultOptions),
+      ...extractOptionsDependentKeys(validation.globalOptions),
     ];
   });
 
@@ -718,7 +718,7 @@ function getValidatorsFor(attribute, model) {
  * @return {Map}
  */
 function getDebouncedValidationsCacheFor(attribute, model) {
-  let debouncedValidations = get(model, 'validations._debouncedValidations');
+  let debouncedValidations = model.validations._debouncedValidations;
 
   if (isNone(get(debouncedValidations, attribute))) {
     deepSet(debouncedValidations, attribute, {});
@@ -737,11 +737,11 @@ function getDebouncedValidationsCacheFor(attribute, model) {
  * @return {Array}
  */
 function createValidatorsFor(attribute, model) {
-  let validations = get(model, 'validations');
+  let validations = model.validations;
   let validationRules = makeArray(
     get(validations, `_validationRules.${attribute}`)
   );
-  let validatorCache = get(validations, '_validators');
+  let validatorCache = validations._validators;
   let owner = getOwner(model);
   let validators = [];
 
@@ -796,33 +796,30 @@ function resolveDebounce(resolve) {
  * @return {Promise or Object}  Promise if isAsync is true, object if isAsync is false
  */
 function validate(options = {}, isAsync = true) {
-  let model = get(this, 'model');
+  let model = this.model;
   let whiteList = makeArray(options.on);
   let blackList = makeArray(options.excludes);
 
-  let validationResults = get(this, 'validatableAttributes').reduce(
-    (v, name) => {
-      if (!isEmpty(blackList) && blackList.indexOf(name) !== -1) {
-        return v;
-      }
-
-      if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
-        let validationResult = get(this, `attrs.${name}`);
-
-        // If an async validation is found, throw an error
-        if (!isAsync && get(validationResult, 'isAsync')) {
-          throw new Error(
-            `[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`
-          );
-        }
-
-        v.push(validationResult);
-      }
-
+  let validationResults = this.validatableAttributes.reduce((v, name) => {
+    if (!isEmpty(blackList) && blackList.indexOf(name) !== -1) {
       return v;
-    },
-    []
-  );
+    }
+
+    if (isEmpty(whiteList) || whiteList.indexOf(name) !== -1) {
+      let validationResult = get(this, `attrs.${name}`);
+
+      // If an async validation is found, throw an error
+      if (!isAsync && validationResult.isAsync) {
+        throw new Error(
+          `[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`
+        );
+      }
+
+      v.push(validationResult);
+    }
+
+    return v;
+  }, []);
 
   let validations = ResultCollection.create({
     attribute: `Validate:${model}`,
@@ -832,13 +829,13 @@ function validate(options = {}, isAsync = true) {
   let resultObject = { model, validations };
 
   if (isAsync) {
-    return Promise.resolve(get(validations, '_promise')).then(() => {
+    return Promise.resolve(validations._promise).then(() => {
       /*
         NOTE: When dealing with belongsTo and hasMany relationships, there are cases
         where we have to resolve the actual models and only then resolve all the underlying
         validation promises. This is the reason that `validate` must be called recursively.
        */
-      return get(validations, 'isValidating')
+      return validations.isValidating
         ? this.validate(options, isAsync)
         : resultObject;
     });
@@ -866,7 +863,7 @@ function validate(options = {}, isAsync = true) {
  * @async
  */
 function validateAttribute(attribute, value) {
-  let model = get(this, 'model');
+  let model = this.model;
   let validators = !isNone(model) ? getValidatorsFor(attribute, model) : [];
 
   let validationResults = generateValidationResultsFor(
@@ -888,13 +885,13 @@ function validateAttribute(attribute, value) {
 
   let result = { model, validations };
 
-  return Promise.resolve(get(validations, '_promise')).then(() => {
+  return Promise.resolve(validations._promise).then(() => {
     /*
       NOTE: When dealing with belongsTo and hasMany relationships, there are cases
       where we have to resolve the actual models and only then resolve all the underlying
       validation promises. This is the reason that `validateAttribute` must be called recursively.
      */
-    return get(validations, 'isValidating')
+    return validations.isValidating
       ? this.validateAttribute(attribute, value)
       : result;
   });

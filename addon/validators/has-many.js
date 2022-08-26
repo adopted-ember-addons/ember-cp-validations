@@ -1,6 +1,5 @@
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
-import { get } from '@ember/object';
 
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
@@ -56,7 +55,7 @@ const HasMany = Base.extend({
         return value.then((models) => this.validate(models, ...args));
       }
 
-      return value.map((m) => get(m, 'validations'));
+      return value.map((m) => m.validations);
     }
 
     return true;

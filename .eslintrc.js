@@ -21,7 +21,6 @@ module.exports = {
   },
   rules: {
     'ember/no-classic-classes': 'off',
-    'ember/no-get': 'off',
     'ember/no-new-mixins': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
   },

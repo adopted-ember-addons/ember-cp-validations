@@ -1,7 +1,7 @@
 import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { isHTMLSafe } from '@ember/template';
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 
@@ -23,7 +23,7 @@ export function unwrapString(s) {
 }
 
 export function unwrapProxy(o) {
-  return isProxy(o) ? unwrapProxy(get(o, 'content')) : o;
+  return isProxy(o) ? unwrapProxy(o.content) : o;
 }
 
 export function isProxy(o) {
@@ -57,7 +57,7 @@ export function isObject(o) {
 
 export function isValidatable(value) {
   let v = unwrapProxy(value);
-  return isDsModel(v) ? !get(v, 'isDeleted') : true;
+  return isDsModel(v) ? !v.isDeleted : true;
 }
 
 export function getValidatableValue(value) {
