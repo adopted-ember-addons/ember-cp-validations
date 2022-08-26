@@ -1,17 +1,4 @@
-import Ember from 'ember';
-import { A } from '@ember/array';
-
-let __EMBER_METAL__;
-let emberMetalPaths = [
-  '@ember/-internals/metal', // ember-source from 3.10
-  '@ember/-internals/metal/index', // ember-source from 3.13
-];
-let metalPath = A(emberMetalPaths).find(
-  (path) => Ember.__loader.registry[path]
-);
-if (metalPath) {
-  __EMBER_METAL__ = Ember.__loader.require(metalPath);
-}
+import __EMBER_METAL__ from '@ember/-internals/metal/index';
 
 export function getDependentKeys(descriptorOrDecorator) {
   if (__EMBER_METAL__ && __EMBER_METAL__.descriptorForDecorator) {

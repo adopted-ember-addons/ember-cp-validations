@@ -5,12 +5,9 @@ import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
 
-import Ember from 'ember';
 import requireModule from 'ember-require-module';
 
 const DS = requireModule('ember-data');
-
-const { canInvoke } = Ember;
 
 export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
 
@@ -28,6 +25,12 @@ export function unwrapProxy(o) {
 
 export function isProxy(o) {
   return !!(o && (o instanceof ObjectProxy || o instanceof ArrayProxy));
+}
+
+function canInvoke(obj, methodName) {
+  return (
+    obj !== null && obj !== undefined && typeof obj[methodName] === 'function'
+  );
 }
 
 export function isPromise(p) {
