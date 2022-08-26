@@ -1,13 +1,21 @@
 # Changelog
 
-## v4.0.0
+## v4.0.0-beta.13
 
-- [[Major]: Remove Moment and Node 10](https://github.com/offirgolan/ember-validators/pull/100);
+- [[Major]: Remove Moment and Node 10](https://github.com/rwwagner90/ember-validators/pull/100);
   - Remove Node 10 minimum requirement in favor of Node 12
   - removed custom String 'now' argument.
   - remove momentjs
   - Remove `precision` argument.  If you need to compare based on precision, you can use the Intl.DateTimeFormat [APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options) to hone in on the comparison - `{ year: 'numeric' }`
   - Added `locale` option. Defaults to en-us when creating date times using `Intl.DateTimeFormat` API.
+
+## v4.0.0-beta.12
+
+- [#688](https://github.com/adopted-ember-addons/ember-cp-validations/pull/688) Bump node version and ember-validators from ^2.0.0 to ^3.0.1 [@gilest](https://github.com/gilest)
+
+## v4.0.0-beta.11
+
+- [#681](https://github.com/adopted-ember-addons/ember-cp-validations/pull/681) Replace `getWithDefault` function [@dbendaou](https://github.com/dbendaou)
 
 ## v4.0.0-beta.10
 
