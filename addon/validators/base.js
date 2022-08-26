@@ -1,3 +1,5 @@
+// False positive: the native class that exists in the document does not use CPs
+/* eslint-disable ember/no-computed-properties-in-native-classes */
 import { bool } from '@ember/object/computed';
 import EmberObject, { set, get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';

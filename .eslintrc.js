@@ -22,7 +22,6 @@ module.exports = {
   rules: {
     'ember/no-classic-classes': 'off',
     'ember/no-classic-components': 'off',
-    'ember/no-computed-properties-in-native-classes': 'off',
     'ember/no-get': 'off',
     'ember/no-new-mixins': 'off',
     'ember/require-tagless-components': 'off',
