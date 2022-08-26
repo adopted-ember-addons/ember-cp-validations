@@ -21,12 +21,9 @@ module.exports = {
   },
   rules: {
     'ember/no-classic-classes': 'off',
-    'ember/no-classic-components': 'off',
     'ember/no-get': 'off',
     'ember/no-new-mixins': 'off',
-    'ember/require-tagless-components': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
-    'prettier/prettier': ['error', { singleQuote: true }],
   },
   overrides: [
     // node files
