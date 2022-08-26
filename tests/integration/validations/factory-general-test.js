@@ -491,17 +491,18 @@ module('Integration | Validations | Factory - General', function (hooks) {
   });
 
   test('debounced validations', async function (assert) {
-    let initSetup = true;
     let Validations = buildValidations({
       firstName: validator('inline', { validate: Validators.presence }),
       lastName: validator('inline', {
         validate: Validators.presence,
-        debounce: computed(function () {
-          return initSetup ? 0 : 500; // Do not debounce on initial object creation
-        }).volatile(),
+        debounce: computed('model.initSetup', function () {
+          return this.model.initSetup ? 0 : 500; // Do not debounce on initial object creation
+        }),
       }),
     });
-    let object = setupObject(this, EmberObject.extend(Validations));
+    let object = setupObject(this, EmberObject.extend(Validations), {
+      initSetup: true,
+    });
 
     assert.false(
       object.get('validations.isValid'),
@@ -527,7 +528,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'lastName should be present'
     );
 
-    initSetup = false;
+    object.set('initSetup', false);
     object.set('lastName', 'Golan');
     assert.true(object.get('validations.attrs.lastName.isValidating'));
 
@@ -568,12 +569,11 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
   test('debounced validations should cleanup on object destroy', function (assert) {
     let done = assert.async();
-    let initSetup = true;
 
     let debouncedValidator = validator('inline', {
-      debounce: computed(function () {
-        return initSetup ? 0 : 500;
-      }).volatile(),
+      debounce: computed('model.initSetup', function () {
+        return this.model.initSetup ? 0 : 500;
+      }),
       validate(value, options, model, attr) {
         model.set('foo', 'bar');
         return Validators.presence(value, options, model, attr);
@@ -587,6 +587,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
     });
     let object = setupObject(this, EmberObject.extend(Validations), {
       details: {},
+      initSetup: true,
     });
 
     assert.false(
@@ -613,7 +614,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
       'lastName should be present'
     );
 
-    initSetup = false;
+    object.set('initSetup', false);
     object.setProperties({
       lastName: 'Golan',
       'details.url': 'github.com',
@@ -1490,61 +1491,6 @@ module('Integration | Validations | Factory - General', function (hooks) {
     );
   });
 
-  test('volatile validations should not recompute', function (assert) {
-    this.owner.register('validator:presence', PresenceValidator);
-    this.owner.register('validator:length', LengthValidator);
-
-    let Validations = buildValidations({
-      firstName: [
-        validator('presence', true),
-        validator('length', {
-          dependentKeys: ['model.foo'],
-          min: 5,
-          max: 35,
-          volatile: true,
-        }),
-      ],
-    });
-
-    let obj = setupObject(
-      this,
-      EmberObject.extend(Validations, {
-        isInvalid: not('validations.attrs.firstName.isValid'),
-        isInvalidGlobal: not('validations.attrs.isValid'),
-      }),
-      {
-        firstName: null,
-      }
-    );
-
-    assert.false(
-      obj.get('validations.attrs.firstName.isValid'),
-      'isValid was expected to be FALSE'
-    );
-    assert.strictEqual(
-      obj.get('validations.attrs.firstName.message'),
-      "This field can't be blank"
-    );
-    assert.true(obj.get('isInvalid'), 'isInvalid was expected to be TRUE');
-    assert.true(
-      obj.get('isInvalidGlobal'),
-      'isInvalidGlobal was expected to be TRUE'
-    );
-
-    obj.set('firstName', 'Offir');
-    obj.set('foo', 'bar');
-
-    assert.true(obj.get('isInvalid'), 'isInvalid was expected to be TRUE');
-    assert.true(
-      obj.get('isInvalidGlobal'),
-      'isInvalidGlobal was expected to be TRUE'
-    );
-    assert.true(
-      obj.get('validations.attrs.firstName.isValid'),
-      'isValid was expected to be TRUE'
-    );
-  });
-
   test('load test', function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
 
@@ -1596,5 +1542,34 @@ module('Integration | Validations | Factory - General', function (hooks) {
     /* eslint-enable no-console */
 
     assert.ok(true);
+  });
+
+  test('description', function (assert) {
+    const Validations = buildValidations({
+      firstName: validator('presence', {
+        presence: true,
+        description: computed('model', 'attribute', function () {
+          // CPs have access to the `model` and `attribute`
+          return this.get('model').generateDescription(this.get('attribute'));
+        }),
+      }),
+    });
+
+    let obj = setupObject(this, EmberObject.extend(Validations), {
+      firstName: null,
+      generateDescription() {
+        return 'First Name';
+      },
+    });
+
+    assert.false(
+      obj.get('validations.attrs.firstName.isValid'),
+      'isValid was expected to be FALSE'
+    );
+    assert.strictEqual(
+      obj.get('validations.attrs.firstName.message'),
+      "First Name can't be blank",
+      "message was expected to be First Name can't be blank"
+    );
   });
 });

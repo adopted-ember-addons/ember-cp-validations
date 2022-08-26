@@ -26,7 +26,6 @@ module.exports = {
     'ember/no-computed-properties-in-native-classes': 'off',
     'ember/no-get': 'off',
     'ember/no-new-mixins': 'off',
-    'ember/no-volatile-computed-properties': 'off',
     'ember/require-tagless-components': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
     'prettier/prettier': ['error', { singleQuote: true }],

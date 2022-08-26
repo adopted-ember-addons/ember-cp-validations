@@ -7,7 +7,7 @@ import { cancel, debounce as debounced } from '@ember/runloop';
 import { guidFor } from '@ember/object/internals';
 import { isEmpty, isNone } from '@ember/utils';
 import { getOwner } from '@ember/application';
-import { deprecate } from '@ember/debug';
+import { assert } from '@ember/debug';
 import deepSet from '../utils/deep-set';
 import ValidationResult from '../-private/result';
 import ResultCollection from './result-collection';
@@ -408,24 +408,14 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
  */
 function createCPValidationFor(attribute, model, validations) {
   let isVolatile = hasOption(validations, 'volatile', true);
-
-  deprecate(
-    '[ember-cp-validations] The `volatile` option should no longer be used ' +
+  assert(
+    '[ember-cp-validations] The `volatile` option is no longer available ' +
       'as it was removed in ember 4.0',
-    !isVolatile,
-    {
-      id: 'ember-cp-validations.volatile',
-      for: 'ember-cp-validations',
-      since: '3.1.0',
-      until: '5.0.0',
-    }
+    !isVolatile
   );
 
-  let dependentKeys = isVolatile
-    ? []
-    : getCPDependentKeysFor(attribute, model, validations);
-
-  let cp = computed(
+  let dependentKeys = getCPDependentKeysFor(attribute, model, validations);
+  return computed(
     ...dependentKeys,
     cycleBreaker(function () {
       let model = get(this, ATTRS_MODEL);
@@ -451,12 +441,6 @@ function createCPValidationFor(attribute, model, validations) {
       });
     })
   ).readOnly();
-
-  if (isVolatile) {
-    cp = cp.volatile();
-  }
-
-  return cp;
 }
 
 /**
