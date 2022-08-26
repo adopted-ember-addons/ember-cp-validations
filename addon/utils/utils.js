@@ -4,8 +4,13 @@ import { isHTMLSafe } from '@ember/template';
 import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
+import require from 'require';
 
-import requireModule from 'ember-require-module';
+function requireModule(module, exportName = 'default') {
+  if (require.has(module)) {
+    return require(module)[exportName];
+  }
+}
 
 const DS = requireModule('ember-data');
 
