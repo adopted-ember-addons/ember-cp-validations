@@ -1,6 +1,6 @@
 # Ember CP Validations
 
-[![Build Status](https://travis-ci.org/adopted-ember-addons/ember-cp-validations.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-cp-validations)
+[![Build Status](https://github.com/adopted-ember-addons/ember-cp-validations/actions/workflows/ci.yml/badge.svg)](https://github.com/adopted-ember-addons/ember-cp-validations/actions/workflows/ci.yml)
 [![npm version](https://badge.fury.io/js/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Download Total](https://img.shields.io/npm/dt/ember-cp-validations.svg)](http://badge.fury.io/js/ember-cp-validations)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-cp-validations.svg)](http://emberobserver.com/addons/ember-cp-validations)
