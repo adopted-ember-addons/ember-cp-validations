@@ -1,5 +1,17 @@
 # Changelog
 
+
+## v4.0.0 (2022-09-21)
+
+#### :house: Internal
+* [#724](https://github.com/adopted-ember-addons/ember-cp-validations/pull/724) Add missing changelog entries ([@fsmanuel](https://github.com/fsmanuel))
+* [#719](https://github.com/adopted-ember-addons/ember-cp-validations/pull/719) Replace travis with github actions badge ([@fsmanuel](https://github.com/fsmanuel))
+* [#721](https://github.com/adopted-ember-addons/ember-cp-validations/pull/721) Run yarn create rwjblue-release-it-setup ([@fsmanuel](https://github.com/fsmanuel))
+
+#### Committers: 1
+- Manuel Wiedenmann ([@fsmanuel](https://github.com/fsmanuel))
+
+
 ## v4.0.0-beta.13
 
 - [[Major]: Remove Moment and Node 10](https://github.com/rwwagner90/ember-validators/pull/100);
