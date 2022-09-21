@@ -14,7 +14,7 @@
   "homepage": "https://github.com/adopted-ember-addons/ember-cp-validations",
   "repository": {
     "type": "git",
-    "url": "http://github.com/adopted-ember-addons/ember-cp-validations.git"
+    "url": "https://github.com/adopted-ember-addons/ember-cp-validations.git"
   },
   "license": "MIT",
   "author": "Offir Golan <offirgolan@gmail.com>",
@@ -118,7 +118,7 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://adopted-ember-addons.github.io/ember-cp-validations"
+    "demoURL": "https://adopted-ember-addons.github.io/ember-cp-validations"
   },
   "release-it": {
     "plugins": {
