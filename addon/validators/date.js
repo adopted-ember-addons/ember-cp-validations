@@ -3,6 +3,23 @@ import moment from 'moment';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
+ * @typedef {'now'|string|null|moment.Moment|Date} ReferenceDate
+ */
+
+/**
+ * @typedef {object} DateValidatorOptions
+ * @property {boolean} [allowNone] If true, skips validation if the value is "none", according to Ember.
+ * @property {boolean} [allowBlank] If true, skips validation if the value is "empty," according to Ember.
+ * @property {string} [format] If provided, validates that a string value is in this format.
+ * @property {ReferenceDate} [before] The value must be before this date.
+ * @property {ReferenceDate} [onOrBefore] The value must be on or before this date.
+ * @property {ReferenceDate} [after] The value must be after this date.
+ * @property {ReferenceDate} [onOrAfter] The value must be on or after this date.
+ * @property {'year'|'month'|'week'|'day'|'hour'|'minute'|'second'|'millisecond'} [precision] The granularity of the comparison between a reference date and the value. If the difference is less than the precision, the values are considered equivalent.
+ * @property {string} [errorFormat] The format used to display the reference date in validation errors. Defaults to `MMM Do, YYYY`.
+ */
+
+/**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
  *
  *  Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
@@ -34,7 +51,7 @@ export default EmberValidator.extend({
    * A reimplementation of the v2 Date validator from ember-validators, since v3 removed support for most
    * desired validation errors.
    * @param {any} value A string, null, or moment object
-   * @param {Record<string, string|moment|boolean>} options
+   * @param {DateValidatorOptions} options
    * @returns {true|string} true if passed, otherwise the error message
    */
   validate(value, options) {
