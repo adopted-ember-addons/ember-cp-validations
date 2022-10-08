@@ -112,6 +112,24 @@ module('Unit | Validator | date', function (hooks) {
     );
   });
 
+  ['before', 'onOrBefore', 'after', 'onOrAfter'].forEach((relation) => {
+    test(`options.${relation} - when not a date - validation raised`, function (assert) {
+      const values = ['', null, 'not a date'];
+      assert.expect(values.length);
+
+      values.forEach((value) => {
+        const opts = validator.buildOptions({ [relation]: value });
+        const message = validator.validate(moment(), opts);
+        assert.true(
+          typeof message === 'string',
+          `validation should fail when ${relation} is ${
+            value ? `${value}` : `"${value}"`
+          }`
+        );
+      });
+    });
+  });
+
   test('before', function (assert) {
     assert.expect(2);
 
