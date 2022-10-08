@@ -113,19 +113,42 @@ module('Unit | Validator | date', function (hooks) {
   });
 
   ['before', 'onOrBefore', 'after', 'onOrAfter'].forEach((relation) => {
-    test(`options.${relation} - when not a date - validation raised`, function (assert) {
-      const values = ['', null, 'not a date'];
-      assert.expect(values.length);
+    module(`options.${relation}`, function () {
+      test('when not a date - validation error raised', function (assert) {
+        const values = ['', null, 'not a date'];
 
-      values.forEach((value) => {
-        const opts = validator.buildOptions({ [relation]: value });
-        const message = validator.validate(moment(), opts);
-        assert.true(
-          typeof message === 'string',
-          `validation should fail when ${relation} is ${
-            value ? `${value}` : `"${value}"`
-          }`
-        );
+        values.forEach((value) => {
+          const opts = validator.buildOptions({ [relation]: value }).toObject();
+          const message = validator.validate(moment(), opts);
+          assert.true(
+            typeof message === 'string',
+            `validation should fail when ${relation} is ${
+              value ? `${value}` : `"${value}"`
+            }`
+          );
+        });
+      });
+
+      test('when validation error raised - does not modify relation value', function (assert) {
+        const value = moment();
+        const reference = relation.toLowerCase().includes('after')
+          ? value.clone().add(10)
+          : value.clone().subtract(10);
+        const source = { [relation]: reference };
+        const sourceSpy = new Proxy(source, {
+          set() {
+            assert.false('attempted to mutate source to buildOptions');
+          },
+        });
+        const options = validator.buildOptions(sourceSpy).toObject();
+        const optionsSpy = new Proxy(options, {
+          set() {
+            assert.false('attempted to mutate options object');
+          },
+        });
+
+        message = validator.validate(value, optionsSpy);
+        assert.true(typeof message === 'string', 'precondition not met');
       });
     });
   });
