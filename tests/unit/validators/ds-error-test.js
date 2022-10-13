@@ -35,7 +35,7 @@ module('Unit | Validator | ds-error', function (hooks) {
     model.get('errors').add('username', 'Username is not unique');
 
     message = validator.validate(undefined, undefined, model, 'username');
-    assert.equal(message, 'Username is not unique');
+    assert.strictEqual(message, 'Username is not unique');
   });
 
   test('gets last message', function (assert) {
@@ -53,6 +53,6 @@ module('Unit | Validator | ds-error', function (hooks) {
     model.get('errors').add('username', 'Username is too long');
 
     message = validator.validate(undefined, undefined, model, 'username');
-    assert.equal(message, 'Username is too long');
+    assert.strictEqual(message, 'Username is too long');
   });
 });

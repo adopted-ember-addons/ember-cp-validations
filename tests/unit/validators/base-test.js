@@ -64,9 +64,9 @@ module('Unit | Validator | base', function (hooks) {
 
     let optionsObj = options.toObject();
 
-    assert.equal(typeof optionsObj, 'object');
+    assert.strictEqual(typeof optionsObj, 'object');
     assert.notOk(optionsObj instanceof EmberObject);
-    assert.equal(optionsObj.foo, 'bar');
+    assert.strictEqual(optionsObj.foo, 'bar');
   });
 
   test('createErrorMessage - message function', function (assert) {
@@ -79,7 +79,7 @@ module('Unit | Validator | base', function (hooks) {
     };
 
     message = validator.createErrorMessage(undefined, undefined, options);
-    assert.equal(message, 'This field has some sort of error');
+    assert.strictEqual(message, 'This field has some sort of error');
   });
 
   test('value - default gets model value', function (assert) {
@@ -93,8 +93,8 @@ module('Unit | Validator | base', function (hooks) {
 
     validator.init();
 
-    assert.equal(validator.get('attribute'), 'foo');
-    assert.equal(validator.getValue(), 'bar');
+    assert.strictEqual(validator.get('attribute'), 'foo');
+    assert.strictEqual(validator.getValue(), 'bar');
   });
 
   test('value - overwrite value method via options', function (assert) {
@@ -105,15 +105,15 @@ module('Unit | Validator | base', function (hooks) {
       attribute: 'foo',
       options: {
         value() {
-          return this.get('model.bar');
+          return this.model.bar;
         },
       },
     });
 
     validator.init();
 
-    assert.equal(validator.get('attribute'), 'foo');
-    assert.equal(validator.getValue(), 'baz');
+    assert.strictEqual(validator.get('attribute'), 'foo');
+    assert.strictEqual(validator.getValue(), 'baz');
     assert.notOk(validator.get('options.value'));
   });
 
@@ -125,6 +125,6 @@ module('Unit | Validator | base', function (hooks) {
     };
 
     message = validator.createErrorMessage(undefined, undefined, options);
-    assert.equal(message, 'should be more than &euro;15');
+    assert.strictEqual(message, 'should be more than &euro;15');
   });
 });

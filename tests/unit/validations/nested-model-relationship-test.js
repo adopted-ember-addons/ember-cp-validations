@@ -34,13 +34,13 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
       });
     });
 
-    assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
-    assert.equal(
+    assert.strictEqual(order.get('lines.length'), 1, 'Order has 1 Order Line');
+    assert.strictEqual(
       orderLine.get('selections.length'),
       1,
       'Order Line has 1 Order Selection'
     );
-    assert.equal(
+    assert.strictEqual(
       orderSelection.get('questions.length'),
       2,
       'Order Selection has 2 Order Selection Questions'
@@ -121,13 +121,13 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
       });
     });
 
-    assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
-    assert.equal(
+    assert.strictEqual(order.get('lines.length'), 1, 'Order has 1 Order Line');
+    assert.strictEqual(
       orderLine.get('selections.length'),
       1,
       'Order Line has 1 Order Selection'
     );
-    assert.equal(
+    assert.strictEqual(
       orderSelection.get('questions.length'),
       1,
       'Order Selection has 1 Order Selection Question'
@@ -207,13 +207,13 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
       });
     });
 
-    assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
-    assert.equal(
+    assert.strictEqual(order.get('lines.length'), 1, 'Order has 1 Order Line');
+    assert.strictEqual(
       orderLine.get('selections.length'),
       1,
       'Order Line has 1 Order Selection'
     );
-    assert.equal(
+    assert.strictEqual(
       orderSelection.get('questions.length'),
       1,
       'Order Selection has 1 Order Selection Question'
@@ -294,13 +294,13 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
       });
     });
 
-    assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
-    assert.equal(
+    assert.strictEqual(order.get('lines.length'), 1, 'Order has 1 Order Line');
+    assert.strictEqual(
       orderLine.get('selections.length'),
       1,
       'Order Line has 1 Order Selection'
     );
-    assert.equal(
+    assert.strictEqual(
       orderSelection.get('questions.length'),
       1,
       'Order Selection has 1 Order Selection Question'
@@ -406,13 +406,13 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
       fakeSave(orderSelectionQuestion2);
     });
 
-    assert.equal(order.get('lines.length'), 1, 'Order has 1 Order Line');
-    assert.equal(
+    assert.strictEqual(order.get('lines.length'), 1, 'Order has 1 Order Line');
+    assert.strictEqual(
       orderLine.get('selections.length'),
       1,
       'Order Line has 1 Order Selection'
     );
-    assert.equal(
+    assert.strictEqual(
       orderSelection.get('questions.length'),
       2,
       'Order Selection has 2 Order Selection Question'

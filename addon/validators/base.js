@@ -1,3 +1,5 @@
+// False positive: the native class that exists in the document does not use CPs
+/* eslint-disable ember/no-computed-properties-in-native-classes */
 import { bool } from '@ember/object/computed';
 import EmberObject, { set, get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
@@ -92,9 +94,9 @@ const Base = EmberObject.extend({
 
   init() {
     this._super(...arguments);
-    let globalOptions = get(this, 'globalOptions');
-    let defaultOptions = get(this, 'defaultOptions');
-    let options = get(this, 'options');
+    let globalOptions = this.globalOptions;
+    let defaultOptions = this.defaultOptions;
+    let options = this.options;
     let owner = getOwner(this);
     let errorMessages;
 
@@ -133,8 +135,8 @@ const Base = EmberObject.extend({
     delete builtOptions.value;
 
     return new Options({
-      model: get(this, 'model'),
-      attribute: get(this, 'attribute'),
+      model: this.model,
+      attribute: this.attribute,
       options: builtOptions,
     });
   },
@@ -161,7 +163,7 @@ const Base = EmberObject.extend({
    * @return {Mixed} value
    */
   getValue() {
-    let value = this.value(get(this, 'model'), get(this, 'attribute'));
+    let value = this.value(this.model, this.attribute);
     return getValidatableValue(value);
   },
 
@@ -216,13 +218,13 @@ const Base = EmberObject.extend({
    * @return {String}             The generated message
    */
   createErrorMessage(type, value, options = {}) {
-    let messages = this.get('errorMessages');
-    let message = unwrapString(get(options, 'message'));
+    let messages = this.errorMessages;
+    let message = unwrapString(options.message);
 
     set(
       options,
       'description',
-      messages.getDescriptionFor(get(this, 'attribute'), options)
+      messages.getDescriptionFor(this.attribute, options)
     );
 
     if (message) {
@@ -282,7 +284,7 @@ const Base = EmberObject.extend({
    *                          return value will be a promise.
    */
   test(type, ...args) {
-    const cache = this.get('_testValidatorCache');
+    const cache = this._testValidatorCache;
     const unsupportedTypes = ['alias', 'belongs-to', 'dependent', 'has-many'];
 
     if (unsupportedTypes.includes(type)) {
@@ -462,7 +464,7 @@ export default Base;
  *     let done = assert.async();
  *
  *     validator.validate('johndoe42').then((message) => {
- *       assert.equal(message, true);
+ *       assert.strictEqual(message, true);
  *       done();
  *     });
  * });

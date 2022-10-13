@@ -52,7 +52,7 @@ module('Unit | Validator | presence', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(' ', builtOptions.toObject());
-    assert.equal(message, "This field can't be blank");
+    assert.strictEqual(message, "This field can't be blank");
   });
 
   test('presence - value not present', function (assert) {
@@ -62,7 +62,7 @@ module('Unit | Validator | presence', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(undefined, builtOptions.toObject());
-    assert.equal(message, "This field can't be blank");
+    assert.strictEqual(message, "This field can't be blank");
   });
 
   test('absence - value present', function (assert) {
@@ -72,7 +72,7 @@ module('Unit | Validator | presence', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('value', builtOptions.toObject());
-    assert.equal(message, 'This field must be blank');
+    assert.strictEqual(message, 'This field must be blank');
   });
 
   test('absence - value not present', function (assert) {

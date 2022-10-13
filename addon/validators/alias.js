@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 
 import { isPresent } from '@ember/utils';
-import { getProperties, get } from '@ember/object';
+import { get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
 
 /**
@@ -64,10 +64,7 @@ const Alias = Base.extend({
    * @param {String} attribute
    */
   validate(value, options, model, attribute) {
-    let { alias, firstMessageOnly } = getProperties(options, [
-      'alias',
-      'firstMessageOnly',
-    ]);
+    let { alias, firstMessageOnly } = options;
 
     assert(
       `[validator:alias] [${attribute}] option 'alias' is required`,
@@ -76,15 +73,13 @@ const Alias = Base.extend({
 
     let aliasValidation = get(model, `validations.attrs.${alias}`);
 
-    return firstMessageOnly
-      ? get(aliasValidation, 'message')
-      : get(aliasValidation, 'content');
+    return firstMessageOnly ? aliasValidation.message : aliasValidation.content;
   },
 });
 
 Alias.reopenClass({
   getDependentsFor(attribute, options) {
-    let alias = typeof options === 'string' ? options : get(options, 'alias');
+    let alias = typeof options === 'string' ? options : options.alias;
 
     assert(
       `[validator:alias] [${attribute}] 'alias' must be a string`,

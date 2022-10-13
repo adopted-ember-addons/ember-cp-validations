@@ -242,10 +242,10 @@ import Validator from './validations/validator';
  *     disabled: Ember.computed.not('model.meta.username.isEnabled'),
  *     min: Ember.computed.readOnly('model.meta.username.minLength'),
  *     max: Ember.computed.readOnly('model.meta.username.maxLength'),
- *     description: Ember.computed(function() {
+ *     description: Ember.computed('model', 'attribute', function() {
  *       // CPs have access to the `model` and `attribute`
  *       return this.get('model').generateDescription(this.get('attribute'));
- *     }).volatile() // Disable caching and force recompute on every get call
+ *     })
  *   })
  * });
  * ```
