@@ -107,8 +107,8 @@
     "webpack": "^5.0.0",
     "yuidoc-ember-theme": "^2.0.1"
   },
-  "peerDependencies": {
-    "moment": "^2.29.4"
+  "optionalDependencies": {
+    "moment": "^2"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
