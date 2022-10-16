@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
 /**
@@ -55,7 +54,7 @@ const Collection = EmberValidator.extend({
 
 Collection.reopenClass({
   getDependentsFor(attribute, options) {
-    return options === true || get(options, 'collection') === true
+    return options === true || options.collection === true
       ? [`model.${attribute}.[]`]
       : [];
   },

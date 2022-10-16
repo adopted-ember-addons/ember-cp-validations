@@ -1,16 +1,18 @@
 import ArrayProxy from '@ember/array/proxy';
 import ObjectProxy from '@ember/object/proxy';
 import { isHTMLSafe } from '@ember/template';
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
+import require from 'require';
 
-import Ember from 'ember';
-import requireModule from 'ember-require-module';
+function requireModule(module, exportName = 'default') {
+  if (require.has(module)) {
+    return require(module)[exportName];
+  }
+}
 
 const DS = requireModule('ember-data');
-
-const { canInvoke } = Ember;
 
 export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
 
@@ -23,11 +25,17 @@ export function unwrapString(s) {
 }
 
 export function unwrapProxy(o) {
-  return isProxy(o) ? unwrapProxy(get(o, 'content')) : o;
+  return isProxy(o) ? unwrapProxy(o.content) : o;
 }
 
 export function isProxy(o) {
   return !!(o && (o instanceof ObjectProxy || o instanceof ArrayProxy));
+}
+
+function canInvoke(obj, methodName) {
+  return (
+    obj !== null && obj !== undefined && typeof obj[methodName] === 'function'
+  );
 }
 
 export function isPromise(p) {
@@ -57,7 +65,7 @@ export function isObject(o) {
 
 export function isValidatable(value) {
   let v = unwrapProxy(value);
-  return isDsModel(v) ? !get(v, 'isDeleted') : true;
+  return isDsModel(v) ? !v.isDeleted : true;
 }
 
 export function getValidatableValue(value) {

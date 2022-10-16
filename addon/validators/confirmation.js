@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import { assert } from '@ember/debug';
 import EmberValidator from 'ember-cp-validations/-private/ember-validator';
 
@@ -29,7 +28,7 @@ const Confirmation = EmberValidator.extend({
 
 Confirmation.reopenClass({
   getDependentsFor(attribute, options) {
-    let on = get(options, 'on');
+    let on = options.on;
 
     assert(
       `[validator:confirmation] [${attribute}] 'on' must be a string`,

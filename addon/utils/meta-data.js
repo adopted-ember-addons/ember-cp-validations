@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { meta } from '@ember/-internals/meta';
 
 let id = 0;
 const dataKey = symbol('data');
@@ -8,7 +8,7 @@ function symbol(key) {
 }
 
 function getData(obj, s) {
-  let m = Ember.meta(obj);
+  let m = meta(obj);
   let data = m[dataKey];
 
   if (data) {
@@ -17,7 +17,7 @@ function getData(obj, s) {
 }
 
 function setData(obj, s, value) {
-  let m = Ember.meta(obj);
+  let m = meta(obj);
   let data = (m[dataKey] = m[dataKey] || {});
 
   data[s] = value;

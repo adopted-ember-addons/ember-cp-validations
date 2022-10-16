@@ -36,7 +36,7 @@ module('Unit | Validator | exclusion', function (hooks) {
     assert.true(message);
 
     message = validator.validate('foo', builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
   });
 
   test('not in array', function (assert) {
@@ -49,13 +49,13 @@ module('Unit | Validator | exclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('foo', builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate('bar', builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate('baz', builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate('test', builtOptions.toObject());
     assert.true(message);
@@ -71,13 +71,13 @@ module('Unit | Validator | exclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(1, builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate(5, builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate(10, builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate(0, builtOptions.toObject());
     assert.true(message);
@@ -96,10 +96,10 @@ module('Unit | Validator | exclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate(1, builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate(5, builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate('1', builtOptions.toObject());
     assert.true(message);
@@ -118,10 +118,10 @@ module('Unit | Validator | exclusion', function (hooks) {
     builtOptions = validator.buildOptions(options);
 
     message = validator.validate('a', builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate('z', builtOptions.toObject());
-    assert.equal(message, 'This field is reserved');
+    assert.strictEqual(message, 'This field is reserved');
 
     message = validator.validate(97, builtOptions.toObject());
     assert.true(message);

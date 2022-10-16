@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import Base from 'ember-cp-validations/validators/base';
 import { isPromise } from 'ember-cp-validations/utils/utils';
 
@@ -78,7 +77,7 @@ const BelongsTo = Base.extend({
         return value.then((model) => this.validate(model, ...args));
       }
 
-      return get(value, 'validations');
+      return value.validations;
     }
 
     return true;

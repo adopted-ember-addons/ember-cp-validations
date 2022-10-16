@@ -1,4 +1,4 @@
-import EmberObject, { computed, set, get } from '@ember/object';
+import EmberObject, { computed, set } from '@ember/object';
 import { and, not, readOnly } from '@ember/object/computed';
 import { isNone } from '@ember/utils';
 import { makeArray } from '@ember/array';
@@ -20,7 +20,7 @@ export default EmberObject.extend({
   init() {
     this._super(...arguments);
 
-    if (this.get('isAsync')) {
+    if (this.isAsync) {
       this._handlePromise();
     }
   },
@@ -32,11 +32,11 @@ export default EmberObject.extend({
   isTruelyInvalid: and('isNotValidating', 'isInvalid'),
 
   isAsync: computed('_promise', function () {
-    return isPromise(get(this, '_promise'));
+    return isPromise(this._promise);
   }),
 
   messages: computed('message', function () {
-    return makeArray(get(this, 'message'));
+    return makeArray(this.message);
   }),
 
   error: computed(
@@ -46,11 +46,11 @@ export default EmberObject.extend({
     'message',
     'type',
     function () {
-      if (get(this, 'isInvalid')) {
+      if (this.isInvalid) {
         return ValidationError.create({
-          type: get(this, '_type'),
-          message: get(this, 'message'),
-          attribute: get(this, 'attribute'),
+          type: this._type,
+          message: this.message,
+          attribute: this.attribute,
         });
       }
 
@@ -59,11 +59,11 @@ export default EmberObject.extend({
   ),
 
   errors: computed('error', function () {
-    return makeArray(get(this, 'error'));
+    return makeArray(this.error);
   }),
 
   warningMessages: computed('warningMessage', function () {
-    return makeArray(get(this, 'warningMessage'));
+    return makeArray(this.warningMessage);
   }),
 
   warning: computed(
@@ -73,11 +73,11 @@ export default EmberObject.extend({
     'type',
     'warningMessage',
     function () {
-      if (get(this, 'isWarning') && !isNone(get(this, 'warningMessage'))) {
+      if (this.isWarning && !isNone(this.warningMessage)) {
         return ValidationError.create({
-          type: get(this, '_type'),
-          message: get(this, 'warningMessage'),
-          attribute: get(this, 'attribute'),
+          type: this._type,
+          message: this.warningMessage,
+          attribute: this.attribute,
         });
       }
 
@@ -86,13 +86,13 @@ export default EmberObject.extend({
   ),
 
   warnings: computed('warning', function () {
-    return makeArray(get(this, 'warning'));
+    return makeArray(this.warning);
   }),
 
   _handlePromise() {
     set(this, 'isValidating', true);
 
-    get(this, '_promise').finally(() => {
+    this._promise.finally(() => {
       set(this, 'isValidating', false);
     });
   },

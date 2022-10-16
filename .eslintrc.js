@@ -20,16 +20,9 @@ module.exports = {
     browser: true,
   },
   rules: {
-    'ember/no-actions-hash': 'off',
     'ember/no-classic-classes': 'off',
-    'ember/no-classic-components': 'off',
-    'ember/no-computed-properties-in-native-classes': 'off',
-    'ember/no-get': 'off',
     'ember/no-new-mixins': 'off',
-    'ember/no-volatile-computed-properties': 'off',
-    'ember/require-tagless-components': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
-    'prettier/prettier': ['error', { singleQuote: true }],
   },
   overrides: [
     // node files
@@ -56,7 +49,7 @@ module.exports = {
       extends: ['plugin:node/recommended'],
     },
     {
-      // Test files:
+      // test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
       rules: {

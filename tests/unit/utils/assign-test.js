@@ -13,7 +13,7 @@ module('Unit | Utils | deepSet', function () {
     let obj = EmberObject.create();
     deepSet(obj, 'foo.bar', 1, true);
     assert.ok(obj.foo instanceof EmberObject);
-    assert.equal(obj.get('foo.bar'), 1);
+    assert.strictEqual(obj.get('foo.bar'), 1);
   });
 
   test('single level - ember object w/ CP', function (assert) {
@@ -27,7 +27,7 @@ module('Unit | Utils | deepSet', function () {
       true
     );
     assert.ok(obj.foo instanceof EmberObject);
-    assert.equal(obj.get('foo.bar'), 1);
+    assert.strictEqual(obj.get('foo.bar'), 1);
   });
 
   test('multi level', function (assert) {
@@ -40,6 +40,6 @@ module('Unit | Utils | deepSet', function () {
     let obj = EmberObject.create();
     deepSet(obj, 'foo.bar.baz.boo', 1, true);
     assert.ok(obj.foo.bar.baz instanceof EmberObject);
-    assert.equal(obj.get('foo.bar.baz.boo'), 1);
+    assert.strictEqual(obj.get('foo.bar.baz.boo'), 1);
   });
 });

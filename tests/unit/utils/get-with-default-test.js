@@ -9,7 +9,7 @@ module('Unit | Utils | get with default', function () {
     const defaultValue = 'something';
     let result = getWithDefault(undefinedObj, 'foo', defaultValue);
 
-    assert.equal(result, defaultValue);
+    assert.strictEqual(result, defaultValue);
   });
 
   test('return the correct value if defined', function (assert) {
@@ -20,6 +20,6 @@ module('Unit | Utils | get with default', function () {
     const defaultValue = 'something';
     let result = getWithDefault(obj, 'yehuda', defaultValue);
 
-    assert.equal(result, 'katz');
+    assert.strictEqual(result, 'katz');
   });
 });

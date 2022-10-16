@@ -26,7 +26,7 @@ module('Unit | Validator | confirmation', function (hooks) {
       builtOptions.toObject(),
       model
     );
-    assert.equal(message, "This field doesn't match email");
+    assert.strictEqual(message, "This field doesn't match email");
 
     model.set('emailConfirmation', 'foo@gmail.com');
 
