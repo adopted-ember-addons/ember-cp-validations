@@ -44,8 +44,8 @@ import EmberValidator from 'ember-cp-validations/-private/ember-validator';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'date',
+export default class MomentValidator extends EmberValidator {
+  _evType = 'date';
 
   /**
    * A reimplementation of the v2 Date validator from ember-validators, since v3 removed support for most
@@ -129,5 +129,5 @@ export default EmberValidator.extend({
     }
 
     return true;
-  },
-});
+  }
+}

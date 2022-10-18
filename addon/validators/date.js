@@ -22,8 +22,8 @@ import { assert } from '@ember/debug';
  *  @module Validators
  *  @extends Base
  */
-export default EmberValidator.extend({
-  _evType: 'date',
+export default class DateValidator extends EmberValidator {
+  _evType = 'date';
 
   validate(value, options) {
     // Help applications recognize no longer supported configurations for the default date validator:
@@ -45,5 +45,5 @@ export default EmberValidator.extend({
 
     // Use the date validator supplied by ember-validators:
     return super.validate(...arguments);
-  },
-});
+  }
+}
