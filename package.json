@@ -69,7 +69,6 @@
     "ember-cli-github-pages": "^0.2.0",
     "ember-cli-htmlbars": "^6.0.1",
     "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-moment-shim": "^3.3.3",
     "ember-cli-sass": "^8.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
@@ -95,6 +94,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-qunit": "^7.2.0",
     "loader.js": "^4.7.0",
+    "luxon": "^3.0.4",
+    "moment": "^2.29.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
     "qunit": "^2.17.2",
@@ -105,7 +106,8 @@
     "webpack": "^5.65.0",
     "yuidoc-ember-theme": "^2.0.1"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
+    "luxon": "^2 || ^3",
     "moment": "^2"
   },
   "engines": {
