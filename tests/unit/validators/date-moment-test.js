@@ -5,7 +5,7 @@ import { setupTest } from 'ember-qunit';
 const defaultErrorFormat = 'MMM Do, YYYY';
 const nowMessage = moment().format(defaultErrorFormat);
 
-module('Unit | Validator | date', function (hooks) {
+module('Unit | Validator | date-moment', function (hooks) {
   let options, builtOptions, validator, message;
   setupTest(hooks);
 
