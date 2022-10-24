@@ -130,7 +130,7 @@
   },
   "homepage": "https://github.com/offirgolan/ember-cp-validations",
   "volta": {
-    "node": "14.19.0",
+    "node": "16.18.0",
     "yarn": "1.22.17"
   }
 }
