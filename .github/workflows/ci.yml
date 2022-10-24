@@ -53,6 +53,8 @@ jobs:
           - ember-release-with-ember-data-4.4
           - ember-beta
           - ember-canary
+          - embroider-safe
+          - embroider-optimized
           - ember-default-with-jquery
 
     steps:
