@@ -1,6 +1,15 @@
 # Changelog
 
 
+
+## v5.0.0 (2022-10-27)
+
+#### :boom: Breaking Change
+* [#717](https://github.com/adopted-ember-addons/ember-cp-validations/pull/717) Ember 4.0 compatibility - drops support for Ember < 3.28 ([@fsmanuel](https://github.com/fsmanuel))
+
+#### Committers: 1
+- Manuel Wiedenmann ([@fsmanuel](https://github.com/fsmanuel))
+
 ## v4.0.0 (2022-09-21)
 
 #### :house: Internal
