@@ -22,4 +22,6 @@ import Messages from 'ember-validators/messages';
  *  @class Messages
  *  @module Validators
  */
-export default EmberObject.extend(Messages);
+export default EmberObject.extend(Messages, {
+  wrongDateFormat: '{description} must be in the format of {format}',
+});

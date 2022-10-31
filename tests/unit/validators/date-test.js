@@ -203,7 +203,6 @@ module('Unit | Validator | date', function (hooks) {
       if (i + 1 !== precisions.length) {
         builtOptions = validator.buildOptions({
           onOrBefore: dateString,
-          precision: precisions[i + 1],
         });
 
         message = validator.validate(
@@ -274,7 +273,6 @@ module('Unit | Validator | date', function (hooks) {
     let now = new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format();
     options = {
       onOrAfter: new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(),
-      precision: 'second',
     };
 
     builtOptions = validator.buildOptions(options);
@@ -327,7 +325,6 @@ module('Unit | Validator | date', function (hooks) {
       if (i + 1 !== precisions.length) {
         builtOptions = validator.buildOptions({
           onOrAfter: dateString,
-          precision: precisions[i + 1],
         });
 
         message = validator.validate(
