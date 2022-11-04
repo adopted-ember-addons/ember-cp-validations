@@ -50,6 +50,7 @@ jobs:
         try-scenario:
           - ember-lts-3.28
           - ember-release
+          - ember-release-with-ember-data-4.4
           - ember-beta
           - ember-canary
           - ember-default-with-jquery
