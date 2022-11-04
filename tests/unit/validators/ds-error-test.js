@@ -1,7 +1,10 @@
 import EmberObject from '@ember/object';
-import { Errors } from '@ember-data/model/-private';
+// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
+import DS from 'ember-data';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+
+const { Errors } = DS;
 
 let model, validator, message;
 

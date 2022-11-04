@@ -1,6 +1,7 @@
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
-import { Errors } from '@ember-data/model/-private';
+// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
+import DS from 'ember-data';
 import setupObject from '../../helpers/setup-object';
 import CollectionValidator from 'dummy/validators/collection';
 import LengthValidator from 'dummy/validators/length';
@@ -8,6 +9,8 @@ import DSErrorValidator from 'dummy/validators/ds-error';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { module, test, skip } from 'qunit';
 import { setupTest } from 'ember-qunit';
+
+const { Errors } = DS;
 
 module(
   'Integration | Validations | Factory - Dependent Keys',
@@ -42,7 +45,7 @@ module(
       );
     });
 
-    test('ds-error validator creates correct dependent keys', function (assert) {
+    test('ds-error validator creates correct dependent keys', async function (assert) {
       this.owner.register('validator:ds-error', DSErrorValidator);
       this.owner.register('validator:length', LengthValidator);
 
