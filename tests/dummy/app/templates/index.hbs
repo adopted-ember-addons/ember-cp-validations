@@ -7,7 +7,7 @@
 
       {{#if this.showAlert}}
         <div class='alert'>
-          <div class='fa fa-times icon-remove' {{action 'toggleProperty' 'showAlert'}}></div>
+          <FaIcon @icon="times" class="icon-remove" {{on "click" (fn this.toggleProperty 'showAlert')}} />
           Please fix all the errors below before continuing.
         </div>
       {{/if}}
@@ -56,16 +56,19 @@
   {{else}}
     <div class='registered'>
       {{!-- <img class='tomster' src='images/tomsterzilla.jpeg' alt='' data-test-tomster> --}}
-      <div class='fa fa-check-circle icon-success'></div>
+      <FaIcon @icon="check-circle" class="icon-success" />
       <h2 class='success'>Success</h2>
     </div>
   {{/unless}}
   <footer>
     {{#unless this.isRegistered}}
-      <a class='show-code bottom' {{action 'toggleProperty' 'showCode'}}><i class='fa fa-code'></i> {{if this.showCode 'Hide Code' 'Show Code'}}
-        <i class='fa fa-code'></i></a>
+      <a class='show-code bottom' {{action 'toggleProperty' 'showCode'}}>
+        <FaIcon @icon="code" />
+        {{if this.showCode 'Hide Code' 'Show Code'}}
+        <FaIcon @icon="code" />
+      </a>
     {{else}}
-      <a class='show-code bottom' {{action 'reset'}}>Reset Form</a>
+      <a class='show-code bottom' {{on "click" (fn this.toggleProperty "isRegistered")}}>Reset Form</a>
     {{/unless}}
   </footer>
 </div>
