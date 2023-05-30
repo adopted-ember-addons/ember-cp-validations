@@ -22,7 +22,10 @@ const Validations = buildValidations(
 );
 
 export default Model.extend(Validations, {
-  order: belongsTo('order', { async: true }),
-  selection: belongsTo('order-selection', { async: true }),
+  order: belongsTo('order', { async: true, inverse: 'questions' }),
+  selection: belongsTo('order-selection', {
+    async: true,
+    inverse: 'questions',
+  }),
   text: attr('string'),
 });

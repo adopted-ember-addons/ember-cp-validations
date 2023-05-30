@@ -21,7 +21,7 @@ const Validations = buildValidations({
 });
 
 export default Model.extend(Validations, {
-  order: belongsTo('order', { async: true }),
-  selections: hasMany('order-selection', { async: true }),
+  order: belongsTo('order', { async: true, inverse: 'lines' }),
+  selections: hasMany('order-selection', { async: true, inverse: 'line' }),
   type: attr('string'),
 });

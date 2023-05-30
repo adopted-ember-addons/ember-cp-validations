@@ -18,5 +18,13 @@ const Validations = buildValidations({
 
 export default Model.extend(Validations, {
   source: attr('string'),
-  lines: hasMany('order-line', { async: true }),
+  lines: hasMany('order-line', { async: true, inverse: 'order' }),
+  questions: hasMany('order-selection-question', {
+    async: true,
+    inverse: 'order',
+  }),
+  selections: hasMany('order-selection', {
+    async: true,
+    inverse: 'order',
+  }),
 });
