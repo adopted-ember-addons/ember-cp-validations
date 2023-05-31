@@ -358,24 +358,17 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
 
   test('order with invalid question shows valid if invalid question is deleted in reverse order', function (assert) {
     assert.expect(9);
-    let order = run(() =>
-      this.owner
-        .lookup('service:store')
-        .createRecord('order', { id: 1, source: 'external' })
-    );
+    let done = assert.async();
 
-    let orderLine,
+    let order,
+      orderLine,
       orderSelection,
       orderSelectionQuestion,
       orderSelectionQuestion2;
 
     let store = this.owner.lookup('service:store');
     run(() => {
-      let fakeSave = function (model) {
-        model.get('_internalModel').adapterWillCommit();
-        model.get('_internalModel').adapterDidCommit();
-      };
-
+      order = store.createRecord('order', { id: 1, source: 'external' });
       orderLine = store.createRecord('order-line', {
         id: 1,
         order,
@@ -399,6 +392,14 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
         selection: orderSelection,
       });
 
+      // Not sure if this is needed.
+      let fakeSave = function (model) {
+        if (model.get('_internalModel')) {
+          model.get('_internalModel').adapterWillCommit();
+          model.get('_internalModel').adapterDidCommit();
+        }
+      };
+
       fakeSave(order);
       fakeSave(orderLine);
       fakeSave(orderSelection);
@@ -417,8 +418,6 @@ module('Unit | Validations | Nested Model Relationships', function (hooks) {
       2,
       'Order Selection has 2 Order Selection Question'
     );
-
-    let done = assert.async();
 
     orderSelectionQuestion2
       .validate()
