@@ -1,5 +1,4 @@
 import EmberObject from '@ember/object';
-import DS from 'ember-data';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
@@ -24,10 +23,7 @@ module('Unit | Validator | ds-error', function (hooks) {
   test('it works', function (assert) {
     assert.expect(2);
 
-    model = EmberObject.create({
-      errors: DS.Errors.create(),
-      username: null,
-    });
+    let model = this.owner.lookup('service:store').createRecord('user');
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);
@@ -41,10 +37,7 @@ module('Unit | Validator | ds-error', function (hooks) {
   test('gets last message', function (assert) {
     assert.expect(2);
 
-    model = EmberObject.create({
-      errors: DS.Errors.create(),
-      username: null,
-    });
+    let model = this.owner.lookup('service:store').createRecord('user');
 
     message = validator.validate(undefined, undefined, model, 'username');
     assert.true(message);
