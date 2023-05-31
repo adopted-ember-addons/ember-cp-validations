@@ -18,8 +18,8 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *    friends: validator('has-many')
  *  });
  *
- *  export default DS.Model.extend(Validations, {
- *    friends: DS.hasMany('user')
+ *  export default Model.extend(Validations, {
+ *    friends: hasMany('user')
  *  });
  *  ```
  *

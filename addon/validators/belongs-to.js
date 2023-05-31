@@ -18,8 +18,8 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *    details: validator('belongs-to')
  *  });
  *
- *  export default DS.Model.extend(Validations, {
- *    'details': DS.belongsTo('user-detail')
+ *  export default Model.extend(Validations, {
+ *    'details': belongsTo('user-detail')
  *  });
  *  ```
  *
@@ -31,7 +31,7 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *    lastName: validator('presence', true)
  *  });
  *
- *  export default DS.Model.extend(Validations, {
+ *  export default Model.extend(Validations, {
  *    "firstName": attr('string'),
  *    "lastName": attr('string'),
  *  });

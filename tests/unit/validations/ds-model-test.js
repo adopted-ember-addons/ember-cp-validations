@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Validations | DS.Model', function (hooks) {
+module('Unit | Validations | Model', function (hooks) {
   setupTest(hooks);
 
   test('create model with defaults', function (assert) {

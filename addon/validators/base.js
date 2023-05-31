@@ -430,8 +430,8 @@ export default Base;
  *   }),
  * });
  *
- * export default DS.Model.extend(Validations, {
- *   'username': DS.attr('string'),
+ * export default Model.extend(Validations, {
+ *   'username': attr('string'),
  * });
  * ```
  *
