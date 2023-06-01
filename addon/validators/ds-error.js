@@ -4,7 +4,7 @@ import { getPathAndKey } from 'ember-validators/ds-error';
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
  *
- *  Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
+ *  Creates a link between this library and Ember-Data
  *  to fetch the latest message for the given attribute.
  *
  *  ## Examples

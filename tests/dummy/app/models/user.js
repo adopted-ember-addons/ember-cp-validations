@@ -57,6 +57,6 @@ export default Model.extend(Validations, {
   username: attr('string'),
   password: attr('string'),
   email: attr('string'),
-  details: belongsTo('user-detail'),
+  details: belongsTo('user-detail', { async: true, inverse: null }),
 });
 // END-SNIPPET

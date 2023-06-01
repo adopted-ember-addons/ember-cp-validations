@@ -60,7 +60,7 @@ import Validator from './validations/validator';
  * ```javascript
  * // models/user.js
  *
- * export default DS.Model.extend(Validations, {
+ * export default Model.extend(Validations, {
  *   'username': attr('string'),
  *   'password': attr('string'),
  *   'email': attr('string')

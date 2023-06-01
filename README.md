@@ -16,7 +16,7 @@ An EmberJS validation framework that is completely and utterly computed property
 - Support for Ember Data Models, Objects, Components, Services, etc.
 - Support for nested models and objects
 - Synchronous and asynchronous support
-- Easily integrated with Ember Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
+- Easily integrated with Ember Data
 - No observers. Seriously... there are none. Like absolutely zero....
 - Custom validators
 - I18n support

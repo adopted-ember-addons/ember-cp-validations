@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
 import setupObject from '../../helpers/setup-object';
 import CollectionValidator from 'dummy/validators/collection';
 import LengthValidator from 'dummy/validators/length';
@@ -49,10 +49,14 @@ module(
       let DSErrorValidations = buildValidations({
         username: validator('ds-error'),
       });
-      let obj = setupObject(this, EmberObject.extend(DSErrorValidations), {
-        errors: DS.Errors.create(),
-        username: '',
-      });
+      this.owner.register(
+        'model:user',
+        Model.extend(DSErrorValidations, {
+          username: attr('string'),
+        })
+      );
+
+      let obj = this.owner.lookup('service:store').createRecord('user');
 
       assert.true(obj.get('validations.attrs.username.isValid'));
 
@@ -72,12 +76,17 @@ module(
       let DSErrorValidations = buildValidations({
         'model.username': validator('ds-error'),
       });
+      this.owner.register(
+        'model:user',
+        Model.extend(DSErrorValidations, {
+          username: attr('string'),
+        })
+      );
+
+      let user = this.owner.lookup('service:store').createRecord('user');
 
       let obj = setupObject(this, EmberObject.extend(DSErrorValidations), {
-        model: EmberObject.create({
-          errors: DS.Errors.create(),
-          username: '',
-        }),
+        model: user,
       });
 
       assert.true(obj.get('validations.attrs.model.username.isValid'));
