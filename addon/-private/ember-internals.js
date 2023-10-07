@@ -1,10 +1,10 @@
-import __EMBER_METAL__ from '@ember/-internals/metal/index';
+import * as EMBER_METAL from '@ember/-internals/metal/index';
+
+const POSSIBLE_DECORATORS = ['AliasDecoratorImpl', 'ComputedDecoratorImpl'];
 
 export function getDependentKeys(descriptorOrDecorator) {
-  if (__EMBER_METAL__ && __EMBER_METAL__.descriptorForDecorator) {
-    let descriptor = __EMBER_METAL__.descriptorForDecorator(
-      descriptorOrDecorator,
-    );
+  if (EMBER_METAL && EMBER_METAL.descriptorForDecorator) {
+    let descriptor = EMBER_METAL.descriptorForDecorator(descriptorOrDecorator);
     return descriptor._dependentKeys || [descriptor.altKey];
   } else {
     return descriptorOrDecorator._dependentKeys;
@@ -12,11 +12,14 @@ export function getDependentKeys(descriptorOrDecorator) {
 }
 
 export function isDescriptor(o) {
-  if (__EMBER_METAL__ && __EMBER_METAL__.isClassicDecorator) {
-    return __EMBER_METAL__.isClassicDecorator(o);
-  } else {
-    return (
-      o && (typeof o === 'object' || typeof o === 'function') && o.isDescriptor
-    );
-  }
+  const isClassicDecorator =
+    EMBER_METAL &&
+    EMBER_METAL.isClassicDecorator &&
+    EMBER_METAL.isClassicDecorator(o);
+  const _isDescriptor =
+    o && (typeof o === 'object' || typeof o === 'function') && o.isDescriptor;
+  const isOtherDecoratorImpl = POSSIBLE_DECORATORS.includes(
+    o?.constructor?.name,
+  );
+  return isClassicDecorator || _isDescriptor || isOtherDecoratorImpl;
 }

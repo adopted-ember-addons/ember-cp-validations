@@ -17,9 +17,12 @@ export default class Options {
   constructor({ model, attribute, options = {} }) {
     const optionKeys = keys(options);
     const createParams = { [OPTION_KEYS]: optionKeys, model, attribute };
+    const someOptionsAreDescriptors = optionKeys.some((key) => {
+      return isDescriptor(options[key]);
+    });
 
     // If any of the options is a CP, we need to create a custom class for it
-    if (optionKeys.some((key) => isDescriptor(options[key]))) {
+    if (someOptionsAreDescriptors) {
       return OptionsObject.extend(options).create(createParams);
     }
 
