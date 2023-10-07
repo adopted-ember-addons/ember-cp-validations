@@ -9,7 +9,9 @@ An EmberJS validation framework that is completely and utterly computed property
 
 ## Features
 
-**No observers were used nor harmed while developing and testing this addon.**
+* Ember.js v4.4 or above
+* Ember CLI v4.4 or above
+* Node.js v16 or above
 
 - Lazily computed validations
 - Ruby on rails inspired validators
