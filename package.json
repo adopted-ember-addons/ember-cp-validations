@@ -68,6 +68,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@release-it-plugins/lerna-changelog": "^5.0.0",
+    "babel-plugin-dynamic-import-node": "2.3.3",
     "broccoli-asset-rev": "^2.7.0",
     "concurrently": "^8.2.1",
     "ember-auto-import": "^2.6.3",
