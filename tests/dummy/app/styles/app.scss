@@ -1,8 +1,8 @@
 $accent-color: #f23818;
 
-@import "./navbar";
-@import "./form";
-@import "./code-snippet";
+@import url("./navbar");
+@import url("./form");
+@import url("./code-snippet");
 
 *,
 ::after,
@@ -24,7 +24,7 @@ html {
 
 body {
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.4286;
   color: #333;
 }
 
