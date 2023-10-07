@@ -35,7 +35,7 @@ export default Base.extend({
   buildOptions(options = {}, ...args) {
     assert(
       `[validator:inline] You must pass in a validate function`,
-      options && typeof options.validate === 'function'
+      options && typeof options.validate === 'function',
     );
 
     const opts = Object.assign({}, options);

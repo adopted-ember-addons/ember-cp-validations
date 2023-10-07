@@ -3,7 +3,7 @@ import __EMBER_METAL__ from '@ember/-internals/metal/index';
 export function getDependentKeys(descriptorOrDecorator) {
   if (__EMBER_METAL__ && __EMBER_METAL__.descriptorForDecorator) {
     let descriptor = __EMBER_METAL__.descriptorForDecorator(
-      descriptorOrDecorator
+      descriptorOrDecorator,
     );
     return descriptor._dependentKeys || [descriptor.altKey];
   } else {

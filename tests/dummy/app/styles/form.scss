@@ -18,8 +18,8 @@
   padding: 0 15px;
   border: 1px solid #d9d9d9;
   border-radius: 3px;
-  color: #6E6E6E;
-  font-family: 'Roboto', sans-serif;
+  color: #6e6e6e;
+  font-family: "Roboto", sans-serif;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 14px;
@@ -112,7 +112,7 @@ input.form-control:focus {
   border: 0;
   border-radius: 3px;
   color: #ffffff;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 14px;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -141,7 +141,7 @@ input.form-control:focus {
 .section-info.left:before,
 .section-info.right:before,
 .section-info.bottom:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 40%;
   display: block;
@@ -174,7 +174,6 @@ input.form-control:focus {
   border-right: 10px solid transparent;
   border-top: initial;
 }
-
 
 /* Submit button info message */
 
@@ -220,7 +219,7 @@ input.form-control:focus {
 
 .form .registered .icon-success {
   font-size: 160px;
-  color: #A5A5A5;
+  color: #a5a5a5;
   margin-bottom: 15px;
 }
 

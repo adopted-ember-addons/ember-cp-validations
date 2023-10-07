@@ -32,7 +32,7 @@ Confirmation.reopenClass({
 
     assert(
       `[validator:confirmation] [${attribute}] 'on' must be a string`,
-      typeof on === 'string'
+      typeof on === 'string',
     );
 
     return on ? [`model.${on}`] : [];

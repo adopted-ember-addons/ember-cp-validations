@@ -25,7 +25,7 @@ module('Unit | Validator | inline', function (hooks) {
           assert.strictEqual(options.foo, 'bar', 'It receives options');
           assert.notOk(
             options.validate,
-            'Validate fn removed from the options'
+            'Validate fn removed from the options',
           );
         },
       },

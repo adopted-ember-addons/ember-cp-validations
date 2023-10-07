@@ -7,7 +7,7 @@ module.exports = {
 
   afterPublish: function (project, versions) {
     runCommand(
-      'ember github-pages:commit --message "Released ' + versions.next + '"'
+      'ember github-pages:commit --message "Released ' + versions.next + '"',
     );
     runCommand('git push origin gh-pages:gh-pages');
   },

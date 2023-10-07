@@ -213,12 +213,12 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
 
     validationRules = Object.assign(
       validationRules,
-      inheritedValidations.get('_validationRules')
+      inheritedValidations.get('_validationRules'),
     );
     validatableAttributes = emberArray(
       inheritedValidations
         .get('validatableAttributes')
-        .concat(validatableAttributes)
+        .concat(validatableAttributes),
     ).uniq();
   }
 
@@ -235,7 +235,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
   let AttrsClass = createAttrsClass(
     validatableAttributes,
     validationRules,
-    model
+    model,
   );
 
   // Create `validations` class
@@ -329,7 +329,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
         set(
           this,
           key,
-          nestedClasses[path][key].create({ [ATTRS_MODEL]: model })
+          nestedClasses[path][key].create({ [ATTRS_MODEL]: model }),
         );
       });
     },
@@ -387,7 +387,7 @@ function createAttrsClass(validatableAttributes, validationRules, model) {
       [attr]: createCPValidationFor(
         attribute,
         model,
-        get(validationRules, attribute)
+        get(validationRules, attribute),
       ),
     });
   });
@@ -411,7 +411,7 @@ function createCPValidationFor(attribute, model, validations) {
   assert(
     '[ember-cp-validations] The `volatile` option is no longer available ' +
       'as it was removed in ember 4.0',
-    !isVolatile
+    !isVolatile,
   );
 
   let dependentKeys = getCPDependentKeysFor(attribute, model, validations);
@@ -430,16 +430,16 @@ function createCPValidationFor(attribute, model, validations) {
             validator.getValue(),
             options,
             model,
-            attribute
+            attribute,
           );
-        }
+        },
       );
 
       return ResultCollection.create({
         attribute,
         content: validationResults,
       });
-    })
+    }),
   ).readOnly();
 }
 
@@ -487,7 +487,7 @@ function generateValidationResultsFor(
   model,
   validators,
   validate,
-  opts = {}
+  opts = {},
 ) {
   let isModelValidatable = isValidatable(model);
   let isInvalid = false;
@@ -579,7 +579,7 @@ function createTopLevelPropsMixin(validatableAttrs) {
           attribute: `Model:${this}`,
           content: validatableAttrs.map((attr) => get(this, `attrs.${attr}`)),
         });
-      }
+      },
     ).readOnly(),
   });
 }
@@ -739,7 +739,7 @@ function getDebouncedValidationsCacheFor(attribute, model) {
 function createValidatorsFor(attribute, model) {
   let validations = model.validations;
   let validationRules = makeArray(
-    get(validations, `_validationRules.${attribute}`)
+    get(validations, `_validationRules.${attribute}`),
   );
   let validatorCache = validations._validators;
   let owner = getOwner(model);
@@ -748,7 +748,7 @@ function createValidatorsFor(attribute, model) {
   // We must have an owner to be able to lookup our validators
   if (isNone(owner)) {
     throw new TypeError(
-      `[ember-cp-validations] ${model.toString()} is missing a container or owner.`
+      `[ember-cp-validations] ${model.toString()} is missing a container or owner.`,
     );
   }
 
@@ -811,7 +811,7 @@ function validate(options = {}, isAsync = true) {
       // If an async validation is found, throw an error
       if (!isAsync && validationResult.isAsync) {
         throw new Error(
-          `[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`
+          `[ember-cp-validations] Synchronous validation failed due to ${name} being an async validation.`,
         );
       }
 
@@ -875,7 +875,7 @@ function validateAttribute(attribute, value) {
     },
     {
       disableDebounceCache: true,
-    }
+    },
   );
 
   let validations = ResultCollection.create({

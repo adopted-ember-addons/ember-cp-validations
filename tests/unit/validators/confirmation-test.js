@@ -24,7 +24,7 @@ module('Unit | Validator | confirmation', function (hooks) {
     message = validator.validate(
       'bar@gmail.com',
       builtOptions.toObject(),
-      model
+      model,
     );
     assert.strictEqual(message, "This field doesn't match email");
 
@@ -33,7 +33,7 @@ module('Unit | Validator | confirmation', function (hooks) {
     message = validator.validate(
       'foo@gmail.com',
       builtOptions.toObject(),
-      model
+      model,
     );
     assert.true(message);
   });

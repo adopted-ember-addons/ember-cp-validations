@@ -68,7 +68,7 @@ const Alias = Base.extend({
 
     assert(
       `[validator:alias] [${attribute}] option 'alias' is required`,
-      isPresent(alias)
+      isPresent(alias),
     );
 
     let aliasValidation = get(model, `validations.attrs.${alias}`);
@@ -83,7 +83,7 @@ Alias.reopenClass({
 
     assert(
       `[validator:alias] [${attribute}] 'alias' must be a string`,
-      typeof alias === 'string'
+      typeof alias === 'string',
     );
 
     return [`${alias}.messages.[]`, `${alias}.isTruelyValid`];
