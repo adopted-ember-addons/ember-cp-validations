@@ -114,7 +114,7 @@
     "webpack": "^5.88.2"
   },
   "peerDependencies": {
-    "ember-source": ">= 4.0.0"
+    "ember-source": ">= 4.8.0"
   },
   "engines": {
     "node": "16.* || >= 18"
