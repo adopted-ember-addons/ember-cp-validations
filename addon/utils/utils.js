@@ -3,7 +3,7 @@ import ObjectProxy from '@ember/object/proxy';
 import { isHTMLSafe } from '@ember/template';
 import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
-import { A as emberArray, isArray } from '@ember/array';
+import { A as emberArray } from '@ember/array';
 import {
   macroCondition,
   dependencySatisfies,
@@ -51,7 +51,6 @@ export function isDSManyArray(o) {
   return !!(
     DS &&
     o &&
-    isArray(o) &&
     (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
   );
 }
