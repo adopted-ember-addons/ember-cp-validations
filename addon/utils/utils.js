@@ -13,6 +13,7 @@ function requireModule(module, exportName = 'default') {
 }
 
 const DS = requireModule('ember-data');
+const Model = requireModule('@ember-data/model');
 
 export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
 
@@ -43,7 +44,7 @@ export function isPromise(p) {
 }
 
 export function isDsModel(o) {
-  return !!(DS && o && o instanceof DS.Model);
+  return !!(Model && o && o instanceof Model);
 }
 
 export function isDSManyArray(o) {
