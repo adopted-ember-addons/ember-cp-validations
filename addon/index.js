@@ -27,8 +27,6 @@ import Validator from './validations/validator';
  * ```javascript
  * // models/user.js
  *
- * import Ember from 'ember';
- * import DS from 'ember-data';
  * import { validator, buildValidations } from 'ember-cp-validations';
  *
  * const Validations = buildValidations({
@@ -60,6 +58,8 @@ import Validator from './validations/validator';
  * ```javascript
  * // models/user.js
  *
+ * import Model from '@ember-data/model';
+ *
  * export default Model.extend(Validations, {
  *   'username': attr('string'),
  *   'password': attr('string'),
@@ -69,20 +69,20 @@ import Validator from './validations/validator';
  *
  * ## Objects
  *
- * You can also use the generated `Validations` mixin on any `Ember.Object` or child
- * of `Ember.Object`, like `Ember.Component`. For example:
+ * You can also use the generated `Validations` mixin on any `EmberObject` or child
+ * of `EmberObject`, like `Component`. For example:
  *
  * ```javascript
  * // components/x-foo.js
  *
- * import Ember from 'ember';
+ * import Component from '@ember/component';
  * import { validator, buildValidations } from 'ember-cp-validations';
  *
  * const Validations = buildValidations({
  *   bar: validator('presence', true)
  * });
  *
- * export default Ember.Component.extend(Validations, {
+ * export default Component.extend(Validations, {
  *   bar: null
  * });
  * ```
@@ -90,14 +90,16 @@ import Validator from './validations/validator';
  * ```javascript
  * // models/user.js
  *
- * export default Ember.Object.extend(Validations, {
+ * import EmberObject from '@ember/object';
+ *
+ * export default EmberObject.extend(Validations, {
  *   username: null
  * });
  * ```
  *
  * ## A Note on Testing & Object Containers
  *
- * To lookup validators, container access is required, which can cause an issue with `Ember.Object` creation
+ * To lookup validators, container access is required, which can cause an issue with `EmberObject` creation
  * if the object is statically imported. The current fix for this is as follows.
  *
  * **Ember < 2.3.0**
@@ -105,9 +107,10 @@ import Validator from './validations/validator';
  * ```javascript
  * // routes/index.js
  *
+ * import Route from '@ember/routing/route';
  * import User from '../models/user';
  *
- * export default Ember.Route.extend({
+ * export default Route.extend({
  *   model() {
  *     const container = this.get('container');
  *     return User.create({ username: 'John', container })
@@ -120,12 +123,14 @@ import Validator from './validations/validator';
  * ```javascript
  * // routes/index.js
  *
+ * import { getOwner } from '@ember/application';
+ * import Route from '@ember/routing/route';
  * import User from '../models/user';
  *
- * export default Ember.Route.extend({
+ * export default Route.extend({
  *   model() {
  *     return User.create(
- *      Ember.getOwner(this).ownerInjection(),
+ *      getOwner(this).ownerInjection(),
  *      { username: 'John' }
  *     );
  *   }
@@ -203,7 +208,6 @@ import Validator from './validations/validator';
  * ```
  *
  * ```javascript
- * import Ember from 'ember';
  * import { validator, buildValidations } from 'ember-cp-validations';
  *
  * const Validations = buildValidations({
@@ -237,12 +241,15 @@ import Validator from './validations/validator';
  * Please note that the `message` option of a validator can also be a function with [the following signature](http://adopted-ember-addons.github.io/ember-cp-validations/docs/modules/Validators.html#message).
  *
  * ```javascript
+ * import { computed } from '@ember/object';
+ * import { not, readOnly } from '@ember/object/computed';
+ *
  * const Validations = buildValidations({
  *   username: validator('length', {
- *     disabled: Ember.computed.not('model.meta.username.isEnabled'),
- *     min: Ember.computed.readOnly('model.meta.username.minLength'),
- *     max: Ember.computed.readOnly('model.meta.username.maxLength'),
- *     description: Ember.computed('model', 'attribute', function() {
+ *     disabled: not('model.meta.username.isEnabled'),
+ *     min: readOnly('model.meta.username.minLength'),
+ *     max: readOnly('model.meta.username.maxLength'),
+ *     description: computed('model', 'attribute', function() {
  *       // CPs have access to the `model` and `attribute`
  *       return this.get('model').generateDescription(this.get('attribute'));
  *     })
@@ -255,7 +262,8 @@ import Validator from './validations/validator';
  * When declaring object validations (not including Ember Data models), it is possible to validate child objects from the parent object.
  *
  * ```javascript
- * import Ember from 'ember';
+ * import Component from '@ember/component';
+ * import { alias } from '@ember/object/computed';
  * import { validator, buildValidations } from 'ember-cp-validations';
  *
  * const Validations = buildValidations({
@@ -265,7 +273,7 @@ import Validator from './validations/validator';
  *   'user.account.number': validator('number')
  * });
  *
- * export default Ember.Component.extend(Validations, {
+ * export default Component.extend(Validations, {
  *   acceptTerms: false,
  *   user:  {
  *     firstName: 'John',
@@ -274,7 +282,7 @@ import Validator from './validations/validator';
  *       number: 123456,
  *     }
  *   },
- *   isFormValid: Ember.computed.alias('validations.isValid'),
+ *   isFormValid: alias('validations.isValid'),
  * });
  * ```
  *
