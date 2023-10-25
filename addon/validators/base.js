@@ -364,11 +364,11 @@ export default Base;
  * ```javascript
  * // app/validators/unique-username.js
  *
- * import Ember from 'ember';
+ * import { service } from '@ember/service';
  * import BaseValidator from 'ember-cp-validations/validators/base';
  *
  * const UniqueUsername = BaseValidator.extend({
- *   store: Ember.inject.service(),
+ *   store: service(),
  *
  *   validate(value, options, model, attribute) {
  *     return this.get('store').findRecord('user', value).then((user) => {

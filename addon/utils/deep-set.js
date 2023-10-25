@@ -1,7 +1,7 @@
 /**
  * Assigns a value to an object via the given path while creating new objects if
  * the pathing requires it. If the given path is `foo.bar`, it will create a new object (obj.foo)
- * and assign value to obj.foo.bar. If the given object is an Ember.Object, it will create new Ember.Objects.
+ * and assign value to obj.foo.bar. If the given object is an EmberObject, it will create new EmberObjects.
  */
 import { isDescriptor } from './utils';
 import { isNone } from '@ember/utils';

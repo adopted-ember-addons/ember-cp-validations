@@ -4,7 +4,7 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
  *
- *  Identifies a `has-many` relationship in an Ember Data Model or Ember.Object.
+ *  Identifies a `has-many` relationship in an Ember Data Model or EmberObject.
  *  This is used to create a validation collection of the `has-many` validations.
  *
  *  _**Note:** Validations must exist on **all** models/objects_
@@ -28,11 +28,13 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  ```javascript
  *  // model/users.js
  *
+ *  import EmberObject from '@ember/object';
+ *
  *  const Validations = buildValidations({
  *    friends: validator('has-many')
  *  });
  *
- *  export default Ember.Object.extend(Validations, {
+ *  export default EmberObject.extend(Validations, {
  *    friends: null
  *  });
  *  ```

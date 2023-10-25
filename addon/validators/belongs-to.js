@@ -4,7 +4,7 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
 /**
  *  <i class="fa fa-hand-o-right" aria-hidden="true"></i> [See All Options](#method_validate)
  *
- *  Identifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.
+ *  Identifies a `belongs-to` relationship in an Ember Data Model or EmberObject.
  *  This is used to create a link to the validations object of the child model.
  *
  *  _**Note:** Validations must exist on **both** models/objects_
@@ -42,18 +42,20 @@ import { isPromise } from 'ember-cp-validations/utils/utils';
  *  ```javascript
  *  // model/users.js
  *
+ *  import { getOwner } from '@ember/application';
+ *  import EmberObject from '@ember/object';
  *  import UserDetails from '../user-details';
  *
  *  const Validations = buildValidations({
  *    details: validator('belongs-to')
  *  });
  *
- *  export default Ember.Object.extend(Validations, {
+ *  export default EmberObject.extend(Validations, {
  *    details: null,
  *
  *    init() {
  *      this._super(...arguments);
- *      let owner = Ember.getOwner(this);
+ *      let owner = getOwner(this);
  *      this.set('details', UserDetails.create(owner.ownerInjection()));
  *    }
  *  });
