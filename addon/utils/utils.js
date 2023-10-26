@@ -4,6 +4,8 @@ import { isHTMLSafe } from '@ember/template';
 import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray } from '@ember/array';
+
+// ember-data feature detection
 import {
   macroCondition,
   dependencySatisfies,
@@ -17,6 +19,19 @@ if (macroCondition(dependencySatisfies('ember-data', '*'))) {
   Model = importSync('@ember-data/model').default;
 }
 
+export function isDsModel(o) {
+  return !!(Model && o && o instanceof Model);
+}
+
+export function isDSManyArray(o) {
+  return !!(
+    DS &&
+    o &&
+    (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
+  );
+}
+
+// ember internals
 export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
 
 export function unwrapString(s) {
@@ -43,18 +58,6 @@ function canInvoke(obj, methodName) {
 
 export function isPromise(p) {
   return !!(p && canInvoke(p, 'then'));
-}
-
-export function isDsModel(o) {
-  return !!(Model && o && o instanceof Model);
-}
-
-export function isDSManyArray(o) {
-  return !!(
-    DS &&
-    o &&
-    (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
-  );
 }
 
 export function isEmberObject(o) {
