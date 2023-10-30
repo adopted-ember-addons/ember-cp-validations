@@ -1,6 +1,6 @@
-# Upgrading v3.x to 4.x
+# Upgrading from v3.x
 
-This document is here to show breaking changes when upgrading from v3.x to v4.x.
+This document is here to show breaking changes when upgrading from v3.x.
 
 ## Support Latest 2 LTS Releases
 
@@ -16,7 +16,7 @@ to the `validator` but it didn't feel consistent with the rest of the API. To no
 this, we created a new `inline` validator that you can pass a function to via
 the `validate` option.
 
-**Before (3.x)**
+**Version <= 3.x**
 
 ```javascript
 validator(function(value, options, model, attribute) {
@@ -28,7 +28,7 @@ validator(function(value, options, model, attribute) {
 });
 ```
 
-**After (4.x)**
+**Version >= 4.x**
 
 ```javascript
 validator('inline', {

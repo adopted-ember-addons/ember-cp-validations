@@ -111,7 +111,7 @@ const Base = EmberObject.extend({
     set(
       this,
       'options',
-      this.buildOptions(options, defaultOptions, globalOptions)
+      this.buildOptions(options, defaultOptions, globalOptions),
     );
     set(this, 'errorMessages', errorMessages.create());
   },
@@ -224,7 +224,7 @@ const Base = EmberObject.extend({
     set(
       options,
       'description',
-      messages.getDescriptionFor(this.attribute, options)
+      messages.getDescriptionFor(this.attribute, options),
     );
 
     if (message) {
@@ -289,7 +289,7 @@ const Base = EmberObject.extend({
 
     if (unsupportedTypes.includes(type)) {
       throw new Error(
-        `[ember-cp-validations] The \`test\` API does not support validators of type: ${type}.`
+        `[ember-cp-validations] The \`test\` API does not support validators of type: ${type}.`,
       );
     }
 
@@ -299,7 +299,7 @@ const Base = EmberObject.extend({
     if (isPromise(result)) {
       return result.then(
         (r) => new TestResult(r),
-        (r) => new TestResult(r)
+        (r) => new TestResult(r),
       );
     }
 

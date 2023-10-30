@@ -30,7 +30,7 @@ module('Integration | Validators | Composable', function (hooks) {
         validate(value) {
           return this.test('presence', value, { presence: true });
         },
-      })
+      }),
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
@@ -41,7 +41,7 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.false(obj.get('validations.isValidating'));
     assert.strictEqual(
       obj.get('validations.message'),
-      "This field can't be blank"
+      "This field can't be blank",
     );
 
     obj.set('value', 'foo');
@@ -73,7 +73,7 @@ module('Integration | Validators | Composable', function (hooks) {
 
           return true;
         },
-      })
+      }),
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
@@ -84,7 +84,7 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.false(obj.get('validations.isValidating'));
     assert.strictEqual(
       obj.get('validations.message'),
-      "This field can't be blank"
+      "This field can't be blank",
     );
 
     obj.set('value', 'foobar');
@@ -93,7 +93,7 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.false(obj.get('validations.isValidating'));
     assert.strictEqual(
       obj.get('validations.message'),
-      'This field is too long (maximum is 5 characters)'
+      'This field is too long (maximum is 5 characters)',
     );
 
     obj.set('value', 'foo');
@@ -110,10 +110,10 @@ module('Integration | Validators | Composable', function (hooks) {
       BaseValidator.extend({
         validate(value) {
           return Promise.resolve(
-            value.includes('foo') ? true : 'Must include foo!'
+            value.includes('foo') ? true : 'Must include foo!',
           );
         },
-      })
+      }),
     );
 
     this.owner.register(
@@ -121,10 +121,10 @@ module('Integration | Validators | Composable', function (hooks) {
       BaseValidator.extend({
         validate(value) {
           return Promise.reject(
-            value.includes('bar') ? true : 'Must include bar!'
+            value.includes('bar') ? true : 'Must include bar!',
           );
         },
-      })
+      }),
     );
 
     this.owner.register(
@@ -145,7 +145,7 @@ module('Integration | Validators | Composable', function (hooks) {
 
           return true;
         },
-      })
+      }),
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
@@ -178,7 +178,7 @@ module('Integration | Validators | Composable', function (hooks) {
     assert.expect(unsupportedTypes.length);
 
     unsupportedTypes.forEach((type) =>
-      this.owner.register(`validator:${type}`, BaseValidator)
+      this.owner.register(`validator:${type}`, BaseValidator),
     );
 
     this.owner.register(
@@ -187,7 +187,7 @@ module('Integration | Validators | Composable', function (hooks) {
         validate(type) {
           this.test(type);
         },
-      })
+      }),
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {
@@ -221,7 +221,7 @@ module('Integration | Validators | Composable', function (hooks) {
 
           assert.strictEqual(presenceValidator, cache.presence);
         },
-      })
+      }),
     );
 
     const obj = setupObject(this, EmberObject.extend(ComposedValidations), {

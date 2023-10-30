@@ -1,12 +1,12 @@
 .form {
   text-align: center;
   position: relative;
-  background: #ffffff;
+  background: #fff;
   width: 485px;
   padding: 40px;
   border-top: 5px solid $accent-color;
   border-radius: 3px;
-  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 5px 5px 10px 1px rgb(0 0 0 / 15%);
   z-index: 5;
   align-self: center;
 }
@@ -18,9 +18,8 @@
   padding: 0 15px;
   border: 1px solid #d9d9d9;
   border-radius: 3px;
-  color: #6E6E6E;
-  font-family: 'Roboto', sans-serif;
-  -webkit-box-sizing: border-box;
+  color: #6e6e6e;
+  font-family: Roboto, sans-serif;
   box-sizing: border-box;
   font-size: 14px;
   font-weight: 400;
@@ -38,6 +37,11 @@
   height: 34px;
 }
 
+.has-success .form-control,
+.has-error .form-control {
+  border-color: #d9d9d9;
+}
+
 .has-error .form-control:focus,
 .has-success .form-control:focus {
   box-shadow: none;
@@ -48,24 +52,18 @@
 }
 
 .has-success .form-control:focus {
-  border-color: rgb(31, 187, 20);
-}
-
-.has-success .form-control,
-.has-error .form-control {
-  border-color: #d9d9d9;
+  border-color: rgb(31 187 20);
 }
 
 input.form-control:focus {
-  color: #333333;
+  color: #333;
   border-color: #b9b9b9;
   outline: none;
   box-shadow: none;
-  -webkit-box-shadow: none;
 }
 
 .form h2 {
-  margin: -15px 0 25px 0;
+  margin: -15px 0 25px;
   line-height: 1;
   color: $accent-color;
   font-size: 18px;
@@ -74,7 +72,7 @@ input.form-control:focus {
 
 .form form h4 {
   margin-bottom: 20px;
-  color: rgb(107, 106, 106);
+  color: rgb(107 106 106);
   font-weight: 400;
   font-size: 16px;
 }
@@ -82,7 +80,7 @@ input.form-control:focus {
 .form .alert {
   position: relative;
   background: #f3f3f3;
-  color: #666666;
+  color: #666;
   font-size: 12px;
   margin-bottom: 20px;
   padding: 15px;
@@ -111,8 +109,9 @@ input.form-control:focus {
   margin-bottom: 25px;
   border: 0;
   border-radius: 3px;
-  color: #ffffff;
-  font-family: 'Roboto';
+  color: #fff;
+  /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+  font-family: Roboto;
   font-size: 14px;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -133,15 +132,15 @@ input.form-control:focus {
   font-size: 12px;
   line-height: 1.75;
   display: block;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgb(0 0 0 / 60%);
   border-radius: 3px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
 }
 
-.section-info.left:before,
-.section-info.right:before,
-.section-info.bottom:before {
-  content: '';
+.section-info.left::before,
+.section-info.right::before,
+.section-info.bottom::before {
+  content: "";
   position: absolute;
   top: 40%;
   display: block;
@@ -153,28 +152,27 @@ input.form-control:focus {
   left: -325px;
 }
 
-.section-info.left:before {
+.section-info.left::before {
   right: -10px;
-  border-left: 10px solid rgba(0, 0, 0, 0.6);
+  border-left: 10px solid rgb(0 0 0 / 60%);
 }
 
 .section-info.right {
   right: -325px;
 }
 
-.section-info.right:before {
+.section-info.right::before {
   left: -10px;
-  border-right: 10px solid rgba(0, 0, 0, 0.6);
+  border-right: 10px solid rgb(0 0 0 / 60%);
 }
 
-.section-info.bottom:before {
+.section-info.bottom::before {
   top: -10px;
-  border-bottom: 10px solid rgba(0, 0, 0, 0.8);
+  border-bottom: 10px solid rgb(0 0 0 / 80%);
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: initial;
 }
-
 
 /* Submit button info message */
 
@@ -188,13 +186,13 @@ input.form-control:focus {
   padding: 15px 40px;
   margin: 0 0 -40px -40px;
   border-radius: 0 0 3px 3px;
-  color: #666666;
+  color: #666;
   font-size: 12px;
   text-align: center;
 }
 
 .form footer a {
-  color: #333333;
+  color: #333;
   text-decoration: none;
 }
 
@@ -210,17 +208,14 @@ input.form-control:focus {
   z-index: -1;
   width: 140px;
   right: -30px;
-  -webkit-animation-name: peek;
   animation-name: peek;
-  -webkit-animation-duration: 3s;
   animation-duration: 3s;
-  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
 }
 
 .form .registered .icon-success {
   font-size: 160px;
-  color: #A5A5A5;
+  color: #a5a5a5;
   margin-bottom: 15px;
 }
 
@@ -247,21 +242,22 @@ input.form-control:focus {
 }
 
 .validated-input .input-error .error {
-  color: rgb(255, 65, 31);
+  color: rgb(255 65 31);
 }
 
 .validated-input .input-error .warning {
-  color: rgb(255, 165, 31);
+  color: rgb(255 165 31);
 }
 
 a.show-code {
   cursor: pointer;
 }
 
-@-webkit-keyframes peek {
+@keyframes peek {
   from {
     top: 0;
   }
+
   to {
     top: -130px;
   }
@@ -271,6 +267,7 @@ a.show-code {
   from {
     top: 0;
   }
+
   to {
     top: -130px;
   }

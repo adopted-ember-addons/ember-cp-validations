@@ -7,9 +7,13 @@
 
 An EmberJS validation framework that is completely and utterly computed property based.
 
-## Features
+## Compatibility
 
-**No observers were used nor harmed while developing and testing this addon.**
+* Ember.js v4.8 or above
+* Ember CLI v4.8 or above
+* Node.js v16 or above
+
+## Features
 
 - Lazily computed validations
 - Ruby on rails inspired validators
@@ -35,9 +39,9 @@ You can also learn more by watching this Global Ember Meetup talk:
 ember install ember-cp-validations
 ```
 
-## Upgrading to 4.x
+## Upgrading from 3.x
 
-If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentation](UPGRADING.md).
+If you are upgrading from 3.x, please checkout the [upgrading documentation](UPGRADING.md).
 
 ## Helpful Links
 
@@ -45,7 +49,7 @@ If you are upgrading from 3.x to 4.x, please checkout the [upgrading documentati
 
 - ### Documentation
 
-  - [4.x](http://adopted-ember-addons.github.io/ember-cp-validations/docs)
+  - [6.x](http://adopted-ember-addons.github.io/ember-cp-validations/docs)
   - [3.x](https://rawgit.com/adopted-ember-addons/ember-cp-validations/c4123c983e54f24dd790ffa1bad66cfdf2f47ec6/docs/index.html)
 
 - ### [Changelog](CHANGELOG.md)

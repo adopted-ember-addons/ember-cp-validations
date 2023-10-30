@@ -9,7 +9,7 @@
 export default function lookupValidator(owner, type) {
   if (!owner) {
     throw new Error(
-      `[ember-cp-validations] \`lookupValidator\` requires owner/container access.`
+      `[ember-cp-validations] \`lookupValidator\` requires owner/container access.`,
     );
   }
 
@@ -17,7 +17,7 @@ export default function lookupValidator(owner, type) {
 
   if (!validatorClass) {
     throw new Error(
-      `[ember-cp-validations] Validator not found of type: ${type}.`
+      `[ember-cp-validations] Validator not found of type: ${type}.`,
     );
   }
 

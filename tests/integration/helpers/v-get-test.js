@@ -82,7 +82,7 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.expect(2);
 
     await render(
-      hbs`<button type="button" disabled={{v-get this.model 'isInvalid'}}>Button</button>`
+      hbs`<button type="button" disabled={{v-get this.model 'isInvalid'}}>Button</button>`,
     );
 
     assert.dom(this.element).hasText('Button');
@@ -93,7 +93,7 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.expect(3);
 
     await render(
-      hbs`<span class="base {{if (v-get this.model 'isInvalid') 'has-error'}}">Text</span>`
+      hbs`<span class="base {{if (v-get this.model 'isInvalid') 'has-error'}}">Text</span>`,
     );
 
     assert.dom(this.element).hasText('Text');
@@ -112,7 +112,7 @@ module('Integration | Helper | v-get', function (hooks) {
     assert.dom(this.element).hasText('false');
 
     await render(
-      hbs`<NamedVGet @model={{this.model}} @attr='username' @field='isValid' />`
+      hbs`<NamedVGet @model={{this.model}} @attr='username' @field='isValid' />`,
     );
     assert.dom(this.element).hasText('false');
   });

@@ -1,10 +1,12 @@
 $accent-color: #f23818;
 
-@import './navbar';
-@import './form';
-@import './code-snippet';
+@import url("./navbar");
+@import url("./form");
+@import url("./code-snippet");
 
-*, ::after, ::before {
+*,
+::after,
+::before {
   box-sizing: border-box;
 }
 
@@ -12,9 +14,9 @@ body,
 html {
   min-height: 100%;
   min-width: 100%;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -22,11 +24,13 @@ html {
 
 body {
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.4286;
   color: #333;
 }
 
-dl, ol, ul {
+dl,
+ol,
+ul {
   margin-top: 0;
 }
 
