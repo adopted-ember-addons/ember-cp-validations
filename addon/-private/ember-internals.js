@@ -9,16 +9,6 @@ export function getDependentKeys(descriptorOrDecorator) {
   return descriptor._dependentKeys || [descriptor.altKey];
 }
 
-// New decorator implementations that are not detected by isClassicDecorator()
-// TODO: Figure out if there is an alternative to isClassicDecorator + this exceptions
-const DECORATOR_IMPLEMENTATIONS = [
-  'AliasDecoratorImpl',
-  'ComputedDecoratorImpl',
-];
-
 export function isDescriptor(o) {
-  return (
-    isClassicDecorator(o) ||
-    DECORATOR_IMPLEMENTATIONS.includes(o?.constructor?.name)
-  );
+  return isClassicDecorator(o);
 }
