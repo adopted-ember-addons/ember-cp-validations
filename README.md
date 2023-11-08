@@ -7,6 +7,14 @@
 
 An EmberJS validation framework that is completely and utterly computed property based.
 
+## Compatibility
+
+| Addon | Ember   | Node    |
+|-------|---------|---------|
+| 5.x   | >= 3.28 | >= 14.x |
+| 4.x   | <= 3.28 | >= 12.x |
+
+
 ## Features
 
 **No observers were used nor harmed while developing and testing this addon.**
