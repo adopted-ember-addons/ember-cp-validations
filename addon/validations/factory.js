@@ -198,7 +198,7 @@ function normalizeOptions(validations = {}, globalOptions = {}) {
  * @param  {Object} inheritedValidationsClass
  * @param  {Object} validations
  * @param  {Object} model
- * @return {Ember.Object}
+ * @return {EmberObject}
  */
 function createValidationsClass(inheritedValidationsClass, validations, model) {
   let validationRules = {};
@@ -307,7 +307,7 @@ function createValidationsClass(inheritedValidationsClass, validations, model) {
  * @param  {Object} validatableAttributes
  * @param  {Object} validationRules
  * @param  {Object} model
- * @return {Ember.Object}
+ * @return {EmberObject}
  */
 function createAttrsClass(validatableAttributes, validationRules, model) {
   let nestedClasses = {};
