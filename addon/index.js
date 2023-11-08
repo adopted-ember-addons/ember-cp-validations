@@ -83,7 +83,13 @@ import Validator from './validations/validator';
  * });
  *
  * export default Ember.Component.extend(Validations, {
- *   bar: null
+ *   bar: null,
+ *   barStatus: Ember.computed('bar',function(){
+ *      if(this.get('validations.attrs.bar.isValid')){
+ *          return 'The Bar is Open';
+ *      }
+ *      return 'The Bar is Closed';
+ *   })
  * });
  * ```
  *
