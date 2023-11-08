@@ -50,6 +50,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@embroider/macros": "^1.13.2",
     "ember-cli-babel": "^7.26.11",
     "ember-validators": "^4.1.1"
   },
@@ -109,6 +110,14 @@
   },
   "peerDependencies": {
     "ember-source": "^4.0.0"
+  },
+  "peerDependencies": {
+    "ember-data": "*"
+  },
+  "peerDependenciesMeta": {
+    "ember-data": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
