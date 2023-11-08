@@ -4,15 +4,16 @@ import { isHTMLSafe } from '@ember/template';
 import EmberObject from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { A as emberArray, isArray } from '@ember/array';
-import require from 'require';
+import {
+  macroCondition,
+  dependencySatisfies,
+  importSync,
+} from '@embroider/macros';
 
-function requireModule(module, exportName = 'default') {
-  if (require.has(module)) {
-    return require(module)[exportName];
-  }
+let DS;
+if (macroCondition(dependencySatisfies('ember-data', '*'))) {
+  DS = importSync('ember-data').default;
 }
-
-const DS = requireModule('ember-data');
 
 export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
 
