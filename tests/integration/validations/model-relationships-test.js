@@ -3,7 +3,7 @@ import ArrayProxy from '@ember/array/proxy';
 import EmberObject from '@ember/object';
 import { isNone } from '@ember/utils';
 import { A as emberArray } from '@ember/array';
-import DS from 'ember-data';
+import Model, { belongsTo, hasMany } from '@ember-data/model';
 import setupObject from '../../helpers/setup-object';
 import DefaultMessages from 'dummy/validators/messages';
 import BelongsToValidator from 'ember-cp-validations/validators/belongs-to';
@@ -508,16 +508,22 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.true(user.get('validations.attrs.fullName.isValid'));
   });
 
-  test('presence on empty DS.PromiseObject', function (assert) {
+  test('presence on empty belongsTo - sync', function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
+    this.owner.register(
+      'model:user',
+      Model.extend(
+        buildValidations({
+          friend: validator('presence', true),
+        }),
+        {
+          friend: belongsTo('user', { async: false, inverse: null }),
+        }
+      )
+    );
 
-    let Validations = buildValidations({
-      friend: validator('presence', true),
-    });
-
-    let user = setupObject(this, EmberObject.extend(Validations), {
-      friend: DS.PromiseObject.create(),
-    });
+    const store = this.owner.lookup('service:store');
+    const user = store.createRecord('user');
 
     let { validations, model } = user.get('validations').validateSync();
 
@@ -533,18 +539,86 @@ module('Integration | Validations | Model Relationships', function (hooks) {
     assert.strictEqual(friend.get('message'), "This field can't be blank");
   });
 
-  test('presence on empty DS.PromiseArray', function (assert) {
+  test('presence on empty belongsTo - async', async function (assert) {
     this.owner.register('validator:presence', PresenceValidator);
+    this.owner.register(
+      'model:user',
+      Model.extend(
+        buildValidations({
+          friend: validator('presence', true),
+        }),
+        {
+          friend: belongsTo('user', { async: true, inverse: null }),
+        }
+      )
+    );
 
-    let Validations = buildValidations({
-      friends: validator('presence', true),
-    });
+    const store = this.owner.lookup('service:store');
+    const user = store.createRecord('user');
 
-    let user = setupObject(this, EmberObject.extend(Validations), {
-      friends: DS.PromiseArray.create(),
-    });
+    let { validations, model } = await user.get('validations').validate();
+
+    assert.strictEqual(model, user, 'expected model to be the correct model');
+    assert.deepEqual(
+      validations.get('content').getEach('attribute').sort(),
+      ['friend'].sort()
+    );
+
+    let friend = validations.get('content').findBy('attribute', 'friend');
+
+    assert.false(friend.get('isValid'));
+    assert.strictEqual(friend.get('message'), "This field can't be blank");
+  });
+
+  test('presence on empty hasMany - sync', function (assert) {
+    this.owner.register('validator:presence', PresenceValidator);
+    this.owner.register(
+      'model:user',
+      Model.extend(
+        buildValidations({
+          friends: validator('presence', true),
+        }),
+        {
+          friends: hasMany('user', { async: false, inverse: null }),
+        }
+      )
+    );
+
+    const store = this.owner.lookup('service:store');
+    const user = store.createRecord('user');
 
     let { validations, model } = user.get('validations').validateSync();
+
+    assert.strictEqual(model, user, 'expected model to be the correct model');
+    assert.deepEqual(
+      validations.get('content').getEach('attribute').sort(),
+      ['friends'].sort()
+    );
+
+    let friends = validations.get('content').findBy('attribute', 'friends');
+
+    assert.false(friends.get('isValid'));
+    assert.strictEqual(friends.get('message'), "This field can't be blank");
+  });
+
+  test('presence on empty hasMany - async', async function (assert) {
+    this.owner.register('validator:presence', PresenceValidator);
+    this.owner.register(
+      'model:user',
+      Model.extend(
+        buildValidations({
+          friends: validator('presence', true),
+        }),
+        {
+          friends: hasMany('user', { async: true, inverse: null }),
+        }
+      )
+    );
+
+    const store = this.owner.lookup('service:store');
+    const user = store.createRecord('user');
+
+    let { validations, model } = await user.get('validations').validate();
 
     assert.strictEqual(model, user, 'expected model to be the correct model');
     assert.deepEqual(
