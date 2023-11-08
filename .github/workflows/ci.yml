@@ -70,8 +70,8 @@ jobs:
           - ember-release
           - ember-beta
           - ember-canary
-          # - embroider-safe
-          # - embroider-optimized
+          - embroider-safe
+          - embroider-optimized
 
     steps:
       - uses: actions/checkout@v4
