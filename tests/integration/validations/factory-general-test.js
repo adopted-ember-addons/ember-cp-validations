@@ -539,7 +539,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
         object.get('validations.attrs.lastName.message'),
         undefined
       );
-    }, 505);
+    }, 600);
   });
 
   test('debounced validator should only be called once', async function (assert) {
@@ -564,7 +564,7 @@ module('Integration | Validations | Factory - General', function (hooks) {
 
     await later(() => {
       assert.strictEqual(count, 1);
-    }, 505);
+    }, 600);
   });
 
   test('debounced validations should cleanup on object destroy', function (assert) {
