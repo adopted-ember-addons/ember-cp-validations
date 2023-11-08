@@ -25,7 +25,7 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-engines
       - name: Lint
         run: yarn lint
       - name: Run Tests
@@ -43,7 +43,7 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: Install Dependencies
-        run: yarn install --no-lockfile
+        run: yarn install --no-lockfile --ignore-engines
       - name: Run Tests
         run: yarn test:ember
 
@@ -75,6 +75,6 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-engines
       - name: Run Tests
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
