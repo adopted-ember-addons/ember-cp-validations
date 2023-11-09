@@ -2,6 +2,32 @@
 
 
 
+
+## v6.0.0 (2023-11-09)
+
+#### :boom: Breaking Change
+* [#731](https://github.com/adopted-ember-addons/ember-cp-validations/pull/731) Update ember-cli to v4.4 and drop support for node v12 ([@fsmanuel](https://github.com/fsmanuel))
+
+#### :rocket: Enhancement
+* [#741](https://github.com/adopted-ember-addons/ember-cp-validations/pull/741) Replace require with @embroider/macros fixing embroider support ([@achambers](https://github.com/achambers))
+
+#### :memo: Documentation
+* [#747](https://github.com/adopted-ember-addons/ember-cp-validations/pull/747) Add compatibility to readme ([@mansona](https://github.com/mansona))
+* [#744](https://github.com/adopted-ember-addons/ember-cp-validations/pull/744) Remove Ember. from doc strings ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* [#748](https://github.com/adopted-ember-addons/ember-cp-validations/pull/748) fix peer-dependencies ([@mansona](https://github.com/mansona))
+* [#746](https://github.com/adopted-ember-addons/ember-cp-validations/pull/746) Remove obsolete config changelog.js and release.js ([@mansona](https://github.com/mansona))
+* [#745](https://github.com/adopted-ember-addons/ember-cp-validations/pull/745) Don’t use isArray on ember data objects ([@mansona](https://github.com/mansona))
+* [#743](https://github.com/adopted-ember-addons/ember-cp-validations/pull/743) bump default ember-data version ([@mansona](https://github.com/mansona))
+* [#742](https://github.com/adopted-ember-addons/ember-cp-validations/pull/742) update to v4.12 with ember-cli-update ([@mansona](https://github.com/mansona))
+* [#732](https://github.com/adopted-ember-addons/ember-cp-validations/pull/732) Update ember-cli to v4.8 ([@fsmanuel](https://github.com/fsmanuel))
+
+#### Committers: 3
+- Aaron Chambers ([@achambers](https://github.com/achambers))
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Manuel Wiedenmann ([@fsmanuel](https://github.com/fsmanuel))
+
 ## v5.0.0 (2022-10-27)
 
 #### :boom: Breaking Change

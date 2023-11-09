@@ -1,6 +1,6 @@
 {
   "name": "ember-cp-validations",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Ember computed property based validation library",
   "keywords": [
     "ember-addon",
