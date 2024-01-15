@@ -1,8 +1,8 @@
-import __EMBER_METAL__ from '@ember/-internals/metal/index';
+import { isClassicDecorator, descriptorForDecorator,  } from '@ember/-internals/metal';
 
 export function getDependentKeys(descriptorOrDecorator) {
-  if (__EMBER_METAL__ && __EMBER_METAL__.descriptorForDecorator) {
-    let descriptor = __EMBER_METAL__.descriptorForDecorator(
+  if (descriptorForDecorator) {
+    let descriptor = descriptorForDecorator(
       descriptorOrDecorator
     );
     return descriptor._dependentKeys || [descriptor.altKey];
@@ -12,8 +12,8 @@ export function getDependentKeys(descriptorOrDecorator) {
 }
 
 export function isDescriptor(o) {
-  if (__EMBER_METAL__ && __EMBER_METAL__.isClassicDecorator) {
-    return __EMBER_METAL__.isClassicDecorator(o);
+  if (isClassicDecorator) {
+    return isClassicDecorator(o);
   } else {
     return (
       o && (typeof o === 'object' || typeof o === 'function') && o.isDescriptor
