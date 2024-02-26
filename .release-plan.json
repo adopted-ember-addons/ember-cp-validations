@@ -1,0 +1,21 @@
+{
+  "solution": {
+    "ember-cp-validations": {
+      "impact": "patch",
+      "oldVersion": "6.0.0",
+      "newVersion": "6.0.1",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    }
+  },
+  "description": "## Release (2024-02-26)\n\nember-cp-validations 6.0.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-cp-validations`\n  * [#750](https://github.com/adopted-ember-addons/ember-cp-validations/pull/750) fix: ember metal imports ([@colenso](https://github.com/colenso))\n\n#### :house: Internal\n* `ember-cp-validations`\n  * [#752](https://github.com/adopted-ember-addons/ember-cp-validations/pull/752) start using release-plan ([@mansona](https://github.com/mansona))\n  * [#751](https://github.com/adopted-ember-addons/ember-cp-validations/pull/751) switch to pnpm ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@colenso](https://github.com/colenso)\n"
+}
