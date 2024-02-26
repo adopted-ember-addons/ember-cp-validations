@@ -72,6 +72,7 @@ jobs:
           - ember-canary
           - embroider-safe
           - embroider-optimized
+          - no-deprecations
 
     steps:
       - uses: actions/checkout@v4
