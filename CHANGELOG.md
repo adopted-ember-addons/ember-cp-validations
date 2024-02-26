@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2024-02-26)
+
+ember-cp-validations 6.0.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-cp-validations`
+  * [#750](https://github.com/adopted-ember-addons/ember-cp-validations/pull/750) fix: ember metal imports ([@colenso](https://github.com/colenso))
+
+#### :house: Internal
+* `ember-cp-validations`
+  * [#752](https://github.com/adopted-ember-addons/ember-cp-validations/pull/752) start using release-plan ([@mansona](https://github.com/mansona))
+  * [#751](https://github.com/adopted-ember-addons/ember-cp-validations/pull/751) switch to pnpm ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@colenso](https://github.com/colenso)
+
 
 
 
