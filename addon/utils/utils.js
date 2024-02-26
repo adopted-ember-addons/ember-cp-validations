@@ -11,8 +11,10 @@ import {
 } from '@embroider/macros';
 
 let DS;
+let Model;
 if (macroCondition(dependencySatisfies('ember-data', '*'))) {
   DS = importSync('ember-data').default;
+  Model = importSync('@ember-data/model').default;
 }
 
 export { getDependentKeys, isDescriptor } from '../-private/ember-internals';
@@ -44,7 +46,7 @@ export function isPromise(p) {
 }
 
 export function isDsModel(o) {
-  return !!(DS && o && o instanceof DS.Model);
+  return !!(Model && o && o instanceof Model);
 }
 
 export function isDSManyArray(o) {
