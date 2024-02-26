@@ -1,10 +1,11 @@
-import { isClassicDecorator, descriptorForDecorator,  } from '@ember/-internals/metal';
+import {
+  isClassicDecorator,
+  descriptorForDecorator,
+} from '@ember/-internals/metal';
 
 export function getDependentKeys(descriptorOrDecorator) {
   if (descriptorForDecorator) {
-    let descriptor = descriptorForDecorator(
-      descriptorOrDecorator
-    );
+    let descriptor = descriptorForDecorator(descriptorOrDecorator);
     return descriptor._dependentKeys || [descriptor.altKey];
   } else {
     return descriptorOrDecorator._dependentKeys;
