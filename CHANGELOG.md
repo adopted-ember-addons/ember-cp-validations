@@ -2,6 +2,17 @@
 
 ## Release (2024-02-26)
 
+ember-cp-validations 6.0.2 (patch)
+
+#### :house: Internal
+* `ember-cp-validations`
+  * [#749](https://github.com/adopted-ember-addons/ember-cp-validations/pull/749) update @embroider/test-setup to fix CI ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2024-02-26)
+
 ember-cp-validations 6.0.1 (patch)
 
 #### :bug: Bug Fix
