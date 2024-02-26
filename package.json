@@ -62,6 +62,7 @@
     "@ember/test-helpers": "^2.9.3",
     "@embroider/test-setup": "^2.1.1",
     "@fortawesome/ember-fontawesome": "^1.0.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@glimmer/component": "^1.1.2",

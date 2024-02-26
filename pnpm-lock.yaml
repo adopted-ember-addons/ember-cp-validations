@@ -37,6 +37,9 @@ devDependencies:
   '@fortawesome/ember-fontawesome':
     specifier: ^1.0.0
     version: 1.0.3(webpack@5.90.3)
+  '@fortawesome/fontawesome-svg-core':
+    specifier: ^6.5.1
+    version: 6.5.1
   '@fortawesome/free-brands-svg-icons':
     specifier: ^6.4.0
     version: 6.5.1
@@ -2822,9 +2825,6 @@ packages:
 
   /ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependenciesMeta:
-      ajv:
-        optional: true
     dependencies:
       ajv: 8.12.0
     dev: true
