@@ -90,7 +90,7 @@
     "ember-source": "~4.12.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.7.2",
-    "ember-try": "^2.0.0",
+    "ember-try": "^3.0.0",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-ember": "^11.5.0",
@@ -109,8 +109,8 @@
     "webpack": "^5.78.0"
   },
   "peerDependencies": {
-    "ember-source": ">= 3.28.0",
-    "ember-data": "*"
+    "ember-data": "*",
+    "ember-source": ">= 3.28.0"
   },
   "peerDependenciesMeta": {
     "ember-data": {
