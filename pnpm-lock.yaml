@@ -32,6 +32,9 @@ importers:
       '@ember/optional-features':
         specifier: ^2.1.0
         version: 2.2.0
+      '@ember/string':
+        specifier: ^3.0.1
+        version: 3.1.1
       '@ember/test-helpers':
         specifier: ^3.3.1
         version: 3.3.1(3e876b2b7c7dc9ca8e4ab0b585451443)
@@ -109,7 +112,7 @@ importers:
         version: 3.0.0
       ember-data:
         specifier: ~4.12.0
-        version: 4.12.8(719ef19f445b2de2b3222f6cb972bcc4)
+        version: 4.12.8(f524b85b27c2a5ab43b0134cb1d5f363)
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.26.10)
@@ -916,6 +919,10 @@ packages:
     peerDependenciesMeta:
       '@glint/template':
         optional: true
+
+  '@ember/string@3.1.1':
+    resolution: {integrity: sha512-UbXJ+k3QOrYN4SRPHgXCqYIJ+yWWUg1+vr0H4DhdQPTy8LJfyqwZ2tc5uqpSSnEXE+/1KopHBE5J8GDagAg5cg==}
+    engines: {node: 12.* || 14.* || >= 16}
 
   '@ember/test-helpers@3.3.1':
     resolution: {integrity: sha512-h4uFBy4pquBtHsHI+tx9S0wtMmn1L+8dkXiDiyoqG1+3e0Awk6GBujiFM9s4ANq6wC8uIhC3wEFyts10h2OAoQ==}
@@ -8222,10 +8229,11 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@ember-data/adapter@4.12.8(98d2d5b0488cf31d113073b20651d110)':
+  '@ember-data/adapter@4.12.8(82bbad683d78f10a64c85e867177d8c3)':
     dependencies:
       '@ember-data/private-build-infra': 4.12.8
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       ember-cli-babel: 7.26.11
       ember-cli-test-info: 1.0.0
@@ -8234,11 +8242,12 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  '@ember-data/debug@4.12.8(@ember-data/store@4.12.8)(webpack@5.99.5)':
+  '@ember-data/debug@4.12.8(e3398ae0fddd6c09f9575fd5c1417b6e)':
     dependencies:
       '@ember-data/private-build-infra': 4.12.8
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
       '@ember/edition-utils': 1.2.0
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       ember-auto-import: 2.10.0(webpack@5.99.5)
       ember-cli-babel: 7.26.11
@@ -8250,7 +8259,7 @@ snapshots:
   '@ember-data/graph@4.12.8(@ember-data/store@4.12.8)':
     dependencies:
       '@ember-data/private-build-infra': 4.12.8
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
       '@ember/edition-utils': 1.2.0
       '@embroider/macros': 1.17.1
       ember-cli-babel: 7.26.11
@@ -8262,7 +8271,7 @@ snapshots:
     dependencies:
       '@ember-data/graph': 4.12.8(@ember-data/store@4.12.8)
       '@ember-data/private-build-infra': 4.12.8
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
       '@ember/edition-utils': 1.2.0
       '@embroider/macros': 1.17.1
       ember-cli-babel: 7.26.11
@@ -8270,9 +8279,10 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  '@ember-data/legacy-compat@4.12.8(6a989cf7d23fe6d8de7c959bf808751a)':
+  '@ember-data/legacy-compat@4.12.8(1be16a6323b115982fe26e1aa581b350)':
     dependencies:
       '@ember-data/private-build-infra': 4.12.8
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       ember-cli-babel: 7.26.11
     optionalDependencies:
@@ -8282,13 +8292,14 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  '@ember-data/model@4.12.8(91c02a2d702144a360591260d7992f2c)':
+  '@ember-data/model@4.12.8(3e21428fb385a5469749607e73238e3d)':
     dependencies:
-      '@ember-data/legacy-compat': 4.12.8(6a989cf7d23fe6d8de7c959bf808751a)
+      '@ember-data/legacy-compat': 4.12.8(1be16a6323b115982fe26e1aa581b350)
       '@ember-data/private-build-infra': 4.12.8
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
       '@ember-data/tracking': 4.12.8
       '@ember/edition-utils': 1.2.0
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       ember-cached-decorator-polyfill: 1.0.2(3913136cea359f048cd218c0e17cca20)
       ember-cli-babel: 7.26.11
@@ -8297,7 +8308,7 @@ snapshots:
       ember-inflector: 4.0.3(c282aed8d7375690e0c3352f59cf95f7)
       inflection: 2.0.1
     optionalDependencies:
-      '@ember-data/debug': 4.12.8(@ember-data/store@4.12.8)(webpack@5.99.5)
+      '@ember-data/debug': 4.12.8(e3398ae0fddd6c09f9575fd5c1417b6e)
       '@ember-data/graph': 4.12.8(@ember-data/store@4.12.8)
       '@ember-data/json-api': 4.12.8(7074eb8cd5a15a559af50d502feb1ffe)
     transitivePeerDependencies:
@@ -8349,10 +8360,11 @@ snapshots:
 
   '@ember-data/rfc395-data@0.0.4': {}
 
-  '@ember-data/serializer@4.12.8(98d2d5b0488cf31d113073b20651d110)':
+  '@ember-data/serializer@4.12.8(82bbad683d78f10a64c85e867177d8c3)':
     dependencies:
       '@ember-data/private-build-infra': 4.12.8
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       ember-cli-babel: 7.26.11
       ember-cli-test-info: 1.0.0
@@ -8361,10 +8373,11 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  '@ember-data/store@4.12.8(4a4e88996f752133dad951a1282579e4)':
+  '@ember-data/store@4.12.8(302b661b7f62199ed69c71170c558aa3)':
     dependencies:
       '@ember-data/private-build-infra': 4.12.8
       '@ember-data/tracking': 4.12.8
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       '@glimmer/tracking': 1.1.2
       ember-cached-decorator-polyfill: 1.0.2(3913136cea359f048cd218c0e17cca20)
@@ -8372,8 +8385,8 @@ snapshots:
     optionalDependencies:
       '@ember-data/graph': 4.12.8(@ember-data/store@4.12.8)
       '@ember-data/json-api': 4.12.8(7074eb8cd5a15a559af50d502feb1ffe)
-      '@ember-data/legacy-compat': 4.12.8(6a989cf7d23fe6d8de7c959bf808751a)
-      '@ember-data/model': 4.12.8(91c02a2d702144a360591260d7992f2c)
+      '@ember-data/legacy-compat': 4.12.8(1be16a6323b115982fe26e1aa581b350)
+      '@ember-data/model': 4.12.8(3e21428fb385a5469749607e73238e3d)
     transitivePeerDependencies:
       - '@babel/core'
       - '@glint/template'
@@ -8410,6 +8423,12 @@ snapshots:
       ember-source: 5.12.0(daf007d395ed7764c772144e26e6c21e)
     transitivePeerDependencies:
       - '@babel/core'
+      - supports-color
+
+  '@ember/string@3.1.1':
+    dependencies:
+      ember-cli-babel: 7.26.11
+    transitivePeerDependencies:
       - supports-color
 
   '@ember/test-helpers@3.3.1(3e876b2b7c7dc9ca8e4ab0b585451443)':
@@ -11609,20 +11628,21 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-data@4.12.8(719ef19f445b2de2b3222f6cb972bcc4):
+  ember-data@4.12.8(f524b85b27c2a5ab43b0134cb1d5f363):
     dependencies:
-      '@ember-data/adapter': 4.12.8(98d2d5b0488cf31d113073b20651d110)
-      '@ember-data/debug': 4.12.8(@ember-data/store@4.12.8)(webpack@5.99.5)
+      '@ember-data/adapter': 4.12.8(82bbad683d78f10a64c85e867177d8c3)
+      '@ember-data/debug': 4.12.8(e3398ae0fddd6c09f9575fd5c1417b6e)
       '@ember-data/graph': 4.12.8(@ember-data/store@4.12.8)
       '@ember-data/json-api': 4.12.8(7074eb8cd5a15a559af50d502feb1ffe)
-      '@ember-data/legacy-compat': 4.12.8(6a989cf7d23fe6d8de7c959bf808751a)
-      '@ember-data/model': 4.12.8(91c02a2d702144a360591260d7992f2c)
+      '@ember-data/legacy-compat': 4.12.8(1be16a6323b115982fe26e1aa581b350)
+      '@ember-data/model': 4.12.8(3e21428fb385a5469749607e73238e3d)
       '@ember-data/private-build-infra': 4.12.8
       '@ember-data/request': 4.12.8
-      '@ember-data/serializer': 4.12.8(98d2d5b0488cf31d113073b20651d110)
-      '@ember-data/store': 4.12.8(4a4e88996f752133dad951a1282579e4)
+      '@ember-data/serializer': 4.12.8(82bbad683d78f10a64c85e867177d8c3)
+      '@ember-data/store': 4.12.8(302b661b7f62199ed69c71170c558aa3)
       '@ember-data/tracking': 4.12.8
       '@ember/edition-utils': 1.2.0
+      '@ember/string': 3.1.1
       '@embroider/macros': 1.17.1
       '@glimmer/env': 0.1.7
       broccoli-merge-trees: 4.2.0
