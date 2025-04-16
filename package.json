@@ -86,6 +86,7 @@
     "ember-cli-terser": "^4.0.2",
     "ember-code-snippet": "^3.0.0",
     "ember-data": "~4.12.8",
+    "ember-inflector": "^6.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-prism": "^0.13.0",
     "ember-qunit": "^8.1.1",
