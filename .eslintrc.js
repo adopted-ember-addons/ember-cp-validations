@@ -25,6 +25,7 @@ module.exports = {
   rules: {
     'ember/no-classic-classes': 'off',
     'ember/no-new-mixins': 'off',
+    'ember/no-runloop': 'off',
     'ember/use-ember-data-rfc-395-imports': 'off',
   },
   overrides: [
