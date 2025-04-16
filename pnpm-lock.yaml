@@ -11,29 +11,29 @@ importers:
   .:
     dependencies:
       '@babel/core':
-        specifier: ^7.25.2
+        specifier: ^7.26.10
         version: 7.26.10
       '@embroider/macros':
-        specifier: ^1.13.2
+        specifier: ^1.17.1
         version: 1.17.1
       ember-cli-babel:
         specifier: ^8.2.0
         version: 8.2.0(@babel/core@7.26.10)
       ember-validators:
-        specifier: ^4.1.1
+        specifier: ^4.1.2
         version: 4.1.2
     devDependencies:
       '@babel/eslint-parser':
-        specifier: ^7.25.1
+        specifier: ^7.27.0
         version: 7.27.0(@babel/core@7.26.10)(eslint@8.57.1)
       '@babel/plugin-proposal-decorators':
-        specifier: ^7.24.7
+        specifier: ^7.25.9
         version: 7.25.9(@babel/core@7.26.10)
       '@ember/optional-features':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: 2.2.0
       '@ember/string':
-        specifier: ^3.0.1
+        specifier: ^3.1.1
         version: 3.1.1
       '@ember/test-helpers':
         specifier: ^3.3.1
@@ -42,16 +42,16 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       '@fortawesome/ember-fontawesome':
-        specifier: ^1.0.0
+        specifier: ^1.0.3
         version: 1.0.3(rollup@2.79.2)(webpack@5.99.5)
       '@fortawesome/fontawesome-svg-core':
-        specifier: ^6.5.1
+        specifier: ^6.7.2
         version: 6.7.2
       '@fortawesome/free-brands-svg-icons':
-        specifier: ^6.4.0
+        specifier: ^6.7.2
         version: 6.7.2
       '@fortawesome/free-solid-svg-icons':
-        specifier: ^6.4.0
+        specifier: ^6.7.2
         version: 6.7.2
       '@glimmer/component':
         specifier: ^1.1.2
@@ -69,7 +69,7 @@ importers:
         specifier: ^8.2.2
         version: 8.2.2
       ember-auto-import:
-        specifier: ^2.8.1
+        specifier: ^2.10.0
         version: 2.10.0(webpack@5.99.5)
       ember-cli:
         specifier: ~5.12.0
@@ -84,7 +84,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-cli-dependency-checker:
-        specifier: ^3.3.2
+        specifier: ^3.3.3
         version: 3.3.3(b1e1476a18424e4257c56f98d036c1c9)
       ember-cli-github-pages:
         specifier: ^0.2.2
@@ -111,7 +111,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-data:
-        specifier: ~4.12.0
+        specifier: ~4.12.8
         version: 4.12.8(f524b85b27c2a5ab43b0134cb1d5f363)
       ember-load-initializers:
         specifier: ^2.1.2
@@ -120,7 +120,7 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0(3e876b2b7c7dc9ca8e4ab0b585451443)
       ember-qunit:
-        specifier: ^8.1.0
+        specifier: ^8.1.1
         version: 8.1.1(2133105fe6bf0dd626ca5071cdffa809)
       ember-resolver:
         specifier: ^12.0.1
@@ -132,7 +132,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
       ember-template-lint:
-        specifier: ^6.0.0
+        specifier: ^6.1.0
         version: 6.1.0
       ember-try:
         specifier: ^3.0.0
@@ -144,13 +144,13 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.1)
       eslint-plugin-ember:
-        specifier: ^12.2.1
+        specifier: ^12.5.0
         version: 12.5.0(@babel/core@7.26.10)(eslint@8.57.1)
       eslint-plugin-n:
         specifier: ^16.6.2
         version: 16.6.2(eslint@8.57.1)
       eslint-plugin-prettier:
-        specifier: ^5.2.1
+        specifier: ^5.2.6
         version: 5.2.6(4d34bfb4f946b72e3855584c3721d8a1)
       eslint-plugin-qunit:
         specifier: ^8.1.2
@@ -159,22 +159,22 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0
       prettier:
-        specifier: ^3.3.3
+        specifier: ^3.5.3
         version: 3.5.3
       qunit:
-        specifier: ^2.22.0
+        specifier: ^2.24.1
         version: 2.24.1
       qunit-dom:
-        specifier: ^3.2.1
+        specifier: ^3.4.0
         version: 3.4.0
       release-it:
-        specifier: ^15.10.3
+        specifier: ^15.11.0
         version: 15.11.0(encoding@0.1.13)
       release-plan:
         specifier: ^0.8.0
         version: 0.8.0(encoding@0.1.13)
       sass:
-        specifier: ^1.62.1
+        specifier: ^1.86.3
         version: 1.86.3
       stylelint:
         specifier: ^15.11.0
@@ -186,7 +186,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(prettier@3.5.3)(stylelint@15.11.0)
       webpack:
-        specifier: ^5.95.0
+        specifier: ^5.99.5
         version: 5.99.5
 
 packages:
@@ -1152,6 +1152,10 @@ packages:
 
   '@iarna/toml@2.2.5':
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
+
+  '@inquirer/figures@1.0.11':
+    resolution: {integrity: sha512-eOg92lvrn/aRUqbxRyvpEWnrvRuTYRifixHkYVpJiygTgVSBIHDqLh0SrMQXkafvULg3ck11V7xvR+zcgvpHFw==}
+    engines: {node: '>=18'}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -4384,6 +4388,10 @@ packages:
     resolution: {integrity: sha512-y71l237eJJKS4rl7sQcEUiMhrR0pB/ZnRMMTxLpjJhWL4hdWCT03a6jJnC1w6qIPSRZWEozuieGt3v7XaEJYFw==}
     engines: {node: '>=14.18.0'}
 
+  inquirer@9.3.7:
+    resolution: {integrity: sha512-LJKFHCSeIRq9hanN14IlOtPSTe3lNES7TYDTE2xxdAy1LS5rYphajK1qtwvj3YmQXvvk0U2Vbmcni8P9EIQW9w==}
+    engines: {node: '>=18'}
+
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
     engines: {node: '>= 0.4'}
@@ -7440,6 +7448,10 @@ packages:
     resolution: {integrity: sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg==}
     engines: {node: '>=12.20'}
 
+  yoctocolors-cjs@2.1.2:
+    resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
+    engines: {node: '>=18'}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -8848,6 +8860,8 @@ snapshots:
   '@humanwhocodes/object-schema@2.0.3': {}
 
   '@iarna/toml@2.2.5': {}
+
+  '@inquirer/figures@1.0.11': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -11514,7 +11528,7 @@ snapshots:
       heimdalljs-logger: 0.1.10
       http-proxy: 1.18.1
       inflection: 2.0.1
-      inquirer: 9.2.6
+      inquirer: 9.3.7
       is-git-url: 1.0.0
       is-language-code: 3.1.0
       isbinaryfile: 5.0.4
@@ -13283,6 +13297,21 @@ snapshots:
       through: 2.3.8
       wrap-ansi: 6.2.0
 
+  inquirer@9.3.7:
+    dependencies:
+      '@inquirer/figures': 1.0.11
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      external-editor: 3.1.0
+      mute-stream: 1.0.0
+      ora: 5.4.1
+      run-async: 3.0.0
+      rxjs: 7.8.2
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+
   internal-slot@1.1.0:
     dependencies:
       es-errors: 1.3.0
@@ -14711,7 +14740,7 @@ snapshots:
       got: 12.6.1
       registry-auth-token: 5.1.0
       registry-url: 6.0.1
-      semver: 7.7.1
+      semver: 7.5.1
 
   parent-module@1.0.1:
     dependencies:
@@ -16715,3 +16744,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.2.1: {}
+
+  yoctocolors-cjs@2.1.2: {}
