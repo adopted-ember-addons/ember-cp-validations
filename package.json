@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.26.10",
-    "@embroider/macros": "^1.17.1",
+    "@embroider/macros": "~1.16.13",
     "ember-cli-babel": "^8.2.0",
     "ember-validators": "^4.1.2"
   },
