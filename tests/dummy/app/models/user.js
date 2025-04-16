@@ -50,7 +50,7 @@ const Validations = buildValidations(
   },
   {
     debounce: 500,
-  }
+  },
 );
 
 export default Model.extend(Validations, {

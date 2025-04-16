@@ -55,7 +55,7 @@ export default EmberObject.extend({
       }
 
       return null;
-    }
+    },
   ),
 
   errors: computed('error', function () {
@@ -82,7 +82,7 @@ export default EmberObject.extend({
       }
 
       return null;
-    }
+    },
   ),
 
   warnings: computed('warning', function () {

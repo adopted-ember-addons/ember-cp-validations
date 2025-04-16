@@ -184,7 +184,7 @@ const Result = EmberObject.extend({
         this._resultOverride ||
         InternalResultObject.create({ model, attribute, _promise, _validator })
       );
-    }
+    },
   ),
 
   init() {
@@ -255,7 +255,7 @@ const Result = EmberObject.extend({
     this._promise
       .then(
         (value) => this.update(value),
-        (value) => this.update(value)
+        (value) => this.update(value),
       )
       .catch((reason) => {
         // TODO: send into error state

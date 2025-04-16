@@ -24,7 +24,7 @@ module('Unit | Utils | deepSet', function () {
       computed(function () {
         return 1;
       }),
-      true
+      true,
     );
     assert.ok(obj.foo instanceof EmberObject);
     assert.strictEqual(obj.get('foo.bar'), 1);

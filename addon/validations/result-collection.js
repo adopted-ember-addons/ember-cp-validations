@@ -15,7 +15,7 @@ function isAny(collection, key, value, defaultValue) {
     `${collection}.@each.${key}`,
     cycleBreaker(function () {
       return get(this, collection).isAny(key, value);
-    }, defaultValue)
+    }, defaultValue),
   );
 }
 
@@ -24,7 +24,7 @@ function isEvery(collection, key, value, defaultValue) {
     `${collection}.@each.${key}`,
     cycleBreaker(function () {
       return get(this, collection).isEvery(key, value);
-    }, defaultValue)
+    }, defaultValue),
   );
 }
 
@@ -155,7 +155,7 @@ export default ArrayProxy.extend({
     'content.@each.messages',
     cycleBreaker(function () {
       return uniq(compact(flatten(this.getEach('messages'))));
-    })
+    }),
   ).readOnly(),
 
   /**
@@ -205,7 +205,7 @@ export default ArrayProxy.extend({
     'content.@each.warningMessages',
     cycleBreaker(function () {
       return uniq(compact(flatten(this.getEach('warningMessages'))));
-    })
+    }),
   ).readOnly(),
 
   /**
@@ -242,7 +242,7 @@ export default ArrayProxy.extend({
     'content.@each.warnings',
     cycleBreaker(function () {
       return this._computeErrorCollection(this.getEach('warnings'));
-    })
+    }),
   ).readOnly(),
 
   /**
@@ -279,7 +279,7 @@ export default ArrayProxy.extend({
     'content.@each.errors',
     cycleBreaker(function () {
       return this._computeErrorCollection(this.getEach('errors'));
-    })
+    }),
   ).readOnly(),
 
   /**
@@ -348,10 +348,10 @@ export default ArrayProxy.extend({
           flatten([
             this.get('_contentResults').getEach('_promise'),
             this.getEach('_promise'),
-          ])
-        )
+          ]),
+        ),
       );
-    })
+    }),
   ).readOnly(),
 
   /**

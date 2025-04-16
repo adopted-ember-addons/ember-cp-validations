@@ -196,7 +196,7 @@ export default function (arg1, options) {
         'a function. Please use the inline validator syntax:' +
         "\n\nvalidator('inline', { validate() {} )\n\n",
       false,
-      { id: 'ember-cp-validations.inline-validator', until: '4.2.0' }
+      { id: 'ember-cp-validations.inline-validator', until: '4.2.0' },
     );
     props.options.validate = arg1;
     props._type = 'inline';
@@ -204,7 +204,7 @@ export default function (arg1, options) {
     props._type = arg1;
   } else {
     throw new TypeError(
-      '[ember-cp-validations] Unexpected type for first validator argument — It must be a string.'
+      '[ember-cp-validations] Unexpected type for first validator argument — It must be a string.',
     );
   }
 

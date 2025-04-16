@@ -37,7 +37,7 @@ const Dependent = Base.extend({
 
     assert(
       `[validator:dependent] [${attribute}] option 'on' is required`,
-      isPresent(on)
+      isPresent(on),
     );
 
     if (isNone(model)) {
@@ -49,7 +49,7 @@ const Dependent = Base.extend({
     }
 
     let dependentValidations = getWithDefault(options, 'on', A()).map(
-      (dependent) => get(model, `validations.attrs.${dependent}`)
+      (dependent) => get(model, `validations.attrs.${dependent}`),
     );
 
     if (!isEmpty(dependentValidations.filter((v) => v.isTruelyInvalid))) {
@@ -66,7 +66,7 @@ Dependent.reopenClass({
 
     assert(
       `[validator:dependent] [${attribute}] 'on' must be an array`,
-      isArray(dependents)
+      isArray(dependents),
     );
 
     if (!isEmpty(dependents)) {

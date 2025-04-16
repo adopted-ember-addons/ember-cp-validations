@@ -38,29 +38,29 @@
   },
   "scripts": {
     "build": "ember build --environment=production",
-    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
-    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\"",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\"",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
+    "test": "concurrently \"pnpm:lint\" \"pnpm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@babel/core": "^7.25.2",
     "@embroider/macros": "^1.13.2",
-    "ember-cli-babel": "^7.26.11",
+    "ember-cli-babel": "^8.2.0",
     "ember-validators": "^4.1.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.21.3",
-    "@babel/plugin-proposal-decorators": "^7.21.0",
-    "@ember/optional-features": "^2.0.0",
-    "@ember/string": "^3.0.1",
-    "@ember/test-helpers": "^2.9.3",
-    "@embroider/test-setup": "^3.0.2",
+    "@babel/eslint-parser": "^7.25.1",
+    "@babel/plugin-proposal-decorators": "^7.24.7",
+    "@ember/optional-features": "^2.1.0",
+    "@ember/test-helpers": "^3.3.1",
+    "@embroider/test-setup": "^4.0.0",
     "@fortawesome/ember-fontawesome": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
@@ -69,14 +69,15 @@
     "@glimmer/tracking": "^1.1.2",
     "@release-it-plugins/lerna-changelog": "^5.0.0",
     "broccoli-asset-rev": "^2.7.0",
-    "concurrently": "^8.0.1",
-    "ember-auto-import": "^2.6.3",
-    "ember-cli": "~4.12.2",
+    "concurrently": "^8.2.2",
+    "ember-auto-import": "^2.8.1",
+    "ember-cli": "~5.12.0",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-autoprefixer": "^2.0.0",
-    "ember-cli-dependency-checker": "^3.3.1",
+    "ember-cli-clean-css": "^3.0.0",
+    "ember-cli-dependency-checker": "^3.3.2",
     "ember-cli-github-pages": "^0.2.2",
-    "ember-cli-htmlbars": "^6.2.0",
+    "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-moment-shim": "^3.8.0",
     "ember-cli-sass": "^11.0.1",
@@ -86,33 +87,33 @@
     "ember-data": "~4.12.0",
     "ember-load-initializers": "^2.1.2",
     "ember-prism": "^0.13.0",
-    "ember-qunit": "^6.2.0",
-    "ember-resolver": "^10.0.0",
-    "ember-source": "~4.12.0",
+    "ember-qunit": "^8.1.0",
+    "ember-resolver": "^12.0.1",
+    "ember-source": "~5.12.0",
     "ember-source-channel-url": "^3.0.0",
-    "ember-template-lint": "^5.7.2",
+    "ember-template-lint": "^6.0.0",
     "ember-try": "^3.0.0",
-    "eslint": "^8.37.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-ember": "^11.5.0",
-    "eslint-plugin-n": "^15.7.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-qunit": "^7.3.4",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-ember": "^12.2.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-qunit": "^8.1.2",
     "loader.js": "^4.7.0",
-    "prettier": "^2.8.7",
-    "qunit": "^2.19.4",
-    "qunit-dom": "^2.0.0",
+    "prettier": "^3.3.3",
+    "qunit": "^2.22.0",
+    "qunit-dom": "^3.2.1",
     "release-it": "^15.10.3",
     "release-plan": "^0.8.0",
     "sass": "^1.62.1",
-    "stylelint": "^15.4.0",
-    "stylelint-config-standard": "^32.0.0",
-    "stylelint-prettier": "^3.0.0",
-    "webpack": "^5.78.0"
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-prettier": "^4.1.0",
+    "webpack": "^5.95.0"
   },
   "peerDependencies": {
     "ember-data": "*",
-    "ember-source": ">= 3.28.0"
+    "ember-source": ">= 4.0.0"
   },
   "peerDependenciesMeta": {
     "ember-data": {
@@ -120,7 +121,7 @@
     }
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": ">= 18"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -146,5 +147,6 @@
       "release": true,
       "tokenRef": "GITHUB_AUTH"
     }
-  }
+  },
+  "packageManager": "pnpm@10.7.1+sha512.2d92c86b7928dc8284f53494fb4201f983da65f0fb4f0d40baafa5cf628fa31dae3e5968f12466f17df7e97310e30f343a648baea1b9b350685dafafffdf5808"
 }

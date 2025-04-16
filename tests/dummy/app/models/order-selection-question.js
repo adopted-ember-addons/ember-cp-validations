@@ -18,7 +18,7 @@ const Validations = buildValidations(
   },
   {
     debounce: 10,
-  }
+  },
 );
 
 export default Model.extend(Validations, {
