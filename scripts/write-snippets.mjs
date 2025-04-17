@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as path from "path";
 
 const extractAndAppendSnippets = (filepath, snippetsData) => {
-  console.log(filepath);
   let content = fs.readFileSync(filepath, "utf-8");
   let rows = content.split("\n");
 
