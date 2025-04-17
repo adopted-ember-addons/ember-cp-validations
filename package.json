@@ -45,9 +45,9 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "node ./scripts/write-snippets.mjs && ember serve",
-    "test": "concurrently \"pnpm:lint\" \"pnpm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each"
+    "test": "node ./scripts/write-snippets.mjs && concurrently \"pnpm:lint\" \"pnpm:test:*\" --names \"lint,test:\"",
+    "test:ember": "node ./scripts/write-snippets.mjs && ember test",
+    "test:ember-compatibility": "node ./scripts/write-snippets.mjs && ember try:each"
   },
   "dependencies": {
     "@babel/core": "^7.26.10",
