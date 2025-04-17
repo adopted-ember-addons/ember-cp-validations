@@ -1,10 +1,14 @@
 {
   "solution": {
     "ember-cp-validations": {
-      "impact": "patch",
-      "oldVersion": "6.0.0",
-      "newVersion": "6.0.1",
+      "impact": "major",
+      "oldVersion": "6.0.1",
+      "newVersion": "7.0.0",
       "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
@@ -17,5 +21,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-02-26)\n\nember-cp-validations 6.0.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-cp-validations`\n  * [#750](https://github.com/adopted-ember-addons/ember-cp-validations/pull/750) fix: ember metal imports ([@colenso](https://github.com/colenso))\n\n#### :house: Internal\n* `ember-cp-validations`\n  * [#752](https://github.com/adopted-ember-addons/ember-cp-validations/pull/752) start using release-plan ([@mansona](https://github.com/mansona))\n  * [#751](https://github.com/adopted-ember-addons/ember-cp-validations/pull/751) switch to pnpm ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- [@colenso](https://github.com/colenso)\n"
+  "description": "## Release (2025-04-17)\n\nember-cp-validations 7.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-cp-validations`\n  * [#757](https://github.com/adopted-ember-addons/ember-cp-validations/pull/757) Drop support for node < 18, Ember < 4.4 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :bug: Bug Fix\n* `ember-cp-validations`\n  * [#756](https://github.com/adopted-ember-addons/ember-cp-validations/pull/756) Fix deprecation with path.original ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `ember-cp-validations`\n  * [#749](https://github.com/adopted-ember-addons/ember-cp-validations/pull/749) update @embroider/test-setup to fix CI ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
