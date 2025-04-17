@@ -19,13 +19,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
-          version: 7
+          version: 10
       - name: Install Node
         uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 18
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -41,12 +41,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
-          version: 7
+          version: 10
       - uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 18
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --no-lockfile
@@ -63,10 +63,12 @@ jobs:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.28
-          - ember-4.0
           - ember-lts-4.4
           - ember-lts-4.8
+          - ember-lts-4.12
+          - ember-lts-5.4
+          - ember-lts-5.8
+          - ember-lts-5.12
           - ember-release
           - ember-beta
           - ember-canary
@@ -75,13 +77,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
-          version: 7
+          version: 10
       - name: Install Node
         uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 18
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile

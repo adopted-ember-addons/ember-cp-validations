@@ -1,88 +1,180 @@
 {{! template-lint-disable }}
 
-<div class='form'>
+<div class="form">
   {{#unless this.isRegistered}}
-    <div class='register'>
+    <div class="register">
       <h2>Create an Account</h2>
 
       {{#if this.showAlert}}
-        <div class='alert'>
-          <FaIcon @icon="times" class="icon-remove" {{on "click" (fn this.toggleProperty 'showAlert')}} />
+        <div class="alert">
+          <FaIcon
+            @icon="times"
+            class="icon-remove"
+            {{on "click" (fn this.toggleProperty "showAlert")}}
+          />
           Please fix all the errors below before continuing.
         </div>
       {{/if}}
       <form>
-        <div class='section'>
+        <div class="section">
           {{#unless this.showCode}}
-            <div class='section-info left'>
-              These form inputs are bound to the <strong>User</strong> model which is created in the route's model
-              hook. Each one of these fields has validations to make sure we we receive the data we want.
+            <div class="section-info left">
+              These form inputs are bound to the
+              <strong>User</strong>
+              model which is created in the route's model hook. Each one of
+              these fields has validations to make sure we we receive the data
+              we want.
             </div>
           {{/unless}}
 
-          <ValidatedInput @model={{this.model}} @valuePath='username' @placeholder='Username' @didValidate={{this.didValidate}} data-test-username='' />
-          <ValidatedInput @model={{this.model}} @valuePath='password' @placeholder='Password' @type='password' @didValidate={{this.didValidate}} data-test-password='' />
-          <ValidatedInput @model={{this.model}} @valuePath='email' @placeholder='Email' @didValidate={{this.didValidate}} data-test-email='' />
-          <ValidatedInput @model={{this.model}} @valuePath='emailConfirmation' @placeholder='Verify Email' @didValidate={{this.didValidate}} data-test-email-confirmation='' />
+          <ValidatedInput
+            @model={{this.model}}
+            @valuePath="username"
+            @placeholder="Username"
+            @didValidate={{this.didValidate}}
+            data-test-username=""
+          />
+          <ValidatedInput
+            @model={{this.model}}
+            @valuePath="password"
+            @placeholder="Password"
+            @type="password"
+            @didValidate={{this.didValidate}}
+            data-test-password=""
+          />
+          <ValidatedInput
+            @model={{this.model}}
+            @valuePath="email"
+            @placeholder="Email"
+            @didValidate={{this.didValidate}}
+            data-test-email=""
+          />
+          <ValidatedInput
+            @model={{this.model}}
+            @valuePath="emailConfirmation"
+            @placeholder="Verify Email"
+            @didValidate={{this.didValidate}}
+            data-test-email-confirmation=""
+          />
         </div>
 
         <h4> About Me</h4>
 
-        <div class='section'>
+        <div class="section">
           {{#unless this.showCode}}
-            <div class='section-info right'>
-              We have a secondary model, <strong>User Details</strong>, which holds extra information about our user.
-              This model is part of the <strong>User</strong> model via a belongsTo relationship.
+            <div class="section-info right">
+              We have a secondary model,
+              <strong>User Details</strong>, which holds extra information about
+              our user. This model is part of the
+              <strong>User</strong>
+              model via a belongsTo relationship.
             </div>
           {{/unless}}
 
-          <ValidatedInput @model={{this.model.details}} @valuePath='firstName' @placeholder='First Name' @didValidate={{this.didValidate}} data-test-first-name='' />
-          <ValidatedInput @model={{this.model.details}} @valuePath='lastName' @placeholder='Last Name' @didValidate={{this.didValidate}} data-test-last-name='' />
-          <ValidatedInput @model={{this.model.details}} @valuePath='dob' @placeholder='Date of Birth' @didValidate={{this.didValidate}} data-test-dob='' />
-          <ValidatedInput @model={{this.model.details}} @valuePath='phone' @placeholder='Phone #' @didValidate={{this.didValidate}} data-test-phone='' />
-          <ValidatedInput @model={{this.model.details}} @valuePath='url' @placeholder='URL' @didValidate={{this.didValidate}} data-test-url='' />
+          <ValidatedInput
+            @model={{this.model.details}}
+            @valuePath="firstName"
+            @placeholder="First Name"
+            @didValidate={{this.didValidate}}
+            data-test-first-name=""
+          />
+          <ValidatedInput
+            @model={{this.model.details}}
+            @valuePath="lastName"
+            @placeholder="Last Name"
+            @didValidate={{this.didValidate}}
+            data-test-last-name=""
+          />
+          <ValidatedInput
+            @model={{this.model.details}}
+            @valuePath="dob"
+            @placeholder="Date of Birth"
+            @didValidate={{this.didValidate}}
+            data-test-dob=""
+          />
+          <ValidatedInput
+            @model={{this.model.details}}
+            @valuePath="phone"
+            @placeholder="Phone #"
+            @didValidate={{this.didValidate}}
+            data-test-phone=""
+          />
+          <ValidatedInput
+            @model={{this.model.details}}
+            @valuePath="url"
+            @placeholder="URL"
+            @didValidate={{this.didValidate}}
+            data-test-url=""
+          />
         </div>
-        <div class='section'>
+        <div class="section">
           {{#unless this.showCode}}
-            <div class='section-info left last'>
-              On submit, a manual validation is run which will validate both the <strong>User</strong> and <strong>User
-                Details</strong> models. If both are valid, then the user can continue to the next screen.
+            <div class="section-info left last">
+              On submit, a manual validation is run which will validate both the
+              <strong>User</strong>
+              and
+              <strong>User Details</strong>
+              models. If both are valid, then the user can continue to the next
+              screen.
             </div>
           {{/unless}}
-          <button id='signup' {{action this.validate}} data-test-sign-up>Sign Up</button>
+          <button
+            id="signup"
+            type="button"
+            {{on "click" this.validate}}
+            data-test-sign-up
+          >Sign Up</button>
         </div>
       </form>
     </div>
   {{else}}
-    <div class='registered'>
-      {{!-- <img class='tomster' src='images/tomsterzilla.jpeg' alt='' data-test-tomster> --}}
+    <div class="registered">
+      {{! <img class='tomster' src='images/tomsterzilla.jpeg' alt='' data-test-tomster> }}
       <FaIcon @icon="check-circle" class="icon-success" />
-      <h2 class='success'>Success</h2>
+      <h2 class="success">Success</h2>
     </div>
   {{/unless}}
   <footer>
     {{#unless this.isRegistered}}
-      <a class='show-code bottom' {{action 'toggleProperty' 'showCode'}}>
+      <a
+        class="show-code bottom"
+        {{on "click" (set this "showCode" (not this.showCode))}}
+      >
         <FaIcon @icon="code" />
-        {{if this.showCode 'Hide Code' 'Show Code'}}
+        {{if this.showCode "Hide Code" "Show Code"}}
         <FaIcon @icon="code" />
       </a>
     {{else}}
-      <a class='show-code bottom' {{on "click" (fn this.toggleProperty "isRegistered")}}>Reset Form</a>
+      <a
+        class="show-code bottom"
+        {{on "click" (fn this.toggleProperty "isRegistered")}}
+      >Reset Form</a>
     {{/unless}}
   </footer>
 </div>
 
 {{#unless this.isRegistered}}
-  <div class='snippet-container {{if this.showCode 'show'}}'>
+  <div class="snippet-container {{if this.showCode 'show'}}">
     <ul class="nav nav-tabs">
-      <li><LinkTo @route="index" @query={{hash file="user-model.js"}}>models/user.js</LinkTo></li>
-      <li><LinkTo @route="index" @query={{hash file="user-detail-model.js"}}>models/user-detail.js</LinkTo></li>
-      <li><LinkTo @route="index" @query={{hash file="validated-input.js"}}>validated-input.js</LinkTo></li>
-      <li><LinkTo @route="index" @query={{hash file="validated-input.hbs"}}>validated-input.hbs</LinkTo></li>
+      <li><LinkTo
+          @route="index"
+          @query={{hash file="user-model.js"}}
+        >models/user.js</LinkTo></li>
+      <li><LinkTo
+          @route="index"
+          @query={{hash file="user-detail-model.js"}}
+        >models/user-detail.js</LinkTo></li>
+      <li><LinkTo
+          @route="index"
+          @query={{hash file="validated-input.js"}}
+        >validated-input.js</LinkTo></li>
+      <li><LinkTo
+          @route="index"
+          @query={{hash file="validated-input.hbs"}}
+        >validated-input.hbs</LinkTo></li>
     </ul>
     <div class="tab-content">
-      {{code-snippet name=this.file}}
+      <CodeSnippet @name={{this.file}} />
     </div>
   </div>
 {{/unless}}

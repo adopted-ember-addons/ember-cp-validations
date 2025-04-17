@@ -12,7 +12,7 @@ export default function deepSet(
   path,
   value,
   useEmberObject = false,
-  delimiter = '.'
+  delimiter = '.',
 ) {
   let keyPath = path.split(delimiter);
   let lastKeyIndex = keyPath.length - 1;

@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET user-detail-model
+// BEGIN-SNIPPET user-detail-model.js
 import Model, { attr } from '@ember-data/model';
 import moment from 'moment';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -24,7 +24,7 @@ const Validations = buildValidations(
             if (type === 'after') {
               return `There is no way you are ${moment().diff(
                 value,
-                'years'
+                'years',
               )} years old`;
             }
           },
@@ -46,7 +46,7 @@ const Validations = buildValidations(
   },
   {
     debounce: 500,
-  }
+  },
 );
 
 export default Model.extend(Validations, {

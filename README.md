@@ -11,6 +11,7 @@ An EmberJS validation framework that is completely and utterly computed property
 
 | Addon | Ember   | Node    |
 |-------|---------|---------|
+| 7.x   | >= 4.4  | >= 18.x |
 | 6.x   | >= 3.28 | >= 14.x |
 | 5.x   | >= 3.28 | >= 12.x |
 | 4.x   | <= 3.28 | >= 12.x |

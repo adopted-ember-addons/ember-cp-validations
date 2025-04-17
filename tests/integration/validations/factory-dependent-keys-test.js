@@ -38,7 +38,7 @@ module(
       assert.false(obj.get('validations.attrs.array.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.array.message'),
-        'Array must have 2 items'
+        'Array must have 2 items',
       );
     });
 
@@ -53,7 +53,7 @@ module(
         'model:user',
         Model.extend(DSErrorValidations, {
           username: attr('string'),
-        })
+        }),
       );
 
       let obj = this.owner.lookup('service:store').createRecord('user');
@@ -65,7 +65,7 @@ module(
       assert.false(obj.get('validations.attrs.username.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.username.message'),
-        'Username is not unique'
+        'Username is not unique',
       );
     });
 
@@ -80,7 +80,7 @@ module(
         'model:user',
         Model.extend(DSErrorValidations, {
           username: attr('string'),
-        })
+        }),
       );
 
       let user = this.owner.lookup('service:store').createRecord('user');
@@ -96,7 +96,7 @@ module(
       assert.false(obj.get('validations.attrs.model.username.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.model.username.message'),
-        'Username is not unique'
+        'Username is not unique',
       );
     });
 
@@ -121,7 +121,7 @@ module(
       assert.false(obj.get('validations.attrs.fullName.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.fullName.message'),
-        'Full name requires first and last name'
+        'Full name requires first and last name',
       );
 
       obj.set('firstName', 'Offir');
@@ -157,7 +157,7 @@ module(
       assert.false(obj.get('validations.attrs.fullName.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.fullName.message'),
-        'Full name requires first and last name'
+        'Full name requires first and last name',
       );
 
       obj.set('firstName', 'Offir');
@@ -190,7 +190,7 @@ module(
         },
         {
           dependentKeys: ['model.middleName'],
-        }
+        },
       );
 
       let obj = setupObject(this, EmberObject.extend(Validations));
@@ -199,7 +199,7 @@ module(
       assert.false(obj.get('validations.attrs.fullName.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.fullName.message'),
-        'Full name requires first, middle, and last name'
+        'Full name requires first, middle, and last name',
       );
 
       obj.set('firstName', 'Offir');
@@ -247,7 +247,7 @@ module(
       assert.false(obj.get('validations.attrs.page.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.page.message'),
-        'Cannot exceed max page'
+        'Cannot exceed max page',
       );
 
       obj.set('meta.pages.last', 7);
@@ -278,7 +278,7 @@ module(
       assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.friends.message'),
-        'User must have a friend'
+        'User must have a friend',
       );
 
       obj.get('friends').pushObject('Offir');
@@ -292,7 +292,7 @@ module(
       assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.friends.message'),
-        'User must have a friend'
+        'User must have a friend',
       );
     });
 
@@ -323,13 +323,13 @@ module(
       assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.friends.message'),
-        'User must have a friend'
+        'User must have a friend',
       );
 
       obj.get('friends').pushObject(
         EmberObject.create({
           name: 'Offir',
-        })
+        }),
       );
 
       assert.true(obj.get('validations.isValid'));
@@ -341,8 +341,8 @@ module(
       assert.false(obj.get('validations.attrs.friends.isValid'));
       assert.strictEqual(
         obj.get('validations.attrs.friends.message'),
-        'All friends must have a name'
+        'All friends must have a name',
       );
     });
-  }
+  },
 );

@@ -22,10 +22,10 @@ export default ResultCollection.extend({
     cycleBreaker(function () {
       return uniq(
         compact(
-          flatten([this.getEach('messages'), this.getEach('warningMessages')])
-        )
+          flatten([this.getEach('messages'), this.getEach('warningMessages')]),
+        ),
       );
-    })
+    }),
   ).readOnly(),
 
   warnings: computed(
@@ -33,8 +33,8 @@ export default ResultCollection.extend({
     'content.@each.{errors,warnings}',
     cycleBreaker(function () {
       return this._computeErrorCollection(
-        flatten([this.getEach('errors'), this.getEach('warnings')])
+        flatten([this.getEach('errors'), this.getEach('warnings')]),
       );
-    })
+    }),
   ).readOnly(),
 });

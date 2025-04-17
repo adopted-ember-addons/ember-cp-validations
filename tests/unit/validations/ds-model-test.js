@@ -7,12 +7,12 @@ module('Unit | Validations | Model', function (hooks) {
 
   test('create model with defaults', function (assert) {
     let object = run(() =>
-      this.owner.lookup('service:store').createRecord('signup')
+      this.owner.lookup('service:store').createRecord('signup'),
     );
 
     assert.false(
       object.get('validations.attrs.acceptTerms.isValid'),
-      'isValid was expected to be FALSE'
+      'isValid was expected to be FALSE',
     );
 
     run(() => {
@@ -21,7 +21,7 @@ module('Unit | Validations | Model', function (hooks) {
 
     assert.true(
       object.get('validations.attrs.acceptTerms.isValid'),
-      'isValid was expected to be TRUE'
+      'isValid was expected to be TRUE',
     );
   });
 
@@ -29,12 +29,12 @@ module('Unit | Validations | Model', function (hooks) {
     let object = run(() =>
       this.owner
         .lookup('service:store')
-        .createRecord('signup', { acceptTerms: true })
+        .createRecord('signup', { acceptTerms: true }),
     );
 
     assert.true(
       object.get('validations.attrs.acceptTerms.isValid'),
-      'isValid was expected to be TRUE'
+      'isValid was expected to be TRUE',
     );
 
     run(() => {
@@ -43,7 +43,7 @@ module('Unit | Validations | Model', function (hooks) {
 
     assert.false(
       object.get('validations.attrs.acceptTerms.isValid'),
-      'isValid was expected to be FALSE'
+      'isValid was expected to be FALSE',
     );
   });
 });

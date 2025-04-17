@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET user-model
+// BEGIN-SNIPPET user-model.js
 import Model, { attr, belongsTo } from '@ember-data/model';
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -50,7 +50,7 @@ const Validations = buildValidations(
   },
   {
     debounce: 500,
-  }
+  },
 );
 
 export default Model.extend(Validations, {
