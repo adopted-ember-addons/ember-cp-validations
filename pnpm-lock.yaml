@@ -111,8 +111,8 @@ importers:
         specifier: ~4.12.8
         version: 4.12.8(f524b85b27c2a5ab43b0134cb1d5f363)
       ember-inflector:
-        specifier: ^6.0.0
-        version: 6.0.0(@babel/core@7.26.10)
+        specifier: ^4.0.0
+        version: 4.0.3(c282aed8d7375690e0c3352f59cf95f7)
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.26.10)
@@ -3286,9 +3286,6 @@ packages:
     engines: {node: 14.* || 16.* || >= 18}
     peerDependencies:
       ember-source: ^3.16.0 || ^4.0.0 || ^5.0.0
-
-  ember-inflector@6.0.0:
-    resolution: {integrity: sha512-g6trqBhQHRwlq9bBmoyxhAl0tD0/CaTKK0xWPUgi3BfxFOgGG1bbiwAx+tjyiAkLzDqU+ihyjtT+sd41y6K1hA==}
 
   ember-load-initializers@2.1.2:
     resolution: {integrity: sha512-CYR+U/wRxLbrfYN3dh+0Tb6mFaxJKfdyz+wNql6cqTrA0BBi9k6J3AaKXj273TqvEpyyXegQFFkZEiuZdYtgJw==}
@@ -11679,14 +11676,6 @@ snapshots:
       ember-cli-babel: 7.26.11
       ember-source: 5.12.0(daf007d395ed7764c772144e26e6c21e)
     transitivePeerDependencies:
-      - supports-color
-
-  ember-inflector@6.0.0(@babel/core@7.26.10):
-    dependencies:
-      '@embroider/addon-shim': 1.10.0
-      decorator-transforms: 2.3.0(@babel/core@7.26.10)
-    transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
 
   ember-load-initializers@2.1.2(@babel/core@7.26.10):
