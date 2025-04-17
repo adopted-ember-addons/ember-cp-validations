@@ -83,10 +83,9 @@ var plugin = function ({ syntax }) {
 
 function processNode(node, syntax) {
   var type = node.type;
-  node = unwrapNode(node);
 
   // {{v-get model 'username' 'isValid'}}
-  if (type === 'MustacheStatement' && node.path.original === 'v-get') {
+  if (type === 'MustacheStatement' && getValue(node.path) === 'v-get') {
     transformToGet(node, syntax);
   }
 
@@ -104,7 +103,7 @@ function processNodeParams(node, syntax) {
     for (var i = 0; i < node.params.length; i++) {
       var param = node.params[i];
       if (param.type === 'SubExpression') {
-        if (param.path.original === 'v-get') {
+        if (getValue(param.path) === 'v-get') {
           transformToGet(param, syntax);
         } else {
           processNode(param, syntax);
@@ -123,7 +122,7 @@ function processNodeHash(node, syntax) {
     for (var i = 0; i < node.hash.pairs.length; i++) {
       var pair = node.hash.pairs[i];
       if (pair.value.type === 'SubExpression') {
-        if (pair.value.path.original === 'v-get') {
+        if (getValue(pair.value.path) === 'v-get') {
           transformToGet(pair.value, syntax);
         } else {
           processNode(pair.value, syntax);
@@ -163,7 +162,6 @@ function processNodeAttributes(node, syntax) {
  * @return {AST.Node}
  */
 function transformToGet(node, syntax) {
-  node = unwrapNode(node);
   var params = node.params;
   var numParams = params.length;
 
@@ -197,13 +195,18 @@ function transformToGet(node, syntax) {
   node.params = [root, params[numParams - 1]];
 }
 
-// For compatibility with pre- and post-glimmer
-function unwrapNode(node) {
-  if (node.sexpr) {
-    return node.sexpr;
-  } else {
-    return node;
+function getValue(path) {
+  if (!path) return;
+
+  if ('value' in path) {
+    return path.value;
   }
+
+  /**
+   * Deprecated in ember 5.9+
+   * (so we use the above for newer embers)
+   */
+  return path.original;
 }
 
 module.exports = plugin;
