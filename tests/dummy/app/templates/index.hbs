@@ -120,6 +120,7 @@
           {{/unless}}
           <button
             id="signup"
+            type="button"
             {{on "click" this.validate}}
             data-test-sign-up
           >Sign Up</button>
@@ -135,7 +136,10 @@
   {{/unless}}
   <footer>
     {{#unless this.isRegistered}}
-      <a class="show-code bottom" {{set this "showCode" (not this.showCode)}}>
+      <a
+        class="show-code bottom"
+        {{on "click" (set this "showCode" (not this.showCode))}}
+      >
         <FaIcon @icon="code" />
         {{if this.showCode "Hide Code" "Show Code"}}
         <FaIcon @icon="code" />
