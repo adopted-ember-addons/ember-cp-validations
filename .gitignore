@@ -23,3 +23,5 @@
 
 # broccoli-debug
 /DEBUG/
+
+tests/dummy/app/snippets.js

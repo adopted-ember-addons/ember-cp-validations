@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET user-detail-model
+// BEGIN-SNIPPET user-detail-model.js
 import Model, { attr } from '@ember-data/model';
 import moment from 'moment';
 import { validator, buildValidations } from 'ember-cp-validations';

@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET validated-input
+// BEGIN-SNIPPET validated-input.js
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';

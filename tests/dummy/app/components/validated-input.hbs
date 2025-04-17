@@ -1,13 +1,13 @@
 {{! template-lint-disable }}
 
-{{!-- BEGIN-SNIPPET validated-input --}}
+{{! BEGIN-SNIPPET validated-input.hbs }}
 <div class="validated-input {{this.classes}}" ...attributes>
-  <div class='form-group'>
+  <div class="form-group">
     <input
       type={{@type}}
       value={{this.value}}
       placeholder={{@placeholder}}
-      class='form-control'
+      class="form-control"
       name={{@valuePath}}
       {{on "input" this.updateValue}}
       {{on "focusout" this.focusOut}}
@@ -17,19 +17,19 @@
       <FaIcon @icon="check" class="valid-input" />
     {{/if}}
 
-    <div class='input-error'>
+    <div class="input-error">
       {{#if this.showErrorMessage}}
-        <div class='error'>
-          {{v-get @model @valuePath 'message'}}
+        <div class="error">
+          {{v-get @model @valuePath "message"}}
         </div>
       {{/if}}
 
       {{#if this.showWarningMessage}}
-        <div class='warning'>
-          {{v-get @model @valuePath 'warningMessage'}}
+        <div class="warning">
+          {{v-get @model @valuePath "warningMessage"}}
         </div>
       {{/if}}
     </div>
   </div>
 </div>
-{{!-- END-SNIPPET --}}
+{{! END-SNIPPET }}
