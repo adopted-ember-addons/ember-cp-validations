@@ -1,5 +1,25 @@
 # Changelog
 
+## Release (2025-04-17)
+
+ember-cp-validations 7.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-cp-validations`
+  * [#757](https://github.com/adopted-ember-addons/ember-cp-validations/pull/757) Drop support for node < 18, Ember < 4.4 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :bug: Bug Fix
+* `ember-cp-validations`
+  * [#756](https://github.com/adopted-ember-addons/ember-cp-validations/pull/756) Fix deprecation with path.original ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `ember-cp-validations`
+  * [#749](https://github.com/adopted-ember-addons/ember-cp-validations/pull/749) update @embroider/test-setup to fix CI ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2024-02-26)
 
 ember-cp-validations 6.0.1 (patch)
