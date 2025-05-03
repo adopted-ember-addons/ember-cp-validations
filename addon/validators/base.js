@@ -441,16 +441,14 @@ export default Base;
  * ```javascript
  * // tests/unit/validators/unique-username-test.js
  *
- * import Ember from 'ember';
- * import { moduleFor, test } from 'ember-qunit';
+ * import { module, test } from "qunit";
  *
- * moduleFor('validator:unique-username', 'Unit | Validator | unique-username', {
- *     needs: ['validator:messages']
- * });
- *
- * test('it works', function(assert) {
- *     const validator =  this.subject();
- *     assert.ok(validator);
+ * module("Unit | Validator | unique-username", function() {
+ *     test('it works', function(assert) {
+ *         assert.expect(1);
+ *         const validator = this.owner.lookup("validator:unique-username");
+ *         assert.ok(validator);
+ *     })
  * });
  * ```
  *
@@ -459,8 +457,7 @@ export default Base;
  * ```javascript
  * test('username is unique', function(assert) {
  *     assert.expect(1);
- *
- *     let validator =  this.subject();
+ *     let validator = this.owner.lookup("validator:unique-username");
  *     let done = assert.async();
  *
  *     validator.validate('johndoe42').then((message) => {
